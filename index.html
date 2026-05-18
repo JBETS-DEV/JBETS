@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 JBETS Elite Portal</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0d0d2b 100%);
+            color: #ffffff; min-height: 100vh; padding: 15px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* Header */
+        .header {
+            text-align: center; padding: 25px 15px;
+            background: linear-gradient(180deg, rgba(255,215,0,0.15) 0%, transparent 100%);
+            border-radius: 20px; margin-bottom: 25px;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        .header h1 {
+            font-size: 2.2em; margin-bottom: 8px;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .signature { font-style: italic; color: #FFD700; font-size: 1.2em; margin: 12px 0; }
+        .stats-bar { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 15px; }
+        .stat-badge {
+            background: rgba(255,255,255,0.1); padding: 8px 16px;
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); font-size: 0.95em;
+        }
+        .stat-badge.gold { background: rgba(255,215,0,0.2); border-color: #FFD700; color: #FFD700; }
+        .stat-badge.green { background: rgba(0,255,136,0.2); border-color: #00FF88; color: #00FF88; }
+        
+        /* Navigation */
+        .nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
+        .nav-btn {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+            color: white; padding: 10px 20px; border-radius: 25px;
+            cursor: pointer; font-size: 0.95em; transition: all 0.3s ease;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            color: #000; border-color: #FFD700;
+        }
+        
+        /* Sections */
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title {
+            font-size: 1.5em; margin-bottom: 20px; padding-bottom: 10px;
+            border-bottom: 2px solid #FFD700; display: flex; align-items: center; gap: 10px;
+        }
+        
+        /* Cards */
+        .card {
+            background: rgba(255,255,255,0.05); border-radius: 15px;
+            padding: 18px; margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        .card:hover { transform: translateX(5px); border-color: #FFD700; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .card-rank {
+            background: linear-gradient(90deg, #FFD700, #FFA500); color: #000;
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-weight: bold;
+        }
+        .card-matchup { font-size: 1.15em; font-weight: bold; margin-bottom: 10px; }
+        .card-details { display: flex; gap: 20px; flex-wrap: wrap; }
+        .card-detail { display: flex; flex-direction: column; }
+        .card-detail-label { font-size: 0.75em; color: #888; text-transform: uppercase; }
+        .card-detail-value { font-size: 1.05em; font-weight: bold; }
+        .card-detail-value.pick { color: #00FF88; }
+        .card-detail-value.odds { color: #4A9EFF; }
+        .card-detail-value.confidence { color: #FFD700; }
+        
+        /* Parlay Cards */
+        .parlay-card {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,165,0,0.05) 100%);
+            border-color: rgba(255,215,0,0.3);
+        }
+        .parlay-legs { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+        .parlay-leg {
+            background: rgba(0,0,0,0.3); padding: 10px 12px; border-radius: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .parlay-total {
+            display: flex; justify-content: space-between; padding-top: 12px;
+            border-top: 1px solid rgba(255,215,0,0.3); font-weight: bold;
+        }
+        
+        /* Stats Table */
+        .stats-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .stats-table th, .stats-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .stats-table th { background: rgba(255,215,0,0.1); color: #FFD700; }
+        .stats-table tr:hover { background: rgba(255,255,255,0.05); }
+        .status-fire { color: #FF6B35; }
+        .status-hot { color: #FFD700; }
+        .status-good { color: #00FF88; }
+        
+        /* Footer */
+        .footer { text-align: center; padding: 30px 15px; margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .footer-brand { color: #FFD700; font-size: 1.1em; margin-bottom: 8px; }
+        
+        /* Last Updated */
+        .last-updated { text-align: center; color: #666; font-size: 0.85em; margin-bottom: 20px; }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .stat-badge { padding: 6px 12px; font-size: 0.85em; }
+            .nav-btn { padding: 8px 14px; font-size: 0.85em; }
+            .card-details { gap: 12px; }
+            .card { padding: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎯 JBETS Elite Portal</h1>
+            <p class="signature">✨ "Watch passionately. Bet Wisely!!" ✨</p>
+            <div class="stats-bar" id="headerStats">
+                <span class="stat-badge gold">🏆 Loading...</span>
+            </div>
+        </header>
+        
+        <p class="last-updated">📅 Last Updated: <span id="lastUpdated">Loading...</span></p>
+        
+        <nav class="nav">
+            <button class="nav-btn active" onclick="showSection('picks')">🎯 Today's Picks</button>
+            <button class="nav-btn" onclick="showSection('props')">👤 Player Props</button>
+            <button class="nav-btn" onclick="showSection('parlays')">🎲 Parlays</button>
+            <button class="nav-btn" onclick="showSection('stats')">📊 Stats</button>
+        </nav>
+        
+        <section id="picks" class="section active">
+            <h2 class="section-title">🎯 Top 5 Elite Picks</h2>
+            <div id="picksContainer">Loading picks...</div>
+        </section>
+        
+        <section id="props" class="section">
+            <h2 class="section-title">👤 Top 10 Player Props</h2>
+            <div id="propsContainer">Loading props...</div>
+        </section>
+        
+        <section id="parlays" class="section">
+            <h2 class="section-title">🎲 Parlay Builder</h2>
+            <div id="parlaysContainer">Loading parlays...</div>
+        </section>
+        
+        <section id="stats" class="section">
+            <h2 class="section-title">📊 Performance by Sport</h2>
+            <table class="stats-table">
+                <thead><tr><th>Sport</th><th>Record</th><th>Win Rate</th><th>Status</th></tr></thead>
+                <tbody id="statsContainer"></tbody>
+            </table>
+        </section>
+        
+        <footer class="footer">
+            <p class="footer-brand">💎 JBETS Decision Intelligence — High Class Platinum Edition</p>
+            <p class="signature">✨ "Watch passionately. Bet Wisely!!" ✨</p>
+            <p style="margin-top: 12px; color: #555;">📱 Mobile-Optimized • 🔄 Updated Daily • 🎯 270+ Verified Predictions</p>
+        </footer>
+    </div>
+
+    <script>
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function loadData() {
+            try {
+                const response = await fetch('data.json?' + Date.now());
+                const data = await response.json();
+                renderAll(data);
+            } catch (e) {
+                console.log('Loading sample data...');
+                renderAll(getSampleData());
+            }
+        }
+
+        function renderAll(data) {
+            document.getElementById('lastUpdated').textContent = data.lastUpdated || 'May 18, 2026';
+            document.getElementById('headerStats').innerHTML = `
+                <span class="stat-badge gold">🏆 ${data.overall.record}</span>
+                <span class="stat-badge green">📈 ROI: ${data.overall.roi}</span>
+                <span class="stat-badge">💰 ${data.overall.bankroll}</span>
+                <span class="stat-badge">🔥 ${data.overall.streak}</span>
+            `;
+            renderPicks(data.picks);
+            renderProps(data.props);
+            renderParlays(data.parlays);
+            renderStats(data.sportStats);
+        }
+
+        function renderPicks(picks) {
+            document.getElementById('picksContainer').innerHTML = picks.map((p, i) => `
+                <div class="card">
+                    <div class="card-header">
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span class="card-rank">${i+1}</span>
+                            <span style="font-size:1.4em;">${p.sport}</span>
+                        </div>
+                        <span style="color:#888;">${p.time}</span>
+                    </div>
+                    <div class="card-matchup">${p.matchup}</div>
+                    <div class="card-details">
+                        <div class="card-detail"><span class="card-detail-label">Pick</span><span class="card-detail-value pick">${p.pick}</span></div>
+                        <div class="card-detail"><span class="card-detail-label">Odds</span><span class="card-detail-value odds">${p.odds}</span></div>
+                        <div class="card-detail"><span class="card-detail-label">Confidence</span><span class="card-detail-value confidence">${p.confidence}%</span></div>
+                        <div class="card-detail"><span class="card-detail-label">League</span><span class="card-detail-value">${p.league}</span></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderProps(props) {
+            document.getElementById('propsContainer').innerHTML = props.map((p, i) => `
+                <div class="card">
+                    <div class="card-header">
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span class="card-rank">${i+1}</span>
+                            <span style="font-weight:bold;">${p.player}</span>
+                        </div>
+                        <span style="color:#888;">${p.team}</span>
+                    </div>
+                    <div class="card-details">
+                        <div class="card-detail"><span class="card-detail-label">Prop</span><span class="card-detail-value">${p.prop}</span></div>
+                        <div class="card-detail"><span class="card-detail-label">Pick</span><span class="card-detail-value pick">${p.pick}</span></div>
+                        <div class="card-detail"><span class="card-detail-label">Line</span><span class="card-detail-value odds">${p.line}</span></div>
+                        <div class="card-detail"><span class="card-detail-label">Odds</span><span class="card-detail-value">${p.odds}</span></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderParlays(parlays) {
+            document.getElementById('parlaysContainer').innerHTML = parlays.map(p => `
+                <div class="card parlay-card">
+                    <div class="card-header">
+                        <span style="font-size:1.2em;font-weight:bold;">🎲 ${p.name}</span>
+                        <span class="stat-badge gold">${p.odds}</span>
+                    </div>
+                    <div class="parlay-legs">
+                        ${p.legs.map(l => `<div class="parlay-leg"><span>${l.matchup}</span><span style="color:#00FF88;font-weight:bold;">${l.pick}</span></div>`).join('')}
+                    </div>
+                    <div class="parlay-total"><span>Confidence</span><span style="color:#FFD700;">${p.confidence}%</span></div>
+                </div>
+            `).join('');
+        }
+
+        function renderStats(stats) {
+            document.getElementById('statsContainer').innerHTML = stats.map(s => `
+                <tr>
+                    <td>${s.emoji} ${s.sport}</td>
+                    <td>${s.record}</td>
+                    <td>${s.winRate}%</td>
+                    <td class="${s.status.includes('FIRE') ? 'status-fire' : s.status.includes('HOT') ? 'status-hot' : 'status-good'}">${s.status}</td>
+                </tr>
+            `).join('');
+        }
+
+        function getSampleData() {
+            return {
+                lastUpdated: "May 18, 2026 • 12:00 PM ET",
+                overall: { record: "235-33-2 (87.7%)", roi: "+68.2%", bankroll: "$11,500", streak: "W3" },
+                picks: [
+                    { sport: "🏒", matchup: "Canadiens @ Sabres", pick: "MTL ML", odds: "-115", confidence: 72, time: "4:30 PM", league: "NHL R2 G7" },
+                    { sport: "🏀", matchup: "Spurs @ Thunder", pick: "OKC -6.5", odds: "-110", confidence: 70, time: "8:30 PM", league: "NBA WCF G1" },
+                    { sport: "⚾", matchup: "Yankees @ Blue Jays", pick: "NYY ML", odds: "-135", confidence: 68, time: "7:07 PM", league: "MLB" },
+                    { sport: "⚾", matchup: "Dodgers @ Rockies", pick: "LAD ML", odds: "-175", confidence: 71, time: "8:40 PM", league: "MLB" },
+                    { sport: "⚾", matchup: "Giants @ Phillies", pick: "PHI ML", odds: "-145", confidence: 65, time: "6:40 PM", league: "MLB" }
+                ],
+                props: [
+                    { player: "Victor Wembanyama", team: "SAS", prop: "Points", pick: "Over", line: "28.5", odds: "-110" },
+                    { player: "Shai Gilgeous-Alexander", team: "OKC", prop: "Points", pick: "Over", line: "30.5", odds: "-115" },
+                    { player: "Chet Holmgren", team: "OKC", prop: "Rebounds", pick: "Over", line: "9.5", odds: "-110" },
+                    { player: "Stephon Castle", team: "SAS", prop: "Assists", pick: "Over", line: "5.5", odds: "-105" },
+                    { player: "Jalen Williams", team: "OKC", prop: "Points", pick: "Over", line: "18.5", odds: "-110" },
+                    { player: "Gerrit Cole", team: "NYY", prop: "Strikeouts", pick: "Over", line: "7.5", odds: "-115" },
+                    { player: "Yoshinobu Yamamoto", team: "LAD", prop: "Strikeouts", pick: "Over", line: "6.5", odds: "-110" },
+                    { player: "Aaron Judge", team: "NYY", prop: "Total Bases", pick: "Over", line: "1.5", odds: "-125" },
+                    { player: "Mookie Betts", team: "LAD", prop: "Hits", pick: "Over", line: "1.5", odds: "-110" },
+                    { player: "Nick Suzuki", team: "MTL", prop: "Points", pick: "Over", line: "1.5", odds: "-115" }
+                ],
+                parlays: [
+                    { name: "Elite 3-Leg Parlay", odds: "+450", confidence: 55, legs: [
+                        { matchup: "🏒 MTL @ BUF", pick: "MTL ML" },
+                        { matchup: "🏀 SAS @ OKC", pick: "OKC -6.5" },
+                        { matchup: "⚾ NYY @ TOR", pick: "NYY ML" }
+                    ]},
+                    { name: "MLB Power Play", odds: "+320", confidence: 48, legs: [
+                        { matchup: "⚾ NYY @ TOR", pick: "NYY ML" },
+                        { matchup: "⚾ LAD @ COL", pick: "LAD ML" },
+                        { matchup: "⚾ SF @ PHI", pick: "PHI ML" }
+                    ]}
+                ],
+                sportStats: [
+                    { emoji: "🏒", sport: "NHL", record: "38-2", winRate: "95.0", status: "🔥🔥 ON FIRE" },
+                    { emoji: "🏀", sport: "NBA", record: "96-13", winRate: "88.1", status: "🔥 HOT" },
+                    { emoji: "⚽", sport: "Soccer", record: "52-7", winRate: "88.1", status: "🔥 HOT" },
+                    { emoji: "⚾", sport: "MLB", record: "5-1", winRate: "83.3", status: "🔥 HOT" },
+                    { emoji: "🎾", sport: "Tennis", record: "4-1", winRate: "80.0", status: "📈 GOOD" }
+                ]
+            };
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
