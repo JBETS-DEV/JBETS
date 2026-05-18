@@ -2,179 +2,853 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🎯 JBETS Elite Portal</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --gold: #FFD700;
+            --gold-dark: #E5A800;
+            --green: #00D26A;
+            --green-dark: #00B85C;
+            --red: #FF4757;
+            --blue: #3B82F6;
+            --purple: #8B5CF6;
+            --bg-primary: #0F0F1A;
+            --bg-secondary: #1A1A2E;
+            --bg-card: #16213E;
+            --bg-card-hover: #1E2A4A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0AEC0;
+            --text-muted: #64748B;
+            --border: rgba(255,255,255,0.08);
+            --border-gold: rgba(255,215,0,0.3);
+            --shadow: 0 10px 40px rgba(0,0,0,0.4);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { font-size: 16px; }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0d0d2b 100%);
-            color: #ffffff; min-height: 100vh; padding: 15px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
-        
-        /* Header */
-        .header {
-            text-align: center; padding: 25px 15px;
-            background: linear-gradient(180deg, rgba(255,215,0,0.15) 0%, transparent 100%);
-            border-radius: 20px; margin-bottom: 25px;
-            border: 1px solid rgba(255,215,0,0.3);
+
+        /* ═══════════════════════════════════════════
+           RESPONSIVE CONTAINER
+           ═══════════════════════════════════════════ */
+        .app {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        .header h1 {
-            font-size: 2.2em; margin-bottom: 8px;
-            background: linear-gradient(90deg, #FFD700, #FFA500);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .signature { font-style: italic; color: #FFD700; font-size: 1.2em; margin: 12px 0; }
-        .stats-bar { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 15px; }
-        .stat-badge {
-            background: rgba(255,255,255,0.1); padding: 8px 16px;
-            border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); font-size: 0.95em;
-        }
-        .stat-badge.gold { background: rgba(255,215,0,0.2); border-color: #FFD700; color: #FFD700; }
-        .stat-badge.green { background: rgba(0,255,136,0.2); border-color: #00FF88; color: #00FF88; }
-        
-        /* Navigation */
-        .nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
-        .nav-btn {
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
-            color: white; padding: 10px 20px; border-radius: 25px;
-            cursor: pointer; font-size: 0.95em; transition: all 0.3s ease;
-        }
-        .nav-btn:hover, .nav-btn.active {
-            background: linear-gradient(90deg, #FFD700, #FFA500);
-            color: #000; border-color: #FFD700;
+
+        /* ═══════════════════════════════════════════
+           HEADER — HERO SECTION
+           ═══════════════════════════════════════════ */
+        .hero {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 50%, var(--bg-secondary) 100%);
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid var(--border-gold);
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
         }
         
-        /* Sections */
-        .section { display: none; animation: fadeIn 0.4s ease; }
-        .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .section-title {
-            font-size: 1.5em; margin-bottom: 20px; padding-bottom: 10px;
-            border-bottom: 2px solid #FFD700; display: flex; align-items: center; gap: 10px;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--green), var(--gold));
         }
         
-        /* Cards */
-        .card {
-            background: rgba(255,255,255,0.05); border-radius: 15px;
-            padding: 18px; margin-bottom: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,215,0,0.15);
+            border: 1px solid var(--border-gold);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+        
+        .hero-title {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold) 0%, #FFA500 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-signature {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-style: italic;
+            color: var(--gold);
+            margin-bottom: 24px;
+            opacity: 0.9;
+        }
+
+        /* ═══════════════════════════════════════════
+           STATS GRID — KEY METRICS
+           ═══════════════════════════════════════════ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            padding: 16px 12px;
+            text-align: center;
+            border: 1px solid var(--border);
             transition: all 0.3s ease;
         }
-        .card:hover { transform: translateX(5px); border-color: #FFD700; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .card-rank {
-            background: linear-gradient(90deg, #FFD700, #FFA500); color: #000;
-            width: 32px; height: 32px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-weight: bold;
-        }
-        .card-matchup { font-size: 1.15em; font-weight: bold; margin-bottom: 10px; }
-        .card-details { display: flex; gap: 20px; flex-wrap: wrap; }
-        .card-detail { display: flex; flex-direction: column; }
-        .card-detail-label { font-size: 0.75em; color: #888; text-transform: uppercase; }
-        .card-detail-value { font-size: 1.05em; font-weight: bold; }
-        .card-detail-value.pick { color: #00FF88; }
-        .card-detail-value.odds { color: #4A9EFF; }
-        .card-detail-value.confidence { color: #FFD700; }
         
-        /* Parlay Cards */
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-gold);
+        }
+        
+        .stat-icon { font-size: 1.5rem; margin-bottom: 6px; }
+        .stat-value {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+        .stat-value.gold { color: var(--gold); }
+        .stat-value.green { color: var(--green); }
+        .stat-value.blue { color: var(--blue); }
+        .stat-value.purple { color: var(--purple); }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        /* ═══════════════════════════════════════════
+           LAST UPDATED
+           ═══════════════════════════════════════════ */
+        .last-updated {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding: 16px 0;
+            border-top: 1px solid var(--border);
+            margin-top: 16px;
+        }
+        .last-updated span { color: var(--text-secondary); font-weight: 500; }
+
+        /* ═══════════════════════════════════════════
+           NAVIGATION TABS
+           ═══════════════════════════════════════════ */
+        .nav-container {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 6px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+        }
+        
+        .nav-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+        
+        .nav-tab {
+            background: transparent;
+            border: none;
+            padding: 14px 8px;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: clamp(0.75rem, 2vw, 0.95rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .nav-tab-icon { font-size: 1.3rem; }
+        
+        .nav-tab:hover { 
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        
+        .nav-tab.active {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #000;
+        }
+
+        /* ═══════════════════════════════════════════
+           SECTIONS
+           ═══════════════════════════════════════════ */
+        .section {
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+        .section.active { display: block; }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border-gold);
+        }
+        
+        .section-title {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ═══════════════════════════════════════════
+           PICK CARDS — PREMIUM DESIGN
+           ═══════════════════════════════════════════ */
+        .picks-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .pick-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .pick-card:hover {
+            border-color: var(--border-gold);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+        
+        .pick-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: linear-gradient(90deg, rgba(255,215,0,0.1) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .pick-rank {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #000;
+        }
+        
+        .pick-sport {
+            font-size: 1.8rem;
+            margin-left: 12px;
+        }
+        
+        .pick-time {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        
+        .pick-time-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .pick-time-league {
+            font-size: 0.75rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+        
+        .pick-card-body { padding: 20px; }
+        
+        .pick-matchup {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .pick-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .pick-detail {
+            background: var(--bg-secondary);
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+        }
+        
+        .pick-detail-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .pick-detail-value {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-weight: 800;
+        }
+        
+        .pick-detail-value.pick { color: var(--green); }
+        .pick-detail-value.odds { color: var(--blue); }
+        .pick-detail-value.confidence { color: var(--gold); }
+
+        /* ═══════════════════════════════════════════
+           PROPS CARDS
+           ═══════════════════════════════════════════ */
+        .props-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+        
+        .prop-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .prop-card:hover {
+            border-color: var(--green);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+        
+        .prop-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .prop-rank {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--gold);
+            border: 1px solid var(--border-gold);
+        }
+        
+        .prop-player {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-left: 12px;
+            flex: 1;
+        }
+        
+        .prop-team {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+        
+        .prop-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .prop-detail {
+            background: var(--bg-secondary);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+        }
+
+        /* ═══════════════════════════════════════════
+           PARLAY CARDS
+           ═══════════════════════════════════════════ */
+        .parlays-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
         .parlay-card {
-            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,165,0,0.05) 100%);
-            border-color: rgba(255,215,0,0.3);
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255,215,0,0.05) 100%);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-gold);
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
-        .parlay-legs { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+        
+        .parlay-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(255,215,0,0.15);
+        }
+        
+        .parlay-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: linear-gradient(90deg, rgba(255,215,0,0.15) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border-gold);
+        }
+        
+        .parlay-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .parlay-odds {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        
+        .parlay-legs { padding: 20px; }
+        
         .parlay-leg {
-            background: rgba(0,0,0,0.3); padding: 10px 12px; border-radius: 8px;
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            margin-bottom: 10px;
+            border-left: 3px solid var(--gold);
         }
-        .parlay-total {
-            display: flex; justify-content: space-between; padding-top: 12px;
-            border-top: 1px solid rgba(255,215,0,0.3); font-weight: bold;
+        
+        .parlay-leg:last-child { margin-bottom: 0; }
+        
+        .parlay-leg-matchup {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
         }
         
-        /* Stats Table */
-        .stats-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .stats-table th, .stats-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .stats-table th { background: rgba(255,215,0,0.1); color: #FFD700; }
-        .stats-table tr:hover { background: rgba(255,255,255,0.05); }
-        .status-fire { color: #FF6B35; }
-        .status-hot { color: #FFD700; }
-        .status-good { color: #00FF88; }
+        .parlay-leg-pick {
+            font-weight: 700;
+            color: var(--green);
+        }
         
-        /* Footer */
-        .footer { text-align: center; padding: 30px 15px; margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); }
-        .footer-brand { color: #FFD700; font-size: 1.1em; margin-bottom: 8px; }
+        .parlay-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+        }
         
-        /* Last Updated */
-        .last-updated { text-align: center; color: #666; font-size: 0.85em; margin-bottom: 20px; }
+        .parlay-confidence-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
         
-        /* Mobile */
+        .parlay-confidence-value {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        /* ═══════════════════════════════════════════
+           STATS TABLE
+           ═══════════════════════════════════════════ */
+        .stats-container {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .stats-table th {
+            background: var(--bg-secondary);
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .stats-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+        
+        .stats-table tr:last-child td { border-bottom: none; }
+        
+        .stats-table tr:hover { background: var(--bg-card-hover); }
+        
+        .stats-sport {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .stats-sport-icon { font-size: 1.3rem; }
+        
+        .stats-record { font-weight: 700; }
+        
+        .stats-winrate {
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        
+        .stats-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        
+        .status-fire { 
+            background: rgba(255,71,87,0.2); 
+            color: #FF6B7A; 
+        }
+        .status-hot { 
+            background: rgba(255,215,0,0.2); 
+            color: var(--gold); 
+        }
+        .status-good { 
+            background: rgba(0,210,106,0.2); 
+            color: var(--green); 
+        }
+
+        /* ═══════════════════════════════════════════
+           FOOTER
+           ═══════════════════════════════════════════ */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 40px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+        }
+        
+        .footer-brand {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+        
+        .footer-signature {
+            font-style: italic;
+            color: var(--gold);
+            opacity: 0.8;
+            margin-bottom: 16px;
+        }
+        
+        .footer-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ═══════════════════════════════════════════
+           RESPONSIVE — TABLET (768px)
+           ═══════════════════════════════════════════ */
         @media (max-width: 768px) {
-            .header h1 { font-size: 1.6em; }
-            .stat-badge { padding: 6px 12px; font-size: 0.85em; }
-            .nav-btn { padding: 8px 14px; font-size: 0.85em; }
-            .card-details { gap: 12px; }
-            .card { padding: 14px; }
+            .app { padding: 16px; }
+            
+            .hero { padding: 30px 20px; }
+            
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            
+            .nav-tab { padding: 12px 6px; }
+            .nav-tab-icon { font-size: 1.1rem; }
+            
+            .pick-details { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .pick-detail { padding: 10px; }
+            
+            .props-grid { grid-template-columns: 1fr; }
+            
+            .stats-table th, .stats-table td { padding: 14px 12px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           RESPONSIVE — MOBILE (480px)
+           ═══════════════════════════════════════════ */
+        @media (max-width: 480px) {
+            .app { padding: 12px; }
+            
+            .hero { padding: 24px 16px; }
+            .hero-badge { font-size: 0.7rem; padding: 6px 12px; }
+            
+            .stats-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 8px;
+            }
+            .stat-card { padding: 12px 8px; }
+            .stat-icon { font-size: 1.2rem; }
+            
+            .nav-tabs { grid-template-columns: repeat(4, 1fr); gap: 4px; }
+            .nav-tab { 
+                padding: 10px 4px; 
+                font-size: 0.65rem;
+            }
+            .nav-tab-icon { font-size: 1rem; }
+            
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+            
+            .pick-card-header { padding: 12px 16px; }
+            .pick-rank { width: 36px; height: 36px; font-size: 1rem; }
+            .pick-sport { font-size: 1.5rem; }
+            .pick-card-body { padding: 16px; }
+            .pick-matchup { font-size: 1rem; margin-bottom: 12px; }
+            .pick-details { gap: 8px; }
+            .pick-detail { padding: 10px 6px; }
+            .pick-detail-label { font-size: 0.6rem; }
+            .pick-detail-value { font-size: 0.95rem; }
+            
+            .prop-card { padding: 16px; }
+            .prop-player { font-size: 1rem; }
+            .prop-details { gap: 8px; }
+            .prop-detail { padding: 10px; }
+            
+            .parlay-header { padding: 16px; }
+            .parlay-name { font-size: 1rem; }
+            .parlay-odds { padding: 6px 12px; font-size: 1rem; }
+            .parlay-legs { padding: 16px; }
+            .parlay-leg { padding: 12px; flex-direction: column; gap: 8px; text-align: center; }
+            
+            .stats-table { font-size: 0.85rem; }
+            .stats-table th, .stats-table td { padding: 12px 8px; }
+            .stats-sport-icon { font-size: 1.1rem; }
+            .stats-status { padding: 4px 8px; font-size: 0.7rem; }
+            
+            .footer { padding: 30px 16px; }
+            .footer-meta { flex-direction: column; gap: 8px; }
+        }
+
+        /* ═══════════════════════════════════════════
+           ANIMATIONS
+           ═══════════════════════════════════════════ */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>🎯 JBETS Elite Portal</h1>
-            <p class="signature">✨ "Watch passionately. Bet Wisely!!" ✨</p>
-            <div class="stats-bar" id="headerStats">
-                <span class="stat-badge gold">🏆 Loading...</span>
+    <div class="app">
+        <!-- ═══════════ HERO SECTION ═══════════ -->
+        <header class="hero">
+            <div class="hero-badge">
+                <span class="live-indicator"><span class="live-dot"></span> LIVE</span>
+                <span>•</span>
+                <span>PLATINUM EDITION</span>
+            </div>
+            <h1 class="hero-title">🎯 JBETS ELITE PORTAL</h1>
+            <p class="hero-signature">✨ "Watch passionately. Bet Wisely!!" ✨</p>
+            
+            <div class="stats-grid" id="headerStats">
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-value gold" id="statRecord">---</div>
+                    <div class="stat-label">Record</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-value green" id="statROI">---</div>
+                    <div class="stat-label">ROI</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-value blue" id="statBankroll">---</div>
+                    <div class="stat-label">Bankroll</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-value purple" id="statStreak">---</div>
+                    <div class="stat-label">Streak</div>
+                </div>
+            </div>
+            
+            <div class="last-updated">
+                📅 Last Updated: <span id="lastUpdated">Loading...</span>
             </div>
         </header>
-        
-        <p class="last-updated">📅 Last Updated: <span id="lastUpdated">Loading...</span></p>
-        
-        <nav class="nav">
-            <button class="nav-btn active" onclick="showSection('picks')">🎯 Today's Picks</button>
-            <button class="nav-btn" onclick="showSection('props')">👤 Player Props</button>
-            <button class="nav-btn" onclick="showSection('parlays')">🎲 Parlays</button>
-            <button class="nav-btn" onclick="showSection('stats')">📊 Stats</button>
+
+        <!-- ═══════════ NAVIGATION ═══════════ -->
+        <nav class="nav-container">
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showSection('picks', this)">
+                    <span class="nav-tab-icon">🎯</span>
+                    <span>Picks</span>
+                </button>
+                <button class="nav-tab" onclick="showSection('props', this)">
+                    <span class="nav-tab-icon">👤</span>
+                    <span>Props</span>
+                </button>
+                <button class="nav-tab" onclick="showSection('parlays', this)">
+                    <span class="nav-tab-icon">🎲</span>
+                    <span>Parlays</span>
+                </button>
+                <button class="nav-tab" onclick="showSection('stats', this)">
+                    <span class="nav-tab-icon">📊</span>
+                    <span>Stats</span>
+                </button>
+            </div>
         </nav>
-        
+
+        <!-- ═══════════ PICKS SECTION ═══════════ -->
         <section id="picks" class="section active">
-            <h2 class="section-title">🎯 Top 5 Elite Picks</h2>
-            <div id="picksContainer">Loading picks...</div>
+            <div class="section-header">
+                <h2 class="section-title">🎯 Today's Elite Picks</h2>
+                <span class="section-subtitle">Top 5 High-Confidence Selections</span>
+            </div>
+            <div class="picks-grid" id="picksContainer">Loading...</div>
         </section>
-        
+
+        <!-- ═══════════ PROPS SECTION ═══════════ -->
         <section id="props" class="section">
-            <h2 class="section-title">👤 Top 10 Player Props</h2>
-            <div id="propsContainer">Loading props...</div>
+            <div class="section-header">
+                <h2 class="section-title">👤 Player Props</h2>
+                <span class="section-subtitle">Top 10 Statistical Plays</span>
+            </div>
+            <div class="props-grid" id="propsContainer">Loading...</div>
         </section>
-        
+
+        <!-- ═══════════ PARLAYS SECTION ═══════════ -->
         <section id="parlays" class="section">
-            <h2 class="section-title">🎲 Parlay Builder</h2>
-            <div id="parlaysContainer">Loading parlays...</div>
+            <div class="section-header">
+                <h2 class="section-title">🎲 Parlay Builder</h2>
+                <span class="section-subtitle">Multi-Leg Combinations</span>
+            </div>
+            <div class="parlays-grid" id="parlaysContainer">Loading...</div>
         </section>
-        
+
+        <!-- ═══════════ STATS SECTION ═══════════ -->
         <section id="stats" class="section">
-            <h2 class="section-title">📊 Performance by Sport</h2>
-            <table class="stats-table">
-                <thead><tr><th>Sport</th><th>Record</th><th>Win Rate</th><th>Status</th></tr></thead>
-                <tbody id="statsContainer"></tbody>
-            </table>
+            <div class="section-header">
+                <h2 class="section-title">📊 Performance Analytics</h2>
+                <span class="section-subtitle">Historical Win Rates by Sport</span>
+            </div>
+            <div class="stats-container">
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>Sport</th>
+                            <th>Record</th>
+                            <th>Win Rate</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="statsContainer"></tbody>
+                </table>
+            </div>
         </section>
-        
+
+        <!-- ═══════════ FOOTER ═══════════ -->
         <footer class="footer">
             <p class="footer-brand">💎 JBETS Decision Intelligence — High Class Platinum Edition</p>
-            <p class="signature">✨ "Watch passionately. Bet Wisely!!" ✨</p>
-            <p style="margin-top: 12px; color: #555;">📱 Mobile-Optimized • 🔄 Updated Daily • 🎯 270+ Verified Predictions</p>
+            <p class="footer-signature">✨ "Watch passionately. Bet Wisely!!" ✨</p>
+            <div class="footer-meta">
+                <span>📱 Adaptive Design</span>
+                <span>🔄 Updated Daily</span>
+                <span>🎯 270+ Predictions</span>
+                <span>🏆 87%+ Win Rate</span>
+            </div>
         </footer>
     </div>
 
     <script>
-        function showSection(id) {
+        function showSection(id, btn) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
+            btn.classList.add('active');
         }
 
         async function loadData() {
@@ -183,19 +857,17 @@
                 const data = await response.json();
                 renderAll(data);
             } catch (e) {
-                console.log('Loading sample data...');
                 renderAll(getSampleData());
             }
         }
 
         function renderAll(data) {
-            document.getElementById('lastUpdated').textContent = data.lastUpdated || 'May 18, 2026';
-            document.getElementById('headerStats').innerHTML = `
-                <span class="stat-badge gold">🏆 ${data.overall.record}</span>
-                <span class="stat-badge green">📈 ROI: ${data.overall.roi}</span>
-                <span class="stat-badge">💰 ${data.overall.bankroll}</span>
-                <span class="stat-badge">🔥 ${data.overall.streak}</span>
-            `;
+            document.getElementById('lastUpdated').textContent = data.lastUpdated;
+            document.getElementById('statRecord').textContent = data.overall.record.split(' ')[0];
+            document.getElementById('statROI').textContent = data.overall.roi;
+            document.getElementById('statBankroll').textContent = data.overall.bankroll;
+            document.getElementById('statStreak').textContent = data.overall.streak;
+            
             renderPicks(data.picks);
             renderProps(data.props);
             renderParlays(data.parlays);
@@ -204,20 +876,33 @@
 
         function renderPicks(picks) {
             document.getElementById('picksContainer').innerHTML = picks.map((p, i) => `
-                <div class="card">
-                    <div class="card-header">
-                        <div style="display:flex;align-items:center;gap:12px;">
-                            <span class="card-rank">${i+1}</span>
-                            <span style="font-size:1.4em;">${p.sport}</span>
+                <div class="pick-card">
+                    <div class="pick-card-header">
+                        <div style="display:flex;align-items:center;">
+                            <span class="pick-rank">${i + 1}</span>
+                            <span class="pick-sport">${p.sport}</span>
                         </div>
-                        <span style="color:#888;">${p.time}</span>
+                        <div class="pick-time">
+                            <span class="pick-time-value">${p.time}</span>
+                            <span class="pick-time-league">${p.league}</span>
+                        </div>
                     </div>
-                    <div class="card-matchup">${p.matchup}</div>
-                    <div class="card-details">
-                        <div class="card-detail"><span class="card-detail-label">Pick</span><span class="card-detail-value pick">${p.pick}</span></div>
-                        <div class="card-detail"><span class="card-detail-label">Odds</span><span class="card-detail-value odds">${p.odds}</span></div>
-                        <div class="card-detail"><span class="card-detail-label">Confidence</span><span class="card-detail-value confidence">${p.confidence}%</span></div>
-                        <div class="card-detail"><span class="card-detail-label">League</span><span class="card-detail-value">${p.league}</span></div>
+                    <div class="pick-card-body">
+                        <div class="pick-matchup">${p.matchup}</div>
+                        <div class="pick-details">
+                            <div class="pick-detail">
+                                <div class="pick-detail-label">Pick</div>
+                                <div class="pick-detail-value pick">${p.pick}</div>
+                            </div>
+                            <div class="pick-detail">
+                                <div class="pick-detail-label">Odds</div>
+                                <div class="pick-detail-value odds">${p.odds}</div>
+                            </div>
+                            <div class="pick-detail">
+                                <div class="pick-detail-label">Confidence</div>
+                                <div class="pick-detail-value confidence">${p.confidence}%</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -225,19 +910,23 @@
 
         function renderProps(props) {
             document.getElementById('propsContainer').innerHTML = props.map((p, i) => `
-                <div class="card">
-                    <div class="card-header">
-                        <div style="display:flex;align-items:center;gap:12px;">
-                            <span class="card-rank">${i+1}</span>
-                            <span style="font-weight:bold;">${p.player}</span>
+                <div class="prop-card">
+                    <div class="prop-header">
+                        <div style="display:flex;align-items:center;">
+                            <span class="prop-rank">${i + 1}</span>
+                            <span class="prop-player">${p.player}</span>
                         </div>
-                        <span style="color:#888;">${p.team}</span>
+                        <span class="prop-team">${p.team}</span>
                     </div>
-                    <div class="card-details">
-                        <div class="card-detail"><span class="card-detail-label">Prop</span><span class="card-detail-value">${p.prop}</span></div>
-                        <div class="card-detail"><span class="card-detail-label">Pick</span><span class="card-detail-value pick">${p.pick}</span></div>
-                        <div class="card-detail"><span class="card-detail-label">Line</span><span class="card-detail-value odds">${p.line}</span></div>
-                        <div class="card-detail"><span class="card-detail-label">Odds</span><span class="card-detail-value">${p.odds}</span></div>
+                    <div class="prop-details">
+                        <div class="prop-detail">
+                            <div class="pick-detail-label">Prop</div>
+                            <div class="pick-detail-value">${p.prop}</div>
+                        </div>
+                        <div class="prop-detail">
+                            <div class="pick-detail-label">Pick</div>
+                            <div class="pick-detail-value pick">${p.pick} ${p.line}</div>
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -245,15 +934,23 @@
 
         function renderParlays(parlays) {
             document.getElementById('parlaysContainer').innerHTML = parlays.map(p => `
-                <div class="card parlay-card">
-                    <div class="card-header">
-                        <span style="font-size:1.2em;font-weight:bold;">🎲 ${p.name}</span>
-                        <span class="stat-badge gold">${p.odds}</span>
+                <div class="parlay-card">
+                    <div class="parlay-header">
+                        <span class="parlay-name">${p.name}</span>
+                        <span class="parlay-odds">${p.odds}</span>
                     </div>
                     <div class="parlay-legs">
-                        ${p.legs.map(l => `<div class="parlay-leg"><span>${l.matchup}</span><span style="color:#00FF88;font-weight:bold;">${l.pick}</span></div>`).join('')}
+                        ${p.legs.map(l => `
+                            <div class="parlay-leg">
+                                <span class="parlay-leg-matchup">${l.matchup}</span>
+                                <span class="parlay-leg-pick">${l.pick}</span>
+                            </div>
+                        `).join('')}
                     </div>
-                    <div class="parlay-total"><span>Confidence</span><span style="color:#FFD700;">${p.confidence}%</span></div>
+                    <div class="parlay-footer">
+                        <span class="parlay-confidence-label">Combined Confidence</span>
+                        <span class="parlay-confidence-value">${p.confidence}%</span>
+                    </div>
                 </div>
             `).join('');
         }
@@ -261,21 +958,30 @@
         function renderStats(stats) {
             document.getElementById('statsContainer').innerHTML = stats.map(s => `
                 <tr>
-                    <td>${s.emoji} ${s.sport}</td>
-                    <td>${s.record}</td>
-                    <td>${s.winRate}%</td>
-                    <td class="${s.status.includes('FIRE') ? 'status-fire' : s.status.includes('HOT') ? 'status-hot' : 'status-good'}">${s.status}</td>
+                    <td>
+                        <div class="stats-sport">
+                            <span class="stats-sport-icon">${s.emoji}</span>
+                            <span>${s.sport}</span>
+                        </div>
+                    </td>
+                    <td class="stats-record">${s.record}</td>
+                    <td class="stats-winrate">${s.winRate}%</td>
+                    <td>
+                        <span class="stats-status ${s.status.includes('FIRE') ? 'status-fire' : s.status.includes('HOT') ? 'status-hot' : 'status-good'}">
+                            ${s.status}
+                        </span>
+                    </td>
                 </tr>
             `).join('');
         }
 
         function getSampleData() {
             return {
-                lastUpdated: "May 18, 2026 • 12:00 PM ET",
-                overall: { record: "235-33-2 (87.7%)", roi: "+68.2%", bankroll: "$11,500", streak: "W3" },
+                lastUpdated: "May 18, 2026 • 1:00 PM ET",
+                overall: { record: "235-33-2", roi: "+68%", bankroll: "$11.5K", streak: "W3" },
                 picks: [
                     { sport: "🏒", matchup: "Canadiens @ Sabres", pick: "MTL ML", odds: "-115", confidence: 72, time: "4:30 PM", league: "NHL R2 G7" },
-                    { sport: "🏀", matchup: "Spurs @ Thunder", pick: "OKC -6.5", odds: "-110", confidence: 70, time: "8:30 PM", league: "NBA WCF G1" },
+                    { sport: "🏀", matchup: "Spurs @ Thunder", pick: "OKC -6.5", odds: "-110", confidence: 75, time: "8:30 PM", league: "WCF G1" },
                     { sport: "⚾", matchup: "Yankees @ Blue Jays", pick: "NYY ML", odds: "-135", confidence: 68, time: "7:07 PM", league: "MLB" },
                     { sport: "⚾", matchup: "Dodgers @ Rockies", pick: "LAD ML", odds: "-175", confidence: 71, time: "8:40 PM", league: "MLB" },
                     { sport: "⚾", matchup: "Giants @ Phillies", pick: "PHI ML", odds: "-145", confidence: 65, time: "6:40 PM", league: "MLB" }
@@ -286,22 +992,27 @@
                     { player: "Chet Holmgren", team: "OKC", prop: "Rebounds", pick: "Over", line: "9.5", odds: "-110" },
                     { player: "Stephon Castle", team: "SAS", prop: "Assists", pick: "Over", line: "5.5", odds: "-105" },
                     { player: "Jalen Williams", team: "OKC", prop: "Points", pick: "Over", line: "18.5", odds: "-110" },
-                    { player: "Gerrit Cole", team: "NYY", prop: "Strikeouts", pick: "Over", line: "7.5", odds: "-115" },
-                    { player: "Yoshinobu Yamamoto", team: "LAD", prop: "Strikeouts", pick: "Over", line: "6.5", odds: "-110" },
-                    { player: "Aaron Judge", team: "NYY", prop: "Total Bases", pick: "Over", line: "1.5", odds: "-125" },
+                    { player: "Gerrit Cole", team: "NYY", prop: "K's", pick: "Over", line: "7.5", odds: "-115" },
+                    { player: "Yoshinobu Yamamoto", team: "LAD", prop: "K's", pick: "Over", line: "6.5", odds: "-110" },
+                    { player: "Aaron Judge", team: "NYY", prop: "TB", pick: "Over", line: "1.5", odds: "-125" },
                     { player: "Mookie Betts", team: "LAD", prop: "Hits", pick: "Over", line: "1.5", odds: "-110" },
                     { player: "Nick Suzuki", team: "MTL", prop: "Points", pick: "Over", line: "1.5", odds: "-115" }
                 ],
                 parlays: [
-                    { name: "Elite 3-Leg Parlay", odds: "+450", confidence: 55, legs: [
-                        { matchup: "🏒 MTL @ BUF", pick: "MTL ML" },
-                        { matchup: "🏀 SAS @ OKC", pick: "OKC -6.5" },
+                    { name: "🔥 Elite 3-Leg Parlay", odds: "+450", confidence: 55, legs: [
+                        { matchup: "🏒 MTL @ BUF G7", pick: "MTL ML" },
+                        { matchup: "🏀 SAS @ OKC G1", pick: "OKC -6.5" },
                         { matchup: "⚾ NYY @ TOR", pick: "NYY ML" }
                     ]},
-                    { name: "MLB Power Play", odds: "+320", confidence: 48, legs: [
+                    { name: "⚾ MLB Power Play", odds: "+320", confidence: 48, legs: [
                         { matchup: "⚾ NYY @ TOR", pick: "NYY ML" },
                         { matchup: "⚾ LAD @ COL", pick: "LAD ML" },
                         { matchup: "⚾ SF @ PHI", pick: "PHI ML" }
+                    ]},
+                    { name: "🏀 WCF Props Stack", odds: "+380", confidence: 45, legs: [
+                        { matchup: "Wembanyama", pick: "Pts O 28.5" },
+                        { matchup: "SGA", pick: "Pts O 30.5" },
+                        { matchup: "Holmgren", pick: "Reb O 9.5" }
                     ]}
                 ],
                 sportStats: [
@@ -309,7 +1020,9 @@
                     { emoji: "🏀", sport: "NBA", record: "96-13", winRate: "88.1", status: "🔥 HOT" },
                     { emoji: "⚽", sport: "Soccer", record: "52-7", winRate: "88.1", status: "🔥 HOT" },
                     { emoji: "⚾", sport: "MLB", record: "5-1", winRate: "83.3", status: "🔥 HOT" },
-                    { emoji: "🎾", sport: "Tennis", record: "4-1", winRate: "80.0", status: "📈 GOOD" }
+                    { emoji: "🎾", sport: "Tennis", record: "4-1", winRate: "80.0", status: "✅ GOOD" },
+                    { emoji: "👤", sport: "Props", record: "47-7", winRate: "87.0", status: "🔥 HOT" },
+                    { emoji: "🎲", sport: "Parlays", record: "12-3", winRate: "80.0", status: "✅ GOOD" }
                 ]
             };
         }
