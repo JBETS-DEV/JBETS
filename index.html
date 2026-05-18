@@ -1,1161 +1,522 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🎯 JBETS Elite Portal</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        /* ═══════════════════════════════════════════════════════════════
-           JBETS ELITE PORTAL — ULTIMATE PLATINUM v4.0
-           Interactive Parlay Builder with Timing Rules
-        ═══════════════════════════════════════════════════════════════ */
-        
-        :root {
-            --gold: #FFD700; --gold-dark: #E5A800; --gold-glow: rgba(255, 215, 0, 0.3);
-            --green: #00D26A; --green-dark: #00B85C; --red: #FF4757;
-            --blue: #3B82F6; --purple: #8B5CF6; --orange: #FF6B35;
-            --cyan: #06B6D4; --pink: #EC4899;
-            --bg-primary: #0F0F1A; --bg-secondary: #1A1A2E;
-            --bg-card: #16213E; --bg-card-hover: #1E2A4A;
-            --text-primary: #FFFFFF; --text-secondary: #A0AEC0; --text-muted: #64748B;
-            --border: rgba(255, 255, 255, 0.08); --border-gold: rgba(255, 215, 0, 0.3);
-            --shadow: 0 10px 40px rgba(0, 0, 0, 0.4); --shadow-gold: 0 0 30px rgba(255, 215, 0, 0.15);
-            --radius: 16px; --radius-sm: 10px; --radius-xs: 6px;
-        }
-
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { font-size: 16px; scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
-            background-image: radial-gradient(ellipse at top, rgba(255, 215, 0, 0.03) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
-            color: var(--text-primary); min-height: 100vh; line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-        .app { max-width: 1400px; margin: 0 auto; padding: 20px; }
-
-        /* Language Toggle */
-        .lang-toggle {
-            position: fixed; top: 15px; right: 15px; z-index: 1000;
-            display: flex; gap: 4px; background: var(--bg-secondary);
-            padding: 4px; border-radius: 25px; border: 1px solid var(--border); box-shadow: var(--shadow);
-        }
-        .lang-btn {
-            padding: 8px 14px; border: none; border-radius: 20px;
-            font-size: 0.8rem; font-weight: 600; cursor: pointer;
-            transition: all 0.3s ease; background: transparent; color: var(--text-secondary);
-        }
-        .lang-btn.active {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: #000; box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
-        }
-        .lang-btn:hover:not(.active) { color: var(--text-primary); background: var(--bg-card); }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 50%, var(--bg-secondary) 100%);
-            border-radius: var(--radius); padding: 40px 30px; padding-top: 60px;
-            text-align: center; border: 1px solid var(--border-gold);
-            margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: var(--shadow-gold);
-        }
-        .hero::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-            background: linear-gradient(90deg, var(--gold), var(--green), var(--blue), var(--gold));
-            background-size: 300% 100%; animation: shimmer 3s ease-in-out infinite;
-        }
-        @keyframes shimmer { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(255, 215, 0, 0.15); border: 1px solid var(--border-gold);
-            padding: 8px 16px; border-radius: 50px; font-size: 0.8rem;
-            font-weight: 600; color: var(--gold); margin-bottom: 16px;
-        }
-        .hero-title {
-            font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900;
-            background: linear-gradient(135deg, var(--gold) 0%, #FFA500 50%, var(--gold) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; margin-bottom: 12px;
-        }
-        .hero-signature { font-size: clamp(1rem, 2.5vw, 1.3rem); font-style: italic; color: var(--gold); margin-bottom: 24px; opacity: 0.9; }
-        .live-indicator { display: inline-flex; align-items: center; gap: 6px; }
-        .live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 1.5s ease-in-out infinite; box-shadow: 0 0 10px var(--green); }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.9); } }
-
-        /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 8px; }
-        .stat-card { background: var(--bg-card); border-radius: var(--radius-sm); padding: 16px 12px; text-align: center; border: 1px solid var(--border); transition: all 0.3s ease; }
-        .stat-card:hover { transform: translateY(-2px); border-color: var(--border-gold); }
-        .stat-icon { font-size: 1.5rem; margin-bottom: 6px; }
-        .stat-value { font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: 800; margin-bottom: 2px; }
-        .stat-value.gold { color: var(--gold); } .stat-value.green { color: var(--green); }
-        .stat-value.blue { color: var(--blue); } .stat-value.purple { color: var(--purple); }
-        .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
-        .last-updated { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 16px 0; border-top: 1px solid var(--border); margin-top: 16px; }
-        .last-updated span { color: var(--text-secondary); font-weight: 500; }
-
-        /* Navigation */
-        .nav-container { background: var(--bg-secondary); border-radius: var(--radius); padding: 6px; margin-bottom: 24px; border: 1px solid var(--border); overflow-x: auto; }
-        .nav-tabs { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; min-width: 600px; }
-        .nav-tab {
-            background: transparent; border: none; padding: 12px 6px; border-radius: var(--radius-sm);
-            color: var(--text-secondary); font-size: clamp(0.65rem, 1.5vw, 0.85rem); font-weight: 600;
-            cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column;
-            align-items: center; gap: 4px; white-space: nowrap;
-        }
-        .nav-tab-icon { font-size: 1.2rem; }
-        .nav-tab:hover { background: var(--bg-card); color: var(--text-primary); }
-        .nav-tab.active { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #000; }
-
-        /* Sections */
-        .section { display: none; animation: slideIn 0.4s ease; }
-        .section.active { display: block; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid var(--border-gold); flex-wrap: wrap; gap: 10px; }
-        .section-title { font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 700; display: flex; align-items: center; gap: 10px; }
-        .section-subtitle { font-size: 0.85rem; color: var(--text-muted); }
-
-        /* Charts */
-        .gauge-container { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-        .gauge { position: relative; width: 120px; height: 120px; }
-        .gauge svg { transform: rotate(-90deg); }
-        .gauge-bg { fill: none; stroke: var(--bg-secondary); stroke-width: 10; }
-        .gauge-fill { fill: none; stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 1.5s ease-out; }
-        .gauge-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
-        .gauge-value { font-size: 1.5rem; font-weight: 800; }
-        .gauge-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
-        .progress-bar-container { margin-bottom: 16px; }
-        .progress-bar-header { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
-        .progress-bar-label { display: flex; align-items: center; gap: 8px; font-weight: 600; }
-        .progress-bar-icon { font-size: 1.2rem; }
-        .progress-bar-value { font-weight: 800; font-size: 1rem; }
-        .progress-bar-track { height: 12px; background: var(--bg-secondary); border-radius: 6px; overflow: hidden; }
-        .progress-bar-fill { height: 100%; border-radius: 6px; transition: width 1.5s ease-out; }
-        .bar-chart { display: flex; align-items: flex-end; gap: 12px; height: 200px; padding: 20px 0; }
-        .bar-chart-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .bar-chart-bar { width: 100%; max-width: 50px; border-radius: 8px 8px 0 0; transition: height 1.5s ease-out; position: relative; }
-        .bar-chart-bar::before { content: attr(data-value); position: absolute; top: -25px; font-size: 0.85rem; font-weight: 700; }
-        .bar-chart-label { font-size: 0.75rem; color: var(--text-muted); text-align: center; }
-        .bar-chart-icon { font-size: 1.3rem; }
-        .donut-container { display: flex; align-items: center; gap: 30px; flex-wrap: wrap; justify-content: center; }
-        .donut-chart { position: relative; width: 180px; height: 180px; }
-        .donut-chart svg { transform: rotate(-90deg); }
-        .donut-segment { fill: none; stroke-width: 35; transition: stroke-dashoffset 1.5s ease-out; }
-        .donut-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
-        .donut-total { font-size: 2rem; font-weight: 900; color: var(--gold); }
-        .donut-label { font-size: 0.8rem; color: var(--text-muted); }
-        .donut-legend { display: flex; flex-direction: column; gap: 12px; }
-        .legend-item { display: flex; align-items: center; gap: 10px; }
-        .legend-color { width: 16px; height: 16px; border-radius: 4px; }
-        .legend-text { font-size: 0.9rem; }
-        .legend-value { font-weight: 700; margin-left: auto; }
-        .sparkline { width: 80px; height: 30px; display: flex; align-items: flex-end; gap: 2px; }
-        .sparkline-bar { flex: 1; border-radius: 2px; transition: height 0.5s ease; }
-        .chart-card { background: var(--bg-card); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); transition: all 0.3s ease; }
-        .chart-card:hover { border-color: var(--border-gold); box-shadow: var(--shadow); }
-        .chart-card-title { font-size: 1rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: var(--gold); }
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .dashboard-wide { grid-column: span 2; }
-
-        /* Cards */
-        .card { background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; transition: all 0.3s ease; margin-bottom: 16px; }
-        .card:hover { border-color: var(--border-gold); transform: translateY(-4px); box-shadow: var(--shadow); }
-        .card-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, transparent 100%); border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
-        .card-body { padding: 20px; }
-        .card-rank { width: 40px; height: 40px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; color: #000; }
-        .card-sport { font-size: 1.8rem; margin-left: 12px; }
-        .card-time { display: flex; flex-direction: column; align-items: flex-end; }
-        .card-time-value { font-size: 1rem; font-weight: 700; }
-        .card-time-league { font-size: 0.75rem; color: var(--gold); font-weight: 600; }
-        .card-matchup { font-size: clamp(1.1rem, 2.5vw, 1.3rem); font-weight: 700; margin-bottom: 16px; }
-        .card-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .card-detail { background: var(--bg-secondary); padding: 14px; border-radius: var(--radius-sm); text-align: center; }
-        .card-detail-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 6px; }
-        .card-detail-value { font-size: clamp(1rem, 2.5vw, 1.2rem); font-weight: 800; }
-        .card-detail-value.pick { color: var(--green); }
-        .card-detail-value.odds { color: var(--blue); }
-        .card-detail-value.confidence { color: var(--gold); }
-
-        /* Props Grid */
-        .props-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
-
-        /* ═══════════════════════════════════════════════════════════════
-           INTERACTIVE PARLAY BUILDER — NEW!
-        ═══════════════════════════════════════════════════════════════ */
-        .parlay-builder { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
-        @media (max-width: 1024px) { .parlay-builder { grid-template-columns: 1fr; } }
-
-        /* Time Filter Tabs */
-        .time-filter { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-        .time-filter-btn {
-            padding: 10px 20px; border: 2px solid var(--border); border-radius: 25px;
-            background: var(--bg-card); color: var(--text-secondary); font-weight: 600;
-            font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .time-filter-btn:hover { border-color: var(--gold); color: var(--text-primary); }
-        .time-filter-btn.active {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            border-color: var(--gold); color: #000;
-        }
-        .time-filter-btn .count {
-            background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;
-        }
-
-        /* Available Games List */
-        .games-list { max-height: 600px; overflow-y: auto; padding-right: 8px; }
-        .games-list::-webkit-scrollbar { width: 6px; }
-        .games-list::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 3px; }
-        .games-list::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
-
-        .game-select-card {
-            background: var(--bg-card); border: 2px solid var(--border); border-radius: var(--radius-sm);
-            padding: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.3s ease;
-        }
-        .game-select-card:hover { border-color: var(--gold); transform: translateX(4px); }
-        .game-select-card.selected { border-color: var(--green); background: rgba(0, 210, 106, 0.1); }
-        .game-select-card.disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
-        .game-select-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        .game-select-sport { display: flex; align-items: center; gap: 10px; }
-        .game-select-sport-icon { font-size: 1.5rem; }
-        .game-select-league { font-size: 0.75rem; color: var(--gold); font-weight: 600; background: rgba(255,215,0,0.15); padding: 3px 10px; border-radius: 12px; }
-        .game-select-time { text-align: right; }
-        .game-select-time-value { font-weight: 700; font-size: 0.9rem; }
-        .game-select-time-date { font-size: 0.75rem; color: var(--text-muted); }
-        .game-select-time-tag {
-            font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 700; margin-top: 4px; display: inline-block;
-        }
-        .time-tag-4h { background: var(--red); color: white; }
-        .time-tag-48h { background: var(--orange); color: white; }
-        .time-tag-7d { background: var(--blue); color: white; }
-        .game-select-matchup { font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; text-align: center; }
-        .game-select-picks { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-        .pick-option {
-            background: var(--bg-secondary); border: 2px solid var(--border); border-radius: var(--radius-xs);
-            padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s ease;
-        }
-        .pick-option:hover { border-color: var(--gold); background: var(--bg-card-hover); }
-        .pick-option.selected { border-color: var(--green); background: rgba(0, 210, 106, 0.2); }
-        .pick-option-label { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; }
-        .pick-option-value { font-weight: 700; font-size: 0.95rem; }
-        .pick-option-odds { color: var(--blue); font-size: 0.85rem; font-weight: 600; }
-
-        /* Parlay Slip (Right Side) */
-        .parlay-slip {
-            background: var(--bg-card); border: 2px solid var(--border-gold);
-            border-radius: var(--radius); padding: 20px; position: sticky; top: 20px;
-        }
-        .parlay-slip-header {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border);
-        }
-        .parlay-slip-title { font-size: 1.2rem; font-weight: 800; color: var(--gold); display: flex; align-items: center; gap: 10px; }
-        .parlay-slip-count {
-            background: var(--gold); color: #000; width: 28px; height: 28px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-weight: 800; font-size: 0.9rem;
-        }
-        .parlay-slip-clear { background: transparent; border: 1px solid var(--red); color: var(--red); padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
-        .parlay-slip-clear:hover { background: var(--red); color: white; }
-
-        .parlay-legs-list { margin-bottom: 20px; max-height: 300px; overflow-y: auto; }
-        .parlay-leg-item {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px; background: var(--bg-secondary); border-radius: var(--radius-xs);
-            margin-bottom: 8px; border-left: 3px solid var(--gold);
-        }
-        .parlay-leg-info { flex: 1; }
-        .parlay-leg-matchup { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 2px; }
-        .parlay-leg-pick { font-weight: 700; font-size: 0.95rem; }
-        .parlay-leg-odds { color: var(--blue); font-weight: 600; font-size: 0.9rem; margin-left: 12px; }
-        .parlay-leg-remove {
-            background: transparent; border: none; color: var(--red); cursor: pointer;
-            font-size: 1.2rem; padding: 4px; margin-left: 8px; transition: transform 0.2s;
-        }
-        .parlay-leg-remove:hover { transform: scale(1.2); }
-
-        .parlay-slip-empty { text-align: center; padding: 40px 20px; color: var(--text-muted); }
-        .parlay-slip-empty-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.5; }
-        .parlay-slip-empty-text { font-size: 0.95rem; }
-
-        .parlay-summary { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 16px; }
-        .parlay-summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .parlay-summary-row:last-child { margin-bottom: 0; }
-        .parlay-summary-label { color: var(--text-muted); font-size: 0.9rem; }
-        .parlay-summary-value { font-weight: 700; }
-        .parlay-summary-value.big { font-size: 1.5rem; color: var(--gold); }
-        .parlay-summary-value.green { color: var(--green); }
-
-        .parlay-rules { background: rgba(255, 215, 0, 0.1); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px; }
-        .parlay-rules-title { font-size: 0.8rem; font-weight: 700; color: var(--gold); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-        .parlay-rules-list { font-size: 0.75rem; color: var(--text-secondary); }
-        .parlay-rules-list li { margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-        .rule-check { color: var(--green); }
-        .rule-x { color: var(--red); }
-
-        .parlay-place-btn {
-            width: 100%; padding: 16px; border: none; border-radius: var(--radius-sm);
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: #000; font-size: 1.1rem; font-weight: 800; cursor: pointer;
-            transition: all 0.3s ease; text-transform: uppercase;
-        }
-        .parlay-place-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4); }
-        .parlay-place-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .parlay-place-btn.success { background: linear-gradient(135deg, var(--green), var(--green-dark)); }
-
-        /* Recommended Parlays */
-        .recommended-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border); }
-        .recommended-title { font-size: 1rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-        .recommended-parlay {
-            background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-sm);
-            padding: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.3s ease;
-        }
-        .recommended-parlay:hover { border-color: var(--gold); }
-        .recommended-parlay-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .recommended-parlay-name { font-weight: 700; }
-        .recommended-parlay-odds { background: var(--gold); color: #000; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.9rem; }
-        .recommended-parlay-legs { font-size: 0.85rem; color: var(--text-muted); }
-
-        /* Alerts */
-        .alert-card { border-left: 4px solid var(--orange); }
-        .alert-card.info { border-left-color: var(--blue); }
-        .alert-card.success { border-left-color: var(--green); }
-        .alert-card.warning { border-left-color: var(--orange); }
-        .alert-icon { font-size: 1.5rem; }
-
-        /* Upcoming Games */
-        .game-card { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--bg-card); border-radius: var(--radius-sm); margin-bottom: 12px; border: 1px solid var(--border); flex-wrap: wrap; gap: 12px; transition: all 0.3s ease; }
-        .game-card:hover { border-color: var(--border-gold); transform: translateX(4px); }
-        .game-info { display: flex; align-items: center; gap: 12px; }
-        .game-sport { font-size: 1.5rem; }
-        .game-name { font-weight: 600; }
-        .game-time { text-align: right; }
-        .game-time-value { font-weight: 700; color: var(--gold); }
-        .game-channel { font-size: 0.8rem; color: var(--text-muted); }
-        .day-header { color: var(--gold); margin: 24px 0 12px; font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-
-        /* Stats Table */
-        .stats-container { background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
-        .stats-table { width: 100%; border-collapse: collapse; }
-        .stats-table th { background: var(--bg-secondary); padding: 16px 20px; text-align: left; font-size: 0.75rem; font-weight: 700; color: var(--gold); text-transform: uppercase; }
-        .stats-table td { padding: 18px 20px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
-        .stats-table tr:last-child td { border-bottom: none; }
-        .stats-table tr:hover { background: var(--bg-card-hover); }
-        .stats-sport { display: flex; align-items: center; gap: 10px; font-weight: 600; }
-        .stats-sport-icon { font-size: 1.3rem; }
-        .stats-record { font-weight: 700; }
-        .stats-winrate { font-weight: 800; font-size: 1.1rem; }
-        .stats-bar { width: 100px; height: 8px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden; }
-        .stats-bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
-        .stats-status { padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
-        .status-fire { background: rgba(255, 71, 87, 0.2); color: #FF6B7A; }
-        .status-hot { background: rgba(255, 215, 0, 0.2); color: var(--gold); }
-        .status-good { background: rgba(0, 210, 106, 0.2); color: var(--green); }
-
-        /* Footer */
-        .footer { text-align: center; padding: 40px 20px; margin-top: 40px; border-top: 1px solid var(--border); background: var(--bg-secondary); border-radius: var(--radius); }
-        .footer-brand { font-size: 1rem; font-weight: 600; color: var(--gold); margin-bottom: 8px; }
-        .footer-signature { font-style: italic; color: var(--gold); opacity: 0.8; margin-bottom: 16px; }
-        .footer-meta { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 0.8rem; color: var(--text-muted); }
-
-        /* Responsive */
-        @media (max-width: 1024px) { .dashboard-wide { grid-column: span 1; } }
-        @media (max-width: 768px) {
-            .app { padding: 16px; }
-            .hero { padding: 30px 20px; padding-top: 50px; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .nav-tabs { grid-template-columns: repeat(4, 1fr); min-width: auto; }
-            .nav-tab { padding: 10px 4px; font-size: 0.7rem; }
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .donut-container { flex-direction: column; }
-            .bar-chart { height: 150px; }
-            .gauge { width: 100px; height: 100px; }
-            .gauge-value { font-size: 1.2rem; }
-            .game-select-picks { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 480px) {
-            .app { padding: 12px; }
-            .lang-toggle { top: 10px; right: 10px; }
-            .lang-btn { padding: 6px 10px; font-size: 0.7rem; }
-            .hero { padding: 24px 16px; padding-top: 45px; }
-            .time-filter { gap: 6px; }
-            .time-filter-btn { padding: 8px 12px; font-size: 0.75rem; }
-            .parlay-slip { padding: 16px; }
-        }
-    </style>
-</head>
-<body>
-    <!-- Language Toggle -->
-    <div class="lang-toggle">
-        <button class="lang-btn active" onclick="setLanguage('en')">🇺🇸 EN</button>
-        <button class="lang-btn" onclick="setLanguage('fr')">🇫🇷 FR</button>
-    </div>
-
-    <div class="app">
-        <!-- Hero Section -->
-        <header class="hero">
-            <div class="hero-badge">
-                <span class="live-indicator"><span class="live-dot"></span> <span data-i18n="live">LIVE</span></span>
-                <span>•</span><span>PLATINUM EDITION</span>
-            </div>
-            <h1 class="hero-title">🎯 JBETS ELITE PORTAL</h1>
-            <p class="hero-signature">✨ "<span data-i18n="signature">Watch passionately. Bet Wisely!</span>" ✨</p>
-            <div class="stats-grid">
-                <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-value gold" id="statRecord">235-33</div><div class="stat-label" data-i18n="record">Record</div></div>
-                <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-value green" id="statROI">+68%</div><div class="stat-label">ROI</div></div>
-                <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-value blue" id="statBankroll">$11.5K</div><div class="stat-label" data-i18n="bankroll">Bankroll</div></div>
-                <div class="stat-card"><div class="stat-icon">🔥</div><div class="stat-value purple" id="statStreak">W3</div><div class="stat-label" data-i18n="streak">Streak</div></div>
-            </div>
-            <div class="last-updated">📅 <span data-i18n="lastUpdated">Last Updated</span>: <span id="lastUpdated">May 18, 2026 • 2:00 PM ET</span></div>
-        </header>
-
-        <!-- Navigation -->
-        <nav class="nav-container">
-            <div class="nav-tabs">
-                <button class="nav-tab active" onclick="showSection('home', this)"><span class="nav-tab-icon">🏠</span><span data-i18n="navHome">Home</span></button>
-                <button class="nav-tab" onclick="showSection('picks', this)"><span class="nav-tab-icon">🎯</span><span data-i18n="navPicks">Picks</span></button>
-                <button class="nav-tab" onclick="showSection('props', this)"><span class="nav-tab-icon">👤</span><span data-i18n="navProps">Props</span></button>
-                <button class="nav-tab" onclick="showSection('parlays', this)"><span class="nav-tab-icon">🎲</span><span data-i18n="navParlays">Parlays</span></button>
-                <button class="nav-tab" onclick="showSection('alerts', this)"><span class="nav-tab-icon">🔔</span><span data-i18n="navAlerts">Alerts</span></button>
-                <button class="nav-tab" onclick="showSection('upcoming', this)"><span class="nav-tab-icon">📅</span><span data-i18n="navUpcoming">Schedule</span></button>
-                <button class="nav-tab" onclick="showSection('stats', this)"><span class="nav-tab-icon">📊</span><span data-i18n="navStats">Stats</span></button>
-            </div>
-        </nav>
-
-        <!-- HOME Section -->
-        <section id="home" class="section active">
-            <div class="section-header">
-                <h2 class="section-title">🏠 <span data-i18n="homeTitle">Elite Dashboard</span></h2>
-                <span class="section-subtitle" data-i18n="homeSubtitle">Premium Analytics & Insights</span>
-            </div>
-            <div class="dashboard-grid">
-                <div class="chart-card">
-                    <div class="chart-card-title">🎯 <span data-i18n="overallWinRate">Overall Win Rate</span></div>
-                    <div class="gauge-container">
-                        <div class="gauge">
-                            <svg width="120" height="120" viewBox="0 0 120 120">
-                                <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
-                                <circle class="gauge-fill" cx="60" cy="60" r="50" stroke="url(#gaugeGradient)" stroke-dasharray="314" stroke-dashoffset="39"></circle>
-                                <defs><linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#FFD700"/><stop offset="100%" style="stop-color:#00D26A"/></linearGradient></defs>
-                            </svg>
-                            <div class="gauge-center"><div class="gauge-value" style="color: var(--gold);">87.7%</div><div class="gauge-label" data-i18n="winRate">Win Rate</div></div>
-                        </div>
-                        <div style="display: flex; gap: 30px; margin-top: 10px;">
-                            <div style="text-align: center;"><div style="font-size: 1.5rem; font-weight: 800; color: var(--green);">235</div><div style="font-size: 0.75rem; color: var(--text-muted);" data-i18n="wins">WINS</div></div>
-                            <div style="text-align: center;"><div style="font-size: 1.5rem; font-weight: 800; color: var(--red);">33</div><div style="font-size: 0.75rem; color: var(--text-muted);" data-i18n="losses">LOSSES</div></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="chart-card">
-                    <div class="chart-card-title">💰 <span data-i18n="roiPerformance">ROI Performance</span></div>
-                    <div class="gauge-container">
-                        <div class="gauge">
-                            <svg width="120" height="120" viewBox="0 0 120 120">
-                                <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
-                                <circle class="gauge-fill" cx="60" cy="60" r="50" stroke="var(--green)" stroke-dasharray="314" stroke-dashoffset="100"></circle>
-                            </svg>
-                            <div class="gauge-center"><div class="gauge-value" style="color: var(--green);">+68%</div><div class="gauge-label">ROI</div></div>
-                        </div>
-                        <div style="display: flex; gap: 30px; margin-top: 10px;">
-                            <div style="text-align: center;"><div style="font-size: 1.2rem; font-weight: 700; color: var(--text-secondary);">$5K</div><div style="font-size: 0.7rem; color: var(--text-muted);" data-i18n="start">START</div></div>
-                            <div style="text-align: center;"><div style="font-size: 1.2rem; font-weight: 700; color: var(--green);">$11.5K</div><div style="font-size: 0.7rem; color: var(--text-muted);" data-i18n="current">CURRENT</div></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="chart-card dashboard-wide">
-                    <div class="chart-card-title">🏆 <span data-i18n="perfBySport">Performance by Sport</span></div>
-                    <div class="bar-chart">
-                        <div class="bar-chart-item"><div class="bar-chart-bar" data-value="95%" style="height: 95%; background: linear-gradient(to top, var(--green), #00ff88);"></div><div class="bar-chart-icon">🏒</div><div class="bar-chart-label">NHL<br>38-2</div></div>
-                        <div class="bar-chart-item"><div class="bar-chart-bar" data-value="88%" style="height: 88%; background: linear-gradient(to top, var(--gold), #ffaa00);"></div><div class="bar-chart-icon">🏀</div><div class="bar-chart-label">NBA<br>96-13</div></div>
-                        <div class="bar-chart-item"><div class="bar-chart-bar" data-value="88%" style="height: 88%; background: linear-gradient(to top, var(--gold), #ffaa00);"></div><div class="bar-chart-icon">⚽</div><div class="bar-chart-label">Soccer<br>52-7</div></div>
-                        <div class="bar-chart-item"><div class="bar-chart-bar" data-value="83%" style="height: 83%; background: linear-gradient(to top, var(--blue), #60a5fa);"></div><div class="bar-chart-icon">⚾</div><div class="bar-chart-label">MLB<br>5-1</div></div>
-                        <div class="bar-chart-item"><div class="bar-chart-bar" data-value="80%" style="height: 80%; background: linear-gradient(to top, var(--cyan), #22d3ee);"></div><div class="bar-chart-icon">🎾</div><div class="bar-chart-label">Tennis<br>4-1</div></div>
-                        <div class="bar-chart-item"><div class="bar-chart-bar" data-value="87%" style="height: 87%; background: linear-gradient(to top, var(--purple), #a78bfa);"></div><div class="bar-chart-icon">👤</div><div class="bar-chart-label">Props<br>47-7</div></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PICKS Section -->
-        <section id="picks" class="section">
-            <div class="section-header"><h2 class="section-title">🎯 <span data-i18n="picksTitle">Today's Elite Picks</span></h2><span class="section-subtitle" data-i18n="picksSubtitle">Top 5 High-Confidence Selections</span></div>
-            <div id="picksContainer"></div>
-        </section>
-
-        <!-- PROPS Section -->
-        <section id="props" class="section">
-            <div class="section-header"><h2 class="section-title">👤 <span data-i18n="propsTitle">Player Props</span></h2><span class="section-subtitle" data-i18n="propsSubtitle">Top 10 Statistical Plays</span></div>
-            <div class="props-grid" id="propsContainer"></div>
-        </section>
-
-        <!-- PARLAYS Section — INTERACTIVE BUILDER -->
+<!-- ========== PARLAY BUILDER TAB ========== -->
         <section id="parlays" class="section">
-            <div class="section-header">
-                <h2 class="section-title">🎲 <span data-i18n="parlaysTitle">Parlay Builder</span></h2>
-                <span class="section-subtitle" data-i18n="parlaysSubtitle">Build Your Custom Parlay</span>
-            </div>
-
-            <div class="parlay-builder">
-                <!-- Left: Available Games -->
-                <div class="games-section">
-                    <!-- Time Filter Tabs -->
-                    <div class="time-filter">
-                        <button class="time-filter-btn active" onclick="filterByTime('4h', this)">
-                            🔴 <span data-i18n="next4Hours">Next 4 Hours</span>
-                            <span class="count" id="count4h">3</span>
-                        </button>
-                        <button class="time-filter-btn" onclick="filterByTime('48h', this)">
-                            🟠 <span data-i18n="next48Hours">Next 48 Hours</span>
-                            <span class="count" id="count48h">12</span>
-                        </button>
-                        <button class="time-filter-btn" onclick="filterByTime('7d', this)">
-                            🔵 <span data-i18n="next7Days">Next 7 Days</span>
-                            <span class="count" id="count7d">28</span>
-                        </button>
-                    </div>
-
-                    <!-- Games List -->
-                    <div class="games-list" id="gamesListContainer">
-                        <!-- Dynamically populated -->
-                    </div>
-
-                    <!-- Recommended Parlays -->
-                    <div class="recommended-section">
-                        <div class="recommended-title">⭐ <span data-i18n="recommendedParlays">JBETS Recommended Parlays</span></div>
-                        <div id="recommendedParlays"></div>
-                    </div>
-                </div>
-
-                <!-- Right: Parlay Slip -->
-                <div class="parlay-slip">
-                    <div class="parlay-slip-header">
-                        <div class="parlay-slip-title">
-                            🎫 <span data-i18n="yourParlay">Your Parlay</span>
-                            <span class="parlay-slip-count" id="parlayCount">0</span>
-                        </div>
-                        <button class="parlay-slip-clear" onclick="clearParlay()" data-i18n="clearAll">Clear All</button>
-                    </div>
-
-                    <!-- Parlay Legs -->
-                    <div class="parlay-legs-list" id="parlayLegsContainer">
-                        <div class="parlay-slip-empty">
-                            <div class="parlay-slip-empty-icon">🎲</div>
-                            <div class="parlay-slip-empty-text" data-i18n="selectPicks">Select picks from the left to build your parlay</div>
-                        </div>
-                    </div>
-
-                    <!-- Summary -->
-                    <div class="parlay-summary" id="parlaySummary" style="display: none;">
-                        <div class="parlay-summary-row">
-                            <span class="parlay-summary-label" data-i18n="legs">Legs</span>
-                            <span class="parlay-summary-value" id="summaryLegs">0</span>
-                        </div>
-                        <div class="parlay-summary-row">
-                            <span class="parlay-summary-label" data-i18n="totalOdds">Total Odds</span>
-                            <span class="parlay-summary-value big" id="summaryOdds">+000</span>
-                        </div>
-                        <div class="parlay-summary-row">
-                            <span class="parlay-summary-label" data-i18n="potentialPayout">Potential Payout ($100)</span>
-                            <span class="parlay-summary-value green" id="summaryPayout">$0</span>
-                        </div>
-                    </div>
-
-                    <!-- Rules -->
-                    <div class="parlay-rules">
-                        <div class="parlay-rules-title">📋 <span data-i18n="parlayRules">Parlay Rules</span></div>
-                        <ul class="parlay-rules-list">
-                            <li><span class="rule-check" id="rule1">✓</span> <span data-i18n="rule2Legs">Minimum 2 legs required</span></li>
-                            <li><span class="rule-check" id="rule2">✓</span> <span data-i18n="rule10Legs">Maximum 10 legs allowed</span></li>
-                            <li><span class="rule-check" id="rule3">✓</span> <span data-i18n="ruleSameGame">No duplicate games</span></li>
-                            <li><span class="rule-check" id="rule4">✓</span> <span data-i18n="ruleTimeWindow">All games within selected time window</span></li>
-                        </ul>
-                    </div>
-
-                    <!-- Place Button -->
-                    <button class="parlay-place-btn" id="placeParlayBtn" onclick="placeParlay()" disabled>
-                        <span data-i18n="buildParlay">BUILD PARLAY</span> 🎲
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- ALERTS Section -->
-        <section id="alerts" class="section">
-            <div class="section-header"><h2 class="section-title">🔔 <span data-i18n="alertsTitle">Alerts & Notifications</span></h2><span class="section-subtitle" data-i18n="alertsSubtitle">Important Updates</span></div>
-            <div id="alertsContainer"></div>
-        </section>
-
-        <!-- UPCOMING Section -->
-        <section id="upcoming" class="section">
-            <div class="section-header"><h2 class="section-title">📅 <span data-i18n="upcomingTitle">Upcoming Games</span></h2><span class="section-subtitle" data-i18n="upcomingSubtitle">48-Hour Schedule</span></div>
-            <div id="upcomingContainer"></div>
-        </section>
-
-        <!-- STATS Section -->
-        <section id="stats" class="section">
-            <div class="section-header"><h2 class="section-title">📊 <span data-i18n="statsTitle">Performance Analytics</span></h2><span class="section-subtitle" data-i18n="statsSubtitle">Historical Win Rates</span></div>
-            <div class="stats-container">
-                <table class="stats-table">
-                    <thead><tr><th data-i18n="sport">Sport</th><th data-i18n="record">Record</th><th data-i18n="winRate">Win Rate</th><th data-i18n="performance">Performance</th><th data-i18n="status">Status</th></tr></thead>
-                    <tbody id="statsContainer"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p class="footer-brand">💎 JBETS Decision Intelligence — High Class Platinum Edition</p>
-            <p class="footer-signature">✨ "<span data-i18n="signature">Watch passionately. Bet Wisely!</span>" ✨</p>
-            <div class="footer-meta">
-                <span>📱 <span data-i18n="adaptive">Adaptive Design</span></span>
-                <span>🔄 <span data-i18n="updatedDaily">Updated Daily</span></span>
-                <span>🎯 270+ <span data-i18n="predictions">Predictions</span></span>
-                <span>🏆 87%+ <span data-i18n="winRateShort">Win Rate</span></span>
-            </div>
-        </footer>
-    </div>
-
-    <script>
-        // ═══════════════════════════════════════════════════════════════
-        // TRANSLATIONS
-        // ═══════════════════════════════════════════════════════════════
-        const translations = {
-            en: {
-                live: "LIVE", signature: "Watch passionately. Bet Wisely!",
-                record: "Record", bankroll: "Bankroll", streak: "Streak", lastUpdated: "Last Updated",
-                navHome: "Home", navPicks: "Picks", navProps: "Props", navParlays: "Parlays",
-                navAlerts: "Alerts", navUpcoming: "Schedule", navStats: "Stats",
-                homeTitle: "Elite Dashboard", homeSubtitle: "Premium Analytics & Insights",
-                overallWinRate: "Overall Win Rate", winRate: "Win Rate", wins: "WINS", losses: "LOSSES",
-                roiPerformance: "ROI Performance", start: "START", current: "CURRENT",
-                perfBySport: "Performance by Sport",
-                picksTitle: "Today's Elite Picks", picksSubtitle: "Top 5 High-Confidence Selections",
-                propsTitle: "Player Props", propsSubtitle: "Top 10 Statistical Plays",
-                parlaysTitle: "Parlay Builder", parlaysSubtitle: "Build Your Custom Parlay",
-                next4Hours: "Next 4 Hours", next48Hours: "Next 48 Hours", next7Days: "Next 7 Days",
-                yourParlay: "Your Parlay", clearAll: "Clear All", selectPicks: "Select picks from the left to build your parlay",
-                legs: "Legs", totalOdds: "Total Odds", potentialPayout: "Potential Payout ($100)",
-                parlayRules: "Parlay Rules", rule2Legs: "Minimum 2 legs required", rule10Legs: "Maximum 10 legs allowed",
-                ruleSameGame: "No duplicate games", ruleTimeWindow: "All games within selected time window",
-                buildParlay: "BUILD PARLAY", recommendedParlays: "JBETS Recommended Parlays",
-                alertsTitle: "Alerts & Notifications", alertsSubtitle: "Important Updates",
-                upcomingTitle: "Upcoming Games", upcomingSubtitle: "48-Hour Schedule",
-                statsTitle: "Performance Analytics", statsSubtitle: "Historical Win Rates",
-                sport: "Sport", performance: "Performance", status: "Status",
-                adaptive: "Adaptive Design", updatedDaily: "Updated Daily", predictions: "Predictions", winRateShort: "Win Rate",
-                pick: "Pick", odds: "Odds", confidence: "Confidence",
-                today: "TODAY", tomorrow: "TOMORROW", combinedConf: "Combined Confidence",
-                starting: "Starting", moneyline: "Moneyline", spread: "Spread", total: "Total",
-                parlaySuccess: "PARLAY SAVED! ✅", useQuickAdd: "Use quick-add button to apply"
-            },
-            fr: {
-                live: "EN DIRECT", signature: "Regardez passionnément. Pariez sagement!",
-                record: "Bilan", bankroll: "Capital", streak: "Série", lastUpdated: "Dernière MAJ",
-                navHome: "Accueil", navPicks: "Pronostics", navProps: "Props", navParlays: "Combinés",
-                navAlerts: "Alertes", navUpcoming: "Calendrier", navStats: "Stats",
-                homeTitle: "Tableau Élite", homeSubtitle: "Analyses Premium",
-                overallWinRate: "Taux de Réussite", winRate: "% Victoires", wins: "GAGNÉS", losses: "PERDUS",
-                roiPerformance: "Performance ROI", start: "DÉPART", current: "ACTUEL",
-                perfBySport: "Performance par Sport",
-                picksTitle: "Pronostics Élite", picksSubtitle: "Top 5 Haute Confiance",
-                propsTitle: "Props Joueurs", propsSubtitle: "Top 10 Paris Statistiques",
-                parlaysTitle: "Constructeur Combinés", parlaysSubtitle: "Créez Votre Combiné",
-                next4Hours: "4 Prochaines Heures", next48Hours: "48 Prochaines Heures", next7Days: "7 Prochains Jours",
-                yourParlay: "Votre Combiné", clearAll: "Tout Effacer", selectPicks: "Sélectionnez des paris à gauche",
-                legs: "Sélections", totalOdds: "Cotes Totales", potentialPayout: "Gain Potentiel (100$)",
-                parlayRules: "Règles du Combiné", rule2Legs: "Minimum 2 sélections", rule10Legs: "Maximum 10 sélections",
-                ruleSameGame: "Pas de doublons", ruleTimeWindow: "Tous les matchs dans la fenêtre",
-                buildParlay: "CRÉER COMBINÉ", recommendedParlays: "Combinés Recommandés JBETS",
-                alertsTitle: "Alertes & Notifications", alertsSubtitle: "Mises à Jour",
-                upcomingTitle: "Matchs à Venir", upcomingSubtitle: "Calendrier 48h",
-                statsTitle: "Analyses Performance", statsSubtitle: "Historique par Sport",
-                sport: "Sport", performance: "Performance", status: "Statut",
-                adaptive: "Design Adaptatif", updatedDaily: "MAJ Quotidienne", predictions: "Prédictions", winRateShort: "Victoires",
-                pick: "Pari", odds: "Cotes", confidence: "Confiance",
-                today: "AUJOURD'HUI", tomorrow: "DEMAIN", combinedConf: "Confiance Combinée",
-                starting: "Début", moneyline: "Vainqueur", spread: "Handicap", total: "Total",
-                parlaySuccess: "COMBINÉ SAUVÉ! ✅", useQuickAdd: "Utilisez le bouton pour appliquer"
-            }
-        };
-
-        let currentLang = localStorage.getItem('jbetsLang') || 'en';
-        let currentTimeFilter = '4h';
-        let parlayLegs = [];
-        let availableGames = [];
-
-        function t(key) { return translations[currentLang][key] || key; }
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('jbetsLang', lang);
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.lang-btn[onclick="setLanguage('${lang}')"]`).classList.add('active');
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) el.textContent = translations[lang][key];
-            });
-            loadData();
-        }
-
-        function showSection(id, btn) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        // ═══════════════════════════════════════════════════════════════
-        // PARLAY BUILDER LOGIC
-        // ═══════════════════════════════════════════════════════════════
-        function filterByTime(filter, btn) {
-            currentTimeFilter = filter;
-            document.querySelectorAll('.time-filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderGames();
-        }
-
-        function renderGames() {
-            const container = document.getElementById('gamesListContainer');
-            const filteredGames = availableGames.filter(g => {
-                if (currentTimeFilter === '4h') return g.timeCategory === '4h';
-                if (currentTimeFilter === '48h') return g.timeCategory === '4h' || g.timeCategory === '48h';
-                return true; // 7d shows all
-            });
-
-            if (filteredGames.length === 0) {
-                container.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-muted);">
-                    <div style="font-size: 2rem; margin-bottom: 10px;">📭</div>
-                    <div>No games in this time window</div>
-                </div>`;
-                return;
-            }
-
-            container.innerHTML = filteredGames.map(game => {
-                const isSelected = parlayLegs.some(leg => leg.gameId === game.id);
-                const selectedPick = parlayLegs.find(leg => leg.gameId === game.id);
-                
-                return `
-                    <div class="game-select-card ${isSelected ? 'selected' : ''}" data-game-id="${game.id}">
-                        <div class="game-select-header">
-                            <div class="game-select-sport">
-                                <span class="game-select-sport-icon">${game.sport}</span>
-                                <span class="game-select-league">${game.league}</span>
-                            </div>
-                            <div class="game-select-time">
-                                <div class="game-select-time-value">${game.time}</div>
-                                <div class="game-select-time-date">${game.date}</div>
-                                <span class="game-select-time-tag time-tag-${game.timeCategory}">${game.timeCategory.toUpperCase()}</span>
-                            </div>
-                        </div>
-                        <div class="game-select-matchup">${game.away} @ ${game.home}</div>
-                        <div class="game-select-picks">
-                            ${game.picks.map(pick => `
-                                <div class="pick-option ${selectedPick && selectedPick.pickId === pick.id ? 'selected' : ''}" 
-                                     onclick="selectPick('${game.id}', '${pick.id}', '${game.away} @ ${game.home}', '${pick.label}', '${pick.odds}', '${game.sport}')">
-                                    <div class="pick-option-label">${pick.type}</div>
-                                    <div class="pick-option-value">${pick.label}</div>
-                                    <div class="pick-option-odds">${pick.odds}</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function selectPick(gameId, pickId, matchup, pick, odds, sport) {
-            const existingIndex = parlayLegs.findIndex(leg => leg.gameId === gameId);
+            <h2 class="section-title">🎰 Parlay Builder</h2>
             
-            if (existingIndex >= 0) {
-                // If same pick, remove it
-                if (parlayLegs[existingIndex].pickId === pickId) {
-                    parlayLegs.splice(existingIndex, 1);
-                } else {
-                    // Different pick on same game, replace
-                    parlayLegs[existingIndex] = { gameId, pickId, matchup, pick, odds, sport };
-                }
+            <!-- PARLAY STATS -->
+            <div class="card" style="margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-around; text-align: center;">
+                    <div>
+                        <div style="font-size: 1.5rem; color: var(--gold);">12-3</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Record</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 1.5rem; color: var(--green);">80%</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Win Rate</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 1.5rem; color: var(--cyan);">+$1,420</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Profit</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- RISK LEGEND -->
+            <div class="card" style="margin-bottom: 15px;">
+                <div style="font-weight: 600; margin-bottom: 10px; color: var(--gold);">📊 Risk Level Guide</div>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                    <div class="risk-badge risk-low">🟢 LOW RISK (60%+)</div>
+                    <div class="risk-badge risk-medium">🟡 MEDIUM (40-59%)</div>
+                    <div class="risk-badge risk-high">🔴 HIGH RISK (&lt;40%)</div>
+                </div>
+            </div>
+            
+            <!-- GAME SELECTION -->
+            <div class="card card-premium">
+                <div style="font-weight: 600; margin-bottom: 15px; color: var(--gold);">
+                    📅 Select Games (Next 48 Hours) — Click to add to parlay
+                </div>
+                
+                <!-- MONDAY GAMES -->
+                <div class="parlay-day-header">🔴 Monday, May 18</div>
+                <div class="parlay-games-grid" id="mondayGames">
+                    <!-- Generated by JS -->
+                </div>
+                
+                <!-- TUESDAY GAMES -->
+                <div class="parlay-day-header" style="margin-top: 15px;">📅 Tuesday, May 19</div>
+                <div class="parlay-games-grid" id="tuesdayGames">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+            
+            <!-- PARLAY SLIP (Selected Games) -->
+            <div class="card card-premium" style="margin-top: 15px; border: 2px solid var(--gold);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span style="font-weight: 600; color: var(--gold);">🎫 YOUR PARLAY SLIP</span>
+                    <button id="clearParlayBtn" class="parlay-clear-btn">🗑️ Clear All</button>
+                </div>
+                
+                <div id="parlaySlip">
+                    <div class="parlay-empty">👆 Tap games above to add them to your parlay</div>
+                </div>
+                
+                <!-- PARLAY SUMMARY -->
+                <div id="parlaySummary" class="parlay-summary" style="display: none;">
+                    <div class="parlay-summary-row">
+                        <span>Legs:</span>
+                        <span id="parlayLegs">0</span>
+                    </div>
+                    <div class="parlay-summary-row">
+                        <span>Combined Odds:</span>
+                        <span id="parlayOdds" style="font-weight: bold; color: var(--gold);">—</span>
+                    </div>
+                    <div class="parlay-summary-row">
+                        <span>Hit Probability:</span>
+                        <span id="parlayProb">—</span>
+                    </div>
+                    <div class="parlay-summary-row">
+                        <span>Risk Level:</span>
+                        <span id="parlayRisk">—</span>
+                    </div>
+                    <div class="parlay-summary-row" style="border-top: 1px solid var(--gold); padding-top: 10px; margin-top: 10px;">
+                        <span>$25 Bet Pays:</span>
+                        <span id="parlayPayout" style="font-size: 1.3rem; font-weight: bold; color: var(--green);">—</span>
+                    </div>
+                </div>
+                
+                <!-- STAKE INPUT -->
+                <div id="stakeSection" style="display: none; margin-top: 15px;">
+                    <label style="font-size: 0.85rem; color: var(--text-muted);">💵 Enter Your Stake:</label>
+                    <div style="display: flex; gap: 10px; margin-top: 8px;">
+                        <input type="number" id="stakeInput" value="25" min="1" max="1000" 
+                               style="flex: 1; padding: 12px; border-radius: 8px; border: 2px solid var(--gold); 
+                                      background: var(--bg-secondary); color: var(--text); font-size: 1.1rem;">
+                        <button id="calcPayoutBtn" class="parlay-calc-btn">Calculate</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SUGGESTED PARLAYS -->
+            <div class="card" style="margin-top: 15px;">
+                <div style="font-weight: 600; margin-bottom: 15px; color: var(--gold);">💡 AI Suggested Parlays</div>
+                <div id="suggestedParlays">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+        </section>
+🎨 ADD THESE STYLES (inside <style> tag):
+        /* ========== PARLAY BUILDER STYLES ========== */
+        .parlay-day-header {
+            background: rgba(255,215,0,0.15);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+        
+        .parlay-games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 10px;
+        }
+        
+        .parlay-game-card {
+            background: rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .parlay-game-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,215,0,0.2);
+        }
+        
+        .parlay-game-card.selected {
+            border-color: var(--green);
+            background: rgba(0,210,106,0.15);
+            box-shadow: 0 0 15px rgba(0,210,106,0.3);
+        }
+        
+        .parlay-game-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--green);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .parlay-game-sport { font-size: 1.3rem; }
+        .parlay-game-matchup { font-weight: 600; font-size: 0.9rem; margin: 5px 0; }
+        .parlay-game-pick { color: var(--cyan); font-size: 0.85rem; }
+        .parlay-game-odds { color: var(--gold); font-weight: bold; }
+        .parlay-game-time { color: var(--text-muted); font-size: 0.75rem; }
+        .parlay-game-conf {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .conf-high { background: rgba(0,210,106,0.2); color: var(--green); }
+        .conf-med { background: rgba(255,215,0,0.2); color: var(--gold); }
+        .conf-low { background: rgba(255,71,87,0.2); color: var(--red); }
+        
+        /* Risk Badges */
+        .risk-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .risk-low { background: rgba(0,210,106,0.2); color: var(--green); border: 1px solid var(--green); }
+        .risk-medium { background: rgba(255,215,0,0.2); color: var(--gold); border: 1px solid var(--gold); }
+        .risk-high { background: rgba(255,71,87,0.2); color: var(--red); border: 1px solid var(--red); }
+        
+        /* Parlay Slip */
+        .parlay-empty {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        
+        .parlay-slip-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 4px solid var(--green);
+        }
+        
+        .parlay-slip-item .remove-btn {
+            background: var(--red);
+            border: none;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+        
+        .parlay-slip-item .remove-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Parlay Summary */
+        .parlay-summary {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid var(--gold);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .parlay-summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Buttons */
+        .parlay-clear-btn {
+            background: transparent;
+            border: 1px solid var(--red);
+            color: var(--red);
+            padding: 5px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .parlay-clear-btn:hover {
+            background: var(--red);
+            color: white;
+        }
+        
+        .parlay-calc-btn {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border: none;
+            color: black;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .parlay-calc-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.4);
+        }
+        
+        /* Suggested Parlays */
+        .suggested-parlay {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .suggested-parlay:hover {
+            border-color: var(--gold);
+            background: rgba(255,215,0,0.05);
+        }
+        
+        .suggested-parlay-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .suggested-parlay-legs {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+📜 ADD THIS JAVASCRIPT (inside <script> tag):
+        // ========== PARLAY BUILDER DATA & LOGIC ==========
+        const parlayGames = {
+            monday: [
+                { id: 'mtl-buf', sport: '🏒', matchup: 'MTL @ BUF', pick: 'MTL ML', odds: -115, conf: 72, time: '7:30 PM', decOdds: 1.87 },
+                { id: 'sas-okc', sport: '🏀', matchup: 'SAS @ OKC', pick: 'OKC -6.5', odds: -110, conf: 75, time: '8:30 PM', decOdds: 1.91 },
+                { id: 'tor-nyy', sport: '⚾', matchup: 'TOR @ NYY', pick: 'NYY ML', odds: -135, conf: 68, time: '7:05 PM', decOdds: 1.74 },
+                { id: 'lad-sd', sport: '⚾', matchup: 'LAD @ SD', pick: 'LAD ML', odds: -160, conf: 71, time: '9:40 PM', decOdds: 1.63 },
+                { id: 'sf-ari', sport: '⚾', matchup: 'SF @ ARI', pick: 'ARI ML', odds: -145, conf: 65, time: '9:40 PM', decOdds: 1.69 },
+                { id: 'cle-det', sport: '⚾', matchup: 'CLE @ DET', pick: 'CLE ML', odds: -120, conf: 62, time: '6:40 PM', decOdds: 1.83 },
+                { id: 'bal-tb', sport: '⚾', matchup: 'BAL @ TB', pick: 'TB ML', odds: -105, conf: 58, time: '6:50 PM', decOdds: 1.95 },
+                { id: 'bos-kc', sport: '⚾', matchup: 'BOS @ KC', pick: 'BOS ML', odds: +110, conf: 55, time: '7:40 PM', decOdds: 2.10 }
+            ],
+            tuesday: [
+                { id: 'nyk-cle', sport: '🏀', matchup: 'NYK vs CLE', pick: 'NYK ML', odds: +105, conf: 52, time: '8:00 PM', decOdds: 2.05 },
+                { id: 'atl-mia', sport: '⚾', matchup: 'ATL @ MIA', pick: 'ATL ML', odds: -150, conf: 69, time: '1:10 PM', decOdds: 1.67 },
+                { id: 'mil-chc', sport: '⚾', matchup: 'MIL @ CHC', pick: 'CHC ML', odds: -125, conf: 64, time: '4:40 PM', decOdds: 1.80 },
+                { id: 'hou-min', sport: '⚾', matchup: 'HOU @ MIN', pick: 'MIN ML', odds: +105, conf: 56, time: '4:40 PM', decOdds: 2.05 },
+                { id: 'tex-col', sport: '⚾', matchup: 'TEX @ COL', pick: 'TEX ML', odds: -130, conf: 66, time: '5:40 PM', decOdds: 1.77 },
+                { id: 'atl-lag', sport: '⚽', matchup: 'ATL vs LA Galaxy', pick: 'ATL ML', odds: +130, conf: 48, time: '4:30 PM', decOdds: 2.30 },
+                { id: 'sea-sd', sport: '⚽', matchup: 'Seattle vs San Diego', pick: 'SEA ML', odds: -180, conf: 73, time: '7:30 PM', decOdds: 1.56 },
+                { id: 'gua-tig', sport: '⚽', matchup: 'Guadalajara vs Tigres', pick: 'Tigres ML', odds: +120, conf: 50, time: '6:07 PM', decOdds: 2.20 }
+            ]
+        };
+        
+        let selectedParlayGames = [];
+        
+        // Generate game cards
+        function generateParlayGames() {
+            const mondayContainer = document.getElementById('mondayGames');
+            const tuesdayContainer = document.getElementById('tuesdayGames');
+            
+            mondayContainer.innerHTML = parlayGames.monday.map(g => createGameCard(g)).join('');
+            tuesdayContainer.innerHTML = parlayGames.tuesday.map(g => createGameCard(g)).join('');
+            
+            // Add click listeners
+            document.querySelectorAll('.parlay-game-card').forEach(card => {
+                card.addEventListener('click', () => toggleGameSelection(card.dataset.id));
+            });
+        }
+        
+        function createGameCard(game) {
+            const confClass = game.conf >= 70 ? 'conf-high' : game.conf >= 60 ? 'conf-med' : 'conf-low';
+            const oddsDisplay = game.odds > 0 ? `+${game.odds}` : game.odds;
+            
+            return `
+                <div class="parlay-game-card" data-id="${game.id}">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <span class="parlay-game-sport">${game.sport}</span>
+                            <span class="parlay-game-time">${game.time}</span>
+                        </div>
+                        <span class="parlay-game-odds">${oddsDisplay}</span>
+                    </div>
+                    <div class="parlay-game-matchup">${game.matchup}</div>
+                    <div class="parlay-game-pick">Pick: ${game.pick}</div>
+                    <span class="parlay-game-conf ${confClass}">${game.conf}% conf</span>
+                </div>
+            `;
+        }
+        
+        function toggleGameSelection(gameId) {
+            const allGames = [...parlayGames.monday, ...parlayGames.tuesday];
+            const game = allGames.find(g => g.id === gameId);
+            if (!game) return;
+            
+            const card = document.querySelector(`.parlay-game-card[data-id="${gameId}"]`);
+            const idx = selectedParlayGames.findIndex(g => g.id === gameId);
+            
+            if (idx > -1) {
+                // Remove from selection
+                selectedParlayGames.splice(idx, 1);
+                card.classList.remove('selected');
             } else {
-                // New game
-                if (parlayLegs.length >= 10) {
-                    alert(t('rule10Legs'));
+                // Add to selection (max 8 legs)
+                if (selectedParlayGames.length >= 8) {
+                    alert('Maximum 8 legs allowed per parlay!');
                     return;
                 }
-                parlayLegs.push({ gameId, pickId, matchup, pick, odds, sport });
+                selectedParlayGames.push(game);
+                card.classList.add('selected');
             }
             
             updateParlaySlip();
-            renderGames();
         }
-
-        function removeLeg(gameId) {
-            parlayLegs = parlayLegs.filter(leg => leg.gameId !== gameId);
-            updateParlaySlip();
-            renderGames();
-        }
-
-        function clearParlay() {
-            parlayLegs = [];
-            updateParlaySlip();
-            renderGames();
-        }
-
+        
         function updateParlaySlip() {
-            const container = document.getElementById('parlayLegsContainer');
-            const countEl = document.getElementById('parlayCount');
-            const summaryEl = document.getElementById('parlaySummary');
-            const btnEl = document.getElementById('placeParlayBtn');
+            const slip = document.getElementById('parlaySlip');
+            const summary = document.getElementById('parlaySummary');
+            const stakeSection = document.getElementById('stakeSection');
             
-            countEl.textContent = parlayLegs.length;
-            
-            if (parlayLegs.length === 0) {
-                container.innerHTML = `<div class="parlay-slip-empty">
-                    <div class="parlay-slip-empty-icon">🎲</div>
-                    <div class="parlay-slip-empty-text" data-i18n="selectPicks">${t('selectPicks')}</div>
-                </div>`;
-                summaryEl.style.display = 'none';
-                btnEl.disabled = true;
+            if (selectedParlayGames.length === 0) {
+                slip.innerHTML = '<div class="parlay-empty">👆 Tap games above to add them to your parlay</div>';
+                summary.style.display = 'none';
+                stakeSection.style.display = 'none';
                 return;
             }
-
-            container.innerHTML = parlayLegs.map(leg => `
-                <div class="parlay-leg-item">
-                    <div class="parlay-leg-info">
-                        <div class="parlay-leg-matchup">${leg.sport} ${leg.matchup}</div>
-                        <div class="parlay-leg-pick">${leg.pick}</div>
+            
+            // Build slip items
+            slip.innerHTML = selectedParlayGames.map(g => `
+                <div class="parlay-slip-item">
+                    <div>
+                        <span style="font-size: 1.1rem;">${g.sport}</span>
+                        <span style="font-weight: 600; margin-left: 8px;">${g.matchup}</span>
+                        <div style="font-size: 0.85rem; color: var(--cyan);">${g.pick} (${g.odds > 0 ? '+' : ''}${g.odds})</div>
                     </div>
-                    <span class="parlay-leg-odds">${leg.odds}</span>
-                    <button class="parlay-leg-remove" onclick="removeLeg('${leg.gameId}')">×</button>
+                    <button class="remove-btn" onclick="removeFromParlay('${g.id}')">✕</button>
                 </div>
             `).join('');
-
-            // Calculate odds
-            const totalOdds = calculateParlayOdds(parlayLegs.map(l => l.odds));
-            const payout = calculatePayout(totalOdds, 100);
             
-            document.getElementById('summaryLegs').textContent = parlayLegs.length;
-            document.getElementById('summaryOdds').textContent = totalOdds;
-            document.getElementById('summaryPayout').textContent = '$' + payout.toFixed(2);
-            summaryEl.style.display = 'block';
-
-            // Update rules
-            const rule1 = parlayLegs.length >= 2;
-            const rule2 = parlayLegs.length <= 10;
-            document.getElementById('rule1').textContent = rule1 ? '✓' : '✗';
-            document.getElementById('rule1').className = rule1 ? 'rule-check' : 'rule-x';
-            document.getElementById('rule2').textContent = rule2 ? '✓' : '✗';
-            document.getElementById('rule2').className = rule2 ? 'rule-check' : 'rule-x';
-
-            btnEl.disabled = !(rule1 && rule2);
-        }
-
-        function calculateParlayOdds(oddsArray) {
-            let decimalOdds = 1;
-            oddsArray.forEach(odds => {
-                const num = parseInt(odds);
-                if (num > 0) {
-                    decimalOdds *= (num / 100) + 1;
-                } else {
-                    decimalOdds *= (100 / Math.abs(num)) + 1;
-                }
-            });
+            // Calculate combined odds and probability
+            const combinedDecOdds = selectedParlayGames.reduce((acc, g) => acc * g.decOdds, 1);
+            const combinedProb = selectedParlayGames.reduce((acc, g) => acc * (g.conf / 100), 1) * 100;
+            const americanOdds = combinedDecOdds >= 2 
+                ? `+${Math.round((combinedDecOdds - 1) * 100)}`
+                : `-${Math.round(100 / (combinedDecOdds - 1))}`;
             
-            // Convert back to American
-            if (decimalOdds >= 2) {
-                return '+' + Math.round((decimalOdds - 1) * 100);
+            // Determine risk level
+            let riskLevel, riskClass;
+            if (combinedProb >= 60) {
+                riskLevel = '🟢 LOW RISK';
+                riskClass = 'risk-low';
+            } else if (combinedProb >= 40) {
+                riskLevel = '🟡 MEDIUM RISK';
+                riskClass = 'risk-medium';
             } else {
-                return '-' + Math.round(100 / (decimalOdds - 1));
+                riskLevel = '🔴 HIGH RISK';
+                riskClass = 'risk-high';
             }
-        }
-
-        function calculatePayout(americanOdds, stake) {
-            const num = parseInt(americanOdds);
-            if (num > 0) {
-                return stake + (stake * num / 100);
-            } else {
-                return stake + (stake * 100 / Math.abs(num));
-            }
-        }
-
-        function placeParlay() {
-            const btn = document.getElementById('placeParlayBtn');
-            btn.classList.add('success');
-            btn.innerHTML = `${t('parlaySuccess')}`;
             
-            setTimeout(() => {
-                btn.classList.remove('success');
-                btn.innerHTML = `<span data-i18n="buildParlay">${t('buildParlay')}</span> 🎲`;
-            }, 2000);
+            // Update summary
+            document.getElementById('parlayLegs').textContent = selectedParlayGames.length;
+            document.getElementById('parlayOdds').textContent = americanOdds;
+            document.getElementById('parlayProb').textContent = `${combinedProb.toFixed(1)}%`;
+            document.getElementById('parlayRisk').innerHTML = `<span class="risk-badge ${riskClass}">${riskLevel}</span>`;
+            
+            const stake = parseFloat(document.getElementById('stakeInput').value) || 25;
+            const payout = (stake * combinedDecOdds).toFixed(2);
+            document.getElementById('parlayPayout').textContent = `$${payout}`;
+            
+            summary.style.display = 'block';
+            stakeSection.style.display = 'block';
         }
-
-        function loadRecommendedParlay(legs) {
-            clearParlay();
-            legs.forEach(leg => {
-                const game = availableGames.find(g => g.id === leg.gameId);
-                if (game) {
-                    const pick = game.picks.find(p => p.id === leg.pickId);
-                    if (pick) {
-                        parlayLegs.push({
-                            gameId: leg.gameId,
-                            pickId: leg.pickId,
-                            matchup: `${game.away} @ ${game.home}`,
-                            pick: pick.label,
-                            odds: pick.odds,
-                            sport: game.sport
-                        });
-                    }
-                }
+        
+        function removeFromParlay(gameId) {
+            const card = document.querySelector(`.parlay-game-card[data-id="${gameId}"]`);
+            if (card) card.classList.remove('selected');
+            
+            selectedParlayGames = selectedParlayGames.filter(g => g.id !== gameId);
+            updateParlaySlip();
+        }
+        
+        function clearParlay() {
+            selectedParlayGames = [];
+            document.querySelectorAll('.parlay-game-card.selected').forEach(card => {
+                card.classList.remove('selected');
             });
             updateParlaySlip();
-            renderGames();
         }
-
-        // ═══════════════════════════════════════════════════════════════
-        // DATA LOADING
-        // ═══════════════════════════════════════════════════════════════
-        async function loadData() {
-            try {
-                const response = await fetch('data.json?' + Date.now());
-                const data = await response.json();
-                renderAll(data);
-            } catch (e) {
-                renderAll(getSampleData());
-            }
-        }
-
-        function renderAll(data) {
-            document.getElementById('lastUpdated').textContent = data.lastUpdated;
-            document.getElementById('statRecord').textContent = data.overall.record.split(' ')[0];
-            document.getElementById('statROI').textContent = data.overall.roi;
-            document.getElementById('statBankroll').textContent = data.overall.bankroll;
-            document.getElementById('statStreak').textContent = data.overall.streak;
+        
+        // Generate suggested parlays
+        function generateSuggestedParlays() {
+            const container = document.getElementById('suggestedParlays');
             
-            availableGames = data.parlayGames || [];
-            document.getElementById('count4h').textContent = availableGames.filter(g => g.timeCategory === '4h').length;
-            document.getElementById('count48h').textContent = availableGames.filter(g => g.timeCategory === '4h' || g.timeCategory === '48h').length;
-            document.getElementById('count7d').textContent = availableGames.length;
+            const suggestions = [
+                {
+                    name: '🔥 HOT STREAK SPECIAL',
+                    games: ['MTL ML', 'OKC -6.5', 'LAD ML'],
+                    odds: '+285',
+                    prob: '38.5%',
+                    risk: 'risk-medium',
+                    riskLabel: '🟡 MEDIUM'
+                },
+                {
+                    name: '💰 VALUE PLAY',
+                    games: ['NYY ML', 'ATL ML', 'SEA ML'],
+                    odds: '+195',
+                    prob: '46.2%',
+                    risk: 'risk-medium',
+                    riskLabel: '🟡 MEDIUM'
+                },
+                {
+                    name: '🛡️ SAFE BET',
+                    games: ['OKC -6.5', 'LAD ML'],
+                    odds: '+145',
+                    prob: '53.3%',
+                    risk: 'risk-low',
+                    riskLabel: '🟢 LOW'
+                },
+                {
+                    name: '🎲 LONGSHOT',
+                    games: ['MTL ML', 'NYK ML', 'BOS ML', 'Tigres ML'],
+                    odds: '+1250',
+                    prob: '19.4%',
+                    risk: 'risk-high',
+                    riskLabel: '🔴 HIGH'
+                }
+            ];
             
-            renderPicks(data.picks);
-            renderProps(data.props);
-            renderGames();
-            renderRecommended(data.recommendedParlays || []);
-            renderAlerts(data.alerts);
-            renderUpcoming(data.upcoming);
-            renderStats(data.sportStats);
-        }
-
-        function renderPicks(picks) {
-            document.getElementById('picksContainer').innerHTML = picks.map((p, i) => `
-                <div class="card">
-                    <div class="card-header">
-                        <div style="display: flex; align-items: center;"><span class="card-rank">${i + 1}</span><span class="card-sport">${p.sport}</span></div>
-                        <div class="card-time"><span class="card-time-value">${p.time}</span><span class="card-time-league">${p.league}</span></div>
+            container.innerHTML = suggestions.map(s => `
+                <div class="suggested-parlay">
+                    <div class="suggested-parlay-header">
+                        <span style="font-weight: 600; color: var(--gold);">${s.name}</span>
+                        <span class="risk-badge ${s.risk}">${s.riskLabel}</span>
                     </div>
-                    <div class="card-body">
-                        <div class="card-matchup">${p.matchup}</div>
-                        <div class="card-details">
-                            <div class="card-detail"><div class="card-detail-label">${t('pick')}</div><div class="card-detail-value pick">${p.pick}</div></div>
-                            <div class="card-detail"><div class="card-detail-label">${t('odds')}</div><div class="card-detail-value odds">${p.odds}</div></div>
-                            <div class="card-detail"><div class="card-detail-label">${t('confidence')}</div><div class="card-detail-value confidence">${p.confidence}%</div></div>
-                        </div>
+                    <div class="suggested-parlay-legs">${s.games.join(' + ')}</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                        <span style="color: var(--green); font-weight: bold;">Odds: ${s.odds}</span>
+                        <span style="color: var(--text-muted);">Hit Prob: ${s.prob}</span>
+                        <span style="color: var(--cyan);">$25 → $${(25 * (1 + parseInt(s.odds.replace('+',''))/100)).toFixed(0)}</span>
                     </div>
                 </div>
             `).join('');
         }
-
-        function renderProps(props) {
-            document.getElementById('propsContainer').innerHTML = props.map((p, i) => `
-                <div class="card">
-                    <div class="card-header">
-                        <div style="display: flex; align-items: center;"><span class="card-rank" style="width: 32px; height: 32px; font-size: 0.9rem;">${i + 1}</span><span style="font-weight: 700; margin-left: 12px;">${p.player}</span></div>
-                        <span style="background: var(--bg-secondary); padding: 4px 10px; border-radius: 6px; font-size: 0.85rem;">${p.team}</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-details" style="grid-template-columns: repeat(2, 1fr);">
-                            <div class="card-detail"><div class="card-detail-label">${p.prop}</div><div class="card-detail-value pick">${p.pick} ${p.line}</div></div>
-                            <div class="card-detail"><div class="card-detail-label">${t('odds')}</div><div class="card-detail-value odds">${p.odds}</div></div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderRecommended(parlays) {
-            document.getElementById('recommendedParlays').innerHTML = parlays.map(p => `
-                <div class="recommended-parlay" onclick='loadRecommendedParlay(${JSON.stringify(p.legs)})'>
-                    <div class="recommended-parlay-header">
-                        <span class="recommended-parlay-name">${p.name}</span>
-                        <span class="recommended-parlay-odds">${p.odds}</span>
-                    </div>
-                    <div class="recommended-parlay-legs">${p.description}</div>
-                </div>
-            `).join('');
-        }
-
-        function renderAlerts(alerts) {
-            document.getElementById('alertsContainer').innerHTML = alerts.map(a => `
-                <div class="card alert-card ${a.type}">
-                    <div class="card-header">
-                        <div style="display: flex; align-items: center; gap: 12px;"><span class="alert-icon">${a.icon}</span><span style="font-weight: 700;">${a.title}</span></div>
-                        <span style="color: var(--text-muted); font-size: 0.85rem;">${a.time}</span>
-                    </div>
-                    <div class="card-body"><p style="color: var(--text-secondary);">${a.message}</p></div>
-                </div>
-            `).join('');
-        }
-
-        function renderUpcoming(upcoming) {
-            let html = '';
-            upcoming.forEach(day => {
-                html += `<h3 class="day-header">${day.date === 'today' ? '🔴 ' + t('today') : '📅 ' + t('tomorrow')} — ${day.label}</h3>`;
-                day.games.forEach(g => {
-                    html += `<div class="game-card"><div class="game-info"><span class="game-sport">${g.sport}</span><span class="game-name">${g.name}</span></div><div class="game-time"><span class="game-time-value">${g.time}</span><span class="game-channel">${g.channel}</span></div></div>`;
-                });
-            });
-            document.getElementById('upcomingContainer').innerHTML = html;
-        }
-
-        function renderStats(stats) {
-            document.getElementById('statsContainer').innerHTML = stats.map(s => {
-                let statusClass = s.status.includes('FIRE') ? 'status-fire' : s.status.includes('HOT') ? 'status-hot' : 'status-good';
-                let barColor = parseFloat(s.winRate) >= 85 ? 'var(--green)' : parseFloat(s.winRate) >= 80 ? 'var(--gold)' : 'var(--blue)';
-                return `<tr><td><div class="stats-sport"><span class="stats-sport-icon">${s.emoji}</span><span>${s.sport}</span></div></td><td class="stats-record">${s.record}</td><td class="stats-winrate">${s.winRate}%</td><td><div class="stats-bar"><div class="stats-bar-fill" style="width: ${s.winRate}%; background: ${barColor};"></div></div></td><td><span class="stats-status ${statusClass}">${s.status}</span></td></tr>`;
-            }).join('');
-        }
-
-        function getSampleData() {
-            return {
-                lastUpdated: "May 18, 2026 • 3:00 PM ET",
-                overall: { record: "235-33-2", roi: "+68%", bankroll: "$11.5K", streak: "W3" },
-                picks: [
-                    { sport: "🏒", matchup: "Canadiens @ Sabres", pick: "MTL ML", odds: "-115", confidence: 72, time: "4:30 PM", league: "NHL R2 G7" },
-                    { sport: "🏀", matchup: "Spurs @ Thunder", pick: "OKC -6.5", odds: "-110", confidence: 75, time: "8:30 PM", league: "WCF G1" },
-                    { sport: "⚾", matchup: "Yankees @ Blue Jays", pick: "NYY ML", odds: "-135", confidence: 68, time: "7:07 PM", league: "MLB" },
-                    { sport: "⚾", matchup: "Dodgers @ Rockies", pick: "LAD ML", odds: "-175", confidence: 71, time: "8:40 PM", league: "MLB" },
-                    { sport: "⚾", matchup: "Giants @ Phillies", pick: "PHI ML", odds: "-145", confidence: 65, time: "6:40 PM", league: "MLB" }
-                ],
-                props: [
-                    { player: "Victor Wembanyama", team: "SAS", prop: "Points", pick: "Over", line: "28.5", odds: "-110" },
-                    { player: "Shai Gilgeous-Alexander", team: "OKC", prop: "Points", pick: "Over", line: "30.5", odds: "-115" },
-                    { player: "Chet Holmgren", team: "OKC", prop: "Rebounds", pick: "Over", line: "9.5", odds: "-110" },
-                    { player: "Stephon Castle", team: "SAS", prop: "Assists", pick: "Over", line: "5.5", odds: "-105" },
-                    { player: "Jalen Williams", team: "OKC", prop: "Points", pick: "Over", line: "18.5", odds: "-110" },
-                    { player: "Gerrit Cole", team: "NYY", prop: "Strikeouts", pick: "Over", line: "7.5", odds: "-115" },
-                    { player: "Yoshinobu Yamamoto", team: "LAD", prop: "Strikeouts", pick: "Over", line: "6.5", odds: "-110" },
-                    { player: "Aaron Judge", team: "NYY", prop: "Total Bases", pick: "Over", line: "1.5", odds: "-125" },
-                    { player: "Mookie Betts", team: "LAD", prop: "Hits", pick: "Over", line: "1.5", odds: "-110" },
-                    { player: "Nick Suzuki", team: "MTL", prop: "Points", pick: "Over", line: "1.5", odds: "-115" }
-                ],
-                parlayGames: [
-                    // 4-Hour Games
-                    { id: "g1", sport: "🏒", league: "NHL R2 G7", home: "Sabres", away: "Canadiens", date: "May 18", time: "4:30 PM", timeCategory: "4h",
-                      picks: [
-                          { id: "g1p1", type: "Moneyline", label: "MTL ML", odds: "-115" },
-                          { id: "g1p2", type: "Moneyline", label: "BUF ML", odds: "-105" },
-                          { id: "g1p3", type: "Spread", label: "MTL +1.5", odds: "-180" },
-                          { id: "g1p4", type: "Total", label: "Over 5.5", odds: "-110" }
-                      ]},
-                    { id: "g2", sport: "⚾", league: "MLB", home: "Phillies", away: "Giants", date: "May 18", time: "6:40 PM", timeCategory: "4h",
-                      picks: [
-                          { id: "g2p1", type: "Moneyline", label: "PHI ML", odds: "-145" },
-                          { id: "g2p2", type: "Moneyline", label: "SF ML", odds: "+125" },
-                          { id: "g2p3", type: "Run Line", label: "PHI -1.5", odds: "+115" },
-                          { id: "g2p4", type: "Total", label: "Over 8.5", odds: "-110" }
-                      ]},
-                    { id: "g3", sport: "⚾", league: "MLB", home: "Blue Jays", away: "Yankees", date: "May 18", time: "7:07 PM", timeCategory: "4h",
-                      picks: [
-                          { id: "g3p1", type: "Moneyline", label: "NYY ML", odds: "-135" },
-                          { id: "g3p2", type: "Moneyline", label: "TOR ML", odds: "+115" },
-                          { id: "g3p3", type: "Run Line", label: "NYY -1.5", odds: "+130" },
-                          { id: "g3p4", type: "Total", label: "Over 9", odds: "-105" }
-                      ]},
-                    // 48-Hour Games
-                    { id: "g4", sport: "🏀", league: "WCF G1", home: "Thunder", away: "Spurs", date: "May 18", time: "8:30 PM", timeCategory: "48h",
-                      picks: [
-                          { id: "g4p1", type: "Spread", label: "OKC -6.5", odds: "-110" },
-                          { id: "g4p2", type: "Spread", label: "SAS +6.5", odds: "-110" },
-                          { id: "g4p3", type: "Moneyline", label: "OKC ML", odds: "-250" },
-                          { id: "g4p4", type: "Total", label: "Over 220", odds: "-110" }
-                      ]},
-                    { id: "g5", sport: "⚾", league: "MLB", home: "Rockies", away: "Dodgers", date: "May 18", time: "8:40 PM", timeCategory: "48h",
-                      picks: [
-                          { id: "g5p1", type: "Moneyline", label: "LAD ML", odds: "-175" },
-                          { id: "g5p2", type: "Moneyline", label: "COL ML", odds: "+150" },
-                          { id: "g5p3", type: "Run Line", label: "LAD -1.5", odds: "-105" },
-                          { id: "g5p4", type: "Total", label: "Over 11", odds: "-110" }
-                      ]},
-                    { id: "g6", sport: "🏀", league: "WCF G2", home: "Thunder", away: "Spurs", date: "May 19", time: "8:30 PM", timeCategory: "48h",
-                      picks: [
-                          { id: "g6p1", type: "Spread", label: "OKC -7", odds: "-110" },
-                          { id: "g6p2", type: "Spread", label: "SAS +7", odds: "-110" },
-                          { id: "g6p3", type: "Moneyline", label: "OKC ML", odds: "-280" },
-                          { id: "g6p4", type: "Total", label: "Over 218", odds: "-110" }
-                      ]},
-                    // 7-Day Games
-                    { id: "g7", sport: "🏀", league: "WCF G3", home: "Spurs", away: "Thunder", date: "May 21", time: "9:00 PM", timeCategory: "7d",
-                      picks: [
-                          { id: "g7p1", type: "Spread", label: "SAS +4.5", odds: "-110" },
-                          { id: "g7p2", type: "Spread", label: "OKC -4.5", odds: "-110" },
-                          { id: "g7p3", type: "Moneyline", label: "SAS ML", odds: "+165" },
-                          { id: "g7p4", type: "Total", label: "Over 222", odds: "-110" }
-                      ]},
-                    { id: "g8", sport: "🏒", league: "NHL R3", home: "TBD", away: "TBD", date: "May 22", time: "8:00 PM", timeCategory: "7d",
-                      picks: [
-                          { id: "g8p1", type: "Moneyline", label: "Home ML", odds: "-130" },
-                          { id: "g8p2", type: "Moneyline", label: "Away ML", odds: "+110" },
-                          { id: "g8p3", type: "Spread", label: "Home -1.5", odds: "+160" },
-                          { id: "g8p4", type: "Total", label: "Over 5.5", odds: "-115" }
-                      ]},
-                    { id: "g9", sport: "⚾", league: "MLB", home: "Red Sox", away: "Yankees", date: "May 23", time: "7:10 PM", timeCategory: "7d",
-                      picks: [
-                          { id: "g9p1", type: "Moneyline", label: "NYY ML", odds: "-125" },
-                          { id: "g9p2", type: "Moneyline", label: "BOS ML", odds: "+105" },
-                          { id: "g9p3", type: "Run Line", label: "NYY -1.5", odds: "+140" },
-                          { id: "g9p4", type: "Total", label: "Over 9.5", odds: "-110" }
-                      ]},
-                    { id: "g10", sport: "⚽", league: "UCL Final", home: "TBD", away: "TBD", date: "May 24", time: "3:00 PM", timeCategory: "7d",
-                      picks: [
-                          { id: "g10p1", type: "Moneyline", label: "Home Win", odds: "+150" },
-                          { id: "g10p2", type: "Draw", label: "Draw", odds: "+210" },
-                          { id: "g10p3", type: "Moneyline", label: "Away Win", odds: "+180" },
-                          { id: "g10p4", type: "Total", label: "Over 2.5", odds: "-105" }
-                      ]}
-                ],
-                recommendedParlays: [
-                    { name: "🔥 Tonight's Fire", odds: "+450", description: "MTL ML + OKC -6.5 + NYY ML", legs: [{gameId: "g1", pickId: "g1p1"}, {gameId: "g4", pickId: "g4p1"}, {gameId: "g3", pickId: "g3p1"}] },
-                    { name: "⚾ MLB Power", odds: "+320", description: "NYY ML + LAD ML + PHI ML", legs: [{gameId: "g3", pickId: "g3p1"}, {gameId: "g5", pickId: "g5p1"}, {gameId: "g2", pickId: "g2p1"}] },
-                    { name: "🎯 Safe Play", odds: "+180", description: "OKC -6.5 + LAD ML", legs: [{gameId: "g4", pickId: "g4p1"}, {gameId: "g5", pickId: "g5p1"}] }
-                ],
-                alerts: [
-                    { icon: "🏒", type: "warning", title: "MTL @ BUF Game 7", time: "4:30 PM", message: "Decisive Game 7! Montreal seeking upset." },
-                    { icon: "🏀", type: "info", title: "WCF Game 1", time: "8:30 PM", message: "Spurs vs Thunder begins tonight!" },
-                    { icon: "✅", type: "success", title: "Yesterday: 3-0 ✅", time: "Results", message: "Perfect day! W3 streak continues!" }
-                ],
-                upcoming: [
-                    { date: "today", label: "Monday, May 18", games: [
-                        { sport: "🏒", name: "MTL @ BUF G7", time: "4:30 PM", channel: "ESPN" },
-                        { sport: "🏀", name: "SAS @ OKC G1", time: "8:30 PM", channel: "TNT" },
-                        { sport: "⚾", name: "NYY @ TOR", time: "7:07 PM", channel: "YES" }
-                    ]},
-                    { date: "tomorrow", label: "Tuesday, May 19", games: [
-                        { sport: "🏀", name: "SAS @ OKC G2", time: "8:30 PM", channel: "TNT" },
-                        { sport: "⚾", name: "MLB Games", time: "Various", channel: "MLB" }
-                    ]}
-                ],
-                sportStats: [
-                    { emoji: "🏒", sport: "NHL", record: "38-2", winRate: "95.0", status: "🔥🔥 ON FIRE" },
-                    { emoji: "🏀", sport: "NBA", record: "96-13", winRate: "88.1", status: "🔥 HOT" },
-                    { emoji: "⚽", sport: "Soccer", record: "52-7", winRate: "88.1", status: "🔥 HOT" },
-                    { emoji: "⚾", sport: "MLB", record: "5-1", winRate: "83.3", status: "🔥 HOT" },
-                    { emoji: "🎾", sport: "Tennis", record: "4-1", winRate: "80.0", status: "✅ GOOD" },
-                    { emoji: "👤", sport: "Props", record: "47-7", winRate: "87.0", status: "🔥 HOT" },
-                    { emoji: "🎲", sport: "Parlays", record: "12-3", winRate: "80.0", status: "✅ GOOD" }
-                ]
-            };
-        }
-
-        document.addEventListener('DOMContentLoaded', () => setLanguage(currentLang));
-    </script>
-</body>
-</html>
+        
+        // Event listeners for parlay builder
+        document.getElementById('clearParlayBtn')?.addEventListener('click', clearParlay);
+        document.getElementById('calcPayoutBtn')?.addEventListener('click', updateParlaySlip);
+        document.getElementById('stakeInput')?.addEventListener('input', updateParlaySlip);
