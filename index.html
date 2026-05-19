@@ -5,26 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JOSH EPSILON BETTING SYSTEM (JEBS)</title>
     <meta name="description" content="JOSH EPSILON BETTING SYSTEM - Professional Sports Predictions & Analytics">
-    <meta name="keywords" content="sports betting, predictions, NBA, NHL, MLB, Soccer, Tennis, UFC">
-    <meta name="author" content="Josh Epsilon">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    
-    <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="JOSH EPSILON BETTING SYSTEM (JEBS)">
-    <meta property="og:description" content="Professional Sports Predictions & Analytics - 87.2% Win Rate">
-    <meta property="og:type" content="website">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- Chart.js for Graphics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
         /* ========================================
            CSS VARIABLES - HOT FLAME THEME
            ======================================== */
         :root {
-            /* Fire & Gold Palette */
             --flame-red: #FF4136;
             --flame-orange: #FF6B35;
             --flame-yellow: #FFD700;
@@ -33,29 +27,23 @@
             --deep-fire: #E63946;
             --molten-gold: #F4A100;
             
-            /* Dark Premium Backgrounds */
             --bg-primary: #0D0D0D;
             --bg-secondary: #1A1A1A;
             --bg-card: #141414;
             --bg-elevated: #1F1F1F;
             
-            /* Accent Colors */
             --success-green: #00D26A;
             --success-glow: rgba(0, 210, 106, 0.4);
             --loss-red: #FF3B3B;
             --pending-amber: #FFB800;
             
-            /* Text */
             --text-primary: #FFFFFF;
             --text-secondary: #B8B8B8;
             --text-muted: #707070;
             
-            /* Gradients */
             --gradient-fire: linear-gradient(135deg, #FF4136 0%, #FF6B35 25%, #FFD700 50%, #FFA500 75%, #FF8C00 100%);
             --gradient-gold: linear-gradient(90deg, #FFD700, #FFA500, #FF8C00, #FFD700);
-            --gradient-ember: linear-gradient(145deg, #1A1A1A, #0D0D0D);
             --gradient-card: linear-gradient(145deg, #1F1F1F, #141414);
-            --gradient-hot: linear-gradient(135deg, #FF6B35 0%, #FF4136 50%, #E63946 100%);
         }
 
         /* ========================================
@@ -76,17 +64,16 @@
             background: var(--bg-primary);
             background-image: 
                 radial-gradient(ellipse at top left, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom right, rgba(255, 65, 54, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at center, rgba(255, 215, 0, 0.03) 0%, transparent 70%);
+                radial-gradient(ellipse at bottom right, rgba(255, 65, 54, 0.08) 0%, transparent 50%);
             min-height: 100vh;
             color: var(--text-primary);
-            padding: 20px;
             line-height: 1.6;
         }
         
         .container {
-            max-width: 1280px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 20px;
         }
 
         /* ========================================
@@ -94,34 +81,17 @@
            ======================================== */
         @keyframes fireGlow {
             0%, 100% { 
-                box-shadow: 
-                    0 0 20px rgba(255, 107, 53, 0.5),
-                    0 0 40px rgba(255, 107, 53, 0.3),
-                    0 0 60px rgba(255, 107, 53, 0.1),
-                    inset 0 0 20px rgba(255, 107, 53, 0.05);
+                box-shadow: 0 0 20px rgba(255, 107, 53, 0.5), 0 0 40px rgba(255, 107, 53, 0.3);
             }
             50% { 
-                box-shadow: 
-                    0 0 30px rgba(255, 65, 54, 0.6),
-                    0 0 60px rgba(255, 65, 54, 0.4),
-                    0 0 90px rgba(255, 65, 54, 0.2),
-                    inset 0 0 30px rgba(255, 65, 54, 0.08);
+                box-shadow: 0 0 30px rgba(255, 65, 54, 0.6), 0 0 60px rgba(255, 65, 54, 0.4);
             }
         }
         
         @keyframes borderFire {
-            0%, 100% { 
-                border-color: var(--flame-orange);
-                box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
-            }
-            33% { 
-                border-color: var(--flame-red);
-                box-shadow: 0 0 25px rgba(255, 65, 54, 0.5);
-            }
-            66% { 
-                border-color: var(--flame-gold);
-                box-shadow: 0 0 30px rgba(255, 165, 0, 0.5);
-            }
+            0%, 100% { border-color: var(--flame-orange); }
+            33% { border-color: var(--flame-red); }
+            66% { border-color: var(--flame-gold); }
         }
         
         @keyframes shimmerFire {
@@ -139,40 +109,80 @@
             50% { transform: translateY(-8px); }
         }
         
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes countUp {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-            25%, 75% { opacity: 0.9; }
-        }
-        
-        @keyframes rotateGradient {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(30deg); }
         }
 
         /* ========================================
-           HEADER SECTION
+           SCROLLING BANNER (TICKER)
+           ======================================== */
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(90deg, var(--flame-red), var(--flame-orange), var(--flame-gold), var(--flame-orange), var(--flame-red));
+            padding: 12px 0;
+            position: relative;
+        }
+        
+        .ticker-wrap::before,
+        .ticker-wrap::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 100px;
+            height: 100%;
+            z-index: 2;
+        }
+        
+        .ticker-wrap::before {
+            left: 0;
+            background: linear-gradient(to right, var(--flame-red), transparent);
+        }
+        
+        .ticker-wrap::after {
+            right: 0;
+            background: linear-gradient(to left, var(--flame-red), transparent);
+        }
+        
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scroll 25s linear infinite;
+        }
+        
+        .ticker-item {
+            display: inline-block;
+            padding: 0 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--bg-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .ticker-item .emoji {
+            margin: 0 8px;
+        }
+
+        /* ========================================
+           HEADER WITH LIVE TOGGLE
            ======================================== */
         .header {
             text-align: center;
-            padding: 50px 40px;
+            padding: 40px;
             background: var(--gradient-card);
-            border-radius: 30px;
-            margin-bottom: 30px;
+            border-radius: 25px;
+            margin: 20px 0;
             border: 2px solid var(--flame-orange);
-            animation: borderFire 4s ease-in-out infinite, fadeInUp 0.8s ease-out;
+            animation: borderFire 4s ease-in-out infinite;
             position: relative;
-            overflow: hidden;
         }
         
         .header::before {
@@ -185,22 +195,12 @@
             background: var(--gradient-fire);
             background-size: 200% 100%;
             animation: shimmerFire 3s linear infinite;
-        }
-        
-        .header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(ellipse at top, rgba(255, 107, 53, 0.1) 0%, transparent 60%);
-            pointer-events: none;
+            border-radius: 25px 25px 0 0;
         }
         
         .header h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 900;
             background: var(--gradient-gold);
             background-size: 300% auto;
@@ -209,8 +209,6 @@
             background-clip: text;
             animation: shimmerFire 3s linear infinite;
             margin-bottom: 15px;
-            position: relative;
-            z-index: 1;
             text-transform: uppercase;
             letter-spacing: 3px;
         }
@@ -218,10 +216,7 @@
         .header .subtitle {
             color: var(--text-secondary);
             font-size: 1.1rem;
-            margin-bottom: 12px;
-            position: relative;
-            z-index: 1;
-            font-weight: 500;
+            margin-bottom: 10px;
         }
         
         .header .tagline {
@@ -230,123 +225,158 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-style: italic;
-            font-size: 1.3rem;
-            margin-top: 15px;
-            position: relative;
-            z-index: 1;
-            font-weight: 600;
+            font-size: 1.2rem;
+            margin-top: 10px;
         }
         
-        .sync-status {
-            display: inline-flex;
+        /* Live Toggle Switch */
+        .live-toggle-container {
+            display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 12px 30px;
-            background: linear-gradient(145deg, rgba(0, 210, 106, 0.2), rgba(0, 210, 106, 0.1));
-            border-radius: 50px;
-            font-size: 0.95rem;
+            justify-content: center;
+            gap: 15px;
             margin-top: 20px;
-            border: 2px solid var(--success-green);
-            box-shadow: 0 0 20px var(--success-glow);
+        }
+        
+        .live-toggle-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .live-toggle {
             position: relative;
-            z-index: 1;
-            font-weight: 600;
+            width: 70px;
+            height: 35px;
+        }
+        
+        .live-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-elevated);
+            border: 2px solid var(--text-muted);
+            border-radius: 35px;
+            transition: 0.4s;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 25px;
+            width: 25px;
+            left: 3px;
+            bottom: 3px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+        
+        .live-toggle input:checked + .toggle-slider {
+            background: linear-gradient(135deg, var(--success-green), #00FF7F);
+            border-color: var(--success-green);
+            box-shadow: 0 0 20px var(--success-glow);
+        }
+        
+        .live-toggle input:checked + .toggle-slider:before {
+            transform: translateX(35px);
+            background: white;
+        }
+        
+        .live-status {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+        
+        .live-status.online {
+            background: rgba(0, 210, 106, 0.2);
             color: var(--success-green);
+            border: 1px solid var(--success-green);
             animation: pulse 2s infinite;
         }
         
-        .sync-status::before {
-            content: '🔥';
-            font-size: 1.2rem;
+        .live-status.offline {
+            background: rgba(255, 59, 59, 0.2);
+            color: var(--loss-red);
+            border: 1px solid var(--loss-red);
         }
 
         /* ========================================
-           TOTAL PREDICTIONS HERO SECTION
+           NAVIGATION TABS
            ======================================== */
-        .total-predictions {
-            background: var(--gradient-card);
-            border: 2px solid var(--flame-red);
-            border-radius: 30px;
-            text-align: center;
-            padding: 50px 40px;
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-            animation: fireGlow 3s ease-in-out infinite, fadeInUp 0.8s ease-out 0.2s both;
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            background: var(--bg-secondary);
+            padding: 8px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            border: 2px solid var(--flame-orange);
         }
         
-        .total-predictions::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 60%);
-            animation: pulse 4s infinite;
-        }
-        
-        .total-predictions::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-fire);
-            background-size: 200% 100%;
-            animation: shimmerFire 2s linear infinite;
-        }
-        
-        .total-predictions .big-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 6rem;
-            font-weight: 900;
-            background: var(--gradient-fire);
-            background-size: 400% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmerFire 2s linear infinite, countUp 1s ease-out;
-            position: relative;
-            z-index: 1;
-            line-height: 1;
-            text-shadow: 0 0 60px rgba(255, 107, 53, 0.5);
-        }
-        
-        .total-predictions .label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
+        .nav-tab {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px 20px;
+            background: transparent;
+            border: none;
             color: var(--text-secondary);
-            margin-top: 15px;
-            position: relative;
-            z-index: 1;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 600;
+            letter-spacing: 1px;
+            white-space: nowrap;
         }
         
-        .total-predictions .win-rate-display {
-            color: var(--success-green);
-            font-size: 2rem;
-            margin-top: 25px;
-            font-weight: 800;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 0 20px var(--success-glow);
+        .nav-tab:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--flame-orange);
         }
         
-        .total-predictions .pending-display {
-            color: var(--pending-amber);
-            font-size: 1.2rem;
-            margin-top: 10px;
-            position: relative;
-            z-index: 1;
-            font-weight: 600;
+        .nav-tab.active {
+            background: var(--gradient-fire);
+            color: var(--bg-primary);
+            font-weight: 700;
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        .nav-tab .tab-icon {
+            margin-right: 8px;
         }
 
         /* ========================================
-           STATS GRID
+           TAB CONTENT PANELS
+           ======================================== */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ========================================
+           STATS CARDS
            ======================================== */
         .stats-grid {
             display: grid;
@@ -357,54 +387,28 @@
         
         .stat-card {
             background: var(--gradient-card);
-            padding: 30px 25px;
-            border-radius: 25px;
+            padding: 25px;
+            border-radius: 20px;
             text-align: center;
             border: 2px solid var(--flame-gold);
-            animation: borderFire 4s ease-in-out infinite, fadeInUp 0.8s ease-out;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
+            animation: borderFire 4s ease-in-out infinite;
+            transition: all 0.4s ease;
         }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .stat-card:nth-child(1) { animation-delay: 0.1s; }
-        .stat-card:nth-child(2) { animation-delay: 0.2s; }
-        .stat-card:nth-child(3) { animation-delay: 0.3s; }
-        .stat-card:nth-child(4) { animation-delay: 0.4s; }
         
         .stat-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 
-                0 20px 50px rgba(255, 107, 53, 0.4),
-                0 0 30px rgba(255, 215, 0, 0.3);
-        }
-        
-        .stat-card:hover::before {
-            opacity: 1;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
         }
         
         .stat-card .icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+            font-size: 2.5rem;
+            margin-bottom: 12px;
             animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.5));
         }
         
         .stat-card .value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 800;
             background: var(--gradient-gold);
             -webkit-background-clip: text;
@@ -414,11 +418,45 @@
         
         .stat-card .label {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 10px;
+            font-size: 0.85rem;
+            margin-top: 8px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* ========================================
+           CHARTS SECTION
+           ======================================== */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-card {
+            background: var(--gradient-card);
+            padding: 25px;
+            border-radius: 20px;
+            border: 2px solid var(--flame-orange);
+            animation: borderFire 4s ease-in-out infinite;
+        }
+        
+        .chart-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 250px;
         }
 
         /* ========================================
@@ -426,13 +464,11 @@
            ======================================== */
         .section {
             background: var(--gradient-card);
-            border-radius: 25px;
-            padding: 35px;
-            margin-bottom: 30px;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
             border: 2px solid var(--flame-orange);
-            animation: borderFire 4s ease-in-out infinite, fadeInUp 0.8s ease-out;
-            position: relative;
-            overflow: hidden;
+            animation: borderFire 4s ease-in-out infinite;
         }
         
         .section::before {
@@ -443,8 +479,7 @@
             right: 0;
             height: 3px;
             background: var(--gradient-fire);
-            background-size: 200% 100%;
-            animation: shimmerFire 3s linear infinite;
+            border-radius: 20px 20px 0 0;
         }
         
         .section h2 {
@@ -453,67 +488,44 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 1.5rem;
-            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
         /* ========================================
-           RESULTS TABLE
+           TABLES
            ======================================== */
-        .results-table {
+        .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
         }
         
-        .results-table th {
+        .data-table th {
             text-align: left;
-            padding: 18px 15px;
+            padding: 15px 12px;
             background: rgba(255, 107, 53, 0.15);
             color: var(--flame-gold);
             font-weight: 700;
             border-bottom: 2px solid var(--flame-orange);
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             letter-spacing: 1px;
         }
         
-        .results-table td {
-            padding: 18px 15px;
+        .data-table td {
+            padding: 15px 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s ease;
-            font-weight: 500;
         }
         
-        .results-table tr:hover td {
+        .data-table tr:hover td {
             background: rgba(255, 107, 53, 0.1);
         }
         
-        .results-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .win { 
-            color: var(--success-green); 
-            font-weight: 700; 
-            text-shadow: 0 0 15px var(--success-glow);
-        }
-        .loss { 
-            color: var(--loss-red); 
-            font-weight: 700;
-            text-shadow: 0 0 15px rgba(255, 59, 59, 0.5);
-        }
-        .pending { 
-            color: var(--pending-amber); 
-            font-weight: 700;
-            text-shadow: 0 0 15px rgba(255, 184, 0, 0.5);
-        }
+        .win { color: var(--success-green); font-weight: 700; }
+        .loss { color: var(--loss-red); font-weight: 700; }
+        .pending { color: var(--pending-amber); font-weight: 700; }
 
         /* ========================================
            SPORTS GRID
@@ -521,147 +533,76 @@
         .sports-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 18px;
+            gap: 15px;
         }
         
         .sport-card {
             background: var(--bg-elevated);
-            padding: 25px 15px;
-            border-radius: 20px;
+            padding: 20px 15px;
+            border-radius: 18px;
             text-align: center;
             border: 2px solid transparent;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .sport-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(145deg, rgba(255, 107, 53, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.4s ease;
         }
         
         .sport-card:hover {
             border-color: var(--flame-orange);
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 
-                0 15px 40px rgba(255, 107, 53, 0.3),
-                0 0 20px rgba(255, 165, 0, 0.2);
-        }
-        
-        .sport-card:hover::before {
-            opacity: 1;
-        }
-        
-        .sport-card .sport-icon {
-            font-size: 2.5rem;
-            margin-bottom: 12px;
-            display: block;
-            filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.4));
-        }
-        
-        .sport-card .sport-name {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
-        }
-        
-        .sport-card .sport-record {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-        
-        .sport-card .sport-pct {
-            font-size: 1rem;
-            color: var(--success-green);
-            font-weight: 700;
-            text-shadow: 0 0 10px var(--success-glow);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
         }
         
         .sport-card.on-fire {
             border: 2px solid var(--flame-red);
-            box-shadow: 
-                0 0 25px rgba(255, 65, 54, 0.4),
-                inset 0 0 20px rgba(255, 65, 54, 0.1);
+            box-shadow: 0 0 20px rgba(255, 65, 54, 0.4);
             animation: fireGlow 2s ease-in-out infinite;
         }
         
-        .sport-card.on-fire .sport-pct {
-            color: var(--flame-orange);
-            animation: flicker 1s infinite;
+        .sport-card .sport-icon {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            display: block;
         }
         
-        .sport-card.perfect {
-            border: 2px solid var(--success-green);
-            box-shadow: 0 0 25px var(--success-glow);
+        .sport-card .sport-name {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .sport-card .sport-record {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .sport-card .sport-pct {
+            font-size: 0.95rem;
+            color: var(--success-green);
+            font-weight: 700;
+            margin-top: 5px;
         }
 
         /* ========================================
-           TODAY'S GAMES SECTION
+           GAME CARDS
            ======================================== */
-        .today-section {
-            background: linear-gradient(145deg, #0D1F0D, #0A150A);
-            border: 2px solid var(--success-green);
-            box-shadow: 0 0 30px var(--success-glow);
-        }
-        
-        .today-section::before {
-            background: linear-gradient(90deg, var(--success-green), #00FF7F, var(--success-green));
-        }
-        
-        .today-section h2 {
-            background: linear-gradient(90deg, var(--success-green), #00FF7F);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
         .game-card {
             background: rgba(0, 0, 0, 0.4);
-            border-radius: 18px;
-            padding: 25px;
-            margin-bottom: 18px;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 5px solid var(--flame-gold);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .game-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 5px;
-            background: var(--gradient-fire);
-            background-size: 100% 200%;
-            animation: shimmerFire 2s linear infinite;
+            border-left: 4px solid var(--flame-gold);
+            transition: all 0.3s ease;
         }
         
         .game-card:hover {
             background: rgba(0, 0, 0, 0.5);
-            transform: translateX(10px);
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
-        }
-        
-        .game-card:last-child {
-            margin-bottom: 0;
+            transform: translateX(8px);
         }
         
         .game-info {
@@ -670,26 +611,23 @@
         
         .game-matchup {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--text-primary);
+            margin-bottom: 8px;
         }
         
         .game-details {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-size: 0.9rem;
         }
         
         .game-pick {
             text-align: right;
-            padding-left: 25px;
         }
         
         .pick-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 700;
             background: var(--gradient-gold);
             -webkit-background-clip: text;
@@ -699,653 +637,704 @@
         
         .pick-odds {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 8px;
-            font-weight: 500;
+            font-size: 0.85rem;
+            margin-top: 5px;
         }
 
         /* ========================================
-           MILESTONE TRACKER
+           PROGRESS BARS
            ======================================== */
-        .milestone-grid {
+        .progress-bar-container {
+            margin: 15px 0;
+        }
+        
+        .progress-label {
             display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 25px;
-            text-align: center;
-            padding: 25px 0;
-        }
-        
-        .milestone-item {
-            flex: 1;
-            min-width: 140px;
-            padding: 25px 20px;
-            background: var(--bg-elevated);
-            border-radius: 20px;
-            transition: all 0.4s ease;
-            border: 2px solid transparent;
-        }
-        
-        .milestone-item:hover {
-            transform: scale(1.05);
-            border-color: var(--flame-gold);
-            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.2);
-        }
-        
-        .milestone-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.5));
-        }
-        
-        .milestone-value {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 800;
+            justify-content: space-between;
             margin-bottom: 8px;
-        }
-        
-        .milestone-value.achieved {
-            color: var(--success-green);
-            text-shadow: 0 0 15px var(--success-glow);
-        }
-        
-        .milestone-value.in-progress {
-            color: var(--pending-amber);
-            text-shadow: 0 0 15px rgba(255, 184, 0, 0.5);
-        }
-        
-        .milestone-label {
-            color: var(--text-secondary);
             font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* ========================================
-           HIGHLIGHTS SECTION
-           ======================================== */
-        .highlight-win .game-card {
-            border-left-color: var(--success-green);
         }
         
-        .highlight-win .game-card::before {
-            background: linear-gradient(180deg, var(--success-green), #00FF7F, var(--success-green));
+        .progress-bar {
+            height: 12px;
+            background: var(--bg-elevated);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-fire);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        
+        .progress-fill.green {
+            background: linear-gradient(90deg, var(--success-green), #00FF7F);
         }
 
         /* ========================================
-           DISCLAIMER
+           DISCLAIMER & FOOTER
            ======================================== */
         .disclaimer {
             background: rgba(255, 184, 0, 0.1);
             border: 2px solid var(--pending-amber);
-            border-radius: 20px;
-            padding: 25px;
-            margin-top: 30px;
-            font-size: 0.9rem;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+            font-size: 0.85rem;
             color: var(--pending-amber);
             text-align: center;
-            line-height: 1.8;
         }
         
-        .disclaimer strong {
-            display: block;
-            margin-bottom: 12px;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .disclaimer p {
-            margin-bottom: 10px;
-        }
-        
-        .disclaimer p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* ========================================
-           FOOTER
-           ======================================== */
         .footer {
             text-align: center;
-            padding: 50px 25px;
+            padding: 40px 20px;
             color: var(--text-muted);
-            font-size: 0.95rem;
         }
         
         .footer .brand {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             background: var(--gradient-gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 18px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .footer .copyright {
-            margin-bottom: 12px;
-            font-weight: 500;
+            margin-bottom: 15px;
         }
         
         .footer .motto {
             font-style: italic;
             color: var(--text-secondary);
-            margin-top: 18px;
-            font-size: 1.2rem;
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .footer .version {
-            margin-top: 18px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            margin-top: 15px;
+            font-size: 1.1rem;
         }
 
         /* ========================================
-           RESPONSIVE DESIGN
+           RESPONSIVE
            ======================================== */
         @media (max-width: 992px) {
-            .sports-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .header h1 {
-                font-size: 2.2rem;
-            }
-            
-            .total-predictions .big-number {
-                font-size: 4.5rem;
-            }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .charts-grid { grid-template-columns: 1fr; }
+            .sports-grid { grid-template-columns: repeat(3, 1fr); }
+            .header h1 { font-size: 2rem; }
         }
         
         @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            
-            .header {
-                padding: 35px 25px;
-                border-radius: 25px;
-            }
-            
-            .header h1 {
-                font-size: 1.8rem;
-                letter-spacing: 1px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-            
-            .stat-card {
-                padding: 25px 20px;
-                border-radius: 20px;
-            }
-            
-            .stat-card .value {
-                font-size: 1.8rem;
-            }
-            
-            .sports-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 12px;
-            }
-            
-            .sport-card {
-                padding: 20px 12px;
-                border-radius: 15px;
-            }
-            
-            .sport-card .sport-icon {
-                font-size: 2rem;
-            }
-            
-            .total-predictions {
-                padding: 40px 25px;
-                border-radius: 25px;
-            }
-            
-            .total-predictions .big-number {
-                font-size: 3.5rem;
-            }
-            
-            .total-predictions .label {
-                font-size: 1.1rem;
-            }
-            
-            .game-card {
-                flex-direction: column;
-                text-align: center;
-                padding: 20px;
-            }
-            
-            .game-pick {
-                text-align: center;
-                margin-top: 18px;
-                padding-left: 0;
-            }
-            
-            .section {
-                padding: 25px;
-                border-radius: 20px;
-            }
-            
-            .section h2 {
-                font-size: 1.2rem;
-            }
-            
-            .results-table th,
-            .results-table td {
-                padding: 14px 10px;
-                font-size: 0.85rem;
-            }
-            
-            .milestone-grid {
-                gap: 15px;
-            }
-            
-            .milestone-item {
-                min-width: 110px;
-                padding: 20px 15px;
-            }
+            .nav-tabs { flex-wrap: nowrap; overflow-x: auto; }
+            .nav-tab { min-width: 100px; padding: 12px 15px; font-size: 0.8rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .sports-grid { grid-template-columns: repeat(2, 1fr); }
+            .game-card { flex-direction: column; text-align: center; }
+            .game-pick { margin-top: 15px; text-align: center; }
         }
         
         @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .header .tagline {
-                font-size: 1rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .sports-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .total-predictions .big-number {
-                font-size: 3rem;
-            }
-            
-            .total-predictions .win-rate-display {
-                font-size: 1.5rem;
-            }
-            
-            .results-table {
-                font-size: 0.8rem;
-            }
-            
-            .results-table th,
-            .results-table td {
-                padding: 10px 6px;
-            }
-            
-            .milestone-item {
-                min-width: 100px;
-            }
-            
-            .milestone-value {
-                font-size: 1.6rem;
-            }
-        }
-
-        /* ========================================
-           SCROLLBAR STYLING
-           ======================================== */
-        ::-webkit-scrollbar {
-            width: 12px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--gradient-fire);
-            border-radius: 6px;
-            border: 3px solid var(--bg-primary);
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, var(--flame-red), var(--flame-orange));
-        }
-
-        /* ========================================
-           SELECTION STYLING
-           ======================================== */
-        ::selection {
-            background: rgba(255, 107, 53, 0.4);
-            color: var(--text-primary);
+            .header h1 { font-size: 1.5rem; }
+            .nav-tab .tab-text { display: none; }
+            .nav-tab .tab-icon { margin: 0; font-size: 1.2rem; }
         }
     </style>
 </head>
 <body>
+    
+    <!-- ==========================================
+         SCROLLING BANNER TICKER
+         ========================================== -->
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <span class="ticker-item">🔥 JOSH EPSILON BETTING SYSTEM <span class="emoji">🔥</span></span>
+            <span class="ticker-item">🏆 RECORD: 238-35 (87.2%) <span class="emoji">🏆</span></span>
+            <span class="ticker-item">🏒 NHL: 39-2 (95.1%) ON FIRE <span class="emoji">🔥</span></span>
+            <span class="ticker-item">💰 BANKROLL: $11,600 <span class="emoji">📈</span></span>
+            <span class="ticker-item">✅ MAY 18 RESULTS: 3-2 <span class="emoji">✅</span></span>
+            <span class="ticker-item">🏀 ECF GAME 1 TONIGHT: NYK vs CLE <span class="emoji">🏀</span></span>
+            <span class="ticker-item">✨ WATCH PASSIONATELY. BET WISELY!! <span class="emoji">✨</span></span>
+            <span class="ticker-item">🔥 JOSH EPSILON BETTING SYSTEM <span class="emoji">🔥</span></span>
+            <span class="ticker-item">🏆 RECORD: 238-35 (87.2%) <span class="emoji">🏆</span></span>
+            <span class="ticker-item">🏒 NHL: 39-2 (95.1%) ON FIRE <span class="emoji">🔥</span></span>
+        </div>
+    </div>
+
     <div class="container">
         
         <!-- ==========================================
-             HEADER SECTION
+             HEADER WITH LIVE TOGGLE
              ========================================== -->
         <header class="header">
             <h1>🔥 JOSH EPSILON BETTING SYSTEM</h1>
-            <div class="subtitle">📅 May 19, 2026 | 3:00 AM ET</div>
+            <div class="subtitle">📅 May 19, 2026 | 4:00 AM ET</div>
             <div class="tagline">✨ "Watch passionately. Bet Wisely!!" ✨</div>
-            <div class="sync-status">DATA SYNCED — Results Updated</div>
+            
+            <!-- Live Toggle Switch -->
+            <div class="live-toggle-container">
+                <span class="live-toggle-label">Data Sync</span>
+                <label class="live-toggle">
+                    <input type="checkbox" id="liveToggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="live-status online" id="liveStatus">● SYNCED</span>
+            </div>
         </header>
         
         <!-- ==========================================
-             TOTAL PREDICTIONS HERO
+             NAVIGATION TABS
              ========================================== -->
-        <div class="total-predictions">
-            <div class="big-number">286</div>
-            <div class="label">🎯 Total Predictions Tracked</div>
-            <div class="win-rate-display">🏆 238-35 COMPLETED (87.2% Win Rate)</div>
-            <div class="pending-display">⏳ + 13 Pending Predictions</div>
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="dashboard">
+                <span class="tab-icon">🏠</span>
+                <span class="tab-text">Dashboard</span>
+            </button>
+            <button class="nav-tab" data-tab="predictions">
+                <span class="tab-icon">🎯</span>
+                <span class="tab-text">Predictions</span>
+            </button>
+            <button class="nav-tab" data-tab="sports">
+                <span class="tab-icon">🏆</span>
+                <span class="tab-text">Sports</span>
+            </button>
+            <button class="nav-tab" data-tab="props">
+                <span class="tab-icon">👤</span>
+                <span class="tab-text">Props</span>
+            </button>
+            <button class="nav-tab" data-tab="parlays">
+                <span class="tab-icon">🎰</span>
+                <span class="tab-text">Parlays</span>
+            </button>
+            <button class="nav-tab" data-tab="analytics">
+                <span class="tab-icon">📊</span>
+                <span class="tab-text">Analytics</span>
+            </button>
+            <button class="nav-tab" data-tab="history">
+                <span class="tab-icon">📜</span>
+                <span class="tab-text">History</span>
+            </button>
+        </nav>
+        
+        <!-- ==========================================
+             TAB 1: DASHBOARD (HOME)
+             ========================================== -->
+        <div class="tab-content active" id="dashboard">
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="icon">💰</div>
+                    <div class="value">$11,600</div>
+                    <div class="label">Bankroll</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">🎯</div>
+                    <div class="value">87.2%</div>
+                    <div class="label">Win Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">📈</div>
+                    <div class="value">+68%</div>
+                    <div class="label">ROI</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">🏆</div>
+                    <div class="value">238-35</div>
+                    <div class="label">Record</div>
+                </div>
+            </div>
+            
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>📈 Win Rate by Sport</h3>
+                    <div class="chart-container">
+                        <canvas id="winRateChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>💰 Bankroll Growth</h3>
+                    <div class="chart-container">
+                        <canvas id="bankrollChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sports Performance -->
+            <div class="section">
+                <h2>🏆 Performance by Sport</h2>
+                <div class="sports-grid">
+                    <div class="sport-card on-fire">
+                        <span class="sport-icon">🏒</span>
+                        <div class="sport-name">NHL</div>
+                        <div class="sport-record">39-2</div>
+                        <div class="sport-pct">95.1% 🔥</div>
+                    </div>
+                    <div class="sport-card">
+                        <span class="sport-icon">🏀</span>
+                        <div class="sport-name">NBA</div>
+                        <div class="sport-record">82-13</div>
+                        <div class="sport-pct">86.3%</div>
+                    </div>
+                    <div class="sport-card">
+                        <span class="sport-icon">⚽</span>
+                        <div class="sport-name">Soccer</div>
+                        <div class="sport-record">46-7</div>
+                        <div class="sport-pct">86.8%</div>
+                    </div>
+                    <div class="sport-card">
+                        <span class="sport-icon">⚾</span>
+                        <div class="sport-name">MLB</div>
+                        <div class="sport-record">6-2</div>
+                        <div class="sport-pct">75.0%</div>
+                    </div>
+                    <div class="sport-card">
+                        <span class="sport-icon">🎾</span>
+                        <div class="sport-name">Tennis</div>
+                        <div class="sport-record">3-1</div>
+                        <div class="sport-pct">75.0%</div>
+                    </div>
+                    <div class="sport-card">
+                        <span class="sport-icon">🥊</span>
+                        <div class="sport-name">UFC</div>
+                        <div class="sport-record">3-0</div>
+                        <div class="sport-pct">100% 💯</div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
         
         <!-- ==========================================
-             MAIN STATS GRID
+             TAB 2: PREDICTIONS (TOP5_MOBILE)
              ========================================== -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="icon">💰</div>
-                <div class="value">$11,600</div>
-                <div class="label">Bankroll</div>
+        <div class="tab-content" id="predictions">
+            
+            <div class="section">
+                <h2>🎯 Today's Top 5 Picks — May 19, 2026</h2>
+                
+                <div class="game-card">
+                    <div class="game-info">
+                        <div class="game-matchup">🏀 ECF G1: NYK Knicks vs CLE Cavaliers</div>
+                        <div class="game-details">8:00 PM ET | ESPN | Eastern Conference Finals</div>
+                    </div>
+                    <div class="game-pick">
+                        <div class="pick-value">🔜 PENDING</div>
+                        <div class="pick-odds">Analysis Coming</div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-info">
+                        <div class="game-matchup">🏀 WCF G2: SAS Spurs @ OKC Thunder</div>
+                        <div class="game-details">TBD | Spurs lead 1-0</div>
+                    </div>
+                    <div class="game-pick">
+                        <div class="pick-value">🔜 PENDING</div>
+                        <div class="pick-odds">Wembanyama Watch!</div>
+                    </div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="icon">🎯</div>
-                <div class="value">87.2%</div>
-                <div class="label">Win Rate</div>
+            
+            <div class="section">
+                <h2>✅ Yesterday's Results — May 18 (3-2)</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Game</th>
+                            <th>Pick</th>
+                            <th>Score</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>🏒 MTL @ BUF G7</td>
+                            <td>MTL ML (-115)</td>
+                            <td>MTL 3-2 OT</td>
+                            <td class="win">✅ WIN</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>🏀 SAS @ OKC G1</td>
+                            <td>OKC -6.5 (-110)</td>
+                            <td>SAS 122-115 2OT</td>
+                            <td class="loss">❌ LOSS</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>⚾ TOR @ NYY</td>
+                            <td>NYY ML (-135)</td>
+                            <td>NYY 7-6</td>
+                            <td class="win">✅ WIN</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>⚾ LAD @ SD</td>
+                            <td>LAD ML (-160)</td>
+                            <td>SD 1-0</td>
+                            <td class="loss">❌ LOSS</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>⚾ SF @ ARI</td>
+                            <td>ARI ML (-145)</td>
+                            <td>ARI 12-2</td>
+                            <td class="win">✅ WIN</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="stat-card">
-                <div class="icon">📈</div>
-                <div class="value">+68%</div>
-                <div class="label">ROI</div>
-            </div>
-            <div class="stat-card">
-                <div class="icon">🏆</div>
-                <div class="value">238-35</div>
-                <div class="label">Record</div>
-            </div>
+            
         </div>
         
         <!-- ==========================================
-             YESTERDAY'S RESULTS
+             TAB 3: SPORTS BREAKDOWN
              ========================================== -->
-        <div class="section">
-            <h2>✅ May 18 Results — 3-2 (60%)</h2>
-            <table class="results-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Game</th>
-                        <th>Pick</th>
-                        <th>Score</th>
-                        <th>Result</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>🏒 MTL @ BUF G7</td>
-                        <td>MTL ML (-115)</td>
-                        <td>MTL 3-2 OT</td>
-                        <td class="win">✅ WIN</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>🏀 SAS @ OKC G1</td>
-                        <td>OKC -6.5 (-110)</td>
-                        <td>SAS 122-115 2OT</td>
-                        <td class="loss">❌ LOSS</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>⚾ TOR @ NYY</td>
-                        <td>NYY ML (-135)</td>
-                        <td>NYY 7-6</td>
-                        <td class="win">✅ WIN</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>⚾ LAD @ SD</td>
-                        <td>LAD ML (-160)</td>
-                        <td>SD 1-0</td>
-                        <td class="loss">❌ LOSS</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>⚾ SF @ ARI</td>
-                        <td>ARI ML (-145)</td>
-                        <td>ARI 12-2</td>
-                        <td class="win">✅ WIN</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="tab-content" id="sports">
+            
+            <div class="section">
+                <h2>🏆 Detailed Sports Breakdown</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Sport</th>
+                            <th>Wins</th>
+                            <th>Losses</th>
+                            <th>Total</th>
+                            <th>Win %</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🏒 NHL</td>
+                            <td>39</td>
+                            <td>2</td>
+                            <td>41</td>
+                            <td class="win">95.1%</td>
+                            <td>🔥🔥 ON FIRE</td>
+                        </tr>
+                        <tr>
+                            <td>🏀 NBA</td>
+                            <td>82</td>
+                            <td>13</td>
+                            <td>95</td>
+                            <td class="win">86.3%</td>
+                            <td>🔥 HOT</td>
+                        </tr>
+                        <tr>
+                            <td>⚽ Soccer</td>
+                            <td>46</td>
+                            <td>7</td>
+                            <td>53</td>
+                            <td class="win">86.8%</td>
+                            <td>🔥 HOT</td>
+                        </tr>
+                        <tr>
+                            <td>⚾ MLB</td>
+                            <td>6</td>
+                            <td>2</td>
+                            <td>8</td>
+                            <td class="win">75.0%</td>
+                            <td>📈 GOOD</td>
+                        </tr>
+                        <tr>
+                            <td>🎾 Tennis</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>4</td>
+                            <td class="win">75.0%</td>
+                            <td>📈 GOOD</td>
+                        </tr>
+                        <tr>
+                            <td>🥊 UFC</td>
+                            <td>3</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td class="win">100%</td>
+                            <td>💯 PERFECT</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Sport-specific charts -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>🥧 Win Distribution by Sport</h3>
+                    <div class="chart-container">
+                        <canvas id="sportPieChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>📊 Win Rate Comparison</h3>
+                    <div class="chart-container">
+                        <canvas id="sportBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
         </div>
         
         <!-- ==========================================
-             PERFORMANCE BY SPORT
+             TAB 4: PLAYER PROPS
              ========================================== -->
-        <div class="section">
-            <h2>🏆 Performance by Sport</h2>
-            <div class="sports-grid">
-                <div class="sport-card on-fire">
-                    <span class="sport-icon">🏒</span>
-                    <div class="sport-name">NHL</div>
-                    <div class="sport-record">39-2</div>
-                    <div class="sport-pct">95.1% 🔥</div>
+        <div class="tab-content" id="props">
+            
+            <div class="section">
+                <h2>👤 Player Props — Record: 47-7 (87.0%)</h2>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-label">
+                        <span>Props Win Rate</span>
+                        <span class="win">87.0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill green" style="width: 87%;"></div>
+                    </div>
                 </div>
-                <div class="sport-card">
-                    <span class="sport-icon">🏀</span>
-                    <div class="sport-name">NBA</div>
-                    <div class="sport-record">82-13</div>
-                    <div class="sport-pct">86.3%</div>
-                </div>
-                <div class="sport-card">
-                    <span class="sport-icon">⚽</span>
-                    <div class="sport-name">Soccer</div>
-                    <div class="sport-record">46-7</div>
-                    <div class="sport-pct">86.8%</div>
-                </div>
-                <div class="sport-card">
-                    <span class="sport-icon">⚾</span>
-                    <div class="sport-name">MLB</div>
-                    <div class="sport-record">6-2</div>
-                    <div class="sport-pct">75.0%</div>
-                </div>
-                <div class="sport-card">
-                    <span class="sport-icon">🎾</span>
-                    <div class="sport-name">Tennis</div>
-                    <div class="sport-record">3-1</div>
-                    <div class="sport-pct">75.0%</div>
-                </div>
-                <div class="sport-card perfect">
-                    <span class="sport-icon">🥊</span>
-                    <div class="sport-name">UFC</div>
-                    <div class="sport-record">3-0</div>
-                    <div class="sport-pct">100% 💯</div>
-                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Prop</th>
+                            <th>Line</th>
+                            <th>Odds</th>
+                            <th>Conf</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>V. Wembanyama</td>
+                            <td>Points</td>
+                            <td>O 28.5</td>
+                            <td>-110</td>
+                            <td>73%</td>
+                            <td class="pending">🔜 Pending</td>
+                        </tr>
+                        <tr>
+                            <td>S. Gilgeous-Alx</td>
+                            <td>Points</td>
+                            <td>O 30.5</td>
+                            <td>-115</td>
+                            <td>71%</td>
+                            <td class="pending">🔜 Pending</td>
+                        </tr>
+                        <tr>
+                            <td>C. Holmgren</td>
+                            <td>Rebounds</td>
+                            <td>O 9.5</td>
+                            <td>-110</td>
+                            <td>70%</td>
+                            <td class="pending">🔜 Pending</td>
+                        </tr>
+                        <tr>
+                            <td>A. Judge</td>
+                            <td>Total Bases</td>
+                            <td>O 1.5</td>
+                            <td>-125</td>
+                            <td>71%</td>
+                            <td class="pending">🔜 Pending</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+            
         </div>
         
         <!-- ==========================================
-             TODAY'S GAMES
+             TAB 5: PARLAYS
              ========================================== -->
-        <div class="section today-section">
-            <h2>📅 Today — May 19, 2026</h2>
-            <div class="game-card">
-                <div class="game-info">
-                    <div class="game-matchup">🏀 ECF Game 1: NYK Knicks vs CLE Cavaliers</div>
-                    <div class="game-details">8:00 PM ET | ESPN | Eastern Conference Finals — Series: 0-0</div>
+        <div class="tab-content" id="parlays">
+            
+            <div class="section">
+                <h2>🎰 Parlay Builder — Record: 12-3 (80%)</h2>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-label">
+                        <span>Parlay Win Rate</span>
+                        <span class="win">80.0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill green" style="width: 80%;"></div>
+                    </div>
                 </div>
-                <div class="game-pick">
-                    <div class="pick-value">🔜 PENDING</div>
-                    <div class="pick-odds">Analysis Coming</div>
+                
+                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-card">
+                        <div class="icon">🎰</div>
+                        <div class="value">15</div>
+                        <div class="label">Total Parlays</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon">✅</div>
+                        <div class="value">12</div>
+                        <div class="label">Wins</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon">💰</div>
+                        <div class="value">+$1,420</div>
+                        <div class="label">Profit</div>
+                    </div>
                 </div>
             </div>
-            <div class="game-card">
-                <div class="game-info">
-                    <div class="game-matchup">🏀 WCF Game 2: SAS Spurs @ OKC Thunder</div>
-                    <div class="game-details">TBD | Western Conference Finals — Spurs lead 1-0</div>
-                </div>
-                <div class="game-pick">
-                    <div class="pick-value">🔜 PENDING</div>
-                    <div class="pick-odds">Wembanyama Watch!</div>
-                </div>
-            </div>
-            <div class="game-card">
-                <div class="game-info">
-                    <div class="game-matchup">⚾ MLB Full Slate</div>
-                    <div class="game-details">14 Games Scheduled — Check back for picks</div>
-                </div>
-                <div class="game-pick">
-                    <div class="pick-value">🔜 PENDING</div>
-                    <div class="pick-odds">Multiple Games</div>
-                </div>
-            </div>
+            
         </div>
         
         <!-- ==========================================
-             COMPLETE RECORD BREAKDOWN
+             TAB 6: ANALYTICS
              ========================================== -->
-        <div class="section">
-            <h2>📊 Complete Record Breakdown</h2>
-            <table class="results-table">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Wins</th>
-                        <th>Losses</th>
-                        <th>Pending</th>
-                        <th>Total</th>
-                        <th>Win %</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>🎯 Team Predictions</td>
-                        <td>179</td>
-                        <td>25</td>
-                        <td class="pending">13</td>
-                        <td>217</td>
-                        <td class="win">87.7%</td>
-                    </tr>
-                    <tr>
-                        <td>🏃 Player Props</td>
-                        <td>47</td>
-                        <td>7</td>
-                        <td>0</td>
-                        <td>54</td>
-                        <td class="win">87.0%</td>
-                    </tr>
-                    <tr>
-                        <td>🎰 Parlays</td>
-                        <td>12</td>
-                        <td>3</td>
-                        <td>0</td>
-                        <td>15</td>
-                        <td class="win">80.0%</td>
-                    </tr>
-                    <tr style="background: rgba(255, 107, 53, 0.15); font-weight: bold; font-size: 1.1rem;">
-                        <td>🏆 GRAND TOTAL</td>
-                        <td>238</td>
-                        <td>35</td>
-                        <td class="pending">13</td>
-                        <td>286</td>
-                        <td class="win">87.2%</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="tab-content" id="analytics">
+            
+            <div class="section">
+                <h2>📊 Complete Record Breakdown</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Wins</th>
+                            <th>Losses</th>
+                            <th>Pending</th>
+                            <th>Total</th>
+                            <th>Win %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🎯 Team Predictions</td>
+                            <td>179</td>
+                            <td>25</td>
+                            <td class="pending">13</td>
+                            <td>217</td>
+                            <td class="win">87.7%</td>
+                        </tr>
+                        <tr>
+                            <td>👤 Player Props</td>
+                            <td>47</td>
+                            <td>7</td>
+                            <td>0</td>
+                            <td>54</td>
+                            <td class="win">87.0%</td>
+                        </tr>
+                        <tr>
+                            <td>🎰 Parlays</td>
+                            <td>12</td>
+                            <td>3</td>
+                            <td>0</td>
+                            <td>15</td>
+                            <td class="win">80.0%</td>
+                        </tr>
+                        <tr style="background: rgba(255, 107, 53, 0.15); font-weight: bold;">
+                            <td>🏆 GRAND TOTAL</td>
+                            <td>238</td>
+                            <td>35</td>
+                            <td class="pending">13</td>
+                            <td>286</td>
+                            <td class="win">87.2%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>📈 Weekly Performance Trend</h3>
+                    <div class="chart-container">
+                        <canvas id="weeklyChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>🥧 Category Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
         </div>
         
         <!-- ==========================================
-             MILESTONE TRACKER
+             TAB 7: HISTORY
              ========================================== -->
-        <div class="section">
-            <h2>🎯 Milestone Tracker</h2>
-            <div class="milestone-grid">
-                <div class="milestone-item">
-                    <div class="milestone-icon">✅</div>
-                    <div class="milestone-value achieved">200+</div>
-                    <div class="milestone-label">Team Picks</div>
-                </div>
-                <div class="milestone-item">
-                    <div class="milestone-icon">✅</div>
-                    <div class="milestone-value achieved">50+</div>
-                    <div class="milestone-label">Player Props</div>
-                </div>
-                <div class="milestone-item">
-                    <div class="milestone-icon">✅</div>
-                    <div class="milestone-value achieved">85%+</div>
-                    <div class="milestone-label">Win Rate</div>
-                </div>
-                <div class="milestone-item">
-                    <div class="milestone-icon">🔥</div>
-                    <div class="milestone-value in-progress">300</div>
-                    <div class="milestone-label">Next Goal</div>
-                </div>
+        <div class="tab-content" id="history">
+            
+            <div class="section">
+                <h2>📜 Recent Results History</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Game</th>
+                            <th>Pick</th>
+                            <th>Result</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>May 18</td>
+                            <td>🏒 MTL @ BUF G7</td>
+                            <td>MTL ML</td>
+                            <td class="win">✅ WIN</td>
+                            <td>3-2 OT</td>
+                        </tr>
+                        <tr>
+                            <td>May 18</td>
+                            <td>🏀 SAS @ OKC G1</td>
+                            <td>OKC -6.5</td>
+                            <td class="loss">❌ LOSS</td>
+                            <td>122-115 2OT</td>
+                        </tr>
+                        <tr>
+                            <td>May 18</td>
+                            <td>⚾ TOR @ NYY</td>
+                            <td>NYY ML</td>
+                            <td class="win">✅ WIN</td>
+                            <td>7-6</td>
+                        </tr>
+                        <tr>
+                            <td>May 18</td>
+                            <td>⚾ LAD @ SD</td>
+                            <td>LAD ML</td>
+                            <td class="loss">❌ LOSS</td>
+                            <td>1-0</td>
+                        </tr>
+                        <tr>
+                            <td>May 18</td>
+                            <td>⚾ SF @ ARI</td>
+                            <td>ARI ML</td>
+                            <td class="win">✅ WIN</td>
+                            <td>12-2</td>
+                        </tr>
+                        <tr>
+                            <td>May 17</td>
+                            <td>🏀 CLE @ IND ECF G7</td>
+                            <td>CLE ML</td>
+                            <td class="win">✅ WIN</td>
+                            <td>125-94</td>
+                        </tr>
+                        <tr>
+                            <td>May 17</td>
+                            <td>⚾ LAD @ LAA</td>
+                            <td>LAD ML</td>
+                            <td class="win">✅ WIN</td>
+                            <td>10-1</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
-        
-        <!-- ==========================================
-             RECENT HIGHLIGHTS
-             ========================================== -->
-        <div class="section highlight-win">
-            <h2>🔥 Recent Highlights</h2>
-            <div class="game-card">
-                <div class="game-info">
-                    <div class="game-matchup">🏒 NHL Playoffs R2 G7 — Canadiens Advance!</div>
-                    <div class="game-details">Alex Newhook OT winner! MTL 3-2 vs BUF — Series: 4-3 MTL</div>
-                </div>
-                <div class="game-pick">
-                    <div class="pick-value" style="color: var(--success-green);">✅ MTL ML</div>
-                    <div class="pick-odds">Called It!</div>
-                </div>
-            </div>
-            <div class="game-card">
-                <div class="game-info">
-                    <div class="game-matchup">🏀 WCF Game 1 — Wembanyama's Historic Night!</div>
-                    <div class="game-details">41 PTS / 24 REB in Double OT! SAS 122-115 vs OKC</div>
-                </div>
-                <div class="game-pick">
-                    <div class="pick-value" style="color: var(--pending-amber);">📊 Upset</div>
-                    <div class="pick-odds">Historic Performance</div>
-                </div>
-            </div>
-            <div class="game-card">
-                <div class="game-info">
-                    <div class="game-matchup">🏒 NHL Season Record — Absolute Dominance!</div>
-                    <div class="game-details">39-2 (95.1%) — Best Sport Performance</div>
-                </div>
-                <div class="game-pick">
-                    <div class="pick-value" style="color: var(--flame-orange);">🔥 ON FIRE</div>
-                    <div class="pick-odds">Elite Performance</div>
-                </div>
-            </div>
+            
         </div>
         
         <!-- ==========================================
              DISCLAIMER
              ========================================== -->
         <div class="disclaimer">
-            <strong>⚠️ IMPORTANT DISCLAIMER</strong>
-            <p>Scores and results shown are NOT real-time. Data is manually updated periodically.</p>
-            <p>All predictions are for entertainment purposes only. Past performance does not guarantee future results.</p>
-            <p>Always bet responsibly and within your means. If you or someone you know has a gambling problem, call 1-800-522-4700.</p>
+            <strong>⚠️ IMPORTANT DISCLAIMER</strong><br>
+            Scores and results shown are NOT real-time. Data is manually updated periodically.<br>
+            All predictions are for entertainment purposes only. Past performance does not guarantee future results.<br>
+            Always bet responsibly. If you have a gambling problem, call 1-800-522-4700.
         </div>
         
         <!-- ==========================================
@@ -1353,11 +1342,304 @@
              ========================================== -->
         <footer class="footer">
             <div class="brand">🔥 JOSH EPSILON BETTING SYSTEM</div>
-            <div class="copyright">© 2026 Josh Epsilon | All Rights Reserved</div>
+            <div>© 2026 Josh Epsilon | All Rights Reserved</div>
             <div class="motto">✨ "Watch passionately. Bet Wisely!!" ✨</div>
-            <div class="version">Version 4.0 | Last Updated: May 19, 2026</div>
+            <div style="margin-top: 10px; font-size: 0.85rem;">Version 4.0 | Last Updated: May 19, 2026</div>
         </footer>
         
     </div>
+
+    <!-- ==========================================
+         JAVASCRIPT
+         ========================================== -->
+    <script>
+        // ========================================
+        // TAB NAVIGATION
+        // ========================================
+        const tabs = document.querySelectorAll('.nav-tab');
+        const contents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active from all
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                
+                // Add active to clicked
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // ========================================
+        // LIVE TOGGLE
+        // ========================================
+        const liveToggle = document.getElementById('liveToggle');
+        const liveStatus = document.getElementById('liveStatus');
+        
+        liveToggle.addEventListener('change', function() {
+            if (this.checked) {
+                liveStatus.textContent = '● SYNCED';
+                liveStatus.className = 'live-status online';
+            } else {
+                liveStatus.textContent = '○ OFFLINE';
+                liveStatus.className = 'live-status offline';
+            }
+        });
+        
+        // ========================================
+        // CHARTS - Win Rate by Sport
+        // ========================================
+        const winRateCtx = document.getElementById('winRateChart').getContext('2d');
+        new Chart(winRateCtx, {
+            type: 'bar',
+            data: {
+                labels: ['NHL', 'NBA', 'Soccer', 'MLB', 'Tennis', 'UFC'],
+                datasets: [{
+                    label: 'Win Rate %',
+                    data: [95.1, 86.3, 86.8, 75.0, 75.0, 100],
+                    backgroundColor: [
+                        'rgba(255, 65, 54, 0.8)',
+                        'rgba(255, 107, 53, 0.8)',
+                        'rgba(255, 165, 0, 0.8)',
+                        'rgba(255, 215, 0, 0.8)',
+                        'rgba(0, 210, 106, 0.8)',
+                        'rgba(0, 255, 127, 0.8)'
+                    ],
+                    borderColor: [
+                        '#FF4136',
+                        '#FF6B35',
+                        '#FFA500',
+                        '#FFD700',
+                        '#00D26A',
+                        '#00FF7F'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: { color: 'rgba(255,255,255,0.1)' },
+                        ticks: { color: '#B8B8B8' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#B8B8B8' }
+                    }
+                }
+            }
+        });
+        
+        // ========================================
+        // CHARTS - Bankroll Growth (Line Chart)
+        // ========================================
+        const bankrollCtx = document.getElementById('bankrollChart').getContext('2d');
+        new Chart(bankrollCtx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'],
+                datasets: [{
+                    label: 'Bankroll ($)',
+                    data: [10000, 10200, 10450, 10800, 10650, 11100, 11350, 11600],
+                    fill: true,
+                    backgroundColor: 'rgba(255, 107, 53, 0.2)',
+                    borderColor: '#FF6B35',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointBackgroundColor: '#FFD700',
+                    pointBorderColor: '#FF6B35',
+                    pointRadius: 5,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.1)' },
+                        ticks: { 
+                            color: '#B8B8B8',
+                            callback: function(value) { return '$' + value.toLocaleString(); }
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#B8B8B8' }
+                    }
+                }
+            }
+        });
+        
+        // ========================================
+        // CHARTS - Sport Pie Chart
+        // ========================================
+        const sportPieCtx = document.getElementById('sportPieChart');
+        if (sportPieCtx) {
+            new Chart(sportPieCtx.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['NHL', 'NBA', 'Soccer', 'MLB', 'Tennis', 'UFC'],
+                    datasets: [{
+                        data: [39, 82, 46, 6, 3, 3],
+                        backgroundColor: [
+                            '#FF4136',
+                            '#FF6B35',
+                            '#FFA500',
+                            '#FFD700',
+                            '#00D26A',
+                            '#00FF7F'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { color: '#B8B8B8', padding: 15 }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // ========================================
+        // CHARTS - Sport Bar Chart
+        // ========================================
+        const sportBarCtx = document.getElementById('sportBarChart');
+        if (sportBarCtx) {
+            new Chart(sportBarCtx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['NHL', 'NBA', 'Soccer', 'MLB', 'Tennis', 'UFC'],
+                    datasets: [
+                        {
+                            label: 'Wins',
+                            data: [39, 82, 46, 6, 3, 3],
+                            backgroundColor: 'rgba(0, 210, 106, 0.8)',
+                            borderRadius: 5
+                        },
+                        {
+                            label: 'Losses',
+                            data: [2, 13, 7, 2, 1, 0],
+                            backgroundColor: 'rgba(255, 59, 59, 0.8)',
+                            borderRadius: 5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#B8B8B8' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            stacked: true,
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            ticks: { color: '#B8B8B8' }
+                        },
+                        x: {
+                            stacked: true,
+                            grid: { display: false },
+                            ticks: { color: '#B8B8B8' }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // ========================================
+        // CHARTS - Weekly Performance
+        // ========================================
+        const weeklyCtx = document.getElementById('weeklyChart');
+        if (weeklyCtx) {
+            new Chart(weeklyCtx.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Daily Win Rate %',
+                        data: [85, 90, 88, 92, 80, 95, 87],
+                        fill: false,
+                        borderColor: '#FFD700',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        pointBackgroundColor: '#FF6B35',
+                        pointRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            min: 50,
+                            max: 100,
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            ticks: { color: '#B8B8B8' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#B8B8B8' }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // ========================================
+        // CHARTS - Category Distribution
+        // ========================================
+        const categoryCtx = document.getElementById('categoryChart');
+        if (categoryCtx) {
+            new Chart(categoryCtx.getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['Team Predictions', 'Player Props', 'Parlays'],
+                    datasets: [{
+                        data: [217, 54, 15],
+                        backgroundColor: [
+                            '#FF6B35',
+                            '#FFD700',
+                            '#00D26A'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { color: '#B8B8B8', padding: 15 }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    
 </body>
 </html>
