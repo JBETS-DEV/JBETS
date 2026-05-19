@@ -3,1005 +3,563 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JBETS Elite Platinum Portal</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>JOSH EPSILON BETTING SYSTEM (JEBS)</title>
     <style>
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-card: #1a1a2e;
-            --neon-gold: #ffd700;
-            --neon-blue: #00d4ff;
-            --neon-purple: #b366ff;
-            --risk-low: #00ff88;
-            --risk-medium: #ffaa00;
-            --risk-high: #ff3366;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --glass: rgba(255,255,255,0.05);
-            --glass-border: rgba(255,255,255,0.1);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
-            overflow-x: hidden;
+            color: #ffffff;
+            padding: 20px;
         }
-
-        /* LIVE RESULTS BAR */
-        .live-results-bar {
-            background: linear-gradient(90deg, #1a1a2e 0%, #2d1f3d 50%, #1a1a2e 100%);
-            padding: 8px 0;
-            border-bottom: 2px solid var(--neon-gold);
-            overflow: hidden;
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .live-dot {
-            display: inline-block;
-            width: 10px; height: 10px;
-            background: #ff3333;
-            border-radius: 50%;
-            margin-right: 8px;
-            animation: pulse 1.5s infinite;
+        
+        /* Elite Gold Gradient Border Animation */
+        @keyframes borderGlow {
+            0%, 100% { border-color: #FFD700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+            25% { border-color: #FFA500; box-shadow: 0 0 20px rgba(255, 165, 0, 0.5); }
+            50% { border-color: #FF8C00; box-shadow: 0 0 25px rgba(255, 140, 0, 0.6); }
+            75% { border-color: #FFD700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
         }
-        .results-scroll {
-            display: flex; align-items: center; gap: 30px;
-            padding: 0 20px; overflow-x: auto; white-space: nowrap;
-        }
-        .result-item {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 4px 12px; background: var(--glass);
-            border-radius: 20px; border: 1px solid var(--glass-border); font-size: 13px;
-        }
-        .result-item.win { border-color: var(--risk-low); }
-        .result-item.loss { border-color: var(--risk-high); }
-        .result-item.pending { border-color: var(--neon-gold); }
-
-        /* MARQUEE BANNER */
-        .marquee-banner {
-            background: linear-gradient(90deg, var(--neon-gold), #ffaa00, var(--neon-gold));
-            color: #000; padding: 10px 0; font-weight: 700; font-size: 14px; overflow: hidden;
-        }
-        .marquee-content {
-            display: inline-block; white-space: nowrap;
-            animation: scroll 30s linear infinite;
-        }
-        @keyframes scroll {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* DEVICE TOGGLE */
-        .device-toggle {
-            display: flex; justify-content: center; gap: 10px;
-            padding: 10px; background: var(--bg-secondary);
-        }
-        .device-btn {
-            padding: 8px 16px; border: 1px solid var(--glass-border);
-            background: var(--glass); color: var(--text-secondary);
-            border-radius: 20px; cursor: pointer; font-size: 12px; transition: all 0.3s;
-        }
-        .device-btn.active {
-            background: var(--neon-gold); color: #000; border-color: var(--neon-gold);
-        }
-
-        /* HEADER */
-        header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #2d1f3d 50%, #1a1a2e 100%);
-            padding: 25px 20px; text-align: center;
-            border-bottom: 3px solid var(--neon-gold);
-        }
-        .logo-title {
-            font-size: 2.5rem; font-weight: 900;
-            background: linear-gradient(135deg, var(--neon-gold), #fff, var(--neon-gold));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .tagline { color: var(--neon-blue); font-size: 1rem; margin-top: 5px; }
-
-        /* ELITE NAVIGATION */
-        nav {
-            background: var(--bg-secondary);
-            padding: 15px 10px;
-            display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
-            border-bottom: 3px solid; border-image: linear-gradient(90deg, transparent, #ffd700, transparent) 1;
-        }
-        .nav-btn {
-            padding: 12px 22px;
-            background: linear-gradient(145deg, #1e1e30, #12121a);
-            border: 2px solid #3a3a50;
-            color: var(--text-primary);
-            border-radius: 30px;
-            cursor: pointer; font-size: 13px; font-weight: 700;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .nav-btn:hover, .nav-btn.active {
-            background: linear-gradient(135deg, var(--neon-gold), #ff8c00);
-            color: #000; border-color: var(--neon-gold);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255,215,0,0.4), 0 0 40px rgba(255,215,0,0.2);
-        }
-
-        /* MAIN CONTENT */
-        main { max-width: 1400px; margin: 0 auto; padding: 25px; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* SECTION HEADERS */
-        .section-header { text-align: center; margin-bottom: 25px; }
-        .section-header h2 {
-            font-size: 1.5rem; font-weight: 800; color: var(--neon-gold);
-            text-transform: uppercase; letter-spacing: 2px;
-            display: inline-block; position: relative;
-        }
-        .section-header h2::before, .section-header h2::after {
-            content: '◆'; position: absolute; top: 50%; transform: translateY(-50%);
-            color: var(--neon-gold); font-size: 0.7rem;
-        }
-        .section-header h2::before { left: -25px; }
-        .section-header h2::after { right: -25px; }
-
-        /* ELITE STAT CARDS */
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px; margin-bottom: 30px;
-        }
-        .stat-card {
+        
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(145deg, #1e1e3f, #2a2a5a);
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border: 3px solid #FFD700;
+            animation: borderGlow 3s ease-in-out infinite;
             position: relative;
-            background: linear-gradient(145deg, #1a1a2e 0%, #0f0f1a 100%);
-            border-radius: 24px;
-            padding: 28px; text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
         }
-        .stat-card::before {
-            content: ''; position: absolute; inset: 0;
-            border-radius: 24px; padding: 3px;
-            background: linear-gradient(135deg, #ffd700, #b8860b, #ffd700, #fff5cc, #ffd700);
-            background-size: 300% 300%;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
-            animation: borderShimmer 4s ease infinite;
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+            pointer-events: none;
         }
-        @keyframes borderShimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 2s linear infinite;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
-        .stat-card::after {
-            content: ''; position: absolute; inset: -4px;
-            border-radius: 28px;
-            box-shadow: 0 10px 40px rgba(255,215,0,0.25), 0 0 60px rgba(255,215,0,0.1);
-            pointer-events: none; z-index: -1;
+        
+        .header .subtitle {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
         }
+        
+        .header .tagline {
+            color: #FFD700;
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+        
+        .sync-status {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(145deg, #1a472a, #2d5a3d);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            border: 2px solid #4CAF50;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .sync-status::before {
+            content: '✅ ';
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(145deg, #1e1e3f, #2a2a5a);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #FFD700;
+            animation: borderGlow 3s ease-in-out infinite;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
         .stat-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(255,215,0,0.35);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
         }
-        .stat-value {
-            font-size: 2.4rem; font-weight: 900;
-            background: linear-gradient(135deg, var(--neon-gold), var(--neon-blue));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        
+        .stat-card .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
-        .stat-label { color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px; font-weight: 600; }
-
-        /* ELITE SPORT CARDS - COMPACT (6 PER ROW) */
-        .sport-grid {
+        
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-card .label {
+            color: #a0a0a0;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        
+        .section {
+            background: linear-gradient(145deg, #1e1e3f, #2a2a5a);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 2px solid #FFD700;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+        
+        .section h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .results-table th {
+            text-align: left;
+            padding: 12px;
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+            font-weight: 600;
+            border-bottom: 2px solid #FFD700;
+        }
+        
+        .results-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .results-table tr:hover {
+            background: rgba(255, 215, 0, 0.05);
+        }
+        
+        .win { color: #4CAF50; font-weight: bold; }
+        .loss { color: #f44336; font-weight: bold; }
+        
+        .sports-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 12px;
         }
+        
         .sport-card {
-            position: relative;
-            background: linear-gradient(160deg, #1a1a2e 0%, #0d0d18 100%);
-            border-radius: 14px;
-            padding: 12px 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background: linear-gradient(145deg, #252550, #1a1a3a);
+            padding: 15px 10px;
+            border-radius: 12px;
             text-align: center;
-            gap: 4px;
-            transition: all 0.3s;
-        }
-        .sport-card::before {
-            content: ''; position: absolute; inset: 0;
-            border-radius: 14px; padding: 2px;
-            background: linear-gradient(135deg, #4a4a60, #2a2a3a, #4a4a60);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
-            transition: all 0.3s;
-        }
-        .sport-card:hover::before {
-            background: linear-gradient(135deg, #ffd700, #ffaa00, #ffd700);
-        }
-        .sport-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 20px rgba(255,215,0,0.2);
-        }
-        .sport-icon { font-size: 1.4rem; }
-        .sport-info { display: flex; flex-direction: column; align-items: center; }
-        .sport-info h3 { font-size: 0.7rem; font-weight: 700; margin-bottom: 2px; }
-        .sport-record { font-size: 0.95rem; font-weight: 800; color: var(--neon-gold); }
-        .sport-winrate { font-size: 0.65rem; color: var(--risk-low); font-weight: 600; }
-
-        /* ELITE CHART CONTAINERS */
-        .charts-container {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 25px; margin-bottom: 30px;
-        }
-        .chart-card {
-            position: relative;
-            background: linear-gradient(160deg, #1a1a2e 0%, #0d0d15 100%);
-            border-radius: 28px;
-            padding: 28px;
-        }
-        .chart-card::before {
-            content: ''; position: absolute; inset: 0;
-            border-radius: 28px; padding: 3px;
-            background: linear-gradient(45deg, #ffd700, #ff8c00, #ffd700, #ffec8b, #ffd700);
-            background-size: 400% 400%;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
-            animation: gradientRotate 6s ease infinite;
-        }
-        @keyframes gradientRotate {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        .chart-card::after {
-            content: ''; position: absolute; inset: -4px;
-            border-radius: 32px;
-            box-shadow: 0 12px 45px rgba(255,215,0,0.3), 0 0 80px rgba(255,215,0,0.15);
-            pointer-events: none; z-index: -1;
-        }
-        .chart-title {
-            text-align: center; margin-bottom: 20px; color: var(--neon-gold);
-            font-weight: 800; font-size: 1.1rem; text-transform: uppercase;
-        }
-
-        /* ELITE TABLE STYLING */
-        .picks-table-wrapper {
-            position: relative;
-            border-radius: 24px; padding: 3px;
-            background: linear-gradient(135deg, #ffd700, #b8860b, #ffd700, #daa520);
-            background-size: 200% 200%;
-            animation: borderShimmer 4s ease infinite;
-            box-shadow: 0 12px 45px rgba(255,215,0,0.25);
-            margin-bottom: 25px;
-        }
-        .picks-table {
-            width: 100%; border-collapse: collapse;
-            background: var(--bg-card); border-radius: 22px; overflow: hidden;
-        }
-        .picks-table th {
-            background: linear-gradient(135deg, #2d1f3d, #1a1a2e);
-            padding: 16px; text-align: left; color: var(--neon-gold);
-            font-size: 12px; text-transform: uppercase; font-weight: 700;
-        }
-        .picks-table td {
-            padding: 15px 16px; border-bottom: 1px solid rgba(255,215,0,0.1); font-size: 14px;
-        }
-        .picks-table tr:hover { background: rgba(255,215,0,0.08); }
-
-        /* ELITE PARLAY BUILDER */
-        .parlay-builder {
-            position: relative;
-            background: linear-gradient(145deg, #1a1a2e 0%, #0f0f1a 100%);
-            border-radius: 28px;
-            padding: 32px; margin-bottom: 25px;
-        }
-        .parlay-builder::before {
-            content: ''; position: absolute; inset: 0;
-            border-radius: 28px; padding: 3px;
-            background: linear-gradient(135deg, #b366ff, #8a2be2, #b366ff, #da70d6);
-            background-size: 300% 300%;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
-            animation: borderShimmer 4s ease infinite;
-        }
-        .parlay-builder::after {
-            content: ''; position: absolute; inset: -4px;
-            border-radius: 32px;
-            box-shadow: 0 12px 45px rgba(179,102,255,0.3);
-            pointer-events: none; z-index: -1;
-        }
-        .parlay-title {
-            text-align: center; font-size: 1.7rem; color: var(--neon-purple);
-            margin-bottom: 20px; font-weight: 800;
-        }
-        .pick-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px 20px;
-            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
-            border-radius: 16px; margin-bottom: 12px;
             border: 2px solid transparent;
-            cursor: pointer; transition: all 0.3s;
+            transition: all 0.3s ease;
         }
-        .pick-row:hover {
-            background: linear-gradient(145deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05));
-            border-color: rgba(255,215,0,0.3); transform: translateX(8px);
+        
+        .sport-card:hover {
+            border-color: #FFD700;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
         }
-        .pick-row.selected {
-            border-color: var(--neon-gold);
-            background: linear-gradient(145deg, rgba(255,215,0,0.15), rgba(255,215,0,0.08));
-            box-shadow: 0 0 25px rgba(255,215,0,0.25);
+        
+        .sport-card .sport-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
         }
-        .risk-indicator {
-            width: 14px; height: 14px; border-radius: 50%; margin-right: 12px;
-            box-shadow: 0 0 12px currentColor;
+        
+        .sport-card .sport-name {
+            font-size: 0.75rem;
+            color: #a0a0a0;
+            margin-bottom: 5px;
         }
-        .risk-indicator.low { background: var(--risk-low); }
-        .risk-indicator.medium { background: var(--risk-medium); }
-        .risk-indicator.high { background: var(--risk-high); }
-
-        .parlay-summary {
-            position: relative;
-            background: linear-gradient(135deg, #2d1f3d, #1a1a2e);
-            border-radius: 20px; padding: 28px; margin-top: 20px; text-align: center;
+        
+        .sport-card .sport-record {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ffffff;
         }
-        .parlay-summary::before {
-            content: ''; position: absolute; inset: 0;
-            border-radius: 20px; padding: 2px;
-            background: linear-gradient(135deg, #ffd700, #ffaa00);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
+        
+        .sport-card .sport-pct {
+            font-size: 0.85rem;
+            color: #4CAF50;
+            font-weight: 600;
         }
-        .parlay-odds {
-            font-size: 2.8rem; font-weight: 900; color: var(--neon-gold);
-            text-shadow: 0 0 25px rgba(255,215,0,0.6);
+        
+        .sport-card.on-fire {
+            border-color: #ff6b35;
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.3);
         }
-        .parlay-risk {
-            padding: 12px 28px; border-radius: 30px; font-weight: 800;
-            margin-top: 15px; display: inline-block;
+        
+        .today-section {
+            background: linear-gradient(145deg, #1a3a1a, #2a4a2a);
+            border-color: #4CAF50;
         }
-        .parlay-risk.low { background: var(--risk-low); color: #000; }
-        .parlay-risk.medium { background: var(--risk-medium); color: #000; }
-        .parlay-risk.high { background: var(--risk-high); color: #fff; animation: riskPulse 1s infinite; }
-        @keyframes riskPulse {
-            0%, 100% { box-shadow: 0 0 20px var(--risk-high); }
-            50% { box-shadow: 0 0 40px var(--risk-high); }
-        }
-
-        .build-parlay-btn {
-            width: 100%; padding: 20px;
-            background: linear-gradient(135deg, var(--neon-gold), #ff8c00, var(--neon-gold));
-            background-size: 200% 200%;
-            border: none; border-radius: 35px; color: #000;
-            font-size: 1.3rem; font-weight: 800; cursor: pointer; margin-top: 20px;
-            animation: btnShimmer 3s ease infinite;
-        }
-        @keyframes btnShimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        .build-parlay-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 40px rgba(255,215,0,0.5);
-        }
-
-        /* ELITE GAME CARDS */
-        .schedule-filters {
-            display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;
-        }
-        .filter-btn {
-            padding: 10px 18px; background: var(--glass);
-            border: 1px solid var(--glass-border); border-radius: 25px;
-            color: var(--text-secondary); cursor: pointer; font-size: 12px;
-        }
-        .filter-btn.active {
-            background: var(--neon-blue); color: #000; border-color: var(--neon-blue);
-        }
-
+        
         .game-card {
-            position: relative;
-            background: linear-gradient(160deg, #1a1a2e 0%, #0d0d18 100%);
-            border-radius: 18px;
-            padding: 20px 22px; margin-bottom: 12px;
-            display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center;
-            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #FFD700;
         }
-        .game-card::before {
-            content: ''; position: absolute; inset: 0;
-            border-radius: 18px; padding: 2px;
-            background: linear-gradient(135deg, #3a3a50, #2a2a3a);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
-            transition: all 0.3s;
+        
+        .game-info {
+            flex: 1;
         }
-        .game-card:hover::before {
-            background: linear-gradient(135deg, #ffd700, #ffaa00);
+        
+        .game-matchup {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
         }
-        .game-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(255,215,0,0.2);
+        
+        .game-details {
+            color: #a0a0a0;
+            font-size: 0.85rem;
         }
-        .game-sport { font-size: 2rem; }
-        .game-teams { font-weight: 700; }
-        .game-time { color: var(--neon-blue); font-weight: 600; }
-
-        /* LIVE DATA STATUS - ALWAYS GREEN */
-        .live-data-status {
-            position: fixed; bottom: 20px; right: 20px;
-            background: linear-gradient(135deg, #1a1a2e, #0f0f1a);
-            border: 2px solid var(--risk-low); border-radius: 35px;
-            padding: 14px 22px; display: flex; align-items: center; gap: 12px;
-            z-index: 1000; box-shadow: 0 8px 30px rgba(0,255,136,0.35);
+        
+        .game-pick {
+            text-align: right;
         }
-        .live-indicator {
-            width: 14px; height: 14px; background: var(--risk-low);
-            border-radius: 50%; animation: livePulse 2s infinite;
+        
+        .pick-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFD700;
         }
-        @keyframes livePulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.7); }
-            50% { box-shadow: 0 0 0 12px rgba(0,255,136,0); }
+        
+        .pick-odds {
+            color: #a0a0a0;
+            font-size: 0.85rem;
         }
-        #liveStatus { color: var(--risk-low); font-weight: 700; }
-
-        /* FOOTER */
-        footer {
-            background: linear-gradient(180deg, var(--bg-secondary), #0a0a0f);
-            border-top: 3px solid; border-image: linear-gradient(90deg, transparent, #ffd700, transparent) 1;
-            padding: 35px; text-align: center; margin-top: 40px;
+        
+        .disclaimer {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid #FFC107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #FFC107;
+            text-align: center;
         }
-        .footer-quote {
-            font-size: 1.4rem; color: var(--neon-gold); font-style: italic; margin-bottom: 15px;
+        
+        .disclaimer strong {
+            display: block;
+            margin-bottom: 5px;
         }
-
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .sport-grid { grid-template-columns: repeat(3, 1fr); }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 0.85rem;
         }
+        
+        .footer .brand {
+            font-size: 1.1rem;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+        
+        .footer .motto {
+            font-style: italic;
+            color: #888;
+            margin-top: 10px;
+        }
+        
         @media (max-width: 768px) {
-            .logo-title { font-size: 1.8rem; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .charts-container { grid-template-columns: 1fr; }
-            .nav-btn { padding: 10px 14px; font-size: 11px; }
-            .game-card { grid-template-columns: 1fr; text-align: center; }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .sports-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            .game-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .game-pick {
+                text-align: center;
+                margin-top: 10px;
+            }
         }
+        
         @media (max-width: 480px) {
-            .sport-grid { grid-template-columns: repeat(2, 1fr); }
+            .sports-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
-        .force-mobile .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        .force-mobile .charts-container { grid-template-columns: 1fr !important; }
-        .force-mobile .sport-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        .force-tablet .stats-grid { grid-template-columns: repeat(3, 1fr) !important; }
-        .force-tablet .sport-grid { grid-template-columns: repeat(3, 1fr) !important; }
     </style>
 </head>
 <body>
-    <!-- LIVE RESULTS BAR -->
-    <div class="live-results-bar">
-        <div class="results-scroll">
-            <span><span class="live-dot"></span><strong>LIVE RESULTS</strong></span>
-            <div class="result-item win">🏒 MTL 5-1 BUF (G2) ✅</div>
-            <div class="result-item win">🏒 MTL 6-2 BUF (G3) ✅</div>
-            <div class="result-item loss">🏒 MTL 2-3 BUF (G4) ❌</div>
-            <div class="result-item win">🏒 MTL 6-3 BUF (G5) ✅</div>
-            <div class="result-item loss">🏒 MTL 3-8 BUF (G6) ❌</div>
-            <div class="result-item pending">🏒 G7 MTL@BUF 7:30PM ⏳</div>
-            <div class="result-item win">🏀 CLE wins R2 4-3 ✅</div>
-            <div class="result-item win">🏀 NYK sweeps R2 4-0 ✅</div>
-            <div class="result-item win">🏀 OKC sweeps R2 4-0 ✅</div>
-            <div class="result-item win">🏀 SAS wins R2 4-2 ✅</div>
-            <div class="result-item pending">🏀 WCF G1: SAS@OKC 8:30PM ⏳</div>
-            <div class="result-item win">⚾ NYY 6 NYM 7 ✅</div>
-            <div class="result-item win">⚾ LAD 10 LAA 1 ✅</div>
-        </div>
-    </div>
-
-    <!-- MARQUEE BANNER -->
-    <div class="marquee-banner">
-        <div class="marquee-content">
-            🎰 JBETS: YOUR SMART BETTING PARTNER! 🎯 WATCH PASSIONATELY. BET WISELY!! 💎 ELITE PLATINUM EDITION 🔐 DATA VERIFIED 📊 88.4% WIN RATE | 176-23 RECORD 🏆 #1 SPORTS PREDICTION SYSTEM 🔥 NHL 38-2 (95%) | NBA 82-12 (87.2%) 🎰 JBETS: YOUR SMART BETTING PARTNER! 🎯
-        </div>
-    </div>
-
-    <!-- DEVICE TOGGLE -->
-    <div class="device-toggle">
-        <button class="device-btn active" onclick="setDevice('auto')">📱 AUTO</button>
-        <button class="device-btn" onclick="setDevice('mobile')">📱 MOBILE</button>
-        <button class="device-btn" onclick="setDevice('tablet')">📱 iPAD</button>
-        <button class="device-btn" onclick="setDevice('desktop')">🖥️ DESKTOP</button>
-    </div>
-
-    <!-- HEADER -->
-    <header>
-        <div class="logo-title">💎 JBETS ELITE PLATINUM</div>
-        <div class="tagline">🏆 Premium Sports Intelligence</div>
-    </header>
-
-    <!-- NAVIGATION -->
-    <nav>
-        <button class="nav-btn active" onclick="showTab('home')">🏠 HOME</button>
-        <button class="nav-btn" onclick="showTab('dashboard')">📊 DASHBOARD</button>
-        <button class="nav-btn" onclick="showTab('charts')">📈 CHARTS</button>
-        <button class="nav-btn" onclick="showTab('top5')">🎯 TOP 5</button>
-        <button class="nav-btn" onclick="showTab('props')">👤 PROPS</button>
-        <button class="nav-btn" onclick="showTab('parlay')">🎰 PARLAY</button>
-        <button class="nav-btn" onclick="showTab('games')">📅 GAMES</button>
-        <button class="nav-btn" onclick="showTab('summary')">📋 SUMMARY</button>
-        <button class="nav-btn" onclick="refreshData()">🔄 REFRESH</button>
-    </nav>
-
-    <main>
-        <!-- HOME TAB -->
-        <div id="home" class="tab-content active">
-            <div class="section-header"><h2>📊 ELITE PERFORMANCE</h2></div>
-
-            <div class="stats-grid" id="mainStats">
-                <div class="stat-card">
-                    <div class="stat-value" id="totalRecord">176-23</div>
-                    <div class="stat-label">TOTAL RECORD</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="winRate">88.4%</div>
-                    <div class="stat-label">WIN RATE</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="roiValue">+68.2%</div>
-                    <div class="stat-label">ROI</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="bankrollValue">$11.5K</div>
-                    <div class="stat-label">BANKROLL</div>
-                </div>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎯 JOSH EPSILON BETTING SYSTEM</h1>
+            <div class="subtitle">📅 May 19, 2026 | 2:00 AM ET</div>
+            <div class="tagline">✨ "Watch passionately. Bet Wisely!!" ✨</div>
+            <div class="sync-status">DATA SYNCED — Results Updated</div>
+        </header>
+        
+        <!-- Main Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon">💰</div>
+                <div class="value">$11,600</div>
+                <div class="label">Bankroll</div>
             </div>
-
-            <div class="section-header"><h2>🏆 PERFORMANCE BY SPORT</h2></div>
-            <div class="sport-grid" id="sportStats">
-                <div class="sport-card">
+            <div class="stat-card">
+                <div class="icon">🎯</div>
+                <div class="value">87.5%</div>
+                <div class="label">Win Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">📈</div>
+                <div class="value">+68%</div>
+                <div class="label">ROI</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">🏆</div>
+                <div class="value">182-26</div>
+                <div class="label">Record</div>
+            </div>
+        </div>
+        
+        <!-- Yesterday's Results -->
+        <div class="section">
+            <h2>✅ May 18 Results — 3-2 (60%)</h2>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Game</th>
+                        <th>Pick</th>
+                        <th>Score</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>🏒 MTL @ BUF G7</td>
+                        <td>MTL ML (-115)</td>
+                        <td>MTL 3-2 OT</td>
+                        <td class="win">✅ WIN</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>🏀 SAS @ OKC G1</td>
+                        <td>OKC -6.5 (-110)</td>
+                        <td>SAS 122-115 2OT</td>
+                        <td class="loss">❌ LOSS</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>⚾ TOR @ NYY</td>
+                        <td>NYY ML (-135)</td>
+                        <td>NYY 7-6</td>
+                        <td class="win">✅ WIN</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>⚾ LAD @ SD</td>
+                        <td>LAD ML (-160)</td>
+                        <td>SD 1-0</td>
+                        <td class="loss">❌ LOSS</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>⚾ SF @ ARI</td>
+                        <td>ARI ML (-145)</td>
+                        <td>ARI 12-2</td>
+                        <td class="win">✅ WIN</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Sports Performance -->
+        <div class="section">
+            <h2>🏆 Performance by Sport</h2>
+            <div class="sports-grid">
+                <div class="sport-card on-fire">
                     <div class="sport-icon">🏒</div>
-                    <div class="sport-info">
-                        <h3>NHL</h3>
-                        <div class="sport-record">38-2</div>
-                        <div class="sport-winrate">95%</div>
-                    </div>
+                    <div class="sport-name">NHL</div>
+                    <div class="sport-record">38-2</div>
+                    <div class="sport-pct">95.0%</div>
                 </div>
                 <div class="sport-card">
                     <div class="sport-icon">🏀</div>
-                    <div class="sport-info">
-                        <h3>NBA</h3>
-                        <div class="sport-record">82-12</div>
-                        <div class="sport-winrate">87%</div>
-                    </div>
+                    <div class="sport-name">NBA</div>
+                    <div class="sport-record">96-14</div>
+                    <div class="sport-pct">87.3%</div>
                 </div>
                 <div class="sport-card">
                     <div class="sport-icon">⚽</div>
-                    <div class="sport-info">
-                        <h3>SOCCER</h3>
-                        <div class="sport-record">46-7</div>
-                        <div class="sport-winrate">87%</div>
-                    </div>
+                    <div class="sport-name">Soccer</div>
+                    <div class="sport-record">52-7</div>
+                    <div class="sport-pct">88.1%</div>
                 </div>
                 <div class="sport-card">
                     <div class="sport-icon">⚾</div>
-                    <div class="sport-info">
-                        <h3>MLB</h3>
-                        <div class="sport-record">4-1</div>
-                        <div class="sport-winrate">80%</div>
-                    </div>
+                    <div class="sport-name">MLB</div>
+                    <div class="sport-record">8-3</div>
+                    <div class="sport-pct">72.7%</div>
                 </div>
                 <div class="sport-card">
                     <div class="sport-icon">🎾</div>
-                    <div class="sport-info">
-                        <h3>TENNIS</h3>
-                        <div class="sport-record">3-1</div>
-                        <div class="sport-winrate">75%</div>
-                    </div>
+                    <div class="sport-name">Tennis</div>
+                    <div class="sport-record">4-1</div>
+                    <div class="sport-pct">80.0%</div>
                 </div>
-                <div class="sport-card">
+                <div class="sport-card on-fire">
                     <div class="sport-icon">🥊</div>
-                    <div class="sport-info">
-                        <h3>UFC</h3>
-                        <div class="sport-record">3-0</div>
-                        <div class="sport-winrate">100%</div>
-                    </div>
+                    <div class="sport-name">UFC</div>
+                    <div class="sport-record">3-0</div>
+                    <div class="sport-pct">100%</div>
                 </div>
             </div>
         </div>
-
-        <!-- DASHBOARD TAB -->
-        <div id="dashboard" class="tab-content">
-            <div class="section-header"><h2>📊 ELITE DASHBOARD</h2></div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="dashWins">176</div>
-                    <div class="stat-label">WINS ✅</div>
+        
+        <!-- Today's Games -->
+        <div class="section today-section">
+            <h2>📅 Today — May 19, 2026</h2>
+            <div class="game-card">
+                <div class="game-info">
+                    <div class="game-matchup">🏀 ECF Game 1: NYK Knicks vs CLE Cavaliers</div>
+                    <div class="game-details">8:00 PM ET | ESPN | Series: 0-0</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="dashLosses">23</div>
-                    <div class="stat-label">LOSSES</div>
+                <div class="game-pick">
+                    <div class="pick-value">🔜 PENDING</div>
+                    <div class="pick-odds">Analysis Coming</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="dashTotal">199</div>
-                    <div class="stat-label">TOTAL PICKS</div>
+            </div>
+            <div class="game-card">
+                <div class="game-info">
+                    <div class="game-matchup">⚾ MLB Full Slate</div>
+                    <div class="game-details">14 Games Scheduled</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="dashStreak">W3</div>
-                    <div class="stat-label">STREAK 🔥</div>
+                <div class="game-pick">
+                    <div class="pick-value">🔜 PENDING</div>
+                    <div class="pick-odds">Check Back Later</div>
                 </div>
             </div>
         </div>
-
-        <!-- CHARTS TAB -->
-        <div id="charts" class="tab-content">
-            <div class="section-header"><h2>📈 PERFORMANCE CHARTS</h2></div>
-            <div class="charts-container">
-                <div class="chart-card">
-                    <div class="chart-title">WIN/LOSS DISTRIBUTION</div>
-                    <canvas id="pieChart"></canvas>
-                </div>
-                <div class="chart-card">
-                    <div class="chart-title">PERFORMANCE BY SPORT</div>
-                    <canvas id="barChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- TOP 5 TAB -->
-        <div id="top5" class="tab-content">
-            <div class="section-header"><h2>🎯 TOP 5 PICKS - <span id="picksDate">May 18, 2026</span></h2></div>
-            <div class="picks-table-wrapper">
-                <table class="picks-table" id="top5Table">
-                    <tr><th>#</th><th>MATCHUP</th><th>PICK</th><th>ODDS</th><th>STATUS</th></tr>
-                    <tr><td>1</td><td>🏒 MTL @ BUF G7</td><td>MTL ML</td><td>-115</td><td style="color:var(--neon-gold)">🔜 7:30 PM</td></tr>
-                    <tr><td>2</td><td>🏀 SAS @ OKC G1</td><td>OKC -6.5</td><td>-110</td><td style="color:var(--neon-gold)">🔜 8:30 PM</td></tr>
-                    <tr><td>3</td><td>⚾ TOR @ NYY</td><td>NYY ML</td><td>-135</td><td style="color:var(--neon-gold)">🔜 7:05 PM</td></tr>
-                    <tr><td>4</td><td>⚾ LAD @ SD</td><td>LAD ML</td><td>-160</td><td style="color:var(--neon-gold)">🔜 9:40 PM</td></tr>
-                    <tr><td>5</td><td>⚾ SF @ ARI</td><td>ARI ML</td><td>-145</td><td style="color:var(--neon-gold)">🔜 9:40 PM</td></tr>
-                </table>
-            </div>
-        </div>
-
-        <!-- PROPS TAB -->
-        <div id="props" class="tab-content">
-            <div class="section-header"><h2>👤 TOP 10 PLAYER PROPS</h2></div>
-            <div class="picks-table-wrapper">
-                <table class="picks-table" id="propsTable">
-                    <tr><th>#</th><th>PLAYER</th><th>PROP</th><th>LINE</th><th>PICK</th><th>CONF</th></tr>
-                    <tr><td>1</td><td>Cade Cunningham</td><td>Points</td><td>28.5</td><td>OVER</td><td style="color:var(--risk-low)">78%</td></tr>
-                    <tr><td>2</td><td>Shai Gilgeous-Alexander</td><td>Points</td><td>31.5</td><td>OVER</td><td style="color:var(--risk-low)">76%</td></tr>
-                    <tr><td>3</td><td>Victor Wembanyama</td><td>Rebounds</td><td>10.5</td><td>OVER</td><td style="color:var(--risk-low)">74%</td></tr>
-                    <tr><td>4</td><td>Jalen Brunson</td><td>Assists</td><td>7.5</td><td>OVER</td><td style="color:var(--risk-low)">72%</td></tr>
-                    <tr><td>5</td><td>Donovan Mitchell</td><td>Points</td><td>26.5</td><td>OVER</td><td style="color:var(--risk-low)">71%</td></tr>
-                    <tr><td>6</td><td>Karl-Anthony Towns</td><td>Rebounds</td><td>11.5</td><td>OVER</td><td style="color:var(--risk-low)">70%</td></tr>
-                    <tr><td>7</td><td>Tage Thompson</td><td>SOG</td><td>4.5</td><td>OVER</td><td style="color:var(--risk-medium)">68%</td></tr>
-                    <tr><td>8</td><td>Nick Suzuki</td><td>Points</td><td>0.5</td><td>OVER</td><td style="color:var(--risk-medium)">67%</td></tr>
-                    <tr><td>9</td><td>Cole Caufield</td><td>SOG</td><td>3.5</td><td>OVER</td><td style="color:var(--risk-medium)">66%</td></tr>
-                    <tr><td>10</td><td>Lane Hutson</td><td>Assists</td><td>0.5</td><td>OVER</td><td style="color:var(--risk-medium)">65%</td></tr>
-                </table>
-            </div>
-        </div>
-
-        <!-- PARLAY TAB -->
-        <div id="parlay" class="tab-content">
-            <div class="section-header"><h2>🎰 PARLAY BUILDER</h2></div>
-            <div class="parlay-builder">
-                <div class="parlay-title">BUILD YOUR PARLAY</div>
-                <p style="text-align:center;color:var(--text-secondary);margin-bottom:20px;">Click picks to add/remove • Risk color-coded</p>
-
-                <div class="pick-row" onclick="togglePick(this, 'MTL ML', -115, 74)" data-pick="MTL ML">
-                    <div style="display:flex;align-items:center;">
-                        <div class="risk-indicator low"></div>
-                        <span>🏒 MTL ML @ BUF G7</span>
-                    </div>
-                    <div><strong>-115</strong> | 74%</div>
-                </div>
-
-                <div class="pick-row" onclick="togglePick(this, 'OKC -6.5', -110, 72)" data-pick="OKC -6.5">
-                    <div style="display:flex;align-items:center;">
-                        <div class="risk-indicator low"></div>
-                        <span>🏀 OKC -6.5 vs SAS</span>
-                    </div>
-                    <div><strong>-110</strong> | 72%</div>
-                </div>
-
-                <div class="pick-row" onclick="togglePick(this, 'NYY ML', -135, 70)" data-pick="NYY ML">
-                    <div style="display:flex;align-items:center;">
-                        <div class="risk-indicator low"></div>
-                        <span>⚾ NYY ML vs TOR</span>
-                    </div>
-                    <div><strong>-135</strong> | 70%</div>
-                </div>
-
-                <div class="pick-row" onclick="togglePick(this, 'LAD ML', -160, 71)" data-pick="LAD ML">
-                    <div style="display:flex;align-items:center;">
-                        <div class="risk-indicator low"></div>
-                        <span>⚾ LAD ML @ SD</span>
-                    </div>
-                    <div><strong>-160</strong> | 71%</div>
-                </div>
-
-                <div class="pick-row" onclick="togglePick(this, 'ARI ML', -145, 68)" data-pick="ARI ML">
-                    <div style="display:flex;align-items:center;">
-                        <div class="risk-indicator medium"></div>
-                        <span>⚾ ARI ML vs SF</span>
-                    </div>
-                    <div><strong>-145</strong> | 68%</div>
-                </div>
-
-                <div class="parlay-summary" id="parlaySummary">
-                    <div style="color:var(--text-secondary);margin-bottom:10px;">SELECT PICKS TO BUILD PARLAY</div>
-                    <div class="parlay-odds" id="parlayOdds">+0</div>
-                    <div style="margin-top:10px;">
-                        <span>Combined Probability: </span><span id="parlayProb">0%</span>
-                    </div>
-                    <div class="parlay-risk" id="parlayRisk" style="display:none;">-</div>
-                </div>
-
-                <button class="build-parlay-btn" onclick="buildParlay()">🎰 BUILD PARLAY</button>
-            </div>
-        </div>
-
-        <!-- GAMES TAB -->
-        <div id="games" class="tab-content">
-            <div class="section-header"><h2>📅 UPCOMING GAMES</h2></div>
-
-            <div class="schedule-filters">
-                <button class="filter-btn active" onclick="filterGames('all')">ALL</button>
-                <button class="filter-btn" onclick="filterGames('nhl')">🏒 NHL</button>
-                <button class="filter-btn" onclick="filterGames('nba')">🏀 NBA</button>
-                <button class="filter-btn" onclick="filterGames('mlb')">⚾ MLB</button>
-            </div>
-
-            <div id="gamesContainer">
-                <div class="game-card" data-sport="nhl">
-                    <div class="game-sport">🏒</div>
-                    <div class="game-teams">MTL Canadiens @ BUF Sabres (G7)</div>
-                    <div class="game-time">7:30 PM ET</div>
-                </div>
-                <div class="game-card" data-sport="nba">
-                    <div class="game-sport">🏀</div>
-                    <div class="game-teams">SAN Spurs @ OKC Thunder (WCF G1)</div>
-                    <div class="game-time">8:30 PM ET</div>
-                </div>
-                <div class="game-card" data-sport="mlb">
-                    <div class="game-sport">⚾</div>
-                    <div class="game-teams">TOR Blue Jays @ NYY Yankees</div>
-                    <div class="game-time">7:05 PM ET</div>
-                </div>
-                <div class="game-card" data-sport="mlb">
-                    <div class="game-sport">⚾</div>
-                    <div class="game-teams">LA Dodgers @ SD Padres</div>
-                    <div class="game-time">9:40 PM ET</div>
-                </div>
-                <div class="game-card" data-sport="mlb">
-                    <div class="game-sport">⚾</div>
-                    <div class="game-teams">SF Giants @ ARI Diamondbacks</div>
-                    <div class="game-time">9:40 PM ET</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SUMMARY TAB -->
-        <div id="summary" class="tab-content">
-            <div class="section-header"><h2>📋 MASTER SUMMARY</h2></div>
-            <div class="picks-table-wrapper">
-                <table class="picks-table" id="summaryTable">
-                    <tr><th>SPORT</th><th>WINS</th><th>LOSSES</th><th>WIN%</th></tr>
-                    <tr><td>🏒 NHL</td><td>38</td><td>2</td><td>95.0%</td></tr>
-                    <tr><td>🏀 NBA</td><td>82</td><td>12</td><td>87.2%</td></tr>
-                    <tr><td>⚽ Soccer</td><td>46</td><td>7</td><td>86.8%</td></tr>
-                    <tr><td>⚾ MLB</td><td>4</td><td>1</td><td>80.0%</td></tr>
-                    <tr><td>🎾 Tennis</td><td>3</td><td>1</td><td>75.0%</td></tr>
-                    <tr><td>🥊 UFC</td><td>3</td><td>0</td><td>100%</td></tr>
-                    <tr style="background:rgba(255,215,0,0.15);font-weight:bold;">
-                        <td>📊 TOTAL</td><td id="summaryWins">176</td><td id="summaryLosses">23</td><td id="summaryWinRate">88.4%</td>
+        
+        <!-- Record Breakdown -->
+        <div class="section">
+            <h2>📊 Complete Record Breakdown</h2>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Wins</th>
+                        <th>Losses</th>
+                        <th>Total</th>
+                        <th>Win %</th>
                     </tr>
-                </table>
-            </div>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🎯 Team Predictions</td>
+                        <td>179</td>
+                        <td>25</td>
+                        <td>204</td>
+                        <td class="win">87.7%</td>
+                    </tr>
+                    <tr>
+                        <td>🏃 Player Props</td>
+                        <td>47</td>
+                        <td>7</td>
+                        <td>54</td>
+                        <td class="win">87.0%</td>
+                    </tr>
+                    <tr>
+                        <td>🎰 Parlays</td>
+                        <td>12</td>
+                        <td>3</td>
+                        <td>15</td>
+                        <td class="win">80.0%</td>
+                    </tr>
+                    <tr style="background: rgba(255, 215, 0, 0.1); font-weight: bold;">
+                        <td>🏆 GRAND TOTAL</td>
+                        <td>238</td>
+                        <td>35</td>
+                        <td>273</td>
+                        <td class="win">87.2%</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </main>
-
-    <!-- LIVE DATA STATUS - ALWAYS GREEN -->
-    <div class="live-data-status">
-        <div class="live-indicator"></div>
-        <span id="liveStatus">LIVE</span>
+        
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <strong>⚠️ IMPORTANT DISCLAIMER</strong>
+            Scores and results shown are NOT real-time. Data is manually updated periodically.
+            All predictions are for entertainment purposes only. Past performance does not guarantee future results.
+            Always bet responsibly and within your means. If you or someone you know has a gambling problem, call 1-800-522-4700.
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="brand">💎 JOSH EPSILON BETTING SYSTEM (JEBS)</div>
+            <div>© 2026 Josh Epsilon | All Rights Reserved</div>
+            <div class="motto">✨ "Watch passionately. Bet Wisely!!" ✨</div>
+        </footer>
     </div>
-
-    <footer>
-        <div class="footer-quote">"Watch passionately. Bet Wisely!!"</div>
-        <div style="color:var(--text-secondary);font-size:12px;">
-            💎 JBETS ELITE PLATINUM | v12.0<br>
-            Last Updated: <span id="lastUpdate">May 18, 2026 7:00 PM ET</span>
-        </div>
-    </footer>
-
-    <script>
-        const EXCEL_DATA_URL = './data/jbets_data.json';
-        const REFRESH_INTERVAL = 60000;
-
-        let liveData = {
-            lastUpdate: new Date().toISOString(),
-            record: { wins: 176, losses: 23, total: 199 },
-            winRate: 88.4,
-            roi: 68.2,
-            bankroll: 11500,
-            streak: 'W3',
-            sports: {
-                nhl: { wins: 38, losses: 2, winRate: 95.0 },
-                nba: { wins: 82, losses: 12, winRate: 87.2 },
-                soccer: { wins: 46, losses: 7, winRate: 86.8 },
-                mlb: { wins: 4, losses: 1, winRate: 80.0 },
-                tennis: { wins: 3, losses: 1, winRate: 75.0 },
-                ufc: { wins: 3, losses: 0, winRate: 100.0 }
-            }
-        };
-
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        function setDevice(mode) {
-            document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            document.body.classList.remove('force-mobile', 'force-tablet');
-            if (mode === 'mobile') document.body.classList.add('force-mobile');
-            if (mode === 'tablet') document.body.classList.add('force-tablet');
-        }
-
-        function filterGames(sport) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            document.querySelectorAll('.game-card').forEach(card => {
-                card.style.display = (sport === 'all' || card.dataset.sport === sport) ? 'grid' : 'none';
-            });
-        }
-
-        let selectedPicks = [];
-
-        function togglePick(el, pick, odds, conf) {
-            el.classList.toggle('selected');
-            const idx = selectedPicks.findIndex(p => p.pick === pick);
-            if (idx > -1) {
-                selectedPicks.splice(idx, 1);
-            } else {
-                const decOdds = odds > 0 ? (odds / 100) + 1 : (100 / Math.abs(odds)) + 1;
-                selectedPicks.push({ pick, odds, conf, decOdds });
-            }
-            updateParlayDisplay();
-        }
-
-        function updateParlayDisplay() {
-            if (selectedPicks.length === 0) {
-                document.getElementById('parlayOdds').textContent = '+0';
-                document.getElementById('parlayProb').textContent = '0%';
-                document.getElementById('parlayRisk').style.display = 'none';
-                return;
-            }
-            const combinedDec = selectedPicks.reduce((acc, p) => acc * p.decOdds, 1);
-            const combinedProb = selectedPicks.reduce((acc, p) => acc * (p.conf / 100), 1) * 100;
-            const americanOdds = combinedDec >= 2 ? '+' + Math.round((combinedDec - 1) * 100) : Math.round(-100 / (combinedDec - 1));
-            document.getElementById('parlayOdds').textContent = americanOdds;
-            document.getElementById('parlayProb').textContent = combinedProb.toFixed(1) + '%';
-            const riskEl = document.getElementById('parlayRisk');
-            riskEl.style.display = 'inline-block';
-            if (combinedProb >= 50) {
-                riskEl.textContent = '🟢 LOW RISK';
-                riskEl.className = 'parlay-risk low';
-            } else if (combinedProb >= 30) {
-                riskEl.textContent = '🟡 MEDIUM RISK';
-                riskEl.className = 'parlay-risk medium';
-            } else {
-                riskEl.textContent = '🔴 HIGH RISK';
-                riskEl.className = 'parlay-risk high';
-            }
-        }
-
-        function buildParlay() {
-            if (selectedPicks.length < 2) {
-                alert('Select at least 2 picks to build a parlay!');
-                return;
-            }
-            const picks = selectedPicks.map(p => p.pick).join(' + ');
-            const odds = document.getElementById('parlayOdds').textContent;
-            alert('🎰 PARLAY BUILT!\n\n' + picks + '\n\nCombined Odds: ' + odds + '\n\n✅ Good luck!');
-        }
-
-        async function fetchExcelData() {
-            try {
-                const response = await fetch(EXCEL_DATA_URL + '?t=' + Date.now());
-                if (response.ok) {
-                    const data = await response.json();
-                    liveData = data;
-                    updateUI();
-                }
-            } catch (error) {
-                // Silently fail - keep showing LIVE
-            }
-        }
-
-        function updateUI() {
-            document.getElementById('totalRecord').textContent = liveData.record.wins + '-' + liveData.record.losses;
-            document.getElementById('winRate').textContent = liveData.winRate.toFixed(1) + '%';
-            document.getElementById('roiValue').textContent = '+' + liveData.roi.toFixed(1) + '%';
-            document.getElementById('bankrollValue').textContent = '$' + (liveData.bankroll/1000).toFixed(1) + 'K';
-            document.getElementById('dashWins').textContent = liveData.record.wins;
-            document.getElementById('dashLosses').textContent = liveData.record.losses;
-            document.getElementById('dashTotal').textContent = liveData.record.total;
-            document.getElementById('dashStreak').textContent = liveData.streak;
-            document.getElementById('summaryWins').textContent = liveData.record.wins;
-            document.getElementById('summaryLosses').textContent = liveData.record.losses;
-            document.getElementById('summaryWinRate').textContent = liveData.winRate.toFixed(1) + '%';
-            const now = new Date();
-            document.getElementById('lastUpdate').textContent = now.toLocaleString('en-US', {
-                month: 'short', day: 'numeric', year: 'numeric',
-                hour: 'numeric', minute: '2-digit', timeZoneName: 'short'
-            });
-            updateCharts();
-        }
-
-        function refreshData() {
-            fetchExcelData();
-            const btn = event.target;
-            btn.textContent = '⏳ LOADING...';
-            setTimeout(() => { btn.textContent = '🔄 REFRESH'; }, 1500);
-        }
-
-        let pieChartInstance = null;
-        let barChartInstance = null;
-
-        function updateCharts() {
-            const pieCtx = document.getElementById('pieChart');
-            if (pieCtx) {
-                if (pieChartInstance) pieChartInstance.destroy();
-                pieChartInstance = new Chart(pieCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Wins (' + liveData.record.wins + ')', 'Losses (' + liveData.record.losses + ')'],
-                        datasets: [{
-                            data: [liveData.record.wins, liveData.record.losses],
-                            backgroundColor: ['#00ff88', '#ff3366'],
-                            borderWidth: 0, borderRadius: 5
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { position: 'bottom', labels: { color: '#fff', padding: 20, font: { weight: 'bold' } } } }
-                    }
-                });
-            }
-
-            const barCtx = document.getElementById('barChart');
-            if (barCtx) {
-                if (barChartInstance) barChartInstance.destroy();
-                barChartInstance = new Chart(barCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['NHL', 'NBA', 'Soccer', 'MLB', 'Tennis', 'UFC'],
-                        datasets: [
-                            { label: 'Wins', data: [liveData.sports.nhl.wins, liveData.sports.nba.wins, liveData.sports.soccer.wins, liveData.sports.mlb.wins, liveData.sports.tennis.wins, liveData.sports.ufc.wins], backgroundColor: '#00ff88', borderRadius: 8 },
-                            { label: 'Losses', data: [liveData.sports.nhl.losses, liveData.sports.nba.losses, liveData.sports.soccer.losses, liveData.sports.mlb.losses, liveData.sports.tennis.losses, liveData.sports.ufc.losses], backgroundColor: '#ff3366', borderRadius: 8 }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            x: { ticks: { color: '#fff' }, grid: { color: 'rgba(255,255,255,0.1)' } },
-                            y: { ticks: { color: '#fff' }, grid: { color: 'rgba(255,255,255,0.1)' } }
-                        },
-                        plugins: { legend: { labels: { color: '#fff', font: { weight: 'bold' } } } }
-                    }
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCharts();
-            fetchExcelData();
-            setInterval(fetchExcelData, REFRESH_INTERVAL);
-        });
-    </script>
 </body>
 </html>
