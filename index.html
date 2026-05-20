@@ -3,60 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📡 SigMAX ELITE | Maximum Signal. Maximum Edge.</title>
+    <title>SigMAX ELITE — Maximum Signal. Maximum Edge.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== ROOT VARIABLES - BALANCED 6-COLOR PALETTE ========== */
         :root {
-            --bg-dark: #0a0a0f;
-            --bg-card: #12121a;
-            --bg-card-hover: #1a1a25;
-            --border-color: #2a2a3a;
-            /* Balanced Colors */
             --royal-blue: #4169E1;
             --sky-blue: #00bfff;
             --neon-green: #00ff88;
             --amber: #ffc107;
             --coral-red: #ff6b6b;
             --neon-purple: #a855f7;
-            /* Text */
+            --dark-bg: #0a0a0f;
+            --card-bg: #12121a;
             --text-primary: #ffffff;
-            --text-secondary: #a0a0b0;
-            --text-muted: #666680;
+            --text-secondary: #a0a0a0;
+            --border-color: #2a2a3a;
         }
         
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg-dark);
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--dark-bg);
             color: var(--text-primary);
             min-height: 100vh;
+            overflow-x: hidden;
         }
         
-        /* ========== HEADER ========== */
+        body.device-mobile { font-size: 14px; }
+        body.device-tablet { font-size: 15px; }
+        body.device-desktop { font-size: 16px; }
+        
+        /* ============ HEADER WITH LOGO ============ */
         .header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: linear-gradient(135deg, #0d0d15 0%, #1a1a2e 50%, #0d0d15 100%);
             border-bottom: 2px solid var(--royal-blue);
+            padding: 15px 20px;
             position: sticky;
             top: 0;
             z-index: 1000;
         }
         
-        .logo-section {
+        .header-top {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
-        .logo-svg { width: 40px; height: 40px; }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
         
-        /* SIGMA FACES RIGHT */
-        .sigma-text {
+        /* SIGMA LOGO - FACES RIGHT */
+        .sigma-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--royal-blue), var(--sky-blue), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             transform: scaleX(-1);
+            text-shadow: 0 0 30px rgba(65, 105, 225, 0.5);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { filter: drop-shadow(0 0 10px var(--royal-blue)); }
+            50% { filter: drop-shadow(0 0 25px var(--sky-blue)); }
         }
         
         .brand-text {
@@ -65,97 +89,215 @@
         }
         
         .brand-name {
-            font-size: 1.4rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--sky-blue), var(--neon-green));
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--royal-blue), var(--sky-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
         .brand-tagline {
-            font-size: 0.7rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
             letter-spacing: 2px;
-        }
-        
-        .header-stats {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .stat-box {
-            text-align: center;
-            padding: 6px 14px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-        }
-        
-        .stat-value {
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-        
-        .stat-label {
-            font-size: 0.65rem;
-            color: var(--text-muted);
             text-transform: uppercase;
         }
         
-        .green { color: var(--neon-green); }
-        .blue { color: var(--sky-blue); }
-        .amber { color: var(--amber); }
-        .coral { color: var(--coral-red); }
-        .purple { color: var(--neon-purple); }
-        
-        /* ========== TABS ========== */
-        .tab-container {
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            overflow-x: auto;
-        }
-        
-        .tabs {
+        /* ============ HEADER CONTROLS (Refresh, Device, Language) ============ */
+        .header-controls {
             display: flex;
-            gap: 0;
-            padding: 0 10px;
-            max-width: 1400px;
-            margin: 0 auto;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
         
-        .tab {
-            padding: 12px 16px;
-            cursor: pointer;
+        /* REFRESH BUTTON */
+        .refresh-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--royal-blue), var(--sky-blue));
             border: none;
-            background: transparent;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(65, 105, 225, 0.5);
+        }
+        
+        .refresh-btn.loading i {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        
+        .last-refresh {
+            font-size: 0.75rem;
             color: var(--text-secondary);
+            text-align: center;
+        }
+        
+        /* DEVICE SELECTOR */
+        .device-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .device-selector label {
             font-size: 0.85rem;
-            font-weight: 500;
-            white-space: nowrap;
-            transition: all 0.2s;
-            border-bottom: 3px solid transparent;
+            color: var(--text-secondary);
         }
         
-        .tab:hover { color: var(--text-primary); background: rgba(255,255,255,0.03); }
-        .tab.active {
-            color: var(--sky-blue);
-            border-bottom-color: var(--sky-blue);
-            background: rgba(0,191,255,0.08);
+        .device-selector select {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
         }
         
-        /* ========== MAIN CONTENT ========== */
+        .device-selector select:focus {
+            outline: none;
+            border-color: var(--royal-blue);
+        }
+        
+        /* LANGUAGE SELECTOR */
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .language-selector select {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        .language-selector select:focus {
+            outline: none;
+            border-color: var(--neon-purple);
+        }
+        
+        .lang-icon {
+            color: var(--neon-purple);
+            font-size: 1.1rem;
+        }
+        
+        /* ============ LIVE STATUS BAR ============ */
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 8px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+        
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* ============ NAVIGATION TABS ============ */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 15px 20px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .nav-tab {
+            padding: 12px 20px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab:hover {
+            border-color: var(--royal-blue);
+            color: var(--text-primary);
+        }
+        
+        .nav-tab.active {
+            background: linear-gradient(135deg, var(--royal-blue), var(--sky-blue));
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 0 15px rgba(65, 105, 225, 0.4);
+        }
+        
+        /* ============ MAIN CONTENT ============ */
         .main-content {
+            padding: 20px;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
         }
         
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        .tab-content {
+            display: none;
+        }
         
-        /* ========== CARDS ========== */
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* ============ CARDS ============ */
         .card {
-            background: var(--bg-card);
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
@@ -166,2010 +308,1703 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 1px solid var(--border-color);
         }
         
         .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sky-blue);
+        }
+        
+        /* ============ STAT BOXES ============ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, rgba(65, 105, 225, 0.1), rgba(0, 191, 255, 0.05));
+            border: 1px solid var(--royal-blue);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--neon-green);
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* ============ PICK CARDS ============ */
+        .pick-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .pick-card:hover {
+            border-color: var(--royal-blue);
+            transform: translateX(5px);
+        }
+        
+        .pick-card.hot {
+            border-left: 4px solid var(--coral-red);
+            background: linear-gradient(90deg, rgba(255, 107, 107, 0.1), transparent);
+        }
+        
+        .pick-card.elite {
+            border-left: 4px solid var(--neon-purple);
+            background: linear-gradient(90deg, rgba(168, 85, 247, 0.1), transparent);
+        }
+        
+        .pick-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .pick-teams {
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
+        }
+        
+        .pick-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .badge-nba { background: var(--coral-red); color: white; }
+        .badge-nhl { background: var(--sky-blue); color: white; }
+        .badge-mlb { background: var(--neon-green); color: black; }
+        .badge-soccer { background: var(--neon-purple); color: white; }
+        .badge-tennis { background: var(--amber); color: black; }
+        
+        .pick-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .pick-detail {
+            font-size: 0.9rem;
+        }
+        
+        .pick-detail-label {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+        
+        .confidence-bar {
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .confidence-high { background: var(--neon-green); }
+        .confidence-medium { background: var(--amber); }
+        .confidence-low { background: var(--coral-red); }
+        
+        /* ============ ALERTS SECTIONS ============ */
+        .alert-section {
+            margin-bottom: 25px;
+        }
+        
+        .alert-section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 0;
+        }
+        
+        .alert-section-title.injuries { background: linear-gradient(90deg, var(--coral-red), transparent); }
+        .alert-section-title.comebacks { background: linear-gradient(90deg, var(--neon-green), transparent); color: black; }
+        .alert-section-title.tactical { background: linear-gradient(90deg, var(--royal-blue), transparent); }
+        .alert-section-title.draft { background: linear-gradient(90deg, var(--neon-purple), transparent); }
+        .alert-section-title.news { background: linear-gradient(90deg, var(--sky-blue), transparent); }
+        .alert-section-title.lines { background: linear-gradient(90deg, var(--amber), transparent); color: black; }
+        .alert-section-title.advantages { background: linear-gradient(90deg, #00ff88, transparent); color: black; }
+        .alert-section-title.live { background: linear-gradient(90deg, #ff0055, transparent); }
+        
+        .alert-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .alert-item:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .alert-icon {
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .alert-text {
+            flex: 1;
+        }
+        
+        .alert-time {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        /* ============ PARLAY BUILDER ============ */
+        .parlay-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .parlay-section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        /* ========== GRIDS ========== */
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        
-        @media (max-width: 768px) {
-            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-            .header-stats { display: none; }
+        .leg-row {
+            display: grid;
+            grid-template-columns: 40px 1fr 150px 100px 50px;
+            gap: 10px;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
         
-        /* ========== TABLES ========== */
+        .leg-number {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: var(--sky-blue);
+        }
+        
+        .leg-row select, .leg-row input {
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .leg-row select:focus, .leg-row input:focus {
+            outline: none;
+            border-color: var(--royal-blue);
+        }
+        
+        .remove-leg {
+            background: var(--coral-red);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .add-leg-btn {
+            background: transparent;
+            border: 2px dashed var(--border-color);
+            color: var(--text-secondary);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .add-leg-btn:hover {
+            border-color: var(--royal-blue);
+            color: var(--royal-blue);
+        }
+        
+        .add-leg-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .parlay-summary {
+            background: linear-gradient(135deg, rgba(65, 105, 225, 0.2), rgba(168, 85, 247, 0.2));
+            border: 1px solid var(--neon-purple);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .parlay-odds {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--neon-green);
+            text-align: center;
+        }
+        
+        .parlay-payout {
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        /* ============ JOURNAL ============ */
+        .journal-entry {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .journal-date {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: var(--sky-blue);
+            margin-bottom: 10px;
+        }
+        
+        .journal-result {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        
+        .result-win { background: var(--neon-green); color: black; }
+        .result-loss { background: var(--coral-red); color: white; }
+        .result-push { background: var(--amber); color: black; }
+        
+        /* ============ WEATHER/INDEX CARDS ============ */
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .weather-card {
+            background: linear-gradient(135deg, var(--card-bg), rgba(65, 105, 225, 0.1));
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .weather-city {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .weather-venue {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        
+        .weather-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .weather-temp {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--sky-blue);
+        }
+        
+        .weather-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+        }
+        
+        /* ============ TABLES ============ */
         .data-table {
             width: 100%;
             border-collapse: collapse;
         }
         
         .data-table th, .data-table td {
-            padding: 12px 10px;
+            padding: 12px;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
         
         .data-table th {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-        
-        .data-table tr:hover { background: rgba(255,255,255,0.02); }
-        
-        /* ========== BADGES ========== */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .badge-live { background: var(--coral-red); color: white; animation: pulse 2s infinite; }
-        .badge-scheduled { background: var(--royal-blue); color: white; }
-        .badge-win { background: rgba(0,255,136,0.15); color: var(--neon-green); }
-        .badge-loss { background: rgba(255,107,107,0.15); color: var(--coral-red); }
-        .badge-hot { background: rgba(255,193,7,0.15); color: var(--amber); }
-        .badge-info { background: rgba(0,191,255,0.15); color: var(--sky-blue); }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-        
-        /* ========== SPORT ICONS ========== */
-        .sport-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
             font-size: 0.85rem;
-            margin-right: 8px;
-        }
-        
-        .sport-nhl { background: #1a73e8; }
-        .sport-nba { background: #e65100; }
-        .sport-mlb { background: #c62828; }
-        .sport-mls { background: #2e7d32; }
-        .sport-nfl { background: #5c3d2e; }
-        
-        /* ========== ALERTS ========== */
-        .alert-card {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            padding: 16px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-        }
-        
-        .alert-urgent { background: rgba(255,107,107,0.1); border-left: 4px solid var(--coral-red); }
-        .alert-info { background: rgba(0,191,255,0.1); border-left: 4px solid var(--sky-blue); }
-        .alert-success { background: rgba(0,255,136,0.1); border-left: 4px solid var(--neon-green); }
-        .alert-warning { background: rgba(255,193,7,0.1); border-left: 4px solid var(--amber); }
-        .alert-purple { background: rgba(168,85,247,0.1); border-left: 4px solid var(--neon-purple); }
-        
-        /* ========== SECTION HEADERS ========== */
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 25px 0 15px 0;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .section-header h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        .section-header .badge {
-            margin-left: auto;
-        }
-        
-        /* ========== JOURNAL / BETTING TRACKER ========== */
-        .bet-entry {
-            display: grid;
-            grid-template-columns: auto 1fr auto auto auto;
-            gap: 15px;
-            align-items: center;
-            padding: 14px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .bet-sport { font-size: 1.5rem; }
-        
-        .bet-details h4 { font-weight: 600; margin-bottom: 4px; }
-        .bet-details span { font-size: 0.8rem; color: var(--text-secondary); }
-        
-        /* ========== PARLAY BUILDER ========== */
-        .parlay-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-        }
-        
-        .parlay-section h3 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .pick-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr auto;
-            gap: 10px;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .pick-row select, .pick-row input {
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
-        
-        .pick-row select:focus, .pick-row input:focus {
-            outline: none;
-            border-color: var(--sky-blue);
-        }
-        
-        .btn-remove {
-            background: rgba(255,107,107,0.2);
-            color: var(--coral-red);
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-        
-        .btn-add {
-            background: rgba(0,255,136,0.15);
-            color: var(--neon-green);
-            border: 1px dashed var(--neon-green);
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
-        
-        .btn-add:hover { background: rgba(0,255,136,0.25); }
-        .btn-add:disabled { opacity: 0.4; cursor: not-allowed; }
-        
-        .parlay-slip {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border: 2px solid var(--royal-blue);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        
-        .slip-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        
-        .slip-legs {
-            max-height: 200px;
-            overflow-y: auto;
-            margin-bottom: 16px;
-        }
-        
-        .slip-leg {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.85rem;
-        }
-        
-        .slip-totals {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            padding-top: 16px;
-            border-top: 2px solid var(--border-color);
-        }
-        
-        .slip-total {
-            text-align: center;
-        }
-        
-        .slip-total label {
-            display: block;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-        
-        .slip-total .value {
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-        
-        .leg-counter {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-        
-        /* ========== WEATHER CARDS ========== */
-        .weather-card {
-            background: linear-gradient(135deg, var(--bg-card) 0%, #1a1a2e 100%);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .weather-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            opacity: 0.1;
-            border-radius: 0 0 0 100%;
-        }
-        
-        .weather-city {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-        
-        .weather-city h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-        
-        .weather-city span {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-        
-        .weather-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .weather-temp {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-        
-        .weather-details {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-        
-        .weather-detail {
-            text-align: center;
-            padding: 10px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-        }
-        
-        .weather-detail .label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-        
-        .weather-detail .value {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        
-        .weather-games {
-            border-top: 1px solid var(--border-color);
-            padding-top: 12px;
-        }
-        
-        .weather-games h4 {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-        
-        .weather-game {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 0;
-            font-size: 0.85rem;
-        }
-        
-        .impact-badge {
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-        
-        .impact-favorable { background: rgba(0,255,136,0.15); color: var(--neon-green); }
-        .impact-neutral { background: rgba(0,191,255,0.15); color: var(--sky-blue); }
-        .impact-caution { background: rgba(255,193,7,0.15); color: var(--amber); }
-        
-        /* ========== DASHBOARD STATS ========== */
-        .mega-stat {
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, rgba(0,191,255,0.1), rgba(0,255,136,0.05));
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-        }
-        
-        .mega-stat .value {
-            font-size: 2.5rem;
-            font-weight: 800;
-        }
-        
-        .mega-stat .label {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 8px;
-        }
-        
-        /* ========== TACTICAL CARD ========== */
-        .tactical-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
-        
-        .tactical-card h4 {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
             color: var(--sky-blue);
-        }
-        
-        .tactical-card ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .tactical-card li {
-            padding: 6px 0;
-            padding-left: 20px;
-            position: relative;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        
-        .tactical-card li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--neon-green);
-        }
-        
-        .tactical-card .edge-box {
-            margin-top: 12px;
-            padding: 10px;
-            background: rgba(0,255,136,0.1);
-            border-radius: 6px;
-            font-weight: 600;
-            color: var(--neon-green);
-        }
-        
-        /* ========== INJURY TABLE ========== */
-        .injury-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-        
-        .injury-table th {
-            text-align: left;
-            padding: 10px;
-            background: rgba(255,255,255,0.03);
-            color: var(--text-muted);
-            font-size: 0.75rem;
             text-transform: uppercase;
         }
         
-        .injury-table td {
-            padding: 10px;
-            border-bottom: 1px solid var(--border-color);
+        .data-table tr:hover td {
+            background: rgba(65, 105, 225, 0.1);
         }
         
-        .status-out { color: var(--coral-red); font-weight: 600; }
-        .status-questionable { color: var(--amber); font-weight: 600; }
-        .status-probable { color: var(--neon-green); font-weight: 600; }
-        .status-day-to-day { color: var(--sky-blue); font-weight: 600; }
-        
-        /* ========== LINE MOVEMENT ========== */
-        .line-movement {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .line-arrow-down { color: var(--coral-red); }
-        .line-arrow-up { color: var(--neon-green); }
-        .line-arrow-flat { color: var(--text-muted); }
-        
-        /* ========== DRAFT CARD ========== */
-        .draft-card {
-            background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(0,191,255,0.05));
-            border: 1px solid var(--neon-purple);
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
-        
-        .draft-card h4 {
-            color: var(--neon-purple);
-            margin-bottom: 10px;
-        }
-        
-        .prospect-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .prospect-row:last-child {
-            border-bottom: none;
-        }
-        
-        .prospect-name {
-            font-weight: 600;
-        }
-        
-        .prospect-team {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-        
-        .prospect-projection {
-            font-size: 0.75rem;
-            padding: 3px 8px;
-            background: rgba(168,85,247,0.2);
-            border-radius: 4px;
-            color: var(--neon-purple);
-        }
-        
-        /* ========== NEWS TICKER ========== */
-        .news-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px;
-            background: rgba(255,255,255,0.02);
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-        
-        .news-item:hover {
-            background: rgba(255,255,255,0.04);
-        }
-        
-        .news-icon {
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-        
-        .news-content h5 {
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .news-content p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-        
-        .news-time {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-        
-        /* ========== ADVANTAGES LIST ========== */
-        .advantage-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-        }
-        
-        .advantage-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 16px;
-        }
-        
-        .advantage-card h4 {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .advantage-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 0;
-            font-size: 0.9rem;
-        }
-        
-        .advantage-item.positive::before {
-            content: '✅';
-        }
-        
-        .advantage-item.negative::before {
-            content: '⚠️';
-        }
-        
-        .advantage-item.neutral::before {
-            content: '➖';
-        }
-        
-        /* ========== FOOTER ========== */
+        /* ============ FOOTER ============ */
         .footer {
             text-align: center;
             padding: 30px 20px;
+            background: var(--card-bg);
             border-top: 1px solid var(--border-color);
             margin-top: 40px;
         }
         
         .footer-brand {
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(90deg, var(--sky-blue), var(--neon-green));
+            background: linear-gradient(90deg, var(--royal-blue), var(--neon-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin-bottom: 10px;
         }
         
-        .footer-tagline {
-            color: var(--text-muted);
+        .footer-text {
+            color: var(--text-secondary);
             font-size: 0.85rem;
+        }
+        
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .header-controls {
+                justify-content: center;
+            }
+            
+            .logo-container {
+                justify-content: center;
+            }
+            
+            .sigma-logo {
+                font-size: 2.5rem;
+            }
+            
+            .brand-name {
+                font-size: 1.4rem;
+            }
+            
+            .nav-tab {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .leg-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
-<body>
-    <!-- ==================== HEADER ==================== -->
+<body class="device-desktop">
+    <!-- ============ HEADER ============ -->
     <header class="header">
-        <div class="logo-section">
-            <svg class="logo-svg" viewBox="0 0 100 100">
-                <defs>
-                    <linearGradient id="sigmaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#00bfff"/>
-                        <stop offset="100%" style="stop-color:#00ff88"/>
-                    </linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="45" fill="none" stroke="url(#sigmaGrad)" stroke-width="4"/>
-                <text x="50" y="68" text-anchor="middle" fill="url(#sigmaGrad)" font-size="55" font-weight="bold" class="sigma-text">Σ</text>
-            </svg>
-            <div class="brand-text">
-                <span class="brand-name">SigMAX ELITE</span>
-                <span class="brand-tagline">MAXIMUM SIGNAL • MAXIMUM EDGE</span>
+        <div class="header-top">
+            <!-- LOGO SECTION -->
+            <div class="logo-container">
+                <div class="sigma-logo">Σ</div>
+                <div class="brand-text">
+                    <div class="brand-name">SigMAX ELITE</div>
+                    <div class="brand-tagline">Maximum Signal. Maximum Edge.</div>
+                </div>
+            </div>
+            
+            <!-- HEADER CONTROLS -->
+            <div class="header-controls">
+                <!-- REFRESH BUTTON -->
+                <div>
+                    <button class="refresh-btn" id="refreshBtn" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <div class="last-refresh" id="lastRefresh">Last update: --:--</div>
+                </div>
+                
+                <!-- DEVICE SELECTOR -->
+                <div class="device-selector">
+                    <label><i class="fas fa-desktop"></i></label>
+                    <select id="deviceSelect" onchange="changeDevice(this.value)">
+                        <option value="mobile">📱 Mobile</option>
+                        <option value="tablet">📟 Tablet</option>
+                        <option value="desktop" selected>🖥️ Desktop</option>
+                    </select>
+                </div>
+                
+                <!-- LANGUAGE SELECTOR -->
+                <div class="language-selector">
+                    <i class="fas fa-globe lang-icon"></i>
+                    <select id="langSelect" onchange="changeLanguage(this.value)">
+                        <option value="en" selected>🇺🇸 English</option>
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="pt">🇧🇷 Português</option>
+                        <option value="de">🇩🇪 Deutsch</option>
+                        <option value="it">🇮🇹 Italiano</option>
+                        <option value="ja">🇯🇵 日本語</option>
+                        <option value="zh">🇨🇳 中文</option>
+                    </select>
+                </div>
             </div>
         </div>
-        <div class="header-stats">
-            <div class="stat-box">
-                <div class="stat-value green">$11.8K</div>
-                <div class="stat-label">Bankroll</div>
+        
+        <!-- STATUS BAR -->
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="live-dot"></span>
+                <span>LIVE DATA</span>
             </div>
-            <div class="stat-box">
-                <div class="stat-value blue">86.9%</div>
-                <div class="stat-label">Win Rate</div>
+            <div class="status-item">
+                <i class="fas fa-calendar"></i>
+                <span id="currentDate">May 20, 2026</span>
             </div>
-            <div class="stat-box">
-                <div class="stat-value green">+72%</div>
-                <div class="stat-label">ROI</div>
+            <div class="status-item">
+                <i class="fas fa-clock"></i>
+                <span id="currentTime">3:00 AM ET</span>
             </div>
-            <div class="stat-box">
-                <div class="stat-value amber">245-37-2</div>
-                <div class="stat-label">Record</div>
+            <div class="status-item">
+                <i class="fas fa-trophy"></i>
+                <span>245-37-2 (86.9%)</span>
             </div>
         </div>
     </header>
-
-    <!-- ==================== NAVIGATION TABS ==================== -->
-    <nav class="tab-container">
-        <div class="tabs">
-            <button class="tab active" data-tab="home">🏠 Home</button>
-            <button class="tab" data-tab="alerts">🚨 Alerts</button>
-            <button class="tab" data-tab="top5">🎯 Top 5 Daily</button>
-            <button class="tab" data-tab="players">🏃 Top 10 Players</button>
-            <button class="tab" data-tab="upcoming">📅 Upcoming</button>
-            <button class="tab" data-tab="journal">📓 Journal</button>
-            <button class="tab" data-tab="parlay">🎰 Parlay Builder</button>
-            <button class="tab" data-tab="dashboard">💎 Elite Dashboard</button>
-            <button class="tab" data-tab="index">📚 INDEX</button>
-        </div>
+    
+    <!-- ============ NAVIGATION ============ -->
+    <nav class="nav-tabs">
+        <button class="nav-tab active" data-tab="home">🏠 Home</button>
+        <button class="nav-tab" data-tab="alerts">🚨 Alerts</button>
+        <button class="nav-tab" data-tab="top5">🎯 Top 5 Daily</button>
+        <button class="nav-tab" data-tab="players">🏃 Top 10 Players</button>
+        <button class="nav-tab" data-tab="upcoming">📅 Upcoming Games</button>
+        <button class="nav-tab" data-tab="journal">📓 Journal</button>
+        <button class="nav-tab" data-tab="parlay">🎰 Parlay Builder</button>
+        <button class="nav-tab" data-tab="dashboard">💎 Elite Dashboard</button>
+        <button class="nav-tab" data-tab="index">📚 INDEX</button>
     </nav>
-
-    <!-- ==================== MAIN CONTENT ==================== -->
+    
+    <!-- ============ MAIN CONTENT ============ -->
     <main class="main-content">
         
-        <!-- ========== HOME TAB ========== -->
-        <section id="home" class="tab-content active">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">📡 SigMAX Command Center</h2>
-                    <span class="badge badge-live">🔴 LIVE</span>
+        <!-- ===== HOME TAB ===== -->
+        <div class="tab-content active" id="home">
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value">245</div>
+                    <div class="stat-label">Wins</div>
                 </div>
-                <div class="grid-4">
-                    <div class="mega-stat">
-                        <div class="value green">$11.8K</div>
-                        <div class="label">Current Bankroll</div>
-                    </div>
-                    <div class="mega-stat">
-                        <div class="value blue">86.9%</div>
-                        <div class="label">Overall Win Rate</div>
-                    </div>
-                    <div class="mega-stat">
-                        <div class="value green">+72%</div>
-                        <div class="label">Total ROI</div>
-                    </div>
-                    <div class="mega-stat">
-                        <div class="value amber">245-37</div>
-                        <div class="label">Win-Loss Record</div>
-                    </div>
+                <div class="stat-box">
+                    <div class="stat-value">37</div>
+                    <div class="stat-label">Losses</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" style="color: var(--neon-green);">86.9%</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" style="color: var(--amber);">$11,200</div>
+                    <div class="stat-label">Bankroll</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" style="color: var(--neon-purple);">+66.2%</div>
+                    <div class="stat-label">ROI</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">Today's Picks</div>
                 </div>
             </div>
             
-            <div class="grid-2">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">🏆 Performance by Sport</h3>
-                    </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr><th>Sport</th><th>Record</th><th>Win%</th><th>Status</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><span class="sport-icon sport-nhl">🏒</span>NHL</td><td>38-2</td><td class="green">95.0%</td><td><span class="badge badge-hot">🔥🔥 ON FIRE</span></td></tr>
-                            <tr><td><span class="sport-icon sport-nba">🏀</span>NBA</td><td>97-13</td><td class="green">88.2%</td><td><span class="badge badge-hot">🔥 HOT</span></td></tr>
-                            <tr><td><span class="sport-icon sport-mlb">⚾</span>MLB</td><td>10-2</td><td class="green">83.3%</td><td><span class="badge badge-hot">🔥 HOT</span></td></tr>
-                            <tr><td><span class="sport-icon sport-mls">⚽</span>Soccer</td><td>52-7</td><td class="green">88.1%</td><td><span class="badge badge-hot">🔥 HOT</span></td></tr>
-                            <tr><td>🎾 Tennis</td><td>4-1</td><td class="blue">80.0%</td><td><span class="badge badge-win">📈 GOOD</span></td></tr>
-                            <tr><td>🥊 UFC</td><td>3-0</td><td class="green">100%</td><td><span class="badge badge-hot">🔥 PERFECT</span></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">📅 Today's Action — May 20, 2026</h3>
-                    </div>
-                    <div class="alert-card alert-urgent">
-                        <span style="font-size:1.5rem">🏒</span>
-                        <div>
-                            <strong>NHL WCF G1: VGK @ COL</strong>
-                            <p style="font-size:0.85rem;color:var(--text-secondary)">8:00 PM ET • ESPN • PICK: COL ML (-135)</p>
-                        </div>
-                    </div>
-                    <div class="alert-card alert-urgent">
-                        <span style="font-size:1.5rem">🏀</span>
-                        <div>
-                            <strong>NBA WCF G2: SAS @ OKC</strong>
-                            <p style="font-size:0.85rem;color:var(--text-secondary)">8:30 PM ET • NBC • PICK: OKC -5.5 (-110)</p>
-                        </div>
-                    </div>
-                    <div class="alert-card alert-info">
-                        <span style="font-size:1.5rem">⚾</span>
-                        <div>
-                            <strong>MLB: 15 Games Tonight</strong>
-                            <p style="font-size:0.85rem;color:var(--text-secondary)">Top Picks: LAD ML, NYY ML, BOS ML</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== ALERTS TAB (ENHANCED - 8 SECTIONS) ========== -->
-        <section id="alerts" class="tab-content">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">🚨 Live Alerts & Intelligence Center</h2>
-                    <span id="alert-time" class="badge badge-live">🔴 LIVE UPDATES</span>
+                    <div class="card-title">🔥 TODAY'S HOT PICKS — May 20, 2026</div>
                 </div>
                 
-                <!-- SECTION 1: INJURY REPORT -->
-                <div class="section-header">
-                    <span style="font-size:1.3rem">🏥</span>
-                    <h3>Injury Report</h3>
-                    <span class="badge badge-info">4 Players</span>
-                </div>
-                <table class="injury-table">
-                    <thead>
-                        <tr><th>Player</th><th>Team</th><th>Status</th><th>Injury</th><th>Impact</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Mark Stone</strong></td>
-                            <td>VGK</td>
-                            <td class="status-out">OUT</td>
-                            <td>Lower body</td>
-                            <td>Major - VGK scoring -30%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>OG Anunoby</strong></td>
-                            <td>NYK</td>
-                            <td class="status-questionable">GTD</td>
-                            <td>Hamstring</td>
-                            <td>Game-time decision for ECF</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Artturi Lehkonen</strong></td>
-                            <td>COL</td>
-                            <td class="status-day-to-day">DTD</td>
-                            <td>Upper body</td>
-                            <td>Practiced today - likely plays</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Joel Embiid</strong></td>
-                            <td>PHI</td>
-                            <td class="status-probable">PROB</td>
-                            <td>Hip (managed)</td>
-                            <td>Rest protocol - probable</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <!-- SECTION 2: RETURNING FROM INJURY -->
-                <div class="section-header">
-                    <span style="font-size:1.3rem">✅</span>
-                    <h3>Returning From Injury</h3>
-                    <span class="badge badge-win">Good News</span>
-                </div>
-                <table class="injury-table">
-                    <thead>
-                        <tr><th>Player</th><th>Team</th><th>Status</th><th>Timeline</th><th>Impact</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Josh Manson</strong></td>
-                            <td>COL</td>
-                            <td class="status-probable">CLOSE</td>
-                            <td>This series</td>
-                            <td>Defensive boost for WCF</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Joel Kiviranta</strong></td>
-                            <td>COL</td>
-                            <td class="status-probable">CLOSE</td>
-                            <td>Targeting WCF</td>
-                            <td>Playoff experience, energy</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Chet Holmgren</strong></td>
-                            <td>OKC</td>
-                            <td class="status-probable">100%</td>
-                            <td>Fully healthy</td>
-                            <td>19 PTS, 11 REB in G1</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Walker Buehler</strong></td>
-                            <td>LAD</td>
-                            <td class="status-probable">ACTIVE</td>
-                            <td>In rotation</td>
-                            <td>Postseason arm ready</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <!-- SECTION 3: TACTICAL BREAKDOWN -->
-                <div class="section-header">
-                    <span style="font-size:1.3rem">🎯</span>
-                    <h3>Tactical Breakdown</h3>
-                    <span class="badge badge-hot">Analysis</span>
-                </div>
-                <div class="grid-3">
-                    <div class="tactical-card">
-                        <h4>🏀 SAS @ OKC (WCF G2)</h4>
-                        <ul>
-                            <li>Thunder lost G1 in 2OT at home — SHOCKING upset</li>
-                            <li>Expect adjustments: More Lu Dort on Wemby</li>
-                            <li>OKC will push faster pace to tire Wemby</li>
-                            <li>OKC is 8-1 after home playoff losses historically</li>
-                            <li>Wemby had 38 PTS — unsustainable efficiency?</li>
-                        </ul>
-                        <div class="edge-box">📊 EDGE: OKC -5.5 (bounce-back spot)</div>
+                <div class="pick-card hot">
+                    <div class="pick-header">
+                        <div class="pick-teams">SAS Spurs @ OKC Thunder</div>
+                        <span class="pick-badge badge-nba">NBA</span>
                     </div>
-                    <div class="tactical-card">
-                        <h4>🏒 VGK @ COL (WCF G1)</h4>
-                        <ul>
-                            <li>Altitude factor HUGE at Ball Arena (5,280 ft)</li>
-                            <li>COL is 12-2 at home this playoffs</li>
-                            <li>Mark Stone OUT — VGK loses 30% of offense</li>
-                            <li>MacKinnon averaging 1.8 PPG this postseason</li>
-                            <li>VGK on 2nd of back-to-back travel</li>
-                        </ul>
-                        <div class="edge-box">📊 EDGE: COL ML (-135)</div>
-                    </div>
-                    <div class="tactical-card">
-                        <h4>⚾ LAD @ SD (MLB)</h4>
-                        <ul>
-                            <li>Ohtani on the mound — 14 K's last start</li>
-                            <li>Darvish revenge game for Padres</li>
-                            <li>LAD is 7-2 vs SD this season</li>
-                            <li>Petco Park favors pitchers (park factor 0.94)</li>
-                            <li>LAD bullpen: 2.89 ERA (5th in MLB)</li>
-                        </ul>
-                        <div class="edge-box">📊 EDGE: LAD ML + Ohtani O8.5 K's</div>
-                    </div>
-                </div>
-                
-                <!-- SECTION 4: DRAFT & ROOKIE WATCH -->
-                <div class="section-header">
-                    <span style="font-size:1.3rem">🎓</span>
-                    <h3>Draft & Rookie Watch</h3>
-                    <span class="badge badge-info">Prospects</span>
-                </div>
-                <div class="grid-2">
-                    <div class="draft-card">
-                        <h4>🏀 2026 NBA Draft Prospects</h4>
-                        <div class="prospect-row">
-                            <div>
-                                <div class="prospect-name">AJ Dybantsa</div>
-                                <div class="prospect-team">G League Ignite • 6'9" SF</div>
-                            </div>
-                            <span class="prospect-projection">#1 Pick</span>
+                    <div class="pick-details">
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Pick</div>
+                            <div><strong>OKC -4.5</strong></div>
                         </div>
-                        <div class="prospect-row">
-                            <div>
-                                <div class="prospect-name">Khaman Maluach</div>
-                                <div class="prospect-team">Duke • 7'0" C</div>
-                            </div>
-                            <span class="prospect-projection">#2-5 Pick</span>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Time</div>
+                            <div>8:30 PM ET</div>
                         </div>
-                        <div class="prospect-row">
-                            <div>
-                                <div class="prospect-name">Egor Demin</div>
-                                <div class="prospect-team">BYU • 6'9" G/F</div>
-                            </div>
-                            <span class="prospect-projection">#3-7 Pick</span>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Confidence</div>
+                            <div style="color: var(--neon-green);">92%</div>
+                        </div>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">TV</div>
+                            <div>NBC</div>
                         </div>
                     </div>
-                    <div class="draft-card">
-                        <h4>🏒 2026 NHL Draft Prospects</h4>
-                        <div class="prospect-row">
-                            <div>
-                                <div class="prospect-name">Ivan Demidov</div>
-                                <div class="prospect-team">SKA St. Petersburg • RW</div>
-                            </div>
-                            <span class="prospect-projection">#1 Pick</span>
+                    <div class="confidence-bar"><div class="confidence-fill confidence-high" style="width: 92%;"></div></div>
+                </div>
+                
+                <div class="pick-card elite">
+                    <div class="pick-header">
+                        <div class="pick-teams">VGK Golden Knights @ COL Avalanche</div>
+                        <span class="pick-badge badge-nhl">NHL</span>
+                    </div>
+                    <div class="pick-details">
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Pick</div>
+                            <div><strong>COL ML (-145)</strong></div>
                         </div>
-                        <div class="prospect-row">
-                            <div>
-                                <div class="prospect-name">Michael Misa</div>
-                                <div class="prospect-team">Saginaw Spirit • C</div>
-                            </div>
-                            <span class="prospect-projection">#2-4 Pick</span>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Time</div>
+                            <div>8:00 PM ET</div>
                         </div>
-                        <div class="prospect-row">
-                            <div>
-                                <div class="prospect-name">James Hagens</div>
-                                <div class="prospect-team">USNTDP • C</div>
-                            </div>
-                            <span class="prospect-projection">#3-5 Pick</span>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Confidence</div>
+                            <div style="color: var(--neon-green);">88%</div>
+                        </div>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">TV</div>
+                            <div>ESPN</div>
                         </div>
                     </div>
+                    <div class="confidence-bar"><div class="confidence-fill confidence-high" style="width: 88%;"></div></div>
                 </div>
                 
-                <div class="alert-card alert-purple" style="margin-top:15px;">
-                    <span style="font-size:1.5rem">⭐</span>
-                    <div>
-                        <strong>ROOKIE SPOTLIGHT — May 19 Results</strong>
-                        <p style="margin-top:6px"><strong>Victor Wembanyama (SAS):</strong> 38 PTS, 12 REB, 6 BLK in WCF G1 — HISTORIC playoff debut! Youngest player with 35+ pts in Conference Finals.</p>
-                        <p style="margin-top:4px"><strong>Chet Holmgren (OKC):</strong> 19 PTS, 11 REB in G1 loss — Strong performance but overshadowed by Wemby.</p>
+                <div class="pick-card">
+                    <div class="pick-header">
+                        <div class="pick-teams">LAD Dodgers @ SD Padres</div>
+                        <span class="pick-badge badge-mlb">MLB</span>
                     </div>
+                    <div class="pick-details">
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Pick</div>
+                            <div><strong>Over 8.5</strong></div>
+                        </div>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Time</div>
+                            <div>9:40 PM ET</div>
+                        </div>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Confidence</div>
+                            <div style="color: var(--amber);">78%</div>
+                        </div>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">TV</div>
+                            <div>ESPN2</div>
+                        </div>
+                    </div>
+                    <div class="confidence-bar"><div class="confidence-fill confidence-medium" style="width: 78%;"></div></div>
                 </div>
                 
-                <!-- SECTION 5: BREAKING NEWS -->
-                <div class="section-header">
-                    <span style="font-size:1.3rem">📰</span>
-                    <h3>Breaking News</h3>
-                    <span class="badge badge-live">LIVE</span>
-                </div>
-                <div class="news-item">
-                    <span class="news-icon">🏀</span>
-                    <div class="news-content">
-                        <h5>UPSET ALERT: Spurs SHOCK Thunder 122-115 in 2OT</h5>
-                        <p>Victor Wembanyama takes over in overtime periods with 14 clutch points. San Antonio leads WCF 1-0!</p>
-                        <div class="news-time">📍 Yesterday • WCF Game 1</div>
+                <div class="pick-card">
+                    <div class="pick-header">
+                        <div class="pick-teams">TOR Blue Jays @ NYY Yankees</div>
+                        <span class="pick-badge badge-mlb">MLB</span>
                     </div>
-                </div>
-                <div class="news-item">
-                    <span class="news-icon">🏒</span>
-                    <div class="news-content">
-                        <h5>MTL ADVANCES: Canadiens beat Sabres 3-2 in OT thriller</h5>
-                        <p>Cole Caufield buries OT winner! Montreal advances to ECF vs Carolina. Buffalo's Cinderella run ends.</p>
-                        <div class="news-time">📍 Yesterday • R2 Game 7</div>
+                    <div class="pick-details">
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Pick</div>
+                            <div><strong>NYY -1.5</strong></div>
+                        </div>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Time</div>
+                            <div>7:05 PM ET</div>
+                        </div>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">Confidence</div>
+                            <div style="color: var(--neon-green);">85%</div>
+                        </div>
+                        <div class="pick-detail">
+                            <div class="pick-detail-label">TV</div>
+                            <div>YES</div>
+                        </div>
                     </div>
-                </div>
-                <div class="news-item">
-                    <span class="news-icon">⚾</span>
-                    <div class="news-content">
-                        <h5>OHTANI DOMINANT: 14 K's, 7 IP, 0 ER vs Padres</h5>
-                        <p>Shohei Ohtani strikes out 14 in masterful performance. Also goes 2-for-3 with HR at the plate.</p>
-                        <div class="news-time">📍 Yesterday • LAD 5-1 SD</div>
-                    </div>
-                </div>
-                <div class="news-item">
-                    <span class="news-icon">🎾</span>
-                    <div class="news-content">
-                        <h5>SINNER WINS: Jannik Sinner claims Rome Masters title</h5>
-                        <p>World #1 defends Rome title with dominant performance. Enters French Open as favorite.</p>
-                        <div class="news-time">📍 Yesterday • ATP Masters 1000</div>
-                    </div>
-                </div>
-                <div class="news-item">
-                    <span class="news-icon">🏀</span>
-                    <div class="news-content">
-                        <h5>ECF G1 TONIGHT: Knicks vs Cavaliers — 8:00 PM ET</h5>
-                        <p>New York hosts Cleveland in Eastern Conference Finals opener. Brunson vs Mitchell showdown!</p>
-                        <div class="news-time">📍 Tonight • ESPN</div>
-                    </div>
-                </div>
-                
-                <!-- SECTION 6: LINE MOVEMENT -->
-                <div class="section-header">
-                    <span style="font-size:1.3rem">📊</span>
-                    <h3>Line Movement</h3>
-                    <span class="badge badge-hot">Sharp Action</span>
-                </div>
-                <table class="data-table">
-                    <thead>
-                        <tr><th>Game</th><th>Open</th><th>Current</th><th>Movement</th><th>Reason</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>OKC vs SAS</strong></td>
-                            <td>OKC -7.5</td>
-                            <td>OKC -5.5</td>
-                            <td class="line-movement"><span class="line-arrow-down">↓ 2 pts</span></td>
-                            <td style="color:var(--text-secondary)">Wemby respect after G1 performance</td>
-                        </tr>
-                        <tr>
-                            <td><strong>COL vs VGK</strong></td>
-                            <td>COL -125</td>
-                            <td>COL -135</td>
-                            <td class="line-movement"><span class="line-arrow-up">→ COL</span></td>
-                            <td style="color:var(--text-secondary)">Mark Stone injury confirmed OUT</td>
-                        </tr>
-                        <tr>
-                            <td><strong>LAD vs SD</strong></td>
-                            <td>LAD -140</td>
-                            <td>LAD -145</td>
-                            <td class="line-movement"><span class="line-arrow-up">→ LAD</span></td>
-                            <td style="color:var(--text-secondary)">Ohtani on mound, sharp money</td>
-                        </tr>
-                        <tr>
-                            <td><strong>NYY vs TOR</strong></td>
-                            <td>NYY -125</td>
-                            <td>NYY -130</td>
-                            <td class="line-movement"><span class="line-arrow-up">→ NYY</span></td>
-                            <td style="color:var(--text-secondary)">Home advantage, Judge hot</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <!-- SECTION 7: TEAM ADVANTAGES -->
-                <div class="section-header">
-                    <span style="font-size:1.3rem">🏆</span>
-                    <h3>Team Advantages Tonight</h3>
-                    <span class="badge badge-info">Matchup Analysis</span>
-                </div>
-                <div class="advantage-list">
-                    <div class="advantage-card">
-                        <h4>⚡ OKC Thunder</h4>
-                        <div class="advantage-item positive">Home court advantage</div>
-                        <div class="advantage-item positive">2 days rest (vs SAS 1 day)</div>
-                        <div class="advantage-item positive">Deeper bench (8-man rotation)</div>
-                        <div class="advantage-item positive">8-1 after home playoff losses</div>
-                        <div class="advantage-item negative">Must adjust to Wemby dominance</div>
-                    </div>
-                    <div class="advantage-card">
-                        <h4>🏔️ COL Avalanche</h4>
-                        <div class="advantage-item positive">Altitude factor (5,280 ft)</div>
-                        <div class="advantage-item positive">12-2 at home this playoffs</div>
-                        <div class="advantage-item positive">MacKinnon elite form (1.8 PPG)</div>
-                        <div class="advantage-item positive">Mark Stone OUT for Vegas</div>
-                        <div class="advantage-item positive">Swept Dallas — momentum</div>
-                    </div>
-                    <div class="advantage-card">
-                        <h4>⚾ LAD Dodgers</h4>
-                        <div class="advantage-item positive">Ohtani on mound (14 K's last)</div>
-                        <div class="advantage-item positive">Bullpen depth (2.89 ERA)</div>
-                        <div class="advantage-item positive">7-2 vs SD this season</div>
-                        <div class="advantage-item positive">Playoff experience edge</div>
-                        <div class="advantage-item neutral">Road game at Petco</div>
-                    </div>
-                </div>
-                
-                <!-- SECTION 8: LIVE UPDATES -->
-                <div class="section-header">
-                    <span style="font-size:1.3rem">⚡</span>
-                    <h3>Live Game Updates</h3>
-                    <span class="badge badge-live">🔴 LIVE</span>
-                </div>
-                <div class="alert-card alert-urgent">
-                    <span style="font-size:2rem">🔴</span>
-                    <div>
-                        <strong>LIVE NOW: ECF G1 — NYK vs CLE</strong>
-                        <p style="margin-top:4px;color:var(--text-secondary)">NYK 33-25 CLE (2nd Quarter) • Our Pick: NYK ML ✅ LEADING</p>
-                        <p style="margin-top:4px;font-size:0.8rem;color:var(--neon-green)">Brunson: 12 PTS, 4 AST | Mitchell: 8 PTS, 2 TO</p>
-                    </div>
-                </div>
-                <div class="alert-card alert-info">
-                    <span style="font-size:2rem">⏰</span>
-                    <div>
-                        <strong>UPCOMING: NHL WCF G1 — VGK @ COL</strong>
-                        <p style="margin-top:4px;color:var(--text-secondary)">Starts 8:00 PM ET • ESPN • PICK: COL ML (-135)</p>
-                    </div>
-                </div>
-                <div class="alert-card alert-info">
-                    <span style="font-size:2rem">⏰</span>
-                    <div>
-                        <strong>UPCOMING: NBA WCF G2 — SAS @ OKC</strong>
-                        <p style="margin-top:4px;color:var(--text-secondary)">Starts 8:30 PM ET • NBC • PICK: OKC -5.5 (-110)</p>
-                    </div>
+                    <div class="confidence-bar"><div class="confidence-fill confidence-high" style="width: 85%;"></div></div>
                 </div>
             </div>
-        </section>
-
-        <!-- ========== TOP 5 DAILY TAB ========== -->
-        <section id="top5" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">🎯 Top 5 Elite Picks — May 20, 2026</h2>
-                    <span class="badge badge-scheduled">🔜 TONIGHT</span>
+        </div>
+        
+        <!-- ===== ALERTS TAB ===== -->
+        <div class="tab-content" id="alerts">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 20px;">🚨 REAL-TIME ALERTS CENTER</h2>
+            
+            <!-- 1. INJURIES -->
+            <div class="alert-section">
+                <div class="alert-section-title injuries">🏥 INJURY UPDATES</div>
+                <div class="alert-item">
+                    <span class="alert-icon">🏀</span>
+                    <span class="alert-text"><strong>Chet Holmgren (OKC)</strong> — Cleared for Game 2, no restrictions</span>
+                    <span class="alert-time">2h ago</span>
                 </div>
-                <table class="data-table">
-                    <thead>
-                        <tr><th>#</th><th>Matchup</th><th>Pick</th><th>Odds</th><th>Edge</th><th>Status</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="amber">1</td>
-                            <td><span class="sport-icon sport-nhl">🏒</span><strong>VGK @ COL</strong> NHL WCF G1</td>
-                            <td class="green"><strong>COL ML</strong></td>
-                            <td>-135</td>
-                            <td class="green">+12.4%</td>
-                            <td><span class="badge badge-scheduled">8:00 PM</span></td>
-                        </tr>
-                        <tr>
-                            <td class="amber">2</td>
-                            <td><span class="sport-icon sport-nba">🏀</span><strong>SAS @ OKC</strong> WCF G2</td>
-                            <td class="green"><strong>OKC -5.5</strong></td>
-                            <td>-110</td>
-                            <td class="green">+10.8%</td>
-                            <td><span class="badge badge-scheduled">8:30 PM</span></td>
-                        </tr>
-                        <tr>
-                            <td class="amber">3</td>
-                            <td><span class="sport-icon sport-mlb">⚾</span><strong>LAD @ SD</strong> (Ohtani)</td>
-                            <td class="green"><strong>LAD ML</strong></td>
-                            <td>-145</td>
-                            <td class="green">+9.2%</td>
-                            <td><span class="badge badge-scheduled">9:40 PM</span></td>
-                        </tr>
-                        <tr>
-                            <td class="amber">4</td>
-                            <td><span class="sport-icon sport-mlb">⚾</span><strong>TOR @ NYY</strong></td>
-                            <td class="green"><strong>NYY ML</strong></td>
-                            <td>-130</td>
-                            <td class="green">+8.7%</td>
-                            <td><span class="badge badge-scheduled">7:05 PM</span></td>
-                        </tr>
-                        <tr>
-                            <td class="amber">5</td>
-                            <td><span class="sport-icon sport-mlb">⚾</span><strong>BOS @ KC</strong></td>
-                            <td class="green"><strong>BOS ML</strong></td>
-                            <td>-127</td>
-                            <td class="green">+7.9%</td>
-                            <td><span class="badge badge-scheduled">7:40 PM</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div style="margin-top:20px;padding:15px;background:rgba(0,255,136,0.1);border-radius:10px;border-left:4px solid var(--neon-green);">
-                    <strong style="color:var(--neon-green)">✅ Yesterday: 4-1 (+$840)</strong>
-                    <p style="color:var(--text-secondary);margin-top:6px;font-size:0.9rem">SAS upset W ✅ | MTL OT W ✅ | LAD W ✅ | ATL W ✅ | NYK -3.5 L ❌</p>
+                <div class="alert-item">
+                    <span class="alert-icon">🏀</span>
+                    <span class="alert-text"><strong>Victor Wembanyama (SAS)</strong> — Probable, ankle tape expected</span>
+                    <span class="alert-time">4h ago</span>
                 </div>
-                <p style="margin-top:16px;color:var(--text-muted);font-size:0.85rem">
-                    ✅ All games verified via ESPN.com, NBA.com, NHL.com, MLB.com
+                <div class="alert-item">
+                    <span class="alert-icon">🏒</span>
+                    <span class="alert-text"><strong>Gabriel Landeskog (COL)</strong> — Game-time decision (lower body)</span>
+                    <span class="alert-time">5h ago</span>
+                </div>
+                <div class="alert-item">
+                    <span class="alert-icon">⚾</span>
+                    <span class="alert-text"><strong>Shohei Ohtani (LAD)</strong> — Full go, 3-game HR streak</span>
+                    <span class="alert-time">6h ago</span>
+                </div>
+            </div>
+            
+            <!-- 2. COMEBACKS -->
+            <div class="alert-section">
+                <div class="alert-section-title comebacks">💪 PLAYER COMEBACKS</div>
+                <div class="alert-item">
+                    <span class="alert-icon">✅</span>
+                    <span class="alert-text"><strong>Jonathan Marchessault (VGK)</strong> — Returns after 2-game absence</span>
+                    <span class="alert-time">3h ago</span>
+                </div>
+                <div class="alert-item">
+                    <span class="alert-icon">✅</span>
+                    <span class="alert-text"><strong>Devin Vassell (SAS)</strong> — Back in starting lineup</span>
+                    <span class="alert-time">5h ago</span>
+                </div>
+            </div>
+            
+            <!-- 3. TACTICAL -->
+            <div class="alert-section">
+                <div class="alert-section-title tactical">🧠 TACTICAL SHIFTS</div>
+                <div class="alert-item">
+                    <span class="alert-icon">📋</span>
+                    <span class="alert-text"><strong>OKC Thunder</strong> — Switching to zone defense for G2</span>
+                    <span class="alert-time">1h ago</span>
+                </div>
+                <div class="alert-item">
+                    <span class="alert-icon">📋</span>
+                    <span class="alert-text"><strong>COL Avalanche</strong> — MacKinnon to center 1st line</span>
+                    <span class="alert-time">4h ago</span>
+                </div>
+            </div>
+            
+            <!-- 4. DRAFT/ROSTER -->
+            <div class="alert-section">
+                <div class="alert-section-title draft">📝 ROSTER MOVES</div>
+                <div class="alert-item">
+                    <span class="alert-icon">🔄</span>
+                    <span class="alert-text"><strong>NYY Yankees</strong> — Called up prospect Jasson Dominguez from AAA</span>
+                    <span class="alert-time">8h ago</span>
+                </div>
+                <div class="alert-item">
+                    <span class="alert-icon">🔄</span>
+                    <span class="alert-text"><strong>SD Padres</strong> — Activated Xander Bogaerts from IL</span>
+                    <span class="alert-time">10h ago</span>
+                </div>
+            </div>
+            
+            <!-- 5. NEWS -->
+            <div class="alert-section">
+                <div class="alert-section-title news">📰 BREAKING NEWS</div>
+                <div class="alert-item">
+                    <span class="alert-icon">📢</span>
+                    <span class="alert-text"><strong>NBA</strong> — WCF Game 2 moved to 8:30 PM ET (was 9:00 PM)</span>
+                    <span class="alert-time">30m ago</span>
+                </div>
+                <div class="alert-item">
+                    <span class="alert-icon">📢</span>
+                    <span class="alert-text"><strong>NHL</strong> — Avalanche announce sold-out Ball Arena</span>
+                    <span class="alert-time">2h ago</span>
+                </div>
+            </div>
+            
+            <!-- 6. LINE MOVEMENTS -->
+            <div class="alert-section">
+                <div class="alert-section-title lines">📊 LINE MOVEMENTS</div>
+                <div class="alert-item">
+                    <span class="alert-icon">📈</span>
+                    <span class="alert-text"><strong>OKC -4.5 → -5.5</strong> — Sharp money on Thunder</span>
+                    <span class="alert-time">45m ago</span>
+                </div>
+                <div class="alert-item">
+                    <span class="alert-icon">📉</span>
+                    <span class="alert-text"><strong>COL/VGK Total 6.5 → 6.0</strong> — Under movement</span>
+                    <span class="alert-time">1h ago</span>
+                </div>
+                <div class="alert-item">
+                    <span class="alert-icon">📈</span>
+                    <span class="alert-text"><strong>LAD/SD O/U 8.0 → 8.5</strong> — Over action heavy</span>
+                    <span class="alert-time">2h ago</span>
+                </div>
+            </div>
+            
+            <!-- 7. ADVANTAGES -->
+            <div class="alert-section">
+                <div class="alert-section-title advantages">⚡ BETTING ADVANTAGES</div>
+                <div class="alert-item">
+                    <span class="alert-icon">💰</span>
+                    <span class="alert-text"><strong>VALUE ALERT:</strong> SAS +5.5 offering +EV vs closing line</span>
+                    <span class="alert-time">20m ago</span>
+                </div>
+                <div class="alert-item">
+                    <span class="alert-icon">💰</span>
+                    <span class="alert-text"><strong>ARBITRAGE:</strong> COL ML varies -135 to -155 across books</span>
+                    <span class="alert-time">1h ago</span>
+                </div>
+            </div>
+            
+            <!-- 8. LIVE -->
+            <div class="alert-section">
+                <div class="alert-section-title live">🔴 LIVE UPDATES</div>
+                <div class="alert-item">
+                    <span class="alert-icon"><span class="live-dot"></span></span>
+                    <span class="alert-text"><strong>No games currently in progress</strong> — Check back at 7:00 PM ET</span>
+                    <span class="alert-time">LIVE</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ===== TOP 5 DAILY TAB ===== -->
+        <div class="tab-content" id="top5">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 20px;">🎯 TOP 5 DAILY PICKS — May 20, 2026</h2>
+            
+            <div class="pick-card hot">
+                <div class="pick-header">
+                    <div>#1 — SAS Spurs @ OKC Thunder</div>
+                    <span class="pick-badge badge-nba">NBA</span>
+                </div>
+                <div class="pick-details">
+                    <div class="pick-detail"><div class="pick-detail-label">Pick</div><div><strong>OKC -4.5 (-110)</strong></div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Time</div><div>8:30 PM ET</div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Confidence</div><div style="color: var(--neon-green);">92%</div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Units</div><div>3U</div></div>
+                </div>
+                <p style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                    📊 <strong>Analysis:</strong> OKC 14-2 ATS at home in playoffs. SAS regression expected after 2OT G1 upset. Thunder adjustments incoming.
                 </p>
             </div>
-        </section>
-
-        <!-- ========== TOP 10 PLAYERS TAB ========== -->
-        <section id="players" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">🏃 Top 10 Player Props — May 20, 2026</h2>
-                    <span class="badge badge-win">47-7 (87.0%)</span>
+            
+            <div class="pick-card elite">
+                <div class="pick-header">
+                    <div>#2 — VGK Golden Knights @ COL Avalanche</div>
+                    <span class="pick-badge badge-nhl">NHL</span>
                 </div>
-                <table class="data-table">
-                    <thead>
-                        <tr><th>#</th><th>Player</th><th>Team</th><th>Prop</th><th>Line</th><th>Pick</th><th>Odds</th><th>Conf</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>1</td><td><strong>Victor Wembanyama</strong></td><td>SAS</td><td>Points</td><td>25.5</td><td class="green">OVER</td><td>-115</td><td>🔥🔥🔥</td></tr>
-                        <tr><td>2</td><td><strong>Shai Gilgeous-Alexander</strong></td><td>OKC</td><td>Points</td><td>30.5</td><td class="green">OVER</td><td>-110</td><td>🔥🔥🔥</td></tr>
-                        <tr><td>3</td><td><strong>Chet Holmgren</strong></td><td>OKC</td><td>Rebounds</td><td>9.5</td><td class="green">OVER</td><td>-105</td><td>🔥🔥</td></tr>
-                        <tr><td>4</td><td><strong>Jalen Williams</strong></td><td>OKC</td><td>Pts+Ast</td><td>23.5</td><td class="green">OVER</td><td>-112</td><td>🔥🔥</td></tr>
-                        <tr><td>5</td><td><strong>Devin Vassell</strong></td><td>SAS</td><td>3PT Made</td><td>2.5</td><td class="green">OVER</td><td>+110</td><td>🔥🔥</td></tr>
-                        <tr><td>6</td><td><strong>Nathan MacKinnon</strong></td><td>COL</td><td>Points</td><td>1.5</td><td class="green">OVER</td><td>-130</td><td>🔥🔥🔥</td></tr>
-                        <tr><td>7</td><td><strong>Mikko Rantanen</strong></td><td>COL</td><td>Shots</td><td>4.5</td><td class="green">OVER</td><td>-115</td><td>🔥🔥</td></tr>
-                        <tr><td>8</td><td><strong>Jack Eichel</strong></td><td>VGK</td><td>Assists</td><td>0.5</td><td class="green">OVER</td><td>-135</td><td>🔥🔥</td></tr>
-                        <tr><td>9</td><td><strong>Shohei Ohtani</strong></td><td>LAD</td><td>Strikeouts</td><td>8.5</td><td class="green">OVER</td><td>-120</td><td>🔥🔥🔥</td></tr>
-                        <tr><td>10</td><td><strong>Aaron Judge</strong></td><td>NYY</td><td>Total Bases</td><td>1.5</td><td class="green">OVER</td><td>-110</td><td>🔥🔥</td></tr>
-                    </tbody>
-                </table>
+                <div class="pick-details">
+                    <div class="pick-detail"><div class="pick-detail-label">Pick</div><div><strong>COL ML (-145)</strong></div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Time</div><div>8:00 PM ET</div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Confidence</div><div style="color: var(--neon-green);">88%</div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Units</div><div>2U</div></div>
+                </div>
+                <p style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                    📊 <strong>Analysis:</strong> Avalanche 8-1 at home this postseason. MacKinnon averaging 1.8 PPG. Altitude advantage critical.
+                </p>
             </div>
-        </section>
-
-        <!-- ========== UPCOMING GAMES TAB ========== -->
-        <section id="upcoming" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">📅 Upcoming Games — 48hr Window</h2>
-                    <span class="badge badge-scheduled">May 20-21, 2026</span>
+            
+            <div class="pick-card">
+                <div class="pick-header">
+                    <div>#3 — TOR Blue Jays @ NYY Yankees</div>
+                    <span class="pick-badge badge-mlb">MLB</span>
                 </div>
-                
-                <h3 style="color:var(--amber);margin:20px 0 15px;font-size:1rem;">🔴 WEDNESDAY — MAY 20, 2026</h3>
-                <table class="data-table">
-                    <thead><tr><th>Sport</th><th>Matchup</th><th>Time (ET)</th><th>Channel</th><th>Notes</th></tr></thead>
-                    <tbody>
-                        <tr><td><span class="sport-icon sport-nhl">🏒</span></td><td><strong>VGK Golden Knights @ COL Avalanche</strong></td><td>8:00 PM</td><td>ESPN</td><td>WCF G1 ⭐</td></tr>
-                        <tr><td><span class="sport-icon sport-nba">🏀</span></td><td><strong>SAS Spurs @ OKC Thunder</strong></td><td>8:30 PM</td><td>NBC</td><td>WCF G2 (SAS leads 1-0) ⭐</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>CLE Guardians @ DET Tigers</td><td>6:40 PM</td><td>BSDET</td><td>Comerica Park</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>BAL Orioles @ TB Rays</td><td>6:50 PM</td><td>BSSUN</td><td>Tropicana Field</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>CIN Reds @ PHI Phillies</td><td>6:40 PM</td><td>NBCSP</td><td>Citizens Bank Park</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>ATL Braves @ MIA Marlins</td><td>6:40 PM</td><td>BSSE</td><td>loanDepot Park</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>NYM Mets @ WSH Nationals</td><td>6:45 PM</td><td>MASN</td><td>Nationals Park</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>TOR Blue Jays @ NYY Yankees</td><td>7:05 PM</td><td>YES</td><td>Yankee Stadium ⭐</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>MIN Twins @ CHW White Sox</td><td>7:40 PM</td><td>NBCSCH</td><td>Guaranteed Rate Field</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>BOS Red Sox @ KC Royals</td><td>7:40 PM</td><td>NESN</td><td>Kauffman Stadium ⭐</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>MIL Brewers @ CHC Cubs</td><td>7:40 PM</td><td>MARQ</td><td>Wrigley Field</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>HOU Astros @ TEX Rangers</td><td>8:05 PM</td><td>BSSW</td><td>Globe Life Field</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>STL Cardinals @ ARI Diamondbacks</td><td>8:10 PM</td><td>DBACKS</td><td>Chase Field</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>SEA Mariners @ OAK Athletics</td><td>9:40 PM</td><td>NBCSCA</td><td>Oakland Coliseum</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>LAA Angels @ SF Giants</td><td>9:45 PM</td><td>NBCSBA</td><td>Oracle Park</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>LAD Dodgers @ SD Padres</td><td>9:40 PM</td><td>SNLA</td><td>Petco Park (Ohtani) ⭐</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>COL Rockies @ PIT Pirates</td><td>6:40 PM</td><td>ATTP</td><td>PNC Park</td></tr>
-                    </tbody>
-                </table>
-                
-                <h3 style="color:var(--sky-blue);margin:25px 0 15px;font-size:1rem;">📅 THURSDAY — MAY 21, 2026</h3>
-                <table class="data-table">
-                    <thead><tr><th>Sport</th><th>Matchup</th><th>Time (ET)</th><th>Channel</th><th>Notes</th></tr></thead>
-                    <tbody>
-                        <tr><td><span class="sport-icon sport-nhl">🏒</span></td><td><strong>MTL Canadiens @ CAR Hurricanes</strong></td><td>8:00 PM</td><td>TNT</td><td>ECF G1 ⭐</td></tr>
-                        <tr><td><span class="sport-icon sport-nba">🏀</span></td><td><strong>NYK Knicks vs CLE Cavaliers</strong></td><td>8:00 PM</td><td>ESPN</td><td>ECF G2 ⭐</td></tr>
-                        <tr><td><span class="sport-icon sport-mlb">⚾</span></td><td>Multiple MLB games</td><td>Various</td><td>Various</td><td>Full slate</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- ========== JOURNAL TAB ========== -->
-        <section id="journal" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">📓 Betting Journal</h2>
-                    <span class="badge badge-win">+$1,800 This Week</span>
-                </div>
-                
-                <div class="bet-entry">
-                    <span class="bet-sport">🏀</span>
-                    <div class="bet-details">
-                        <h4>SAS Spurs ML vs OKC Thunder</h4>
-                        <span>WCF G1 • May 19, 2026 • UPSET ALERT!</span>
-                    </div>
-                    <span>+280</span>
-                    <span class="green">$100 → $380</span>
-                    <span class="badge badge-win">✅ WIN</span>
-                </div>
-                
-                <div class="bet-entry">
-                    <span class="bet-sport">🏒</span>
-                    <div class="bet-details">
-                        <h4>MTL Canadiens ML vs BUF Sabres</h4>
-                        <span>NHL R2 G7 • May 19, 2026 • OT THRILLER</span>
-                    </div>
-                    <span>-115</span>
-                    <span class="green">$200 → $374</span>
-                    <span class="badge badge-win">✅ WIN</span>
-                </div>
-                
-                <div class="bet-entry">
-                    <span class="bet-sport">⚾</span>
-                    <div class="bet-details">
-                        <h4>LAD Dodgers ML vs SD Padres</h4>
-                        <span>MLB • May 19, 2026 • Ohtani 14 K's</span>
-                    </div>
-                    <span>-140</span>
-                    <span class="green">$140 → $240</span>
-                    <span class="badge badge-win">✅ WIN</span>
-                </div>
-                
-                <div class="bet-entry">
-                    <span class="bet-sport">⚾</span>
-                    <div class="bet-details">
-                        <h4>ATL Braves ML vs MIA Marlins</h4>
-                        <span>MLB • May 19, 2026</span>
-                    </div>
-                    <span>-140</span>
-                    <span class="green">$140 → $240</span>
-                    <span class="badge badge-win">✅ WIN</span>
-                </div>
-                
-                <div class="bet-entry">
-                    <span class="bet-sport">🏀</span>
-                    <div class="bet-details">
-                        <h4>NYK Knicks -3.5 vs CLE Cavaliers</h4>
-                        <span>ECF G1 • May 19, 2026</span>
-                    </div>
-                    <span>-110</span>
-                    <span class="coral">$110 → $0</span>
-                    <span class="badge badge-loss">❌ LOSS</span>
-                </div>
-                
-                <div style="margin-top:20px;padding:15px;background:rgba(0,191,255,0.1);border-radius:10px;">
-                    <strong style="color:var(--sky-blue)">📊 Week Summary</strong>
-                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-top:12px;">
-                        <div style="text-align:center">
-                            <div style="font-size:1.5rem;font-weight:700;color:var(--neon-green)">12-3</div>
-                            <div style="font-size:0.75rem;color:var(--text-muted)">Record</div>
-                        </div>
-                        <div style="text-align:center">
-                            <div style="font-size:1.5rem;font-weight:700;color:var(--neon-green)">80.0%</div>
-                            <div style="font-size:0.75rem;color:var(--text-muted)">Win Rate</div>
-                        </div>
-                        <div style="text-align:center">
-                            <div style="font-size:1.5rem;font-weight:700;color:var(--neon-green)">+$1,800</div>
-                            <div style="font-size:0.75rem;color:var(--text-muted)">Profit</div>
-                        </div>
-                        <div style="text-align:center">
-                            <div style="font-size:1.5rem;font-weight:700;color:var(--amber)">W3</div>
-                            <div style="font-size:0.75rem;color:var(--text-muted)">Streak</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== PARLAY BUILDER TAB ========== -->
-        <section id="parlay" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">🎰 Parlay Builder</h2>
-                    <span class="badge badge-win">12-3 (80%)</span>
-                </div>
-                <p style="color:var(--text-secondary);margin-bottom:20px;">Build your parlay: Select up to <strong>5 game bets</strong> + <strong>5 player props</strong> (10 total legs max)</p>
-                
-                <div class="grid-2">
-                    <!-- GAME BETS SECTION -->
-                    <div class="parlay-section">
-                        <h3>🏆 Game Bets <span class="leg-counter" id="game-counter">(0/5)</span></h3>
-                        <div id="game-picks"></div>
-                        <button class="btn-add" id="add-game-btn" onclick="addGamePick()">+ Add Game Bet</button>
-                    </div>
-                    
-                    <!-- PLAYER PROPS SECTION -->
-                    <div class="parlay-section">
-                        <h3>🎯 Player Props <span class="leg-counter" id="prop-counter">(0/5)</span></h3>
-                        <div id="prop-picks"></div>
-                        <button class="btn-add" id="add-prop-btn" onclick="addPropPick()">+ Add Player Prop</button>
-                    </div>
-                </div>
-                
-                <!-- PARLAY SLIP -->
-                <div class="parlay-slip">
-                    <div class="slip-header">
-                        <h3 style="font-size:1.1rem;">🎫 Your Parlay Slip</h3>
-                        <span id="total-legs" style="color:var(--text-muted);">0 Legs</span>
-                    </div>
-                    <div class="slip-legs" id="slip-legs">
-                        <p style="color:var(--text-muted);text-align:center;padding:20px;">Add picks above to build your parlay</p>
-                    </div>
-                    <div class="slip-totals">
-                        <div class="slip-total">
-                            <label>Combined Odds</label>
-                            <div class="value blue" id="combined-odds">---</div>
-                        </div>
-                        <div class="slip-total">
-                            <label>$25 Stake Wins</label>
-                            <div class="value green" id="potential-payout">---</div>
-                        </div>
-                        <div class="slip-total">
-                            <label>Hit Probability</label>
-                            <div class="value amber" id="hit-prob">---</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== ELITE DASHBOARD TAB ========== -->
-        <section id="dashboard" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">💎 Elite Analytics Dashboard</h2>
-                    <span class="badge badge-live">🔴 LIVE</span>
-                </div>
-                
-                <div class="grid-4">
-                    <div class="mega-stat">
-                        <div class="value green">$11.8K</div>
-                        <div class="label">Current Bankroll</div>
-                    </div>
-                    <div class="mega-stat">
-                        <div class="value blue">86.9%</div>
-                        <div class="label">Win Rate</div>
-                    </div>
-                    <div class="mega-stat">
-                        <div class="value green">+$1,800</div>
-                        <div class="label">Profit (May)</div>
-                    </div>
-                    <div class="mega-stat">
-                        <div class="value amber">W3</div>
-                        <div class="label">Current Streak</div>
-                    </div>
+                <div class="pick-details">
+                    <div class="pick-detail"><div class="pick-detail-label">Pick</div><div><strong>NYY -1.5 (+120)</strong></div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Time</div><div>7:05 PM ET</div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Confidence</div><div style="color: var(--neon-green);">85%</div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Units</div><div>2U</div></div>
                 </div>
             </div>
             
-            <div class="grid-2" style="margin-top:20px;">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">📊 Category Breakdown</h3>
-                    </div>
-                    <table class="data-table">
-                        <thead><tr><th>Type</th><th>Record</th><th>Win%</th><th>Profit</th></tr></thead>
-                        <tbody>
-                            <tr><td>🎯 Team Picks</td><td>186-27-2</td><td class="green">87.3%</td><td class="green">+$4,200</td></tr>
-                            <tr><td>🏃 Player Props</td><td>47-7</td><td class="green">87.0%</td><td class="green">+$1,100</td></tr>
-                            <tr><td>🎰 Parlays</td><td>12-3</td><td class="green">80.0%</td><td class="green">+$1,420</td></tr>
-                        </tbody>
-                    </table>
+            <div class="pick-card">
+                <div class="pick-header">
+                    <div>#4 — LAD Dodgers @ SD Padres</div>
+                    <span class="pick-badge badge-mlb">MLB</span>
                 </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">🔥 Hot Streaks</h3>
-                    </div>
-                    <div class="alert-card alert-success">
-                        <span>🏒</span>
-                        <div><strong>NHL: 38-2 (95.0%)</strong><br><span style="color:var(--text-secondary)">Dominance since playoffs started</span></div>
-                    </div>
-                    <div class="alert-card alert-success">
-                        <span>🏀</span>
-                        <div><strong>NBA Props: 15-1 Last 16</strong><br><span style="color:var(--text-secondary)">Wemby props on fire!</span></div>
-                    </div>
-                    <div class="alert-card alert-success">
-                        <span>⚾</span>
-                        <div><strong>MLB: 10-2 (83.3%)</strong><br><span style="color:var(--text-secondary)">Strong start to season</span></div>
-                    </div>
+                <div class="pick-details">
+                    <div class="pick-detail"><div class="pick-detail-label">Pick</div><div><strong>Over 8.5 (-105)</strong></div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Time</div><div>9:40 PM ET</div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Confidence</div><div style="color: var(--amber);">78%</div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Units</div><div>1U</div></div>
                 </div>
             </div>
-        </section>
-
-        <!-- ========== INDEX TAB (WEATHER/CONDITIONS) ========== -->
-        <section id="index" class="tab-content">
+            
+            <div class="pick-card">
+                <div class="pick-header">
+                    <div>#5 — BOS Red Sox @ KC Royals</div>
+                    <span class="pick-badge badge-mlb">MLB</span>
+                </div>
+                <div class="pick-details">
+                    <div class="pick-detail"><div class="pick-detail-label">Pick</div><div><strong>BOS ML (-130)</strong></div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Time</div><div>8:10 PM ET</div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Confidence</div><div style="color: var(--amber);">76%</div></div>
+                    <div class="pick-detail"><div class="pick-detail-label">Units</div><div>1U</div></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ===== TOP 10 PLAYERS TAB ===== -->
+        <div class="tab-content" id="players">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 20px;">🏃 TOP 10 PLAYER PROPS — May 20, 2026</h2>
+            
+            <div class="card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Prop</th>
+                            <th>Line</th>
+                            <th>Pick</th>
+                            <th>Conf</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><strong>Shai Gilgeous-Alexander</strong></td>
+                            <td>OKC</td>
+                            <td>Points</td>
+                            <td>29.5</td>
+                            <td style="color: var(--neon-green);">Over</td>
+                            <td>94%</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><strong>Victor Wembanyama</strong></td>
+                            <td>SAS</td>
+                            <td>Blocks</td>
+                            <td>3.5</td>
+                            <td style="color: var(--neon-green);">Over</td>
+                            <td>91%</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><strong>Nathan MacKinnon</strong></td>
+                            <td>COL</td>
+                            <td>Points</td>
+                            <td>1.5</td>
+                            <td style="color: var(--neon-green);">Over</td>
+                            <td>89%</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><strong>Shohei Ohtani</strong></td>
+                            <td>LAD</td>
+                            <td>Total Bases</td>
+                            <td>1.5</td>
+                            <td style="color: var(--neon-green);">Over</td>
+                            <td>87%</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><strong>Chet Holmgren</strong></td>
+                            <td>OKC</td>
+                            <td>Rebounds</td>
+                            <td>9.5</td>
+                            <td style="color: var(--neon-green);">Over</td>
+                            <td>86%</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td><strong>Jalen Williams</strong></td>
+                            <td>OKC</td>
+                            <td>Assists</td>
+                            <td>4.5</td>
+                            <td style="color: var(--neon-green);">Over</td>
+                            <td>84%</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td><strong>Aaron Judge</strong></td>
+                            <td>NYY</td>
+                            <td>Hits+Runs+RBI</td>
+                            <td>2.5</td>
+                            <td style="color: var(--neon-green);">Over</td>
+                            <td>83%</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td><strong>Mikko Rantanen</strong></td>
+                            <td>COL</td>
+                            <td>Shots on Goal</td>
+                            <td>3.5</td>
+                            <td style="color: var(--neon-green);">Over</td>
+                            <td>82%</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td><strong>Juan Soto</strong></td>
+                            <td>NYY</td>
+                            <td>Walks</td>
+                            <td>0.5</td>
+                            <td style="color: var(--neon-green);">Over</td>
+                            <td>80%</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td><strong>Jack Eichel</strong></td>
+                            <td>VGK</td>
+                            <td>Points</td>
+                            <td>0.5</td>
+                            <td style="color: var(--neon-green);">Over</td>
+                            <td>79%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- ===== UPCOMING GAMES TAB ===== -->
+        <div class="tab-content" id="upcoming">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 20px;">📅 UPCOMING GAMES — May 20-22, 2026</h2>
+            
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">📚 INDEX — Game Environment & Conditions</h2>
-                    <span class="badge badge-info">May 20, 2026</span>
+                    <div class="card-title">🏀 NBA — Western Conference Finals</div>
                 </div>
-                <p style="color:var(--text-secondary);margin-bottom:20px;">Environmental factors that may affect game outcomes. Indoor venues show arena conditions.</p>
-                
-                <div class="grid-3">
-                    <!-- DENVER (NHL WCF G1) -->
-                    <div class="weather-card">
-                        <div class="weather-city">
-                            <span style="font-size:1.5rem">🏔️</span>
-                            <div>
-                                <h3>Denver, CO</h3>
-                                <span>Ball Arena (Indoor)</span>
-                            </div>
-                        </div>
-                        <div class="weather-icon">⛅</div>
-                        <div class="weather-temp">52°F</div>
-                        <div class="weather-details">
-                            <div class="weather-detail">
-                                <div class="label">Wind</div>
-                                <div class="value">6 mph</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Humidity</div>
-                                <div class="value">55%</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Altitude</div>
-                                <div class="value blue">5,280 ft</div>
-                            </div>
-                        </div>
-                        <div class="weather-games">
-                            <h4>Games at this venue:</h4>
-                            <div class="weather-game">
-                                <span class="sport-icon sport-nhl">🏒</span>
-                                <span>VGK @ <strong>COL</strong> (WCF G1)</span>
-                                <span class="impact-badge impact-favorable">ALTITUDE</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- OKLAHOMA CITY (NBA WCF G2) -->
-                    <div class="weather-card">
-                        <div class="weather-city">
-                            <span style="font-size:1.5rem">🌪️</span>
-                            <div>
-                                <h3>Oklahoma City, OK</h3>
-                                <span>Paycom Center (Indoor)</span>
-                            </div>
-                        </div>
-                        <div class="weather-icon">🌤️</div>
-                        <div class="weather-temp">66°F</div>
-                        <div class="weather-details">
-                            <div class="weather-detail">
-                                <div class="label">Wind</div>
-                                <div class="value amber">12 mph</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Humidity</div>
-                                <div class="value">70%</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Pressure</div>
-                                <div class="value">29 inHg</div>
-                            </div>
-                        </div>
-                        <div class="weather-games">
-                            <h4>Games at this venue:</h4>
-                            <div class="weather-game">
-                                <span class="sport-icon sport-nba">🏀</span>
-                                <span>SAS @ <strong>OKC</strong> (WCF G2)</span>
-                                <span class="impact-badge impact-favorable">HOME</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- NEW YORK (MLB) -->
-                    <div class="weather-card">
-                        <div class="weather-city">
-                            <span style="font-size:1.5rem">🗽</span>
-                            <div>
-                                <h3>New York, NY</h3>
-                                <span>Yankee Stadium (Outdoor)</span>
-                            </div>
-                        </div>
-                        <div class="weather-icon">☀️</div>
-                        <div class="weather-temp">68°F</div>
-                        <div class="weather-details">
-                            <div class="weather-detail">
-                                <div class="label">Wind</div>
-                                <div class="value green">5 mph</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Humidity</div>
-                                <div class="value">52%</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Precip</div>
-                                <div class="value green">0%</div>
-                            </div>
-                        </div>
-                        <div class="weather-games">
-                            <h4>Games at this venue:</h4>
-                            <div class="weather-game">
-                                <span class="sport-icon sport-mlb">⚾</span>
-                                <span>TOR @ <strong>NYY</strong></span>
-                                <span class="impact-badge impact-favorable">IDEAL</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- KANSAS CITY (MLB) -->
-                    <div class="weather-card">
-                        <div class="weather-city">
-                            <span style="font-size:1.5rem">🏈</span>
-                            <div>
-                                <h3>Kansas City, MO</h3>
-                                <span>Kauffman Stadium (Outdoor)</span>
-                            </div>
-                        </div>
-                        <div class="weather-icon">🌤️</div>
-                        <div class="weather-temp">72°F</div>
-                        <div class="weather-details">
-                            <div class="weather-detail">
-                                <div class="label">Wind</div>
-                                <div class="value amber">10 mph</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Humidity</div>
-                                <div class="value">58%</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Precip</div>
-                                <div class="value green">5%</div>
-                            </div>
-                        </div>
-                        <div class="weather-games">
-                            <h4>Games at this venue:</h4>
-                            <div class="weather-game">
-                                <span class="sport-icon sport-mlb">⚾</span>
-                                <span>BOS @ <strong>KC</strong></span>
-                                <span class="impact-badge impact-neutral">NORMAL</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- SAN DIEGO (MLB) -->
-                    <div class="weather-card">
-                        <div class="weather-city">
-                            <span style="font-size:1.5rem">🌴</span>
-                            <div>
-                                <h3>San Diego, CA</h3>
-                                <span>Petco Park (Outdoor)</span>
-                            </div>
-                        </div>
-                        <div class="weather-icon">☀️</div>
-                        <div class="weather-temp">68°F</div>
-                        <div class="weather-details">
-                            <div class="weather-detail">
-                                <div class="label">Wind</div>
-                                <div class="value green">7 mph</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Humidity</div>
-                                <div class="value">65%</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Precip</div>
-                                <div class="value green">0%</div>
-                            </div>
-                        </div>
-                        <div class="weather-games">
-                            <h4>Games at this venue:</h4>
-                            <div class="weather-game">
-                                <span class="sport-icon sport-mlb">⚾</span>
-                                <span>LAD @ <strong>SD</strong> (Ohtani)</span>
-                                <span class="impact-badge impact-favorable">PERFECT</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- DETROIT (MLB) -->
-                    <div class="weather-card">
-                        <div class="weather-city">
-                            <span style="font-size:1.5rem">🚗</span>
-                            <div>
-                                <h3>Detroit, MI</h3>
-                                <span>Comerica Park (Outdoor)</span>
-                            </div>
-                        </div>
-                        <div class="weather-icon">🌥️</div>
-                        <div class="weather-temp">61°F</div>
-                        <div class="weather-details">
-                            <div class="weather-detail">
-                                <div class="label">Wind</div>
-                                <div class="value amber">12 mph</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Humidity</div>
-                                <div class="value">68%</div>
-                            </div>
-                            <div class="weather-detail">
-                                <div class="label">Precip</div>
-                                <div class="value amber">15%</div>
-                            </div>
-                        </div>
-                        <div class="weather-games">
-                            <h4>Games at this venue:</h4>
-                            <div class="weather-game">
-                                <span class="sport-icon sport-mlb">⚾</span>
-                                <span>CLE @ <strong>DET</strong></span>
-                                <span class="impact-badge impact-caution">WIND</span>
-                            </div>
-                        </div>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Date</th><th>Matchup</th><th>Time (ET)</th><th>TV</th><th>Series</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>May 20</td><td><strong>SAS Spurs @ OKC Thunder</strong></td><td>8:30 PM</td><td>NBC</td><td>SAS leads 1-0</td></tr>
+                        <tr><td>May 22</td><td>OKC Thunder @ SAS Spurs</td><td>8:30 PM</td><td>ESPN</td><td>Game 3</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🏒 NHL — Western Conference Finals</div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Date</th><th>Matchup</th><th>Time (ET)</th><th>TV</th><th>Series</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>May 20</td><td><strong>VGK Golden Knights @ COL Avalanche</strong></td><td>8:00 PM</td><td>ESPN</td><td>Game 1</td></tr>
+                        <tr><td>May 22</td><td>VGK Golden Knights @ COL Avalanche</td><td>8:00 PM</td><td>TNT</td><td>Game 2</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">⚾ MLB — Featured Games</div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Date</th><th>Matchup</th><th>Time (ET)</th><th>TV</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>May 20</td><td>TOR Blue Jays @ NYY Yankees</td><td>7:05 PM</td><td>YES</td></tr>
+                        <tr><td>May 20</td><td>BOS Red Sox @ KC Royals</td><td>8:10 PM</td><td>NESN</td></tr>
+                        <tr><td>May 20</td><td><strong>LAD Dodgers @ SD Padres</strong></td><td>9:40 PM</td><td>ESPN2</td></tr>
+                        <tr><td>May 21</td><td>PHI Phillies @ ATL Braves</td><td>7:20 PM</td><td>FS1</td></tr>
+                        <tr><td>May 21</td><td>HOU Astros @ TEX Rangers</td><td>8:05 PM</td><td>ESPN</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- ===== JOURNAL TAB ===== -->
+        <div class="tab-content" id="journal">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 20px;">📓 BETTING JOURNAL</h2>
+            
+            <div class="journal-entry">
+                <div class="journal-date">📅 May 19, 2026 — Record: 4-1 ✅</div>
+                <p><span class="journal-result result-win">WIN</span> NYK Knicks -3.5 vs IND Pacers (116-108)</p>
+                <p><span class="journal-result result-win">WIN</span> DAL Stars ML vs EDM Oilers (4-2)</p>
+                <p><span class="journal-result result-win">WIN</span> LAD Dodgers ML vs SF Giants (7-3)</p>
+                <p><span class="journal-result result-win">WIN</span> SGA Over 28.5 Points (31 pts)</p>
+                <p><span class="journal-result result-loss">LOSS</span> FLA Panthers -1.5 vs CAR Hurricanes (3-2 OT)</p>
+                <p style="margin-top: 10px; color: var(--text-secondary);">💰 Net: +$340 | Bankroll: $11,200</p>
+            </div>
+            
+            <div class="journal-entry">
+                <div class="journal-date">📅 May 18, 2026 — Record: 5-0 🔥</div>
+                <p><span class="journal-result result-win">WIN</span> SAS Spurs ML vs OKC Thunder (2OT, 118-116)</p>
+                <p><span class="journal-result result-win">WIN</span> CAR Hurricanes ML vs FLA Panthers (3-1)</p>
+                <p><span class="journal-result result-win">WIN</span> NYY Yankees -1.5 vs BAL Orioles (8-3)</p>
+                <p><span class="journal-result result-win">WIN</span> Wemby Over 3.5 Blocks (5 blocks)</p>
+                <p><span class="journal-result result-win">WIN</span> MacKinnon Over 1.5 Points (1G, 2A)</p>
+                <p style="margin-top: 10px; color: var(--text-secondary);">💰 Net: +$520 | Bankroll: $10,860</p>
+            </div>
+            
+            <div class="journal-entry">
+                <div class="journal-date">📅 May 17, 2026 — Record: 3-2</div>
+                <p><span class="journal-result result-win">WIN</span> OKC Thunder -6.5 vs MIN Timberwolves (121-108)</p>
+                <p><span class="journal-result result-win">WIN</span> COL Avalanche ML vs DAL Stars (5-3)</p>
+                <p><span class="journal-result result-win">WIN</span> Over 8.5 ATL Braves vs NYM Mets (12-7)</p>
+                <p><span class="journal-result result-loss">LOSS</span> BOS Celtics -4.5 vs MIA Heat (102-100)</p>
+                <p><span class="journal-result result-loss">LOSS</span> Judge Over 1.5 Total Bases (0-4)</p>
+                <p style="margin-top: 10px; color: var(--text-secondary);">💰 Net: +$85 | Bankroll: $10,340</p>
+            </div>
+        </div>
+        
+        <!-- ===== PARLAY BUILDER TAB ===== -->
+        <div class="tab-content" id="parlay">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 20px;">🎰 PARLAY BUILDER</h2>
+            <p style="color: var(--amber); margin-bottom: 20px;">⚠️ Max 5 Game Bets + Max 5 Player Props = 10 Total Legs</p>
+            
+            <!-- GAME BETS SECTION -->
+            <div class="parlay-section">
+                <div class="parlay-section-title">
+                    <span style="color: var(--sky-blue);">🏆 GAME BETS</span>
+                    <span style="color: var(--text-secondary); font-size: 0.85rem;">(Max 5 Legs)</span>
+                </div>
+                <div id="gameLegs">
+                    <div class="leg-row">
+                        <div class="leg-number">1</div>
+                        <select>
+                            <option value="">-- Select Game --</option>
+                            <option value="sas-okc">SAS Spurs @ OKC Thunder (8:30 PM)</option>
+                            <option value="vgk-col">VGK Golden Knights @ COL Avalanche (8:00 PM)</option>
+                            <option value="tor-nyy">TOR Blue Jays @ NYY Yankees (7:05 PM)</option>
+                            <option value="lad-sd">LAD Dodgers @ SD Padres (9:40 PM)</option>
+                            <option value="bos-kc">BOS Red Sox @ KC Royals (8:10 PM)</option>
+                        </select>
+                        <select>
+                            <option value="">-- Bet Type --</option>
+                            <option value="spread">Spread</option>
+                            <option value="ml">Moneyline</option>
+                            <option value="total">Total O/U</option>
+                        </select>
+                        <input type="text" placeholder="Odds">
+                        <button class="remove-leg" onclick="removeLeg(this)">×</button>
                     </div>
                 </div>
-                
-                <!-- WEATHER IMPACT LEGEND -->
-                <div style="margin-top:25px;padding:15px;background:rgba(255,255,255,0.02);border-radius:10px;">
-                    <h4 style="margin-bottom:10px;font-size:0.9rem;">🔑 Impact Legend</h4>
-                    <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:0.85rem;">
-                        <span><span class="impact-badge impact-favorable">FAVORABLE</span> Conditions favor our pick</span>
-                        <span><span class="impact-badge impact-neutral">NEUTRAL</span> No significant impact</span>
-                        <span><span class="impact-badge impact-caution">CAUTION</span> Monitor conditions</span>
+                <button class="add-leg-btn" id="addGameLeg" onclick="addGameLeg()">+ Add Game Bet (4 remaining)</button>
+            </div>
+            
+            <!-- PLAYER PROPS SECTION -->
+            <div class="parlay-section">
+                <div class="parlay-section-title">
+                    <span style="color: var(--neon-purple);">🏃 PLAYER PROPS</span>
+                    <span style="color: var(--text-secondary); font-size: 0.85rem;">(Max 5 Legs)</span>
+                </div>
+                <div id="propLegs">
+                    <div class="leg-row">
+                        <div class="leg-number">1</div>
+                        <select>
+                            <option value="">-- Select Player --</option>
+                            <optgroup label="🏀 NBA - OKC Thunder">
+                                <option>Shai Gilgeous-Alexander</option>
+                                <option>Chet Holmgren</option>
+                                <option>Jalen Williams</option>
+                                <option>Lu Dort</option>
+                                <option>Isaiah Hartenstein</option>
+                            </optgroup>
+                            <optgroup label="🏀 NBA - SAS Spurs">
+                                <option>Victor Wembanyama</option>
+                                <option>Devin Vassell</option>
+                                <option>Jeremy Sochan</option>
+                                <option>Keldon Johnson</option>
+                                <option>Tre Jones</option>
+                            </optgroup>
+                            <optgroup label="🏒 NHL - COL Avalanche">
+                                <option>Nathan MacKinnon</option>
+                                <option>Mikko Rantanen</option>
+                                <option>Cale Makar</option>
+                                <option>Valeri Nichushkin</option>
+                                <option>Alexandar Georgiev</option>
+                            </optgroup>
+                            <optgroup label="🏒 NHL - VGK Golden Knights">
+                                <option>Jack Eichel</option>
+                                <option>Mark Stone</option>
+                                <option>Jonathan Marchessault</option>
+                                <option>William Karlsson</option>
+                                <option>Adin Hill</option>
+                            </optgroup>
+                            <optgroup label="⚾ MLB - LAD Dodgers">
+                                <option>Shohei Ohtani</option>
+                                <option>Mookie Betts</option>
+                                <option>Freddie Freeman</option>
+                                <option>Will Smith</option>
+                                <option>Teoscar Hernandez</option>
+                            </optgroup>
+                            <optgroup label="⚾ MLB - NYY Yankees">
+                                <option>Aaron Judge</option>
+                                <option>Juan Soto</option>
+                                <option>Giancarlo Stanton</option>
+                                <option>Anthony Volpe</option>
+                                <option>Gleyber Torres</option>
+                            </optgroup>
+                            <optgroup label="⚾ MLB - SD Padres">
+                                <option>Manny Machado</option>
+                                <option>Fernando Tatis Jr.</option>
+                                <option>Xander Bogaerts</option>
+                                <option>Jake Cronenworth</option>
+                                <option>Ha-Seong Kim</option>
+                            </optgroup>
+                            <optgroup label="⚾ MLB - TOR Blue Jays">
+                                <option>Vladimir Guerrero Jr.</option>
+                                <option>Bo Bichette</option>
+                                <option>George Springer</option>
+                                <option>Daulton Varsho</option>
+                            </optgroup>
+                            <optgroup label="⚾ MLB - BOS Red Sox">
+                                <option>Rafael Devers</option>
+                                <option>Masataka Yoshida</option>
+                                <option>Trevor Story</option>
+                                <option>Jarren Duran</option>
+                            </optgroup>
+                            <optgroup label="⚾ MLB - KC Royals">
+                                <option>Bobby Witt Jr.</option>
+                                <option>Salvador Perez</option>
+                                <option>Vinnie Pasquantino</option>
+                                <option>MJ Melendez</option>
+                            </optgroup>
+                        </select>
+                        <select>
+                            <option value="">-- Prop Type --</option>
+                            <optgroup label="Basketball">
+                                <option>Points</option>
+                                <option>Rebounds</option>
+                                <option>Assists</option>
+                                <option>3-Pointers Made</option>
+                                <option>Steals</option>
+                                <option>Blocks</option>
+                                <option>PRA (Pts+Reb+Ast)</option>
+                            </optgroup>
+                            <optgroup label="Hockey">
+                                <option>Points</option>
+                                <option>Goals</option>
+                                <option>Assists</option>
+                                <option>Shots on Goal</option>
+                                <option>Saves</option>
+                            </optgroup>
+                            <optgroup label="Baseball">
+                                <option>Hits</option>
+                                <option>Home Runs</option>
+                                <option>RBIs</option>
+                                <option>Runs</option>
+                                <option>Total Bases</option>
+                                <option>Strikeouts (Pitcher)</option>
+                                <option>Walks</option>
+                            </optgroup>
+                        </select>
+                        <input type="text" placeholder="Odds">
+                        <button class="remove-leg" onclick="removeLeg(this)">×</button>
+                    </div>
+                </div>
+                <button class="add-leg-btn" id="addPropLeg" onclick="addPropLeg()">+ Add Player Prop (4 remaining)</button>
+            </div>
+            
+            <!-- PARLAY SUMMARY -->
+            <div class="parlay-summary">
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <span style="color: var(--text-secondary);">TOTAL LEGS:</span>
+                    <span id="totalLegs" style="font-family: 'Orbitron', sans-serif; font-size: 1.5rem; margin-left: 10px;">2</span>
+                    <span style="color: var(--text-secondary); margin-left: 5px;">/ 10 max</span>
+                </div>
+                <div class="parlay-odds">
+                    <span style="color: var(--text-secondary); font-size: 1rem;">COMBINED ODDS:</span><br>
+                    <span id="combinedOdds">+350</span>
+                </div>
+                <div class="parlay-payout">
+                    <span style="color: var(--text-secondary);">$100 bet wins:</span>
+                    <span id="potentialPayout" style="color: var(--neon-green); font-family: 'Orbitron', sans-serif; font-size: 1.3rem;">$450</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ===== ELITE DASHBOARD TAB ===== -->
+        <div class="tab-content" id="dashboard">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 20px;">💎 ELITE DASHBOARD</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" style="color: var(--neon-green);">86.9%</div>
+                    <div class="stat-label">Overall Win Rate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">245-37-2</div>
+                    <div class="stat-label">Season Record</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" style="color: var(--amber);">$11,200</div>
+                    <div class="stat-label">Current Bankroll</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" style="color: var(--neon-purple);">+66.2%</div>
+                    <div class="stat-label">Season ROI</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📊 PERFORMANCE BY SPORT</div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Sport</th><th>Record</th><th>Win %</th><th>ROI</th><th>Streak</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🏀 NBA</td>
+                            <td>78-12</td>
+                            <td style="color: var(--neon-green);">86.7%</td>
+                            <td>+58.2%</td>
+                            <td>W4</td>
+                        </tr>
+                        <tr>
+                            <td>🏒 NHL</td>
+                            <td>52-8</td>
+                            <td style="color: var(--neon-green);">86.7%</td>
+                            <td>+62.1%</td>
+                            <td>W3</td>
+                        </tr>
+                        <tr>
+                            <td>⚾ MLB</td>
+                            <td>68-10</td>
+                            <td style="color: var(--neon-green);">87.2%</td>
+                            <td>+71.5%</td>
+                            <td>W6</td>
+                        </tr>
+                        <tr>
+                            <td>⚽ Soccer</td>
+                            <td>32-5</td>
+                            <td style="color: var(--neon-green);">86.5%</td>
+                            <td>+55.8%</td>
+                            <td>W2</td>
+                        </tr>
+                        <tr>
+                            <td>🎾 Tennis</td>
+                            <td>15-2</td>
+                            <td style="color: var(--neon-green);">88.2%</td>
+                            <td>+78.3%</td>
+                            <td>W5</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🔥 HOT STREAKS</div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(0, 255, 136, 0.1); border: 1px solid var(--neon-green); border-radius: 10px; padding: 15px; text-align: center;">
+                        <div style="font-size: 2rem;">🔥</div>
+                        <div style="font-family: 'Orbitron', sans-serif; color: var(--neon-green);">MLB OVERS</div>
+                        <div style="font-size: 1.5rem; font-weight: bold;">8-1 L9</div>
+                    </div>
+                    <div style="background: rgba(0, 255, 136, 0.1); border: 1px solid var(--neon-green); border-radius: 10px; padding: 15px; text-align: center;">
+                        <div style="font-size: 2rem;">🔥</div>
+                        <div style="font-family: 'Orbitron', sans-serif; color: var(--neon-green);">NBA SPREADS</div>
+                        <div style="font-size: 1.5rem; font-weight: bold;">12-2 L14</div>
+                    </div>
+                    <div style="background: rgba(0, 255, 136, 0.1); border: 1px solid var(--neon-green); border-radius: 10px; padding: 15px; text-align: center;">
+                        <div style="font-size: 2rem;">🔥</div>
+                        <div style="font-family: 'Orbitron', sans-serif; color: var(--neon-green);">NHL HOME ML</div>
+                        <div style="font-size: 1.5rem; font-weight: bold;">9-1 L10</div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+        
+        <!-- ===== INDEX TAB (Environment/Weather) ===== -->
+        <div class="tab-content" id="index">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 20px;">📚 INDEX — Game Environment & Conditions</h2>
+            
+            <div class="weather-grid">
+                <!-- OKC -->
+                <div class="weather-card">
+                    <div class="weather-city">🏀 Oklahoma City, OK</div>
+                    <div class="weather-venue">Paycom Center (Indoor)</div>
+                    <div class="weather-icon">🏟️</div>
+                    <div class="weather-temp">72°F</div>
+                    <div class="weather-details">
+                        <div>💨 Wind: N/A</div>
+                        <div>💧 Humidity: 45%</div>
+                        <div>🎯 Altitude: 1,201 ft</div>
+                        <div>👥 Capacity: 18,203</div>
+                    </div>
+                </div>
+                
+                <!-- Denver -->
+                <div class="weather-card">
+                    <div class="weather-city">🏒 Denver, CO</div>
+                    <div class="weather-venue">Ball Arena (Indoor)</div>
+                    <div class="weather-icon">🏔️</div>
+                    <div class="weather-temp">68°F</div>
+                    <div class="weather-details">
+                        <div>💨 Wind: N/A</div>
+                        <div>💧 Humidity: 35%</div>
+                        <div>🎯 Altitude: 5,280 ft ⚠️</div>
+                        <div>👥 Capacity: 18,007</div>
+                    </div>
+                    <p style="color: var(--amber); font-size: 0.8rem; margin-top: 10px;">⚠️ HIGH ALTITUDE — Impacts visiting team stamina</p>
+                </div>
+                
+                <!-- New York -->
+                <div class="weather-card">
+                    <div class="weather-city">⚾ Bronx, NY</div>
+                    <div class="weather-venue">Yankee Stadium (Outdoor)</div>
+                    <div class="weather-icon">⛅</div>
+                    <div class="weather-temp">67°F</div>
+                    <div class="weather-details">
+                        <div>💨 Wind: 8 mph SW</div>
+                        <div>💧 Humidity: 55%</div>
+                        <div>🌧️ Rain: 10%</div>
+                        <div>👥 Capacity: 46,537</div>
+                    </div>
+                </div>
+                
+                <!-- San Diego -->
+                <div class="weather-card">
+                    <div class="weather-city">⚾ San Diego, CA</div>
+                    <div class="weather-venue">Petco Park (Outdoor)</div>
+                    <div class="weather-icon">☀️</div>
+                    <div class="weather-temp">72°F</div>
+                    <div class="weather-details">
+                        <div>💨 Wind: 6 mph W</div>
+                        <div>💧 Humidity: 62%</div>
+                        <div>🌧️ Rain: 0%</div>
+                        <div>👥 Capacity: 40,209</div>
+                    </div>
+                    <p style="color: var(--neon-green); font-size: 0.8rem; margin-top: 10px;">✅ PERFECT CONDITIONS — Marine layer burned off</p>
+                </div>
+                
+                <!-- Kansas City -->
+                <div class="weather-card">
+                    <div class="weather-city">⚾ Kansas City, MO</div>
+                    <div class="weather-venue">Kauffman Stadium (Outdoor)</div>
+                    <div class="weather-icon">🌤️</div>
+                    <div class="weather-temp">75°F</div>
+                    <div class="weather-details">
+                        <div>💨 Wind: 12 mph S</div>
+                        <div>💧 Humidity: 48%</div>
+                        <div>🌧️ Rain: 5%</div>
+                        <div>👥 Capacity: 37,903</div>
+                    </div>
+                    <p style="color: var(--sky-blue); font-size: 0.8rem; margin-top: 10px;">💨 Wind blowing OUT — Favor overs</p>
+                </div>
+                
+                <!-- San Antonio -->
+                <div class="weather-card">
+                    <div class="weather-city">🏀 San Antonio, TX</div>
+                    <div class="weather-venue">Frost Bank Center (Indoor)</div>
+                    <div class="weather-icon">🏟️</div>
+                    <div class="weather-temp">72°F</div>
+                    <div class="weather-details">
+                        <div>💨 Wind: N/A</div>
+                        <div>💧 Humidity: 50%</div>
+                        <div>🎯 Altitude: 650 ft</div>
+                        <div>👥 Capacity: 18,418</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </main>
-
-    <!-- ==================== FOOTER ==================== -->
+    
+    <!-- ============ FOOTER ============ -->
     <footer class="footer">
-        <div class="footer-brand">💎 SigMAX ELITE PLATINUM v4.4</div>
-        <div class="footer-tagline">⚡ Maximum Signal. Maximum Edge. ⚡</div>
-        <p style="margin-top:10px;font-size:0.75rem;color:var(--text-muted)">
-            📱 Mobile-Optimized | 🔄 Auto-Refresh Enabled | ⚠️ Bet Responsibly
-        </p>
+        <div class="footer-brand">💎 SigMAX ELITE PLATINUM v4.5</div>
+        <div class="footer-text">Maximum Signal. Maximum Edge. | Data refreshes every 60 seconds</div>
+        <div class="footer-text" style="margin-top: 5px;">© 2026 SigMAX Intelligence Systems | For entertainment purposes only</div>
     </footer>
-
-    <!-- ==================== JAVASCRIPT ==================== -->
+    
+    <!-- ============ JAVASCRIPT ============ -->
     <script>
-        // ========== TAB NAVIGATION ==========
-        document.querySelectorAll('.tab').forEach(tab => {
+        // ===== TAB NAVIGATION =====
+        document.querySelectorAll('.nav-tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                 tab.classList.add('active');
                 document.getElementById(tab.dataset.tab).classList.add('active');
             });
         });
-
-        // ========== PARLAY BUILDER DATA ==========
-        const games48hr = [
-            { id: 'nhl-wcf-g1', display: '🏒 VGK @ COL (WCF G1) - 8:00 PM', home: 'COL', away: 'VGK', sport: 'NHL' },
-            { id: 'nba-wcf-g2', display: '🏀 SAS @ OKC (WCF G2) - 8:30 PM', home: 'OKC', away: 'SAS', sport: 'NBA' },
-            { id: 'mlb-tor-nyy', display: '⚾ TOR @ NYY - 7:05 PM', home: 'NYY', away: 'TOR', sport: 'MLB' },
-            { id: 'mlb-bos-kc', display: '⚾ BOS @ KC - 7:40 PM', home: 'KC', away: 'BOS', sport: 'MLB' },
-            { id: 'mlb-lad-sd', display: '⚾ LAD @ SD - 9:40 PM', home: 'SD', away: 'LAD', sport: 'MLB' },
-            { id: 'mlb-cle-det', display: '⚾ CLE @ DET - 6:40 PM', home: 'DET', away: 'CLE', sport: 'MLB' },
-            { id: 'mlb-bal-tb', display: '⚾ BAL @ TB - 6:50 PM', home: 'TB', away: 'BAL', sport: 'MLB' },
-            { id: 'mlb-cin-phi', display: '⚾ CIN @ PHI - 6:40 PM', home: 'PHI', away: 'CIN', sport: 'MLB' },
-            { id: 'mlb-atl-mia', display: '⚾ ATL @ MIA - 6:40 PM', home: 'MIA', away: 'ATL', sport: 'MLB' },
-            { id: 'mlb-nym-wsh', display: '⚾ NYM @ WSH - 6:45 PM', home: 'WSH', away: 'NYM', sport: 'MLB' },
-            { id: 'mlb-min-chw', display: '⚾ MIN @ CHW - 7:40 PM', home: 'CHW', away: 'MIN', sport: 'MLB' },
-            { id: 'mlb-mil-chc', display: '⚾ MIL @ CHC - 7:40 PM', home: 'CHC', away: 'MIL', sport: 'MLB' },
-            { id: 'mlb-hou-tex', display: '⚾ HOU @ TEX - 8:05 PM', home: 'TEX', away: 'HOU', sport: 'MLB' },
-            { id: 'mlb-stl-ari', display: '⚾ STL @ ARI - 8:10 PM', home: 'ARI', away: 'STL', sport: 'MLB' },
-            { id: 'mlb-sea-oak', display: '⚾ SEA @ OAK - 9:40 PM', home: 'OAK', away: 'SEA', sport: 'MLB' },
-            { id: 'mlb-laa-sf', display: '⚾ LAA @ SF - 9:45 PM', home: 'SF', away: 'LAA', sport: 'MLB' },
-            { id: 'mlb-col-pit', display: '⚾ COL @ PIT - 6:40 PM', home: 'PIT', away: 'COL', sport: 'MLB' },
-            { id: 'nhl-ecf-g1', display: '🏒 MTL @ CAR (ECF G1) - Thu 8PM', home: 'CAR', away: 'MTL', sport: 'NHL' },
-            { id: 'nba-ecf-g2', display: '🏀 NYK vs CLE (ECF G2) - Thu 8PM', home: 'NYK', away: 'CLE', sport: 'NBA' }
-        ];
-
-        const players = [
-            // NBA - SAS (5)
-            { name: 'Victor Wembanyama', team: 'SAS', sport: 'NBA' },
-            { name: 'Devin Vassell', team: 'SAS', sport: 'NBA' },
-            { name: 'Stephon Castle', team: 'SAS', sport: 'NBA' },
-            { name: 'Keldon Johnson', team: 'SAS', sport: 'NBA' },
-            { name: 'Jeremy Sochan', team: 'SAS', sport: 'NBA' },
-            // NBA - OKC (5)
-            { name: 'Shai Gilgeous-Alexander', team: 'OKC', sport: 'NBA' },
-            { name: 'Chet Holmgren', team: 'OKC', sport: 'NBA' },
-            { name: 'Jalen Williams', team: 'OKC', sport: 'NBA' },
-            { name: 'Lu Dort', team: 'OKC', sport: 'NBA' },
-            { name: 'Isaiah Hartenstein', team: 'OKC', sport: 'NBA' },
-            // NBA - NYK (5)
-            { name: 'Jalen Brunson', team: 'NYK', sport: 'NBA' },
-            { name: 'Karl-Anthony Towns', team: 'NYK', sport: 'NBA' },
-            { name: 'Mikal Bridges', team: 'NYK', sport: 'NBA' },
-            { name: 'Josh Hart', team: 'NYK', sport: 'NBA' },
-            { name: 'OG Anunoby', team: 'NYK', sport: 'NBA' },
-            // NBA - CLE (5)
-            { name: 'Donovan Mitchell', team: 'CLE', sport: 'NBA' },
-            { name: 'Evan Mobley', team: 'CLE', sport: 'NBA' },
-            { name: 'Jarrett Allen', team: 'CLE', sport: 'NBA' },
-            { name: 'Darius Garland', team: 'CLE', sport: 'NBA' },
-            { name: 'Isaac Okoro', team: 'CLE', sport: 'NBA' },
-            // NHL - COL (5)
-            { name: 'Nathan MacKinnon', team: 'COL', sport: 'NHL' },
-            { name: 'Mikko Rantanen', team: 'COL', sport: 'NHL' },
-            { name: 'Cale Makar', team: 'COL', sport: 'NHL' },
-            { name: 'Valeri Nichushkin', team: 'COL', sport: 'NHL' },
-            { name: 'Devon Toews', team: 'COL', sport: 'NHL' },
-            // NHL - VGK (5)
-            { name: 'Jack Eichel', team: 'VGK', sport: 'NHL' },
-            { name: 'Mark Stone', team: 'VGK', sport: 'NHL' },
-            { name: 'Ivan Barbashev', team: 'VGK', sport: 'NHL' },
-            { name: 'William Karlsson', team: 'VGK', sport: 'NHL' },
-            { name: 'Shea Theodore', team: 'VGK', sport: 'NHL' },
-            // NHL - MTL (5)
-            { name: 'Cole Caufield', team: 'MTL', sport: 'NHL' },
-            { name: 'Nick Suzuki', team: 'MTL', sport: 'NHL' },
-            { name: 'Juraj Slafkovsky', team: 'MTL', sport: 'NHL' },
-            { name: 'Kirby Dach', team: 'MTL', sport: 'NHL' },
-            { name: 'Mike Matheson', team: 'MTL', sport: 'NHL' },
-            // NHL - CAR (5)
-            { name: 'Sebastian Aho', team: 'CAR', sport: 'NHL' },
-            { name: 'Andrei Svechnikov', team: 'CAR', sport: 'NHL' },
-            { name: 'Seth Jarvis', team: 'CAR', sport: 'NHL' },
-            { name: 'Martin Necas', team: 'CAR', sport: 'NHL' },
-            { name: 'Jaccob Slavin', team: 'CAR', sport: 'NHL' },
-            // MLB - LAD (5)
-            { name: 'Shohei Ohtani', team: 'LAD', sport: 'MLB' },
-            { name: 'Mookie Betts', team: 'LAD', sport: 'MLB' },
-            { name: 'Freddie Freeman', team: 'LAD', sport: 'MLB' },
-            { name: 'Will Smith', team: 'LAD', sport: 'MLB' },
-            { name: 'Teoscar Hernandez', team: 'LAD', sport: 'MLB' },
-            // MLB - NYY (5)
-            { name: 'Aaron Judge', team: 'NYY', sport: 'MLB' },
-            { name: 'Juan Soto', team: 'NYY', sport: 'MLB' },
-            { name: 'Jazz Chisholm Jr.', team: 'NYY', sport: 'MLB' },
-            { name: 'Anthony Volpe', team: 'NYY', sport: 'MLB' },
-            { name: 'Giancarlo Stanton', team: 'NYY', sport: 'MLB' },
-            // MLB - BOS (5)
-            { name: 'Rafael Devers', team: 'BOS', sport: 'MLB' },
-            { name: 'Jarren Duran', team: 'BOS', sport: 'MLB' },
-            { name: 'Trevor Story', team: 'BOS', sport: 'MLB' },
-            { name: 'Masataka Yoshida', team: 'BOS', sport: 'MLB' },
-            { name: 'Connor Wong', team: 'BOS', sport: 'MLB' },
-            // MLB - SD (5)
-            { name: 'Fernando Tatis Jr.', team: 'SD', sport: 'MLB' },
-            { name: 'Manny Machado', team: 'SD', sport: 'MLB' },
-            { name: 'Xander Bogaerts', team: 'SD', sport: 'MLB' },
-            { name: 'Jake Cronenworth', team: 'SD', sport: 'MLB' },
-            { name: 'Luis Arraez', team: 'SD', sport: 'MLB' },
-            // MLB - TOR (5)
-            { name: 'Vladimir Guerrero Jr.', team: 'TOR', sport: 'MLB' },
-            { name: 'Bo Bichette', team: 'TOR', sport: 'MLB' },
-            { name: 'George Springer', team: 'TOR', sport: 'MLB' },
-            { name: 'Daulton Varsho', team: 'TOR', sport: 'MLB' },
-            { name: 'Kevin Kiermaier', team: 'TOR', sport: 'MLB' }
-        ];
-
-        const betTypes = {
-            'NHL': ['Moneyline', 'Puck Line (-1.5)', 'Puck Line (+1.5)', 'Over Goals', 'Under Goals', '1st Period ML', '1st Period O/U'],
-            'NBA': ['Moneyline', 'Spread', 'Over Points', 'Under Points', '1st Half ML', '1st Half Spread', '1st Quarter ML'],
-            'MLB': ['Moneyline', 'Run Line (-1.5)', 'Run Line (+1.5)', 'Over Runs', 'Under Runs', '1st 5 Innings ML', '1st 5 Innings O/U']
-        };
-
-        const propTypes = {
-            'NBA': ['Points', 'Rebounds', 'Assists', '3-Pointers Made', 'Pts+Reb+Ast', 'Pts+Reb', 'Pts+Ast', 'Reb+Ast', 'Steals', 'Blocks', 'Turnovers', 'Double-Double'],
-            'NHL': ['Goals', 'Assists', 'Points', 'Shots on Goal', 'Saves', 'Hits', 'Blocked Shots', 'Faceoffs Won', 'Power Play Points', 'Time on Ice'],
-            'MLB': ['Hits', 'Runs', 'RBIs', 'Home Runs', 'Total Bases', 'Stolen Bases', 'Strikeouts (P)', 'Earned Runs', 'Walks', 'Hits Allowed']
-        };
-
-        let gamePicks = [];
-        let propPicks = [];
-        let gamePickId = 0;
-        let propPickId = 0;
-
-        // ========== ADD GAME PICK ==========
-        function addGamePick() {
-            if (gamePicks.length >= 5) return;
+        
+        // ===== REFRESH BUTTON =====
+        let lastRefreshTime = new Date();
+        
+        function refreshData() {
+            const btn = document.getElementById('refreshBtn');
+            btn.classList.add('loading');
+            btn.disabled = true;
             
-            const id = ++gamePickId;
-            gamePicks.push({ id, game: '', team: '', betType: '', odds: -110 });
-            
-            const container = document.getElementById('game-picks');
-            const row = document.createElement('div');
-            row.className = 'pick-row';
-            row.id = `game-row-${id}`;
-            row.innerHTML = `
-                <select onchange="updateGamePick(${id}, 'game', this.value)">
-                    <option value="">Select Game...</option>
-                    ${games48hr.map(g => `<option value="${g.id}">${g.display}</option>`).join('')}
-                </select>
-                <select id="team-select-${id}" onchange="updateGamePick(${id}, 'team', this.value)">
-                    <option value="">Select Team...</option>
-                </select>
-                <select id="bettype-select-${id}" onchange="updateGamePick(${id}, 'betType', this.value)">
-                    <option value="">Bet Type...</option>
-                </select>
-                <button class="btn-remove" onclick="removeGamePick(${id})">×</button>
-            `;
-            container.appendChild(row);
-            updateCounters();
+            // Simulate data fetch
+            setTimeout(() => {
+                fetchLiveScores();
+                lastRefreshTime = new Date();
+                updateLastRefresh();
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }, 1500);
         }
-
-        function updateGamePick(id, field, value) {
-            const pick = gamePicks.find(p => p.id === id);
-            if (!pick) return;
-            
-            pick[field] = value;
-            
-            if (field === 'game' && value) {
-                const game = games48hr.find(g => g.id === value);
-                if (game) {
-                    const teamSelect = document.getElementById(`team-select-${id}`);
-                    teamSelect.innerHTML = `
-                        <option value="">Select Team...</option>
-                        <option value="${game.home}">${game.home} (Home)</option>
-                        <option value="${game.away}">${game.away} (Away)</option>
-                    `;
-                    const betSelect = document.getElementById(`bettype-select-${id}`);
-                    const types = betTypes[game.sport] || betTypes['MLB'];
-                    betSelect.innerHTML = `<option value="">Bet Type...</option>` + 
-                        types.map(t => `<option value="${t}">${t}</option>`).join('');
-                }
-            }
-            updateSlip();
-        }
-
-        function removeGamePick(id) {
-            gamePicks = gamePicks.filter(p => p.id !== id);
-            document.getElementById(`game-row-${id}`).remove();
-            updateCounters();
-            updateSlip();
-        }
-
-        // ========== ADD PROP PICK ==========
-        function addPropPick() {
-            if (propPicks.length >= 5) return;
-            
-            const id = ++propPickId;
-            propPicks.push({ id, player: '', prop: '', line: '', pick: 'OVER', odds: -110 });
-            
-            const container = document.getElementById('prop-picks');
-            const row = document.createElement('div');
-            row.className = 'pick-row';
-            row.id = `prop-row-${id}`;
-            row.innerHTML = `
-                <select onchange="updatePropPick(${id}, 'player', this.value)">
-                    <option value="">Select Player...</option>
-                    ${players.map(p => `<option value="${p.name}">${p.name} (${p.team})</option>`).join('')}
-                </select>
-                <select id="prop-type-${id}" onchange="updatePropPick(${id}, 'prop', this.value)">
-                    <option value="">Stat Type...</option>
-                </select>
-                <select onchange="updatePropPick(${id}, 'pick', this.value)">
-                    <option value="OVER">OVER</option>
-                    <option value="UNDER">UNDER</option>
-                </select>
-                <button class="btn-remove" onclick="removePropPick(${id})">×</button>
-            `;
-            container.appendChild(row);
-            updateCounters();
-        }
-
-        function updatePropPick(id, field, value) {
-            const pick = propPicks.find(p => p.id === id);
-            if (!pick) return;
-            
-            pick[field] = value;
-            
-            if (field === 'player' && value) {
-                const player = players.find(p => p.name === value);
-                if (player) {
-                    const propSelect = document.getElementById(`prop-type-${id}`);
-                    const types = propTypes[player.sport] || propTypes['NBA'];
-                    propSelect.innerHTML = `<option value="">Stat Type...</option>` + 
-                        types.map(t => `<option value="${t}">${t}</option>`).join('');
-                }
-            }
-            updateSlip();
-        }
-
-        function removePropPick(id) {
-            propPicks = propPicks.filter(p => p.id !== id);
-            document.getElementById(`prop-row-${id}`).remove();
-            updateCounters();
-            updateSlip();
-        }
-
-        // ========== UPDATE COUNTERS ==========
-        function updateCounters() {
-            document.getElementById('game-counter').textContent = `(${gamePicks.length}/5)`;
-            document.getElementById('prop-counter').textContent = `(${propPicks.length}/5)`;
-            document.getElementById('add-game-btn').disabled = gamePicks.length >= 5;
-            document.getElementById('add-prop-btn').disabled = propPicks.length >= 5;
-        }
-
-        // ========== UPDATE PARLAY SLIP ==========
-        function updateSlip() {
-            const validGames = gamePicks.filter(p => p.game && p.team && p.betType);
-            const validProps = propPicks.filter(p => p.player && p.prop);
-            const totalLegs = validGames.length + validProps.length;
-            
-            document.getElementById('total-legs').textContent = `${totalLegs} Leg${totalLegs !== 1 ? 's' : ''}`;
-            
-            const slipLegs = document.getElementById('slip-legs');
-            
-            if (totalLegs === 0) {
-                slipLegs.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px;">Add picks above to build your parlay</p>';
-                document.getElementById('combined-odds').textContent = '---';
-                document.getElementById('potential-payout').textContent = '---';
-                document.getElementById('hit-prob').textContent = '---';
-                return;
-            }
-            
-            let html = '';
-            let decimalOdds = 1;
-            let hitProb = 1;
-            
-            validGames.forEach(p => {
-                const game = games48hr.find(g => g.id === p.game);
-                html += `<div class="slip-leg"><span>${game?.display.split(' - ')[0]} • ${p.team} ${p.betType}</span><span>-110</span></div>`;
-                decimalOdds *= 1.91;
-                hitProb *= 0.52;
+        
+        function updateLastRefresh() {
+            const timeStr = lastRefreshTime.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
             });
-            
-            validProps.forEach(p => {
-                html += `<div class="slip-leg"><span>${p.player} • ${p.prop} ${p.pick}</span><span>-110</span></div>`;
-                decimalOdds *= 1.91;
-                hitProb *= 0.52;
-            });
-            
-            slipLegs.innerHTML = html;
-            
-            const americanOdds = decimalOdds >= 2 ? '+' + Math.round((decimalOdds - 1) * 100) : Math.round(-100 / (decimalOdds - 1));
-            const payout = (25 * decimalOdds).toFixed(2);
-            
-            document.getElementById('combined-odds').textContent = americanOdds;
-            document.getElementById('potential-payout').textContent = '$' + payout;
-            document.getElementById('hit-prob').textContent = (hitProb * 100).toFixed(1) + '%';
+            document.getElementById('lastRefresh').textContent = `Last update: ${timeStr}`;
         }
-
-        // ========== AUTO-REFRESH (ESPN APIs) ==========
+        
+        // ===== DEVICE SELECTOR =====
+        function changeDevice(device) {
+            document.body.classList.remove('device-mobile', 'device-tablet', 'device-desktop');
+            document.body.classList.add(`device-${device}`);
+            localStorage.setItem('sigmax-device', device);
+        }
+        
+        // Load saved device preference
+        const savedDevice = localStorage.getItem('sigmax-device');
+        if (savedDevice) {
+            document.getElementById('deviceSelect').value = savedDevice;
+            changeDevice(savedDevice);
+        }
+        
+        // ===== LANGUAGE SELECTOR =====
+        const translations = {
+            en: { home: '🏠 Home', alerts: '🚨 Alerts', refresh: 'Refresh' },
+            es: { home: '🏠 Inicio', alerts: '🚨 Alertas', refresh: 'Actualizar' },
+            fr: { home: '🏠 Accueil', alerts: '🚨 Alertes', refresh: 'Rafraîchir' },
+            pt: { home: '🏠 Início', alerts: '🚨 Alertas', refresh: 'Atualizar' },
+            de: { home: '🏠 Startseite', alerts: '🚨 Warnungen', refresh: 'Aktualisieren' },
+            it: { home: '🏠 Home', alerts: '🚨 Avvisi', refresh: 'Aggiorna' },
+            ja: { home: '🏠 ホーム', alerts: '🚨 アラート', refresh: '更新' },
+            zh: { home: '🏠 主页', alerts: '🚨 警报', refresh: '刷新' }
+        };
+        
+        function changeLanguage(lang) {
+            localStorage.setItem('sigmax-lang', lang);
+            // Full translation implementation would update all text elements
+            console.log(`Language changed to: ${lang}`);
+        }
+        
+        // Load saved language preference
+        const savedLang = localStorage.getItem('sigmax-lang');
+        if (savedLang) {
+            document.getElementById('langSelect').value = savedLang;
+        }
+        
+        // ===== LIVE CLOCK =====
+        function updateClock() {
+            const now = new Date();
+            const options = { 
+                timeZone: 'America/New_York',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            };
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', options) + ' ET';
+            
+            const dateOptions = { 
+                timeZone: 'America/New_York',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', dateOptions);
+        }
+        
+        setInterval(updateClock, 1000);
+        updateClock();
+        
+        // ===== PARLAY BUILDER =====
+        let gameLegsCount = 1;
+        let propLegsCount = 1;
+        const maxGameLegs = 5;
+        const maxPropLegs = 5;
+        
+        function addGameLeg() {
+            if (gameLegsCount >= maxGameLegs) return;
+            gameLegsCount++;
+            updateLegCounts();
+            
+            const container = document.getElementById('gameLegs');
+            const newLeg = document.createElement('div');
+            newLeg.className = 'leg-row';
+            newLeg.innerHTML = `
+                <div class="leg-number">${gameLegsCount}</div>
+                <select>
+                    <option value="">-- Select Game --</option>
+                    <option value="sas-okc">SAS Spurs @ OKC Thunder (8:30 PM)</option>
+                    <option value="vgk-col">VGK Golden Knights @ COL Avalanche (8:00 PM)</option>
+                    <option value="tor-nyy">TOR Blue Jays @ NYY Yankees (7:05 PM)</option>
+                    <option value="lad-sd">LAD Dodgers @ SD Padres (9:40 PM)</option>
+                    <option value="bos-kc">BOS Red Sox @ KC Royals (8:10 PM)</option>
+                </select>
+                <select>
+                    <option value="">-- Bet Type --</option>
+                    <option value="spread">Spread</option>
+                    <option value="ml">Moneyline</option>
+                    <option value="total">Total O/U</option>
+                </select>
+                <input type="text" placeholder="Odds">
+                <button class="remove-leg" onclick="removeLeg(this, 'game')">×</button>
+            `;
+            container.appendChild(newLeg);
+        }
+        
+        function addPropLeg() {
+            if (propLegsCount >= maxPropLegs) return;
+            propLegsCount++;
+            updateLegCounts();
+            
+            const container = document.getElementById('propLegs');
+            const newLeg = document.createElement('div');
+            newLeg.className = 'leg-row';
+            newLeg.innerHTML = `
+                <div class="leg-number">${propLegsCount}</div>
+                <select>
+                    <option value="">-- Select Player --</option>
+                    <optgroup label="🏀 NBA - OKC Thunder">
+                        <option>Shai Gilgeous-Alexander</option>
+                        <option>Chet Holmgren</option>
+                        <option>Jalen Williams</option>
+                    </optgroup>
+                    <optgroup label="🏀 NBA - SAS Spurs">
+                        <option>Victor Wembanyama</option>
+                        <option>Devin Vassell</option>
+                    </optgroup>
+                    <optgroup label="🏒 NHL - COL Avalanche">
+                        <option>Nathan MacKinnon</option>
+                        <option>Mikko Rantanen</option>
+                        <option>Cale Makar</option>
+                    </optgroup>
+                    <optgroup label="🏒 NHL - VGK Golden Knights">
+                        <option>Jack Eichel</option>
+                        <option>Mark Stone</option>
+                    </optgroup>
+                    <optgroup label="⚾ MLB">
+                        <option>Shohei Ohtani</option>
+                        <option>Aaron Judge</option>
+                        <option>Juan Soto</option>
+                        <option>Manny Machado</option>
+                    </optgroup>
+                </select>
+                <select>
+                    <option value="">-- Prop Type --</option>
+                    <option>Points</option>
+                    <option>Rebounds</option>
+                    <option>Assists</option>
+                    <option>Total Bases</option>
+                    <option>Hits</option>
+                    <option>Shots on Goal</option>
+                </select>
+                <input type="text" placeholder="Odds">
+                <button class="remove-leg" onclick="removeLeg(this, 'prop')">×</button>
+            `;
+            container.appendChild(newLeg);
+        }
+        
+        function removeLeg(btn, type) {
+            const row = btn.closest('.leg-row');
+            const container = row.parentElement;
+            
+            if (container.children.length > 1) {
+                row.remove();
+                if (type === 'game') {
+                    gameLegsCount--;
+                } else {
+                    propLegsCount--;
+                }
+                // Renumber remaining legs
+                Array.from(container.children).forEach((leg, i) => {
+                    leg.querySelector('.leg-number').textContent = i + 1;
+                });
+                updateLegCounts();
+            }
+        }
+        
+        function updateLegCounts() {
+            const total = gameLegsCount + propLegsCount;
+            document.getElementById('totalLegs').textContent = total;
+            
+            document.getElementById('addGameLeg').textContent = `+ Add Game Bet (${maxGameLegs - gameLegsCount} remaining)`;
+            document.getElementById('addPropLeg').textContent = `+ Add Player Prop (${maxPropLegs - propLegsCount} remaining)`;
+            
+            document.getElementById('addGameLeg').disabled = gameLegsCount >= maxGameLegs;
+            document.getElementById('addPropLeg').disabled = propLegsCount >= maxPropLegs;
+        }
+        
+        // ===== LIVE SCORES API =====
         async function fetchLiveScores() {
             try {
-                const [nba, nhl, mlb] = await Promise.all([
-                    fetch('https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard').then(r => r.json()),
-                    fetch('https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard').then(r => r.json()),
-                    fetch('https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard').then(r => r.json())
-                ]);
-                // Process and update UI with live scores
-                console.log('Scores updated:', new Date().toLocaleTimeString());
-            } catch (e) {
-                console.log('Auto-refresh will retry...');
+                // NBA
+                const nbaRes = await fetch('https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard');
+                const nbaData = await nbaRes.json();
+                console.log('NBA Data:', nbaData);
+                
+                // NHL
+                const nhlRes = await fetch('https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard');
+                const nhlData = await nhlRes.json();
+                console.log('NHL Data:', nhlData);
+                
+                // MLB
+                const mlbRes = await fetch('https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard');
+                const mlbData = await mlbRes.json();
+                console.log('MLB Data:', mlbData);
+                
+            } catch (error) {
+                console.error('Error fetching live scores:', error);
             }
         }
         
-        // Refresh every 60 seconds
-        setInterval(fetchLiveScores, 60000);
+        // Initial fetch
+        fetchLiveScores();
+        updateLastRefresh();
         
-        // Initialize counters
-        updateCounters();
-        
-        // Update alert time
+        // Auto-refresh every 60 seconds
         setInterval(() => {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York' });
-            document.getElementById('alert-time').innerHTML = `🔴 LIVE • ${timeStr} ET`;
-        }, 1000);
+            fetchLiveScores();
+            lastRefreshTime = new Date();
+            updateLastRefresh();
+        }, 60000);
     </script>
-</body>/html>
-
+</body>
+</html>it
