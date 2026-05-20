@@ -17,6 +17,7 @@
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --border-color: #334155;
+            --banner-gradient: linear-gradient(90deg, #f59e0b, #ef4444, #f59e0b);
         }
         
         * {
@@ -46,31 +47,41 @@
             margin: 0 auto;
         }
         
-        /* ===== TOP BANNER ===== */
+        /* ===== TOP BANNER — BRIGHT & NOTICEABLE ===== */
         .top-banner {
-            background: linear-gradient(90deg, var(--royal-blue), var(--neon-purple));
-            padding: 8px 16px;
+            background: var(--banner-gradient);
+            background-size: 200% 100%;
+            animation: bannerShine 3s linear infinite;
+            padding: 10px 16px;
             text-align: center;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             letter-spacing: 0.5px;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 12px;
+            color: #000;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+        }
+        
+        @keyframes bannerShine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .top-banner .pulse {
-            width: 8px;
-            height: 8px;
-            background: var(--green);
+            width: 10px;
+            height: 10px;
+            background: #000;
             border-radius: 50%;
-            animation: pulse 2s infinite;
+            animation: pulseDot 1s infinite;
         }
         
-        @keyframes pulse {
+        @keyframes pulseDot {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+            50% { opacity: 0.3; transform: scale(1.3); }
         }
         
         /* ===== SETTINGS BAR (DEVICE + LANGUAGE) ===== */
@@ -131,6 +142,7 @@
             height: 8px;
             background: var(--green);
             border-radius: 50%;
+            animation: pulseDot 2s infinite;
         }
         
         .refresh-toggle {
@@ -169,40 +181,47 @@
             transform: translateX(20px);
         }
         
-        /* ===== HEADER ===== */
+        /* ===== HEADER — LEFT ALIGNED WITH ANTENNA ICON ===== */
         .header {
             background: linear-gradient(135deg, var(--dark-bg) 0%, var(--card-bg) 100%);
             padding: 20px 16px;
-            text-align: center;
+            text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
         
         .logo {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 12px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
-        .sigma {
-            font-size: 42px;
+        .antenna-icon {
+            font-size: 36px;
+            animation: signalPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes signalPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        
+        .brand-name {
+            font-size: 32px;
             font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--text-primary), var(--sky-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .brand-name span {
             background: linear-gradient(135deg, var(--sky-blue), var(--neon-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            transform: scaleX(-1);
-        }
-        
-        .brand-name {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 2px;
-        }
-        
-        .brand-name span {
-            color: var(--sky-blue);
         }
         
         .tagline {
@@ -210,7 +229,7 @@
             font-size: 13px;
             font-weight: 500;
             letter-spacing: 1px;
-            margin-top: 4px;
+            margin-left: 48px;
         }
         
         /* ===== STATS ROW (3 + 3 LAYOUT) ===== */
@@ -277,16 +296,17 @@
             letter-spacing: 0.5px;
         }
         
-        /* ===== NAVIGATION TABS (CENTERED) ===== */
+        /* ===== NAVIGATION TABS — BIGGER + SCINTILLATING HOVER ===== */
         .nav-tabs {
             display: flex;
             justify-content: center;
             overflow-x: auto;
             background: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 0 8px;
+            border-bottom: 2px solid var(--border-color);
+            padding: 8px 8px 0 8px;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
+            gap: 6px;
         }
         
         .nav-tabs::-webkit-scrollbar {
@@ -295,28 +315,66 @@
         
         .nav-tab {
             flex: 0 0 auto;
-            padding: 14px 16px;
-            font-size: 13px;
-            font-weight: 600;
+            padding: 16px 20px;
+            font-size: 15px;
+            font-weight: 700;
             color: var(--text-secondary);
             cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.2s;
+            border: 2px solid transparent;
+            border-bottom: none;
+            border-radius: 12px 12px 0 0;
+            background: var(--dark-bg);
+            transition: all 0.3s ease;
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
         }
         
         .nav-tab:hover {
             color: var(--text-primary);
+            background: linear-gradient(135deg, var(--royal-blue), var(--neon-purple));
+            border-color: var(--sky-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+            animation: tabGlow 0.5s ease-in-out infinite alternate;
+        }
+        
+        .nav-tab:hover::before {
+            left: 100%;
+        }
+        
+        @keyframes tabGlow {
+            0% { box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4); }
+            100% { box-shadow: 0 4px 25px rgba(168, 85, 247, 0.6), 0 0 10px rgba(14, 165, 233, 0.3); }
         }
         
         .nav-tab.active {
-            color: var(--sky-blue);
-            border-bottom-color: var(--sky-blue);
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--sky-blue), var(--neon-purple));
+            border-color: var(--sky-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.5);
         }
         
         @media (max-width: 600px) {
             .nav-tabs {
                 justify-content: flex-start;
+            }
+            
+            .nav-tab {
+                padding: 14px 16px;
+                font-size: 14px;
             }
         }
         
@@ -406,7 +464,7 @@
         .pick-status.live {
             background: rgba(239, 68, 68, 0.2);
             color: var(--red);
-            animation: pulse 1.5s infinite;
+            animation: pulseDot 1.5s infinite;
         }
         
         .pick-status.win {
@@ -528,7 +586,7 @@
             gap: 6px;
         }
         
-        /* Legacy alert-card (keeping for other sections) */
+        /* Legacy alert-card */
         .alert-card {
             background: var(--card-bg);
             border-radius: 10px;
@@ -771,6 +829,14 @@
             .index-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .brand-name {
+                font-size: 24px;
+            }
+            
+            .antenna-icon {
+                font-size: 28px;
+            }
         }
         
         @media (min-width: 768px) {
@@ -788,10 +854,11 @@
 </head>
 <body class="device-mobile">
 
-<!-- TOP BANNER -->
+<!-- TOP BANNER — BRIGHT AMBER/RED GRADIENT -->
 <div class="top-banner">
     <span class="pulse"></span>
-    <span>🔥 CONFERENCE FINALS — NHL WCF G1 & NBA WCF G2 TONIGHT!</span>
+    <span>🔥 CONFERENCE FINALS — NHL WCF G1 & NBA WCF G2 TONIGHT! 🔥</span>
+    <span class="pulse"></span>
 </div>
 
 <!-- SETTINGS BAR (DEVICE + LANGUAGE) -->
@@ -827,10 +894,10 @@
     </div>
 </div>
 
-<!-- HEADER -->
+<!-- HEADER — LEFT ALIGNED WITH ANTENNA ICON -->
 <header class="header">
     <div class="logo">
-        <span class="sigma">Σ</span>
+        <span class="antenna-icon">📡</span>
         <span class="brand-name">Sig<span>MAX</span> ELITE</span>
     </div>
     <p class="tagline">⚡ MAXIMUM SIGNAL. MAXIMUM EDGE. ⚡</p>
@@ -868,7 +935,7 @@
     </div>
 </div>
 
-<!-- NAVIGATION TABS (CENTERED) -->
+<!-- NAVIGATION TABS — BIGGER + SCINTILLATING -->
 <nav class="nav-tabs">
     <div class="nav-tab active" onclick="showTab('home')">🏠 Home</div>
     <div class="nav-tab" onclick="showTab('alerts')">⚠️ Alerts</div>
@@ -955,7 +1022,6 @@
     </div>
     
     <div class="alerts-grid">
-        <!-- Breaking News -->
         <div class="alert-box type-breaking">
             <div class="alert-box-header">
                 <span class="alert-box-icon">🔥</span>
@@ -965,7 +1031,6 @@
             <div class="alert-box-meta">📺 ESPN • May 18, 2026</div>
         </div>
         
-        <!-- NBA News -->
         <div class="alert-box type-info">
             <div class="alert-box-header">
                 <span class="alert-box-icon">🏀</span>
@@ -975,7 +1040,6 @@
             <div class="alert-box-meta">📺 NBA.com • May 19, 2026</div>
         </div>
         
-        <!-- Injury Alert 1 -->
         <div class="alert-box type-injury">
             <div class="alert-box-header">
                 <span class="alert-box-icon">🏥</span>
@@ -985,7 +1049,6 @@
             <div class="alert-box-meta">⚠️ Monitor for WCF G1 • NHL.com</div>
         </div>
         
-        <!-- Injury Alert 2 -->
         <div class="alert-box type-injury">
             <div class="alert-box-header">
                 <span class="alert-box-icon">🏥</span>
@@ -995,7 +1058,6 @@
             <div class="alert-box-meta">⚠️ Monitor for WCF G1 • NHL.com</div>
         </div>
         
-        <!-- Positive Return -->
         <div class="alert-box type-positive">
             <div class="alert-box-header">
                 <span class="alert-box-icon">✅</span>
@@ -1005,7 +1067,6 @@
             <div class="alert-box-meta">✅ Positive for Avalanche depth • NHL.com</div>
         </div>
         
-        <!-- Injury Alert 3 -->
         <div class="alert-box type-injury">
             <div class="alert-box-header">
                 <span class="alert-box-icon">🏥</span>
@@ -1015,7 +1076,6 @@
             <div class="alert-box-meta">⚠️ Key defender status unclear • ESPN</div>
         </div>
         
-        <!-- Line Movement 1 -->
         <div class="alert-box type-line">
             <div class="alert-box-header">
                 <span class="alert-box-icon">📈</span>
@@ -1025,7 +1085,6 @@
             <div class="alert-box-meta">💰 Verified • 10:00 AM ET</div>
         </div>
         
-        <!-- Line Movement 2 -->
         <div class="alert-box type-line">
             <div class="alert-box-header">
                 <span class="alert-box-icon">📈</span>
@@ -1035,7 +1094,6 @@
             <div class="alert-box-meta">💰 Verified • 10:00 AM ET</div>
         </div>
         
-        <!-- Rookie Watch -->
         <div class="alert-box type-positive">
             <div class="alert-box-header">
                 <span class="alert-box-icon">🌟</span>
@@ -1045,7 +1103,6 @@
             <div class="alert-box-meta">⭐ Rising star alert • NBA.com</div>
         </div>
         
-        <!-- Draft News -->
         <div class="alert-box type-info">
             <div class="alert-box-header">
                 <span class="alert-box-icon">📋</span>
@@ -1055,7 +1112,6 @@
             <div class="alert-box-meta">📰 NHL.com • June 2026</div>
         </div>
         
-        <!-- Tactical -->
         <div class="alert-box type-info">
             <div class="alert-box-header">
                 <span class="alert-box-icon">🎯</span>
@@ -1065,7 +1121,6 @@
             <div class="alert-box-meta">📊 StatMuse • May 2026</div>
         </div>
         
-        <!-- Weather Alert -->
         <div class="alert-box type-info">
             <div class="alert-box-header">
                 <span class="alert-box-icon">🌤️</span>
@@ -1538,7 +1593,7 @@
                 </tr>
                 <tr>
                     <td>8:00 PM</td>
-                    <td>🏒 MTL @ COL (if needed)</td>
+                    <td>🏒 VGK @ COL</td>
                     <td>NHL WCF G2</td>
                     <td>ESPN</td>
                 </tr>
@@ -1856,19 +1911,12 @@
             <select class="parlay-select" id="prop1">
                 <option value="">Select Prop...</option>
                 <option value="-115">Wembanyama Pts O28.5 (-115)</option>
-                <option value="-105">Wembanyama Pts U28.5 (-105)</option>
                 <option value="-110">SGA Pts O31.5 (-110)</option>
-                <option value="-110">SGA Pts U31.5 (-110)</option>
                 <option value="-130">MacKinnon Pts O1.5 (-130)</option>
-                <option value="+110">MacKinnon Pts U1.5 (+110)</option>
                 <option value="-105">Holmgren Reb O10.5 (-105)</option>
-                <option value="-115">Holmgren Reb U10.5 (-115)</option>
                 <option value="-120">Ohtani K's O8.5 (-120)</option>
-                <option value="+100">Ohtani K's U8.5 (+100)</option>
                 <option value="-135">Eichel Ast O0.5 (-135)</option>
-                <option value="+115">Eichel Ast U0.5 (+115)</option>
                 <option value="-110">Judge TB O1.5 (-110)</option>
-                <option value="-110">Judge TB U1.5 (-110)</option>
                 <option value="-112">J. Williams Pts+Ast O24.5 (-112)</option>
                 <option value="+110">Vassell 3PM O2.5 (+110)</option>
             </select>
@@ -1879,19 +1927,12 @@
             <select class="parlay-select" id="prop2">
                 <option value="">Select Prop...</option>
                 <option value="-115">Wembanyama Pts O28.5 (-115)</option>
-                <option value="-105">Wembanyama Pts U28.5 (-105)</option>
                 <option value="-110">SGA Pts O31.5 (-110)</option>
-                <option value="-110">SGA Pts U31.5 (-110)</option>
                 <option value="-130">MacKinnon Pts O1.5 (-130)</option>
-                <option value="+110">MacKinnon Pts U1.5 (+110)</option>
                 <option value="-105">Holmgren Reb O10.5 (-105)</option>
-                <option value="-115">Holmgren Reb U10.5 (-115)</option>
                 <option value="-120">Ohtani K's O8.5 (-120)</option>
-                <option value="+100">Ohtani K's U8.5 (+100)</option>
                 <option value="-135">Eichel Ast O0.5 (-135)</option>
-                <option value="+115">Eichel Ast U0.5 (+115)</option>
                 <option value="-110">Judge TB O1.5 (-110)</option>
-                <option value="-110">Judge TB U1.5 (-110)</option>
                 <option value="-112">J. Williams Pts+Ast O24.5 (-112)</option>
                 <option value="+110">Vassell 3PM O2.5 (+110)</option>
             </select>
@@ -1902,19 +1943,12 @@
             <select class="parlay-select" id="prop3">
                 <option value="">Select Prop...</option>
                 <option value="-115">Wembanyama Pts O28.5 (-115)</option>
-                <option value="-105">Wembanyama Pts U28.5 (-105)</option>
                 <option value="-110">SGA Pts O31.5 (-110)</option>
-                <option value="-110">SGA Pts U31.5 (-110)</option>
                 <option value="-130">MacKinnon Pts O1.5 (-130)</option>
-                <option value="+110">MacKinnon Pts U1.5 (+110)</option>
                 <option value="-105">Holmgren Reb O10.5 (-105)</option>
-                <option value="-115">Holmgren Reb U10.5 (-115)</option>
                 <option value="-120">Ohtani K's O8.5 (-120)</option>
-                <option value="+100">Ohtani K's U8.5 (+100)</option>
                 <option value="-135">Eichel Ast O0.5 (-135)</option>
-                <option value="+115">Eichel Ast U0.5 (+115)</option>
                 <option value="-110">Judge TB O1.5 (-110)</option>
-                <option value="-110">Judge TB U1.5 (-110)</option>
                 <option value="-112">J. Williams Pts+Ast O24.5 (-112)</option>
                 <option value="+110">Vassell 3PM O2.5 (+110)</option>
             </select>
@@ -1925,19 +1959,12 @@
             <select class="parlay-select" id="prop4">
                 <option value="">Select Prop...</option>
                 <option value="-115">Wembanyama Pts O28.5 (-115)</option>
-                <option value="-105">Wembanyama Pts U28.5 (-105)</option>
                 <option value="-110">SGA Pts O31.5 (-110)</option>
-                <option value="-110">SGA Pts U31.5 (-110)</option>
                 <option value="-130">MacKinnon Pts O1.5 (-130)</option>
-                <option value="+110">MacKinnon Pts U1.5 (+110)</option>
                 <option value="-105">Holmgren Reb O10.5 (-105)</option>
-                <option value="-115">Holmgren Reb U10.5 (-115)</option>
                 <option value="-120">Ohtani K's O8.5 (-120)</option>
-                <option value="+100">Ohtani K's U8.5 (+100)</option>
                 <option value="-135">Eichel Ast O0.5 (-135)</option>
-                <option value="+115">Eichel Ast U0.5 (+115)</option>
                 <option value="-110">Judge TB O1.5 (-110)</option>
-                <option value="-110">Judge TB U1.5 (-110)</option>
                 <option value="-112">J. Williams Pts+Ast O24.5 (-112)</option>
                 <option value="+110">Vassell 3PM O2.5 (+110)</option>
             </select>
@@ -1948,19 +1975,12 @@
             <select class="parlay-select" id="prop5">
                 <option value="">Select Prop...</option>
                 <option value="-115">Wembanyama Pts O28.5 (-115)</option>
-                <option value="-105">Wembanyama Pts U28.5 (-105)</option>
                 <option value="-110">SGA Pts O31.5 (-110)</option>
-                <option value="-110">SGA Pts U31.5 (-110)</option>
                 <option value="-130">MacKinnon Pts O1.5 (-130)</option>
-                <option value="+110">MacKinnon Pts U1.5 (+110)</option>
                 <option value="-105">Holmgren Reb O10.5 (-105)</option>
-                <option value="-115">Holmgren Reb U10.5 (-115)</option>
                 <option value="-120">Ohtani K's O8.5 (-120)</option>
-                <option value="+100">Ohtani K's U8.5 (+100)</option>
                 <option value="-135">Eichel Ast O0.5 (-135)</option>
-                <option value="+115">Eichel Ast U0.5 (+115)</option>
                 <option value="-110">Judge TB O1.5 (-110)</option>
-                <option value="-110">Judge TB U1.5 (-110)</option>
                 <option value="-112">J. Williams Pts+Ast O24.5 (-112)</option>
                 <option value="+110">Vassell 3PM O2.5 (+110)</option>
             </select>
@@ -2171,7 +2191,7 @@
 <footer class="footer">
     <div class="footer-brand">💎 SigMAX ELITE PLATINUM</div>
     <div class="footer-tagline">⚡ Maximum Signal. Maximum Edge. ⚡</div>
-    <div class="footer-disclaimer">⚠️ Betting involves risk. Bet responsibly. v4.2 | © 2026 SigMAX</div>
+    <div class="footer-disclaimer">⚠️ Betting involves risk. Bet responsibly.</div>
 </footer>
 
 <script>
@@ -2185,8 +2205,6 @@
     // ===== LANGUAGE SELECTOR =====
     function changeLanguage(lang) {
         localStorage.setItem('sigmax-language', lang);
-        // In full implementation, this would reload translations
-        // For now, stores preference
     }
     
     // ===== TAB NAVIGATION =====
