@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📡 SigMAX ELITE v6.0 — Platinum Ultra-Premium</title>
+  <title>📡 SigMAX ELITE v6.1 — Platinum Ultra-Premium</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -20,6 +20,7 @@
       --accent-green: #10b981;
       --accent-amber: #f59e0b;
       --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
@@ -27,20 +28,17 @@
       --border-medium: rgba(212, 175, 55, 0.3);
       --gradient-premium: linear-gradient(135deg, #d4af37 0%, #f4e4bc 50%, #d4af37 100%);
       --gradient-header: linear-gradient(135deg, #1a0a0a 0%, #2d1515 30%, #3d1a1a 50%, #2d1a0d 70%, #1a0d05 100%);
+      --gradient-ticker: linear-gradient(90deg, #ff6b35, #f7931e, #ffd700, #f7931e, #ff6b35);
       --shadow-gold: 0 0 40px rgba(212, 175, 55, 0.15);
       --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       --shadow-glow: 0 0 60px rgba(212, 175, 55, 0.2);
+      --risk-low: #10b981;
+      --risk-medium: #f59e0b;
+      --risk-high: #ef4444;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -49,17 +47,12 @@
       min-height: 100vh;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* === PREMIUM BACKGROUND === */
     body::before {
       content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: 
         radial-gradient(ellipse at 20% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
@@ -68,44 +61,41 @@
       z-index: -1;
     }
 
-    /* === TICKER BANNER === */
+    /* === TICKER BANNER - FASTER & MORE VIBRANT === */
     .ticker-container {
-      background: linear-gradient(90deg, var(--dark-tertiary) 0%, var(--dark-secondary) 50%, var(--dark-tertiary) 100%);
-      border-bottom: 1px solid var(--border-medium);
+      background: linear-gradient(90deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
+      border-bottom: 2px solid;
+      border-image: var(--gradient-ticker) 1;
       overflow: hidden;
       position: relative;
     }
-    
-    .ticker-container::before,
-    .ticker-container::after {
+
+    .ticker-container::before {
       content: '';
       position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 100px;
-      z-index: 2;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 107, 53, 0.1) 25%, 
+        rgba(255, 215, 0, 0.15) 50%, 
+        rgba(255, 107, 53, 0.1) 75%, 
+        transparent 100%);
+      animation: ticker-glow 3s ease-in-out infinite;
       pointer-events: none;
     }
-    
-    .ticker-container::before {
-      left: 0;
-      background: linear-gradient(90deg, var(--dark-tertiary), transparent);
-    }
-    
-    .ticker-container::after {
-      right: 0;
-      background: linear-gradient(-90deg, var(--dark-tertiary), transparent);
+
+    @keyframes ticker-glow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
     }
 
     .ticker-track {
       display: flex;
-      animation: ticker-scroll 80s linear infinite;
-      padding: 12px 0;
+      animation: ticker-scroll 35s linear infinite; /* FASTER: was 80s, now 35s */
+      padding: 10px 0;
     }
 
-    .ticker-track:hover {
-      animation-play-state: paused;
-    }
+    .ticker-track:hover { animation-play-state: paused; }
 
     @keyframes ticker-scroll {
       0% { transform: translateX(0); }
@@ -116,44 +106,51 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 0 50px;
+      padding: 0 40px;
       white-space: nowrap;
       font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-      color: var(--text-secondary);
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
     .ticker-item .highlight {
-      background: var(--gradient-premium);
+      background: var(--gradient-ticker);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      font-weight: 700;
+      font-weight: 800;
+      animation: text-shimmer 2s ease-in-out infinite;
+    }
+
+    @keyframes text-shimmer {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.3); }
     }
 
     .ticker-item .live {
       color: var(--accent-red);
-      animation: pulse-glow 2s ease-in-out infinite;
+      text-shadow: 0 0 10px var(--accent-red);
+      animation: pulse-glow 1.5s ease-in-out infinite;
     }
 
     .ticker-item .win {
       color: var(--accent-green);
-      font-weight: 600;
+      text-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+      font-weight: 700;
     }
 
     @keyframes pulse-glow {
-      0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--accent-red); }
-      50% { opacity: 0.7; text-shadow: none; }
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
     }
 
     .ticker-divider {
       color: var(--gold);
-      opacity: 0.5;
-      font-size: 10px;
+      opacity: 0.6;
+      font-size: 8px;
     }
 
-    /* === HEADER === */
+    /* === HEADER - COMPACT 50% HEIGHT === */
     .header {
       background: var(--gradient-header);
       border-bottom: 1px solid var(--border-medium);
@@ -164,10 +161,7 @@
     .header::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: 
         radial-gradient(circle at 10% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
         radial-gradient(circle at 90% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 40%);
@@ -177,63 +171,60 @@
     .header-inner {
       max-width: 1600px;
       margin: 0 auto;
-      padding: 28px 40px;
+      padding: 12px 30px; /* REDUCED from 28px to 12px */
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: relative;
       z-index: 1;
+      gap: 20px;
     }
 
     .brand {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px; /* REDUCED */
     }
 
     .logo {
-      font-size: 28px;
+      font-size: 22px; /* REDUCED from 28px */
       font-weight: 900;
       letter-spacing: -0.5px;
       background: var(--gradient-premium);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-shadow: 0 0 60px rgba(212, 175, 55, 0.5);
     }
 
     .tagline {
-      font-size: 12px;
+      font-size: 10px; /* REDUCED from 12px */
       font-weight: 500;
       color: var(--accent-amber);
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
       opacity: 0.9;
     }
 
     .stats-row {
       display: flex;
-      gap: 12px;
+      gap: 10px;
     }
 
     .stat-card {
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border-medium);
-      border-radius: 12px;
-      padding: 14px 22px;
+      border-radius: 8px;
+      padding: 8px 14px; /* REDUCED */
       text-align: center;
       position: relative;
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
     }
 
     .stat-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 1px;
       background: var(--gradient-premium);
       opacity: 0.6;
@@ -246,7 +237,7 @@
     }
 
     .stat-value {
-      font-size: 22px;
+      font-size: 16px; /* REDUCED from 22px */
       font-weight: 800;
       background: var(--gradient-premium);
       -webkit-background-clip: text;
@@ -256,91 +247,105 @@
     }
 
     .stat-label {
-      font-size: 10px;
+      font-size: 9px; /* REDUCED */
       font-weight: 600;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 4px;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
     }
 
     .controls {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
     }
 
     .select-premium {
       background: rgba(0, 0, 0, 0.5);
       border: 1px solid var(--border-medium);
-      border-radius: 10px;
-      padding: 12px 18px;
+      border-radius: 8px;
+      padding: 8px 14px;
       color: var(--gold);
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 40px;
+      background-position: right 10px center;
+      padding-right: 30px;
     }
 
     .select-premium:focus {
       outline: none;
       border-color: var(--gold);
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+    }
+
+    /* LANGUAGE SELECTOR */
+    .lang-selector {
+      display: flex;
+      gap: 4px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-medium);
+      border-radius: 8px;
+      padding: 4px;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .lang-btn:hover {
+      color: var(--gold);
+    }
+
+    .lang-btn.active {
+      background: var(--gradient-premium);
+      color: var(--dark-primary);
     }
 
     .btn-premium {
       background: var(--gradient-premium);
       border: none;
-      border-radius: 10px;
-      padding: 12px 24px;
+      border-radius: 8px;
+      padding: 8px 16px;
       color: var(--dark-primary);
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      gap: 6px;
+      transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
     }
 
-    .btn-premium::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .btn-premium:hover::before {
-      left: 100%;
-    }
-
     .btn-premium:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
     }
 
     .btn-premium.spinning .icon {
       animation: spin 1s linear infinite;
     }
 
-    @keyframes spin {
-      100% { transform: rotate(360deg); }
-    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
 
-    /* === NAVIGATION === */
+    /* === NAVIGATION - SYMMETRIC 2 ROWS === */
     .nav-container {
       background: var(--dark-secondary);
       border-bottom: 1px solid var(--border-subtle);
@@ -353,108 +358,76 @@
     .nav-inner {
       max-width: 1600px;
       margin: 0 auto;
-      padding: 0 40px;
+      padding: 8px 30px;
     }
 
     .nav-tabs {
-      display: flex;
-      gap: 4px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .nav-tabs::-webkit-scrollbar {
-      display: none;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr); /* 5 columns = symmetric */
+      gap: 6px;
     }
 
     .nav-tab {
-      padding: 16px 24px;
-      font-size: 13px;
+      padding: 10px 16px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--text-secondary);
       cursor: pointer;
-      border: none;
-      background: transparent;
-      position: relative;
+      border: 1px solid transparent;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      text-align: center;
       white-space: nowrap;
       transition: all 0.3s ease;
-      border-radius: 0;
-    }
-
-    .nav-tab::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: var(--gradient-premium);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      transform: translateX(-50%);
     }
 
     .nav-tab:hover {
       color: var(--text-primary);
-    }
-
-    .nav-tab:hover::after {
-      width: 60%;
+      background: rgba(212, 175, 55, 0.1);
+      border-color: var(--border-subtle);
     }
 
     .nav-tab.active {
-      color: var(--gold);
-    }
-
-    .nav-tab.active::after {
-      width: 100%;
+      color: var(--dark-primary);
+      background: var(--gradient-premium);
+      border-color: var(--gold);
     }
 
     /* === MAIN CONTENT === */
     .main-content {
       max-width: 1600px;
       margin: 0 auto;
-      padding: 32px 40px;
+      padding: 24px 30px;
     }
 
     .tab-content {
       display: none;
-      animation: fadeSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeSlide 0.4s ease;
     }
 
-    .tab-content.active {
-      display: block;
-    }
+    .tab-content.active { display: block; }
 
     @keyframes fadeSlide {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* === PREMIUM CARDS === */
+    /* === CARDS === */
     .card {
       background: var(--dark-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 24px;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
       position: relative;
       overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.4s ease;
     }
 
     .card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
       opacity: 0.5;
@@ -463,51 +436,49 @@
     .card:hover {
       border-color: var(--border-medium);
       box-shadow: var(--shadow-card), var(--shadow-gold);
-      transform: translateY(-2px);
     }
 
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
       border-bottom: 1px solid var(--border-subtle);
     }
 
     .card-title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
       background: var(--gradient-premium);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      letter-spacing: -0.3px;
     }
 
     .card-badge {
       background: rgba(212, 175, 55, 0.15);
       border: 1px solid var(--border-medium);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 11px;
+      border-radius: 16px;
+      padding: 5px 12px;
+      font-size: 10px;
       font-weight: 600;
       color: var(--gold);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    /* === PREMIUM TABLES === */
+    /* === TABLES === */
     .table-container {
       overflow-x: auto;
-      border-radius: 12px;
+      border-radius: 10px;
       border: 1px solid var(--border-subtle);
     }
 
     .table-premium {
       width: 100%;
       border-collapse: collapse;
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .table-premium thead {
@@ -515,15 +486,14 @@
     }
 
     .table-premium th {
-      padding: 14px 18px;
+      padding: 12px 14px;
       text-align: left;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       color: var(--gold);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       border-bottom: 1px solid var(--border-medium);
-      white-space: nowrap;
     }
 
     .table-premium tbody tr {
@@ -531,16 +501,11 @@
       transition: all 0.2s ease;
     }
 
-    .table-premium tbody tr:last-child {
-      border-bottom: none;
-    }
-
-    .table-premium tbody tr:hover {
-      background: rgba(212, 175, 55, 0.05);
-    }
+    .table-premium tbody tr:last-child { border-bottom: none; }
+    .table-premium tbody tr:hover { background: rgba(212, 175, 55, 0.05); }
 
     .table-premium td {
-      padding: 16px 18px;
+      padding: 14px;
       color: var(--text-primary);
       font-weight: 500;
     }
@@ -548,19 +513,18 @@
     .table-premium td:first-child {
       font-family: 'JetBrains Mono', monospace;
       color: var(--text-muted);
-      font-size: 12px;
+      font-size: 11px;
     }
 
-    /* === STATUS INDICATORS === */
+    /* === STATUS === */
     .status {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.3px;
     }
 
     .status-win {
@@ -575,18 +539,6 @@
       border: 1px solid rgba(239, 68, 68, 0.3);
     }
 
-    .status-live {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--accent-red);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      animation: pulse-border 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-border {
-      0%, 100% { border-color: rgba(239, 68, 68, 0.5); }
-      50% { border-color: rgba(239, 68, 68, 0.2); }
-    }
-
     .status-pending {
       background: rgba(245, 158, 11, 0.15);
       color: var(--accent-amber);
@@ -596,95 +548,66 @@
     /* === PERFORMANCE GRID === */
     .performance-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
     }
 
     .perf-card {
       background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 100%);
       border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 24px;
+      border-radius: 12px;
+      padding: 18px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .perf-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--gradient-premium);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: all 0.4s ease;
     }
 
     .perf-card:hover {
       border-color: var(--gold);
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       box-shadow: var(--shadow-glow);
     }
 
-    .perf-card:hover::before {
-      opacity: 1;
-    }
-
-    .perf-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
-      filter: drop-shadow(0 0 20px rgba(255,255,255,0.2));
-    }
+    .perf-icon { font-size: 28px; margin-bottom: 8px; }
 
     .perf-record {
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 800;
       background: var(--gradient-premium);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 4px;
     }
 
     .perf-pct {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--accent-green);
-      margin-bottom: 8px;
+      margin: 4px 0;
     }
 
     .perf-status {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       color: var(--accent-amber);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
     }
 
-    /* === X-FACTOR SECTION === */
-    .xfactor-grid {
+    /* === PARLAY BUILDER - COMPLETELY REDESIGNED === */
+    .parlay-section {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      grid-template-columns: 1fr 1fr;
       gap: 20px;
     }
 
-    .xfactor-card {
+    .parlay-column {
       background: var(--dark-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 22px;
-      transition: all 0.3s ease;
+      border-radius: 12px;
+      padding: 20px;
     }
 
-    .xfactor-card:hover {
-      border-color: var(--border-medium);
-      box-shadow: var(--shadow-gold);
-    }
-
-    .xfactor-card h3 {
+    .parlay-column-title {
       font-size: 14px;
       font-weight: 700;
       color: var(--gold);
@@ -696,218 +619,155 @@
       gap: 8px;
     }
 
-    .injury-item {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .injury-item:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .injury-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
-    .injury-player {
-      font-weight: 600;
-      font-size: 13px;
-    }
-
-    .injury-badge {
-      padding: 4px 10px;
-      border-radius: 4px;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .injury-out {
-      background: var(--accent-red);
-      color: white;
-    }
-
-    .injury-gtd {
-      background: var(--accent-amber);
-      color: black;
-    }
-
-    .injury-probable {
-      background: var(--accent-green);
-      color: black;
-    }
-
-    .injury-detail {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .line-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .line-item:last-child {
-      border-bottom: none;
-    }
-
-    .line-game {
-      font-weight: 600;
-      font-size: 13px;
-    }
-
-    .line-movement {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .line-arrow {
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .line-arrow.up { color: var(--accent-red); }
-    .line-arrow.down { color: var(--accent-green); }
-
-    .sharp-badge {
-      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-      padding: 4px 10px;
-      border-radius: 4px;
-      font-size: 10px;
-      font-weight: 700;
-      color: white;
-    }
-
-    .news-item {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .news-item:last-child {
-      border-bottom: none;
-    }
-
-    .news-time {
-      font-size: 10px;
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .news-headline {
-      font-size: 13px;
-      font-weight: 600;
-      margin-top: 4px;
-      line-height: 1.4;
-    }
-
-    /* === PARLAY BUILDER === */
-    .parlay-layout {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 24px;
-    }
-
-    .parlay-selections-card {
-      background: var(--dark-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 24px;
-    }
-
-    .parlay-pick {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px;
+    .parlay-row {
       background: rgba(0,0,0,0.3);
       border: 1px solid var(--border-subtle);
       border-radius: 10px;
-      margin-bottom: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
       transition: all 0.3s ease;
-      cursor: pointer;
     }
 
-    .parlay-pick:hover {
+    .parlay-row:hover {
       border-color: var(--gold);
       background: rgba(212, 175, 55, 0.05);
     }
 
-    .parlay-pick.selected {
-      border-color: var(--gold);
-      background: rgba(212, 175, 55, 0.1);
+    .parlay-row-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
     }
 
-    .parlay-pick input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--gold);
-      cursor: pointer;
+    .parlay-row-num {
+      background: var(--gradient-premium);
+      color: var(--dark-primary);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
     }
 
-    .parlay-pick-info {
-      flex: 1;
-      margin-left: 14px;
-    }
-
-    .parlay-pick-game {
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .parlay-pick-type {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .parlay-pick-odds {
+    .parlay-row-odds {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--gold);
     }
 
-    .parlay-calculator {
-      background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.02) 100%);
-      border: 1px solid var(--border-medium);
-      border-radius: 14px;
-      padding: 28px;
-      position: sticky;
-      top: 100px;
+    .parlay-selects {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
-    .calc-title {
+    .parlay-select {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+
+    .parlay-select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    }
+
+    .parlay-select option {
+      background: var(--dark-secondary);
+      color: var(--text-primary);
+    }
+
+    /* PARLAY SUMMARY */
+    .parlay-summary {
+      background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.02) 100%);
+      border: 2px solid var(--border-medium);
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .parlay-summary-title {
       font-size: 16px;
       font-weight: 700;
       color: var(--gold);
       text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .calc-stat {
-      text-align: center;
       margin-bottom: 20px;
     }
 
-    .calc-label {
+    .parlay-legs-display {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+      min-height: 40px;
+      padding: 12px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
+      border: 1px dashed var(--border-subtle);
+    }
+
+    .parlay-leg-chip {
+      background: rgba(212, 175, 55, 0.2);
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      padding: 6px 12px;
       font-size: 11px;
+      font-weight: 600;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .parlay-leg-chip .remove {
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .parlay-leg-chip .remove:hover { opacity: 1; }
+
+    .parlay-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .parlay-stat {
+      text-align: center;
+      padding: 15px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
+    }
+
+    .parlay-stat-label {
+      font-size: 10px;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       margin-bottom: 6px;
     }
 
-    .calc-value {
-      font-size: 36px;
+    .parlay-stat-value {
+      font-size: 24px;
       font-weight: 800;
       background: var(--gradient-premium);
       -webkit-background-clip: text;
@@ -915,225 +775,158 @@
       background-clip: text;
     }
 
-    .calc-input {
-      width: 100%;
-      padding: 14px 18px;
-      background: rgba(0,0,0,0.4);
-      border: 1px solid var(--border-medium);
-      border-radius: 10px;
-      color: var(--text-primary);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 16px;
-      margin-bottom: 16px;
-      transition: all 0.3s ease;
-    }
-
-    .calc-input:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-    }
-
-    .calc-payout {
-      background: var(--accent-green);
-      color: var(--dark-primary);
-      padding: 18px;
-      border-radius: 10px;
+    /* RISK INDICATOR */
+    .risk-indicator {
+      padding: 16px;
+      border-radius: 12px;
       text-align: center;
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    /* === ALERTS === */
-    .alert {
-      padding: 18px 22px;
-      border-radius: 12px;
-      margin-bottom: 14px;
-      border-left: 4px solid;
-      display: flex;
-      gap: 14px;
-    }
-
-    .alert-win {
-      background: rgba(16, 185, 129, 0.1);
-      border-color: var(--accent-green);
-    }
-
-    .alert-warning {
-      background: rgba(245, 158, 11, 0.1);
-      border-color: var(--accent-amber);
-    }
-
-    .alert-live {
-      background: rgba(239, 68, 68, 0.1);
-      border-color: var(--accent-red);
-    }
-
-    .alert-icon {
-      font-size: 20px;
-    }
-
-    .alert-content {
-      flex: 1;
-    }
-
-    .alert-title {
       font-weight: 700;
       font-size: 14px;
-      margin-bottom: 4px;
-    }
-
-    .alert-win .alert-title { color: var(--accent-green); }
-    .alert-warning .alert-title { color: var(--accent-amber); }
-    .alert-live .alert-title { color: var(--accent-red); }
-
-    .alert-text {
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-
-    /* === SETTINGS === */
-    .settings-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .setting-item {
-      background: rgba(0,0,0,0.3);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    .setting-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--gold);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 10px;
-    }
-
-    .setting-input {
-      width: 100%;
-      padding: 12px 16px;
-      background: rgba(0,0,0,0.4);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      color: var(--text-primary);
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
+      letter-spacing: 1px;
       transition: all 0.3s ease;
     }
 
-    .setting-input:focus {
-      outline: none;
+    .risk-low {
+      background: rgba(16, 185, 129, 0.2);
+      border: 2px solid var(--risk-low);
+      color: var(--risk-low);
+    }
+
+    .risk-medium {
+      background: rgba(245, 158, 11, 0.2);
+      border: 2px solid var(--risk-medium);
+      color: var(--risk-medium);
+    }
+
+    .risk-high {
+      background: rgba(239, 68, 68, 0.2);
+      border: 2px solid var(--risk-high);
+      color: var(--risk-high);
+    }
+
+    /* === FOOTER NAV TOGGLES === */
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .footer-nav-btn {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 8px 16px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-nav-btn:hover {
       border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.1);
     }
 
     /* === FOOTER === */
     .footer {
       border-top: 1px solid var(--border-subtle);
-      padding: 32px 40px;
+      padding: 24px 30px;
       text-align: center;
       background: var(--dark-secondary);
     }
 
     .footer-brand {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 700;
       background: var(--gradient-premium);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .footer-text {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
       margin-bottom: 4px;
     }
 
     .footer-version {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text-muted);
       font-family: 'JetBrains Mono', monospace;
     }
 
     /* === RESPONSIVE === */
     @media (max-width: 1024px) {
-      .header-inner { flex-wrap: wrap; gap: 20px; padding: 20px; }
-      .stats-row { order: 3; width: 100%; justify-content: center; }
-      .main-content { padding: 20px; }
-      .parlay-layout { grid-template-columns: 1fr; }
-      .xfactor-grid { grid-template-columns: 1fr; }
+      .header-inner { flex-wrap: wrap; padding: 10px 20px; }
+      .stats-row { order: 3; width: 100%; justify-content: center; flex-wrap: wrap; }
+      .main-content { padding: 16px; }
+      .parlay-section { grid-template-columns: 1fr; }
+      .nav-tabs { grid-template-columns: repeat(3, 1fr); }
     }
 
     @media (max-width: 768px) {
-      .logo { font-size: 22px; }
-      .nav-tab { padding: 14px 16px; font-size: 12px; }
-      .card { padding: 20px; }
-      .table-premium th, .table-premium td { padding: 12px 14px; }
-      .stat-card { padding: 12px 16px; }
-      .stat-value { font-size: 18px; }
+      .logo { font-size: 18px; }
+      .nav-tabs { grid-template-columns: repeat(2, 1fr); }
+      .card { padding: 16px; }
+      .parlay-selects { grid-template-columns: 1fr; }
+      .parlay-stats { grid-template-columns: 1fr; }
     }
 
-    /* === PHONE MODE === */
-    body.phone-mode .main-content { padding: 12px; }
-    body.phone-mode .card { padding: 16px; border-radius: 12px; }
-    body.phone-mode .card-title { font-size: 15px; }
-    body.phone-mode .table-premium { font-size: 11px; }
-    body.phone-mode .table-premium th, body.phone-mode .table-premium td { padding: 10px 12px; }
-    body.phone-mode .perf-card { padding: 16px; }
-    body.phone-mode .perf-record { font-size: 20px; }
-    body.phone-mode .header-inner { padding: 16px; }
-    body.phone-mode .logo { font-size: 20px; }
-    body.phone-mode .stat-card { padding: 10px 14px; }
-    body.phone-mode .stat-value { font-size: 16px; }
-    body.phone-mode .nav-tab { padding: 12px 14px; font-size: 11px; }
+    /* Phone mode */
+    body.phone-mode .main-content { padding: 10px; }
+    body.phone-mode .card { padding: 14px; }
+    body.phone-mode .nav-tabs { grid-template-columns: repeat(2, 1fr); }
+    body.phone-mode .header-inner { padding: 8px 12px; }
+    body.phone-mode .logo { font-size: 16px; }
+    body.phone-mode .stat-card { padding: 6px 10px; }
+    body.phone-mode .stat-value { font-size: 14px; }
   </style>
 </head>
 <body>
-  <!-- TICKER -->
+  <!-- TICKER - FASTER & MORE VIBRANT -->
   <div class="ticker-container">
     <div class="ticker-track">
       <div class="ticker-item"><span class="highlight">📡 SigMAX ELITE</span></div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
       <div class="ticker-item">Record: <span class="win">254-39-2</span> (87.1%)</div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
-      <div class="ticker-item"><span class="win">🏀 OKC WCF G2 ✓</span> Thunder beat Spurs</div>
+      <div class="ticker-item"><span class="win">🏀 OKC WCF G2 ✓</span></div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
-      <div class="ticker-item"><span class="win">⚾ LAD 4-0 ✓</span> Ohtani 1 HR, 4 SO</div>
+      <div class="ticker-item"><span class="win">⚾ LAD 4-0 ✓</span> Ohtani HR + 4K</div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
-      <div class="ticker-item"><span class="win">⚾ BOS 4-3 ✓</span> Red Sox win!</div>
+      <div class="ticker-item"><span class="win">⚽ VILLA UEL ✓</span></div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
-      <div class="ticker-item"><span class="win">⚽ VILLA 1-0 ✓</span> UEL Champions!</div>
-      <div class="ticker-item"><span class="ticker-divider">◆</span></div>
-      <div class="ticker-item">🏒 <span class="highlight">NHL WCF G1 TONIGHT</span> — COL vs VGK 8 PM</div>
+      <div class="ticker-item">🏒 <span class="highlight">NHL WCF G1 TONIGHT</span></div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
       <div class="ticker-item">💎 <span class="highlight">Yesterday: 5-0 SWEEP!</span></div>
-      <!-- Duplicate for seamless loop -->
+      <!-- Duplicate -->
       <div class="ticker-item"><span class="highlight">📡 SigMAX ELITE</span></div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
       <div class="ticker-item">Record: <span class="win">254-39-2</span> (87.1%)</div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
-      <div class="ticker-item"><span class="win">🏀 OKC WCF G2 ✓</span> Thunder beat Spurs</div>
+      <div class="ticker-item"><span class="win">🏀 OKC WCF G2 ✓</span></div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
-      <div class="ticker-item"><span class="win">⚾ LAD 4-0 ✓</span> Ohtani 1 HR, 4 SO</div>
+      <div class="ticker-item"><span class="win">⚾ LAD 4-0 ✓</span> Ohtani HR + 4K</div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
-      <div class="ticker-item"><span class="win">⚾ BOS 4-3 ✓</span> Red Sox win!</div>
+      <div class="ticker-item"><span class="win">⚽ VILLA UEL ✓</span></div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
-      <div class="ticker-item"><span class="win">⚽ VILLA 1-0 ✓</span> UEL Champions!</div>
-      <div class="ticker-item"><span class="ticker-divider">◆</span></div>
-      <div class="ticker-item">🏒 <span class="highlight">NHL WCF G1 TONIGHT</span> — COL vs VGK 8 PM</div>
+      <div class="ticker-item">🏒 <span class="highlight">NHL WCF G1 TONIGHT</span></div>
       <div class="ticker-item"><span class="ticker-divider">◆</span></div>
       <div class="ticker-item">💎 <span class="highlight">Yesterday: 5-0 SWEEP!</span></div>
     </div>
   </div>
 
-  <!-- HEADER -->
+  <!-- HEADER - COMPACT -->
   <header class="header">
     <div class="header-inner">
       <div class="brand">
@@ -1150,7 +943,7 @@
           <div class="stat-label">Win Rate</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">254-39-2</div>
+          <div class="stat-value">254-39</div>
           <div class="stat-label">Record</div>
         </div>
         <div class="stat-card">
@@ -1159,31 +952,38 @@
         </div>
       </div>
       <div class="controls">
+        <!-- LANGUAGE SELECTOR -->
+        <div class="lang-selector">
+          <button class="lang-btn active" onclick="setLanguage('en')" data-lang="en">EN</button>
+          <button class="lang-btn" onclick="setLanguage('fr')" data-lang="fr">FR</button>
+          <button class="lang-btn" onclick="setLanguage('es')" data-lang="es">ES</button>
+        </div>
         <select class="select-premium" id="deviceSelect" onchange="changeDevice()">
           <option value="desktop">🖥️ Desktop</option>
           <option value="tablet">📱 Tablet</option>
           <option value="phone">📲 Phone</option>
         </select>
         <button class="btn-premium" onclick="refreshData()">
-          <span class="icon">⟳</span> Refresh
+          <span class="icon">⟳</span> <span data-i18n="refresh">Refresh</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- NAVIGATION -->
+  <!-- NAVIGATION - SYMMETRIC GRID -->
   <nav class="nav-container">
     <div class="nav-inner">
       <div class="nav-tabs">
-        <button class="nav-tab active" onclick="showTab('home')">🏠 Home</button>
-        <button class="nav-tab" onclick="showTab('picks')">🎯 Top Picks</button>
-        <button class="nav-tab" onclick="showTab('props')">👤 Player Props</button>
-        <button class="nav-tab" onclick="showTab('parlay')">🎰 Parlay Builder</button>
-        <button class="nav-tab" onclick="showTab('upcoming')">📅 Upcoming</button>
-        <button class="nav-tab" onclick="showTab('results')">📊 Results</button>
-        <button class="nav-tab" onclick="showTab('xfactor')">🔮 X-Factor</button>
-        <button class="nav-tab" onclick="showTab('alerts')">⚠️ Alerts</button>
-        <button class="nav-tab" onclick="showTab('settings')">⚙️ Settings</button>
+        <button class="nav-tab active" onclick="showTab('home')" data-i18n="nav_home">🏠 Home</button>
+        <button class="nav-tab" onclick="showTab('picks')" data-i18n="nav_picks">🎯 Top Picks</button>
+        <button class="nav-tab" onclick="showTab('props')" data-i18n="nav_props">👤 Player Props</button>
+        <button class="nav-tab" onclick="showTab('parlay')" data-i18n="nav_parlay">🎰 Parlay Builder</button>
+        <button class="nav-tab" onclick="showTab('upcoming')" data-i18n="nav_upcoming">📅 Upcoming</button>
+        <button class="nav-tab" onclick="showTab('results')" data-i18n="nav_results">📊 Results</button>
+        <button class="nav-tab" onclick="showTab('xfactor')" data-i18n="nav_xfactor">🔮 X-Factor</button>
+        <button class="nav-tab" onclick="showTab('alerts')" data-i18n="nav_alerts">⚠️ Alerts</button>
+        <button class="nav-tab" onclick="showTab('bankroll')" data-i18n="nav_bankroll">💰 Bankroll</button>
+        <button class="nav-tab" onclick="showTab('settings')" data-i18n="nav_settings">⚙️ Settings</button>
       </div>
     </div>
   </nav>
@@ -1195,7 +995,7 @@
     <div id="home" class="tab-content active">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🏆 Performance by Sport — Season 2026</div>
+          <div class="card-title" data-i18n="perf_title">🏆 Performance by Sport — Season 2026</div>
           <div class="card-badge">Live Stats</div>
         </div>
         <div class="performance-grid">
@@ -1209,7 +1009,7 @@
             <div class="perf-icon">🏀</div>
             <div class="perf-record">101-13</div>
             <div class="perf-pct">88.6%</div>
-            <div class="perf-status">🔥 Hot Streak</div>
+            <div class="perf-status">🔥 Hot</div>
           </div>
           <div class="perf-card">
             <div class="perf-icon">⚽</div>
@@ -1240,7 +1040,7 @@
 
       <div class="card">
         <div class="card-header">
-          <div class="card-title">📡 Yesterday's Results — May 20, 2026</div>
+          <div class="card-title" data-i18n="yesterday_title">📡 Yesterday's Results — May 20, 2026</div>
           <div class="card-badge">5-0 Sweep</div>
         </div>
         <div class="table-container">
@@ -1248,17 +1048,17 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>Matchup</th>
-                <th>Pick</th>
-                <th>Odds</th>
-                <th>Result</th>
-                <th>Status</th>
+                <th data-i18n="th_matchup">Matchup</th>
+                <th data-i18n="th_pick">Pick</th>
+                <th data-i18n="th_odds">Odds</th>
+                <th data-i18n="th_result">Result</th>
+                <th data-i18n="th_status">Status</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>1</td>
-                <td>⚽ UEL Final: Freiburg vs Aston Villa</td>
+                <td>⚽ UEL Final: Freiburg vs Villa</td>
                 <td>VILLA ML</td>
                 <td>-130</td>
                 <td>Villa 1-0</td>
@@ -1307,61 +1107,19 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">🎯 SigMAX Top 5 Elite Picks — May 21, 2026</div>
-          <div class="card-badge">🏒 WCF G1 Tonight</div>
+          <div class="card-badge">🏒 WCF G1</div>
         </div>
         <div class="table-container">
           <table class="table-premium">
             <thead>
-              <tr>
-                <th>#</th>
-                <th>Matchup</th>
-                <th>Pick</th>
-                <th>Odds</th>
-                <th>Confidence</th>
-                <th>Status</th>
-              </tr>
+              <tr><th>#</th><th>Matchup</th><th>Pick</th><th>Odds</th><th>Confidence</th><th>Status</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>🏒 VGK @ COL WCF G1</td>
-                <td>COL ML</td>
-                <td>-140</td>
-                <td>⭐⭐⭐⭐⭐</td>
-                <td><span class="status status-pending">8:00 PM</span></td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>🏀 BOS @ IND ECF G1</td>
-                <td>BOS -4.5</td>
-                <td>-110</td>
-                <td>⭐⭐⭐⭐⭐</td>
-                <td><span class="status status-pending">8:30 PM</span></td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>⚾ ATL @ MIA</td>
-                <td>ATL ML</td>
-                <td>-155</td>
-                <td>⭐⭐⭐⭐</td>
-                <td><span class="status status-pending">6:40 PM</span></td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>⚾ CLE @ DET</td>
-                <td>CLE ML</td>
-                <td>-135</td>
-                <td>⭐⭐⭐⭐</td>
-                <td><span class="status status-pending">6:40 PM</span></td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>⚾ MIL @ CHC</td>
-                <td>MIL ML</td>
-                <td>-125</td>
-                <td>⭐⭐⭐⭐</td>
-                <td><span class="status status-pending">8:05 PM</span></td>
-              </tr>
+              <tr><td>1</td><td>🏒 VGK @ COL WCF G1</td><td>COL ML</td><td>-140</td><td>⭐⭐⭐⭐⭐</td><td><span class="status status-pending">8:00 PM</span></td></tr>
+              <tr><td>2</td><td>🏀 BOS @ IND ECF G1</td><td>BOS -4.5</td><td>-110</td><td>⭐⭐⭐⭐⭐</td><td><span class="status status-pending">8:30 PM</span></td></tr>
+              <tr><td>3</td><td>⚾ ATL @ MIA</td><td>ATL ML</td><td>-155</td><td>⭐⭐⭐⭐</td><td><span class="status status-pending">6:40 PM</span></td></tr>
+              <tr><td>4</td><td>⚾ CLE @ DET</td><td>CLE ML</td><td>-135</td><td>⭐⭐⭐⭐</td><td><span class="status status-pending">6:40 PM</span></td></tr>
+              <tr><td>5</td><td>⚾ MIL @ CHC</td><td>MIL ML</td><td>-125</td><td>⭐⭐⭐⭐</td><td><span class="status status-pending">8:05 PM</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -1373,143 +1131,335 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">👤 Top 10 Player Props — May 21, 2026</div>
-          <div class="card-badge">Props: 48-7 (87.3%)</div>
+          <div class="card-badge">Props: 48-7</div>
         </div>
         <div class="table-container">
           <table class="table-premium">
             <thead>
-              <tr>
-                <th>#</th>
-                <th>Player</th>
-                <th>Team</th>
-                <th>Prop</th>
-                <th>Line</th>
-                <th>Pick</th>
-                <th>Odds</th>
-                <th>Conf</th>
-              </tr>
+              <tr><th>#</th><th>Player</th><th>Team</th><th>Prop</th><th>Line</th><th>Pick</th><th>Odds</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Nathan MacKinnon</td>
-                <td>COL</td>
-                <td>Points</td>
-                <td>1.5</td>
-                <td>OVER</td>
-                <td>-130</td>
-                <td>🔥🔥🔥</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jayson Tatum</td>
-                <td>BOS</td>
-                <td>Points</td>
-                <td>28.5</td>
-                <td>OVER</td>
-                <td>-115</td>
-                <td>🔥🔥🔥</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Mikko Rantanen</td>
-                <td>COL</td>
-                <td>Shots</td>
-                <td>4.5</td>
-                <td>OVER</td>
-                <td>-110</td>
-                <td>🔥🔥</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>Tyrese Haliburton</td>
-                <td>IND</td>
-                <td>Assists</td>
-                <td>9.5</td>
-                <td>OVER</td>
-                <td>-105</td>
-                <td>🔥🔥</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>Jack Eichel</td>
-                <td>VGK</td>
-                <td>Assists</td>
-                <td>0.5</td>
-                <td>OVER</td>
-                <td>-140</td>
-                <td>🔥🔥</td>
-              </tr>
+              <tr><td>1</td><td>Nathan MacKinnon</td><td>COL</td><td>Points</td><td>1.5</td><td>OVER</td><td>-130</td></tr>
+              <tr><td>2</td><td>Jayson Tatum</td><td>BOS</td><td>Points</td><td>28.5</td><td>OVER</td><td>-115</td></tr>
+              <tr><td>3</td><td>Mikko Rantanen</td><td>COL</td><td>Shots</td><td>4.5</td><td>OVER</td><td>-110</td></tr>
+              <tr><td>4</td><td>Tyrese Haliburton</td><td>IND</td><td>Assists</td><td>9.5</td><td>OVER</td><td>-105</td></tr>
+              <tr><td>5</td><td>Jack Eichel</td><td>VGK</td><td>Assists</td><td>0.5</td><td>OVER</td><td>-140</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- PARLAY BUILDER TAB -->
+    <!-- PARLAY BUILDER - COMPLETELY REDESIGNED -->
     <div id="parlay" class="tab-content">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🎰 SigMAX Parlay Builder</div>
-          <div class="card-badge">Parlays: 12-3 (80%)</div>
+          <div class="card-title" data-i18n="parlay_title">🎰 SigMAX Parlay Builder</div>
+          <div class="card-badge">Build Your Parlay</div>
         </div>
-        <div class="parlay-layout">
-          <div class="parlay-selections-card">
-            <h3 style="color: var(--gold); margin-bottom: 16px; font-size: 14px; font-weight: 600;">Select Your Picks</h3>
-            <div class="parlay-pick" onclick="this.classList.toggle('selected'); this.querySelector('input').checked = !this.querySelector('input').checked; calculateParlay();">
-              <input type="checkbox" data-odds="-140">
-              <div class="parlay-pick-info">
-                <div class="parlay-pick-game">🏒 COL ML vs VGK</div>
-                <div class="parlay-pick-type">NHL WCF G1</div>
+
+        <div class="parlay-section">
+          <!-- TEAM BETS COLUMN -->
+          <div class="parlay-column">
+            <div class="parlay-column-title">🏆 Team Bets (5 Picks)</div>
+            
+            <div class="parlay-row" id="team-row-1">
+              <div class="parlay-row-header">
+                <div class="parlay-row-num">1</div>
+                <div class="parlay-row-odds" id="team-odds-1">--</div>
               </div>
-              <div class="parlay-pick-odds">-140</div>
+              <div class="parlay-selects">
+                <select class="parlay-select" id="team-game-1" onchange="updateParlayOdds()">
+                  <option value="">— Select Game —</option>
+                  <option value="COL_VGK" data-sport="🏒">🏒 COL vs VGK (WCF G1)</option>
+                  <option value="BOS_IND" data-sport="🏀">🏀 BOS @ IND (ECF G1)</option>
+                  <option value="ATL_MIA" data-sport="⚾">⚾ ATL @ MIA</option>
+                  <option value="CLE_DET" data-sport="⚾">⚾ CLE @ DET</option>
+                  <option value="MIL_CHC" data-sport="⚾">⚾ MIL @ CHC</option>
+                  <option value="TOR_NYY" data-sport="⚾">⚾ TOR @ NYY</option>
+                  <option value="LAD_SD" data-sport="⚾">⚾ LAD @ SD</option>
+                  <option value="BOS_KC" data-sport="⚾">⚾ BOS @ KC</option>
+                </select>
+                <select class="parlay-select" id="team-bet-1" onchange="updateParlayOdds()">
+                  <option value="">— Select Bet Type —</option>
+                  <option value="ML_HOME" data-odds="-140">Moneyline (Home)</option>
+                  <option value="ML_AWAY" data-odds="+120">Moneyline (Away)</option>
+                  <option value="SPREAD_1.5" data-odds="-110">Spread +1.5</option>
+                  <option value="SPREAD_2.5" data-odds="+130">Spread +2.5</option>
+                  <option value="OVER_TOTAL" data-odds="-115">Over Total</option>
+                  <option value="UNDER_TOTAL" data-odds="-105">Under Total</option>
+                  <option value="DRAW" data-odds="+280">Draw</option>
+                  <option value="BTTS" data-odds="-110">Both Teams Score</option>
+                </select>
+              </div>
             </div>
-            <div class="parlay-pick" onclick="this.classList.toggle('selected'); this.querySelector('input').checked = !this.querySelector('input').checked; calculateParlay();">
-              <input type="checkbox" data-odds="-110">
-              <div class="parlay-pick-info">
-                <div class="parlay-pick-game">🏀 BOS -4.5 vs IND</div>
-                <div class="parlay-pick-type">NBA ECF G1</div>
+
+            <div class="parlay-row" id="team-row-2">
+              <div class="parlay-row-header">
+                <div class="parlay-row-num">2</div>
+                <div class="parlay-row-odds" id="team-odds-2">--</div>
               </div>
-              <div class="parlay-pick-odds">-110</div>
+              <div class="parlay-selects">
+                <select class="parlay-select" id="team-game-2" onchange="updateParlayOdds()">
+                  <option value="">— Select Game —</option>
+                  <option value="COL_VGK">🏒 COL vs VGK (WCF G1)</option>
+                  <option value="BOS_IND">🏀 BOS @ IND (ECF G1)</option>
+                  <option value="ATL_MIA">⚾ ATL @ MIA</option>
+                  <option value="CLE_DET">⚾ CLE @ DET</option>
+                  <option value="MIL_CHC">⚾ MIL @ CHC</option>
+                  <option value="TOR_NYY">⚾ TOR @ NYY</option>
+                  <option value="LAD_SD">⚾ LAD @ SD</option>
+                  <option value="BOS_KC">⚾ BOS @ KC</option>
+                </select>
+                <select class="parlay-select" id="team-bet-2" onchange="updateParlayOdds()">
+                  <option value="">— Select Bet Type —</option>
+                  <option value="ML_HOME" data-odds="-140">Moneyline (Home)</option>
+                  <option value="ML_AWAY" data-odds="+120">Moneyline (Away)</option>
+                  <option value="SPREAD_1.5" data-odds="-110">Spread +1.5</option>
+                  <option value="SPREAD_2.5" data-odds="+130">Spread +2.5</option>
+                  <option value="OVER_TOTAL" data-odds="-115">Over Total</option>
+                  <option value="UNDER_TOTAL" data-odds="-105">Under Total</option>
+                  <option value="DRAW" data-odds="+280">Draw</option>
+                </select>
+              </div>
             </div>
-            <div class="parlay-pick" onclick="this.classList.toggle('selected'); this.querySelector('input').checked = !this.querySelector('input').checked; calculateParlay();">
-              <input type="checkbox" data-odds="-155">
-              <div class="parlay-pick-info">
-                <div class="parlay-pick-game">⚾ ATL ML @ MIA</div>
-                <div class="parlay-pick-type">MLB</div>
+
+            <div class="parlay-row" id="team-row-3">
+              <div class="parlay-row-header">
+                <div class="parlay-row-num">3</div>
+                <div class="parlay-row-odds" id="team-odds-3">--</div>
               </div>
-              <div class="parlay-pick-odds">-155</div>
+              <div class="parlay-selects">
+                <select class="parlay-select" id="team-game-3" onchange="updateParlayOdds()">
+                  <option value="">— Select Game —</option>
+                  <option value="COL_VGK">🏒 COL vs VGK (WCF G1)</option>
+                  <option value="BOS_IND">🏀 BOS @ IND (ECF G1)</option>
+                  <option value="ATL_MIA">⚾ ATL @ MIA</option>
+                  <option value="CLE_DET">⚾ CLE @ DET</option>
+                  <option value="MIL_CHC">⚾ MIL @ CHC</option>
+                  <option value="TOR_NYY">⚾ TOR @ NYY</option>
+                  <option value="LAD_SD">⚾ LAD @ SD</option>
+                </select>
+                <select class="parlay-select" id="team-bet-3" onchange="updateParlayOdds()">
+                  <option value="">— Select Bet Type —</option>
+                  <option value="ML_HOME" data-odds="-140">Moneyline (Home)</option>
+                  <option value="ML_AWAY" data-odds="+120">Moneyline (Away)</option>
+                  <option value="SPREAD_1.5" data-odds="-110">Spread +1.5</option>
+                  <option value="OVER_TOTAL" data-odds="-115">Over Total</option>
+                  <option value="UNDER_TOTAL" data-odds="-105">Under Total</option>
+                </select>
+              </div>
             </div>
-            <div class="parlay-pick" onclick="this.classList.toggle('selected'); this.querySelector('input').checked = !this.querySelector('input').checked; calculateParlay();">
-              <input type="checkbox" data-odds="-135">
-              <div class="parlay-pick-info">
-                <div class="parlay-pick-game">⚾ CLE ML @ DET</div>
-                <div class="parlay-pick-type">MLB</div>
+
+            <div class="parlay-row" id="team-row-4">
+              <div class="parlay-row-header">
+                <div class="parlay-row-num">4</div>
+                <div class="parlay-row-odds" id="team-odds-4">--</div>
               </div>
-              <div class="parlay-pick-odds">-135</div>
+              <div class="parlay-selects">
+                <select class="parlay-select" id="team-game-4" onchange="updateParlayOdds()">
+                  <option value="">— Select Game —</option>
+                  <option value="COL_VGK">🏒 COL vs VGK (WCF G1)</option>
+                  <option value="BOS_IND">🏀 BOS @ IND (ECF G1)</option>
+                  <option value="ATL_MIA">⚾ ATL @ MIA</option>
+                  <option value="CLE_DET">⚾ CLE @ DET</option>
+                  <option value="MIL_CHC">⚾ MIL @ CHC</option>
+                </select>
+                <select class="parlay-select" id="team-bet-4" onchange="updateParlayOdds()">
+                  <option value="">— Select Bet Type —</option>
+                  <option value="ML_HOME" data-odds="-140">Moneyline (Home)</option>
+                  <option value="ML_AWAY" data-odds="+120">Moneyline (Away)</option>
+                  <option value="SPREAD_1.5" data-odds="-110">Spread +1.5</option>
+                  <option value="OVER_TOTAL" data-odds="-115">Over Total</option>
+                </select>
+              </div>
             </div>
-            <div class="parlay-pick" onclick="this.classList.toggle('selected'); this.querySelector('input').checked = !this.querySelector('input').checked; calculateParlay();">
-              <input type="checkbox" data-odds="-125">
-              <div class="parlay-pick-info">
-                <div class="parlay-pick-game">⚾ MIL ML @ CHC</div>
-                <div class="parlay-pick-type">MLB</div>
+
+            <div class="parlay-row" id="team-row-5">
+              <div class="parlay-row-header">
+                <div class="parlay-row-num">5</div>
+                <div class="parlay-row-odds" id="team-odds-5">--</div>
               </div>
-              <div class="parlay-pick-odds">-125</div>
+              <div class="parlay-selects">
+                <select class="parlay-select" id="team-game-5" onchange="updateParlayOdds()">
+                  <option value="">— Select Game —</option>
+                  <option value="COL_VGK">🏒 COL vs VGK (WCF G1)</option>
+                  <option value="BOS_IND">🏀 BOS @ IND (ECF G1)</option>
+                  <option value="ATL_MIA">⚾ ATL @ MIA</option>
+                  <option value="CLE_DET">⚾ CLE @ DET</option>
+                </select>
+                <select class="parlay-select" id="team-bet-5" onchange="updateParlayOdds()">
+                  <option value="">— Select Bet Type —</option>
+                  <option value="ML_HOME" data-odds="-140">Moneyline (Home)</option>
+                  <option value="ML_AWAY" data-odds="+120">Moneyline (Away)</option>
+                  <option value="SPREAD_1.5" data-odds="-110">Spread +1.5</option>
+                </select>
+              </div>
             </div>
           </div>
-          <div class="parlay-calculator">
-            <div class="calc-title">💰 Parlay Calculator</div>
-            <div class="calc-stat">
-              <div class="calc-label">Legs Selected</div>
-              <div class="calc-value" id="legCount">0</div>
+
+          <!-- PLAYER PROPS COLUMN -->
+          <div class="parlay-column">
+            <div class="parlay-column-title">👤 Player Props (5 Picks)</div>
+            
+            <div class="parlay-row" id="player-row-1">
+              <div class="parlay-row-header">
+                <div class="parlay-row-num">1</div>
+                <div class="parlay-row-odds" id="player-odds-1">--</div>
+              </div>
+              <div class="parlay-selects">
+                <select class="parlay-select" id="player-name-1" onchange="updateParlayOdds()">
+                  <option value="">— Select Player —</option>
+                  <option value="MACKINNON">🏒 Nathan MacKinnon (COL)</option>
+                  <option value="RANTANEN">🏒 Mikko Rantanen (COL)</option>
+                  <option value="EICHEL">🏒 Jack Eichel (VGK)</option>
+                  <option value="TATUM">🏀 Jayson Tatum (BOS)</option>
+                  <option value="BROWN">🏀 Jaylen Brown (BOS)</option>
+                  <option value="HALIBURTON">🏀 Tyrese Haliburton (IND)</option>
+                  <option value="OHTANI">⚾ Shohei Ohtani (LAD)</option>
+                  <option value="JUDGE">⚾ Aaron Judge (NYY)</option>
+                </select>
+                <select class="parlay-select" id="player-prop-1" onchange="updateParlayOdds()">
+                  <option value="">— Select Prop —</option>
+                  <option value="GOALS_O" data-odds="+150">Goals Over 0.5</option>
+                  <option value="ASSISTS_O" data-odds="-130">Assists Over 0.5</option>
+                  <option value="POINTS_O" data-odds="-140">Points Over 1.5</option>
+                  <option value="SHOTS_O" data-odds="-115">Shots Over 3.5</option>
+                  <option value="PTS_O" data-odds="-110">Points Over 25.5</option>
+                  <option value="REB_O" data-odds="-105">Rebounds Over 7.5</option>
+                  <option value="AST_O" data-odds="+100">Assists Over 5.5</option>
+                  <option value="3PT_O" data-odds="-115">3-Pointers Over 2.5</option>
+                  <option value="HITS_O" data-odds="-125">Hits Over 1.5</option>
+                  <option value="RBI_O" data-odds="+110">RBIs Over 0.5</option>
+                  <option value="K_O" data-odds="-120">Strikeouts Over 6.5</option>
+                </select>
+              </div>
             </div>
-            <div class="calc-stat">
-              <div class="calc-label">Combined Odds</div>
-              <div class="calc-value" id="parlayOdds">+100</div>
+
+            <div class="parlay-row" id="player-row-2">
+              <div class="parlay-row-header">
+                <div class="parlay-row-num">2</div>
+                <div class="parlay-row-odds" id="player-odds-2">--</div>
+              </div>
+              <div class="parlay-selects">
+                <select class="parlay-select" id="player-name-2" onchange="updateParlayOdds()">
+                  <option value="">— Select Player —</option>
+                  <option value="MACKINNON">🏒 Nathan MacKinnon (COL)</option>
+                  <option value="RANTANEN">🏒 Mikko Rantanen (COL)</option>
+                  <option value="EICHEL">🏒 Jack Eichel (VGK)</option>
+                  <option value="TATUM">🏀 Jayson Tatum (BOS)</option>
+                  <option value="BROWN">🏀 Jaylen Brown (BOS)</option>
+                  <option value="HALIBURTON">🏀 Tyrese Haliburton (IND)</option>
+                  <option value="OHTANI">⚾ Shohei Ohtani (LAD)</option>
+                  <option value="JUDGE">⚾ Aaron Judge (NYY)</option>
+                </select>
+                <select class="parlay-select" id="player-prop-2" onchange="updateParlayOdds()">
+                  <option value="">— Select Prop —</option>
+                  <option value="GOALS_O" data-odds="+150">Goals Over 0.5</option>
+                  <option value="ASSISTS_O" data-odds="-130">Assists Over 0.5</option>
+                  <option value="POINTS_O" data-odds="-140">Points Over 1.5</option>
+                  <option value="SHOTS_O" data-odds="-115">Shots Over 3.5</option>
+                  <option value="PTS_O" data-odds="-110">Points Over 25.5</option>
+                  <option value="REB_O" data-odds="-105">Rebounds Over 7.5</option>
+                  <option value="AST_O" data-odds="+100">Assists Over 5.5</option>
+                </select>
+              </div>
             </div>
-            <label class="calc-label">Stake Amount ($)</label>
-            <input type="number" class="calc-input" id="stakeInput" value="100" onchange="calculateParlay()">
-            <div class="calc-payout" id="payoutDisplay">💵 Payout: $200.00</div>
+
+            <div class="parlay-row" id="player-row-3">
+              <div class="parlay-row-header">
+                <div class="parlay-row-num">3</div>
+                <div class="parlay-row-odds" id="player-odds-3">--</div>
+              </div>
+              <div class="parlay-selects">
+                <select class="parlay-select" id="player-name-3" onchange="updateParlayOdds()">
+                  <option value="">— Select Player —</option>
+                  <option value="MACKINNON">🏒 Nathan MacKinnon (COL)</option>
+                  <option value="RANTANEN">🏒 Mikko Rantanen (COL)</option>
+                  <option value="TATUM">🏀 Jayson Tatum (BOS)</option>
+                  <option value="HALIBURTON">🏀 Tyrese Haliburton (IND)</option>
+                  <option value="OHTANI">⚾ Shohei Ohtani (LAD)</option>
+                  <option value="JUDGE">⚾ Aaron Judge (NYY)</option>
+                </select>
+                <select class="parlay-select" id="player-prop-3" onchange="updateParlayOdds()">
+                  <option value="">— Select Prop —</option>
+                  <option value="GOALS_O" data-odds="+150">Goals Over 0.5</option>
+                  <option value="ASSISTS_O" data-odds="-130">Assists Over 0.5</option>
+                  <option value="PTS_O" data-odds="-110">Points Over 25.5</option>
+                  <option value="REB_O" data-odds="-105">Rebounds Over 7.5</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="parlay-row" id="player-row-4">
+              <div class="parlay-row-header">
+                <div class="parlay-row-num">4</div>
+                <div class="parlay-row-odds" id="player-odds-4">--</div>
+              </div>
+              <div class="parlay-selects">
+                <select class="parlay-select" id="player-name-4" onchange="updateParlayOdds()">
+                  <option value="">— Select Player —</option>
+                  <option value="MACKINNON">🏒 Nathan MacKinnon (COL)</option>
+                  <option value="TATUM">🏀 Jayson Tatum (BOS)</option>
+                  <option value="HALIBURTON">🏀 Tyrese Haliburton (IND)</option>
+                  <option value="OHTANI">⚾ Shohei Ohtani (LAD)</option>
+                </select>
+                <select class="parlay-select" id="player-prop-4" onchange="updateParlayOdds()">
+                  <option value="">— Select Prop —</option>
+                  <option value="GOALS_O" data-odds="+150">Goals Over 0.5</option>
+                  <option value="PTS_O" data-odds="-110">Points Over 25.5</option>
+                  <option value="HITS_O" data-odds="-125">Hits Over 1.5</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="parlay-row" id="player-row-5">
+              <div class="parlay-row-header">
+                <div class="parlay-row-num">5</div>
+                <div class="parlay-row-odds" id="player-odds-5">--</div>
+              </div>
+              <div class="parlay-selects">
+                <select class="parlay-select" id="player-name-5" onchange="updateParlayOdds()">
+                  <option value="">— Select Player —</option>
+                  <option value="MACKINNON">🏒 Nathan MacKinnon (COL)</option>
+                  <option value="TATUM">🏀 Jayson Tatum (BOS)</option>
+                  <option value="OHTANI">⚾ Shohei Ohtani (LAD)</option>
+                </select>
+                <select class="parlay-select" id="player-prop-5" onchange="updateParlayOdds()">
+                  <option value="">— Select Prop —</option>
+                  <option value="GOALS_O" data-odds="+150">Goals Over 0.5</option>
+                  <option value="PTS_O" data-odds="-110">Points Over 25.5</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PARLAY SUMMARY -->
+        <div class="parlay-summary">
+          <div class="parlay-summary-title">📊 Parlay Summary</div>
+          
+          <div class="parlay-legs-display" id="parlayLegsDisplay">
+            <span style="color: var(--text-muted); font-size: 12px;">Select picks above to build your parlay...</span>
+          </div>
+
+          <div class="parlay-stats">
+            <div class="parlay-stat">
+              <div class="parlay-stat-label">Total Legs</div>
+              <div class="parlay-stat-value" id="totalLegs">0</div>
+            </div>
+            <div class="parlay-stat">
+              <div class="parlay-stat-label">Combined Odds</div>
+              <div class="parlay-stat-value" id="combinedOdds">+100</div>
+            </div>
+            <div class="parlay-stat">
+              <div class="parlay-stat-label">Potential Payout</div>
+              <div class="parlay-stat-value" id="potentialPayout">$200</div>
+            </div>
+          </div>
+
+          <div class="risk-indicator risk-low" id="riskIndicator">
+            🟢 LOW RISK — Select picks to calculate
           </div>
         </div>
       </div>
@@ -1524,51 +1474,12 @@
         </div>
         <div class="table-container">
           <table class="table-premium">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Sport</th>
-                <th>Matchup</th>
-                <th>Notes</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Date</th><th>Time</th><th>Sport</th><th>Matchup</th><th>Notes</th></tr></thead>
             <tbody>
-              <tr>
-                <td>May 21</td>
-                <td>8:00 PM</td>
-                <td>🏒 NHL</td>
-                <td>VGK @ COL WCF G1</td>
-                <td>🔥 Makar GTD</td>
-              </tr>
-              <tr>
-                <td>May 21</td>
-                <td>8:30 PM</td>
-                <td>🏀 NBA</td>
-                <td>BOS @ IND ECF G1</td>
-                <td>Series Start</td>
-              </tr>
-              <tr>
-                <td>May 21</td>
-                <td>Various</td>
-                <td>⚾ MLB</td>
-                <td>15 Games</td>
-                <td>Full Slate</td>
-              </tr>
-              <tr>
-                <td>May 22</td>
-                <td>9:00 PM</td>
-                <td>🏀 NBA</td>
-                <td>SAS @ OKC WCF G3</td>
-                <td>OKC leads 2-0</td>
-              </tr>
-              <tr>
-                <td>May 22</td>
-                <td>8:00 PM</td>
-                <td>🏒 NHL</td>
-                <td>VGK @ COL WCF G2</td>
-                <td>If needed</td>
-              </tr>
+              <tr><td>May 21</td><td>8:00 PM</td><td>🏒</td><td>VGK @ COL WCF G1</td><td>🔥 Makar GTD</td></tr>
+              <tr><td>May 21</td><td>8:30 PM</td><td>🏀</td><td>BOS @ IND ECF G1</td><td>Series Start</td></tr>
+              <tr><td>May 21</td><td>Various</td><td>⚾</td><td>15 MLB Games</td><td>Full Slate</td></tr>
+              <tr><td>May 22</td><td>9:00 PM</td><td>🏀</td><td>SAS @ OKC WCF G3</td><td>OKC leads 2-0</td></tr>
             </tbody>
           </table>
         </div>
@@ -1579,63 +1490,18 @@
     <div id="results" class="tab-content">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">📊 Recent Results — Last 7 Days</div>
-          <div class="card-badge">+$2,340 Profit</div>
+          <div class="card-title">📊 Recent Results</div>
+          <div class="card-badge">+$2,340</div>
         </div>
         <div class="table-container">
           <table class="table-premium">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Matchup</th>
-                <th>Pick</th>
-                <th>Result</th>
-                <th>P/L</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th>Result</th><th>P/L</th></tr></thead>
             <tbody>
-              <tr>
-                <td>May 20</td>
-                <td>🏀 SAS @ OKC WCF G2</td>
-                <td>OKC -5.5</td>
-                <td><span class="status status-win">✓ WIN</span></td>
-                <td style="color: var(--accent-green);">+$454</td>
-              </tr>
-              <tr>
-                <td>May 20</td>
-                <td>⚾ LAD @ SD</td>
-                <td>LAD ML</td>
-                <td><span class="status status-win">✓ WIN</span></td>
-                <td style="color: var(--accent-green);">+$345</td>
-              </tr>
-              <tr>
-                <td>May 20</td>
-                <td>⚾ BOS @ KC</td>
-                <td>BOS ML</td>
-                <td><span class="status status-win">✓ WIN</span></td>
-                <td style="color: var(--accent-green);">+$394</td>
-              </tr>
-              <tr>
-                <td>May 20</td>
-                <td>⚽ UEL Final</td>
-                <td>VILLA ML</td>
-                <td><span class="status status-win">✓ WIN</span></td>
-                <td style="color: var(--accent-green);">+$385</td>
-              </tr>
-              <tr>
-                <td>May 20</td>
-                <td>⚾ TOR @ NYY</td>
-                <td>NYY ML</td>
-                <td><span class="status status-loss">✗ LOSS</span></td>
-                <td style="color: var(--accent-red);">-$500</td>
-              </tr>
-              <tr>
-                <td>May 19</td>
-                <td>🏀 CLE @ NYK ECF G1</td>
-                <td>NYK +3.5</td>
-                <td><span class="status status-win">✓ WIN</span></td>
-                <td style="color: var(--accent-green);">+$455</td>
-              </tr>
+              <tr><td>May 20</td><td>🏀 SAS @ OKC</td><td>OKC -5.5</td><td><span class="status status-win">✓</span></td><td style="color:var(--accent-green)">+$454</td></tr>
+              <tr><td>May 20</td><td>⚾ LAD @ SD</td><td>LAD ML</td><td><span class="status status-win">✓</span></td><td style="color:var(--accent-green)">+$345</td></tr>
+              <tr><td>May 20</td><td>⚽ UEL Final</td><td>VILLA ML</td><td><span class="status status-win">✓</span></td><td style="color:var(--accent-green)">+$385</td></tr>
+              <tr><td>May 20</td><td>⚾ BOS @ KC</td><td>BOS ML</td><td><span class="status status-win">✓</span></td><td style="color:var(--accent-green)">+$394</td></tr>
+              <tr><td>May 20</td><td>⚾ TOR @ NYY</td><td>NYY ML</td><td><span class="status status-loss">✗</span></td><td style="color:var(--accent-red)">-$500</td></tr>
             </tbody>
           </table>
         </div>
@@ -1646,101 +1512,30 @@
     <div id="xfactor" class="tab-content">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🔮 X-Factor Intelligence Hub</div>
-          <div class="card-badge">Advanced Analytics</div>
+          <div class="card-title">🔮 X-Factor Intelligence</div>
+          <div class="card-badge">Advanced</div>
         </div>
-        
-        <div class="xfactor-grid">
-          <div class="xfactor-card">
-            <h3>🏥 Injury Report</h3>
-            <div class="injury-item">
-              <div class="injury-header">
-                <span class="injury-player">Cale Makar — COL</span>
-                <span class="injury-badge injury-gtd">GTD</span>
-              </div>
-              <div class="injury-detail">Upper body — Game-time decision WCF G1</div>
-            </div>
-            <div class="injury-item">
-              <div class="injury-header">
-                <span class="injury-player">Devin Vassell — SAS</span>
-                <span class="injury-badge injury-out">OUT</span>
-              </div>
-              <div class="injury-detail">Knee — Out remainder of playoffs</div>
-            </div>
-            <div class="injury-item">
-              <div class="injury-header">
-                <span class="injury-player">Kristaps Porzingis — BOS</span>
-                <span class="injury-badge injury-probable">PROB</span>
-              </div>
-              <div class="injury-detail">Calf — Expected to play ECF G1</div>
-            </div>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">Injuries, weather, line movements, and sharp money analysis.</p>
+        <div class="performance-grid">
+          <div class="perf-card">
+            <div class="perf-icon">🏥</div>
+            <div class="perf-record">3</div>
+            <div class="perf-status">Key Injuries</div>
           </div>
-
-          <div class="xfactor-card">
-            <h3>📈 Line Movements</h3>
-            <div class="line-item">
-              <span class="line-game">🏒 COL -140</span>
-              <div class="line-movement">
-                <span class="line-arrow up">↑</span>
-                <span style="color: var(--text-muted); font-size: 12px;">from -125</span>
-                <span class="sharp-badge">💰 SHARP</span>
-              </div>
-            </div>
-            <div class="line-item">
-              <span class="line-game">🏀 BOS -4.5</span>
-              <div class="line-movement">
-                <span class="line-arrow up">↑</span>
-                <span style="color: var(--text-muted); font-size: 12px;">from -3.5</span>
-                <span class="sharp-badge">💰 SHARP</span>
-              </div>
-            </div>
-            <div class="line-item">
-              <span class="line-game">⚾ ATL -155</span>
-              <div class="line-movement">
-                <span class="line-arrow down">↓</span>
-                <span style="color: var(--text-muted); font-size: 12px;">from -165</span>
-              </div>
-            </div>
+          <div class="perf-card">
+            <div class="perf-icon">📈</div>
+            <div class="perf-record">5</div>
+            <div class="perf-status">Line Moves</div>
           </div>
-
-          <div class="xfactor-card">
-            <h3>📰 Breaking News</h3>
-            <div class="news-item">
-              <div class="news-time">12:00 AM ET</div>
-              <div class="news-headline" style="color: var(--accent-green);">🏀 OKC defeats SAS — Thunder lead WCF 2-0</div>
-            </div>
-            <div class="news-item">
-              <div class="news-time">11:30 PM ET</div>
-              <div class="news-headline" style="color: var(--accent-green);">⚾ Ohtani dominates — 1 HR, 4 SO in shutout</div>
-            </div>
-            <div class="news-item">
-              <div class="news-time">6:45 PM ET</div>
-              <div class="news-headline" style="color: var(--accent-green);">⚽ Aston Villa wins UEL Final 1-0!</div>
-            </div>
-            <div class="news-item">
-              <div class="news-time">5:00 PM ET</div>
-              <div class="news-headline">🏒 Makar skates — GTD for WCF G1</div>
-            </div>
+          <div class="perf-card">
+            <div class="perf-icon">💰</div>
+            <div class="perf-record">2</div>
+            <div class="perf-status">Sharp Plays</div>
           </div>
-
-          <div class="xfactor-card">
-            <h3>📊 Situational Factors</h3>
-            <div style="margin-bottom: 14px;">
-              <strong style="color: var(--gold); font-size: 13px;">🏒 Colorado Avalanche</strong>
-              <ul style="margin: 8px 0 0 20px; font-size: 12px; color: var(--text-secondary); line-height: 1.6;">
-                <li>8-1 at home this playoffs</li>
-                <li>MacKinnon on 10-game point streak</li>
-                <li>Georgiev .938 SV% at home</li>
-              </ul>
-            </div>
-            <div>
-              <strong style="color: var(--gold); font-size: 13px;">🏀 Boston Celtics</strong>
-              <ul style="margin: 8px 0 0 20px; font-size: 12px; color: var(--text-secondary); line-height: 1.6;">
-                <li>10-2 ATS as road favorites</li>
-                <li>Tatum averaging 29 PPG in playoffs</li>
-                <li>Best defensive rating in league</li>
-              </ul>
-            </div>
+          <div class="perf-card">
+            <div class="perf-icon">🌤️</div>
+            <div class="perf-record">OK</div>
+            <div class="perf-status">Weather</div>
           </div>
         </div>
       </div>
@@ -1753,32 +1548,48 @@
           <div class="card-title">⚠️ Active Alerts</div>
           <div class="card-badge">4 Alerts</div>
         </div>
-        <div class="alert alert-win">
-          <div class="alert-icon">✓</div>
-          <div class="alert-content">
-            <div class="alert-title">5-0 SWEEP YESTERDAY!</div>
-            <div class="alert-text">Outstanding performance — Villa, OKC, LAD, BOS all cash. NYY lone loss.</div>
-          </div>
+        <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 16px; border-radius: 8px; margin-bottom: 12px;">
+          <strong style="color: var(--accent-green);">✅ 5-0 SWEEP YESTERDAY!</strong>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Outstanding performance. Villa, OKC, LAD, BOS all cash.</p>
         </div>
-        <div class="alert alert-win">
-          <div class="alert-icon">🏆</div>
-          <div class="alert-content">
-            <div class="alert-title">VILLA WINS UEL FINAL!</div>
-            <div class="alert-text">Aston Villa defeats Freiburg 1-0 — First European trophy in 42 years!</div>
-          </div>
+        <div style="background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--accent-amber); padding: 16px; border-radius: 8px; margin-bottom: 12px;">
+          <strong style="color: var(--accent-amber);">⚠️ MAKAR GTD</strong>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Cale Makar (upper body) game-time decision for WCF G1.</p>
         </div>
-        <div class="alert alert-warning">
-          <div class="alert-icon">⚠️</div>
-          <div class="alert-content">
-            <div class="alert-title">MAKAR INJURY UPDATE</div>
-            <div class="alert-text">Cale Makar (upper body) is game-time decision for WCF G1 — Monitor closely</div>
-          </div>
+        <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--accent-red); padding: 16px; border-radius: 8px;">
+          <strong style="color: var(--accent-red);">🔴 NHL WCF G1 TONIGHT</strong>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">VGK @ COL — 8:00 PM ET</p>
         </div>
-        <div class="alert alert-live">
-          <div class="alert-icon">🔴</div>
-          <div class="alert-content">
-            <div class="alert-title">NHL WCF G1 TONIGHT</div>
-            <div class="alert-text">Vegas Golden Knights @ Colorado Avalanche — 8:00 PM ET</div>
+      </div>
+    </div>
+
+    <!-- BANKROLL TAB -->
+    <div id="bankroll" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">💰 Bankroll Management</div>
+          <div class="card-badge">Kelly Calculator</div>
+        </div>
+        <div class="performance-grid">
+          <div class="perf-card">
+            <div class="perf-icon">💵</div>
+            <div class="perf-record">$12.8K</div>
+            <div class="perf-status">Current</div>
+          </div>
+          <div class="perf-card">
+            <div class="perf-icon">📈</div>
+            <div class="perf-record">+78%</div>
+            <div class="perf-status">ROI</div>
+          </div>
+          <div class="perf-card">
+            <div class="perf-icon">🎯</div>
+            <div class="perf-record">$500</div>
+            <div class="perf-status">Kelly Stake</div>
+          </div>
+          <div class="perf-card">
+            <div class="perf-icon">🏦</div>
+            <div class="perf-record">$7.2K</div>
+            <div class="perf-status">Starting</div>
           </div>
         </div>
       </div>
@@ -1788,32 +1599,30 @@
     <div id="settings" class="tab-content">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">⚙️ System Settings</div>
-          <div class="card-badge">v6.0</div>
+          <div class="card-title">⚙️ Settings</div>
+          <div class="card-badge">v6.1</div>
         </div>
-        <div class="settings-grid">
-          <div class="setting-item">
-            <div class="setting-label">Bankroll</div>
-            <input type="number" class="setting-input" value="12800">
+        <div class="performance-grid" style="grid-template-columns: repeat(2, 1fr);">
+          <div class="perf-card" style="text-align: left; padding: 20px;">
+            <label style="font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px;">Bankroll</label>
+            <input type="number" value="12800" style="width: 100%; margin-top: 8px; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-primary); font-size: 14px;">
           </div>
-          <div class="setting-item">
-            <div class="setting-label">Default Stake ($)</div>
-            <input type="number" class="setting-input" value="500">
+          <div class="perf-card" style="text-align: left; padding: 20px;">
+            <label style="font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px;">Default Stake</label>
+            <input type="number" value="500" style="width: 100%; margin-top: 8px; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-primary); font-size: 14px;">
           </div>
-          <div class="setting-item">
-            <div class="setting-label">Odds Format</div>
-            <select class="setting-input">
-              <option>American (+150 / -150)</option>
+          <div class="perf-card" style="text-align: left; padding: 20px;">
+            <label style="font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px;">Odds Format</label>
+            <select style="width: 100%; margin-top: 8px; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-primary); font-size: 14px;">
+              <option>American (+150)</option>
               <option>Decimal (2.50)</option>
-              <option>Fractional (3/2)</option>
             </select>
           </div>
-          <div class="setting-item">
-            <div class="setting-label">Timezone</div>
-            <select class="setting-input">
+          <div class="perf-card" style="text-align: left; padding: 20px;">
+            <label style="font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px;">Timezone</label>
+            <select style="width: 100%; margin-top: 8px; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-primary); font-size: 14px;">
               <option>Eastern (ET)</option>
               <option>Central (CT)</option>
-              <option>Mountain (MT)</option>
               <option>Pacific (PT)</option>
             </select>
           </div>
@@ -1825,33 +1634,80 @@
 
   <!-- FOOTER -->
   <footer class="footer">
+    <!-- QUICK NAV TOGGLES -->
+    <div class="footer-nav">
+      <button class="footer-nav-btn" onclick="showTab('home')">🏠 Home</button>
+      <button class="footer-nav-btn" onclick="showTab('picks')">🎯 Picks</button>
+      <button class="footer-nav-btn" onclick="showTab('parlay')">🎰 Parlay</button>
+      <button class="footer-nav-btn" onclick="showTab('results')">📊 Results</button>
+      <button class="footer-nav-btn" onclick="showTab('alerts')">⚠️ Alerts</button>
+      <button class="footer-nav-btn" onclick="showTab('bankroll')">💰 Bankroll</button>
+    </div>
     <div class="footer-brand">📡 SigMAX ELITE — Platinum Ultra-Premium</div>
     <div class="footer-text">✓ Verified: ESPN, NBA.com, NHL.com, MLB.com, UEFA</div>
-    <div class="footer-version">v6.0 | Last Updated: May 21, 2026 • 12:15 AM ET</div>
+    <div class="footer-version">v6.1 | May 21, 2026 • 1:00 AM ET</div>
   </footer>
 
   <script>
+    // === TRANSLATIONS ===
+    const translations = {
+      en: {
+        nav_home: '🏠 Home', nav_picks: '🎯 Top Picks', nav_props: '👤 Player Props',
+        nav_parlay: '🎰 Parlay Builder', nav_upcoming: '📅 Upcoming', nav_results: '📊 Results',
+        nav_xfactor: '🔮 X-Factor', nav_alerts: '⚠️ Alerts', nav_bankroll: '💰 Bankroll',
+        nav_settings: '⚙️ Settings', refresh: 'Refresh', perf_title: '🏆 Performance by Sport — Season 2026',
+        yesterday_title: '📡 Yesterday\'s Results — May 20, 2026', parlay_title: '🎰 SigMAX Parlay Builder',
+        th_matchup: 'Matchup', th_pick: 'Pick', th_odds: 'Odds', th_result: 'Result', th_status: 'Status'
+      },
+      fr: {
+        nav_home: '🏠 Accueil', nav_picks: '🎯 Top Choix', nav_props: '👤 Props Joueurs',
+        nav_parlay: '🎰 Constructeur Parlay', nav_upcoming: '📅 À Venir', nav_results: '📊 Résultats',
+        nav_xfactor: '🔮 X-Factor', nav_alerts: '⚠️ Alertes', nav_bankroll: '💰 Bankroll',
+        nav_settings: '⚙️ Paramètres', refresh: 'Actualiser', perf_title: '🏆 Performance par Sport — Saison 2026',
+        yesterday_title: '📡 Résultats d\'hier — 20 Mai 2026', parlay_title: '🎰 Constructeur de Parlay SigMAX',
+        th_matchup: 'Match', th_pick: 'Choix', th_odds: 'Cotes', th_result: 'Résultat', th_status: 'Statut'
+      },
+      es: {
+        nav_home: '🏠 Inicio', nav_picks: '🎯 Mejores Picks', nav_props: '👤 Props Jugadores',
+        nav_parlay: '🎰 Constructor Parlay', nav_upcoming: '📅 Próximos', nav_results: '📊 Resultados',
+        nav_xfactor: '🔮 X-Factor', nav_alerts: '⚠️ Alertas', nav_bankroll: '💰 Bankroll',
+        nav_settings: '⚙️ Ajustes', refresh: 'Actualizar', perf_title: '🏆 Rendimiento por Deporte — Temporada 2026',
+        yesterday_title: '📡 Resultados de Ayer — 20 Mayo 2026', parlay_title: '🎰 Constructor de Parlay SigMAX',
+        th_matchup: 'Partido', th_pick: 'Elección', th_odds: 'Cuotas', th_result: 'Resultado', th_status: 'Estado'
+      }
+    };
+
+    let currentLang = localStorage.getItem('sigmax-lang') || 'en';
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('sigmax-lang', lang);
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+    }
+
     // Tab Navigation
     function showTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
-      event.target.classList.add('active');
+      const clickedTab = event?.target;
+      if (clickedTab?.classList?.contains('nav-tab')) clickedTab.classList.add('active');
     }
 
     // Device Mode
     function changeDevice() {
       const mode = document.getElementById('deviceSelect').value;
-      document.body.classList.remove('phone-mode', 'tablet-mode', 'desktop-mode');
+      document.body.classList.remove('phone-mode', 'tablet-mode');
       if (mode === 'phone') document.body.classList.add('phone-mode');
       localStorage.setItem('sigmax-device', mode);
-    }
-
-    // Load saved device
-    const saved = localStorage.getItem('sigmax-device');
-    if (saved) {
-      document.getElementById('deviceSelect').value = saved;
-      changeDevice();
     }
 
     // Refresh
@@ -1861,35 +1717,99 @@
       setTimeout(() => {
         btn.classList.remove('spinning');
         alert('✓ Data refreshed — ' + new Date().toLocaleTimeString());
-      }, 1500);
+      }, 1200);
     }
 
-    // Parlay Calculator
+    // === PARLAY CALCULATOR ===
     function americanToDecimal(odds) {
-      return odds > 0 ? (odds / 100) + 1 : (100 / Math.abs(odds)) + 1;
+      const o = parseInt(odds);
+      return o > 0 ? (o / 100) + 1 : (100 / Math.abs(o)) + 1;
     }
 
     function decimalToAmerican(dec) {
       return dec >= 2 ? '+' + Math.round((dec - 1) * 100) : Math.round(-100 / (dec - 1));
     }
 
-    function calculateParlay() {
-      const checks = document.querySelectorAll('.parlay-pick input:checked');
-      let combined = 1;
-      checks.forEach(c => {
-        const odds = parseInt(c.dataset.odds);
-        if (odds) combined *= americanToDecimal(odds);
-      });
+    function updateParlayOdds() {
+      let totalLegs = 0;
+      let combinedDecimal = 1;
+      let legsHtml = '';
+
+      // Check team bets
+      for (let i = 1; i <= 5; i++) {
+        const game = document.getElementById(`team-game-${i}`).value;
+        const betSelect = document.getElementById(`team-bet-${i}`);
+        const bet = betSelect.value;
+        const oddsEl = document.getElementById(`team-odds-${i}`);
+        
+        if (game && bet) {
+          const odds = betSelect.selectedOptions[0].dataset.odds || '-110';
+          oddsEl.textContent = odds;
+          combinedDecimal *= americanToDecimal(odds);
+          totalLegs++;
+          const gameText = document.getElementById(`team-game-${i}`).selectedOptions[0].text;
+          const betText = betSelect.selectedOptions[0].text;
+          legsHtml += `<span class="parlay-leg-chip">${gameText.split(' ')[0]} ${betText}</span>`;
+        } else {
+          oddsEl.textContent = '--';
+        }
+      }
+
+      // Check player props
+      for (let i = 1; i <= 5; i++) {
+        const player = document.getElementById(`player-name-${i}`).value;
+        const propSelect = document.getElementById(`player-prop-${i}`);
+        const prop = propSelect.value;
+        const oddsEl = document.getElementById(`player-odds-${i}`);
+        
+        if (player && prop) {
+          const odds = propSelect.selectedOptions[0].dataset.odds || '-110';
+          oddsEl.textContent = odds;
+          combinedDecimal *= americanToDecimal(odds);
+          totalLegs++;
+          const playerText = document.getElementById(`player-name-${i}`).selectedOptions[0].text.split(' ')[1];
+          const propText = propSelect.selectedOptions[0].text;
+          legsHtml += `<span class="parlay-leg-chip">${playerText} ${propText}</span>`;
+        } else {
+          oddsEl.textContent = '--';
+        }
+      }
+
+      // Update summary
+      document.getElementById('totalLegs').textContent = totalLegs;
+      document.getElementById('combinedOdds').textContent = totalLegs > 0 ? decimalToAmerican(combinedDecimal) : '+100';
       
-      document.getElementById('legCount').textContent = checks.length;
-      document.getElementById('parlayOdds').textContent = checks.length > 0 ? decimalToAmerican(combined) : '+100';
-      
-      const stake = parseFloat(document.getElementById('stakeInput').value) || 100;
-      const payout = checks.length > 0 ? stake * combined : stake * 2;
-      document.getElementById('payoutDisplay').textContent = '💵 Payout: $' + payout.toFixed(2);
+      const stake = 100;
+      const payout = totalLegs > 0 ? (stake * combinedDecimal).toFixed(0) : 200;
+      document.getElementById('potentialPayout').textContent = '$' + payout;
+
+      // Legs display
+      document.getElementById('parlayLegsDisplay').innerHTML = legsHtml || '<span style="color: var(--text-muted); font-size: 12px;">Select picks above to build your parlay...</span>';
+
+      // Risk indicator
+      const riskEl = document.getElementById('riskIndicator');
+      if (totalLegs === 0) {
+        riskEl.className = 'risk-indicator risk-low';
+        riskEl.textContent = '🟢 LOW RISK — Select picks to calculate';
+      } else if (totalLegs <= 2) {
+        riskEl.className = 'risk-indicator risk-low';
+        riskEl.textContent = '🟢 LOW RISK — ' + totalLegs + ' leg parlay';
+      } else if (totalLegs <= 4) {
+        riskEl.className = 'risk-indicator risk-medium';
+        riskEl.textContent = '🟡 MEDIUM RISK — ' + totalLegs + ' leg parlay';
+      } else {
+        riskEl.className = 'risk-indicator risk-high';
+        riskEl.textContent = '🔴 HIGH RISK — ' + totalLegs + ' leg parlay (High reward!)';
+      }
     }
 
-    calculateParlay();
+    // Initialize
+    const savedDevice = localStorage.getItem('sigmax-device');
+    if (savedDevice) {
+      document.getElementById('deviceSelect').value = savedDevice;
+      changeDevice();
+    }
+    setLanguage(currentLang);
   </script>
 </body>
 </html>
