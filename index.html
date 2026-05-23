@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Auto-refresh handled by JavaScript to preserve tab state -->
     <title>SigMax Elite — Watch Passionately. Bet Wisely!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +54,7 @@
             .stats-bar { grid-template-columns: repeat(4, 1fr); }
             .stat-value { font-size: 1.4rem; }
             .tab-nav { flex-wrap: wrap; justify-content: center; }
-            .tab-btn { padding: 10px 16px; font-size: 0.8rem; }
+            .tab-btn { padding: 12px 18px; font-size: 1.2rem; }
             .card { padding: 20px; }
             .card-title { font-size: 1rem; }
             .data-table { font-size: 0.85rem; }
@@ -97,7 +98,7 @@
             letter-spacing: -0.5px;
         }
         .tagline {
-            font-size: 0.72rem;
+            font-size: 1.08rem;
             color: var(--text-secondary);
             margin-top: 4px;
             font-style: italic;
@@ -157,14 +158,14 @@
             overflow-x: auto;
             padding-bottom: 8px;
             margin-bottom: 16px;
-            justify-content: flex-start;
+            justify-content: center;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
         .tab-nav::-webkit-scrollbar { display: none; }
         .tab-btn {
             flex-shrink: 0;
-            padding: 10px 14px;
+            padding: 12px 18px;
             background: var(--bg-card);
             border: 0.5px solid var(--border);
             border-radius: 8px;
@@ -191,6 +192,19 @@
             padding: 16px;
             margin-bottom: 12px;
         }
+        /* TAB ICONS — 50% BIGGER — 🔒 LOCKED */
+        .tab-btn .tab-icon,
+        .tab-btn::first-letter {
+            font-size: 1.2em;
+        }
+        .tab-btn {
+            font-size: 0.85rem;
+        }
+        .tab-btn span.icon {
+            font-size: 1.3rem;
+            margin-right: 4px;
+        }
+        
         .card-title {
             font-size: 0.85rem;
             font-weight: 600;
@@ -420,6 +434,36 @@
             font-weight: 600;
             margin-bottom: 4px;
         }
+    
+        /* ==================== DEVICE MODE DROPDOWN — 🔒 LOCKED ==================== */
+        .device-select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            color: #00ff88;
+            border: 1px solid #00ff88;
+            font-size: 14px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        .device-select:hover {
+            background: #00ff88;
+            color: #0a0a0a;
+            box-shadow: 0 0 15px rgba(0,255,136,0.5);
+        }
+        
+        /* Device mode overrides — force specific viewport behavior */
+        body.device-desktop .app-container { max-width: 1200px !important; }
+        body.device-laptop .app-container { max-width: 1024px !important; }
+        body.device-tablet .app-container { max-width: 768px !important; }
+        body.device-phone .app-container { max-width: 480px !important; }
+        
+        body.device-desktop .nav-tabs { flex-wrap: nowrap !important; }
+        body.device-phone .nav-tabs { flex-wrap: wrap !important; justify-content: center !important; }
+        body.device-phone .tab-btn { font-size: 16px !important; padding: 10px 12px !important; }
+        body.device-tablet .tab-btn { font-size: 18px !important; }
+        
     </style>
 </head>
 <body>
@@ -429,8 +473,16 @@
             <div class="header-left">
                 <div class="logo">📡 SigMax Elite</div>
                 <div class="tagline">Watch Passionately. Bet Wisely!</div>
-                <div class="timestamp" id="timestamp">📅 May 22, 2026 | 10:40 PM ET</div>
+                <div class="timestamp" id="timestamp">📅 May 23, 2026 | 5:00 AM ET</div>
             </div>
+            <!-- DEVICE MODE DROPDOWN — 🔒 LOCKED -->
+            <select class="device-select" id="deviceSelect" onchange="setDeviceMode(this.value)" aria-label="Device Mode">
+                <option value="auto" selected>🔄 Auto</option>
+                <option value="desktop">🖥️ Desktop</option>
+                <option value="laptop">💻 Laptop</option>
+                <option value="tablet">📱 Tablet</option>
+                <option value="phone">📲 Phone</option>
+            </select>
             <select class="lang-select" id="langSelect" onchange="setLanguage(this.value)" aria-label="Language">
                 <option value="en" selected>🇺🇸 EN</option>
                 <option value="fr">🇫🇷 FR</option>
@@ -1085,7 +1137,6 @@
                 </div>
             </div>
         </div>
-
 <!-- ==================== ELITE TAB ==================== -->
         <div class="tab-content" id="elite">
             <div class="card">
@@ -1584,6 +1635,29 @@
             updateParlayDisplay();
             updateTimestamp();
         });
+    
+    // ==================== DEVICE MODE FUNCTION — 🔒 LOCKED ====================
+    function setDeviceMode(mode) {
+        // Remove all device mode classes
+        document.body.classList.remove('device-auto', 'device-desktop', 'device-laptop', 'device-tablet', 'device-phone');
+        // Add selected mode class (unless auto)
+        if (mode !== 'auto') {
+            document.body.classList.add('device-' + mode);
+        }
+        // Save to localStorage for persistence
+        localStorage.setItem('sigmax_deviceMode', mode);
+    }
+    
+    // Load saved device mode on page load
+    (function loadDeviceMode() {
+        const saved = localStorage.getItem('sigmax_deviceMode') || 'auto';
+        const deviceSelect = document.getElementById('deviceSelect');
+        if (deviceSelect) {
+            deviceSelect.value = saved;
+            setDeviceMode(saved);
+        }
+    })();
+
     </script>
 </body>
 </html>
