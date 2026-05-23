@@ -1824,12 +1824,24 @@
         
         function setLanguage(lang) {
             currentLang = lang;
+            // Save to localStorage
+            localStorage.setItem('sigmax_lang', lang);
+            // Update dropdown to show current selection
+            const langSelect = document.getElementById('langSelect');
+            if (langSelect) langSelect.value = lang;
+            // Apply translations to all elements with data-i18n
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
                     el.textContent = translations[lang][key];
                 }
             });
+        }
+        
+        // Initialize language on page load
+        function initLanguage() {
+            const savedLang = localStorage.getItem('sigmax_lang') || 'en';
+            setLanguage(savedLang);
         }
         
         // ==================== TAB NAVIGATION ====================
@@ -2248,6 +2260,19 @@
         if (deviceSelect) {
             deviceSelect.value = saved;
             setDeviceMode(saved);
+        }
+    })();
+    
+    // Load saved language on page load
+    (function loadLanguage() {
+        const savedLang = localStorage.getItem('sigmax_lang') || 'en';
+        const langSelect = document.getElementById('langSelect');
+        if (langSelect) {
+            langSelect.value = savedLang;
+        }
+        // Apply translations
+        if (typeof setLanguage === 'function') {
+            setLanguage(savedLang);
         }
     })();
 
