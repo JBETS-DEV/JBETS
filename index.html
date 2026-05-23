@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="5">
     <title>SigMax Elite — Watch Passionately. Bet Wisely!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1466,7 +1465,6 @@
             teamPicks.push({ sport, game: game.teams, betType, odds });
             updateParlayDisplay();
             
-            // Reset row
             document.getElementById('teamSport' + row).value = '';
             document.getElementById('teamSelect' + row).innerHTML = '<option value="">-- Game --</option>';
             document.getElementById('teamBet' + row).innerHTML = '<option value="">-- Type --</option>';
@@ -1491,7 +1489,6 @@
             propPicks.push({ sport, player: prop.player, prop: prop.prop, odds });
             updateParlayDisplay();
             
-            // Reset row
             document.getElementById('propSport' + row).value = '';
             document.getElementById('propPlayer' + row).innerHTML = '<option value="">-- Player --</option>';
             document.getElementById('propOdds' + row).textContent = '--';
@@ -1521,15 +1518,12 @@
                     : `${pick.sport} • ${pick.player} • ${pick.prop}`;
                 
                 div.innerHTML = `
-                    <div class="pick-info">
-                        <div class="pick-matchup">${i+1}. ${info}</div>
-                    </div>
+                    <div class="pick-info"><div class="pick-matchup">${i+1}. ${info}</div></div>
                     <div class="pick-odds" style="background:rgba(212,175,55,0.15);color:var(--gold);">${pick.odds}</div>
                     <span class="pick-status" style="background:var(--red);color:#fff;cursor:pointer;" onclick="removePick(${i}, '${pick.type}')">✕</span>
                 `;
                 container.appendChild(div);
                 
-                // Calculate decimal odds
                 const oddsMatch = pick.odds.match(/[+-]?\d+/);
                 if (oddsMatch) {
                     const american = parseInt(oddsMatch[0]);
@@ -1545,7 +1539,6 @@
             document.getElementById('parlayTotalOdds').textContent = americanTotal;
             document.getElementById('parlayPayout').textContent = `$100 bet pays: $${(totalDecimal * 100).toFixed(2)}`;
             
-            // Update counters
             document.getElementById('teamCount').textContent = teamPicks.length + '/' + MAX_TEAMS;
             document.getElementById('propCount').textContent = propPicks.length + '/' + MAX_PROPS;
         }
@@ -1567,9 +1560,26 @@
             updateParlayDisplay();
         }
         
-        // Initialize
+        // ==================== SMART AUTO-REFRESH (preserves tab state) ====================
+        // Updates timestamp every 5 seconds WITHOUT reloading the page
+        function updateTimestamp() {
+            const now = new Date();
+            const options = { 
+                month: 'short', day: 'numeric', year: 'numeric',
+                hour: 'numeric', minute: '2-digit', hour12: true, timeZoneName: 'short'
+            };
+            const formatted = now.toLocaleString('en-US', options).replace(',', ' |');
+            const ts = document.getElementById('timestamp');
+            if (ts) ts.textContent = '📅 ' + formatted;
+        }
+        
+        // Start auto-refresh timer (every 5 seconds)
+        setInterval(updateTimestamp, 5000);
+        
+        // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
             updateParlayDisplay();
+            updateTimestamp();
         });
     </script>
 </body>
