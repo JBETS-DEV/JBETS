@@ -170,7 +170,44 @@
         .status-pending { background: var(--blue); color: #fff; }
         
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-
+/* Language Dropdown SELECT Styles (ADAPTIVE) */
+        .lang-selector {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .lang-dropdown {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: var(--bg-card);
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            color: var(--gold);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 10px 35px 10px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37'%3E%3Cpath d='M6 9L1.5 4.5h9z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            min-width: 150px;
+        }
+        .lang-dropdown:hover { 
+            background-color: rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+        .lang-dropdown:focus { 
+            outline: none;
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
+        .lang-dropdown option {
+            background: #080b12;
+            color: var(--text-primary);
+            padding: 10px;
+        }
+        
         /* Parlay Builder Styles */
         .parlay-section { margin-top: 12px; }
         .parlay-slot {
@@ -199,7 +236,7 @@
         .parlay-total-odds { font-size: 1.5rem; font-weight: 700; color: var(--gold); }
         .parlay-payout { font-size: 0.8rem; color: var(--green); margin-top: 4px; }
         
-        /* Dropdown Styles for Parlay Builder */
+        /* ADAPTIVE DROPDOWN Styles for Parlay Builder (SELECT elements) */
         .parlay-dropdown-row {
             display: grid;
             grid-template-columns: 100px 1fr 80px 60px;
@@ -207,17 +244,42 @@
             margin-bottom: 8px;
             align-items: center;
         }
+        @media (max-width: 400px) {
+            .parlay-dropdown-row {
+                grid-template-columns: 80px 1fr 70px 50px;
+                gap: 4px;
+            }
+        }
         .parlay-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
             background: rgba(0,0,0,0.5);
             border: 0.5px solid var(--border);
             border-radius: 6px;
             color: var(--text-primary);
-            padding: 8px;
+            padding: 10px 25px 10px 8px;
             font-size: 0.7rem;
             cursor: pointer;
+            width: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%2394a3b8'%3E%3Cpath d='M5 7.5L1 3.5h8z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
         }
-        .parlay-select:focus { border-color: var(--gold); outline: none; }
-        .parlay-select option { background: #080b12; color: var(--text-primary); }
+        .parlay-select:focus { 
+            border-color: var(--gold); 
+            outline: none;
+            box-shadow: 0 0 8px var(--gold-glow);
+        }
+        .parlay-select option { 
+            background: #080b12; 
+            color: var(--text-primary);
+            padding: 8px;
+        }
+        .parlay-select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
         
         .btn {
             display: block;
@@ -236,7 +298,7 @@
         .btn-secondary { background: var(--bg-card); color: var(--gold); border: 0.5px solid var(--gold); }
         .btn-danger { background: var(--red); color: #fff; }
         
-        /* Sport Filters */
+        /* Sport Filters (ADAPTIVE for small screens) */
         .filter-row { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
         .filter-btn {
             padding: 6px 10px;
@@ -322,18 +384,20 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Header with Language Dropdown -->
+        <!-- Header with Language DROPDOWN (SELECT element) -->
         <header class="header">
             <div class="logo">⚡ SigMAX ELITE</div>
             <div class="tagline">Maximum Signal. Maximum Edge.</div>
-            <div class="timestamp" id="timestamp">📅 May 22, 2026 | 9:15 PM ET</div>
+            <div class="timestamp" id="timestamp">📅 May 22, 2026 | 9:30 PM ET</div>
             
-            <!-- LANGUAGE SELECTOR (EN/FR/ES/PT) -->
+            <!-- LANGUAGE DROPDOWN (SELECT FORMAT - ADAPTIVE) -->
             <div class="lang-selector">
-                <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">🇺🇸 EN</button>
-                <button class="lang-btn" data-lang="fr" onclick="setLanguage('fr')">🇫🇷 FR</button>
-                <button class="lang-btn" data-lang="es" onclick="setLanguage('es')">🇪🇸 ES</button>
-                <button class="lang-btn" data-lang="pt" onclick="setLanguage('pt')">🇧🇷 PT</button>
+                <select class="lang-dropdown" id="langSelect" onchange="setLanguage(this.value)">
+                    <option value="en" selected>🇺🇸 English</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="pt">🇧🇷 Português</option>
+                </select>
             </div>
         </header>
         
@@ -424,7 +488,7 @@
                 </div>
             </div>
         </div>
-  <!-- ALERTS TAB -->
+<!-- ALERTS TAB -->
         <div class="tab-content" id="alerts">
             <div class="card">
                 <div class="card-title" data-i18n="activealerts">🚨 ACTIVE ALERTS</div>
@@ -1092,161 +1156,187 @@
             </div>
         </footer>
     </div>
-<!-- ==================== JAVASCRIPT ==================== -->
-    <script>
-        // ==================== DROPDOWN DATA (Adaptive based on 48HR window) ====================
-        const dropdownData = {
-            teams: {
-                nhl: [
-                    { name: 'Colorado Avalanche', odds: '+125', game: 'VGK @ COL WCF G2' },
-                    { name: 'Vegas Golden Knights', odds: '-145', game: 'VGK @ COL WCF G2' },
-                    { name: 'Montreal Canadiens', odds: '+160', game: 'MTL @ CAR ECF G2' },
-                    { name: 'Carolina Hurricanes', odds: '-185', game: 'MTL @ CAR ECF G2' }
-                ],
-                nba: [
-                    { name: 'Oklahoma City Thunder', odds: '-145', game: 'OKC @ SAS WCF G3' },
-                    { name: 'San Antonio Spurs', odds: '+125', game: 'OKC @ SAS WCF G3' },
-                    { name: 'Minnesota Timberwolves', odds: '-160', game: 'MIN @ IND ECF G3' },
-                    { name: 'Indiana Pacers', odds: '+140', game: 'MIN @ IND ECF G3' }
-                ],
-                mlb: [
-                    { name: 'NY Yankees', odds: '-135', game: 'NYY @ BOS' },
-                    { name: 'Boston Red Sox', odds: '+115', game: 'NYY @ BOS' },
-                    { name: 'LA Dodgers', odds: '-175', game: 'LAD @ SF' },
-                    { name: 'SF Giants', odds: '+155', game: 'LAD @ SF' }
-                ],
-                soccer: [
-                    { name: 'Columbus Crew', odds: '-125', game: 'CLB vs ATL' },
-                    { name: 'Atlanta United', odds: '+350', game: 'CLB vs ATL' },
-                    { name: 'LAFC', odds: '-110', game: 'LAFC vs SEA' },
-                    { name: 'Seattle Sounders', odds: '+290', game: 'LAFC vs SEA' },
-                    { name: 'Inter Miami', odds: '-150', game: 'MIA vs PHI' },
-                    { name: 'Philadelphia Union', odds: '+400', game: 'MIA vs PHI' }
-                ],
-                tennis: [
-                    { name: 'Jannik Sinner 2-0', odds: '-200', game: 'Sinner vs TBD RG R1' },
-                    { name: 'Iga Świątek 2-0', odds: '-250', game: 'Świątek vs TBD RG R1' },
-                    { name: 'Coco Gauff 2-0', odds: '-175', game: 'Gauff vs TBD RG R1' }
-                ]
-            },
-            players: {
-                nhl: [
-                    { name: 'Nathan MacKinnon', props: ['O/U 1.5 Points', 'O/U 0.5 Goals', 'O/U 2.5 SOG'] },
-                    { name: 'Cale Makar', props: ['O/U 1.5 Points', 'O/U 0.5 Goals', 'O/U 3.5 SOG'] },
-                    { name: 'Cole Caufield', props: ['O/U 0.5 Goals', 'O/U 2.5 SOG', 'Anytime Goal'] },
-                    { name: 'Jack Eichel', props: ['O/U 1.5 Points', 'O/U 0.5 Goals', 'O/U 2.5 SOG'] }
-                ],
-                nba: [
-                    { name: 'Shai Gilgeous-Alexander', props: ['O/U 29.5 Points', 'O/U 5.5 Assists', 'O/U 5.5 Rebounds'] },
-                    { name: 'Victor Wembanyama', props: ['O/U 23.5 Points', 'O/U 10.5 Rebounds', 'O/U 5.5 Blocks'] },
-                    { name: 'Chet Holmgren', props: ['O/U 17.5 Points', 'O/U 8.5 Rebounds', 'O/U 2.5 Blocks'] },
-                    { name: 'Anthony Edwards', props: ['O/U 27.5 Points', 'O/U 5.5 Rebounds', 'O/U 4.5 Assists'] }
-                ],
-                mlb: [
-                    { name: 'Aaron Judge', props: ['O/U 0.5 HR', 'O/U 1.5 Hits', 'O/U 1.5 RBI'] },
-                    { name: 'Shohei Ohtani', props: ['O/U 0.5 HR', 'O/U 1.5 Hits', 'O/U 8.5 K (P)'] },
-                    { name: 'Mookie Betts', props: ['O/U 1.5 Hits', 'O/U 0.5 HR', 'O/U 1.5 Runs'] }
-                ],
-                soccer: [
-                    { name: 'Cucho Hernández', props: ['Anytime Goal', 'O/U 2.5 SOT', 'O/U 0.5 Assists'] },
-                    { name: 'Lionel Messi', props: ['Anytime Goal', 'O/U 0.5 Assists', 'O/U 3.5 SOT'] },
-                    { name: 'Denis Bouanga', props: ['Anytime Goal', 'O/U 2.5 SOT', 'O/U 0.5 Assists'] }
-                ]
-            }
-        };
+<script>
+        // ========================================
+        // DATA ARRAYS - FROM DROPDOWN_LISTS SHEET
+        // ========================================
         
-        // ==================== LANGUAGE TRANSLATIONS ====================
+        // TEAMS in 48-hour window (verified picks)
+        const teamPickOptions = [
+            { value: "col_vgk", text: "🏒 COL vs VGK (WCF G2)", odds: -110 },
+            { value: "vgk_col", text: "🏒 VGK @ COL (WCF G2)", odds: +125 },
+            { value: "mtl_car", text: "🏒 MTL @ CAR (ECF G2)", odds: +155 },
+            { value: "car_mtl", text: "🏒 CAR vs MTL (ECF G2)", odds: -165 },
+            { value: "okc_sas", text: "🏀 OKC @ SAS (WCF G3)", odds: -130 },
+            { value: "sas_okc", text: "🏀 SAS vs OKC (WCF G3)", odds: +115 },
+            { value: "nyk_ind", text: "🏀 NYK @ IND (ECF G3)", odds: -145 },
+            { value: "ind_nyk", text: "🏀 IND vs NYK (ECF G3)", odds: +130 },
+            { value: "nyy_bal", text: "⚾ NYY @ BAL", odds: -125 },
+            { value: "bal_nyy", text: "⚾ BAL vs NYY", odds: +110 },
+            { value: "hou_tex", text: "⚾ HOU @ TEX", odds: +105 },
+            { value: "bos_tor", text: "⚾ BOS @ TOR", odds: -135 },
+            { value: "intermiami_lafc", text: "⚽ Inter Miami vs LAFC", odds: +120 },
+            { value: "atl_lag", text: "⚽ ATL vs LA Galaxy", odds: -110 },
+            { value: "rma_fcb", text: "⚽ Real Madrid vs Barcelona", odds: +140 }
+        ];
+        
+        // PLAYERS in 48-hour window (verified active)
+        const playerPropOptions = [
+            { value: "mackinnon_pts", text: "🏒 MacKinnon o1.5 pts", odds: -130 },
+            { value: "makar_pts", text: "🏒 Makar o0.5 pts", odds: -155 },
+            { value: "caufield_goals", text: "🏒 Caufield o0.5 goals", odds: +175 },
+            { value: "suzuki_pts", text: "🏒 Suzuki o1.5 pts", odds: +120 },
+            { value: "shai_pts", text: "🏀 SGA o28.5 pts", odds: -115 },
+            { value: "wemby_pts", text: "🏀 Wembanyama o25.5 pts", odds: -120 },
+            { value: "wemby_blks", text: "🏀 Wembanyama o3.5 blks", odds: +105 },
+            { value: "brunson_pts", text: "🏀 Brunson o26.5 pts", odds: -110 },
+            { value: "haliburton_ast", text: "🏀 Haliburton o9.5 ast", odds: -125 },
+            { value: "judge_hr", text: "⚾ Judge o0.5 HR", odds: +210 },
+            { value: "ohtani_k", text: "⚾ Ohtani o7.5 K", odds: -115 },
+            { value: "tucker_hits", text: "⚾ Tucker o1.5 hits", odds: +100 },
+            { value: "messi_goals", text: "⚽ Messi o0.5 goals", odds: +130 },
+            { value: "vini_goals", text: "⚽ Vinicius o0.5 goals", odds: +155 }
+        ];
+        
+        // ========================================
+        // TRANSLATIONS (EN/FR/ES/PT)
+        // ========================================
         const translations = {
             en: {
-                home: 'Home', alerts: 'Alerts', top5: 'Top 5', props: 'Props', games: 'Games',
-                xfactors: 'XFactors', journal: 'Journal', parlay: 'Parlay', elite: 'Elite', index: 'Index',
-                bankroll: '💰 BANKROLL', winrate: '🎯 WIN RATE', roi: '📈 ROI', record: '🏆 RECORD',
-                performance: '🏆 PERFORMANCE BY SPORT', todayaction: "📡 TODAY'S ACTION",
-                quicklinks: '🎯 QUICK LINKS', todaypicks: "Today's Picks", buildparlay: 'Build Parlay',
-                allgames: 'All Games', parlaybuilder: '🎰 PARLAY BUILDER — Build Your Own',
-                bettingjournal: '📋 BETTING JOURNAL', activealerts: '🚨 ACTIVE ALERTS',
-                top5picks: '🎯 TOP 5 ELITE PICKS', playerprops: '👤 TOP 10 PLAYER PROPS',
-                games48h: '📅 ALL GAMES — 48 HOUR WINDOW', upcomingevents: '📅 UPCOMING EVENTS',
-                sport: 'SPORT', rec: 'RECORD', status: 'STATUS'
+                bankroll: "💰 BANKROLL", winrate: "🎯 WIN RATE", roi: "📈 ROI", record: "🏆 RECORD",
+                home: "Home", alerts: "Alerts", top5: "Top 5", props: "Props", games: "Games",
+                xfactors: "XFactors", journal: "Journal", parlay: "Parlay", elite: "Elite", index: "Index",
+                performance: "🏆 PERFORMANCE BY SPORT", sport: "SPORT", rec: "RECORD", status: "STATUS",
+                todayaction: "📡 TODAY'S ACTION — May 22, 2026", quicklinks: "🎯 QUICK LINKS",
+                todaypicks: "Today's Picks", buildparlay: "Build Parlay", allgames: "All Games",
+                activealerts: "🚨 ACTIVE ALERTS", upcomingevents: "📅 UPCOMING EVENTS",
+                top5picks: "🎯 TOP 5 ELITE PICKS — May 22, 2026", playerprops: "👤 PLAYER PROPS",
+                todaysgames: "📅 TODAY'S GAMES", xfactorstitle: "🎲 X-FACTORS — EDGE ANALYSIS",
+                bettingjournal: "📋 BETTING JOURNAL", parlaybuilder: "🎰 PARLAY BUILDER (5+5=10 MAX)",
+                elitestats: "📊 ELITE STATISTICS", allsportindex: "📚 ALL SPORT INDEX",
+                teamgame: "🏟️ TEAM/GAME PICKS", playerprop: "👤 PLAYER PROPS",
+                selectgame: "Select Game", selectbet: "Bet Type", selectplayer: "Select Player",
+                selectprop: "Prop Type", addtoslip: "ADD TO SLIP", clearall: "CLEAR ALL",
+                calculateodds: "CALCULATE PARLAY", totalodds: "TOTAL ODDS", potentialpayout: "Potential Payout",
+                teampicks: "Team Picks", proppicks: "Prop Picks", total: "Total",
+                disclaimer: "⚠️ RESPONSIBLE GAMBLING DISCLAIMER",
+                disclaimertext: "Gambling involves risk. If you or someone you know has a gambling problem, call 1-800-522-4700 (US) or ConnexOntario 1-866-531-2600 (Ontario). iGaming Ontario. AGCO Regulated. PlaySmart.ca. Must be 19+ to gamble in Ontario. Bet responsibly."
             },
             fr: {
-                home: 'Accueil', alerts: 'Alertes', top5: 'Top 5', props: 'Props', games: 'Matchs',
-                xfactors: 'XFacteurs', journal: 'Journal', parlay: 'Parlay', elite: 'Élite', index: 'Index',
-                bankroll: '💰 SOLDE', winrate: '🎯 % VICTOIRE', roi: '📈 ROI', record: '🏆 BILAN',
-                performance: '🏆 PERFORMANCE PAR SPORT', todayaction: "📡 ACTION D'AUJOURD'HUI",
-                quicklinks: '🎯 LIENS RAPIDES', todaypicks: 'Choix du Jour', buildparlay: 'Créer Parlay',
-                allgames: 'Tous les Matchs', parlaybuilder: '🎰 CRÉATEUR DE PARLAY',
-                bettingjournal: '📋 JOURNAL DE PARIS', activealerts: '🚨 ALERTES ACTIVES',
-                top5picks: '🎯 TOP 5 CHOIX ÉLITE', playerprops: '👤 TOP 10 PROPS JOUEURS',
-                games48h: '📅 TOUS LES MATCHS — 48 HEURES', upcomingevents: '📅 ÉVÉNEMENTS À VENIR',
-                sport: 'SPORT', rec: 'BILAN', status: 'STATUT'
+                bankroll: "💰 CAPITAL", winrate: "🎯 TAUX RÉUS.", roi: "📈 ROI", record: "🏆 BILAN",
+                home: "Accueil", alerts: "Alertes", top5: "Top 5", props: "Props", games: "Matchs",
+                xfactors: "XFactors", journal: "Journal", parlay: "Parlay", elite: "Élite", index: "Index",
+                performance: "🏆 PERFORMANCE PAR SPORT", sport: "SPORT", rec: "BILAN", status: "STATUT",
+                todayaction: "📡 ACTION DU JOUR — 22 mai 2026", quicklinks: "🎯 LIENS RAPIDES",
+                todaypicks: "Sélections", buildparlay: "Créer Parlay", allgames: "Tous les matchs",
+                activealerts: "🚨 ALERTES ACTIVES", upcomingevents: "📅 ÉVÉNEMENTS À VENIR",
+                top5picks: "🎯 TOP 5 SÉLECTIONS ÉLITE — 22 mai 2026", playerprops: "👤 PROPS JOUEURS",
+                todaysgames: "📅 MATCHS DU JOUR", xfactorstitle: "🎲 X-FACTORS — ANALYSE",
+                bettingjournal: "📋 JOURNAL DE PARIS", parlaybuilder: "🎰 CRÉATEUR PARLAY (5+5=10 MAX)",
+                elitestats: "📊 STATISTIQUES ÉLITE", allsportindex: "📚 INDEX TOUS SPORTS",
+                teamgame: "🏟️ ÉQUIPES/MATCHS", playerprop: "👤 PROPS JOUEURS",
+                selectgame: "Sélect. match", selectbet: "Type pari", selectplayer: "Sélect. joueur",
+                selectprop: "Type prop", addtoslip: "AJOUTER", clearall: "EFFACER",
+                calculateodds: "CALCULER PARLAY", totalodds: "COTES TOTALES", potentialpayout: "Gain potentiel",
+                teampicks: "Équipes", proppicks: "Props", total: "Total",
+                disclaimer: "⚠️ AVERTISSEMENT JEU RESPONSABLE",
+                disclaimertext: "Les jeux de hasard comportent des risques. Si vous avez un problème de jeu, appelez ConnexOntario 1-866-531-2600. iGaming Ontario. Réglementé par AGCO. JouerRaisonnable.ca. 19+ pour jouer en Ontario."
             },
             es: {
-                home: 'Inicio', alerts: 'Alertas', top5: 'Top 5', props: 'Props', games: 'Partidos',
-                xfactors: 'XFactores', journal: 'Diario', parlay: 'Parlay', elite: 'Élite', index: 'Índice',
-                bankroll: '💰 FONDOS', winrate: '🎯 % GANADO', roi: '📈 ROI', record: '🏆 RÉCORD',
-                performance: '🏆 RENDIMIENTO POR DEPORTE', todayaction: '📡 ACCIÓN DE HOY',
-                quicklinks: '🎯 ENLACES RÁPIDOS', todaypicks: 'Picks de Hoy', buildparlay: 'Crear Parlay',
-                allgames: 'Todos los Partidos', parlaybuilder: '🎰 CONSTRUCTOR DE PARLAY',
-                bettingjournal: '📋 DIARIO DE APUESTAS', activealerts: '🚨 ALERTAS ACTIVAS',
-                top5picks: '🎯 TOP 5 PICKS ÉLITE', playerprops: '👤 TOP 10 PROPS JUGADORES',
-                games48h: '📅 TODOS LOS PARTIDOS — 48 HORAS', upcomingevents: '📅 PRÓXIMOS EVENTOS',
-                sport: 'DEPORTE', rec: 'RÉCORD', status: 'ESTADO'
+                bankroll: "💰 CAPITAL", winrate: "🎯 % ÉXITO", roi: "📈 ROI", record: "🏆 RÉCORD",
+                home: "Inicio", alerts: "Alertas", top5: "Top 5", props: "Props", games: "Juegos",
+                xfactors: "XFactors", journal: "Diario", parlay: "Parlay", elite: "Élite", index: "Índice",
+                performance: "🏆 RENDIMIENTO POR DEPORTE", sport: "DEPORTE", rec: "RÉCORD", status: "ESTADO",
+                todayaction: "📡 ACCIÓN DE HOY — 22 mayo 2026", quicklinks: "🎯 ENLACES RÁPIDOS",
+                todaypicks: "Selecciones", buildparlay: "Crear Parlay", allgames: "Todos los juegos",
+                activealerts: "🚨 ALERTAS ACTIVAS", upcomingevents: "📅 PRÓXIMOS EVENTOS",
+                top5picks: "🎯 TOP 5 SELECCIONES ÉLITE — 22 mayo 2026", playerprops: "👤 PROPS JUGADORES",
+                todaysgames: "📅 JUEGOS DE HOY", xfactorstitle: "🎲 X-FACTORS — ANÁLISIS",
+                bettingjournal: "📋 DIARIO DE APUESTAS", parlaybuilder: "🎰 CREADOR PARLAY (5+5=10 MÁX)",
+                elitestats: "📊 ESTADÍSTICAS ÉLITE", allsportindex: "📚 ÍNDICE DEPORTES",
+                teamgame: "🏟️ EQUIPOS/JUEGOS", playerprop: "👤 PROPS JUGADORES",
+                selectgame: "Selec. juego", selectbet: "Tipo apuesta", selectplayer: "Selec. jugador",
+                selectprop: "Tipo prop", addtoslip: "AGREGAR", clearall: "BORRAR",
+                calculateodds: "CALCULAR PARLAY", totalodds: "CUOTAS TOTALES", potentialpayout: "Pago potencial",
+                teampicks: "Equipos", proppicks: "Props", total: "Total",
+                disclaimer: "⚠️ AVISO DE JUEGO RESPONSABLE",
+                disclaimertext: "Las apuestas implican riesgo. Si usted o alguien tiene problema de juego, llame 1-800-522-4700. Juegue responsablemente."
             },
             pt: {
-                home: 'Início', alerts: 'Alertas', top5: 'Top 5', props: 'Props', games: 'Jogos',
-                xfactors: 'XFatores', journal: 'Diário', parlay: 'Parlay', elite: 'Elite', index: 'Índice',
-                bankroll: '💰 BANCA', winrate: '🎯 % VITÓRIA', roi: '📈 ROI', record: '🏆 REGISTRO',
-                performance: '🏆 DESEMPENHO POR ESPORTE', todayaction: '📡 AÇÃO DE HOJE',
-                quicklinks: '🎯 LINKS RÁPIDOS', todaypicks: 'Picks de Hoje', buildparlay: 'Criar Parlay',
-                allgames: 'Todos os Jogos', parlaybuilder: '🎰 CONSTRUTOR DE PARLAY',
-                bettingjournal: '📋 DIÁRIO DE APOSTAS', activealerts: '🚨 ALERTAS ATIVOS',
-                top5picks: '🎯 TOP 5 PICKS ELITE', playerprops: '👤 TOP 10 PROPS JOGADORES',
-                games48h: '📅 TODOS OS JOGOS — 48 HORAS', upcomingevents: '📅 PRÓXIMOS EVENTOS',
-                sport: 'ESPORTE', rec: 'REGISTRO', status: 'STATUS'
+                bankroll: "💰 BANCA", winrate: "🎯 % VITÓRIA", roi: "📈 ROI", record: "🏆 RECORDE",
+                home: "Início", alerts: "Alertas", top5: "Top 5", props: "Props", games: "Jogos",
+                xfactors: "XFactors", journal: "Diário", parlay: "Parlay", elite: "Elite", index: "Índice",
+                performance: "🏆 DESEMPENHO POR ESPORTE", sport: "ESPORTE", rec: "RECORDE", status: "STATUS",
+                todayaction: "📡 AÇÃO DE HOJE — 22 maio 2026", quicklinks: "🎯 LINKS RÁPIDOS",
+                todaypicks: "Seleções", buildparlay: "Criar Parlay", allgames: "Todos os jogos",
+                activealerts: "🚨 ALERTAS ATIVOS", upcomingevents: "📅 PRÓXIMOS EVENTOS",
+                top5picks: "🎯 TOP 5 SELEÇÕES ELITE — 22 maio 2026", playerprops: "👤 PROPS JOGADORES",
+                todaysgames: "📅 JOGOS DE HOJE", xfactorstitle: "🎲 X-FACTORS — ANÁLISE",
+                bettingjournal: "📋 DIÁRIO DE APOSTAS", parlaybuilder: "🎰 CRIADOR PARLAY (5+5=10 MÁX)",
+                elitestats: "📊 ESTATÍSTICAS ELITE", allsportindex: "📚 ÍNDICE ESPORTES",
+                teamgame: "🏟️ EQUIPES/JOGOS", playerprop: "👤 PROPS JOGADORES",
+                selectgame: "Selec. jogo", selectbet: "Tipo aposta", selectplayer: "Selec. jogador",
+                selectprop: "Tipo prop", addtoslip: "ADICIONAR", clearall: "LIMPAR",
+                calculateodds: "CALCULAR PARLAY", totalodds: "ODDS TOTAIS", potentialpayout: "Pagamento potencial",
+                teampicks: "Equipes", proppicks: "Props", total: "Total",
+                disclaimer: "⚠️ AVISO DE JOGO RESPONSÁVEL",
+                disclaimertext: "Apostas envolvem risco. Se você tem problema com jogo, ligue para ajuda. Jogue com responsabilidade."
             }
         };
         
         let currentLang = 'en';
         
-        // ==================== LANGUAGE SWITCHING ====================
+        // ========================================
+        // LANGUAGE SWITCHING (SELECT DROPDOWN)
+        // ========================================
         function setLanguage(lang) {
             currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.lang === lang);
-            });
+            // Update the dropdown to show selected language
+            const langSelect = document.getElementById('langSelect');
+            if (langSelect) {
+                langSelect.value = lang;
+            }
             
-            // Update all translatable elements
+            // Apply translations to all elements
             document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.dataset.i18n;
+                const key = el.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
                     el.textContent = translations[lang][key];
                 }
             });
         }
         
-        // ==================== TAB NAVIGATION ====================
+        // ========================================
+        // TAB NAVIGATION
+        // ========================================
         function showTab(tabId) {
-            // Hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
             });
-            
-            // Remove active from all tab buttons
+            // Remove active from all buttons
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            
-            // Show selected tab content
-            document.getElementById(tabId).classList.add('active');
-            
-            // Set active tab button
-            document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add('active');
+            // Show selected tab
+            const selectedTab = document.getElementById(tabId);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            // Activate button
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('active');
+                }
+            });
         }
         
         // Tab button click handlers
         document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => showTab(btn.dataset.tab));
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                showTab(tabId);
+            });
         });
 // ==================== PARLAY BUILDER STATE ====================
         let teamRows = 1;
