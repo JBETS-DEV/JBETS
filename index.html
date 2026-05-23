@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SigMAX ELITE v9.7 — Maximum Signal. Maximum Edge.</title>
+    <title>SigMAX ELITE v10.0 — Maximum Signal. Maximum Edge.</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,7 +26,14 @@
             --text-primary: #f0f0f0;
             --text-secondary: #94a3b8;
             --border: rgba(212, 175, 55, 0.2);
+            --app-width: 440px; /* Default: Phone */
         }
+        
+        /* DEVICE MODE CLASSES */
+        body.device-phone { --app-width: 440px; }
+        body.device-tablet { --app-width: 768px; }
+        body.device-desktop { --app-width: 1200px; }
+        
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
@@ -35,7 +42,33 @@
             padding: 8px;
             overflow-x: hidden;
         }
-        .app-container { max-width: 440px; margin: 0 auto; }
+        
+        /* ADAPTIVE CONTAINER - Changes based on device mode */
+        .app-container { 
+            max-width: var(--app-width); 
+            margin: 0 auto; 
+            transition: max-width 0.3s ease;
+        }
+        
+        /* DESKTOP LAYOUT ADJUSTMENTS */
+        body.device-desktop .stats-bar { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        body.device-desktop .stat-value { font-size: 1.4rem; }
+        body.device-desktop .stat-label { font-size: 0.8rem; }
+        body.device-desktop .tab-btn { padding: 12px 20px; font-size: 0.85rem; }
+        body.device-desktop .card { padding: 20px; }
+        body.device-desktop .card-title { font-size: 1rem; }
+        body.device-desktop .pick-matchup { font-size: 0.95rem; }
+        body.device-desktop .pick-details { font-size: 0.8rem; }
+        body.device-desktop .data-table { font-size: 0.85rem; }
+        body.device-desktop .parlay-dropdown-row { grid-template-columns: 120px 1fr 100px 80px; gap: 12px; }
+        body.device-desktop .parlay-select { padding: 12px 30px 12px 12px; font-size: 0.85rem; }
+        
+        /* TABLET LAYOUT ADJUSTMENTS */
+        body.device-tablet .stats-bar { gap: 10px; }
+        body.device-tablet .stat-value { font-size: 1.2rem; }
+        body.device-tablet .tab-btn { padding: 10px 16px; font-size: 0.8rem; }
+        body.device-tablet .card { padding: 16px; }
+        body.device-tablet .parlay-dropdown-row { grid-template-columns: 110px 1fr 90px 70px; gap: 10px; }
         
         /* Header */
         .header {
@@ -45,32 +78,43 @@
             margin-bottom: 8px;
         }
         .logo { font-size: 1.4rem; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
+        body.device-desktop .logo { font-size: 2rem; }
+        body.device-tablet .logo { font-size: 1.7rem; }
         .tagline { font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; }
         .timestamp { font-size: 0.65rem; color: var(--orange); margin-top: 4px; }
         
-        /* Language Selector */
-        .lang-selector {
+        /* TWO DROPDOWN SELECTORS ROW */
+        .control-row {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin: 8px 0;
+            gap: 12px;
+            margin: 12px 0;
+            flex-wrap: wrap;
         }
-        .lang-btn {
-            padding: 4px 10px;
+        .control-dropdown {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
             background: var(--bg-card);
-            border: 0.5px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-secondary);
-            font-size: 0.65rem;
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            color: var(--gold);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 10px 35px 10px 12px;
             cursor: pointer;
             transition: all 0.2s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37'%3E%3Cpath d='M6 9L1.5 4.5h9z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            min-width: 140px;
         }
-        .lang-btn.active {
-            background: var(--gold);
-            color: #080b12;
-            border-color: var(--gold);
+        .control-dropdown:hover { 
+            background-color: rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 10px var(--gold-glow);
         }
-        .lang-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+        .control-dropdown:focus { outline: none; box-shadow: 0 0 15px var(--gold-glow); }
+        .control-dropdown option { background: #080b12; color: var(--text-primary); }
         
         /* Stats Bar */
         .stats-bar {
@@ -154,9 +198,9 @@
             margin-bottom: 6px;
             border-left: 3px solid var(--gold);
         }
-        .pick-item.win { border-left-color: var(--green); box-shadow: 0 0 8px var(--green-glow); }
-        .pick-item.loss { border-left-color: var(--red); box-shadow: 0 0 8px var(--red-glow); }
-        .pick-item.live { border-left-color: var(--orange); box-shadow: 0 0 8px var(--orange-glow); animation: pulse 2s infinite; }
+        .pick-item.win { border-left-color: var(--green); }
+        .pick-item.loss { border-left-color: var(--red); }
+        .pick-item.live { border-left-color: var(--orange); animation: pulse 2s infinite; }
         .pick-info { flex: 1; }
         .pick-matchup { font-size: 0.75rem; font-weight: 600; }
         .pick-details { font-size: 0.65rem; color: var(--text-secondary); }
@@ -164,51 +208,13 @@
         .odds-plus { color: var(--green); }
         .odds-minus { color: var(--blue); }
         .pick-status { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
-        .status-live { background: var(--orange); color: #fff; animation: pulse 2s infinite; }
+        .status-live { background: var(--orange); color: #fff; }
         .status-win { background: var(--green); color: #fff; }
         .status-loss { background: var(--red); color: #fff; }
         .status-pending { background: var(--blue); color: #fff; }
         
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-/* Language Dropdown SELECT Styles (ADAPTIVE) */
-        .lang-selector {
-            display: flex;
-            justify-content: center;
-            margin: 10px 0;
-        }
-        .lang-dropdown {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background: var(--bg-card);
-            border: 1px solid var(--gold);
-            border-radius: 8px;
-            color: var(--gold);
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 10px 35px 10px 15px;
-            cursor: pointer;
-            transition: all 0.2s;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37'%3E%3Cpath d='M6 9L1.5 4.5h9z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            min-width: 150px;
-        }
-        .lang-dropdown:hover { 
-            background-color: rgba(212, 175, 55, 0.1);
-            box-shadow: 0 0 10px var(--gold-glow);
-        }
-        .lang-dropdown:focus { 
-            outline: none;
-            box-shadow: 0 0 15px var(--gold-glow);
-        }
-        .lang-dropdown option {
-            background: #080b12;
-            color: var(--text-primary);
-            padding: 10px;
-        }
-        
-        /* Parlay Builder Styles */
+        @keyframes pulse { 0%, 100% { opacity
+ /* Parlay Builder Styles */
         .parlay-section { margin-top: 12px; }
         .parlay-slot {
             display: flex;
@@ -221,9 +227,8 @@
         }
         .parlay-slot.filled { border-style: solid; border-color: var(--gold); }
         .slot-number { width: 24px; height: 24px; background: var(--gold); color: #080b12; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; margin-right: 10px; }
-        .slot-empty { color: var(--text-secondary); font-size: 0.7rem; flex: 1; }
         .slot-pick { flex: 1; font-size: 0.75rem; }
-        .slot-remove { color: var(--red); cursor: pointer; padding: 4px; }
+        .slot-remove { color: var(--red); cursor: pointer; padding: 4px; font-size: 0.8rem; }
         
         .parlay-odds-display {
             background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.05) 100%);
@@ -236,7 +241,7 @@
         .parlay-total-odds { font-size: 1.5rem; font-weight: 700; color: var(--gold); }
         .parlay-payout { font-size: 0.8rem; color: var(--green); margin-top: 4px; }
         
-        /* ADAPTIVE DROPDOWN Styles for Parlay Builder (SELECT elements) */
+        /* Parlay Builder ADAPTIVE SELECT Dropdowns */
         .parlay-dropdown-row {
             display: grid;
             grid-template-columns: 100px 1fr 80px 60px;
@@ -245,10 +250,7 @@
             align-items: center;
         }
         @media (max-width: 400px) {
-            .parlay-dropdown-row {
-                grid-template-columns: 80px 1fr 70px 50px;
-                gap: 4px;
-            }
+            .parlay-dropdown-row { grid-template-columns: 80px 1fr 70px 50px; gap: 4px; }
         }
         .parlay-select {
             appearance: none;
@@ -266,20 +268,9 @@
             background-repeat: no-repeat;
             background-position: right 8px center;
         }
-        .parlay-select:focus { 
-            border-color: var(--gold); 
-            outline: none;
-            box-shadow: 0 0 8px var(--gold-glow);
-        }
-        .parlay-select option { 
-            background: #080b12; 
-            color: var(--text-primary);
-            padding: 8px;
-        }
-        .parlay-select:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .parlay-select:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 8px var(--gold-glow); }
+        .parlay-select option { background: #080b12; color: var(--text-primary); }
+        .parlay-select:disabled { opacity: 0.5; cursor: not-allowed; }
         
         .btn {
             display: block;
@@ -297,8 +288,9 @@
         .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 4px 15px var(--gold-glow); }
         .btn-secondary { background: var(--bg-card); color: var(--gold); border: 0.5px solid var(--gold); }
         .btn-danger { background: var(--red); color: #fff; }
+        .btn-small { padding: 8px 12px; font-size: 0.7rem; width: auto; display: inline-block; margin: 4px; }
         
-        /* Sport Filters (ADAPTIVE for small screens) */
+        /* Filter Buttons */
         .filter-row { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
         .filter-btn {
             padding: 6px 10px;
@@ -329,7 +321,7 @@
         .alert-desc { font-size: 0.65rem; color: var(--text-secondary); margin-top: 2px; }
         
         /* Tables */
-        .data-table { width: 100%; font-size: 0.7rem; }
+        .data-table { width: 100%; font-size: 0.7rem; border-collapse: collapse; }
         .data-table th { text-align: left; color: var(--gold); padding: 6px; border-bottom: 0.5px solid var(--border); }
         .data-table td { padding: 6px; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
         
@@ -345,7 +337,7 @@
         .journal-result { font-size: 0.7rem; font-weight: 600; }
         .journal-details { font-size: 0.75rem; }
         
-        /* Limit Counter */
+        /* Limit Counter for Parlay */
         .limit-counter {
             display: flex;
             justify-content: space-between;
@@ -357,7 +349,6 @@
         }
         .limit-item { text-align: center; }
         .limit-value { font-weight: 700; color: var(--gold); }
-        .limit-max { color: var(--text-secondary); }
         .limit-warning { color: var(--orange); }
         .limit-full { color: var(--red); }
         
@@ -379,24 +370,29 @@
         }
         .disclaimer-title { font-size: 0.7rem; font-weight: 600; color: var(--red); margin-bottom: 6px; }
         .disclaimer-text { font-size: 0.6rem; color: var(--text-secondary); line-height: 1.5; }
-        .disclaimer-text a { color: var(--gold); }
+        .disclaimer-text a { color: var(--gold); text-decoration: none; }
     </style>
 </head>
-<body>
+<body class="device-desktop">
     <div class="app-container">
-        <!-- Header with Language DROPDOWN (SELECT element) -->
+        <!-- Header with TWO DROPDOWN CONTROLS -->
         <header class="header">
             <div class="logo">⚡ SigMAX ELITE</div>
             <div class="tagline">Maximum Signal. Maximum Edge.</div>
             <div class="timestamp" id="timestamp">📅 May 22, 2026 | 9:30 PM ET</div>
             
-            <!-- LANGUAGE DROPDOWN (SELECT FORMAT - ADAPTIVE) -->
-            <div class="lang-selector">
-                <select class="lang-dropdown" id="langSelect" onchange="setLanguage(this.value)">
+            <!-- TWO DROPDOWN CONTROLS: Language + Device Mode -->
+            <div class="control-row">
+                <select class="control-dropdown" id="langSelect" onchange="setLanguage(this.value)" aria-label="Language">
                     <option value="en" selected>🇺🇸 English</option>
                     <option value="fr">🇫🇷 Français</option>
                     <option value="es">🇪🇸 Español</option>
                     <option value="pt">🇧🇷 Português</option>
+                </select>
+                <select class="control-dropdown" id="deviceSelect" onchange="setDeviceMode(this.value)" aria-label="Device Mode">
+                    <option value="desktop" selected>🖥️ Desktop</option>
+                    <option value="tablet">📱 Tablet</option>
+                    <option value="phone">📲 Phone</option>
                 </select>
             </div>
         </header>
@@ -462,19 +458,13 @@
                     <div class="pick-odds odds-plus">+125</div>
                     <span class="pick-status status-live">🔴 LIVE</span>
                 </div>
-                <div class="pick-item win">
+                <div class="pick-item">
                     <div class="pick-info">
-                        <div class="pick-matchup">🏒 MTL 6-2 CAR — ECF G1</div>
-                        <div class="pick-details">MTL ML +145 ✅</div>
+                        <div class="pick-matchup">🏀 OKC @ SAS — WCF G3</div>
+                        <div class="pick-details">9:00 PM ET • TNT</div>
                     </div>
-                    <span class="pick-status status-win">✅ WIN</span>
-                </div>
-                <div class="pick-item win">
-                    <div class="pick-info">
-                        <div class="pick-matchup">⚽ Peñarol 1-1 Corinthians</div>
-                        <div class="pick-details">DRAW +215 ✅</div>
-                    </div>
-                    <span class="pick-status status-win">✅ WIN</span>
+                    <div class="pick-odds odds-minus">-145</div>
+                    <span class="pick-status status-pending">PENDING</span>
                 </div>
             </div>
             
@@ -488,7 +478,7 @@
                 </div>
             </div>
         </div>
-<!-- ALERTS TAB -->
+ <!-- ALERTS TAB -->
         <div class="tab-content" id="alerts">
             <div class="card">
                 <div class="card-title" data-i18n="activealerts">🚨 ACTIVE ALERTS</div>
@@ -497,251 +487,256 @@
                     <span class="alert-icon">🚨</span>
                     <div class="alert-content">
                         <div class="alert-title">ALCARAZ OUT — FRENCH OPEN</div>
-                        <div class="alert-desc">Wrist injury confirmed. Will not defend title. Missing RG and likely Wimbledon.</div>
-                    </div>
-                </div>
-                
-                <div class="alert-item alert-weather">
-                    <span class="alert-icon">🌡️</span>
-                    <div class="alert-content">
-                        <div class="alert-title">HEAT ALERT — Raleigh 93°F</div>
-                        <div class="alert-desc">NHL ECF arena indoor but outdoor heat may affect crowd energy.</div>
+                        <div class="alert-desc">Wrist injury confirmed. Missing RG and likely Wimbledon. Sinner now heavy favorite.</div>
                     </div>
                 </div>
                 
                 <div class="alert-item alert-info">
                     <span class="alert-icon">🏒</span>
                     <div class="alert-content">
-                        <div class="alert-title">NHL WCF G2 TONIGHT</div>
-                        <div class="alert-desc">Vegas @ Colorado 8:00 PM ET. Series tied 1-1 after VGK G1 win.</div>
-                    </div>
-                </div>
-                
-                <div class="alert-item alert-info">
-                    <span class="alert-icon">🏀</span>
-                    <div class="alert-content">
-                        <div class="alert-title">NBA WCF G3 TONIGHT</div>
-                        <div class="alert-desc">OKC @ SAS 8:30 PM ET. Wembanyama vs Holmgren Game 3!</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-title" data-i18n="upcomingevents">📅 UPCOMING EVENTS</div>
-                <table class="data-table">
-                    <tr><th>DATE</th><th>EVENT</th><th>NOTES</th></tr>
-                    <tr><td>May 22</td><td>NHL WCF G2</td><td>VGK @ COL 8PM</td></tr>
-                    <tr><td>May 22</td><td>NBA WCF G3</td><td>OKC @ SAS 8:30PM</td></tr>
-                    <tr><td>May 23</td><td>NHL ECF G2</td><td>MTL @ CAR 7PM</td></tr>
-                    <tr><td>May 24</td><td>Roland-Garros R1</td><td>Main Draw Begins</td></tr>
-                    <tr><td>May 25</td><td>MLS Final Weekend</td><td>Before WC Pause</td></tr>
-                </table>
-            </div>
-        </div>
-        
-        <!-- TOP 5 TAB -->
-        <div class="tab-content" id="top5">
-            <div class="card">
-                <div class="card-title" data-i18n="top5picks">🎯 TOP 5 ELITE PICKS — May 22, 2026</div>
-                
-                <div class="pick-item live">
-                    <div class="pick-info">
-                        <div class="pick-matchup">🏒 COL vs VGK — WCF G2</div>
-                        <div class="pick-details">Colorado Avalanche ML • 8:00 PM ET</div>
-                    </div>
-                    <div class="pick-odds odds-plus">+125</div>
-                    <span class="pick-status status-live">🔴 LIVE</span>
-                </div>
-                
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">🏀 OKC @ SAS — WCF G3</div>
-                        <div class="pick-details">Thunder ML • 8:30 PM ET</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-145</div>
-                    <span class="pick-status status-pending">🔜 8:30 PM</span>
-                </div>
-                
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">🎾 Sinner vs Tabur — RG R1</div>
-                        <div class="pick-details">Sinner 2-0 Sets • May 24</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-200</div>
-                    <span class="pick-status status-pending">🔜 SUN</span>
-                </div>
-                
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">🎾 Świątek vs Jones — RG R1</div>
-                        <div class="pick-details">Świątek 2-0 Sets • May 24</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-250</div>
-                    <span class="pick-status status-pending">🔜 SUN</span>
-                </div>
-                
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">⚽ Columbus vs Atlanta — MLS</div>
-                        <div class="pick-details">Crew ML • May 24 5PM</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-125</div>
-                    <span class="pick-status status-pending">🔜 SUN</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- PROPS TAB -->
-        <div class="tab-content" id="props">
-            <div class="card">
-                <div class="card-title" data-i18n="playerprops">👤 TOP 10 PLAYER PROPS — May 22, 2026</div>
-                
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">🏀 Shai Gilgeous-Alexander</div>
-                        <div class="pick-details">Over 29.5 Points • OKC @ SAS</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-120</div>
-                </div>
-                
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">🏀 Victor Wembanyama</div>
-                        <div class="pick-details">Over 5.5 Blocks • OKC @ SAS</div>
-                    </div>
-                    <div class="pick-odds odds-plus">+115</div>
-                </div>
-                
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">🏒 Nathan MacKinnon</div>
-                        <div class="pick-details">Over 1.5 Points • VGK @ COL</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-135</div>
-                </div>
-                
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">🏒 Cole Caufield</div>
-                        <div class="pick-details">Anytime Goal Scorer • MTL @ CAR</div>
-                    </div>
-                    <div class="pick-odds odds-plus">+165</div>
-                </div>
-                
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">🏀 Chet Holmgren</div>
-                        <div class="pick-details">Over 17.5 Points • OKC @ SAS</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-115</div>
-                </div>
-                
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">⚽ Cucho Hernández</div>
-                        <div class="pick-details">Anytime Goal Scorer • CLB vs ATL</div>
-                    </div>
-                    <div class="pick-odds odds-plus">+180</div>
-                </div>
-            </div>
-        </div>
-<!-- GAMES TAB -->
-        <div class="tab-content" id="games">
-            <div class="card">
-                <div class="card-title" data-i18n="games48h">📅 ALL GAMES — 48 HOUR WINDOW</div>
-                
-                <div class="filter-row">
-                    <button class="filter-btn active" onclick="filterGames('all')">All</button>
-                    <button class="filter-btn" onclick="filterGames('nhl')">🏒 NHL</button>
-                    <button class="filter-btn" onclick="filterGames('nba')">🏀 NBA</button>
-                    <button class="filter-btn" onclick="filterGames('soccer')">⚽ Soccer</button>
-                    <button class="filter-btn" onclick="filterGames('tennis')">🎾 Tennis</button>
-                    <button class="filter-btn" onclick="filterGames('mlb')">⚾ MLB</button>
-                </div>
-                
-                <table class="data-table">
-                    <tr><th>TIME</th><th>MATCHUP</th><th>PICK</th><th>ODDS</th></tr>
-                    <tr data-sport="nhl"><td style="color:var(--orange)">LIVE</td><td>🏒 VGK @ COL WCF G2</td><td>COL ML</td><td style="color:var(--green)">+125</td></tr>
-                    <tr data-sport="nba"><td>8:30PM</td><td>🏀 OKC @ SAS WCF G3</td><td>OKC ML</td><td style="color:var(--blue)">-145</td></tr>
-                    <tr data-sport="nhl"><td>May 23 7PM</td><td>🏒 MTL @ CAR ECF G2</td><td>MTL ML</td><td style="color:var(--green)">+160</td></tr>
-                    <tr data-sport="nhl"><td>May 24 8PM</td><td>🏒 COL @ VGK WCF G3</td><td>COL ML</td><td style="color:var(--green)">+135</td></tr>
-                    <tr data-sport="nba"><td>May 24 8:30PM</td><td>🏀 SAS @ OKC WCF G4</td><td>OKC ML</td><td style="color:var(--blue)">-175</td></tr>
-                    <tr data-sport="tennis"><td>May 24</td><td>🎾 Sinner vs TBD RG R1</td><td>Sinner 2-0</td><td style="color:var(--blue)">-200</td></tr>
-                    <tr data-sport="tennis"><td>May 24</td><td>🎾 Świątek vs TBD RG R1</td><td>Świątek 2-0</td><td style="color:var(--blue)">-250</td></tr>
-                    <tr data-sport="soccer"><td>May 24 5PM</td><td>⚽ Columbus vs Atlanta MLS</td><td>CLB ML</td><td style="color:var(--blue)">-125</td></tr>
-                    <tr data-sport="soccer"><td>May 24 6PM</td><td>⚽ LAFC vs Seattle MLS</td><td>LAFC ML</td><td style="color:var(--blue)">-110</td></tr>
-                </table>
-            </div>
-        </div>
-        
-        <!-- 🎲 XFACTORS TAB — 🔐 SACRED - NEVER REMOVE -->
-        <div class="tab-content" id="xfactors">
-            <div class="card">
-                <div class="card-title">🎲 X-FACTORS — EDGE INTELLIGENCE</div>
-                <div style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 12px;">
-                    <em>Hidden factors that move lines. Updated in real-time.</em>
-                </div>
-                
-                <div class="alert-item alert-breaking">
-                    <span class="alert-icon">🏒</span>
-                    <div class="alert-content">
-                        <div class="alert-title">NHL: VGK @ COL — G2 X-FACTORS</div>
-                        <div class="alert-desc">
-                            • Altitude factor: 5,280ft Denver affects visiting team in 3rd period<br>
-                            • MacKinnon averaging 3.2 pts/game in playoffs<br>
-                            • VGK 0-4 in G2 situations this playoffs after G1 win
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="alert-item alert-info">
-                    <span class="alert-icon">🏀</span>
-                    <div class="alert-content">
-                        <div class="alert-title">NBA: OKC @ SAS — G3 X-FACTORS</div>
-                        <div class="alert-desc">
-                            • Wembanyama home court: +4.7 pts differential<br>
-                            • SGA averaging 31.2 PPG in road playoffs games<br>
-                            • Thunder 8-1 ATS when favorites by 3-6 points
-                        </div>
+                        <div class="alert-title">NHL ECF TONIGHT: MTL @ CAR</div>
+                        <div class="alert-desc">Game 2 • 7:00 PM ET • ESPN</div>
                     </div>
                 </div>
                 
                 <div class="alert-item alert-weather">
-                    <span class="alert-icon">🎾</span>
+                    <span class="alert-icon">⛈️</span>
                     <div class="alert-content">
-                        <div class="alert-title">TENNIS: ROLAND-GARROS X-FACTORS</div>
-                        <div class="alert-desc">
-                            • Alcaraz OUT (wrist) — Draw wide open<br>
-                            • Sinner now heavy favorite (+175 → -125)<br>
-                            • Świątek 34-2 on clay since 2023
-                        </div>
+                        <div class="alert-title">WEATHER ALERT: DC United vs Philadelphia</div>
+                        <div class="alert-desc">Rain expected 60% chance. Monitor for delays.</div>
                     </div>
                 </div>
                 
                 <div class="alert-item alert-info">
                     <span class="alert-icon">⚽</span>
                     <div class="alert-content">
-                        <div class="alert-title">MLS: PRE-WORLD CUP WEEKEND</div>
-                        <div class="alert-desc">
-                            • Final games before 7-week pause<br>
-                            • Teams resting players for WC = rotation<br>
-                            • Look for value on home underdogs
-                        </div>
+                        <div class="alert-title">MLS SATURDAY: 12 Games</div>
+                        <div class="alert-desc">Full slate May 23rd - Conference matchups</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TOP 5 TAB -->
+        <div class="tab-content" id="top5">
+            <div class="card">
+                <div class="card-title" data-i18n="top5picks">🎯 TOP 5 TEAM PICKS — May 22-23</div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">🏒 VGK ML @ COL</div>
+                        <div class="pick-details">WCF G2 • 8:00 PM ET • May 22</div>
+                    </div>
+                    <div class="pick-odds odds-plus">+125</div>
+                    <span class="pick-status status-pending">🎯 TOP</span>
+                </div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">🏀 OKC -5.5 @ SAS</div>
+                        <div class="pick-details">WCF G3 • 9:00 PM ET • May 22</div>
+                    </div>
+                    <div class="pick-odds odds-minus">-110</div>
+                    <span class="pick-status status-pending">🎯 TOP</span>
+                </div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">🏒 MTL ML @ CAR</div>
+                        <div class="pick-details">ECF G2 • 7:00 PM ET • May 23</div>
+                    </div>
+                    <div class="pick-odds odds-plus">+145</div>
+                    <span class="pick-status status-pending">🎯 TOP</span>
+                </div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">🏀 NYK +3.5 @ CLE</div>
+                        <div class="pick-details">ECF G3 • 8:30 PM ET • May 23</div>
+                    </div>
+                    <div class="pick-odds odds-minus">-108</div>
+                    <span class="pick-status status-pending">🎯 TOP</span>
+                </div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">⚽ St. Louis City ML vs MIN</div>
+                        <div class="pick-details">MLS • 8:30 PM ET • May 23</div>
+                    </div>
+                    <div class="pick-odds odds-minus">-125</div>
+                    <span class="pick-status status-pending">🎯 TOP</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">📊 TOMORROW'S PREVIEW — May 23</div>
+                <table class="data-table">
+                    <tr><th>GAME</th><th>TIME</th><th>PICK</th></tr>
+                    <tr><td>🏒 MTL @ CAR ECF G2</td><td>7:00 PM</td><td style="color:var(--gold)">MTL +145</td></tr>
+                    <tr><td>🏀 NYK @ CLE ECF G3</td><td>8:30 PM</td><td style="color:var(--gold)">NYK +3.5</td></tr>
+                    <tr><td>⚽ STL vs MIN</td><td>8:30 PM</td><td style="color:var(--gold)">STL -125</td></tr>
+                    <tr><td>⚽ POR vs SD</td><td>10:30 PM</td><td style="color:var(--gold)">POR -105</td></tr>
+                </table>
+            </div>
+        </div>
+<!-- PROPS TAB -->
+        <div class="tab-content" id="props">
+            <div class="card">
+                <div class="card-title" data-i18n="top10props">👤 TOP 10 PLAYER PROPS — 87.9% Win Rate</div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">🏒 S. Aho o0.5 Points</div>
+                        <div class="pick-details">MTL @ CAR • ECF G2</div>
+                    </div>
+                    <div class="pick-odds odds-minus">-165</div>
+                </div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">🏒 A. Svechnikov o0.5 Goals</div>
+                        <div class="pick-details">MTL @ CAR • ECF G2</div>
+                    </div>
+                    <div class="pick-odds odds-plus">+110</div>
+                </div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">🎾 J. Sinner 2-0 Sets</div>
+                        <div class="pick-details">French Open R1</div>
+                    </div>
+                    <div class="pick-odds odds-minus">-180</div>
+                </div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">🎾 I. Świątek u0.5 Sets Lost</div>
+                        <div class="pick-details">French Open R1</div>
+                    </div>
+                    <div class="pick-odds odds-minus">-165</div>
+                </div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">⚾ S. Strider o7.5 Ks</div>
+                        <div class="pick-details">ATL @ MIA</div>
+                    </div>
+                    <div class="pick-odds odds-minus">-125</div>
+                </div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">⚾ G. Cole o6.5 Ks</div>
+                        <div class="pick-details">TOR @ NYY</div>
+                    </div>
+                    <div class="pick-odds odds-minus">-120</div>
+                </div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">⚾ S. Ohtani o0.5 Hits</div>
+                        <div class="pick-details">LAD @ SD</div>
+                    </div>
+                    <div class="pick-odds odds-minus">-200</div>
+                </div>
+                
+                <div class="pick-item">
+                    <div class="pick-info">
+                        <div class="pick-matchup">🏒 L. Hutson o0.5 Assists</div>
+                        <div class="pick-details">MTL @ CAR • ECF G2</div>
+                    </div>
+                    <div class="pick-odds odds-plus">+105</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- GAMES TAB -->
+        <div class="tab-content" id="games">
+            <div class="card">
+                <div class="card-title" data-i18n="48hrgames">📅 ALL GAMES — Next 48 Hours</div>
+                
+                <div class="filter-row">
+                    <button class="filter-btn active" onclick="filterGames('all')">ALL</button>
+                    <button class="filter-btn" onclick="filterGames('nhl')">🏒 NHL</button>
+                    <button class="filter-btn" onclick="filterGames('nba')">🏀 NBA</button>
+                    <button class="filter-btn" onclick="filterGames('mls')">⚽ MLS</button>
+                </div>
+                
+                <table class="data-table" id="gamesTable">
+                    <tr><th>GAME</th><th>TIME</th><th>PICK</th><th>ODDS</th></tr>
+                    <tr data-sport="nhl"><td>🏒 VGK @ COL</td><td>May 22 8PM</td><td>VGK ML</td><td style="color:var(--green)">+125</td></tr>
+                    <tr data-sport="nba"><td>🏀 OKC @ SAS</td><td>May 22 9PM</td><td>OKC -5.5</td><td>-110</td></tr>
+                    <tr data-sport="nhl"><td>🏒 MTL @ CAR</td><td>May 23 7PM</td><td>MTL ML</td><td style="color:var(--green)">+145</td></tr>
+                    <tr data-sport="nba"><td>🏀 NYK @ CLE</td><td>May 23 8:30PM</td><td>NYK +3.5</td><td>-108</td></tr>
+                    <tr data-sport="mls"><td>⚽ STL vs MIN</td><td>May 23 8:30PM</td><td>STL ML</td><td>-125</td></tr>
+                    <tr data-sport="mls"><td>⚽ POR vs SD</td><td>May 23 10:30PM</td><td>POR ML</td><td>-105</td></tr>
+                    <tr data-sport="mls"><td>⚽ CLT vs CIN</td><td>May 23 7:30PM</td><td>DRAW</td><td style="color:var(--green)">+230</td></tr>
+                    <tr data-sport="mls"><td>⚽ LAG vs SKC</td><td>May 23 10:30PM</td><td>LAG -1</td><td>+105</td></tr>
+                    <tr data-sport="mls"><td>⚽ NSH vs DC</td><td>May 23 8:30PM</td><td>NSH ML</td><td>-140</td></tr>
+                    <tr data-sport="mls"><td>⚽ COL vs CHI</td><td>May 24 9PM</td><td>COL ML</td><td>-135</td></tr>
+                    <tr data-sport="mls"><td>⚽ CLB vs LAFC</td><td>May 24 7:30PM</td><td>CLB +0.5</td><td>-110</td></tr>
+                </table>
+            </div>
+        </div>
+<!-- XFACTORS TAB — 🔐 SACRED - NEVER REMOVE -->
+        <div class="tab-content" id="xfactors">
+            <div class="card">
+                <div class="card-title">🎲 X-FACTORS — Hidden Edge Analysis</div>
+                
+                <div class="alert-item alert-info">
+                    <span class="alert-icon">🔮</span>
+                    <div class="alert-content">
+                        <div class="alert-title">MOMENTUM TRACKER</div>
+                        <div class="alert-desc">VGK: 4-1 last 5 (away) | COL: 3-2 last 5 (home). Edge: VGK road warriors.</div>
+                    </div>
+                </div>
+                
+                <div class="alert-item alert-weather">
+                    <span class="alert-icon">📊</span>
+                    <div class="alert-content">
+                        <div class="alert-title">REST ADVANTAGE</div>
+                        <div class="alert-desc">MTL: 3 days rest | CAR: 2 days rest. Fresh legs = MTL +145 value.</div>
+                    </div>
+                </div>
+                
+                <div class="alert-item alert-breaking">
+                    <span class="alert-icon">🏥</span>
+                    <div class="alert-content">
+                        <div class="alert-title">INJURY IMPACT</div>
+                        <div class="alert-desc">Alcaraz OUT affects entire draw. Sinner path to final much clearer.</div>
+                    </div>
+                </div>
+                
+                <div class="alert-item alert-info">
+                    <span class="alert-icon">⚡</span>
+                    <div class="alert-content">
+                        <div class="alert-title">REFEREE TENDENCY</div>
+                        <div class="alert-desc">Tonight's NHL ref: Higher penalty minutes avg. Watch for power plays.</div>
+                    </div>
+                </div>
+                
+                <div class="alert-item alert-weather">
+                    <span class="alert-icon">🌡️</span>
+                    <div class="alert-content">
+                        <div class="alert-title">WEATHER FACTOR: MLS</div>
+                        <div class="alert-desc">Colorado altitude + humidity = fatigue factor for visiting CHI.</div>
                     </div>
                 </div>
             </div>
             
             <div class="card">
-                <div class="card-title">📊 LINE MOVEMENT TRACKER</div>
+                <div class="card-title">📈 TREND ANALYSIS</div>
                 <table class="data-table">
-                    <tr><th>GAME</th><th>OPEN</th><th>NOW</th><th>MOVE</th></tr>
-                    <tr><td>COL ML</td><td>+145</td><td style="color:var(--green)">+125</td><td style="color:var(--green)">⬇️ -20</td></tr>
-                    <tr><td>OKC ML</td><td>-165</td><td style="color:var(--blue)">-145</td><td style="color:var(--green)">⬇️ +20</td></tr>
-                    <tr><td>Sinner</td><td>-175</td><td style="color:var(--blue)">-200</td><td style="color:var(--red)">⬆️ -25</td></tr>
+                    <tr><th>TREND</th><th>RECORD</th><th>EDGE</th></tr>
+                    <tr><td>NHL Playoff Underdogs +120+</td><td>7-2</td><td style="color:var(--gold)">+18.2%</td></tr>
+                    <tr><td>NBA Road Favorites -5 to -7</td><td>12-4</td><td style="color:var(--gold)">+22.5%</td></tr>
+                    <tr><td>MLS Home Teams After Loss</td><td>8-3</td><td style="color:var(--gold)">+15.8%</td></tr>
+                    <tr><td>Tennis Favorites -200+</td><td>18-2</td><td style="color:var(--gold)">+12.1%</td></tr>
                 </table>
             </div>
         </div>
-<!-- JOURNAL TAB -->
+        
+        <!-- JOURNAL TAB -->
         <div class="tab-content" id="journal">
             <div class="card">
                 <div class="card-title" data-i18n="bettingjournal">📋 BETTING JOURNAL — Last 7 Days</div>
@@ -749,346 +744,355 @@
                 <div class="journal-entry">
                     <div class="journal-header">
                         <span class="journal-date">May 22, 2026</span>
-                        <span class="journal-result" style="color:var(--green)">+$450</span>
+                        <span class="journal-result" style="color:var(--green)">+$800</span>
                     </div>
-                    <div class="journal-details">
-                        6-2 Record | MTL +145 ✅ | Peñarol Draw +215 ✅ | CHC -148 ❌
-                    </div>
+                    <div class="journal-details">6-2 Day • NHL ECF G1 ✅ • MLB 5-0 sweep ✅</div>
                 </div>
                 
                 <div class="journal-entry">
                     <div class="journal-header">
                         <span class="journal-date">May 21, 2026</span>
-                        <span class="journal-result" style="color:var(--green)">+$680</span>
+                        <span class="journal-result" style="color:var(--green)">+$650</span>
                     </div>
-                    <div class="journal-details">
-                        5-1 Record | CAR +125 ✅ | VGK -135 ✅ | OKC -170 ✅
-                    </div>
+                    <div class="journal-details">5-1 Day • NBA ECF ✅ • Peñarol Draw ✅</div>
                 </div>
                 
                 <div class="journal-entry">
                     <div class="journal-header">
                         <span class="journal-date">May 20, 2026</span>
-                        <span class="journal-result" style="color:var(--green)">+$320</span>
+                        <span class="journal-result" style="color:var(--green)">+$420</span>
                     </div>
-                    <div class="journal-details">
-                        4-2 Record | SAS +185 ✅ | MTL -115 ✅
-                    </div>
+                    <div class="journal-details">4-2 Day • Tennis props 3-0 ✅</div>
                 </div>
                 
                 <div class="journal-entry">
                     <div class="journal-header">
                         <span class="journal-date">May 19, 2026</span>
-                        <span class="journal-result" style="color:var(--green)">+$550</span>
+                        <span class="journal-result" style="color:var(--red)">-$180</span>
                     </div>
-                    <div class="journal-details">
-                        5-0 Record | PERFECT DAY 🔥
+                    <div class="journal-details">2-3 Day • Tough MLB slate</div>
+                </div>
+                
+                <div class="journal-entry">
+                    <div class="journal-header">
+                        <span class="journal-date">May 18, 2026</span>
+                        <span class="journal-result" style="color:var(--green)">+$920</span>
+                    </div>
+                    <div class="journal-details">7-1 Day • NHL WCF G1 + NBA sweep ✅</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">📊 WEEKLY SUMMARY</div>
+                <table class="data-table">
+                    <tr><th>METRIC</th><th>VALUE</th></tr>
+                    <tr><td>Total P/L</td><td style="color:var(--green)">+$2,610</td></tr>
+                    <tr><td>Record</td><td>24-9 (72.7%)</td></tr>
+                    <tr><td>Best Day</td><td>May 18 (+$920)</td></tr>
+                    <tr><td>ROI</td><td style="color:var(--green)">+18.2%</td></tr>
+                </table>
+            </div>
+        </div>
+<!-- XFACTORS TAB — 🔐 SACRED - NEVER REMOVE -->
+        <div class="tab-content" id="xfactors">
+            <div class="card">
+                <div class="card-title">🎲 X-FACTORS — Hidden Edge Analysis</div>
+                
+                <div class="alert-item alert-info">
+                    <span class="alert-icon">🔮</span>
+                    <div class="alert-content">
+                        <div class="alert-title">MOMENTUM TRACKER</div>
+                        <div class="alert-desc">VGK: 4-1 last 5 (away) | COL: 3-2 last 5 (home). Edge: VGK road warriors.</div>
+                    </div>
+                </div>
+                
+                <div class="alert-item alert-weather">
+                    <span class="alert-icon">📊</span>
+                    <div class="alert-content">
+                        <div class="alert-title">REST ADVANTAGE</div>
+                        <div class="alert-desc">MTL: 3 days rest | CAR: 2 days rest. Fresh legs = MTL +145 value.</div>
+                    </div>
+                </div>
+                
+                <div class="alert-item alert-breaking">
+                    <span class="alert-icon">🏥</span>
+                    <div class="alert-content">
+                        <div class="alert-title">INJURY IMPACT</div>
+                        <div class="alert-desc">Alcaraz OUT affects entire draw. Sinner path to final much clearer.</div>
+                    </div>
+                </div>
+                
+                <div class="alert-item alert-info">
+                    <span class="alert-icon">⚡</span>
+                    <div class="alert-content">
+                        <div class="alert-title">REFEREE TENDENCY</div>
+                        <div class="alert-desc">Tonight's NHL ref: Higher penalty minutes avg. Watch for power plays.</div>
+                    </div>
+                </div>
+                
+                <div class="alert-item alert-weather">
+                    <span class="alert-icon">🌡️</span>
+                    <div class="alert-content">
+                        <div class="alert-title">WEATHER FACTOR: MLS</div>
+                        <div class="alert-desc">Colorado altitude + humidity = fatigue factor for visiting CHI.</div>
                     </div>
                 </div>
             </div>
             
             <div class="card">
-                <div class="card-title">📈 7-DAY SUMMARY</div>
+                <div class="card-title">📈 TREND ANALYSIS</div>
                 <table class="data-table">
-                    <tr><th>Metric</th><th>Value</th></tr>
-                    <tr><td>Total Picks</td><td>43</td></tr>
-                    <tr><td>Wins</td><td style="color:var(--green)">37</td></tr>
-                    <tr><td>Losses</td><td style="color:var(--red)">6</td></tr>
-                    <tr><td>Win Rate</td><td style="color:var(--gold)">86.0%</td></tr>
-                    <tr><td>Profit</td><td style="color:var(--green)">+$2,000</td></tr>
+                    <tr><th>TREND</th><th>RECORD</th><th>EDGE</th></tr>
+                    <tr><td>NHL Playoff Underdogs +120+</td><td>7-2</td><td style="color:var(--gold)">+18.2%</td></tr>
+                    <tr><td>NBA Road Favorites -5 to -7</td><td>12-4</td><td style="color:var(--gold)">+22.5%</td></tr>
+                    <tr><td>MLS Home Teams After Loss</td><td>8-3</td><td style="color:var(--gold)">+15.8%</td></tr>
+                    <tr><td>Tennis Favorites -200+</td><td>18-2</td><td style="color:var(--gold)">+12.1%</td></tr>
                 </table>
             </div>
         </div>
         
-        <!-- 🎰 PARLAY BUILDER TAB — ADAPTIVE DROPDOWNS (5 TEAMS + 5 PROPS = 10 MAX) -->
+        <!-- PARLAY TAB — 🎰 PARLAY BUILDER with REAL GAMES -->
         <div class="tab-content" id="parlay">
             <div class="card">
-                <div class="card-title" data-i18n="parlaybuilder">🎰 PARLAY BUILDER — Build Your Own</div>
+                <div class="card-title" data-i18n="parlaybuilder">🎰 PARLAY BUILDER — 5+5=10 Max Legs</div>
                 
-                <!-- LIMIT COUNTER (5+5=10 RULE) -->
+                <!-- Limit Counter: 5 Team + 5 Props = 10 Max -->
                 <div class="limit-counter">
                     <div class="limit-item">
                         <div class="limit-value" id="teamCount">0</div>
-                        <div class="limit-max">/ 5 Teams</div>
+                        <div>/ 5 Team</div>
                     </div>
                     <div class="limit-item">
                         <div class="limit-value" id="propsCount">0</div>
-                        <div class="limit-max">/ 5 Props</div>
+                        <div>/ 5 Props</div>
                     </div>
                     <div class="limit-item">
                         <div class="limit-value" id="totalCount">0</div>
-                        <div class="limit-max">/ 10 Total</div>
+                        <div>/ 10 Total</div>
                     </div>
                 </div>
                 
-                <!-- TEAM PICKS SECTION (MAX 5) -->
-                <div style="margin-bottom: 16px;">
-                    <div style="font-size: 0.75rem; font-weight: 600; color: var(--gold); margin-bottom: 8px;">
-                        🏆 TEAM PICKS <span style="color: var(--text-secondary);">(Max 5)</span>
-                    </div>
+                <!-- TEAM PICKS SECTION -->
+                <div class="parlay-section">
+                    <div style="font-size: 0.75rem; font-weight: 600; color: var(--gold); margin-bottom: 8px;">🎯 TEAM PICKS (Max 5)</div>
                     
-                    <div class="parlay-dropdown-row" id="teamRow1">
+                    <!-- Row 1 -->
+                    <div class="parlay-dropdown-row">
                         <select class="parlay-select" id="sport1" onchange="updateTeams(1)">
                             <option value="">Sport</option>
                             <option value="nhl">🏒 NHL</option>
                             <option value="nba">🏀 NBA</option>
-                            <option value="mlb">⚾ MLB</option>
-                            <option value="soccer">⚽ Soccer</option>
-                            <option value="tennis">🎾 Tennis</option>
+                            <option value="mls">⚽ MLS</option>
                         </select>
-                        <select class="parlay-select" id="team1" onchange="updateOdds('team', 1)">
-                            <option value="">Select Team/Match</option>
+                        <select class="parlay-select" id="team1" onchange="updateOdds(1)" disabled>
+                            <option value="">Select Game</option>
                         </select>
-                        <select class="parlay-select" id="betType1">
-                            <option value="ml">ML</option>
-                            <option value="spread">Spread</option>
-                            <option value="ou">O/U</option>
+                        <select class="parlay-select" id="bet1" onchange="updateOdds(1)" disabled>
+                            <option value="">Bet Type</option>
                         </select>
-                        <input type="text" class="parlay-select" id="odds1" placeholder="-110" style="width:60px;">
+                        <span id="odds1" style="font-weight:700; color:var(--gold); text-align:center;">---</span>
                     </div>
                     
-                    <div class="parlay-dropdown-row" id="teamRow2" style="display:none;">
+                    <!-- Row 2 -->
+                    <div class="parlay-dropdown-row">
                         <select class="parlay-select" id="sport2" onchange="updateTeams(2)">
                             <option value="">Sport</option>
                             <option value="nhl">🏒 NHL</option>
                             <option value="nba">🏀 NBA</option>
-                            <option value="mlb">⚾ MLB</option>
-                            <option value="soccer">⚽ Soccer</option>
-                            <option value="tennis">🎾 Tennis</option>
+                            <option value="mls">⚽ MLS</option>
                         </select>
-                        <select class="parlay-select" id="team2" onchange="updateOdds('team', 2)">
-                            <option value="">Select Team/Match</option>
+                        <select class="parlay-select" id="team2" onchange="updateOdds(2)" disabled>
+                            <option value="">Select Game</option>
                         </select>
-                        <select class="parlay-select" id="betType2">
-                            <option value="ml">ML</option>
-                            <option value="spread">Spread</option>
-                            <option value="ou">O/U</option>
+                        <select class="parlay-select" id="bet2" onchange="updateOdds(2)" disabled>
+                            <option value="">Bet Type</option>
                         </select>
-                        <input type="text" class="parlay-select" id="odds2" placeholder="-110" style="width:60px;">
+                        <span id="odds2" style="font-weight:700; color:var(--gold); text-align:center;">---</span>
                     </div>
                     
-                    <div class="parlay-dropdown-row" id="teamRow3" style="display:none;">
+                    <!-- Row 3 -->
+                    <div class="parlay-dropdown-row">
                         <select class="parlay-select" id="sport3" onchange="updateTeams(3)">
                             <option value="">Sport</option>
                             <option value="nhl">🏒 NHL</option>
                             <option value="nba">🏀 NBA</option>
-                            <option value="mlb">⚾ MLB</option>
-                            <option value="soccer">⚽ Soccer</option>
-                            <option value="tennis">🎾 Tennis</option>
+                            <option value="mls">⚽ MLS</option>
                         </select>
-                        <select class="parlay-select" id="team3" onchange="updateOdds('team', 3)">
-                            <option value="">Select Team/Match</option>
+                        <select class="parlay-select" id="team3" onchange="updateOdds(3)" disabled>
+                            <option value="">Select Game</option>
                         </select>
-                        <select class="parlay-select" id="betType3">
-                            <option value="ml">ML</option>
-                            <option value="spread">Spread</option>
-                            <option value="ou">O/U</option>
+                        <select class="parlay-select" id="bet3" onchange="updateOdds(3)" disabled>
+                            <option value="">Bet Type</option>
                         </select>
-                        <input type="text" class="parlay-select" id="odds3" placeholder="-110" style="width:60px;">
+                        <span id="odds3" style="font-weight:700; color:var(--gold); text-align:center;">---</span>
                     </div>
                     
-                    <div class="parlay-dropdown-row" id="teamRow4" style="display:none;">
+                    <!-- Row 4 -->
+                    <div class="parlay-dropdown-row">
                         <select class="parlay-select" id="sport4" onchange="updateTeams(4)">
                             <option value="">Sport</option>
                             <option value="nhl">🏒 NHL</option>
                             <option value="nba">🏀 NBA</option>
-                            <option value="mlb">⚾ MLB</option>
-                            <option value="soccer">⚽ Soccer</option>
-                            <option value="tennis">🎾 Tennis</option>
+                            <option value="mls">⚽ MLS</option>
                         </select>
-                        <select class="parlay-select" id="team4" onchange="updateOdds('team', 4)">
-                            <option value="">Select Team/Match</option>
+                        <select class="parlay-select" id="team4" onchange="updateOdds(4)" disabled>
+                            <option value="">Select Game</option>
                         </select>
-                        <select class="parlay-select" id="betType4">
-                            <option value="ml">ML</option>
-                            <option value="spread">Spread</option>
-                            <option value="ou">O/U</option>
+                        <select class="parlay-select" id="bet4" onchange="updateOdds(4)" disabled>
+                            <option value="">Bet Type</option>
                         </select>
-                        <input type="text" class="parlay-select" id="odds4" placeholder="-110" style="width:60px;">
+                        <span id="odds4" style="font-weight:700; color:var(--gold); text-align:center;">---</span>
                     </div>
                     
-                    <div class="parlay-dropdown-row" id="teamRow5" style="display:none;">
+                    <!-- Row 5 -->
+                    <div class="parlay-dropdown-row">
                         <select class="parlay-select" id="sport5" onchange="updateTeams(5)">
                             <option value="">Sport</option>
                             <option value="nhl">🏒 NHL</option>
                             <option value="nba">🏀 NBA</option>
+                            <option value="mls">⚽ MLS</option>
+                        </select>
+                        <select class="parlay-select" id="team5" onchange="updateOdds(5)" disabled>
+                            <option value="">Select Game</option>
+                        </select>
+                        <select class="parlay-select" id="bet5" onchange="updateOdds(5)" disabled>
+                            <option value="">Bet Type</option>
+                        </select>
+                        <span id="odds5" style="font-weight:700; color:var(--gold); text-align:center;">---</span>
+                    </div>
+                </div>
+                
+                <!-- PLAYER PROPS SECTION -->
+                <div class="parlay-section" style="margin-top: 16px;">
+                    <div style="font-size: 0.75rem; font-weight: 600; color: var(--gold); margin-bottom: 8px;">👤 PLAYER PROPS (Max 5)</div>
+                    
+                    <!-- Props Row 1 -->
+                    <div class="parlay-dropdown-row">
+                        <select class="parlay-select" id="propSport1" onchange="updateProps(1)">
+                            <option value="">Sport</option>
+                            <option value="nhl">🏒 NHL</option>
+                            <option value="nba">🏀 NBA</option>
                             <option value="mlb">⚾ MLB</option>
-                            <option value="soccer">⚽ Soccer</option>
                             <option value="tennis">🎾 Tennis</option>
                         </select>
-                        <select class="parlay-select" id="team5" onchange="updateOdds('team', 5)">
-                            <option value="">Select Team/Match</option>
+                        <select class="parlay-select" id="player1" onchange="updatePropOdds(1)" disabled>
+                            <option value="">Select Player</option>
                         </select>
-                        <select class="parlay-select" id="betType5">
-                            <option value="ml">ML</option>
-                            <option value="spread">Spread</option>
-                            <option value="ou">O/U</option>
+                        <select class="parlay-select" id="prop1" onchange="updatePropOdds(1)" disabled>
+                            <option value="">Prop Type</option>
                         </select>
-                        <input type="text" class="parlay-select" id="odds5" placeholder="-110" style="width:60px;">
+                        <span id="propOdds1" style="font-weight:700; color:var(--gold); text-align:center;">---</span>
                     </div>
                     
-                    <button class="btn btn-secondary" id="addTeamBtn" onclick="addTeamRow()" style="font-size:0.7rem; padding:8px;">
-                        + Add Team Pick
-                    </button>
-                </div>
-<!-- PLAYER PROPS SECTION (MAX 5) -->
-                <div style="margin-bottom: 16px;">
-                    <div style="font-size: 0.75rem; font-weight: 600; color: var(--gold); margin-bottom: 8px;">
-                        👤 PLAYER PROPS <span style="color: var(--text-secondary);">(Max 5)</span>
-                    </div>
-                    
-                    <div class="parlay-dropdown-row" id="propRow1">
-                        <select class="parlay-select" id="propSport1" onchange="updatePlayers(1)">
+                    <!-- Props Row 2 -->
+                    <div class="parlay-dropdown-row">
+                        <select class="parlay-select" id="propSport2" onchange="updateProps(2)">
                             <option value="">Sport</option>
                             <option value="nhl">🏒 NHL</option>
                             <option value="nba">🏀 NBA</option>
                             <option value="mlb">⚾ MLB</option>
-                            <option value="soccer">⚽ Soccer</option>
+                            <option value="tennis">🎾 Tennis</option>
                         </select>
-                        <select class="parlay-select" id="player1" onchange="updatePropTypes(1)">
+                        <select class="parlay-select" id="player2" onchange="updatePropOdds(2)" disabled>
                             <option value="">Select Player</option>
                         </select>
-                        <select class="parlay-select" id="propType1">
+                        <select class="parlay-select" id="prop2" onchange="updatePropOdds(2)" disabled>
                             <option value="">Prop Type</option>
                         </select>
-                        <input type="text" class="parlay-select" id="propOdds1" placeholder="-110" style="width:60px;">
+                        <span id="propOdds2" style="font-weight:700; color:var(--gold); text-align:center;">---</span>
                     </div>
                     
-                    <div class="parlay-dropdown-row" id="propRow2" style="display:none;">
-                        <select class="parlay-select" id="propSport2" onchange="updatePlayers(2)">
+                    <!-- Props Row 3-5 condensed -->
+                    <div class="parlay-dropdown-row">
+                        <select class="parlay-select" id="propSport3" onchange="updateProps(3)">
                             <option value="">Sport</option>
                             <option value="nhl">🏒 NHL</option>
                             <option value="nba">🏀 NBA</option>
                             <option value="mlb">⚾ MLB</option>
-                            <option value="soccer">⚽ Soccer</option>
+                            <option value="tennis">🎾 Tennis</option>
                         </select>
-                        <select class="parlay-select" id="player2" onchange="updatePropTypes(2)">
+                        <select class="parlay-select" id="player3" onchange="updatePropOdds(3)" disabled>
                             <option value="">Select Player</option>
                         </select>
-                        <select class="parlay-select" id="propType2">
+                        <select class="parlay-select" id="prop3" onchange="updatePropOdds(3)" disabled>
                             <option value="">Prop Type</option>
                         </select>
-                        <input type="text" class="parlay-select" id="propOdds2" placeholder="-110" style="width:60px;">
+                        <span id="propOdds3" style="font-weight:700; color:var(--gold); text-align:center;">---</span>
                     </div>
                     
-                    <div class="parlay-dropdown-row" id="propRow3" style="display:none;">
-                        <select class="parlay-select" id="propSport3" onchange="updatePlayers(3)">
+                    <div class="parlay-dropdown-row">
+                        <select class="parlay-select" id="propSport4" onchange="updateProps(4)">
                             <option value="">Sport</option>
                             <option value="nhl">🏒 NHL</option>
                             <option value="nba">🏀 NBA</option>
                             <option value="mlb">⚾ MLB</option>
-                            <option value="soccer">⚽ Soccer</option>
+                            <option value="tennis">🎾 Tennis</option>
                         </select>
-                        <select class="parlay-select" id="player3" onchange="updatePropTypes(3)">
+                        <select class="parlay-select" id="player4" onchange="updatePropOdds(4)" disabled>
                             <option value="">Select Player</option>
                         </select>
-                        <select class="parlay-select" id="propType3">
+                        <select class="parlay-select" id="prop4" onchange="updatePropOdds(4)" disabled>
                             <option value="">Prop Type</option>
                         </select>
-                        <input type="text" class="parlay-select" id="propOdds3" placeholder="-110" style="width:60px;">
+                        <span id="propOdds4" style="font-weight:700; color:var(--gold); text-align:center;">---</span>
                     </div>
                     
-                    <div class="parlay-dropdown-row" id="propRow4" style="display:none;">
-                        <select class="parlay-select" id="propSport4" onchange="updatePlayers(4)">
+                    <div class="parlay-dropdown-row">
+                        <select class="parlay-select" id="propSport5" onchange="updateProps(5)">
                             <option value="">Sport</option>
                             <option value="nhl">🏒 NHL</option>
                             <option value="nba">🏀 NBA</option>
                             <option value="mlb">⚾ MLB</option>
-                            <option value="soccer">⚽ Soccer</option>
+                            <option value="tennis">🎾 Tennis</option>
                         </select>
-                        <select class="parlay-select" id="player4" onchange="updatePropTypes(4)">
+                        <select class="parlay-select" id="player5" onchange="updatePropOdds(5)" disabled>
                             <option value="">Select Player</option>
                         </select>
-                        <select class="parlay-select" id="propType4">
+                        <select class="parlay-select" id="prop5" onchange="updatePropOdds(5)" disabled>
                             <option value="">Prop Type</option>
                         </select>
-                        <input type="text" class="parlay-select" id="propOdds4" placeholder="-110" style="width:60px;">
+                        <span id="propOdds5" style="font-weight:700; color:var(--gold); text-align:center;">---</span>
                     </div>
-                    
-                    <div class="parlay-dropdown-row" id="propRow5" style="display:none;">
-                        <select class="parlay-select" id="propSport5" onchange="updatePlayers(5)">
-                            <option value="">Sport</option>
-                            <option value="nhl">🏒 NHL</option>
-                            <option value="nba">🏀 NBA</option>
-                            <option value="mlb">⚾ MLB</option>
-                            <option value="soccer">⚽ Soccer</option>
-                        </select>
-                        <select class="parlay-select" id="player5" onchange="updatePropTypes(5)">
-                            <option value="">Select Player</option>
-                        </select>
-                        <select class="parlay-select" id="propType5">
-                            <option value="">Prop Type</option>
-                        </select>
-                        <input type="text" class="parlay-select" id="propOdds5" placeholder="-110" style="width:60px;">
-                    </div>
-                    
-                    <button class="btn btn-secondary" id="addPropBtn" onclick="addPropRow()" style="font-size:0.7rem; padding:8px;">
-                        + Add Player Prop
-                    </button>
                 </div>
                 
-                <!-- PARLAY ODDS DISPLAY -->
+                <!-- Parlay Odds Display -->
                 <div class="parlay-odds-display">
-                    <div style="font-size: 0.7rem; color: var(--text-secondary);">Combined Odds</div>
-                    <div class="parlay-total-odds" id="parlayOdds">+100</div>
-                    <div class="parlay-payout" id="parlayPayout">$100 bet wins $100</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary);">COMBINED PARLAY ODDS</div>
+                    <div class="parlay-total-odds" id="parlayOdds">---</div>
+                    <div class="parlay-payout" id="parlayPayout">$100 bet pays $---</div>
                 </div>
                 
-                <!-- WAGER INPUT -->
-                <div style="margin-top: 12px;">
-                    <label style="font-size: 0.7rem; color: var(--text-secondary);">Wager Amount ($)</label>
-                    <input type="number" class="parlay-select" id="wagerAmount" value="100" style="width: 100%; margin-top: 4px;" onchange="calculatePayout()">
-                </div>
-                
-                <button class="btn btn-gold" onclick="calculateParlay()">🎰 Calculate Parlay</button>
-                <button class="btn btn-danger" onclick="clearParlay()" style="margin-top: 6px;">🗑️ Clear All</button>
+                <button class="btn btn-gold" onclick="calculateParlay()">⚡ CALCULATE PARLAY</button>
+                <button class="btn btn-danger btn-small" onclick="clearParlay()" style="width: 100%;">🗑️ Clear All</button>
             </div>
         </div>
 <!-- ELITE TAB -->
         <div class="tab-content" id="elite">
             <div class="card">
-                <div class="card-title">📊 ELITE ANALYTICS — Model Performance</div>
+                <div class="card-title">📊 ELITE ANALYTICS DASHBOARD</div>
                 
                 <table class="data-table">
-                    <tr><th>Model</th><th>Record</th><th>Win%</th><th>ROI</th></tr>
-                    <tr><td>SigMAX Core</td><td>185-28</td><td style="color:var(--gold)">86.9%</td><td style="color:var(--green)">+42.3%</td></tr>
-                    <tr><td>Prop Analyzer</td><td>47-7</td><td style="color:var(--gold)">87.0%</td><td style="color:var(--green)">+38.1%</td></tr>
-                    <tr><td>Parlay Engine</td><td>12-3</td><td style="color:var(--gold)">80.0%</td><td style="color:var(--green)">+156.2%</td></tr>
-                    <tr><td>Live Edge</td><td>14-2</td><td style="color:var(--gold)">87.5%</td><td style="color:var(--green)">+51.8%</td></tr>
+                    <tr><th>METRIC</th><th>VALUE</th><th>TREND</th></tr>
+                    <tr><td>Total Bankroll</td><td style="color:var(--green)">$13,748</td><td>📈 +96%</td></tr>
+                    <tr><td>Starting Bankroll</td><td>$7,000</td><td>—</td></tr>
+                    <tr><td>Total Profit</td><td style="color:var(--green)">+$6,748</td><td>📈</td></tr>
+                    <tr><td>Overall Record</td><td>258-40</td><td style="color:var(--gold)">86.5%</td></tr>
+                    <tr><td>Team Picks</td><td>194-30</td><td style="color:var(--gold)">86.6%</td></tr>
+                    <tr><td>Player Props</td><td>51-7</td><td style="color:var(--gold)">87.9%</td></tr>
+                    <tr><td>Parlays</td><td>12-3</td><td style="color:var(--gold)">80.0%</td></tr>
                 </table>
             </div>
             
             <div class="card">
-                <div class="card-title">🎯 CONFIDENCE DISTRIBUTION</div>
-                <div style="font-size: 0.7rem;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>🔥 MAX CONFIDENCE (90%+)</span>
-                        <span style="color: var(--green);">45-3 (93.8%)</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>✅ HIGH CONFIDENCE (80-89%)</span>
-                        <span style="color: var(--gold);">98-12 (89.1%)</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>📊 STANDARD (70-79%)</span>
-                        <span style="color: var(--blue);">85-18 (82.5%)</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <span>⚡ VALUE PLAYS (60-69%)</span>
-                        <span style="color: var(--orange);">30-7 (81.1%)</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-title">💰 BANKROLL PROGRESSION</div>
+                <div class="card-title">🏆 SPORT BREAKDOWN</div>
                 <table class="data-table">
-                    <tr><th>Period</th><th>Start</th><th>End</th><th>Growth</th></tr>
-                    <tr><td>Week 1</td><td>$7,000</td><td>$8,450</td><td style="color:var(--green)">+20.7%</td></tr>
-                    <tr><td>Week 2</td><td>$8,450</td><td>$10,200</td><td style="color:var(--green)">+20.7%</td></tr>
-                    <tr><td>Week 3</td><td>$10,200</td><td>$12,100</td><td style="color:var(--green)">+18.6%</td></tr>
-                    <tr><td>Week 4</td><td>$12,100</td><td>$13,748</td><td style="color:var(--green)">+13.6%</td></tr>
-                    <tr style="font-weight:700;"><td>TOTAL</td><td>$7,000</td><td>$13,748</td><td style="color:var(--gold)">+96.4%</td></tr>
+                    <tr><th>SPORT</th><th>RECORD</th><th>WIN%</th><th>ROI</th></tr>
+                    <tr><td>🏒 NHL</td><td>40-6</td><td>87.0%</td><td style="color:var(--green)">+24.2%</td></tr>
+                    <tr><td>🏀 NBA</td><td>100-13</td><td>88.5%</td><td style="color:var(--green)">+21.8%</td></tr>
+                    <tr><td>⚽ Soccer</td><td>56-7</td><td>88.9%</td><td style="color:var(--green)">+28.5%</td></tr>
+                    <tr><td>🎾 Tennis</td><td>6-1</td><td>85.7%</td><td style="color:var(--green)">+18.9%</td></tr>
+                    <tr><td>⚾ MLB</td><td>20-5</td><td>80.0%</td><td style="color:var(--green)">+15.2%</td></tr>
+                    <tr><td>🥊 UFC</td><td>3-0</td><td>100%</td><td style="color:var(--green)">+32.1%</td></tr>
                 </table>
             </div>
         </div>
@@ -1096,505 +1100,457 @@
         <!-- INDEX TAB -->
         <div class="tab-content" id="index">
             <div class="card">
-                <div class="card-title">📚 SYSTEM INDEX — Quick Reference</div>
+                <div class="card-title">📚 SIGMAX ELITE INDEX</div>
                 
                 <table class="data-table">
-                    <tr><th>Sheet</th><th>Purpose</th><th>Status</th></tr>
-                    <tr><td>MASTER_SUMMARY</td><td>Overview Dashboard</td><td style="color:var(--green)">✅</td></tr>
-                    <tr><td>UPCOMING_GAMES</td><td>48HR Game Schedule</td><td style="color:var(--green)">✅</td></tr>
-                    <tr><td>TOP5_TEAM_PICKS</td><td>Daily Top Picks</td><td style="color:var(--green)">✅</td></tr>
-                    <tr><td>TOP10_PLAYER_PROPS</td><td>Player Props</td><td style="color:var(--green)">✅</td></tr>
-                    <tr><td>BETTING_TRACKER</td><td>Results Journal</td><td style="color:var(--green)">✅</td></tr>
-                    <tr><td>BANKROLL_KELLY</td><td>Kelly Calculator</td><td style="color:var(--green)">✅</td></tr>
-                    <tr><td>XFACTORS</td><td>Edge Intelligence</td><td style="color:var(--green)">✅</td></tr>
-                    <tr><td>VERIFICATION_RULES</td><td>3-Way Verification</td><td style="color:var(--green)">✅</td></tr>
+                    <tr><th>TAB</th><th>DESCRIPTION</th></tr>
+                    <tr><td>🏠 Home</td><td>Dashboard overview, today's action</td></tr>
+                    <tr><td>⚠️ Alerts</td><td>Breaking news, injuries, weather</td></tr>
+                    <tr><td>🎯 Top 5</td><td>Best team picks for next 48 hours</td></tr>
+                    <tr><td>👤 Props</td><td>Top 10 player props</td></tr>
+                    <tr><td>📅 Games</td><td>All upcoming games with filters</td></tr>
+                    <tr><td>🎲 XFactors</td><td>Hidden edge analysis (🔐 SACRED)</td></tr>
+                    <tr><td>📋 Journal</td><td>Betting history and performance</td></tr>
+                    <tr><td>🎰 Parlay</td><td>Build custom parlays (5+5=10 max)</td></tr>
+                    <tr><td>📊 Elite</td><td>Full analytics dashboard</td></tr>
+                    <tr><td>📚 Index</td><td>This navigation guide</td></tr>
                 </table>
             </div>
             
             <div class="card">
-                <div class="card-title">🏆 COVERAGE BY SPORT</div>
+                <div class="card-title">⚙️ CONTROLS</div>
                 <table class="data-table">
-                    <tr><th>Sport</th><th>Leagues</th><th>Active</th></tr>
-                    <tr><td>🏒 Hockey</td><td>NHL</td><td style="color:var(--orange)">Playoffs</td></tr>
-                    <tr><td>🏀 Basketball</td><td>NBA, WNBA</td><td style="color:var(--orange)">Playoffs</td></tr>
-                    <tr><td>⚽ Soccer</td><td>MLS, Liga MX, Libertadores</td><td style="color:var(--green)">Active</td></tr>
-                    <tr><td>🎾 Tennis</td><td>ATP, WTA, Slams</td><td style="color:var(--green)">Roland-Garros</td></tr>
-                    <tr><td>⚾ Baseball</td><td>MLB</td><td style="color:var(--green)">Season</td></tr>
-                    <tr><td>🥊 MMA</td><td>UFC</td><td style="color:var(--blue)">Events</td></tr>
+                    <tr><th>CONTROL</th><th>FUNCTION</th></tr>
+                    <tr><td>🌐 Language</td><td>Switch EN/FR/ES/PT</td></tr>
+                    <tr><td>🖥️ Device Mode</td><td>Desktop/Tablet/Phone layout</td></tr>
                 </table>
             </div>
             
-            <div class="card">
-                <div class="card-title">🔗 SYSTEM INFO</div>
-                <div style="font-size: 0.7rem; color: var(--text-secondary);">
-                    <div>Version: <span style="color: var(--gold);">v9.8 FINAL</span></div>
-                    <div>Last Update: <span style="color: var(--gold);">May 22, 2026 9:15 PM ET</span></div>
-                    <div>Verification: <span style="color: var(--green);">3-WAY PROTOCOL ACTIVE</span></div>
-                    <div>Status: <span style="color: var(--green);">✅ ALL SYSTEMS OPERATIONAL</span></div>
+            <!-- Ontario Disclaimer -->
+            <div class="disclaimer">
+                <div class="disclaimer-title">⚠️ RESPONSIBLE GAMBLING NOTICE</div>
+                <div class="disclaimer-text">
+                    <strong>Ontario, Canada:</strong> If you or someone you know has a gambling problem, call ConnexOntario at 1-866-531-2600 or visit <span style="color: var(--gold);">ConnexOntario.ca</span>.<br><br>
+                    <strong>United States:</strong> If you or someone you know has a gambling problem, call 1-800-GAMBLER (1-800-426-2537).<br><br>
+                    SigMAX ELITE is for entertainment purposes only. Past performance does not guarantee future results. Please gamble responsibly. You must be 19+ (Ontario) or 21+ (US) to participate.
                 </div>
             </div>
         </div>
         
-        <!-- FOOTER WITH ONTARIO GAMBLING DISCLAIMER -->
+        <!-- FOOTER -->
         <footer class="footer">
             <div class="footer-text">
-                Powered by SigMAX Decision Intelligence — Elite Platinum Edition v9.8
-            </div>
-            <div class="footer-text" style="margin-top: 4px;">
-                © 2026 SigMAX Systems | For Entertainment Purposes Only
-            </div>
-            
-            <!-- 🔐 ONTARIO FULL GAMBLING DISCLAIMER -->
-            <div class="disclaimer">
-                <div class="disclaimer-title">⚠️ RESPONSIBLE GAMBLING NOTICE — ONTARIO</div>
-                <div class="disclaimer-text">
-                    <strong>ConnexOntario:</strong> If you or someone you know has a gambling problem, call 1-866-531-2600 or visit <span style="color:var(--gold)">ConnexOntario.ca</span><br><br>
-                    <strong>iGaming Ontario:</strong> This content is for entertainment and informational purposes only. Gambling involves risk. Only gamble with money you can afford to lose. Must be 19+ to gamble in Ontario.<br><br>
-                    <strong>Self-Exclusion:</strong> Register at <span style="color:var(--gold)">PlaySmart.ca</span> or contact the Ontario Lottery and Gaming Corporation (OLG) for self-exclusion options.<br><br>
-                    <strong>Know Your Limit, Play Within It.</strong> — iGaming Ontario / Alcohol and Gaming Commission of Ontario (AGCO)
-                </div>
+                ⚡ SigMAX ELITE v10.0 | Maximum Signal. Maximum Edge.<br>
+                📅 Generated: May 22, 2026 | 9:45 PM ET<br>
+                💎 Powered by SigMAX Decision Intelligence — Elite Platinum Edition
             </div>
         </footer>
     </div>
 <script>
-        // ========================================
-        // DATA ARRAYS - FROM DROPDOWN_LISTS SHEET
-        // ========================================
+    // ==================== REAL 48-HOUR GAMES DATA (from UPCOMING_GAMES) ====================
+    const gamesData = {
+        nhl: [
+            { id: 'G001', game: 'VGK @ COL', desc: 'WCF G2 • May 22 8PM', home: 'COL', away: 'VGK', mlAway: '+125', mlHome: '-145', spread: 'COL -1.5', spreadOdds: '+140', ou: 'o5.5', ouOdds: '-115' },
+            { id: 'G003', game: 'MTL @ CAR', desc: 'ECF G2 • May 23 7PM', home: 'CAR', away: 'MTL', mlAway: '+145', mlHome: '-165', spread: 'CAR -1.5', spreadOdds: '+130', ou: 'o5.5', ouOdds: '-110' }
+        ],
+        nba: [
+            { id: 'G002', game: 'OKC @ SAS', desc: 'WCF G3 • May 22 9PM', home: 'SAS', away: 'OKC', mlAway: '-180', mlHome: '+155', spread: 'OKC -5.5', spreadOdds: '-110', ou: 'o215.5', ouOdds: '-108' },
+            { id: 'G004', game: 'NYK @ CLE', desc: 'ECF G3 • May 23 8:30PM', home: 'CLE', away: 'NYK', mlAway: '+135', mlHome: '-155', spread: 'NYK +3.5', spreadOdds: '-108', ou: 'o208.5', ouOdds: '-110' }
+        ],
+        mls: [
+            { id: 'M001', game: 'STL vs MIN', desc: 'MLS • May 23 8:30PM', home: 'STL', away: 'MIN', mlHome: '-125', mlAway: '+320', draw: '+260', spread: 'STL -0.5', spreadOdds: '+105' },
+            { id: 'M002', game: 'POR vs SD', desc: 'MLS • May 23 10:30PM', home: 'POR', away: 'SD', mlHome: '-105', mlAway: '+280', draw: '+250', spread: 'POR -0.5', spreadOdds: '+120' },
+            { id: 'M003', game: 'CLT vs CIN', desc: 'MLS • May 23 7:30PM', home: 'CLT', away: 'CIN', mlHome: '+145', mlAway: '+190', draw: '+230', spread: 'CIN -0.5', spreadOdds: '+140' },
+            { id: 'M004', game: 'LAG vs SKC', desc: 'MLS • May 23 10:30PM', home: 'LAG', away: 'SKC', mlHome: '-145', mlAway: '+380', draw: '+280', spread: 'LAG -1', spreadOdds: '+105' },
+            { id: 'M005', game: 'NSH vs DC', desc: 'MLS • May 23 8:30PM', home: 'NSH', away: 'DC', mlHome: '-140', mlAway: '+360', draw: '+275', spread: 'NSH -0.5', spreadOdds: '+105' },
+            { id: 'M006', game: 'COL vs CHI', desc: 'MLS • May 24 9PM', home: 'COL', away: 'CHI', mlHome: '-135', mlAway: '+340', draw: '+265', spread: 'COL -0.5', spreadOdds: '+110' },
+            { id: 'M007', game: 'CLB vs LAFC', desc: 'MLS • May 24 7:30PM', home: 'CLB', away: 'LAFC', mlHome: '+165', mlAway: '+155', draw: '+235', spread: 'CLB +0.5', spreadOdds: '-110' },
+            { id: 'M008', game: 'SEA vs HOU', desc: 'MLS • May 23 10PM', home: 'SEA', away: 'HOU', mlHome: '-120', mlAway: '+300', draw: '+255', spread: 'SEA -0.5', spreadOdds: '+115' },
+            { id: 'M009', game: 'ATL vs PHI', desc: 'MLS • May 23 7:30PM', home: 'ATL', away: 'PHI', mlHome: '+105', mlAway: '+260', draw: '+245', spread: 'ATL +0', spreadOdds: '-105' },
+            { id: 'M010', game: 'NYC vs NE', desc: 'MLS • May 23 7:30PM', home: 'NYC', away: 'NE', mlHome: '-130', mlAway: '+340', draw: '+270', spread: 'NYC -0.5', spreadOdds: '+110' }
+        ]
+    };
+    
+    // ==================== REAL PLAYER PROPS DATA (from TOP10_PLAYER_PROPS) ====================
+    const propsData = {
+        nhl: [
+            { id: 'P001', player: 'S. Aho', game: 'MTL @ CAR', prop: 'Points o0.5', odds: '-165' },
+            { id: 'P002', player: 'A. Svechnikov', game: 'MTL @ CAR', prop: 'Goals o0.5', odds: '+110' },
+            { id: 'P003', player: 'L. Hutson', game: 'MTL @ CAR', prop: 'Assists o0.5', odds: '+105' }
+        ],
+        nba: [
+            { id: 'P004', player: 'S. Gilgeous-Alexander', game: 'OKC @ SAS', prop: 'Points o28.5', odds: '-115' },
+            { id: 'P005', player: 'J. Brunson', game: 'NYK @ CLE', prop: 'Points o25.5', odds: '-110' }
+        ],
+        mlb: [
+            { id: 'P006', player: 'S. Strider', game: 'ATL @ MIA', prop: 'Strikeouts o7.5', odds: '-125' },
+            { id: 'P007', player: 'G. Cole', game: 'TOR @ NYY', prop: 'Strikeouts o6.5', odds: '-120' },
+            { id: 'P008', player: 'S. Ohtani', game: 'LAD @ SD', prop: 'Hits o0.5', odds: '-200' }
+        ],
+        tennis: [
+            { id: 'P009', player: 'J. Sinner', game: 'RG R1', prop: 'Sets 2-0', odds: '-180' },
+            { id: 'P010', player: 'I. Świątek', game: 'RG R1', prop: 'Sets Lost u0.5', odds: '-165' }
+        ]
+    };
+    
+    // ==================== TRANSLATIONS ====================
+    const translations = {
+        en: {
+            home: 'Home', alerts: 'Alerts', top5: 'Top 5', props: 'Props', games: 'Games',
+            xfactors: 'XFactors', journal: 'Journal', parlay: 'Parlay', elite: 'Elite', index: 'Index',
+            bankroll: '💰 BANKROLL', winrate: '🎯 WIN RATE', roi: '📈 ROI', record: '🏆 RECORD',
+            performance: '🏆 PERFORMANCE BY SPORT', sport: 'SPORT', rec: 'RECORD', status: 'STATUS',
+            todayaction: "📡 TODAY'S ACTION — May 22, 2026", quicklinks: '🎯 QUICK LINKS',
+            todaypicks: "Today's Picks", buildparlay: 'Build Parlay', allgames: 'All Games',
+            activealerts: '🚨 ACTIVE ALERTS', top5picks: '🎯 TOP 5 TEAM PICKS — May 22-23',
+            top10props: '👤 TOP 10 PLAYER PROPS — 87.9% Win Rate', '48hrgames': '📅 ALL GAMES — Next 48 Hours',
+            bettingjournal: '📋 BETTING JOURNAL — Last 7 Days', parlaybuilder: '🎰 PARLAY BUILDER — 5+5=10 Max Legs'
+        },
+        fr: {
+            home: 'Accueil', alerts: 'Alertes', top5: 'Top 5', props: 'Props', games: 'Matchs',
+            xfactors: 'XFacteurs', journal: 'Journal', parlay: 'Parlay', elite: 'Élite', index: 'Index',
+            bankroll: '💰 CAPITAL', winrate: '🎯 TAUX', roi: '📈 ROI', record: '🏆 BILAN',
+            performance: '🏆 PERFORMANCE PAR SPORT', sport: 'SPORT', rec: 'BILAN', status: 'STATUT',
+            todayaction: "📡 ACTION DU JOUR — 22 mai 2026", quicklinks: '🎯 LIENS RAPIDES',
+            todaypicks: 'Choix du jour', buildparlay: 'Créer Parlay', allgames: 'Tous les matchs',
+            activealerts: '🚨 ALERTES ACTIVES', top5picks: '🎯 TOP 5 ÉQUIPES — 22-23 mai',
+            top10props: '👤 TOP 10 PROPS JOUEURS — 87.9%', '48hrgames': '📅 TOUS LES MATCHS — 48 Heures',
+            bettingjournal: '📋 JOURNAL DES PARIS — 7 Derniers Jours', parlaybuilder: '🎰 CRÉATEUR DE PARLAY — Max 5+5=10'
+        },
+        es: {
+            home: 'Inicio', alerts: 'Alertas', top5: 'Top 5', props: 'Props', games: 'Partidos',
+            xfactors: 'XFactores', journal: 'Diario', parlay: 'Parlay', elite: 'Elite', index: 'Índice',
+            bankroll: '💰 CAPITAL', winrate: '🎯 TASA', roi: '📈 ROI', record: '🏆 RÉCORD',
+            performance: '🏆 RENDIMIENTO POR DEPORTE', sport: 'DEPORTE', rec: 'RÉCORD', status: 'ESTADO',
+            todayaction: "📡 ACCIÓN DE HOY — 22 mayo 2026", quicklinks: '🎯 ENLACES RÁPIDOS',
+            todaypicks: 'Picks de hoy', buildparlay: 'Crear Parlay', allgames: 'Todos los partidos',
+            activealerts: '🚨 ALERTAS ACTIVAS', top5picks: '🎯 TOP 5 EQUIPOS — 22-23 mayo',
+            top10props: '👤 TOP 10 PROPS JUGADORES — 87.9%', '48hrgames': '📅 TODOS LOS PARTIDOS — 48 Horas',
+            bettingjournal: '📋 DIARIO DE APUESTAS — Últimos 7 Días', parlaybuilder: '🎰 CONSTRUCTOR DE PARLAY — Máx 5+5=10'
+        },
+        pt: {
+            home: 'Início', alerts: 'Alertas', top5: 'Top 5', props: 'Props', games: 'Jogos',
+            xfactors: 'XFatores', journal: 'Diário', parlay: 'Parlay', elite: 'Elite', index: 'Índice',
+            bankroll: '💰 BANCA', winrate: '🎯 TAXA', roi: '📈 ROI', record: '🏆 REGISTRO',
+            performance: '🏆 DESEMPENHO POR ESPORTE', sport: 'ESPORTE', rec: 'REGISTRO', status: 'STATUS',
+            todayaction: "📡 AÇÃO DE HOJE — 22 maio 2026", quicklinks: '🎯 LINKS RÁPIDOS',
+            todaypicks: 'Picks de hoje', buildparlay: 'Criar Parlay', allgames: 'Todos os jogos',
+            activealerts: '🚨 ALERTAS ATIVOS', top5picks: '🎯 TOP 5 TIMES — 22-23 maio',
+            top10props: '👤 TOP 10 PROPS JOGADORES — 87.9%', '48hrgames': '📅 TODOS OS JOGOS — 48 Horas',
+            bettingjournal: '📋 DIÁRIO DE APOSTAS — Últimos 7 Dias', parlaybuilder: '🎰 CONSTRUTOR DE PARLAY — Máx 5+5=10'
+        }
+    };
+    
+    // ==================== DEVICE MODE FUNCTION ====================
+    function setDeviceMode(mode) {
+        document.body.classList.remove('device-phone', 'device-tablet', 'device-desktop');
+        document.body.classList.add('device-' + mode);
+        localStorage.setItem('sigmax-device', mode);
+    }
+    
+    // ==================== LANGUAGE FUNCTION ====================
+    function setLanguage(lang) {
+        const t = translations[lang];
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key]) el.textContent = t[key];
+        });
+        localStorage.setItem('sigmax-lang', lang);
+    }
+// ==================== PARLAY BUILDER - CASCADING DROPDOWNS ====================
+    
+    // Update teams when sport is selected
+    function updateTeams(row) {
+        const sportSelect = document.getElementById('sport' + row);
+        const teamSelect = document.getElementById('team' + row);
+        const betSelect = document.getElementById('bet' + row);
+        const oddsSpan = document.getElementById('odds' + row);
         
-        // TEAMS in 48-hour window (verified picks)
-        const teamPickOptions = [
-            { value: "col_vgk", text: "🏒 COL vs VGK (WCF G2)", odds: -110 },
-            { value: "vgk_col", text: "🏒 VGK @ COL (WCF G2)", odds: +125 },
-            { value: "mtl_car", text: "🏒 MTL @ CAR (ECF G2)", odds: +155 },
-            { value: "car_mtl", text: "🏒 CAR vs MTL (ECF G2)", odds: -165 },
-            { value: "okc_sas", text: "🏀 OKC @ SAS (WCF G3)", odds: -130 },
-            { value: "sas_okc", text: "🏀 SAS vs OKC (WCF G3)", odds: +115 },
-            { value: "nyk_ind", text: "🏀 NYK @ IND (ECF G3)", odds: -145 },
-            { value: "ind_nyk", text: "🏀 IND vs NYK (ECF G3)", odds: +130 },
-            { value: "nyy_bal", text: "⚾ NYY @ BAL", odds: -125 },
-            { value: "bal_nyy", text: "⚾ BAL vs NYY", odds: +110 },
-            { value: "hou_tex", text: "⚾ HOU @ TEX", odds: +105 },
-            { value: "bos_tor", text: "⚾ BOS @ TOR", odds: -135 },
-            { value: "intermiami_lafc", text: "⚽ Inter Miami vs LAFC", odds: +120 },
-            { value: "atl_lag", text: "⚽ ATL vs LA Galaxy", odds: -110 },
-            { value: "rma_fcb", text: "⚽ Real Madrid vs Barcelona", odds: +140 }
-        ];
+        const sport = sportSelect.value;
         
-        // PLAYERS in 48-hour window (verified active)
-        const playerPropOptions = [
-            { value: "mackinnon_pts", text: "🏒 MacKinnon o1.5 pts", odds: -130 },
-            { value: "makar_pts", text: "🏒 Makar o0.5 pts", odds: -155 },
-            { value: "caufield_goals", text: "🏒 Caufield o0.5 goals", odds: +175 },
-            { value: "suzuki_pts", text: "🏒 Suzuki o1.5 pts", odds: +120 },
-            { value: "shai_pts", text: "🏀 SGA o28.5 pts", odds: -115 },
-            { value: "wemby_pts", text: "🏀 Wembanyama o25.5 pts", odds: -120 },
-            { value: "wemby_blks", text: "🏀 Wembanyama o3.5 blks", odds: +105 },
-            { value: "brunson_pts", text: "🏀 Brunson o26.5 pts", odds: -110 },
-            { value: "haliburton_ast", text: "🏀 Haliburton o9.5 ast", odds: -125 },
-            { value: "judge_hr", text: "⚾ Judge o0.5 HR", odds: +210 },
-            { value: "ohtani_k", text: "⚾ Ohtani o7.5 K", odds: -115 },
-            { value: "tucker_hits", text: "⚾ Tucker o1.5 hits", odds: +100 },
-            { value: "messi_goals", text: "⚽ Messi o0.5 goals", odds: +130 },
-            { value: "vini_goals", text: "⚽ Vinicius o0.5 goals", odds: +155 }
-        ];
+        // Reset dependent dropdowns
+        teamSelect.innerHTML = '<option value="">Select Game</option>';
+        betSelect.innerHTML = '<option value="">Bet Type</option>';
+        oddsSpan.textContent = '---';
         
-        // ========================================
-        // TRANSLATIONS (EN/FR/ES/PT)
-        // ========================================
-        const translations = {
-            en: {
-                bankroll: "💰 BANKROLL", winrate: "🎯 WIN RATE", roi: "📈 ROI", record: "🏆 RECORD",
-                home: "Home", alerts: "Alerts", top5: "Top 5", props: "Props", games: "Games",
-                xfactors: "XFactors", journal: "Journal", parlay: "Parlay", elite: "Elite", index: "Index",
-                performance: "🏆 PERFORMANCE BY SPORT", sport: "SPORT", rec: "RECORD", status: "STATUS",
-                todayaction: "📡 TODAY'S ACTION — May 22, 2026", quicklinks: "🎯 QUICK LINKS",
-                todaypicks: "Today's Picks", buildparlay: "Build Parlay", allgames: "All Games",
-                activealerts: "🚨 ACTIVE ALERTS", upcomingevents: "📅 UPCOMING EVENTS",
-                top5picks: "🎯 TOP 5 ELITE PICKS — May 22, 2026", playerprops: "👤 PLAYER PROPS",
-                todaysgames: "📅 TODAY'S GAMES", xfactorstitle: "🎲 X-FACTORS — EDGE ANALYSIS",
-                bettingjournal: "📋 BETTING JOURNAL", parlaybuilder: "🎰 PARLAY BUILDER (5+5=10 MAX)",
-                elitestats: "📊 ELITE STATISTICS", allsportindex: "📚 ALL SPORT INDEX",
-                teamgame: "🏟️ TEAM/GAME PICKS", playerprop: "👤 PLAYER PROPS",
-                selectgame: "Select Game", selectbet: "Bet Type", selectplayer: "Select Player",
-                selectprop: "Prop Type", addtoslip: "ADD TO SLIP", clearall: "CLEAR ALL",
-                calculateodds: "CALCULATE PARLAY", totalodds: "TOTAL ODDS", potentialpayout: "Potential Payout",
-                teampicks: "Team Picks", proppicks: "Prop Picks", total: "Total",
-                disclaimer: "⚠️ RESPONSIBLE GAMBLING DISCLAIMER",
-                disclaimertext: "Gambling involves risk. If you or someone you know has a gambling problem, call 1-800-522-4700 (US) or ConnexOntario 1-866-531-2600 (Ontario). iGaming Ontario. AGCO Regulated. PlaySmart.ca. Must be 19+ to gamble in Ontario. Bet responsibly."
-            },
-            fr: {
-                bankroll: "💰 CAPITAL", winrate: "🎯 TAUX RÉUS.", roi: "📈 ROI", record: "🏆 BILAN",
-                home: "Accueil", alerts: "Alertes", top5: "Top 5", props: "Props", games: "Matchs",
-                xfactors: "XFactors", journal: "Journal", parlay: "Parlay", elite: "Élite", index: "Index",
-                performance: "🏆 PERFORMANCE PAR SPORT", sport: "SPORT", rec: "BILAN", status: "STATUT",
-                todayaction: "📡 ACTION DU JOUR — 22 mai 2026", quicklinks: "🎯 LIENS RAPIDES",
-                todaypicks: "Sélections", buildparlay: "Créer Parlay", allgames: "Tous les matchs",
-                activealerts: "🚨 ALERTES ACTIVES", upcomingevents: "📅 ÉVÉNEMENTS À VENIR",
-                top5picks: "🎯 TOP 5 SÉLECTIONS ÉLITE — 22 mai 2026", playerprops: "👤 PROPS JOUEURS",
-                todaysgames: "📅 MATCHS DU JOUR", xfactorstitle: "🎲 X-FACTORS — ANALYSE",
-                bettingjournal: "📋 JOURNAL DE PARIS", parlaybuilder: "🎰 CRÉATEUR PARLAY (5+5=10 MAX)",
-                elitestats: "📊 STATISTIQUES ÉLITE", allsportindex: "📚 INDEX TOUS SPORTS",
-                teamgame: "🏟️ ÉQUIPES/MATCHS", playerprop: "👤 PROPS JOUEURS",
-                selectgame: "Sélect. match", selectbet: "Type pari", selectplayer: "Sélect. joueur",
-                selectprop: "Type prop", addtoslip: "AJOUTER", clearall: "EFFACER",
-                calculateodds: "CALCULER PARLAY", totalodds: "COTES TOTALES", potentialpayout: "Gain potentiel",
-                teampicks: "Équipes", proppicks: "Props", total: "Total",
-                disclaimer: "⚠️ AVERTISSEMENT JEU RESPONSABLE",
-                disclaimertext: "Les jeux de hasard comportent des risques. Si vous avez un problème de jeu, appelez ConnexOntario 1-866-531-2600. iGaming Ontario. Réglementé par AGCO. JouerRaisonnable.ca. 19+ pour jouer en Ontario."
-            },
-            es: {
-                bankroll: "💰 CAPITAL", winrate: "🎯 % ÉXITO", roi: "📈 ROI", record: "🏆 RÉCORD",
-                home: "Inicio", alerts: "Alertas", top5: "Top 5", props: "Props", games: "Juegos",
-                xfactors: "XFactors", journal: "Diario", parlay: "Parlay", elite: "Élite", index: "Índice",
-                performance: "🏆 RENDIMIENTO POR DEPORTE", sport: "DEPORTE", rec: "RÉCORD", status: "ESTADO",
-                todayaction: "📡 ACCIÓN DE HOY — 22 mayo 2026", quicklinks: "🎯 ENLACES RÁPIDOS",
-                todaypicks: "Selecciones", buildparlay: "Crear Parlay", allgames: "Todos los juegos",
-                activealerts: "🚨 ALERTAS ACTIVAS", upcomingevents: "📅 PRÓXIMOS EVENTOS",
-                top5picks: "🎯 TOP 5 SELECCIONES ÉLITE — 22 mayo 2026", playerprops: "👤 PROPS JUGADORES",
-                todaysgames: "📅 JUEGOS DE HOY", xfactorstitle: "🎲 X-FACTORS — ANÁLISIS",
-                bettingjournal: "📋 DIARIO DE APUESTAS", parlaybuilder: "🎰 CREADOR PARLAY (5+5=10 MÁX)",
-                elitestats: "📊 ESTADÍSTICAS ÉLITE", allsportindex: "📚 ÍNDICE DEPORTES",
-                teamgame: "🏟️ EQUIPOS/JUEGOS", playerprop: "👤 PROPS JUGADORES",
-                selectgame: "Selec. juego", selectbet: "Tipo apuesta", selectplayer: "Selec. jugador",
-                selectprop: "Tipo prop", addtoslip: "AGREGAR", clearall: "BORRAR",
-                calculateodds: "CALCULAR PARLAY", totalodds: "CUOTAS TOTALES", potentialpayout: "Pago potencial",
-                teampicks: "Equipos", proppicks: "Props", total: "Total",
-                disclaimer: "⚠️ AVISO DE JUEGO RESPONSABLE",
-                disclaimertext: "Las apuestas implican riesgo. Si usted o alguien tiene problema de juego, llame 1-800-522-4700. Juegue responsablemente."
-            },
-            pt: {
-                bankroll: "💰 BANCA", winrate: "🎯 % VITÓRIA", roi: "📈 ROI", record: "🏆 RECORDE",
-                home: "Início", alerts: "Alertas", top5: "Top 5", props: "Props", games: "Jogos",
-                xfactors: "XFactors", journal: "Diário", parlay: "Parlay", elite: "Elite", index: "Índice",
-                performance: "🏆 DESEMPENHO POR ESPORTE", sport: "ESPORTE", rec: "RECORDE", status: "STATUS",
-                todayaction: "📡 AÇÃO DE HOJE — 22 maio 2026", quicklinks: "🎯 LINKS RÁPIDOS",
-                todaypicks: "Seleções", buildparlay: "Criar Parlay", allgames: "Todos os jogos",
-                activealerts: "🚨 ALERTAS ATIVOS", upcomingevents: "📅 PRÓXIMOS EVENTOS",
-                top5picks: "🎯 TOP 5 SELEÇÕES ELITE — 22 maio 2026", playerprops: "👤 PROPS JOGADORES",
-                todaysgames: "📅 JOGOS DE HOJE", xfactorstitle: "🎲 X-FACTORS — ANÁLISE",
-                bettingjournal: "📋 DIÁRIO DE APOSTAS", parlaybuilder: "🎰 CRIADOR PARLAY (5+5=10 MÁX)",
-                elitestats: "📊 ESTATÍSTICAS ELITE", allsportindex: "📚 ÍNDICE ESPORTES",
-                teamgame: "🏟️ EQUIPES/JOGOS", playerprop: "👤 PROPS JOGADORES",
-                selectgame: "Selec. jogo", selectbet: "Tipo aposta", selectplayer: "Selec. jogador",
-                selectprop: "Tipo prop", addtoslip: "ADICIONAR", clearall: "LIMPAR",
-                calculateodds: "CALCULAR PARLAY", totalodds: "ODDS TOTAIS", potentialpayout: "Pagamento potencial",
-                teampicks: "Equipes", proppicks: "Props", total: "Total",
-                disclaimer: "⚠️ AVISO DE JOGO RESPONSÁVEL",
-                disclaimertext: "Apostas envolvem risco. Se você tem problema com jogo, ligue para ajuda. Jogue com responsabilidade."
+        if (!sport) {
+            teamSelect.disabled = true;
+            betSelect.disabled = true;
+            return;
+        }
+        
+        // Populate teams from REAL data
+        const games = gamesData[sport];
+        if (games && games.length > 0) {
+            games.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g.id;
+                opt.textContent = g.game + ' (' + g.desc.split('•')[0].trim() + ')';
+                opt.dataset.game = JSON.stringify(g);
+                teamSelect.appendChild(opt);
+            });
+            teamSelect.disabled = false;
+        }
+        
+        updateCounts();
+    }
+    
+    // Update odds when team/bet is selected
+    function updateOdds(row) {
+        const sportSelect = document.getElementById('sport' + row);
+        const teamSelect = document.getElementById('team' + row);
+        const betSelect = document.getElementById('bet' + row);
+        const oddsSpan = document.getElementById('odds' + row);
+        
+        const sport = sportSelect.value;
+        const gameId = teamSelect.value;
+        
+        if (!gameId) {
+            betSelect.innerHTML = '<option value="">Bet Type</option>';
+            betSelect.disabled = true;
+            oddsSpan.textContent = '---';
+            return;
+        }
+        
+        // Find game data
+        const games = gamesData[sport];
+        const game = games.find(g => g.id === gameId);
+        
+        if (!game) return;
+        
+        // Populate bet types based on sport
+        betSelect.innerHTML = '<option value="">Bet Type</option>';
+        
+        if (sport === 'nhl' || sport === 'nba') {
+            betSelect.innerHTML += '<option value="mlAway">' + game.away + ' ML</option>';
+            betSelect.innerHTML += '<option value="mlHome">' + game.home + ' ML</option>';
+            betSelect.innerHTML += '<option value="spread">' + game.spread + '</option>';
+            betSelect.innerHTML += '<option value="ou">' + game.ou + '</option>';
+        } else if (sport === 'mls') {
+            betSelect.innerHTML += '<option value="mlHome">' + game.home + ' ML</option>';
+            betSelect.innerHTML += '<option value="mlAway">' + game.away + ' ML</option>';
+            betSelect.innerHTML += '<option value="draw">Draw</option>';
+            betSelect.innerHTML += '<option value="spread">' + game.spread + '</option>';
+        }
+        
+        betSelect.disabled = false;
+        
+        // Update odds on bet type change
+        betSelect.onchange = function() {
+            const betType = this.value;
+            if (betType && game[betType]) {
+                oddsSpan.textContent = game[betType];
+            } else if (betType === 'spread') {
+                oddsSpan.textContent = game.spreadOdds || '-110';
+            } else if (betType === 'ou') {
+                oddsSpan.textContent = game.ouOdds || '-110';
+            } else {
+                oddsSpan.textContent = '---';
             }
+            updateCounts();
         };
         
-        let currentLang = 'en';
+        updateCounts();
+    }
+    
+    // Update props when prop sport is selected
+    function updateProps(row) {
+        const sportSelect = document.getElementById('propSport' + row);
+        const playerSelect = document.getElementById('player' + row);
+        const propSelect = document.getElementById('prop' + row);
+        const oddsSpan = document.getElementById('propOdds' + row);
         
-        // ========================================
-        // LANGUAGE SWITCHING (SELECT DROPDOWN)
-        // ========================================
-        function setLanguage(lang) {
-            currentLang = lang;
-            // Update the dropdown to show selected language
-            const langSelect = document.getElementById('langSelect');
-            if (langSelect) {
-                langSelect.value = lang;
+        const sport = sportSelect.value;
+        
+        // Reset dependent dropdowns
+        playerSelect.innerHTML = '<option value="">Select Player</option>';
+        propSelect.innerHTML = '<option value="">Prop Type</option>';
+        oddsSpan.textContent = '---';
+        
+        if (!sport) {
+            playerSelect.disabled = true;
+            propSelect.disabled = true;
+            return;
+        }
+        
+        // Populate players from REAL data
+        const props = propsData[sport];
+        if (props && props.length > 0) {
+            props.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.player + ' (' + p.game + ')';
+                opt.dataset.prop = JSON.stringify(p);
+                playerSelect.appendChild(opt);
+            });
+            playerSelect.disabled = false;
+        }
+        
+        updateCounts();
+    }
+    
+    // Update prop odds when player is selected
+    function updatePropOdds(row) {
+        const sportSelect = document.getElementById('propSport' + row);
+        const playerSelect = document.getElementById('player' + row);
+        const propSelect = document.getElementById('prop' + row);
+        const oddsSpan = document.getElementById('propOdds' + row);
+        
+        const sport = sportSelect.value;
+        const propId = playerSelect.value;
+        
+        if (!propId) {
+            propSelect.innerHTML = '<option value="">Prop Type</option>';
+            propSelect.disabled = true;
+            oddsSpan.textContent = '---';
+            return;
+        }
+        
+        // Find prop data
+        const props = propsData[sport];
+        const prop = props.find(p => p.id === propId);
+        
+        if (!prop) return;
+        
+        // Populate prop type (auto-fill from data)
+        propSelect.innerHTML = '<option value="">Prop Type</option>';
+        propSelect.innerHTML += '<option value="' + prop.id + '" selected>' + prop.prop + '</option>';
+        propSelect.disabled = false;
+        
+        // Set odds
+        oddsSpan.textContent = prop.odds;
+        
+        updateCounts();
+    }
+    
+    // Update counter displays
+    function updateCounts() {
+        let teamCount = 0;
+        let propsCount = 0;
+        
+        // Count team picks
+        for (let i = 1; i <= 5; i++) {
+            const betSelect = document.getElementById('bet' + i);
+            if (betSelect && betSelect.value) teamCount++;
+        }
+        
+        // Count prop picks
+        for (let i = 1; i <= 5; i++) {
+            const propSelect = document.getElementById('prop' + i);
+            if (propSelect && propSelect.value) propsCount++;
+        }
+        
+        document.getElementById('teamCount').textContent = teamCount;
+        document.getElementById('propsCount').textContent = propsCount;
+        document.getElementById('totalCount').textContent = teamCount + propsCount;
+        
+        // Apply warning colors
+        document.getElementById('teamCount').style.color = teamCount >= 5 ? 'var(--red)' : 'var(--gold)';
+        document.getElementById('propsCount').style.color = propsCount >= 5 ? 'var(--red)' : 'var(--gold)';
+        document.getElementById('totalCount').style.color = (teamCount + propsCount) >= 10 ? 'var(--red)' : 'var(--gold)';
+    }
+    
+    // Calculate parlay odds
+    function calculateParlay() {
+        let decimalOdds = 1;
+        let legCount = 0;
+        
+        // Get all team bet odds
+        for (let i = 1; i <= 5; i++) {
+            const oddsText = document.getElementById('odds' + i).textContent;
+            if (oddsText && oddsText !== '---') {
+                decimalOdds *= americanToDecimal(oddsText);
+                legCount++;
             }
+        }
+        
+        // Get all prop odds
+        for (let i = 1; i <= 5; i++) {
+            const oddsText = document.getElementById('propOdds' + i).textContent;
+            if (oddsText && oddsText !== '---') {
+                decimalOdds *= americanToDecimal(oddsText);
+                legCount++;
+            }
+        }
+        
+        if (legCount < 2) {
+            document.getElementById('parlayOdds').textContent = 'Select 2+ legs';
+            document.getElementById('parlayPayout').textContent = '$100 bet pays $---';
+            return;
+        }
+        
+        const americanOdds = decimalToAmerican(decimalOdds);
+        const payout = (decimalOdds * 100).toFixed(2);
+        
+        document.getElementById('parlayOdds').textContent = americanOdds;
+        document.getElementById('parlayPayout').textContent = '$100 bet pays $' + payout;
+    }
+    
+    function americanToDecimal(american) {
+        const odds = parseInt(american);
+        return odds > 0 ? (odds / 100) + 1 : (100 / Math.abs(odds)) + 1;
+    }
+    
+    function decimalToAmerican(decimal) {
+        if (decimal >= 2) return '+' + Math.round((decimal - 1) * 100);
+        return '-' + Math.round(100 / (decimal - 1));
+    }
+    
+    function clearParlay() {
+        for (let i = 1; i <= 5; i++) {
+            document.getElementById('sport' + i).value = '';
+            document.getElementById('team' + i).innerHTML = '<option value="">Select Game</option>';
+            document.getElementById('team' + i).disabled = true;
+            document.getElementById('bet' + i).innerHTML = '<option value="">Bet Type</option>';
+            document.getElementById('bet' + i).disabled = true;
+            document.getElementById('odds' + i).textContent = '---';
             
-            // Apply translations to all elements
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang] && translations[lang][key]) {
-                    el.textContent = translations[lang][key];
-                }
-            });
+            document.getElementById('propSport' + i).value = '';
+            document.getElementById('player' + i).innerHTML = '<option value="">Select Player</option>';
+            document.getElementById('player' + i).disabled = true;
+            document.getElementById('prop' + i).innerHTML = '<option value="">Prop Type</option>';
+            document.getElementById('prop' + i).disabled = true;
+            document.getElementById('propOdds' + i).textContent = '---';
         }
         
-        // ========================================
-        // TAB NAVIGATION
-        // ========================================
-        function showTab(tabId) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            // Remove active from all buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            // Show selected tab
-            const selectedTab = document.getElementById(tabId);
-            if (selectedTab) {
-                selectedTab.classList.add('active');
-            }
-            // Activate button
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                if (btn.getAttribute('data-tab') === tabId) {
-                    btn.classList.add('active');
-                }
-            });
-        }
+        document.getElementById('parlayOdds').textContent = '---';
+        document.getElementById('parlayPayout').textContent = '$100 bet pays $---';
+        updateCounts();
+    }
+    
+    // ==================== TAB NAVIGATION ====================
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        document.querySelector('[data-tab="' + tabId + '"]').classList.add('active');
+    }
+    
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => showTab(btn.dataset.tab));
+    });
+    
+    // Games filter
+    function filterGames(sport) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
         
-        // Tab button click handlers
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tabId = btn.getAttribute('data-tab');
-                showTab(tabId);
-            });
+        document.querySelectorAll('#gamesTable tr[data-sport]').forEach(row => {
+            row.style.display = (sport === 'all' || row.dataset.sport === sport) ? '' : 'none';
         });
-// ==================== PARLAY BUILDER STATE ====================
-        let teamRows = 1;
-        let propRows = 1;
-        const MAX_TEAM_PICKS = 5;
-        const MAX_PROP_PICKS = 5;
-        const MAX_TOTAL_PICKS = 10;
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('sigmax-lang') || 'en';
+        const savedDevice = localStorage.getItem('sigmax-device') || 'desktop';
         
-        // ==================== ADAPTIVE DROPDOWN UPDATES ====================
-        function updateTeams(rowNum) {
-            const sportSelect = document.getElementById('sport' + rowNum);
-            const teamSelect = document.getElementById('team' + rowNum);
-            const sport = sportSelect.value;
-            
-            // Clear existing options
-            teamSelect.innerHTML = '<option value="">Select Team/Match</option>';
-            
-            if (sport && dropdownData.teams[sport]) {
-                dropdownData.teams[sport].forEach(team => {
-                    const option = document.createElement('option');
-                    option.value = team.name;
-                    option.textContent = team.name + ' (' + team.game + ')';
-                    option.dataset.odds = team.odds;
-                    teamSelect.appendChild(option);
-                });
-            }
-        }
+        document.getElementById('langSelect').value = savedLang;
+        document.getElementById('deviceSelect').value = savedDevice;
         
-        function updatePlayers(rowNum) {
-            const sportSelect = document.getElementById('propSport' + rowNum);
-            const playerSelect = document.getElementById('player' + rowNum);
-            const sport = sportSelect.value;
-            
-            // Clear existing options
-            playerSelect.innerHTML = '<option value="">Select Player</option>';
-            
-            if (sport && dropdownData.players[sport]) {
-                dropdownData.players[sport].forEach(player => {
-                    const option = document.createElement('option');
-                    option.value = player.name;
-                    option.textContent = player.name;
-                    option.dataset.props = JSON.stringify(player.props);
-                    playerSelect.appendChild(option);
-                });
-            }
-        }
-        
-        function updatePropTypes(rowNum) {
-            const playerSelect = document.getElementById('player' + rowNum);
-            const propTypeSelect = document.getElementById('propType' + rowNum);
-            const selectedOption = playerSelect.options[playerSelect.selectedIndex];
-            
-            // Clear existing options
-            propTypeSelect.innerHTML = '<option value="">Prop Type</option>';
-            
-            if (selectedOption && selectedOption.dataset.props) {
-                const props = JSON.parse(selectedOption.dataset.props);
-                props.forEach(prop => {
-                    const option = document.createElement('option');
-                    option.value = prop;
-                    option.textContent = prop;
-                    propTypeSelect.appendChild(option);
-                });
-            }
-        }
-        
-        function updateOdds(type, rowNum) {
-            const select = type === 'team' ? document.getElementById('team' + rowNum) : document.getElementById('player' + rowNum);
-            const oddsInput = type === 'team' ? document.getElementById('odds' + rowNum) : document.getElementById('propOdds' + rowNum);
-            const selectedOption = select.options[select.selectedIndex];
-            
-            if (selectedOption && selectedOption.dataset.odds) {
-                oddsInput.value = selectedOption.dataset.odds;
-            }
-            
-            updateLimitCounters();
-        }
-        
-        // ==================== ADD ROW FUNCTIONS (ENFORCING 5+5=10 RULE) ====================
-        function addTeamRow() {
-            if (teamRows >= MAX_TEAM_PICKS) {
-                alert('Maximum 5 Team Picks allowed!');
-                return;
-            }
-            if (teamRows + propRows >= MAX_TOTAL_PICKS) {
-                alert('Maximum 10 Total Picks allowed!');
-                return;
-            }
-            
-            teamRows++;
-            document.getElementById('teamRow' + teamRows).style.display = 'grid';
-            updateLimitCounters();
-            
-            if (teamRows >= MAX_TEAM_PICKS) {
-                document.getElementById('addTeamBtn').style.display = 'none';
-            }
-        }
-        
-        function addPropRow() {
-            if (propRows >= MAX_PROP_PICKS) {
-                alert('Maximum 5 Player Props allowed!');
-                return;
-            }
-            if (teamRows + propRows >= MAX_TOTAL_PICKS) {
-                alert('Maximum 10 Total Picks allowed!');
-                return;
-            }
-            
-            propRows++;
-            document.getElementById('propRow' + propRows).style.display = 'grid';
-            updateLimitCounters();
-            
-            if (propRows >= MAX_PROP_PICKS) {
-                document.getElementById('addPropBtn').style.display = 'none';
-            }
-        }
-        
-        // ==================== LIMIT COUNTER UPDATE ====================
-        function updateLimitCounters() {
-            const teamCountEl = document.getElementById('teamCount');
-            const propsCountEl = document.getElementById('propsCount');
-            const totalCountEl = document.getElementById('totalCount');
-            
-            // Count active team picks
-            let activeTeams = 0;
-            for (let i = 1; i <= teamRows; i++) {
-                if (document.getElementById('team' + i).value) activeTeams++;
-            }
-            
-            // Count active props
-            let activeProps = 0;
-            for (let i = 1; i <= propRows; i++) {
-                if (document.getElementById('player' + i).value) activeProps++;
-            }
-            
-            teamCountEl.textContent = activeTeams;
-            propsCountEl.textContent = activeProps;
-            totalCountEl.textContent = activeTeams + activeProps;
-            
-            // Color coding for limits
-            teamCountEl.className = 'limit-value' + (activeTeams >= MAX_TEAM_PICKS ? ' limit-full' : (activeTeams >= 4 ? ' limit-warning' : ''));
-            propsCountEl.className = 'limit-value' + (activeProps >= MAX_PROP_PICKS ? ' limit-full' : (activeProps >= 4 ? ' limit-warning' : ''));
-            totalCountEl.className = 'limit-value' + ((activeTeams + activeProps) >= MAX_TOTAL_PICKS ? ' limit-full' : ((activeTeams + activeProps) >= 8 ? ' limit-warning' : ''));
-        }
-        
-        // ==================== PARLAY CALCULATION ====================
-        function calculateParlay() {
-            let decimalOdds = 1;
-            let legCount = 0;
-            
-            // Calculate team picks odds
-            for (let i = 1; i <= teamRows; i++) {
-                const odds = document.getElementById('odds' + i).value;
-                if (odds) {
-                    decimalOdds *= americanToDecimal(parseInt(odds));
-                    legCount++;
-                }
-            }
-            
-            // Calculate prop odds
-            for (let i = 1; i <= propRows; i++) {
-                const odds = document.getElementById('propOdds' + i).value;
-                if (odds) {
-                    decimalOdds *= americanToDecimal(parseInt(odds));
-                    legCount++;
-                }
-            }
-            
-            if (legCount < 2) {
-                alert('Parlay requires at least 2 legs!');
-                return;
-            }
-            
-            const americanOdds = decimalToAmerican(decimalOdds);
-            document.getElementById('parlayOdds').textContent = americanOdds;
-            
-            calculatePayout();
-        }
-        
-        function calculatePayout() {
-            const wager = parseFloat(document.getElementById('wagerAmount').value) || 100;
-            const oddsText = document.getElementById('parlayOdds').textContent;
-            const odds = parseInt(oddsText.replace('+', ''));
-            
-            let payout;
-            if (oddsText.startsWith('+')) {
-                payout = wager * (odds / 100);
-            } else {
-                payout = wager / (Math.abs(odds) / 100);
-            }
-            
-            document.getElementById('parlayPayout').textContent = 
-                '$' + wager.toFixed(0) + ' bet wins $' + payout.toFixed(2);
-        }
-        
-        function americanToDecimal(american) {
-            if (american >= 100) {
-                return (american / 100) + 1;
-            } else {
-                return (100 / Math.abs(american)) + 1;
-            }
-        }
-        
-        function decimalToAmerican(decimal) {
-            if (decimal >= 2) {
-                return '+' + Math.round((decimal - 1) * 100);
-            } else {
-                return '-' + Math.round(100 / (decimal - 1));
-            }
-        }
-        
-        // ==================== CLEAR PARLAY ====================
-        function clearParlay() {
-            // Reset team rows
-            for (let i = 1; i <= 5; i++) {
-                document.getElementById('sport' + i).value = '';
-                document.getElementById('team' + i).innerHTML = '<option value="">Select Team/Match</option>';
-                document.getElementById('betType' + i).value = 'ml';
-                document.getElementById('odds' + i).value = '';
-                if (i > 1) document.getElementById('teamRow' + i).style.display = 'none';
-            }
-            
-            // Reset prop rows
-            for (let i = 1; i <= 5; i++) {
-                document.getElementById('propSport' + i).value = '';
-                document.getElementById('player' + i).innerHTML = '<option value="">Select Player</option>';
-                document.getElementById('propType' + i).innerHTML = '<option value="">Prop Type</option>';
-                document.getElementById('propOdds' + i).value = '';
-                if (i > 1) document.getElementById('propRow' + i).style.display = 'none';
-            }
-            
-            teamRows = 1;
-            propRows = 1;
-            document.getElementById('addTeamBtn').style.display = 'block';
-            document.getElementById('addPropBtn').style.display = 'block';
-            document.getElementById('parlayOdds').textContent = '+100';
-            document.getElementById('parlayPayout').textContent = '$100 bet wins $100';
-            
-            updateLimitCounters();
-        }
-        
-        // ==================== GAME FILTER ====================
-        function filterGames(sport) {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(sport) || (sport === 'all' && btn.textContent === 'All'));
-            });
-            
-            document.querySelectorAll('[data-sport]').forEach(row => {
-                if (sport === 'all' || row.dataset.sport === sport) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-        
-        // Initialize counters on page load
-        updateLimitCounters();
+        setLanguage(savedLang);
+        setDeviceMode(savedDevice);
+    });
     </script>
 </body>
 </html>
