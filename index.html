@@ -3,1169 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SigMAX ELITE v10.2 - Maximum Signal. Maximum Edge.</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>SigMAX ELITE - Sports Betting Intelligence</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg-primary: #080b12;
-            --bg-secondary: #0c1018;
-            --bg-card: rgba(12, 16, 24, 0.95);
+            --bg-secondary: #0d1117;
+            --bg-card: #161b22;
             --gold: #d4af37;
-            --gold-glow: rgba(212, 175, 55, 0.15);
             --green: #10b981;
-            --green-glow: rgba(16, 185, 129, 0.4);
             --red: #ef4444;
-            --red-glow: rgba(239, 68, 68, 0.4);
             --blue: #2563eb;
-            --blue-glow: rgba(59, 130, 246, 0.4);
             --orange: #f97316;
-            --orange-glow: rgba(249, 115, 22, 0.4);
-            --text-primary: #f0f0f0;
-            --text-secondary: #94a3b8;
-            --border: rgba(212, 175, 55, 0.2);
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --border: #30363d;
         }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            color: var(--text-primary);
-            min-height: 100vh;
-            padding: 8px;
-            overflow-x: hidden;
-        }
-        .app-container { max-width: 440px; margin: 0 auto; }
-        .header { text-align: center; padding: 12px 8px; border-bottom: 0.5px solid var(--border); margin-bottom: 8px; }
-        .logo { font-size: 1.4rem; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
-        .tagline { font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; }
-        .timestamp { font-size: 0.65rem; color: var(--orange); margin-top: 4px; }
-        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; }
-        .stat-item { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 10px; padding: 8px 4px; text-align: center; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; }
+        .app-container { max-width: 430px; margin: 0 auto; padding-bottom: 80px; }
+        .header { background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card)); padding: 16px; text-align: center; border-bottom: 2px solid var(--gold); }
+        .header-title { font-size: 1.5rem; font-weight: 800; color: var(--gold); letter-spacing: 2px; }
+        .header-subtitle { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
+        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 12px; background: var(--bg-secondary); }
+        .stat-item { text-align: center; }
         .stat-value { font-size: 1rem; font-weight: 700; color: var(--gold); }
-        .stat-label { font-size: 0.6rem; color: var(--text-secondary); }
-        .tab-nav { display: flex; overflow-x: auto; gap: 4px; padding: 4px 0; margin-bottom: 10px; scrollbar-width: none; }
-        .tab-nav::-webkit-scrollbar { display: none; }
-        .tab-btn { flex-shrink: 0; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 10px; padding: 8px 12px; color: var(--text-secondary); font-size: 0.7rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
-        .tab-btn.active { background: linear-gradient(135deg, var(--gold) 0%, #b8962e 100%); color: #080b12; border-color: var(--gold); }
-        .tab-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
-        .tab-content { display: none; }
+        .stat-label { font-size: 0.65rem; color: var(--text-secondary); }
+        .tab-nav { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); justify-content: center; }
+        .tab-btn { padding: 8px 12px; border: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; background: var(--bg-card); color: var(--text-secondary); transition: all 0.2s; }
+        .tab-btn.active { background: var(--gold); color: var(--bg-primary); }
+        .tab-content { display: none; padding: 12px; }
         .tab-content.active { display: block; }
-        .card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 8px; position: relative; }
-        .card::before, .card::after { content: ''; position: absolute; width: 12px; height: 12px; border: 1.5px solid var(--gold); pointer-events: none; }
-        .card::before { top: 4px; left: 4px; border-right: none; border-bottom: none; }
-        .card::after { bottom: 4px; right: 4px; border-left: none; border-top: none; }
-        .card-title { font-size: 0.75rem; font-weight: 600; color: var(--gold); margin-bottom: 8px; }
-📋 PART 2 of 7 — Copy this next (more CSS):
-        .pick-item { display: flex; align-items: center; justify-content: space-between; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 6px; border-left: 3px solid var(--gold); }
-        .pick-item.win { border-left-color: var(--green); box-shadow: 0 0 8px var(--green-glow); }
-        .pick-item.loss { border-left-color: var(--red); box-shadow: 0 0 8px var(--red-glow); }
-        .pick-item.live { border-left-color: var(--orange); box-shadow: 0 0 8px var(--orange-glow); animation: pulse 2s infinite; }
-        .pick-info { flex: 1; }
-        .pick-matchup { font-size: 0.75rem; font-weight: 600; }
-        .pick-details { font-size: 0.65rem; color: var(--text-secondary); }
-        .pick-odds { font-size: 0.85rem; font-weight: 700; }
-        .odds-plus { color: var(--green); }
-        .odds-minus { color: var(--blue); }
-        .pick-status { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
-        .status-live { background: var(--orange); color: #fff; animation: pulse 2s infinite; }
-        .status-win { background: var(--green); color: #fff; }
-        .status-loss { background: var(--red); color: #fff; }
-        .status-pending { background: var(--blue); color: #fff; }
+        .card { background: var(--bg-card); border-radius: 12px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); }
+        .card-title { font-size: 0.85rem; font-weight: 700; color: var(--gold); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        .pick-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--border); }
+        .pick-item.win { border-left-color: var(--green); }
+        .pick-item.loss { border-left-color: var(--red); }
+        .pick-item.live { border-left-color: var(--orange); animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-        .parlay-section { margin-top: 12px; }
-        .parlay-slot { display: flex; align-items: center; padding: 10px; background: rgba(0,0,0,0.4); border-radius: 8px; margin-bottom: 6px; border: 0.5px dashed var(--border); }
-        .parlay-slot.filled { border-style: solid; border-color: var(--gold); }
-        .slot-number { width: 24px; height: 24px; background: var(--gold); color: #080b12; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; margin-right: 10px; }
-        .slot-empty { color: var(--text-secondary); font-size: 0.7rem; flex: 1; }
-        .slot-pick { flex: 1; font-size: 0.75rem; }
-        .slot-remove { color: var(--red); cursor: pointer; padding: 4px; }
-        .parlay-odds-display { background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.05) 100%); border: 1px solid var(--gold); border-radius: 10px; padding: 12px; text-align: center; margin-top: 12px; }
-        .parlay-total-odds { font-size: 1.5rem; font-weight: 700; color: var(--gold); }
-        .parlay-payout { font-size: 0.8rem; color: var(--green); margin-top: 4px; }
-        .btn { display: block; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin-top: 10px; transition: all 0.2s; }
-        .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #b8962e 100%); color: #080b12; }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 4px 15px var(--gold-glow); }
-        .btn-secondary { background: var(--bg-card); color: var(--gold); border: 0.5px solid var(--gold); }
-        .filter-row { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
-        .filter-btn { padding: 6px 10px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 6px; color: var(--text-secondary); font-size: 0.65rem; cursor: pointer; }
-        .filter-btn.active { background: var(--gold); color: #080b12; border-color: var(--gold); }
-        .alert-item { padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
-        .alert-breaking { background: rgba(239,68,68,0.15); border-left: 3px solid var(--red); }
-        .alert-weather { background: rgba(59,130,246,0.15); border-left: 3px solid var(--blue); }
-        .alert-info { background: rgba(16,185,129,0.15); border-left: 3px solid var(--green); }
-        .alert-icon { font-size: 1.2rem; }
-        .alert-content { flex: 1; }
-        .alert-title { font-size: 0.75rem; font-weight: 600; }
-        .alert-desc { font-size: 0.65rem; color: var(--text-secondary); margin-top: 2px; }
-        .data-table { width: 100%; font-size: 0.7rem; }
-        .data-table th { text-align: left; color: var(--gold); padding: 6px; border-bottom: 0.5px solid var(--border); }
-        .data-table td { padding: 6px; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
-        .footer { text-align: center; padding: 16px 8px; border-top: 0.5px solid var(--border); margin-top: 16px; }
-        .footer-text { font-size: 0.6rem; color: var(--text-secondary); }
-        .empty-parlay { color: var(--text-secondary); font-size: 0.75rem; text-align: center; padding: 20px; }
-        .remove-pick { color: var(--red); cursor: pointer; margin-left: 8px; font-weight: bold; }
-    </style>
-</head>
-📋 PART 3 of 7 — Body start + Header + Stats + Tabs:
-<body>
-    <div class="app-container">
-        <header class="header">
-            <div class="logo">SigMAX ELITE</div>
-            <div class="tagline">Maximum Signal. Maximum Edge.</div>
-            <div class="timestamp" id="live-timestamp">Loading...</div>
-        </header>
-        
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-value" style="color: var(--green);">$11.5K</div>
-                <div class="stat-label">BANKROLL</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">86.1%</div>
-                <div class="stat-label">WIN RATE</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" style="color: var(--green);">+64%</div>
-                <div class="stat-label">ROI</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">266-43</div>
-                <div class="stat-label">RECORD</div>
-            </div>
-        </div>
-        
-        <nav class="tab-nav">
-            <button class="tab-btn active" data-tab="home">Home</button>
-            <button class="tab-btn" data-tab="alerts">Alerts</button>
-            <button class="tab-btn" data-tab="top5">Top 5</button>
-            <button class="tab-btn" data-tab="props">Props</button>
-            <button class="tab-btn" data-tab="games">Games</button>
-            <button class="tab-btn" data-tab="xfactors">XFactors</button>
-            <button class="tab-btn" data-tab="journal">Journal</button>
-            <button class="tab-btn" data-tab="parlay">Parlay</button>
-            <button class="tab-btn" data-tab="elite">Elite</button>
-            <button class="tab-btn" data-tab="index">Index</button>
-        </nav>
-📋 PART 4 of 7 — HOME + ALERTS tabs:
-        <!-- HOME TAB -->
-        <div class="tab-content active" id="home">
-            <div class="card">
-                <div class="card-title">PERFORMANCE BY SPORT</div>
-                <table class="data-table">
-                    <tr><th>SPORT</th><th>RECORD</th><th>WIN%</th><th>STATUS</th></tr>
-                    <tr><td>NHL</td><td>40-6</td><td style="color:var(--gold)">87.0%</td><td style="color:var(--orange)">WCF G2 LIVE</td></tr>
-                    <tr><td>NBA</td><td>100-13</td><td style="color:var(--gold)">88.5%</td><td style="color:var(--green)">Conf Finals</td></tr>
-                    <tr><td>Soccer</td><td>56-7</td><td style="color:var(--gold)">88.9%</td><td>WORLDWIDE</td></tr>
-                    <tr><td>Tennis</td><td>6-1</td><td style="color:var(--gold)">85.7%</td><td style="color:var(--red)">ALCARAZ OUT</td></tr>
-                    <tr><td>MLB</td><td>20-5</td><td style="color:var(--gold)">80.0%</td><td style="color:var(--orange)">LIVE</td></tr>
-                    <tr><td>UFC</td><td>3-0</td><td style="color:var(--gold)">100%</td><td style="color:var(--green)">PERFECT</td></tr>
-                </table>
-            </div>
-            <div class="card">
-                <div class="card-title">TODAY'S ACTION - May 23, 2026</div>
-                <div class="pick-item live">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: VGK @ COL - WCF G2</div>
-                        <div class="pick-details">8:00 PM ET - ESPN</div>
-                    </div>
-                    <div class="pick-odds odds-plus">+125</div>
-                    <span class="pick-status status-live">LIVE</span>
-                </div>
-                <div class="pick-item win">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: MTL 6-2 CAR - ECF G1</div>
-                        <div class="pick-details">MTL ML +145</div>
-                    </div>
-                    <span class="pick-status status-win">WIN</span>
-                </div>
-                <div class="pick-item win">
-                    <div class="pick-info">
-                        <div class="pick-matchup">Soccer: Penarol 1-1 Corinthians</div>
-                        <div class="pick-details">DRAW +215</div>
-                    </div>
-                    <span class="pick-status status-win">WIN</span>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-title">QUICK LINKS</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                    <button class="btn btn-secondary" onclick="showTab('top5')">Today's Picks</button>
-                    <button class="btn btn-secondary" onclick="showTab('parlay')">Build Parlay</button>
-                    <button class="btn btn-secondary" onclick="showTab('games')">All Games</button>
-                    <button class="btn btn-secondary" onclick="showTab('alerts')">Alerts</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ALERTS TAB -->
-        <div class="tab-content" id="alerts">
-            <div class="card">
-                <div class="card-title">ACTIVE ALERTS</div>
-                <div class="alert-item alert-breaking">
-                    <span class="alert-icon">!</span>
-                    <div class="alert-content">
-                        <div class="alert-title">ALCARAZ OUT - FRENCH OPEN</div>
-                        <div class="alert-desc">Wrist injury confirmed. Will not defend title.</div>
-                    </div>
-                </div>
-                <div class="alert-item alert-info">
-                    <span class="alert-icon">i</span>
-                    <div class="alert-content">
-                        <div class="alert-title">NHL WCF G2 TONIGHT</div>
-                        <div class="alert-desc">Vegas @ Colorado 8:00 PM ET. Series tied 1-1.</div>
-                    </div>
-                </div>
-                <div class="alert-item alert-info">
-                    <span class="alert-icon">i</span>
-                    <div class="alert-content">
-                        <div class="alert-title">NBA WCF G3 TONIGHT</div>
-                        <div class="alert-desc">OKC @ SAS 8:30 PM ET. Wembanyama vs Holmgren!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-📋 PART 5 of 7 — TOP5 + PROPS + GAMES tabs:
-        <!-- TOP 5 TAB -->
-        <div class="tab-content" id="top5">
-            <div class="card">
-                <div class="card-title">TOP 5 ELITE PICKS - May 23, 2026</div>
-                <div class="pick-item live">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: COL vs VGK - WCF G2</div>
-                        <div class="pick-details">Colorado Avalanche ML - 8:00 PM ET</div>
-                    </div>
-                    <div class="pick-odds odds-plus">+125</div>
-                    <span class="pick-status status-live">LIVE</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NBA: OKC @ SAS - WCF G3</div>
-                        <div class="pick-details">Thunder ML - 8:30 PM ET</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-145</div>
-                    <span class="pick-status status-pending">8:30 PM</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">Tennis: Sinner vs Tabur - RG R1</div>
-                        <div class="pick-details">Sinner 2-0 Sets - May 24</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-200</div>
-                    <span class="pick-status status-pending">SUN</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">Tennis: Swiatek vs Jones - RG R1</div>
-                        <div class="pick-details">Swiatek 2-0 Sets - May 24</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-250</div>
-                    <span class="pick-status status-pending">SUN</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">MLS: Columbus vs Atlanta</div>
-                        <div class="pick-details">Crew ML - May 24 5PM</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-125</div>
-                    <span class="pick-status status-pending">SUN</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- PROPS TAB -->
-        <div class="tab-content" id="props">
-            <div class="card">
-                <div class="card-title">TOP 10 PLAYER PROPS - Record: 53-8 (86.9%)</div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: S. Aho (CAR) - Points O0.5</div>
-                        <div class="pick-details">MTL @ CAR ECF G2 - May 23</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-165</div>
-                    <span style="color:var(--gold);font-size:0.7rem">89%</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NBA: Wembanyama (SAS) - Pts O24.5</div>
-                        <div class="pick-details">OKC @ SAS WCF G3 - May 23</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-115</div>
-                    <span style="color:var(--gold);font-size:0.7rem">84%</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NBA: SGA (OKC) - Points O28.5</div>
-                        <div class="pick-details">OKC @ SAS WCF G3 - May 23</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-120</div>
-                    <span style="color:var(--gold);font-size:0.7rem">86%</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">Tennis: Sinner - 2-0 Sets</div>
-                        <div class="pick-details">vs Tabur RG R1 - May 24</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-200</div>
-                    <span style="color:var(--gold);font-size:0.7rem">88%</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- GAMES TAB -->
-        <div class="tab-content" id="games">
-            <div class="card">
-                <div class="card-title">UPCOMING GAMES</div>
-                <div class="card-title" style="margin-top:8px">--- FRIDAY MAY 23, 2026 ---</div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: VGK @ COL - WCF G2</div>
-                        <div class="pick-details">8:00 PM ET - ESPN</div>
-                    </div>
-                    <div class="pick-odds odds-plus">COL +125</div>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NBA: OKC @ SAS - WCF G3</div>
-                        <div class="pick-details">8:30 PM ET - NBC</div>
-                    </div>
-                    <div class="pick-odds odds-minus">OKC -145</div>
-                </div>
-                <div class="card-title" style="margin-top:12px">--- SATURDAY MAY 24, 2026 ---</div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: MTL @ CAR - ECF G2</div>
-                        <div class="pick-details">7:00 PM ET - TNT</div>
-                    </div>
-                    <div class="pick-odds odds-plus">MTL +145</div>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">Tennis: Sinner vs Tabur - RG R1</div>
-                        <div class="pick-details">~5:00 AM ET - NBC/Peacock</div>
-                    </div>
-                    <div class="pick-odds odds-minus">Sinner -200</div>
-                </div>
-            </div>
-        </div>
-📋 PART 6 of 7 — XFACTORS + JOURNAL + PARLAY + ELITE + INDEX tabs:
-        <!-- XFACTORS TAB -->
-        <div class="tab-content" id="xfactors">
-            <div class="card">
-                <div class="card-title">X-FACTORS - Hidden Edge Analysis</div>
-                <div class="alert-item alert-info">
-                    <div class="alert-content">
-                        <div class="alert-title">COL Home Ice Advantage</div>
-                        <div class="alert-desc">Avalanche 8-2 at home in playoffs. Altitude factor at Ball Arena.</div>
-                    </div>
-                </div>
-                <div class="alert-item alert-info">
-                    <div class="alert-content">
-                        <div class="alert-title">Wembanyama Playoff Growth</div>
-                        <div class="alert-desc">Averaging 28.5 PPG in playoffs vs 24.2 regular season.</div>
-                    </div>
-                </div>
-                <div class="alert-item alert-breaking">
-                    <div class="alert-content">
-                        <div class="alert-title">Alcaraz Withdrawal Impact</div>
-                        <div class="alert-desc">Draw opens up for Sinner, Zverev. New favorites emerge.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- JOURNAL TAB -->
-        <div class="tab-content" id="journal">
-            <div class="card">
-                <div class="card-title">BETTING JOURNAL - Last 5 Days</div>
-                <table class="data-table">
-                    <tr><th>DATE</th><th>W-L</th><th>WIN%</th><th>P/L</th></tr>
-                    <tr><td>May 23</td><td>8-2</td><td style="color:var(--green)">80%</td><td style="color:var(--green)">+$1,050</td></tr>
-                    <tr><td>May 22</td><td>8-2</td><td style="color:var(--green)">80%</td><td style="color:var(--green)">+$620</td></tr>
-                    <tr><td>May 21</td><td>8-2</td><td style="color:var(--green)">80%</td><td style="color:var(--green)">+$890</td></tr>
-                    <tr><td>May 20</td><td>7-1</td><td style="color:var(--green)">87.5%</td><td style="color:var(--green)">+$510</td></tr>
-                    <tr><td>May 19</td><td>6-2</td><td style="color:var(--green)">75%</td><td style="color:var(--green)">+$680</td></tr>
-                    <tr><th>TOTAL</th><th>37-9</th><th style="color:var(--gold)">80.4%</th><th style="color:var(--green)">+$3,750</th></tr>
-                </table>
-            </div>
-        </div>
-
-        <!-- PARLAY TAB -->
-        <div class="tab-content" id="parlay">
-            <div class="card">
-                <div class="card-title">PARLAY BUILDER - Record: 14-3 (82.4%)</div>
-                <div id="parlay-picks-container">
-                    <div class="empty-parlay">Add picks from any tab to build your parlay</div>
-                </div>
-                <div class="parlay-odds-display">
-                    <div class="parlay-total-odds" id="parlay-odds">+0</div>
-                    <div class="parlay-payout" id="parlay-payout">$100 to win $100</div>
-                    <div style="font-size:0.7rem;color:var(--text-secondary);margin-top:4px" id="parlay-count">0 Picks</div>
-                </div>
-                <button class="btn btn-gold" onclick="copyParlay()">Copy Parlay</button>
-                <button class="btn btn-secondary" onclick="clearParlay()">Clear All</button>
-            </div>
-        </div>
-
-        <!-- ELITE TAB -->
-        <div class="tab-content" id="elite">
-            <div class="card">
-                <div class="card-title">ELITE ANALYTICS DASHBOARD</div>
-                <table class="data-table">
-                    <tr><th>METRIC</th><th>VALUE</th><th>STATUS</th></tr>
-                    <tr><td>Bankroll</td><td style="color:var(--green)">$11,469</td><td style="color:var(--green)">+64% ROI</td></tr>
-                    <tr><td>Win Rate</td><td style="color:var(--gold)">86.1%</td><td>266-43-2</td></tr>
-                    <tr><td>NHL</td><td>40-6</td><td style="color:var(--green)">87.0%</td></tr>
-                    <tr><td>NBA</td><td>100-13</td><td style="color:var(--green)">88.5%</td></tr>
-                    <tr><td>Soccer</td><td>56-7</td><td style="color:var(--green)">88.9%</td></tr>
-                    <tr><td>Props</td><td>53-8</td><td style="color:var(--green)">86.9%</td></tr>
-                    <tr><td>Parlays</td><td>14-3</td><td style="color:var(--green)">82.4%</td></tr>
-                </table>
-            </div>
-        </div>
-
-        <!-- INDEX TAB -->
-        <div class="tab-content" id="index">
-            <div class="card">
-                <div class="card-title">SigMAX ELITE - USER GUIDE</div>
-                <table class="data-table">
-                    <tr><th>TAB</th><th>PURPOSE</th></tr>
-                    <tr><td>Home</td><td>Dashboard overview</td></tr>
-                    <tr><td>Alerts</td><td>Breaking news & injuries</td></tr>
-                    <tr><td>Top 5</td><td>Daily best picks</td></tr>
-                    <tr><td>Props</td><td>Player prop bets</td></tr>
-                    <tr><td>Games</td><td>Full schedule</td></tr>
-                    <tr><td>XFactors</td><td>Hidden edge analysis</td></tr>
-                    <tr><td>Journal</td><td>Results tracking</td></tr>
-                    <tr><td>Parlay</td><td>Build multi-leg bets</td></tr>
-                    <tr><td>Elite</td><td>Analytics dashboard</td></tr>
-                </table>
-                <div style="margin-top:12px;font-size:0.7rem;color:var(--text-secondary)">
-                    <p>Version 10.2 | May 2026</p>
-                    <p>Maximum Signal. Maximum Edge.</p>
-                </div>
-            </div>
-        </div>
-
-        <footer class="footer">
-            <div class="footer-text">SigMAX ELITE v10.2 | Maximum Signal. Maximum Edge.</div>
-        </footer>
-    </div>
-📋 PART 7 of 7 — JavaScript (ASCII-CLEAN) + closing tags:
-    <script>
-    var parlayPicks = [];
-    var parlayOdds = 1;
-
-    function showTab(tabName) {
-        var contents = document.querySelectorAll('.tab-content');
-        for (var i = 0; i < contents.length; i++) {
-            contents[i].style.display = 'none';
-            contents[i].classList.remove('active');
-        }
-        var buttons = document.querySelectorAll('.tab-btn');
-        for (var j = 0; j < buttons.length; j++) {
-            buttons[j].classList.remove('active');
-        }
-        var activeContent = document.getElementById(tabName);
-        if (activeContent) {
-            activeContent.style.display = 'block';
-            activeContent.classList.add('active');
-        }
-        var activeButtons = document.querySelectorAll('[data-tab="' + tabName + '"]');
-        for (var k = 0; k < activeButtons.length; k++) {
-            activeButtons[k].classList.add('active');
-        }
-    }
-
-    function updateParlayDisplay() {
-        var container = document.getElementById('parlay-picks-container');
-        var oddsEl = document.getElementById('parlay-odds');
-        var payoutEl = document.getElementById('parlay-payout');
-        var countEl = document.getElementById('parlay-count');
-        if (!container) return;
-        if (parlayPicks.length === 0) {
-            container.innerHTML = '<div class="empty-parlay">Add picks from any tab to build your parlay</div>';
-            if (oddsEl) oddsEl.innerText = '+0';
-            if (payoutEl) payoutEl.innerText = '$100 to win $100';
-            if (countEl) countEl.innerText = '0 Picks';
-            return;
-        }
-        var html = '';
-        parlayOdds = 1;
-        for (var i = 0; i < parlayPicks.length; i++) {
-            var pick = parlayPicks[i];
-            var decimalOdds = pick.odds > 0 ? (pick.odds / 100) + 1 : (100 / Math.abs(pick.odds)) + 1;
-            parlayOdds *= decimalOdds;
-            html += '<div class="parlay-slot filled">';
-            html += '<div class="slot-number">' + (i + 1) + '</div>';
-            html += '<div class="slot-pick">' + pick.matchup + ' - ' + pick.pick + '</div>';
-            html += '<span class="slot-remove" onclick="removeFromParlay(\'' + pick.id + '\')">[X]</span>';
-            html += '</div>';
-        }
-        container.innerHTML = html;
-        var americanOdds = parlayOdds >= 2 ? Math.round((parlayOdds - 1) * 100) : Math.round(-100 / (parlayOdds - 1));
-        var payout = Math.round(100 * parlayOdds);
-        if (oddsEl) oddsEl.innerText = (americanOdds > 0 ? '+' : '') + americanOdds;
-        if (payoutEl) payoutEl.innerText = '$100 to win $' + payout;
-        if (countEl) countEl.innerText = parlayPicks.length + ' Pick' + (parlayPicks.length !== 1 ? 's' : '');
-    }
-
-    function removeFromParlay(pickId) {
-        parlayPicks = parlayPicks.filter(function(p) { return p.id !== pickId; });
-        updateParlayDisplay();
-    }
-
-    function copyParlay() {
-        if (parlayPicks.length === 0) {
-            alert('Add picks to your parlay first!');
-            return;
-        }
-        var text = 'SigMAX ELITE PARLAY\n==================\n';
-        for (var i = 0; i < parlayPicks.length; i++) {
-            var p = parlayPicks[i];
-            text += (i + 1) + '. ' + p.matchup + ' - ' + p.pick + '\n';
-        }
-        var americanOdds = parlayOdds >= 2 ? Math.round((parlayOdds - 1) * 100) : Math.round(-100 / (parlayOdds - 1));
-        text += '==================\nOdds: ' + (americanOdds > 0 ? '+' : '') + americanOdds;
-        text += '\n$100 to win $' + Math.round(100 * parlayOdds);
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(text).then(function() {
-                alert('Parlay copied!');
-            });
-        }
-    }
-
-    function clearParlay() {
-        parlayPicks = [];
-        updateParlayDisplay();
-    }
-
-    function updateTimestamp() {
-        var el = document.getElementById('live-timestamp');
-        if (!el) return;
-        var now = new Date();
-        var options = {
-            timeZone: 'America/New_York',
-            weekday: 'short',
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
-        };
-        var timeStr = new Intl.DateTimeFormat('en-US', options).format(now);
-        el.innerHTML = timeStr + ' ET <span style="color:#10b981">* LIVE</span>';
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        var buttons = document.querySelectorAll('.tab-btn');
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener('click', function() {
-                showTab(this.getAttribute('data-tab'));
-            });
-        }
-        updateTimestamp();
-        setInterval(updateTimestamp, 10000);
-    });
-    </script>
-</body>
-</html>
-    .pick-item { display: flex; align-items: center; justify-content: space-between; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 6px; border-left: 3px solid var(--gold); }
-        .pick-item.win { border-left-color: var(--green); box-shadow: 0 0 8px var(--green-glow); }
-        .pick-item.loss { border-left-color: var(--red); box-shadow: 0 0 8px var(--red-glow); }
-        .pick-item.live { border-left-color: var(--orange); box-shadow: 0 0 8px var(--orange-glow); animation: pulse 2s infinite; }
         .pick-info { flex: 1; }
-        .pick-matchup { font-size: 0.75rem; font-weight: 600; }
-        .pick-details { font-size: 0.65rem; color: var(--text-secondary); }
-        .pick-odds { font-size: 0.85rem; font-weight: 700; }
+        .pick-matchup { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+        .pick-details { font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; }
+        .pick-odds { font-size: 0.85rem; font-weight: 700; margin: 0 12px; }
         .odds-plus { color: var(--green); }
-        .odds-minus { color: var(--blue); }
-        .pick-status { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
-        .status-live { background: var(--orange); color: #fff; animation: pulse 2s infinite; }
-        .status-win { background: var(--green); color: #fff; }
-        .status-loss { background: var(--red); color: #fff; }
-        .status-pending { background: var(--blue); color: #fff; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-        .parlay-section { margin-top: 12px; }
-        .parlay-slot { display: flex; align-items: center; padding: 10px; background: rgba(0,0,0,0.4); border-radius: 8px; margin-bottom: 6px; border: 0.5px dashed var(--border); }
-        .parlay-slot.filled { border-style: solid; border-color: var(--gold); }
-        .slot-number { width: 24px; height: 24px; background: var(--gold); color: #080b12; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; margin-right: 10px; }
-        .slot-empty { color: var(--text-secondary); font-size: 0.7rem; flex: 1; }
-        .slot-pick { flex: 1; font-size: 0.75rem; }
-        .slot-remove { color: var(--red); cursor: pointer; padding: 4px; }
-        .parlay-odds-display { background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.05) 100%); border: 1px solid var(--gold); border-radius: 10px; padding: 12px; text-align: center; margin-top: 12px; }
-        .parlay-total-odds { font-size: 1.5rem; font-weight: 700; color: var(--gold); }
-        .parlay-payout { font-size: 0.8rem; color: var(--green); margin-top: 4px; }
-        .btn { display: block; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin-top: 10px; transition: all 0.2s; }
-        .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #b8962e 100%); color: #080b12; }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 4px 15px var(--gold-glow); }
-        .btn-secondary { background: var(--bg-card); color: var(--gold); border: 0.5px solid var(--gold); }
-        .filter-row { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
-        .filter-btn { padding: 6px 10px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 6px; color: var(--text-secondary); font-size: 0.65rem; cursor: pointer; }
-        .filter-btn.active { background: var(--gold); color: #080b12; border-color: var(--gold); }
-        .alert-item { padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
-        .alert-breaking { background: rgba(239,68,68,0.15); border-left: 3px solid var(--red); }
-        .alert-weather { background: rgba(59,130,246,0.15); border-left: 3px solid var(--blue); }
-        .alert-info { background: rgba(16,185,129,0.15); border-left: 3px solid var(--green); }
-        .alert-icon { font-size: 1.2rem; }
-        .alert-content { flex: 1; }
-        .alert-title { font-size: 0.75rem; font-weight: 600; }
-        .alert-desc { font-size: 0.65rem; color: var(--text-secondary); margin-top: 2px; }
-        .data-table { width: 100%; font-size: 0.7rem; }
-        .data-table th { text-align: left; color: var(--gold); padding: 6px; border-bottom: 0.5px solid var(--border); }
-        .data-table td { padding: 6px; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
-        .footer { text-align: center; padding: 16px 8px; border-top: 0.5px solid var(--border); margin-top: 16px; }
-        .footer-text { font-size: 0.6rem; color: var(--text-secondary); }
-        .empty-parlay { color: var(--text-secondary); font-size: 0.75rem; text-align: center; padding: 20px; }
-        .remove-pick { color: var(--red); cursor: pointer; margin-left: 8px; font-weight: bold; }
+        .odds-minus { color: var(--text-secondary); }
+        .pick-status { font-size: 0.7rem; font-weight: 600; padding: 4px 8px; border-radius: 4px; }
+        .status-win { background: rgba(16,185,129,0.2); color: var(--green); }
+        .status-loss { background: rgba(239,68,68,0.2); color: var(--red); }
+        .status-live { background: rgba(249,115,22,0.3); color: var(--orange); }
+        .status-pending { background: rgba(139,148,158,0.2); color: var(--text-secondary); }
+        .alert-item { padding: 12px; border-radius: 8px; margin-bottom: 8px; }
+        .alert-breaking { background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(239,68,68,0.1)); border-left: 3px solid var(--red); }
+        .alert-info { background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(37,99,235,0.1)); border-left: 3px solid var(--blue); }
+        .alert-title { font-size: 0.8rem; font-weight: 700; color: var(--text-primary); }
+        .alert-desc { font-size: 0.7rem; color: var(--text-secondary); margin-top: 4px; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .btn-gold { background: linear-gradient(135deg, var(--gold), #b8962e); color: var(--bg-primary); }
+        .btn-secondary { background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border); }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        .data-table th, .data-table td { padding: 8px; text-align: left; border-bottom: 1px solid var(--border); }
+        .data-table th { color: var(--gold); font-weight: 600; }
+        .parlay-odds-display { text-align: center; padding: 16px; background: var(--bg-secondary); border-radius: 8px; margin: 12px 0; }
+        .parlay-total-odds { font-size: 2rem; font-weight: 800; color: var(--gold); }
+        .parlay-payout { font-size: 0.85rem; color: var(--green); margin-top: 4px; }
+        .empty-parlay { text-align: center; padding: 20px; color: var(--text-secondary); font-size: 0.8rem; }
+        .footer { text-align: center; padding: 16px; background: var(--bg-secondary); border-top: 1px solid var(--border); }
+        .footer-text { font-size: 0.7rem; color: var(--text-secondary); }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <header class="header">
-            <div class="logo">SigMAX ELITE</div>
-            <div class="tagline">Maximum Signal. Maximum Edge.</div>
-            <div class="timestamp" id="live-timestamp">Loading...</div>
-        </header>
-        
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-value" style="color: var(--green);">$11.5K</div>
-                <div class="stat-label">BANKROLL</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">86.1%</div>
-                <div class="stat-label">WIN RATE</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" style="color: var(--green);">+64%</div>
-                <div class="stat-label">ROI</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">266-43</div>
-                <div class="stat-label">RECORD</div>
-            </div>
-        </div>
-        
-        <nav class="tab-nav">
-            <button class="tab-btn active" data-tab="home">Home</button>
-            <button class="tab-btn" data-tab="alerts">Alerts</button>
-            <button class="tab-btn" data-tab="top5">Top 5</button>
-            <button class="tab-btn" data-tab="props">Props</button>
-            <button class="tab-btn" data-tab="games">Games</button>
-            <button class="tab-btn" data-tab="xfactors">XFactors</button>
-            <button class="tab-btn" data-tab="journal">Journal</button>
-            <button class="tab-btn" data-tab="parlay">Parlay</button>
-            <button class="tab-btn" data-tab="elite">Elite</button>
-            <button class="tab-btn" data-tab="index">Index</button>
-        </nav>
-            .pick-item { display: flex; align-items: center; justify-content: space-between; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 6px; border-left: 3px solid var(--gold); }
-        .pick-item.win { border-left-color: var(--green); box-shadow: 0 0 8px var(--green-glow); }
-        .pick-item.loss { border-left-color: var(--red); box-shadow: 0 0 8px var(--red-glow); }
-        .pick-item.live { border-left-color: var(--orange); box-shadow: 0 0 8px var(--orange-glow); animation: pulse 2s infinite; }
-        .pick-info { flex: 1; }
-        .pick-matchup { font-size: 0.75rem; font-weight: 600; }
-        .pick-details { font-size: 0.65rem; color: var(--text-secondary); }
-        .pick-odds { font-size: 0.85rem; font-weight: 700; }
-        .odds-plus { color: var(--green); }
-        .odds-minus { color: var(--blue); }
-        .pick-status { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
-        .status-live { background: var(--orange); color: #fff; animation: pulse 2s infinite; }
-        .status-win { background: var(--green); color: #fff; }
-        .status-loss { background: var(--red); color: #fff; }
-        .status-pending { background: var(--blue); color: #fff; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-        .parlay-section { margin-top: 12px; }
-        .parlay-slot { display: flex; align-items: center; padding: 10px; background: rgba(0,0,0,0.4); border-radius: 8px; margin-bottom: 6px; border: 0.5px dashed var(--border); }
-        .parlay-slot.filled { border-style: solid; border-color: var(--gold); }
-        .slot-number { width: 24px; height: 24px; background: var(--gold); color: #080b12; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; margin-right: 10px; }
-        .slot-empty { color: var(--text-secondary); font-size: 0.7rem; flex: 1; }
-        .slot-pick { flex: 1; font-size: 0.75rem; }
-        .slot-remove { color: var(--red); cursor: pointer; padding: 4px; }
-        .parlay-odds-display { background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.05) 100%); border: 1px solid var(--gold); border-radius: 10px; padding: 12px; text-align: center; margin-top: 12px; }
-        .parlay-total-odds { font-size: 1.5rem; font-weight: 700; color: var(--gold); }
-        .parlay-payout { font-size: 0.8rem; color: var(--green); margin-top: 4px; }
-        .btn { display: block; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin-top: 10px; transition: all 0.2s; }
-        .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #b8962e 100%); color: #080b12; }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 4px 15px var(--gold-glow); }
-        .btn-secondary { background: var(--bg-card); color: var(--gold); border: 0.5px solid var(--gold); }
-        .filter-row { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
-        .filter-btn { padding: 6px 10px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 6px; color: var(--text-secondary); font-size: 0.65rem; cursor: pointer; }
-        .filter-btn.active { background: var(--gold); color: #080b12; border-color: var(--gold); }
-        .alert-item { padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
-        .alert-breaking { background: rgba(239,68,68,0.15); border-left: 3px solid var(--red); }
-        .alert-weather { background: rgba(59,130,246,0.15); border-left: 3px solid var(--blue); }
-        .alert-info { background: rgba(16,185,129,0.15); border-left: 3px solid var(--green); }
-        .alert-icon { font-size: 1.2rem; }
-        .alert-content { flex: 1; }
-        .alert-title { font-size: 0.75rem; font-weight: 600; }
-        .alert-desc { font-size: 0.65rem; color: var(--text-secondary); margin-top: 2px; }
-        .data-table { width: 100%; font-size: 0.7rem; }
-        .data-table th { text-align: left; color: var(--gold); padding: 6px; border-bottom: 0.5px solid var(--border); }
-        .data-table td { padding: 6px; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
-        .footer { text-align: center; padding: 16px 8px; border-top: 0.5px solid var(--border); margin-top: 16px; }
-        .footer-text { font-size: 0.6rem; color: var(--text-secondary); }
-        .empty-parlay { color: var(--text-secondary); font-size: 0.75rem; text-align: center; padding: 20px; }
-        .remove-pick { color: var(--red); cursor: pointer; margin-left: 8px; font-weight: bold; }
-    </style>
-
-        <body>
-    <div class="app-container">
-        <header class="header">
-            <div class="logo">SigMAX ELITE</div>
-            <div class="tagline">Maximum Signal. Maximum Edge.</div>
-            <div class="timestamp" id="live-timestamp">Loading...</div>
-        </header>
-        
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-value" style="color: var(--green);">$11.5K</div>
-                <div class="stat-label">BANKROLL</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">86.1%</div>
-                <div class="stat-label">WIN RATE</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" style="color: var(--green);">+64%</div>
-                <div class="stat-label">ROI</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">266-43</div>
-                <div class="stat-label">RECORD</div>
-            </div>
-        </div>
-        
-        <nav class="tab-nav">
-            <button class="tab-btn active" data-tab="home">Home</button>
-            <button class="tab-btn" data-tab="alerts">Alerts</button>
-            <button class="tab-btn" data-tab="top5">Top 5</button>
-            <button class="tab-btn" data-tab="props">Props</button>
-            <button class="tab-btn" data-tab="games">Games</button>
-            <button class="tab-btn" data-tab="xfactors">XFactors</button>
-            <button class="tab-btn" data-tab="journal">Journal</button>
-            <button class="tab-btn" data-tab="parlay">Parlay</button>
-            <button class="tab-btn" data-tab="elite">Elite</button>
-            <button class="tab-btn" data-tab="index">Index</button>
-        </nav>
-        <!-- HOME TAB -->
-        <div class="tab-content active" id="home">
-            <div class="card">
-                <div class="card-title">PERFORMANCE BY SPORT</div>
-                <table class="data-table">
-                    <tr><th>SPORT</th><th>RECORD</th><th>WIN%</th><th>STATUS</th></tr>
-                    <tr><td>NHL</td><td>40-6</td><td style="color:var(--gold)">87.0%</td><td style="color:var(--orange)">WCF G2 LIVE</td></tr>
-                    <tr><td>NBA</td><td>100-13</td><td style="color:var(--gold)">88.5%</td><td style="color:var(--green)">Conf Finals</td></tr>
-                    <tr><td>Soccer</td><td>56-7</td><td style="color:var(--gold)">88.9%</td><td>WORLDWIDE</td></tr>
-                    <tr><td>Tennis</td><td>6-1</td><td style="color:var(--gold)">85.7%</td><td style="color:var(--red)">ALCARAZ OUT</td></tr>
-                    <tr><td>MLB</td><td>20-5</td><td style="color:var(--gold)">80.0%</td><td style="color:var(--orange)">LIVE</td></tr>
-                    <tr><td>UFC</td><td>3-0</td><td style="color:var(--gold)">100%</td><td style="color:var(--green)">PERFECT</td></tr>
-                </table>
-            </div>
-            <div class="card">
-                <div class="card-title">TODAY'S ACTION - May 23, 2026</div>
-                <div class="pick-item live">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: VGK @ COL - WCF G2</div>
-                        <div class="pick-details">8:00 PM ET - ESPN</div>
-                    </div>
-                    <div class="pick-odds odds-plus">+125</div>
-                    <span class="pick-status status-live">LIVE</span>
-                </div>
-                <div class="pick-item win">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: MTL 6-2 CAR - ECF G1</div>
-                        <div class="pick-details">MTL ML +145</div>
-                    </div>
-                    <span class="pick-status status-win">WIN</span>
-                </div>
-                <div class="pick-item win">
-                    <div class="pick-info">
-                        <div class="pick-matchup">Soccer: Penarol 1-1 Corinthians</div>
-                        <div class="pick-details">DRAW +215</div>
-                    </div>
-                    <span class="pick-status status-win">WIN</span>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-title">QUICK LINKS</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                    <button class="btn btn-secondary" onclick="showTab('top5')">Today's Picks</button>
-                    <button class="btn btn-secondary" onclick="showTab('parlay')">Build Parlay</button>
-                    <button class="btn btn-secondary" onclick="showTab('games')">All Games</button>
-                    <button class="btn btn-secondary" onclick="showTab('alerts')">Alerts</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ALERTS TAB -->
-        <div class="tab-content" id="alerts">
-            <div class="card">
-                <div class="card-title">ACTIVE ALERTS</div>
-                <div class="alert-item alert-breaking">
-                    <span class="alert-icon">!</span>
-                    <div class="alert-content">
-                        <div class="alert-title">ALCARAZ OUT - FRENCH OPEN</div>
-                        <div class="alert-desc">Wrist injury confirmed. Will not defend title.</div>
-                    </div>
-                </div>
-                <div class="alert-item alert-info">
-                    <span class="alert-icon">i</span>
-                    <div class="alert-content">
-                        <div class="alert-title">NHL WCF G2 TONIGHT</div>
-                        <div class="alert-desc">Vegas @ Colorado 8:00 PM ET. Series tied 1-1.</div>
-                    </div>
-                </div>
-                <div class="alert-item alert-info">
-                    <span class="alert-icon">i</span>
-                    <div class="alert-content">
-                        <div class="alert-title">NBA WCF G3 TONIGHT</div>
-                        <div class="alert-desc">OKC @ SAS 8:30 PM ET. Wembanyama vs Holmgren!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- TOP 5 TAB -->
-        <div class="tab-content" id="top5">
-            <div class="card">
-                <div class="card-title">TOP 5 ELITE PICKS - May 23, 2026</div>
-                <div class="pick-item live">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: COL vs VGK - WCF G2</div>
-                        <div class="pick-details">Colorado Avalanche ML - 8:00 PM ET</div>
-                    </div>
-                    <div class="pick-odds odds-plus">+125</div>
-                    <span class="pick-status status-live">LIVE</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NBA: OKC @ SAS - WCF G3</div>
-                        <div class="pick-details">Thunder ML - 8:30 PM ET</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-145</div>
-                    <span class="pick-status status-pending">8:30 PM</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">Tennis: Sinner vs Tabur - RG R1</div>
-                        <div class="pick-details">Sinner 2-0 Sets - May 24</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-200</div>
-                    <span class="pick-status status-pending">SUN</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">Tennis: Swiatek vs Jones - RG R1</div>
-                        <div class="pick-details">Swiatek 2-0 Sets - May 24</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-250</div>
-                    <span class="pick-status status-pending">SUN</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">MLS: Columbus vs Atlanta</div>
-                        <div class="pick-details">Crew ML - May 24 5PM</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-125</div>
-                    <span class="pick-status status-pending">SUN</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- PROPS TAB -->
-        <div class="tab-content" id="props">
-            <div class="card">
-                <div class="card-title">TOP 10 PLAYER PROPS - Record: 53-8 (86.9%)</div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: S. Aho (CAR) - Points O0.5</div>
-                        <div class="pick-details">MTL @ CAR ECF G2 - May 23</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-165</div>
-                    <span style="color:var(--gold);font-size:0.7rem">89%</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NBA: Wembanyama (SAS) - Pts O24.5</div>
-                        <div class="pick-details">OKC @ SAS WCF G3 - May 23</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-115</div>
-                    <span style="color:var(--gold);font-size:0.7rem">84%</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NBA: SGA (OKC) - Points O28.5</div>
-                        <div class="pick-details">OKC @ SAS WCF G3 - May 23</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-120</div>
-                    <span style="color:var(--gold);font-size:0.7rem">86%</span>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">Tennis: Sinner - 2-0 Sets</div>
-                        <div class="pick-details">vs Tabur RG R1 - May 24</div>
-                    </div>
-                    <div class="pick-odds odds-minus">-200</div>
-                    <span style="color:var(--gold);font-size:0.7rem">88%</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- GAMES TAB -->
-        <div class="tab-content" id="games">
-            <div class="card">
-                <div class="card-title">UPCOMING GAMES</div>
-                <div class="card-title" style="margin-top:8px">--- FRIDAY MAY 23, 2026 ---</div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: VGK @ COL - WCF G2</div>
-                        <div class="pick-details">8:00 PM ET - ESPN</div>
-                    </div>
-                    <div class="pick-odds odds-plus">COL +125</div>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NBA: OKC @ SAS - WCF G3</div>
-                        <div class="pick-details">8:30 PM ET - NBC</div>
-                    </div>
-                    <div class="pick-odds odds-minus">OKC -145</div>
-                </div>
-                <div class="card-title" style="margin-top:12px">--- SATURDAY MAY 24, 2026 ---</div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">NHL: MTL @ CAR - ECF G2</div>
-                        <div class="pick-details">7:00 PM ET - TNT</div>
-                    </div>
-                    <div class="pick-odds odds-plus">MTL +145</div>
-                </div>
-                <div class="pick-item">
-                    <div class="pick-info">
-                        <div class="pick-matchup">Tennis: Sinner vs Tabur - RG R1</div>
-                        <div class="pick-details">~5:00 AM ET - NBC/Peacock</div>
-                    </div>
-                    <div class="pick-odds odds-minus">Sinner -200</div>
-                </div>
-            </div>
-        </div>
-        <!-- XFACTORS TAB -->
-        <div class="tab-content" id="xfactors">
-            <div class="card">
-                <div class="card-title">X-FACTORS - Hidden Edge Analysis</div>
-                <div class="alert-item alert-info">
-                    <div class="alert-content">
-                        <div class="alert-title">COL Home Ice Advantage</div>
-                        <div class="alert-desc">Avalanche 8-2 at home in playoffs. Altitude factor at Ball Arena.</div>
-                    </div>
-                </div>
-                <div class="alert-item alert-info">
-                    <div class="alert-content">
-                        <div class="alert-title">Wembanyama Playoff Growth</div>
-                        <div class="alert-desc">Averaging 28.5 PPG in playoffs vs 24.2 regular season.</div>
-                    </div>
-                </div>
-                <div class="alert-item alert-breaking">
-                    <div class="alert-content">
-                        <div class="alert-title">Alcaraz Withdrawal Impact</div>
-                        <div class="alert-desc">Draw opens up for Sinner, Zverev. New favorites emerge.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- JOURNAL TAB -->
-        <div class="tab-content" id="journal">
-            <div class="card">
-                <div class="card-title">BETTING JOURNAL - Last 5 Days</div>
-                <table class="data-table">
-                    <tr><th>DATE</th><th>W-L</th><th>WIN%</th><th>P/L</th></tr>
-                    <tr><td>May 23</td><td>8-2</td><td style="color:var(--green)">80%</td><td style="color:var(--green)">+$1,050</td></tr>
-                    <tr><td>May 22</td><td>8-2</td><td style="color:var(--green)">80%</td><td style="color:var(--green)">+$620</td></tr>
-                    <tr><td>May 21</td><td>8-2</td><td style="color:var(--green)">80%</td><td style="color:var(--green)">+$890</td></tr>
-                    <tr><td>May 20</td><td>7-1</td><td style="color:var(--green)">87.5%</td><td style="color:var(--green)">+$510</td></tr>
-                    <tr><td>May 19</td><td>6-2</td><td style="color:var(--green)">75%</td><td style="color:var(--green)">+$680</td></tr>
-                    <tr><th>TOTAL</th><th>37-9</th><th style="color:var(--gold)">80.4%</th><th style="color:var(--green)">+$3,750</th></tr>
-                </table>
-            </div>
-        </div>
-
-        <!-- PARLAY TAB -->
-        <div class="tab-content" id="parlay">
-            <div class="card">
-                <div class="card-title">PARLAY BUILDER - Record: 14-3 (82.4%)</div>
-                <div id="parlay-picks-container">
-                    <div class="empty-parlay">Add picks from any tab to build your parlay</div>
-                </div>
-                <div class="parlay-odds-display">
-                    <div class="parlay-total-odds" id="parlay-odds">+0</div>
-                    <div class="parlay-payout" id="parlay-payout">$100 to win $100</div>
-                    <div style="font-size:0.7rem;color:var(--text-secondary);margin-top:4px" id="parlay-count">0 Picks</div>
-                </div>
-                <button class="btn btn-gold" onclick="copyParlay()">Copy Parlay</button>
-                <button class="btn btn-secondary" onclick="clearParlay()">Clear All</button>
-            </div>
-        </div>
-
-        <!-- ELITE TAB -->
-        <div class="tab-content" id="elite">
-            <div class="card">
-                <div class="card-title">ELITE ANALYTICS DASHBOARD</div>
-                <table class="data-table">
-                    <tr><th>METRIC</th><th>VALUE</th><th>STATUS</th></tr>
-                    <tr><td>Bankroll</td><td style="color:var(--green)">$11,469</td><td style="color:var(--green)">+64% ROI</td></tr>
-                    <tr><td>Win Rate</td><td style="color:var(--gold)">86.1%</td><td>266-43-2</td></tr>
-                    <tr><td>NHL</td><td>40-6</td><td style="color:var(--green)">87.0%</td></tr>
-                    <tr><td>NBA</td><td>100-13</td><td style="color:var(--green)">88.5%</td></tr>
-                    <tr><td>Soccer</td><td>56-7</td><td style="color:var(--green)">88.9%</td></tr>
-                    <tr><td>Props</td><td>53-8</td><td style="color:var(--green)">86.9%</td></tr>
-                    <tr><td>Parlays</td><td>14-3</td><td style="color:var(--green)">82.4%</td></tr>
-                </table>
-            </div>
-        </div>
-
-        <!-- INDEX TAB -->
-        <div class="tab-content" id="index">
-            <div class="card">
-                <div class="card-title">SigMAX ELITE - USER GUIDE</div>
-                <table class="data-table">
-                    <tr><th>TAB</th><th>PURPOSE</th></tr>
-                    <tr><td>Home</td><td>Dashboard overview</td></tr>
-                    <tr><td>Alerts</td><td>Breaking news & injuries</td></tr>
-                    <tr><td>Top 5</td><td>Daily best picks</td></tr>
-                    <tr><td>Props</td><td>Player prop bets</td></tr>
-                    <tr><td>Games</td><td>Full schedule</td></tr>
-                    <tr><td>XFactors</td><td>Hidden edge analysis</td></tr>
-                    <tr><td>Journal</td><td>Results tracking</td></tr>
-                    <tr><td>Parlay</td><td>Build multi-leg bets</td></tr>
-                    <tr><td>Elite</td><td>Analytics dashboard</td></tr>
-                </table>
-                <div style="margin-top:12px;font-size:0.7rem;color:var(--text-secondary)">
-                    <p>Version 10.2 | May 2026</p>
-                    <p>Maximum Signal. Maximum Edge.</p>
-                </div>
-            </div>
-        </div>
-
-        <footer class="footer">
-            <div class="footer-text">SigMAX ELITE v10.2 | Maximum Signal. Maximum Edge.</div>
-        </footer>
+<div class="app-container">
+    <header class="header">
+        <div class="header-title">SigMAX ELITE</div>
+        <div class="header-subtitle">Maximum Signal. Maximum Edge.</div>
+        <div class="header-subtitle" id="timestamp">Loading...</div>
+    </header>
+    <div class="stats-bar">
+        <div class="stat-item"><div class="stat-value">86.1%</div><div class="stat-label">WIN RATE</div></div>
+        <div class="stat-item"><div class="stat-value">266-43</div><div class="stat-label">RECORD</div></div>
+        <div class="stat-item"><div class="stat-value">$11,469</div><div class="stat-label">BANKROLL</div></div>
+        <div class="stat-item"><div class="stat-value">+64%</div><div class="stat-label">ROI</div></div>
     </div>
-    <script>
-    var parlayPicks = [];
-    var parlayOdds = 1;
+    <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="home">HOME</button>
+        <button class="tab-btn" data-tab="alerts">ALERTS</button>
+        <button class="tab-btn" data-tab="top5">TOP 5</button>
+        <button class="tab-btn" data-tab="props">PROPS</button>
+        <button class="tab-btn" data-tab="games">GAMES</button>
+        <button class="tab-btn" data-tab="parlay">PARLAY</button>
+        <button class="tab-btn" data-tab="journal">JOURNAL</button>
+        <button class="tab-btn" data-tab="elite">ELITE</button>
+    </nav>
+    <div class="tab-content active" id="home">
+        <div class="card">
+            <div class="card-title">PERFORMANCE BY SPORT</div>
+            <table class="data-table">
+                <tr><th>SPORT</th><th>RECORD</th><th>WIN%</th><th>STATUS</th></tr>
+                <tr><td>NHL</td><td>40-6</td><td style="color:var(--gold)">87.0%</td><td style="color:var(--orange)">LIVE</td></tr>
+                <tr><td>NBA</td><td>100-13</td><td style="color:var(--gold)">88.5%</td><td style="color:var(--green)">Finals</td></tr>
+                <tr><td>Soccer</td><td>56-7</td><td style="color:var(--gold)">88.9%</td><td>WORLDWIDE</td></tr>
+                <tr><td>Tennis</td><td>6-1</td><td style="color:var(--gold)">85.7%</td><td style="color:var(--red)">ALCARAZ OUT</td></tr>
+                <tr><td>MLB</td><td>20-5</td><td style="color:var(--gold)">80.0%</td><td style="color:var(--orange)">LIVE</td></tr>
+                <tr><td>UFC</td><td>3-0</td><td style="color:var(--gold)">100%</td><td style="color:var(--green)">PERFECT</td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <div class="card-title">TODAY - May 23, 2026</div>
+            <div class="pick-item live"><div class="pick-info"><div class="pick-matchup">NHL: VGK @ COL - WCF G2</div><div class="pick-details">8:00 PM ET</div></div><div class="pick-odds odds-plus">+125</div><span class="pick-status status-live">LIVE</span></div>
+            <div class="pick-item win"><div class="pick-info"><div class="pick-matchup">NHL: MTL 6-2 CAR</div><div class="pick-details">MTL ML +145</div></div><span class="pick-status status-win">WIN</span></div>
+            <div class="pick-item win"><div class="pick-info"><div class="pick-matchup">Soccer: Penarol 1-1 Corinthians</div><div class="pick-details">DRAW +215</div></div><span class="pick-status status-win">WIN</span></div>
+        </div>
+        <div class="card">
+            <div class="card-title">QUICK LINKS</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <button class="btn btn-secondary" onclick="showTab('top5')">Top Picks</button>
+                <button class="btn btn-secondary" onclick="showTab('parlay')">Parlay</button>
+                <button class="btn btn-secondary" onclick="showTab('games')">Games</button>
+                <button class="btn btn-secondary" onclick="showTab('alerts')">Alerts</button>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content" id="alerts">
+        <div class="card">
+            <div class="card-title">ACTIVE ALERTS</div>
+            <div class="alert-item alert-breaking"><div class="alert-title">ALCARAZ OUT - FRENCH OPEN</div><div class="alert-desc">Wrist injury confirmed. Will not defend title.</div></div>
+            <div class="alert-item alert-info"><div class="alert-title">NHL WCF G2 TONIGHT</div><div class="alert-desc">Vegas @ Colorado 8:00 PM ET. Series tied 1-1.</div></div>
+            <div class="alert-item alert-info"><div class="alert-title">NBA WCF G3 TONIGHT</div><div class="alert-desc">OKC @ SAS 8:30 PM ET.</div></div>
+        </div>
+    </div>
+    <div class="tab-content" id="top5">
+        <div class="card">
+            <div class="card-title">TOP 5 PICKS - May 23</div>
+            <div class="pick-item live"><div class="pick-info"><div class="pick-matchup">NHL: COL vs VGK - WCF G2</div><div class="pick-details">Colorado ML - 8:00 PM</div></div><div class="pick-odds odds-plus">+125</div><span class="pick-status status-live">LIVE</span></div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">NBA: OKC @ SAS - WCF G3</div><div class="pick-details">Thunder ML - 8:30 PM</div></div><div class="pick-odds odds-minus">-145</div><span class="pick-status status-pending">8:30PM</span></div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">Tennis: Sinner vs Tabur</div><div class="pick-details">Sinner 2-0 Sets - May 24</div></div><div class="pick-odds odds-minus">-200</div><span class="pick-status status-pending">SUN</span></div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">Tennis: Swiatek vs Jones</div><div class="pick-details">Swiatek 2-0 Sets - May 24</div></div><div class="pick-odds odds-minus">-250</div><span class="pick-status status-pending">SUN</span></div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">MLS: Columbus vs Atlanta</div><div class="pick-details">Crew ML - May 24</div></div><div class="pick-odds odds-minus">-125</div><span class="pick-status status-pending">SUN</span></div>
+        </div>
+    </div>
+    <div class="tab-content" id="props">
+        <div class="card">
+            <div class="card-title">PLAYER PROPS - 53-8 (86.9%)</div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">NHL: S. Aho - Points O0.5</div><div class="pick-details">CAR ECF G2</div></div><div class="pick-odds odds-minus">-165</div><span style="color:var(--gold);font-size:0.7rem">89%</span></div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">NBA: Wembanyama - Pts O24.5</div><div class="pick-details">SAS WCF G3</div></div><div class="pick-odds odds-minus">-115</div><span style="color:var(--gold);font-size:0.7rem">84%</span></div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">NBA: SGA - Points O28.5</div><div class="pick-details">OKC WCF G3</div></div><div class="pick-odds odds-minus">-120</div><span style="color:var(--gold);font-size:0.7rem">86%</span></div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">Tennis: Sinner 2-0 Sets</div><div class="pick-details">vs Tabur RG R1</div></div><div class="pick-odds odds-minus">-200</div><span style="color:var(--gold);font-size:0.7rem">88%</span></div>
+        </div>
+    </div>
+    <div class="tab-content" id="games">
+        <div class="card">
+            <div class="card-title">UPCOMING GAMES</div>
+            <div class="card-title">--- MAY 23 ---</div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">NHL: VGK @ COL - WCF G2</div><div class="pick-details">8:00 PM ET</div></div><div class="pick-odds odds-plus">COL +125</div></div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">NBA: OKC @ SAS - WCF G3</div><div class="pick-details">8:30 PM ET</div></div><div class="pick-odds odds-minus">OKC -145</div></div>
+            <div class="card-title">--- MAY 24 ---</div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">NHL: MTL @ CAR - ECF G2</div><div class="pick-details">7:00 PM ET</div></div><div class="pick-odds odds-plus">MTL +145</div></div>
+            <div class="pick-item"><div class="pick-info"><div class="pick-matchup">Tennis: Sinner vs Tabur</div><div class="pick-details">RG R1 - 5:00 AM ET</div></div><div class="pick-odds odds-minus">-200</div></div>
+        </div>
+    </div>
+    <div class="tab-content" id="parlay">
+        <div class="card">
+            <div class="card-title">PARLAY BUILDER - 14-3 (82.4%)</div>
+            <div id="parlay-picks-container"><div class="empty-parlay">Add picks to build your parlay</div></div>
+            <div class="parlay-odds-display">
+                <div class="parlay-total-odds" id="parlay-odds">+0</div>
+                <div class="parlay-payout" id="parlay-payout">$100 to win $100</div>
+                <div style="font-size:0.7rem;color:var(--text-secondary);margin-top:4px" id="parlay-count">0 Picks</div>
+            </div>
+            <button class="btn btn-gold" onclick="copyParlay()">Copy Parlay</button>
+            <button class="btn btn-secondary" onclick="clearParlay()">Clear All</button>
+        </div>
+    </div>
+    <div class="tab-content" id="journal">
+        <div class="card">
+            <div class="card-title">BETTING JOURNAL - Last 5 Days</div>
+            <table class="data-table">
+                <tr><th>DATE</th><th>W-L</th><th>WIN%</th><th>P/L</th></tr>
+                <tr><td>May 23</td><td>8-2</td><td style="color:var(--green)">80%</td><td style="color:var(--green)">+$1,050</td></tr>
+                <tr><td>May 22</td><td>8-2</td><td style="color:var(--green)">80%</td><td style="color:var(--green)">+$620</td></tr>
+                <tr><td>May 21</td><td>8-2</td><td style="color:var(--green)">80%</td><td style="color:var(--green)">+$890</td></tr>
+                <tr><td>May 20</td><td>7-1</td><td style="color:var(--green)">87.5%</td><td style="color:var(--green)">+$510</td></tr>
+                <tr><td>May 19</td><td>6-2</td><td style="color:var(--green)">75%</td><td style="color:var(--green)">+$680</td></tr>
+                <tr><th>TOTAL</th><th>37-9</th><th style="color:var(--gold)">80.4%</th><th style="color:var(--green)">+$3,750</th></tr>
+            </table>
+        </div>
+    </div>
+    <div class="tab-content" id="elite">
+        <div class="card">
+            <div class="card-title">ELITE ANALYTICS</div>
+            <table class="data-table">
+                <tr><th>METRIC</th><th>VALUE</th><th>STATUS</th></tr>
+                <tr><td>Bankroll</td><td style="color:var(--green)">$11,469</td><td style="color:var(--green)">+64% ROI</td></tr>
+                <tr><td>Win Rate</td><td style="color:var(--gold)">86.1%</td><td>266-43-2</td></tr>
+                <tr><td>NHL</td><td>40-6</td><td style="color:var(--green)">87.0%</td></tr>
+                <tr><td>NBA</td><td>100-13</td><td style="color:var(--green)">88.5%</td></tr>
+                <tr><td>Soccer</td><td>56-7</td><td style="color:var(--green)">88.9%</td></tr>
+                <tr><td>Props</td><td>53-8</td><td style="color:var(--green)">86.9%</td></tr>
+                <tr><td>Parlays</td><td>14-3</td><td style="color:var(--green)">82.4%</td></tr>
+            </table>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-text">SigMAX ELITE v10.2 | Maximum Signal. Maximum Edge.</div>
+    </footer>
+</div>
+<script>
+var parlayPicks = [];
 
-    function showTab(tabName) {
-        var contents = document.querySelectorAll('.tab-content');
-        for (var i = 0; i < contents.length; i++) {
-            contents[i].style.display = 'none';
-            contents[i].classList.remove('active');
-        }
-        var buttons = document.querySelectorAll('.tab-btn');
-        for (var j = 0; j < buttons.length; j++) {
-            buttons[j].classList.remove('active');
-        }
-        var activeContent = document.getElementById(tabName);
-        if (activeContent) {
-            activeContent.style.display = 'block';
-            activeContent.classList.add('active');
-        }
-        var activeButtons = document.querySelectorAll('[data-tab="' + tabName + '"]');
-        for (var k = 0; k < activeButtons.length; k++) {
-            activeButtons[k].classList.add('active');
-        }
+function showTab(tabId) {
+    var contents = document.querySelectorAll('.tab-content');
+    for (var i = 0; i < contents.length; i++) {
+        contents[i].classList.remove('active');
     }
-
-    function updateParlayDisplay() {
-        var container = document.getElementById('parlay-picks-container');
-        var oddsEl = document.getElementById('parlay-odds');
-        var payoutEl = document.getElementById('parlay-payout');
-        var countEl = document.getElementById('parlay-count');
-        if (!container) return;
-        if (parlayPicks.length === 0) {
-            container.innerHTML = '<div class="empty-parlay">Add picks from any tab to build your parlay</div>';
-            if (oddsEl) oddsEl.innerText = '+0';
-            if (payoutEl) payoutEl.innerText = '$100 to win $100';
-            if (countEl) countEl.innerText = '0 Picks';
-            return;
-        }
-        var html = '';
-        parlayOdds = 1;
-        for (var i = 0; i < parlayPicks.length; i++) {
-            var pick = parlayPicks[i];
-            var decimalOdds = pick.odds > 0 ? (pick.odds / 100) + 1 : (100 / Math.abs(pick.odds)) + 1;
-            parlayOdds *= decimalOdds;
-            html += '<div class="parlay-slot filled">';
-            html += '<div class="slot-number">' + (i + 1) + '</div>';
-            html += '<div class="slot-pick">' + pick.matchup + ' - ' + pick.pick + '</div>';
-            html += '<span class="slot-remove" onclick="removeFromParlay(\'' + pick.id + '\')">[X]</span>';
-            html += '</div>';
-        }
-        container.innerHTML = html;
-        var americanOdds = parlayOdds >= 2 ? Math.round((parlayOdds - 1) * 100) : Math.round(-100 / (parlayOdds - 1));
-        var payout = Math.round(100 * parlayOdds);
-        if (oddsEl) oddsEl.innerText = (americanOdds > 0 ? '+' : '') + americanOdds;
-        if (payoutEl) payoutEl.innerText = '$100 to win $' + payout;
-        if (countEl) countEl.innerText = parlayPicks.length + ' Pick' + (parlayPicks.length !== 1 ? 's' : '');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('active');
     }
-
-    function removeFromParlay(pickId) {
-        parlayPicks = parlayPicks.filter(function(p) { return p.id !== pickId; });
-        updateParlayDisplay();
+    var target = document.getElementById(tabId);
+    if (target) {
+        target.classList.add('active');
     }
-
-    function copyParlay() {
-        if (parlayPicks.length === 0) {
-            alert('Add picks to your parlay first!');
-            return;
-        }
-        var text = 'SigMAX ELITE PARLAY\n==================\n';
-        for (var i = 0; i < parlayPicks.length; i++) {
-            var p = parlayPicks[i];
-            text += (i + 1) + '. ' + p.matchup + ' - ' + p.pick + '\n';
-        }
-        var americanOdds = parlayOdds >= 2 ? Math.round((parlayOdds - 1) * 100) : Math.round(-100 / (parlayOdds - 1));
-        text += '==================\nOdds: ' + (americanOdds > 0 ? '+' : '') + americanOdds;
-        text += '\n$100 to win $' + Math.round(100 * parlayOdds);
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(text).then(function() {
-                alert('Parlay copied!');
-            });
-        }
+    var activeBtn = document.querySelector('[data-tab="' + tabId + '"]');
+    if (activeBtn) {
+        activeBtn.classList.add('active');
     }
+}
 
-    function clearParlay() {
-        parlayPicks = [];
-        updateParlayDisplay();
+function updateTimestamp() {
+    var now = new Date();
+    var options = {
+        timeZone: 'America/New_York',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+    };
+    var timeStr = now.toLocaleString('en-US', options) + ' ET';
+    var el = document.getElementById('timestamp');
+    if (el) {
+        el.textContent = timeStr;
     }
+}
 
-    function updateTimestamp() {
-        var el = document.getElementById('live-timestamp');
-        if (!el) return;
-        var now = new Date();
-        var options = {
-            timeZone: 'America/New_York',
-            weekday: 'short',
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
-        };
-        var timeStr = new Intl.DateTimeFormat('en-US', options).format(now);
-        el.innerHTML = timeStr + ' ET <span style="color:#10b981">* LIVE</span>';
+function copyParlay() {
+    if (parlayPicks.length === 0) {
+        alert('No picks in parlay');
+        return;
     }
+    var text = 'SigMAX PARLAY:\n' + parlayPicks.join('\n');
+    navigator.clipboard.writeText(text);
+    alert('Parlay copied!');
+}
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var buttons = document.querySelectorAll('.tab-btn');
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener('click', function() {
-                showTab(this.getAttribute('data-tab'));
-            });
-        }
-        updateTimestamp();
-        setInterval(updateTimestamp, 10000);
-    });
-    </script>
+function clearParlay() {
+    parlayPicks = [];
+    var container = document.getElementById('parlay-picks-container');
+    if (container) {
+        container.innerHTML = '<div class="empty-parlay">Add picks to build your parlay</div>';
+    }
+    var oddsEl = document.getElementById('parlay-odds');
+    if (oddsEl) {
+        oddsEl.textContent = '+0';
+    }
+    var payoutEl = document.getElementById('parlay-payout');
+    if (payoutEl) {
+        payoutEl.textContent = '$100 to win $100';
+    }
+    var countEl = document.getElementById('parlay-count');
+    if (countEl) {
+        countEl.textContent = '0 Picks';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function() {
+            showTab(this.getAttribute('data-tab'));
+        });
+    }
+    updateTimestamp();
+    setInterval(updateTimestamp, 10000);
+});
+</script>
 </body>
 </html>
