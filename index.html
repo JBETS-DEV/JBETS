@@ -64,6 +64,102 @@ body {
   letter-spacing: 0.05em;
 }
 .header-meta span { color: var(--gold); }
+  /* === SHARE BUTTONS === */
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.share-btn.whatsapp {
+  background: #25D366;
+  color: #fff;
+}
+.share-btn.whatsapp:hover {
+  background: #128C7E;
+  transform: translateY(-1px);
+}
+.share-btn.share {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.share-btn.share:hover {
+  background: var(--gold);
+  color: var(--bg-dark);
+  border-color: var(--gold);
+}
+
+/* === SHARE MODAL === */
+.share-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+.share-modal-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  width: 90%;
+  max-width: 360px;
+  overflow: hidden;
+}
+.share-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+}
+.share-modal-body {
+  padding: 16px;
+}
+.share-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.share-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 8px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.share-option:hover {
+  background: var(--gold-muted);
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
 
 /* === LIVE INDICATOR === */
 .live-bar {
@@ -733,49 +829,49 @@ input:checked + .toggle-slider:before { transform: translateX(16px); background:
         <div class="parlay-grid header">
           <div>#</div><div>Sport</div><div>Matchup</div><div>Type</div><div>Pick</div><div>Odds</div><div>Status</div>
         </div>
-        <div class="parlay-grid">
+        <div class="parlay-grid" data-row="T1">
           <div style="color: var(--gold);">T1</div>
-          <select class="parlay-select"><option>Select</option><option>NHL</option><option>NBA</option><option>MLS</option><option>Tennis</option></select>
-          <select class="parlay-select"><option>Select Matchup</option></select>
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚽ MLS</option><option>🎾 Tennis</option><option>⚾ MLB</option></select>
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select Matchup</option><option>COL @ VGK</option><option>OKC @ SAS</option><option>MIA vs PHI</option><option>Sinner vs TBD</option></select>
           <select class="parlay-select"><option>ML</option><option>Spread</option><option>O/U</option></select>
-          <select class="parlay-select"><option>Select Pick</option></select>
-          <input class="parlay-select" placeholder="—">
+          <select class="parlay-select"><option value="">Select Pick</option><option>Home</option><option>Away</option><option>Over</option><option>Under</option></select>
+          <input class="parlay-select odds-input" placeholder="—" oninput="updateParlaySummary()">
           <span style="color: var(--warning); font-size: 0.55rem;">Pending</span>
         </div>
-        <div class="parlay-grid">
+        <div class="parlay-grid" data-row="T2">
           <div style="color: var(--gold);">T2</div>
-          <select class="parlay-select"><option>Select</option></select>
-          <select class="parlay-select"><option>Select Matchup</option></select>
-          <select class="parlay-select"><option>Type</option></select>
-          <select class="parlay-select"><option>Pick</option></select>
-          <input class="parlay-select" placeholder="—">
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚽ MLS</option><option>🎾 Tennis</option><option>⚾ MLB</option></select>
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select Matchup</option></select>
+          <select class="parlay-select"><option>ML</option><option>Spread</option><option>O/U</option></select>
+          <select class="parlay-select"><option value="">Select Pick</option></select>
+          <input class="parlay-select odds-input" placeholder="—" oninput="updateParlaySummary()">
           <span style="color: var(--warning); font-size: 0.55rem;">Pending</span>
         </div>
-        <div class="parlay-grid">
+        <div class="parlay-grid" data-row="T3">
           <div style="color: var(--gold);">T3</div>
-          <select class="parlay-select"><option>Select</option></select>
-          <select class="parlay-select"><option>Select Matchup</option></select>
-          <select class="parlay-select"><option>Type</option></select>
-          <select class="parlay-select"><option>Pick</option></select>
-          <input class="parlay-select" placeholder="—">
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚽ MLS</option><option>🎾 Tennis</option><option>⚾ MLB</option></select>
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select Matchup</option></select>
+          <select class="parlay-select"><option>ML</option><option>Spread</option><option>O/U</option></select>
+          <select class="parlay-select"><option value="">Select Pick</option></select>
+          <input class="parlay-select odds-input" placeholder="—" oninput="updateParlaySummary()">
           <span style="color: var(--warning); font-size: 0.55rem;">Pending</span>
         </div>
-        <div class="parlay-grid">
+        <div class="parlay-grid" data-row="T4">
           <div style="color: var(--gold);">T4</div>
-          <select class="parlay-select"><option>Select</option></select>
-          <select class="parlay-select"><option>Select Matchup</option></select>
-          <select class="parlay-select"><option>Type</option></select>
-          <select class="parlay-select"><option>Pick</option></select>
-          <input class="parlay-select" placeholder="—">
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚽ MLS</option><option>🎾 Tennis</option><option>⚾ MLB</option></select>
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select Matchup</option></select>
+          <select class="parlay-select"><option>ML</option><option>Spread</option><option>O/U</option></select>
+          <select class="parlay-select"><option value="">Select Pick</option></select>
+          <input class="parlay-select odds-input" placeholder="—" oninput="updateParlaySummary()">
           <span style="color: var(--warning); font-size: 0.55rem;">Pending</span>
         </div>
-        <div class="parlay-grid">
+        <div class="parlay-grid" data-row="T5">
           <div style="color: var(--gold);">T5</div>
-          <select class="parlay-select"><option>Select</option></select>
-          <select class="parlay-select"><option>Select Matchup</option></select>
-          <select class="parlay-select"><option>Type</option></select>
-          <select class="parlay-select"><option>Pick</option></select>
-          <input class="parlay-select" placeholder="—">
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚽ MLS</option><option>🎾 Tennis</option><option>⚾ MLB</option></select>
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select Matchup</option></select>
+          <select class="parlay-select"><option>ML</option><option>Spread</option><option>O/U</option></select>
+          <select class="parlay-select"><option value="">Select Pick</option></select>
+          <input class="parlay-select odds-input" placeholder="—" oninput="updateParlaySummary()">
           <span style="color: var(--warning); font-size: 0.55rem;">Pending</span>
         </div>
       </div>
@@ -790,66 +886,132 @@ input:checked + .toggle-slider:before { transform: translateX(16px); background:
         <div class="parlay-grid header">
           <div>#</div><div>Player</div><div>Sport</div><div>Stat</div><div>Line</div><div>Odds</div><div>Status</div>
         </div>
-        <div class="parlay-grid">
+        <div class="parlay-grid" data-row="P1">
           <div style="color: var(--gold);">P1</div>
-          <select class="parlay-select"><option>Select Player</option><option>MacKinnon</option><option>SGA</option><option>Messi</option></select>
-          <select class="parlay-select"><option>Sport</option></select>
-          <select class="parlay-select"><option>Stat</option><option>Points</option><option>Goals</option><option>Assists</option></select>
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select Player</option><option>N. MacKinnon</option><option>J. Eichel</option><option>S. Gilgeous-Alexander</option><option>V. Wembanyama</option><option>L. Messi</option><option>L. Suárez</option></select>
+          <select class="parlay-select"><option>Sport</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚽ MLS</option></select>
+          <select class="parlay-select"><option value="">Stat</option><option>Points</option><option>Goals</option><option>Assists</option><option>Rebounds</option><option>Blocks</option></select>
           <input class="parlay-select" placeholder="O/U">
-          <input class="parlay-select" placeholder="—">
+          <input class="parlay-select odds-input" placeholder="—" oninput="updateParlaySummary()">
           <span style="color: var(--warning); font-size: 0.55rem;">Pending</span>
         </div>
-        <div class="parlay-grid">
+        <div class="parlay-grid" data-row="P2">
           <div style="color: var(--gold);">P2</div>
-          <select class="parlay-select"><option>Select Player</option></select>
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select Player</option><option>N. MacKinnon</option><option>J. Eichel</option><option>S. Gilgeous-Alexander</option><option>V. Wembanyama</option><option>L. Messi</option></select>
           <select class="parlay-select"><option>Sport</option></select>
-          <select class="parlay-select"><option>Stat</option></select>
+          <select class="parlay-select"><option value="">Stat</option></select>
           <input class="parlay-select" placeholder="O/U">
-          <input class="parlay-select" placeholder="—">
+          <input class="parlay-select odds-input" placeholder="—" oninput="updateParlaySummary()">
           <span style="color: var(--warning); font-size: 0.55rem;">Pending</span>
         </div>
-        <div class="parlay-grid">
+        <div class="parlay-grid" data-row="P3">
           <div style="color: var(--gold);">P3</div>
-          <select class="parlay-select"><option>Select Player</option></select>
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select Player</option></select>
           <select class="parlay-select"><option>Sport</option></select>
-          <select class="parlay-select"><option>Stat</option></select>
+          <select class="parlay-select"><option value="">Stat</option></select>
           <input class="parlay-select" placeholder="O/U">
-          <input class="parlay-select" placeholder="—">
+          <input class="parlay-select odds-input" placeholder="—" oninput="updateParlaySummary()">
           <span style="color: var(--warning); font-size: 0.55rem;">Pending</span>
         </div>
-        <div class="parlay-grid">
+        <div class="parlay-grid" data-row="P4">
           <div style="color: var(--gold);">P4</div>
-          <select class="parlay-select"><option>Select Player</option></select>
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select Player</option></select>
           <select class="parlay-select"><option>Sport</option></select>
-          <select class="parlay-select"><option>Stat</option></select>
+          <select class="parlay-select"><option value="">Stat</option></select>
           <input class="parlay-select" placeholder="O/U">
-          <input class="parlay-select" placeholder="—">
+          <input class="parlay-select odds-input" placeholder="—" oninput="updateParlaySummary()">
           <span style="color: var(--warning); font-size: 0.55rem;">Pending</span>
         </div>
-        <div class="parlay-grid">
+        <div class="parlay-grid" data-row="P5">
           <div style="color: var(--gold);">P5</div>
-          <select class="parlay-select"><option>Select Player</option></select>
+          <select class="parlay-select" onchange="updateParlaySummary()"><option value="">Select Player</option></select>
           <select class="parlay-select"><option>Sport</option></select>
-          <select class="parlay-select"><option>Stat</option></select>
+          <select class="parlay-select"><option value="">Stat</option></select>
           <input class="parlay-select" placeholder="O/U">
-          <input class="parlay-select" placeholder="—">
+          <input class="parlay-select odds-input" placeholder="—" oninput="updateParlaySummary()">
           <span style="color: var(--warning); font-size: 0.55rem;">Pending</span>
         </div>
       </div>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px;">
-      <div class="mini-stat">
-        <div class="mini-stat-value" id="totalLegs">0</div>
-        <div class="mini-stat-label">Total Legs / 10</div>
+    <!-- PARLAY SUMMARY WITH SHARE BUTTONS -->
+    <div class="card" style="margin-top: 12px; background: linear-gradient(135deg, var(--bg-card) 0%, rgba(201,168,76,0.05) 100%);">
+      <div class="card-header">
+        <span class="card-title">Parlay Summary</span>
+        <div style="display: flex; gap: 6px;">
+          <button class="share-btn whatsapp" onclick="shareToWhatsApp()" title="Share on WhatsApp">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span>WhatsApp</span>
+          </button>
+          <button class="share-btn share" onclick="shareParlay()" title="Share Parlay">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            <span>Share</span>
+          </button>
+        </div>
       </div>
-      <div class="mini-stat">
-        <div class="mini-stat-value" style="color: var(--accent);">—</div>
-        <div class="mini-stat-label">Combined Odds</div>
+      <div class="card-body">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center;">
+          <div>
+            <div style="font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold);" id="totalLegs">0</div>
+            <div style="font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);">Legs / 10 Max</div>
+          </div>
+          <div>
+            <div style="font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--accent);" id="combinedOdds">—</div>
+            <div style="font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);">Combined Odds</div>
+          </div>
+          <div>
+            <div style="font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--success);" id="potentialPayout">$—</div>
+            <div style="font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);">Payout ($100)</div>
+          </div>
+        </div>
+        
+        <!-- Parlay Details for Sharing -->
+        <div id="parlayDetails" style="margin-top: 12px; padding: 10px; background: var(--bg-elevated); border-radius: 2px; font-size: 0.65rem; color: var(--text-secondary); display: none;">
+          <div style="font-weight: 600; color: var(--gold); margin-bottom: 6px;">📋 Your Parlay:</div>
+          <div id="parlayList"></div>
+        </div>
       </div>
-      <div class="mini-stat">
-        <div class="mini-stat-value" style="color: var(--success);">$—</div>
-        <div class="mini-stat-label">Payout ($100)</div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="shareModal" class="share-modal" style="display: none;">
+      <div class="share-modal-content">
+        <div class="share-modal-header">
+          <span>Share Your Parlay</span>
+          <button onclick="closeShareModal()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;">&times;</button>
+        </div>
+        <div class="share-modal-body">
+          <p style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 12px;">Share your parlay with friends!</p>
+          <div class="share-options">
+            <button class="share-option" onclick="shareToWhatsApp()">
+              <span style="font-size: 1.2rem;">💬</span>
+              <span>WhatsApp</span>
+            </button>
+            <button class="share-option" onclick="shareToSMS()">
+              <span style="font-size: 1.2rem;">📱</span>
+              <span>Text/SMS</span>
+            </button>
+            <button class="share-option" onclick="shareToFacebook()">
+              <span style="font-size: 1.2rem;">📘</span>
+              <span>Facebook</span>
+            </button>
+            <button class="share-option" onclick="shareToTwitter()">
+              <span style="font-size: 1.2rem;">🐦</span>
+              <span>Twitter/X</span>
+            </button>
+            <button class="share-option" onclick="shareToInstagram()">
+              <span style="font-size: 1.2rem;">📸</span>
+              <span>Instagram</span>
+            </button>
+            <button class="share-option" onclick="copyToClipboard()">
+              <span style="font-size: 1.2rem;">📋</span>
+              <span>Copy Link</span>
+            </button>
+          </div>
+          <div id="copyConfirm" style="display: none; margin-top: 10px; padding: 8px; background: rgba(45,212,191,0.1); border-radius: 2px; text-align: center; font-size: 0.65rem; color: var(--success);">
+            ✓ Copied to clipboard!
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1126,6 +1288,192 @@ function updateTime() {
   document.getElementById('liveTime').textContent = t;
   document.getElementById('updateTime').textContent = t;
 }
+  // === PARLAY SHARING FUNCTIONS ===
+
+function getParlayText() {
+  let legs = [];
+  let totalLegs = 0;
+  
+  // Get Team Bets
+  document.querySelectorAll('[data-row^="T"]').forEach(row => {
+    const sport = row.querySelectorAll('select')[0]?.value;
+    const matchup = row.querySelectorAll('select')[1]?.value;
+    const pick = row.querySelectorAll('select')[3]?.value;
+    const odds = row.querySelector('.odds-input')?.value;
+    
+    if (sport && matchup && sport !== 'Select' && matchup !== 'Select Matchup') {
+      totalLegs++;
+      legs.push(`${sport} ${matchup} ${pick || ''} ${odds || ''}`);
+    }
+  });
+  
+  // Get Player Props
+  document.querySelectorAll('[data-row^="P"]').forEach(row => {
+    const player = row.querySelectorAll('select')[0]?.value;
+    const stat = row.querySelectorAll('select')[2]?.value;
+    const line = row.querySelectorAll('input')[0]?.value;
+    const odds = row.querySelector('.odds-input')?.value;
+    
+    if (player && player !== 'Select Player' && player !== '') {
+      totalLegs++;
+      legs.push(`${player} ${stat || ''} ${line || ''} ${odds || ''}`);
+    }
+  });
+  
+  const combinedOdds = document.getElementById('combinedOdds').textContent;
+  const payout = document.getElementById('potentialPayout').textContent;
+  
+  let message = `🎰 SigMAX ELITE PARLAY 🎰\n`;
+  message += `━━━━━━━━━━━━━━━━━━\n`;
+  message += `📅 ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}\n\n`;
+  
+  if (legs.length > 0) {
+    legs.forEach((leg, i) => {
+      message += `${i + 1}. ${leg.trim()}\n`;
+    });
+    message += `\n━━━━━━━━━━━━━━━━━━\n`;
+    message += `📊 ${totalLegs} Legs | Odds: ${combinedOdds} | Payout: ${payout}\n`;
+  } else {
+    message += `No picks selected yet!\n`;
+  }
+  
+  message += `\n💎 Powered by SigMAX Elite\n`;
+  message += `🎯 Season: 266-43-2 (86.1%)\n`;
+  message += `⚡ Maximum Signal. Maximum Edge.`;
+  
+  return message;
+}
+
+function updateParlaySummary() {
+  let totalLegs = 0;
+  let combinedDecimalOdds = 1;
+  let legs = [];
+  
+  // Count Team Bets
+  document.querySelectorAll('[data-row^="T"]').forEach(row => {
+    const sport = row.querySelectorAll('select')[0]?.value;
+    const matchup = row.querySelectorAll('select')[1]?.value;
+    const odds = row.querySelector('.odds-input')?.value;
+    
+    if (sport && matchup && sport !== 'Select' && matchup !== 'Select Matchup' && matchup !== '') {
+      totalLegs++;
+      if (odds) {
+        const decimal = americanToDecimal(odds);
+        if (decimal) combinedDecimalOdds *= decimal;
+        legs.push(`${sport} ${matchup}`);
+      }
+    }
+  });
+  
+  // Count Player Props
+  document.querySelectorAll('[data-row^="P"]').forEach(row => {
+    const player = row.querySelectorAll('select')[0]?.value;
+    const odds = row.querySelector('.odds-input')?.value;
+    
+    if (player && player !== 'Select Player' && player !== '') {
+      totalLegs++;
+      if (odds) {
+        const decimal = americanToDecimal(odds);
+        if (decimal) combinedDecimalOdds *= decimal;
+        legs.push(player);
+      }
+    }
+  });
+  
+  // Update display
+  document.getElementById('totalLegs').textContent = totalLegs;
+  
+  if (totalLegs > 0 && combinedDecimalOdds > 1) {
+    const americanOdds = decimalToAmerican(combinedDecimalOdds);
+    document.getElementById('combinedOdds').textContent = americanOdds;
+    const payout = (100 * combinedDecimalOdds).toFixed(2);
+    document.getElementById('potentialPayout').textContent = `$${payout}`;
+    
+    // Show parlay details
+    document.getElementById('parlayDetails').style.display = 'block';
+    document.getElementById('parlayList').innerHTML = legs.map((l, i) => `<div>${i + 1}. ${l}</div>`).join('');
+  } else {
+    document.getElementById('combinedOdds').textContent = '—';
+    document.getElementById('potentialPayout').textContent = '$—';
+    document.getElementById('parlayDetails').style.display = 'none';
+  }
+}
+
+function americanToDecimal(american) {
+  const odds = parseInt(american);
+  if (isNaN(odds)) return null;
+  return odds > 0 ? (odds / 100) + 1 : (100 / Math.abs(odds)) + 1;
+}
+
+function decimalToAmerican(decimal) {
+  if (decimal >= 2) {
+    return '+' + Math.round((decimal - 1) * 100);
+  } else {
+    return Math.round(-100 / (decimal - 1));
+  }
+}
+
+function shareToWhatsApp() {
+  const text = encodeURIComponent(getParlayText());
+  window.open(`https://wa.me/?text=${text}`, '_blank');
+}
+
+function shareToSMS() {
+  const text = encodeURIComponent(getParlayText());
+  window.open(`sms:?body=${text}`, '_blank');
+}
+
+function shareToFacebook() {
+  const text = encodeURIComponent(getParlayText());
+  window.open(`https://www.facebook.com/sharer/sharer.php?quote=${text}`, '_blank');
+}
+
+function shareToTwitter() {
+  const text = encodeURIComponent(getParlayText());
+  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+}
+
+function shareToInstagram() {
+  // Instagram doesn't support direct text sharing, so copy to clipboard
+  copyToClipboard();
+  alert('📋 Parlay copied! Open Instagram and paste in your story or DM.');
+}
+
+function copyToClipboard() {
+  navigator.clipboard.writeText(getParlayText()).then(() => {
+    const confirm = document.getElementById('copyConfirm');
+    confirm.style.display = 'block';
+    setTimeout(() => confirm.style.display = 'none', 2000);
+  });
+}
+
+function shareParlay() {
+  // Check if Web Share API is available (mobile)
+  if (navigator.share) {
+    navigator.share({
+      title: 'SigMAX Elite Parlay',
+      text: getParlayText()
+    }).catch(() => {
+      // Fallback to modal
+      document.getElementById('shareModal').style.display = 'flex';
+    });
+  } else {
+    // Show modal on desktop
+    document.getElementById('shareModal').style.display = 'flex';
+  }
+}
+
+function closeShareModal() {
+  document.getElementById('shareModal').style.display = 'none';
+}
+
+// Close modal on outside click
+document.addEventListener('click', (e) => {
+  const modal = document.getElementById('shareModal');
+  if (e.target === modal) {
+    closeShareModal();
+  }
+});
 setInterval(updateTime, 1000);
 updateTime();
 </script>
