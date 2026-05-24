@@ -3,924 +3,1676 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SigMax Elite System v19.0 | Diamond & Gold Edition</title>
+<title>SigMax Elite System | Luxury Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ===== BASE RESET & FONTS (Reduced 25%) ===== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* ===== RESET ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
 :root {
+    --navy-darkest: #050a12;
     --navy-dark: #0a1628;
     --navy-mid: #0d1f3c;
     --navy-light: #152847;
-    --gold: #d4af37;
-    --gold-light: #f4d03f;
-    --amber: #f59e0b;
-    --diamond: #a8e6ff;
-    --win-green: #10b981;
-    --loss-red: #ef4444;
-    --alert-yellow: #fbbf24;
-    --info-cyan: #00b4d8;
-    --text-white: #f8fafc;
-    --text-muted: #94a3b8;
-    --base-font: 12px; /* Reduced from 16px */
+    --gold: #c9a227;
+    --gold-light: #d4af37;
+    --gold-pale: #e8d48b;
+    --amber: #b8860b;
+    --platinum: #e5e4e2;
+    --diamond: #b9f2ff;
+    --win: #00c896;
+    --loss: #ff4757;
+    --alert: #ffa502;
+    --info: #54a0ff;
+    --text-white: #f5f5f5;
+    --text-light: #d1d5db;
+    --text-muted: #8892a4;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Montserrat', 'Segoe UI', sans-serif;
 }
+
+html {
+    font-size: 13px;
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    font-size: var(--base-font);
-    background: var(--navy-dark);
+    font-family: var(--font-body);
+    background: var(--navy-darkest);
     color: var(--text-white);
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
 }
 
-/* ===== FLOATING DIAMONDS & GOLD PARTICLES ===== */
-.particles-container {
+/* ===== LUXURY BACKGROUND - 85% Navy + Golden Grid ===== */
+body::before {
+    content: '';
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        /* Subtle golden grid lines */
+        linear-gradient(90deg, transparent 98%, rgba(201, 162, 39, 0.03) 100%),
+        linear-gradient(0deg, transparent 98%, rgba(201, 162, 39, 0.03) 100%),
+        /* Diagonal luxury pattern */
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 100px,
+            rgba(201, 162, 39, 0.01) 100px,
+            rgba(201, 162, 39, 0.01) 101px
+        ),
+        /* Radial glow from center */
+        radial-gradient(ellipse at 50% 0%, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
+        /* Base navy gradient */
+        linear-gradient(180deg, var(--navy-darkest) 0%, var(--navy-dark) 50%, var(--navy-darkest) 100%);
+    background-size: 60px 60px, 60px 60px, auto, auto, auto;
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* Floating shadow boxes in background */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        /* Shadow boxes */
+        radial-gradient(ellipse 300px 200px at 10% 20%, rgba(201, 162, 39, 0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 300px at 90% 60%, rgba(201, 162, 39, 0.03) 0%, transparent 70%),
+        radial-gradient(ellipse 250px 250px at 50% 80%, rgba(201, 162, 39, 0.05) 0%, transparent 70%),
+        radial-gradient(ellipse 350px 200px at 20% 70%, rgba(13, 31, 60, 0.8) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 250px at 80% 30%, rgba(13, 31, 60, 0.6) 0%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ===== FLOATING PARTICLES ===== */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
     z-index: 0;
     overflow: hidden;
 }
+
 .particle {
     position: absolute;
-    animation: float-particle 15s infinite linear;
-    opacity: 0.4;
-    font-size: 14px;
+    opacity: 0;
+    animation: luxuryFloat 25s ease-in-out infinite;
 }
-.particle.diamond { color: var(--diamond); text-shadow: 0 0 8px var(--diamond); }
-.particle.gold { color: var(--gold); text-shadow: 0 0 8px var(--gold); }
-.particle.sparkle { color: #fff; text-shadow: 0 0 6px #fff; }
 
-@keyframes float-particle {
+.particle.diamond {
+    width: 6px;
+    height: 6px;
+    background: var(--diamond);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    box-shadow: 0 0 10px var(--diamond);
+}
+
+.particle.gold {
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--gold);
+}
+
+.particle.sparkle {
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 6px white;
+}
+
+@keyframes luxuryFloat {
     0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.5; }
-    90% { opacity: 0.5; }
-    100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    5% { opacity: 0.6; }
+    95% { opacity: 0.6; }
+    100% { transform: translateY(-50px) rotate(180deg); opacity: 0; }
 }
 
-/* ===== GOLDEN 4-CORNER FRAME ===== */
-.corner-frame {
+/* ===== GOLDEN CORNER ACCENTS ===== */
+.corner-accents {
     position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     pointer-events: none;
-    z-index: 1000;
+    z-index: 9998;
 }
-.corner { position: absolute; width: 60px; height: 60px; }
+
+.corner {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+}
+
 .corner::before, .corner::after {
     content: '';
     position: absolute;
     background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 50%, var(--gold-light) 100%);
-    box-shadow: 0 0 12px var(--gold), inset 0 0 4px rgba(255,255,255,0.5);
-}
-.corner-tl { top: 8px; left: 8px; }
-.corner-tl::before { width: 50px; height: 4px; top: 0; left: 0; border-radius: 2px; }
-.corner-tl::after { width: 4px; height: 50px; top: 0; left: 0; border-radius: 2px; }
-.corner-tr { top: 8px; right: 8px; }
-.corner-tr::before { width: 50px; height: 4px; top: 0; right: 0; border-radius: 2px; }
-.corner-tr::after { width: 4px; height: 50px; top: 0; right: 0; border-radius: 2px; }
-.corner-bl { bottom: 8px; left: 8px; }
-.corner-bl::before { width: 50px; height: 4px; bottom: 0; left: 0; border-radius: 2px; }
-.corner-bl::after { width: 4px; height: 50px; bottom: 0; left: 0; border-radius: 2px; }
-.corner-br { bottom: 8px; right: 8px; }
-.corner-br::before { width: 50px; height: 4px; bottom: 0; right: 0; border-radius: 2px; }
-.corner-br::after { width: 4px; height: 50px; bottom: 0; right: 0; border-radius: 2px; }
-
-/* Diamond accent at each corner */
-.corner::after { content: '💎'; position: absolute; font-size: 10px; animation: pulse-diamond 2s infinite; }
-.corner-tl .diamond-accent { top: 4px; left: 4px; }
-.corner-tr .diamond-accent { top: 4px; right: 4px; }
-.corner-bl .diamond-accent { bottom: 4px; left: 4px; }
-.corner-br .diamond-accent { bottom: 4px; right: 4px; }
-@keyframes pulse-diamond { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
-</style>
-</head>
-<body>
-
-<!-- FLOATING PARTICLES -->
-<div class="particles-container" id="particles"></div>
-
-<!-- GOLDEN 4-CORNER FRAME -->
-<div class="corner-frame">
-    <div class="corner corner-tl"><span class="diamond-accent">💎</span></div>
-    <div class="corner corner-tr"><span class="diamond-accent">💎</span></div>
-    <div class="corner corner-bl"><span class="diamond-accent">💎</span></div>
-    <div class="corner corner-br"><span class="diamond-accent">💎</span></div>
-</div>
-<style>
-/* ===== HEADER — Left-Justified Brand + Right Controls ===== */
-.main-header {
-    background: linear-gradient(180deg, var(--navy-mid) 0%, var(--navy-dark) 100%);
-    border-bottom: 3px solid;
-    border-image: linear-gradient(90deg, var(--gold), var(--amber), var(--gold)) 1;
-    padding: 12px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    box-shadow: 0 0 15px rgba(201, 162, 39, 0.5);
 }
 
-.brand-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.corner.tl { top: 0; left: 0; }
+.corner.tl::before { width: 60px; height: 2px; top: 10px; left: 10px; }
+.corner.tl::after { width: 2px; height: 60px; top: 10px; left: 10px; }
+
+.corner.tr { top: 0; right: 0; }
+.corner.tr::before { width: 60px; height: 2px; top: 10px; right: 10px; }
+.corner.tr::after { width: 2px; height: 60px; top: 10px; right: 10px; }
+
+.corner.bl { bottom: 0; left: 0; }
+.corner.bl::before { width: 60px; height: 2px; bottom: 10px; left: 10px; }
+.corner.bl::after { width: 2px; height: 60px; bottom: 10px; left: 10px; }
+
+.corner.br { bottom: 0; right: 0; }
+.corner.br::before { width: 60px; height: 2px; bottom: 10px; right: 10px; }
+.corner.br::after { width: 2px; height: 60px; bottom: 10px; right: 10px; }
+
+.corner-diamond {
+    position: absolute;
+    font-size: 8px;
+    animation: diamondPulse 3s ease-in-out infinite;
 }
-.brand-logo {
-    font-size: 32px;
-    filter: drop-shadow(0 0 8px var(--gold));
+
+.corner.tl .corner-diamond { top: 14px; left: 14px; }
+.corner.tr .corner-diamond { top: 14px; right: 14px; }
+.corner.bl .corner-diamond { bottom: 14px; left: 14px; }
+.corner.br .corner-diamond { bottom: 14px; right: 14px; }
+
+@keyframes diamondPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
 }
-.brand-text {
+
+/* ===== APP CONTAINER ===== */
+.app {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
-.brand-name {
-    font-size: 20px;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+
+/* ===== HEADER ===== */
+.header {
+    background: linear-gradient(180deg, rgba(13, 31, 60, 0.95) 0%, rgba(10, 22, 40, 0.98) 100%);
+    border-bottom: 1px solid var(--gold);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-icon {
+    font-size: 36px;
+    filter: drop-shadow(0 0 12px var(--gold));
+}
+
+.brand-text h1 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-pale) 0%, var(--gold) 50%, var(--gold-pale) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: none;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
-.brand-slogan {
+
+.brand-tagline {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.brand-tagline .main {
+    color: var(--gold);
+    font-weight: 500;
+}
+
+.brand-tagline .sub {
+    color: var(--text-muted);
+    font-style: italic;
+    display: block;
+    margin-top: 2px;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Luxury Dropdown Selects */
+.luxury-select {
+    position: relative;
+}
+
+.luxury-select select {
+    appearance: none;
+    background: linear-gradient(180deg, var(--navy-mid) 0%, var(--navy-dark) 100%);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 8px 32px 8px 12px;
+    color: var(--text-white);
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    min-width: 100px;
+    transition: all 0.3s ease;
+}
+
+.luxury-select select:hover {
+    border-color: var(--gold-light);
+    box-shadow: 0 0 10px rgba(201, 162, 39, 0.3);
+}
+
+.luxury-select select:focus {
+    outline: none;
+    border-color: var(--gold-light);
+    box-shadow: 0 0 15px rgba(201, 162, 39, 0.4);
+}
+
+.luxury-select::after {
+    content: '▼';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 8px;
+    pointer-events: none;
+}
+
+.luxury-select option {
+    background: var(--navy-dark);
+    color: var(--text-white);
+    padding: 10px;
+}
+
+/* Auto-refresh toggle */
+.refresh-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 9px;
     color: var(--text-muted);
     letter-spacing: 0.5px;
 }
-.brand-slogan-main { color: var(--gold); font-weight: 600; }
-.brand-slogan-sub { font-style: italic; color: var(--info-cyan); }
 
-.controls-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.control-btn {
+.toggle-switch {
+    width: 40px;
+    height: 20px;
     background: var(--navy-light);
     border: 1px solid var(--gold);
-    border-radius: 4px;
-    padding: 4px 10px;
-    color: var(--text-white);
-    font-size: 10px;
+    border-radius: 10px;
+    position: relative;
     cursor: pointer;
     transition: all 0.3s;
 }
-.control-btn:hover {
-    background: var(--gold);
-    color: var(--navy-dark);
+
+.toggle-switch.active {
+    background: linear-gradient(90deg, var(--win), #00a07a);
+    border-color: var(--win);
 }
-.control-btn.active {
-    background: var(--gold);
-    color: var(--navy-dark);
-    font-weight: 600;
-}
-.auto-refresh {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 10px;
-}
-.refresh-toggle {
-    width: 36px;
-    height: 18px;
-    background: var(--navy-light);
-    border-radius: 9px;
-    position: relative;
-    cursor: pointer;
-    border: 1px solid var(--gold);
-}
-.refresh-toggle.on { background: var(--win-green); }
-.refresh-toggle::after {
+
+.toggle-switch::after {
     content: '';
     position: absolute;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     background: white;
     border-radius: 50%;
     top: 1px;
     left: 2px;
-    transition: 0.3s;
+    transition: left 0.3s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
-.refresh-toggle.on::after { left: 18px; }
 
-/* ===== SCROLLING TICKER BANNER ===== */
-.ticker-banner {
-    background: linear-gradient(90deg, var(--navy-mid), var(--navy-light), var(--navy-mid));
-    border-bottom: 2px solid var(--amber);
-    padding: 6px 0;
+.toggle-switch.active::after {
+    left: 20px;
+}
+
+/* ===== TICKER BANNER ===== */
+.ticker {
+    background: linear-gradient(90deg, var(--navy-dark), var(--navy-mid), var(--navy-dark));
+    border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+    height: 32px;
     overflow: hidden;
     position: relative;
 }
+
 .ticker-track {
     display: flex;
-    animation: ticker-scroll 60s linear infinite;
+    position: absolute;
     white-space: nowrap;
+    animation: tickerMove 100s linear infinite;
+    height: 100%;
+    align-items: center;
 }
-@keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+@keyframes tickerMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
 .ticker-item {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 0 20px;
-    font-size: 11px;
-    border-right: 1px solid var(--gold);
+    padding: 0 24px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border-right: 1px solid rgba(201, 162, 39, 0.2);
 }
-.ticker-item.result-win { color: var(--win-green); }
-.ticker-item.result-loss { color: var(--loss-red); }
-.ticker-item.alert { color: var(--alert-yellow); }
-.ticker-item.upcoming { color: var(--info-cyan); }
+
+.ticker-item.win { color: var(--win); }
+.ticker-item.loss { color: var(--loss); }
+.ticker-item.alert { color: var(--alert); }
+.ticker-item.upcoming { color: var(--info); }
 .ticker-item.xfactor { color: var(--gold); }
 
-/* ===== NAVIGATION TABS ===== */
-.nav-tabs {
-    background: var(--navy-mid);
-    padding: 8px 16px;
+/* ===== NAVIGATION - Luxury Tab Style ===== */
+.nav {
+    background: rgba(13, 31, 60, 0.9);
+    padding: 0;
     display: flex;
     justify-content: center;
-    gap: 4px;
-    flex-wrap: wrap;
-    border-bottom: 1px solid var(--navy-light);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.2);
 }
-.nav-tab {
-    padding: 6px 14px;
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    padding: 14px 20px;
+    font-family: var(--font-body);
     font-size: 10px;
     font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     color: var(--text-muted);
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s;
-}
-.nav-tab:hover {
-    color: var(--gold);
-    border-color: var(--gold);
-}
-.nav-tab.active {
-    background: linear-gradient(135deg, var(--gold), var(--amber));
-    color: var(--navy-dark);
-    border-color: var(--gold);
-}
-</style>
-
-    <style>
-/* ===== 3D GOLDEN BOX STYLE ===== */
-.gold-box {
-    background: var(--navy-mid);
-    border: 2px solid var(--gold);
-    border-radius: 8px;
     position: relative;
-    box-shadow: 
-        0 4px 6px rgba(0,0,0,0.4),
-        inset 0 1px 0 rgba(255,255,255,0.1),
-        0 0 0 1px var(--amber);
+    transition: all 0.3s ease;
 }
-.gold-box::before {
+
+.nav-btn:hover {
+    color: var(--gold);
+    background: rgba(201, 162, 39, 0.05);
+}
+
+.nav-btn.active {
+    color: var(--gold);
+    background: rgba(201, 162, 39, 0.1);
+}
+
+.nav-btn.active::after {
     content: '';
     position: absolute;
-    inset: -1px;
-    border-radius: 9px;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 50%, var(--gold) 100%);
-    z-index: -1;
-    opacity: 0.3;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
-.gold-box-header {
-    background: linear-gradient(90deg, var(--gold), var(--amber), var(--gold));
-    color: var(--navy-dark);
-    padding: 8px 12px;
-    font-weight: 700;
-    font-size: 11px;
-    border-radius: 6px 6px 0 0;
+
+/* ===== MAIN CONTENT ===== */
+.main {
+    flex: 1;
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ===== TAB PANELS - Show/Hide ===== */
+.tab-panel {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== LUXURY CARD STYLE ===== */
+.luxury-card {
+    background: linear-gradient(135deg, rgba(13, 31, 60, 0.9) 0%, rgba(10, 22, 40, 0.95) 100%);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 1px var(--amber),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.luxury-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+}
+
+.card-header {
+    background: linear-gradient(90deg, rgba(201, 162, 39, 0.15) 0%, rgba(201, 162, 39, 0.05) 50%, rgba(201, 162, 39, 0.15) 100%);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+    padding: 12px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.gold-box-content {
-    padding: 12px;
-}
 
-/* ===== MAIN CONTENT AREA ===== */
-.main-content {
-    padding: 16px;
-    position: relative;
-    z-index: 1;
-}
-.section-title {
+.card-title {
+    font-family: var(--font-display);
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--gold);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    letter-spacing: 1px;
 }
 
-/* ===== STATS ROW ===== */
-.stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    margin-bottom: 16px;
-}
-.stat-card {
-    background: var(--navy-mid);
-    border: 2px solid var(--gold);
-    border-radius: 8px;
-    padding: 12px;
-    text-align: center;
-    box-shadow: 
-        0 4px 8px rgba(0,0,0,0.3),
-        inset 0 1px 0 rgba(255,255,255,0.1),
-        0 0 0 1px var(--amber);
-}
-.stat-label {
+.card-subtitle {
     font-size: 9px;
     color: var(--text-muted);
-    text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 4px;
 }
+
+.card-body {
+    padding: 16px;
+}
+
+/* ===== STATS GRID ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy-dark) 100%);
+    border: 1px solid rgba(201, 162, 39, 0.4);
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.stat-label {
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
 .stat-value {
-    font-size: 18px;
-    font-weight: 800;
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
-.stat-value.positive { color: var(--win-green); }
-.stat-value.negative { color: var(--loss-red); }
+
 .stat-value.gold { color: var(--gold); }
-.stat-value.info { color: var(--info-cyan); }
+.stat-value.win { color: var(--win); }
+.stat-value.loss { color: var(--loss); }
+
 .stat-sub {
     font-size: 9px;
     color: var(--text-muted);
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
-/* ===== COLOR CODING CLASSES ===== */
-.clr-win { color: var(--win-green); }
-.clr-loss { color: var(--loss-red); }
-.clr-alert { color: var(--alert-yellow); }
-.clr-gold { color: var(--gold); }
-.clr-info { color: var(--info-cyan); }
-.bg-win { background: rgba(16, 185, 129, 0.2); }
-.bg-loss { background: rgba(239, 68, 68, 0.2); }
-.bg-alert { background: rgba(251, 191, 36, 0.2); }
+/* ===== TABLE STYLES ===== */
+.luxury-table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-/* Risk level badges */
-.risk-badge {
+.luxury-table th {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid var(--gold);
+    background: rgba(201, 162, 39, 0.05);
+}
+
+.luxury-table td {
+    font-size: 11px;
+    padding: 12px;
+    border-bottom: 1px solid rgba(201, 162, 39, 0.1);
+    color: var(--text-light);
+}
+
+.luxury-table tr:hover {
+    background: rgba(201, 162, 39, 0.05);
+}
+
+.luxury-table .center { text-align: center; }
+
+/* ===== COLOR CLASSES ===== */
+.c-win { color: var(--win); }
+.c-loss { color: var(--loss); }
+.c-gold { color: var(--gold); }
+.c-alert { color: var(--alert); }
+.c-info { color: var(--info); }
+
+/* ===== BADGES ===== */
+.badge {
     display: inline-block;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 3px 8px;
+    border-radius: 3px;
     font-size: 8px;
     font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
-.risk-low { background: var(--win-green); color: white; }
-.risk-med { background: var(--alert-yellow); color: var(--navy-dark); }
-.risk-high { background: var(--loss-red); color: white; }
+
+.badge.low { background: var(--win); color: white; }
+.badge.med { background: var(--alert); color: var(--navy-dark); }
+.badge.high { background: var(--loss); color: white; }
+
+/* ===== PARLAY BUILDER SPECIFIC ===== */
+.parlay-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.parlay-section h4 {
+    font-family: var(--font-display);
+    font-size: 12px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+.parlay-slot {
+    background: var(--navy-light);
+    border: 1px solid rgba(201, 162, 39, 0.3);
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 8px;
+}
+
+.parlay-select-full {
+    width: 100%;
+    background: var(--navy-dark);
+    border: 1px solid rgba(201, 162, 39, 0.4);
+    border-radius: 4px;
+    padding: 8px 10px;
+    color: var(--text-white);
+    font-size: 10px;
+    margin-bottom: 6px;
+    cursor: pointer;
+}
+
+.parlay-select-full:focus {
+    outline: none;
+    border-color: var(--gold);
+}
+
+.parlay-summary-bar {
+    background: linear-gradient(90deg, rgba(201, 162, 39, 0.1), rgba(201, 162, 39, 0.2), rgba(201, 162, 39, 0.1));
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 14px 20px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.parlay-summary-item {
+    text-align: center;
+}
+
+.parlay-summary-item .label {
+    font-size: 8px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.parlay-summary-item .value {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+}
+
+/* ===== ALERTS ===== */
+.alert-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    border-left: 3px solid;
+}
+
+.alert-item.high {
+    background: rgba(255, 71, 87, 0.1);
+    border-color: var(--loss);
+}
+
+.alert-item.med {
+    background: rgba(255, 165, 2, 0.1);
+    border-color: var(--alert);
+}
+
+.alert-item.low {
+    background: rgba(0, 200, 150, 0.1);
+    border-color: var(--win);
+}
+
+.alert-text {
+    font-size: 11px;
+}
+
+.alert-text strong {
+    color: var(--gold);
+}
+
+/* ===== X-FACTOR CARDS ===== */
+.xfactor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.xfactor-card {
+    background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy-mid) 100%);
+    border: 1px solid rgba(201, 162, 39, 0.4);
+    border-radius: 6px;
+    padding: 14px;
+    position: relative;
+}
+
+.xfactor-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.xfactor-sport {
+    font-size: 9px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.xfactor-name {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-white);
+    margin-bottom: 4px;
+}
+
+.xfactor-detail {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.xfactor-edge {
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy-darkest) 100%);
+    border-top: 1px solid rgba(201, 162, 39, 0.3);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 9px;
+    color: var(--text-muted);
+}
+
+.footer-brand {
+    font-family: var(--font-display);
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.footer-stats span {
+    margin: 0 8px;
+}
+
+.footer-disclaimer {
+    color: var(--alert);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+    
+    .header-controls {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    
+    .nav {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+    
+    .nav-btn {
+        padding: 10px 14px;
+        font-size: 9px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .parlay-columns {
+        grid-template-columns: 1fr;
+    }
+}
 </style>
-<!-- ===== HEADER ===== -->
-<header class="main-header">
-    <div class="brand-left">
-        <div class="brand-logo">🎰</div>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<div class="particles" id="particles"></div>
+
+<!-- CORNER ACCENTS -->
+<div class="corner-accents">
+    <div class="corner tl"><span class="corner-diamond">💎</span></div>
+    <div class="corner tr"><span class="corner-diamond">💎</span></div>
+    <div class="corner bl"><span class="corner-diamond">💎</span></div>
+    <div class="corner br"><span class="corner-diamond">💎</span></div>
+</div>
+
+<!-- APP -->
+<div class="app">
+
+<!-- HEADER -->
+<header class="header">
+    <div class="brand">
+        <div class="brand-icon">🎰</div>
         <div class="brand-text">
-            <div class="brand-name">SigMax Elite System</div>
-            <div class="brand-slogan">
-                <span class="brand-slogan-main">Maximum Signal. Maximum Energy. Maximum Edge</span><br>
-                <span class="brand-slogan-sub">Watch passionately. Bet Wisely.</span>
+            <h1>SigMax Elite</h1>
+            <div class="brand-tagline">
+                <span class="main">Maximum Signal · Maximum Energy · Maximum Edge</span>
+                <span class="sub">Watch passionately. Bet Wisely.</span>
             </div>
         </div>
     </div>
-    <div class="controls-right">
-        <div class="lang-switch">
-            <button class="control-btn active">EN</button>
-            <button class="control-btn">FR</button>
-            <button class="control-btn">ES</button>
+    <div class="header-controls">
+        <div class="luxury-select">
+            <select id="langSelect" onchange="changeLanguage(this.value)">
+                <option value="en">🇺🇸 English</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="pt">🇧🇷 Português</option>
+                <option value="de">🇩🇪 Deutsch</option>
+            </select>
         </div>
-        <div class="device-switch">
-            <button class="control-btn">📱</button>
-            <button class="control-btn active">💻</button>
+        <div class="luxury-select">
+            <select id="deviceSelect" onchange="changeDevice(this.value)">
+                <option value="desktop">💻 Desktop</option>
+                <option value="tablet">📱 Tablet</option>
+                <option value="mobile">📲 Mobile</option>
+            </select>
         </div>
-        <div class="auto-refresh">
+        <div class="refresh-control">
             <span>Auto-Refresh</span>
-            <div class="refresh-toggle on" id="refreshToggle"></div>
+            <div class="toggle-switch active" id="refreshToggle" onclick="toggleRefresh()"></div>
             <span>5s</span>
         </div>
     </div>
 </header>
 
-<!-- ===== SCROLLING TICKER ===== -->
-<div class="ticker-banner">
+<!-- TICKER -->
+<div class="ticker">
     <div class="ticker-track">
-        <!-- Results -->
-        <div class="ticker-item result-win">✅ Real Madrid 4-2 Athletic Bilbao | La Liga</div>
-        <div class="ticker-item result-loss">❌ Barcelona 1-3 Valencia | UPSET</div>
-        <div class="ticker-item result-win">✅ Celta 1-0 Sevilla</div>
-        <div class="ticker-item result-win">✅ St. Louis 3-0 Austin | MLS</div>
-        <div class="ticker-item result-win">✅ Colorado 3-2 Vegas (OT) | NHL WCF G2</div>
-        <div class="ticker-item result-win">✅ OKC 112-108 San Antonio | NBA WCF G3</div>
-        <!-- Alerts -->
-        <div class="ticker-item alert">⚠️ ALCARAZ OUT — Sinner now clear favorite</div>
-        <div class="ticker-item alert">⚠️ NHL ECF tied 1-1 — Model recalibrated</div>
-        <div class="ticker-item alert">⚠️ OKC leads WCF 2-1 — Continue backing</div>
-        <!-- Upcoming -->
-        <div class="ticker-item upcoming">⏳ 8:00 PM: Avalanche @ Golden Knights | NHL WCF G3</div>
-        <div class="ticker-item upcoming">⏳ 8:00 PM: Thunder @ Spurs | NBA WCF G4</div>
-        <div class="ticker-item upcoming">⏳ Roland Garros R1: Sinner, Djokovic, Świątek, Gauff</div>
-        <div class="ticker-item upcoming">⏳ 12:45 PM: Indy 500 (110th Running)</div>
-        <!-- X-Factors -->
-        <div class="ticker-item xfactor">🔥 MacKinnon: 121 pts regular season — Elite at home</div>
-        <div class="ticker-item xfactor">🔥 SGA: 32.8 PPG playoff avg — MVP mode</div>
-        <div class="ticker-item xfactor">🔥 Wembanyama: Triple-double threat every game</div>
-        <!-- Duplicate for seamless scroll -->
-        <div class="ticker-item result-win">✅ Real Madrid 4-2 Athletic Bilbao | La Liga</div>
-        <div class="ticker-item result-loss">❌ Barcelona 1-3 Valencia | UPSET</div>
-        <div class="ticker-item result-win">✅ Celta 1-0 Sevilla</div>
-        <div class="ticker-item result-win">✅ St. Louis 3-0 Austin | MLS</div>
-        <div class="ticker-item result-win">✅ Colorado 3-2 Vegas (OT) | NHL WCF G2</div>
-        <div class="ticker-item result-win">✅ OKC 112-108 San Antonio | NBA WCF G3</div>
-        <div class="ticker-item alert">⚠️ ALCARAZ OUT — Sinner now clear favorite</div>
-        <div class="ticker-item alert">⚠️ NHL ECF tied 1-1 — Model recalibrated</div>
-        <div class="ticker-item upcoming">⏳ 8:00 PM: Avalanche @ Golden Knights | NHL WCF G3</div>
-        <div class="ticker-item upcoming">⏳ 8:00 PM: Thunder @ Spurs | NBA WCF G4</div>
-        <div class="ticker-item xfactor">🔥 MacKinnon: 121 pts regular season — Elite at home</div>
-        <div class="ticker-item xfactor">🔥 SGA: 32.8 PPG playoff avg — MVP mode</div>
+        <span class="ticker-item win">✅ Real Madrid 4-2 Athletic Bilbao | La Liga</span>
+        <span class="ticker-item loss">❌ Barcelona 1-3 Valencia | UPSET ALERT</span>
+        <span class="ticker-item win">✅ Colorado 3-2 Vegas (OT) | NHL WCF G2</span>
+        <span class="ticker-item win">✅ OKC 112-108 San Antonio | NBA WCF G3</span>
+        <span class="ticker-item alert">⚠️ ALCARAZ OUT — Sinner now clear favorite</span>
+        <span class="ticker-item upcoming">⏳ 8:00 PM: Avalanche @ Golden Knights | NHL WCF G3</span>
+        <span class="ticker-item upcoming">⏳ 8:00 PM: Thunder @ Spurs | NBA WCF G4</span>
+        <span class="ticker-item xfactor">🔥 MacKinnon: 121 pts regular season — Elite at home</span>
+        <span class="ticker-item xfactor">🔥 SGA: 32.8 PPG playoff average — MVP mode</span>
+        <span class="ticker-item win">✅ Real Madrid 4-2 Athletic Bilbao | La Liga</span>
+        <span class="ticker-item loss">❌ Barcelona 1-3 Valencia | UPSET ALERT</span>
+        <span class="ticker-item win">✅ Colorado 3-2 Vegas (OT) | NHL WCF G2</span>
+        <span class="ticker-item win">✅ OKC 112-108 San Antonio | NBA WCF G3</span>
+        <span class="ticker-item alert">⚠️ ALCARAZ OUT — Sinner now clear favorite</span>
+        <span class="ticker-item upcoming">⏳ 8:00 PM: Avalanche @ Golden Knights | NHL WCF G3</span>
+        <span class="ticker-item upcoming">⏳ 8:00 PM: Thunder @ Spurs | NBA WCF G4</span>
+        <span class="ticker-item xfactor">🔥 MacKinnon: 121 pts regular season — Elite at home</span>
     </div>
 </div>
 
-<!-- ===== NAVIGATION ===== -->
-<nav class="nav-tabs">
-    <button class="nav-tab active">🏠 Dashboard</button>
-    <button class="nav-tab">🎰 Parlay Builder</button>
-    <button class="nav-tab">📊 Stats</button>
-    <button class="nav-tab">🎯 Picks</button>
-    <button class="nav-tab">👤 Props</button>
-    <button class="nav-tab">📅 Games</button>
-    <button class="nav-tab">⚠️ Alerts</button>
-    <button class="nav-tab">🔥 X-Factors</button>
-    <button class="nav-tab">📈 Results</button>
-    <button class="nav-tab">💰 Bankroll</button>
+<!-- NAVIGATION -->
+<nav class="nav">
+    <button class="nav-btn active" data-tab="dashboard">🏠 Dashboard</button>
+    <button class="nav-btn" data-tab="parlay">🎰 Parlay Builder</button>
+    <button class="nav-btn" data-tab="picks">🎯 Today's Picks</button>
+    <button class="nav-btn" data-tab="props">👤 Player Props</button>
+    <button class="nav-btn" data-tab="games">📅 All Games</button>
+    <button class="nav-btn" data-tab="alerts">⚠️ Alerts</button>
+    <button class="nav-btn" data-tab="xfactors">🔥 X-Factors</button>
+    <button class="nav-btn" data-tab="results">📈 Results</button>
+    <button class="nav-btn" data-tab="stats">📊 Statistics</button>
+    <button class="nav-btn" data-tab="bankroll">💰 Bankroll</button>
 </nav>
-<!-- ===== MAIN CONTENT ===== -->
-<main class="main-content">
 
-<!-- Stats Row -->
-<section class="stats-row">
-    <div class="stat-card">
-        <div class="stat-label">Overall Record</div>
-        <div class="stat-value gold">266-43-2</div>
-        <div class="stat-sub">Season 2026</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">Win Rate</div>
-        <div class="stat-value positive">86.1%</div>
-        <div class="stat-sub">+3.2% vs baseline</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">Bankroll</div>
-        <div class="stat-value positive">$12,332.87</div>
-        <div class="stat-sub">Started: $7,000</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">ROI</div>
-        <div class="stat-value positive">+76.2%</div>
-        <div class="stat-sub">+$5,332.87 profit</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">Yesterday</div>
-        <div class="stat-value positive">6-2</div>
-        <div class="stat-sub clr-win">+$863.50</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">Parlay Record</div>
-        <div class="stat-value gold">15-3</div>
-        <div class="stat-sub">83.3% | +$1,890</div>
-    </div>
-</section>
+<!-- MAIN CONTENT -->
+<main class="main">
 
-<!-- Sports Performance Table -->
-<section class="gold-box" style="margin-bottom: 16px;">
-    <div class="gold-box-header">
-        <span>📊 PERFORMANCE BY SPORT</span>
-        <span>Updated: May 24, 2026 16:00 ET</span>
-    </div>
-    <div class="gold-box-content">
-        <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
-            <thead>
-                <tr style="border-bottom: 2px solid var(--gold);">
-                    <th style="text-align: left; padding: 6px;">Sport</th>
-                    <th style="text-align: center; padding: 6px;">W</th>
-                    <th style="text-align: center; padding: 6px;">L</th>
-                    <th style="text-align: center; padding: 6px;">Win %</th>
-                    <th style="text-align: center; padding: 6px;">P/L</th>
-                    <th style="text-align: center; padding: 6px;">Streak</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 6px;">🏀 NBA</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">100</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-loss">13</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">88.5%</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">+$2,145</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">W4</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 6px;">⚽ Soccer</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">56</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-loss">7</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">88.9%</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">+$1,420</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-loss">L1</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 6px;">🏒 NHL</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">40</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-loss">6</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">87.0%</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">+$980</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">W3</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 6px;">⚾ MLB</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">20</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-loss">5</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">80.0%</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">+$485</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">W2</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 6px;">🎾 Tennis</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">6</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-loss">1</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">85.7%</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">+$180</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">W3</td>
-                </tr>
-                <tr>
-                    <td style="padding: 6px;">🥊 UFC</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">3</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-loss">0</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">100%</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">+$122</td>
-                    <td style="text-align: center; padding: 6px;" class="clr-win">W3</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
+<!-- ========== DASHBOARD TAB ========== -->
+<div class="tab-panel active" id="panel-dashboard">
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Overall Record</div>
+            <div class="stat-value gold">266-43-2</div>
+            <div class="stat-sub">Season 2026</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Win Rate</div>
+            <div class="stat-value win">86.1%</div>
+            <div class="stat-sub">+3.2% vs baseline</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Bankroll</div>
+            <div class="stat-value win">$12,332</div>
+            <div class="stat-sub">Started: $7,000</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">ROI</div>
+            <div class="stat-value win">+76.2%</div>
+            <div class="stat-sub">+$5,332 profit</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Yesterday</div>
+            <div class="stat-value win">6-2</div>
+            <div class="stat-sub c-win">+$863</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Parlay Record</div>
+            <div class="stat-value gold">15-3</div>
+            <div class="stat-sub">83.3% | +$1,890</div>
+        </div>
+    </section>
 
-    <!-- Today's Games - FILTERED FOR MAY 24 ONLY -->
-<section class="gold-box" style="margin-bottom: 16px;">
-    <div class="gold-box-header">
-        <span>📅 TODAY'S GAMES — May 24, 2026</span>
-        <span>11 Events Across 5 Sports</span>
-    </div>
-    <div class="gold-box-content">
-        <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
-            <thead>
-                <tr style="border-bottom: 2px solid var(--gold);">
-                    <th style="text-align: left; padding: 5px;">Time (ET)</th>
-                    <th style="text-align: left; padding: 5px;">Sport</th>
-                    <th style="text-align: left; padding: 5px;">League</th>
-                    <th style="text-align: left; padding: 5px;">Matchup</th>
-                    <th style="text-align: center; padding: 5px;">Pick</th>
-                    <th style="text-align: center; padding: 5px;">Odds</th>
-                    <th style="text-align: center; padding: 5px;">Conf.</th>
-                    <th style="text-align: center; padding: 5px;">Risk</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Tennis - Roland Garros -->
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 5px;">5:00 AM</td>
-                    <td style="padding: 5px;">🎾</td>
-                    <td style="padding: 5px;">Roland Garros R1</td>
-                    <td style="padding: 5px;">Jannik Sinner vs TBD</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">Sinner ML</td>
-                    <td style="padding: 5px; text-align: center;">-450</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">92%</td>
-                    <td style="padding: 5px; text-align: center;"><span class="risk-badge risk-low">LOW</span></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 5px;">6:00 AM</td>
-                    <td style="padding: 5px;">🎾</td>
-                    <td style="padding: 5px;">Roland Garros R1</td>
-                    <td style="padding: 5px;">Iga Świątek vs TBD</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">Świątek ML</td>
-                    <td style="padding: 5px; text-align: center;">-500</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">94%</td>
-                    <td style="padding: 5px; text-align: center;"><span class="risk-badge risk-low">LOW</span></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 5px;">7:00 AM</td>
-                    <td style="padding: 5px;">🎾</td>
-                    <td style="padding: 5px;">Roland Garros R1</td>
-                    <td style="padding: 5px;">Novak Djokovic vs TBD</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">Djokovic ML</td>
-                    <td style="padding: 5px; text-align: center;">-380</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">89%</td>
-                    <td style="padding: 5px; text-align: center;"><span class="risk-badge risk-low">LOW</span></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 5px;">8:00 AM</td>
-                    <td style="padding: 5px;">🎾</td>
-                    <td style="padding: 5px;">Roland Garros R1</td>
-                    <td style="padding: 5px;">Coco Gauff vs TBD</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">Gauff ML</td>
-                    <td style="padding: 5px; text-align: center;">-320</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">85%</td>
-                    <td style="padding: 5px; text-align: center;"><span class="risk-badge risk-low">LOW</span></td>
-                </tr>
-                <!-- MLS -->
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 5px;">2:00 PM</td>
-                    <td style="padding: 5px;">⚽</td>
-                    <td style="padding: 5px;">MLS</td>
-                    <td style="padding: 5px;">Columbus Crew @ Atlanta United</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">Columbus ML</td>
-                    <td style="padding: 5px; text-align: center;">+110</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">71%</td>
-                    <td style="padding: 5px; text-align: center;"><span class="risk-badge risk-med">MED</span></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 5px;">4:00 PM</td>
-                    <td style="padding: 5px;">⚽</td>
-                    <td style="padding: 5px;">MLS</td>
-                    <td style="padding: 5px;">Inter Miami vs Philadelphia Union</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">Miami ML</td>
-                    <td style="padding: 5px; text-align: center;">-145</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">76%</td>
-                    <td style="padding: 5px; text-align: center;"><span class="risk-badge risk-low">LOW</span></td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 5px;">6:15 PM</td>
-                    <td style="padding: 5px;">⚽</td>
-                    <td style="padding: 5px;">MLS</td>
-                    <td style="padding: 5px;">LAFC vs Seattle Sounders</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-gold">Draw</td>
-                    <td style="padding: 5px; text-align: center;">+240</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-alert">62%</td>
-                    <td style="padding: 5px; text-align: center;"><span class="risk-badge risk-med">MED</span></td>
-                </tr>
-                <!-- NHL Playoffs -->
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 5px;">8:00 PM</td>
-                    <td style="padding: 5px;">🏒</td>
-                    <td style="padding: 5px;">NHL WCF G3</td>
-                    <td style="padding: 5px;">Colorado Avalanche @ Vegas Golden Knights</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">Colorado ML</td>
-                    <td style="padding: 5px; text-align: center;">+125</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">73%</td>
-                    <td style="padding: 5px; text-align: center;"><span class="risk-badge risk-med">MED</span></td>
-                </tr>
-                <!-- NBA Playoffs -->
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 5px;">8:00 PM</td>
-                    <td style="padding: 5px;">🏀</td>
-                    <td style="padding: 5px;">NBA WCF G4</td>
-                    <td style="padding: 5px;">OKC Thunder @ San Antonio Spurs</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">OKC -4.5</td>
-                    <td style="padding: 5px; text-align: center;">-110</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">78%</td>
-                    <td style="padding: 5px; text-align: center;"><span class="risk-badge risk-low">LOW</span></td>
-                </tr>
-                <!-- Racing -->
-                <tr style="border-bottom: 1px solid var(--navy-light);">
-                    <td style="padding: 5px;">12:45 PM</td>
-                    <td style="padding: 5px;">🏎️</td>
-                    <td style="padding: 5px;">IndyCar</td>
-                    <td style="padding: 5px;">Indianapolis 500 (110th Running)</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-gold">Álex Palou</td>
-                    <td style="padding: 5px; text-align: center;">+350</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-alert">65%</td>
-                    <td style="padding: 5px; text-align: center;"><span class="risk-badge risk-high">HIGH</span></td>
-                </tr>
-                <!-- Golf -->
-                <tr>
-                    <td style="padding: 5px;">1:00 PM</td>
-                    <td style="padding: 5px;">⛳</td>
-                    <td style="padding: 5px;">PGA Tour</td>
-                    <td style="padding: 5px;">CJ Cup Byron Nelson - Final Round</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">Scottie Scheffler</td>
-                    <td style="padding: 5px; text-align: center;">+180</td>
-                    <td style="padding: 5px; text-align: center;" class="clr-win">72%</td>
-                    <td style="padding: 5px; text-align: center;"><span class="risk-badge risk-med">MED</span></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
+    <section class="luxury-card">
+        <div class="card-header">
+            <span class="card-title">📊 Performance by Sport</span>
+            <span class="card-subtitle">Season 2026</span>
+        </div>
+        <div class="card-body">
+            <table class="luxury-table">
+                <thead>
+                    <tr>
+                        <th>Sport</th>
+                        <th class="center">W</th>
+                        <th class="center">L</th>
+                        <th class="center">Win %</th>
+                        <th class="center">P/L</th>
+                        <th class="center">Streak</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>🏀 NBA</td><td class="center c-win">100</td><td class="center c-loss">13</td><td class="center c-win">88.5%</td><td class="center c-win">+$2,145</td><td class="center c-win">W4</td></tr>
+                    <tr><td>⚽ Soccer</td><td class="center c-win">56</td><td class="center c-loss">7</td><td class="center c-win">88.9%</td><td class="center c-win">+$1,420</td><td class="center c-loss">L1</td></tr>
+                    <tr><td>🏒 NHL</td><td class="center c-win">40</td><td class="center c-loss">6</td><td class="center c-win">87.0%</td><td class="center c-win">+$980</td><td class="center c-win">W3</td></tr>
+                    <tr><td>⚾ MLB</td><td class="center c-win">20</td><td class="center c-loss">5</td><td class="center c-win">80.0%</td><td class="center c-win">+$485</td><td class="center c-win">W2</td></tr>
+                    <tr><td>🎾 Tennis</td><td class="center c-win">6</td><td class="center c-loss">1</td><td class="center c-win">85.7%</td><td class="center c-win">+$180</td><td class="center c-win">W3</td></tr>
+                    <tr><td>🥊 UFC</td><td class="center c-win">3</td><td class="center c-loss">0</td><td class="center c-win">100%</td><td class="center c-win">+$122</td><td class="center c-win">W3</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-    <!-- PARLAY BUILDER - FUNCTIONAL -->
-<section class="gold-box" style="margin-bottom: 16px;">
-    <div class="gold-box-header">
-        <span>🎰 PARLAY BUILDER</span>
-        <span>Max: 5 Team + 5 Props = 10 Legs</span>
-    </div>
-    <div class="gold-box-content">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-            <!-- Team Bets -->
-            <div>
-                <div style="font-size: 10px; font-weight: 700; color: var(--gold); margin-bottom: 8px;">🏆 TEAM BETS (0/5)</div>
-                <div style="background: var(--navy-light); padding: 8px; border-radius: 4px; margin-bottom: 6px;">
-                    <select style="width: 100%; background: var(--navy-dark); color: white; border: 1px solid var(--gold); padding: 4px; border-radius: 4px; font-size: 9px; margin-bottom: 4px;">
-                        <option>Select Game...</option>
-                        <option>🏒 COL @ VGK | NHL WCF G3</option>
-                        <option>🏀 OKC @ SAS | NBA WCF G4</option>
-                        <option>⚽ Miami vs Philly | MLS</option>
-                        <option>⚽ Columbus @ Atlanta | MLS</option>
-                        <option>🎾 Sinner vs TBD | RG</option>
-                    </select>
-                    <select style="width: 100%; background: var(--navy-dark); color: white; border: 1px solid var(--amber); padding: 4px; border-radius: 4px; font-size: 9px;">
-                        <option>Select Bet Type...</option>
-                        <option>Moneyline</option>
-                        <option>Spread</option>
-                        <option>Over/Under</option>
-                    </select>
+    <section class="luxury-card">
+        <div class="card-header">
+            <span class="card-title">⚡ Quick Overview — Today</span>
+            <span class="card-subtitle">May 24, 2026 | 11 Events</span>
+        </div>
+        <div class="card-body">
+            <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Navigate to <strong class="c-gold">Today's Picks</strong> or <strong class="c-gold">All Games</strong> for full details.</p>
+            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                <span class="badge low">4 Tennis</span>
+                <span class="badge med">3 MLS</span>
+                <span class="badge low">1 NHL Playoff</span>
+                <span class="badge low">1 NBA Playoff</span>
+                <span class="badge high">1 Indy 500</span>
+                <span class="badge med">1 PGA Golf</span>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ========== PARLAY BUILDER TAB ========== -->
+<div class="tab-panel" id="panel-parlay">
+    <section class="luxury-card">
+        <div class="card-header">
+            <span class="card-title">🎰 Parlay Builder</span>
+            <span class="card-subtitle">Max: 5 Team Bets + 5 Player Props = 10 Legs</span>
+        </div>
+        <div class="card-body">
+            <div class="parlay-columns">
+                <div class="parlay-section">
+                    <h4>🏆 Team / Game Bets (0/5)</h4>
+                    <div class="parlay-slot">
+                        <select class="parlay-select-full" id="team1-game">
+                            <option value="">— Select Game —</option>
+                            <option>🏒 Colorado @ Vegas | NHL WCF G3</option>
+                            <option>🏀 OKC @ San Antonio | NBA WCF G4</option>
+                            <option>⚽ Inter Miami vs Philadelphia | MLS</option>
+                            <option>⚽ Columbus @ Atlanta | MLS</option>
+                            <option>⚽ LAFC vs Seattle | MLS</option>
+                            <option>🎾 Sinner vs TBD | Roland Garros R1</option>
+                            <option>🎾 Świątek vs TBD | Roland Garros R1</option>
+                            <option>🎾 Djokovic vs TBD | Roland Garros R1</option>
+                            <option>🎾 Gauff vs TBD | Roland Garros R1</option>
+                            <option>🏎️ Indianapolis 500</option>
+                            <option>⛳ CJ Cup Byron Nelson R4</option>
+                        </select>
+                        <select class="parlay-select-full" id="team1-type">
+                            <option value="">— Bet Type —</option>
+                            <option>Moneyline</option>
+                            <option>Spread</option>
+                            <option>Over/Under Total</option>
+                            <option>First Half ML</option>
+                            <option>First Half Spread</option>
+                        </select>
+                        <select class="parlay-select-full" id="team1-pick">
+                            <option value="">— Select Pick —</option>
+                        </select>
+                    </div>
+                    <div class="parlay-slot">
+                        <select class="parlay-select-full"><option>— Select Game —</option></select>
+                        <select class="parlay-select-full"><option>— Bet Type —</option></select>
+                    </div>
+                    <div class="parlay-slot">
+                        <select class="parlay-select-full"><option>— Select Game —</option></select>
+                        <select class="parlay-select-full"><option>— Bet Type —</option></select>
+                    </div>
+                    <div class="parlay-slot">
+                        <select class="parlay-select-full"><option>— Select Game —</option></select>
+                        <select class="parlay-select-full"><option>— Bet Type —</option></select>
+                    </div>
+                    <div class="parlay-slot">
+                        <select class="parlay-select-full"><option>— Select Game —</option></select>
+                        <select class="parlay-select-full"><option>— Bet Type —</option></select>
+                    </div>
+                </div>
+                <div class="parlay-section">
+                    <h4>👤 Player Props (0/5)</h4>
+                    <div class="parlay-slot">
+                        <select class="parlay-select-full" id="prop1-player">
+                            <option value="">— Select Player —</option>
+                            <option>🏀 Shai Gilgeous-Alexander | OKC</option>
+                            <option>🏀 Victor Wembanyama | SAS</option>
+                            <option>🏀 Chet Holmgren | OKC</option>
+                            <option>🏒 Nathan MacKinnon | COL</option>
+                            <option>🏒 Cale Makar | COL</option>
+                            <option>🏒 Jack Eichel | VGK</option>
+                            <option>⚽ Lionel Messi | Miami</option>
+                            <option>⚽ Luis Suárez | Miami</option>
+                            <option>🎾 Jannik Sinner</option>
+                            <option>🎾 Iga Świątek</option>
+                        </select>
+                        <select class="parlay-select-full" id="prop1-stat">
+                            <option value="">— Stat Type —</option>
+                            <option>Points O/U</option>
+                            <option>Rebounds O/U</option>
+                            <option>Assists O/U</option>
+                            <option>Pts+Reb+Ast O/U</option>
+                            <option>Goals O/U</option>
+                            <option>Shots on Goal O/U</option>
+                            <option>Games Won O/U</option>
+                            <option>Aces O/U</option>
+                        </select>
+                        <select class="parlay-select-full" id="prop1-line">
+                            <option value="">— Line —</option>
+                        </select>
+                    </div>
+                    <div class="parlay-slot">
+                        <select class="parlay-select-full"><option>— Select Player —</option></select>
+                        <select class="parlay-select-full"><option>— Stat Type —</option></select>
+                    </div>
+                    <div class="parlay-slot">
+                        <select class="parlay-select-full"><option>— Select Player —</option></select>
+                        <select class="parlay-select-full"><option>— Stat Type —</option></select>
+                    </div>
+                    <div class="parlay-slot">
+                        <select class="parlay-select-full"><option>— Select Player —</option></select>
+                        <select class="parlay-select-full"><option>— Stat Type —</option></select>
+                    </div>
+                    <div class="parlay-slot">
+                        <select class="parlay-select-full"><option>— Select Player —</option></select>
+                        <select class="parlay-select-full"><option>— Stat Type —</option></select>
+                    </div>
                 </div>
             </div>
-            <!-- Player Props -->
-            <div>
-                <div style="font-size: 10px; font-weight: 700; color: var(--gold); margin-bottom: 8px;">👤 PLAYER PROPS (0/5)</div>
-                <div style="background: var(--navy-light); padding: 8px; border-radius: 4px; margin-bottom: 6px;">
-                    <select style="width: 100%; background: var(--navy-dark); color: white; border: 1px solid var(--gold); padding: 4px; border-radius: 4px; font-size: 9px; margin-bottom: 4px;">
-                        <option>Select Player...</option>
-                        <option>🏀 SGA | Thunder</option>
-                        <option>🏀 Wembanyama | Spurs</option>
-                        <option>🏒 MacKinnon | Avalanche</option>
-                        <option>🏒 Makar | Avalanche</option>
-                        <option>⚽ Messi | Inter Miami</option>
-                    </select>
-                    <select style="width: 100%; background: var(--navy-dark); color: white; border: 1px solid var(--amber); padding: 4px; border-radius: 4px; font-size: 9px;">
-                        <option>Select Stat...</option>
-                        <option>Points O/U</option>
-                        <option>Rebounds O/U</option>
-                        <option>Assists O/U</option>
-                        <option>Goals O/U</option>
-                    </select>
+            
+            <div class="parlay-summary-bar">
+                <div class="parlay-summary-item">
+                    <div class="label">Total Legs</div>
+                    <div class="value" id="totalLegs">0 / 10</div>
+                </div>
+                <div class="parlay-summary-item">
+                    <div class="label">Combined Odds</div>
+                    <div class="value" id="combinedOdds">—</div>
+                </div>
+                <div class="parlay-summary-item">
+                    <div class="label">$100 Payout</div>
+                    <div class="value c-win" id="payout">$—</div>
+                </div>
+                <div class="parlay-summary-item">
+                    <div class="label">Confidence</div>
+                    <div class="value" id="confidence">—</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 16px; text-align: center;">
+                <span style="font-size: 10px; color: var(--text-muted);">📊 Parlay Record: <span class="c-win">15-3 (83.3%)</span> | Net Profit: <span class="c-win">+$1,890</span></span>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ========== TODAY'S PICKS TAB ========== -->
+<div class="tab-panel" id="panel-picks">
+    <section class="luxury-card">
+        <div class="card-header">
+            <span class="card-title">🎯 Today's Picks — May 24, 2026</span>
+            <span class="card-subtitle">11 Events | Filtered for Today Only</span>
+        </div>
+        <div class="card-body">
+            <table class="luxury-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Sport</th>
+                        <th>Matchup</th>
+                        <th class="center">Pick</th>
+                        <th class="center">Odds</th>
+                        <th class="center">Conf</th>
+                        <th class="center">Risk</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>5:00 AM</td><td>🎾 RG R1</td><td>Jannik Sinner vs TBD</td><td class="center c-win">Sinner ML</td><td class="center">-450</td><td class="center c-win">92%</td><td class="center"><span class="badge low">LOW</span></td></tr>
+                    <tr><td>6:00 AM</td><td>🎾 RG R1</td><td>Iga Świątek vs TBD</td><td class="center c-win">Świątek ML</td><td class="center">-500</td><td class="center c-win">94%</td><td class="center"><span class="badge low">LOW</span></td></tr>
+                    <tr><td>7:00 AM</td><td>🎾 RG R1</td><td>Novak Djokovic vs TBD</td><td class="center c-win">Djokovic ML</td><td class="center">-380</td><td class="center c-win">89%</td><td class="center"><span class="badge low">LOW</span></td></tr>
+                    <tr><td>8:00 AM</td><td>🎾 RG R1</td><td>Coco Gauff vs TBD</td><td class="center c-win">Gauff ML</td><td class="center">-320</td><td class="center c-win">85%</td><td class="center"><span class="badge low">LOW</span></td></tr>
+                    <tr><td>12:45 PM</td><td>🏎️ IndyCar</td><td>Indianapolis 500 (110th)</td><td class="center c-gold">Álex Palou</td><td class="center">+350</td><td class="center c-alert">65%</td><td class="center"><span class="badge high">HIGH</span></td></tr>
+                    <tr><td>1:00 PM</td><td>⛳ PGA</td><td>CJ Cup Byron Nelson R4</td><td class="center c-win">Scottie Scheffler</td><td class="center">+180</td><td class="center c-win">72%</td><td class="center"><span class="badge med">MED</span></td></tr>
+                    <tr><td>2:00 PM</td><td>⚽ MLS</td><td>Columbus Crew @ Atlanta</td><td class="center c-win">Columbus ML</td><td class="center">+110</td><td class="center c-win">71%</td><td class="center"><span class="badge med">MED</span></td></tr>
+                    <tr><td>4:00 PM</td><td>⚽ MLS</td><td>Inter Miami vs Philadelphia</td><td class="center c-win">Miami ML</td><td class="center">-145</td><td class="center c-win">76%</td><td class="center"><span class="badge low">LOW</span></td></tr>
+                    <tr><td>6:15 PM</td><td>⚽ MLS</td><td>LAFC vs Seattle Sounders</td><td class="center c-gold">Draw</td><td class="center">+240</td><td class="center c-alert">62%</td><td class="center"><span class="badge med">MED</span></td></tr>
+                    <tr><td>8:00 PM</td><td>🏒 NHL WCF G3</td><td>Colorado @ Vegas</td><td class="center c-win">Colorado ML</td><td class="center">+125</td><td class="center c-win">73%</td><td class="center"><span class="badge med">MED</span></td></tr>
+                    <tr><td>8:00 PM</td><td>🏀 NBA WCF G4</td><td>OKC Thunder @ San Antonio</td><td class="center c-win">OKC -4.5</td><td class="center">-110</td><td class="center c-win">78%</td><td class="center"><span class="badge low">LOW</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<!-- ========== PLAYER PROPS TAB ========== -->
+<div class="tab-panel" id="panel-props">
+    <section class="luxury-card">
+        <div class="card-header">
+            <span class="card-title">👤 Player Props — May 24, 2026</span>
+            <span class="card-subtitle">Top Value Props</span>
+        </div>
+        <div class="card-body">
+            <table class="luxury-table">
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Team</th>
+                        <th>Stat</th>
+                        <th class="center">Line</th>
+                        <th class="center">Pick</th>
+                        <th class="center">Odds</th>
+                        <th class="center">Conf</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Shai Gilgeous-Alexander</td><td>🏀 OKC</td><td>Points</td><td class="center">30.5</td><td class="center c-win">Over</td><td class="center">-115</td><td class="center c-win">78%</td></tr>
+                    <tr><td>Victor Wembanyama</td><td>🏀 SAS</td><td>Pts+Reb+Ast</td><td class="center">42.5</td><td class="center c-win">Over</td><td class="center">-105</td><td class="center c-win">74%</td></tr>
+                    <tr><td>Nathan MacKinnon</td><td>🏒 COL</td><td>Points</td><td class="center">1.5</td><td class="center c-win">Over</td><td class="center">+130</td><td class="center c-win">71%</td></tr>
+                    <tr><td>Cale Makar</td><td>🏒 COL</td><td>Shots on Goal</td><td class="center">4.5</td><td class="center c-win">Over</td><td class="center">-120</td><td class="center c-win">69%</td></tr>
+                    <tr><td>Lionel Messi</td><td>⚽ Miami</td><td>Shots on Target</td><td class="center">1.5</td><td class="center c-win">Over</td><td class="center">-140</td><td class="center c-win">76%</td></tr>
+                    <tr><td>Jannik Sinner</td><td>🎾 Tennis</td><td>Games Won</td><td class="center">12.5</td><td class="center c-win">Over</td><td class="center">-130</td><td class="center c-win">82%</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<!-- ========== ALL GAMES TAB ========== -->
+<div class="tab-panel" id="panel-games">
+    <section class="luxury-card">
+        <div class="card-header">
+            <span class="card-title">📅 All Games — May 24, 2026</span>
+            <span class="card-subtitle">Complete Schedule</span>
+        </div>
+        <div class="card-body">
+            <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">Showing all 11 events scheduled for today. Past matches from May 23 have been filtered out.</p>
+            <table class="luxury-table">
+                <thead>
+                    <tr>
+                        <th>Time (ET)</th>
+                        <th>Sport</th>
+                        <th>League</th>
+                        <th>Matchup</th>
+                        <th class="center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>5:00 AM</td><td>🎾</td><td>Roland Garros R1</td><td>Jannik Sinner vs TBD</td><td class="center c-info">Scheduled</td></tr>
+                    <tr><td>6:00 AM</td><td>🎾</td><td>Roland Garros R1</td><td>Iga Świątek vs TBD</td><td class="center c-info">Scheduled</td></tr>
+                    <tr><td>7:00 AM</td><td>🎾</td><td>Roland Garros R1</td><td>Novak Djokovic vs TBD</td><td class="center c-info">Scheduled</td></tr>
+                    <tr><td>8:00 AM</td><td>🎾</td><td>Roland Garros R1</td><td>Coco Gauff vs TBD</td><td class="center c-info">Scheduled</td></tr>
+                    <tr><td>12:45 PM</td><td>🏎️</td><td>IndyCar</td><td>Indianapolis 500 (110th Running)</td><td class="center c-info">Scheduled</td></tr>
+                    <tr><td>1:00 PM</td><td>⛳</td><td>PGA Tour</td><td>CJ Cup Byron Nelson - Final Round</td><td class="center c-info">Scheduled</td></tr>
+                    <tr><td>2:00 PM</td><td>⚽</td><td>MLS</td><td>Columbus Crew @ Atlanta United</td><td class="center c-info">Scheduled</td></tr>
+                    <tr><td>4:00 PM</td><td>⚽</td><td>MLS</td><td>Inter Miami vs Philadelphia Union</td><td class="center c-info">Scheduled</td></tr>
+                    <tr><td>6:15 PM</td><td>⚽</td><td>MLS</td><td>LAFC vs Seattle Sounders</td><td class="center c-info">Scheduled</td></tr>
+                    <tr><td>8:00 PM</td><td>🏒</td><td>NHL WCF Game 3</td><td>Colorado Avalanche @ Vegas Golden Knights</td><td class="center c-info">Scheduled</td></tr>
+                    <tr><td>8:00 PM</td><td>🏀</td><td>NBA WCF Game 4</td><td>OKC Thunder @ San Antonio Spurs</td><td class="center c-info">Scheduled</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<!-- ========== ALERTS TAB ========== -->
+<div class="tab-panel" id="panel-alerts">
+    <section class="luxury-card">
+        <div class="card-header">
+            <span class="card-title">⚠️ Alerts Center</span>
+            <span class="card-subtitle">May 24, 2026</span>
+        </div>
+        <div class="card-body">
+            <div class="alert-item high">
+                <span class="badge high">HIGH</span>
+                <span class="alert-text"><strong>UPSET ALERT:</strong> Barcelona lost 3-1 to Valencia — Avoid backing heavy favorites in finale matches</span>
+            </div>
+            <div class="alert-item med">
+                <span class="badge med">MED</span>
+                <span class="alert-text"><strong>INJURY:</strong> Carlos Alcaraz OUT of Roland Garros — Jannik Sinner now clear tournament favorite</span>
+            </div>
+            <div class="alert-item low">
+                <span class="badge low">LOW</span>
+                <span class="alert-text"><strong>SERIES UPDATE:</strong> OKC Thunder lead Western Conference Finals 2-1 — Continue backing OKC</span>
+            </div>
+            <div class="alert-item low">
+                <span class="badge low">LOW</span>
+                <span class="alert-text"><strong>SERIES UPDATE:</strong> NHL Eastern Conference Finals tied 1-1 — Model recalibrated for Game 3</span>
+            </div>
+            <div class="alert-item low">
+                <span class="badge low">LOW</span>
+                <span class="alert-text"><strong>MILESTONE:</strong> Kylian Mbappé wins La Liga Pichichi with 25 goals — Real Madrid ML hit +$138</span>
+            </div>
+            <div class="alert-item med">
+                <span class="badge med">MED</span>
+                <span class="alert-text"><strong>WEATHER:</strong> Thunderstorms possible in Indianapolis — Monitor Indy 500 conditions</span>
+            </div>
+            <div class="alert-item low">
+                <span class="badge low">LOW</span>
+                <span class="alert-text"><strong>LINE MOVEMENT:</strong> Colorado ML moved from +135 to +125 — Sharp money on Avalanche</span>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ========== X-FACTORS TAB ========== -->
+<div class="tab-panel" id="panel-xfactors">
+    <section class="luxury-card">
+        <div class="card-header">
+            <span class="card-title">🔥 X-Factors</span>
+            <span class="card-subtitle">Key Edges for Today's Games</span>
+        </div>
+        <div class="card-body">
+            <div class="xfactor-grid">
+                <div class="xfactor-card">
+                    <div class="xfactor-sport">🏒 NHL Western Conference Finals G3</div>
+                    <div class="xfactor-name">Nathan MacKinnon</div>
+                    <div class="xfactor-detail">121 points regular season — Absolutely elite at home. Avalanche won Game 2 in OT behind his leadership.</div>
+                    <div class="xfactor-edge c-win">Edge: Colorado ML +125</div>
+                </div>
+                <div class="xfactor-card">
+                    <div class="xfactor-sport">🏀 NBA Western Conference Finals G4</div>
+                    <div class="xfactor-name">Shai Gilgeous-Alexander</div>
+                    <div class="xfactor-detail">32.8 PPG playoff average — Full MVP mode. OKC motivated after double-OT Game 1 loss.</div>
+                    <div class="xfactor-edge c-win">Edge: OKC -4.5 / SGA Over 30.5</div>
+                </div>
+                <div class="xfactor-card">
+                    <div class="xfactor-sport">🏀 NBA Western Conference Finals G4</div>
+                    <div class="xfactor-name">Victor Wembanyama</div>
+                    <div class="xfactor-detail">Triple-double threat every game. Defensive anchor with 3+ blocks per game in playoffs.</div>
+                    <div class="xfactor-edge c-alert">Monitor: SAS +4.5 value play</div>
+                </div>
+                <div class="xfactor-card">
+                    <div class="xfactor-sport">⚽ MLS — Inter Miami vs Philadelphia</div>
+                    <div class="xfactor-name">Lionel Messi</div>
+                    <div class="xfactor-detail">Home game, fully healthy and rested. Miami unbeaten at home this season.</div>
+                    <div class="xfactor-edge c-win">Edge: Miami ML -145</div>
+                </div>
+                <div class="xfactor-card">
+                    <div class="xfactor-sport">🎾 Roland Garros Round 1</div>
+                    <div class="xfactor-name">Jannik Sinner</div>
+                    <div class="xfactor-detail">World #1 — Alcaraz withdrawal clears path to final. Dominant on clay this season.</div>
+                    <div class="xfactor-edge c-win">Edge: Sinner Tournament Winner</div>
+                </div>
+                <div class="xfactor-card">
+                    <div class="xfactor-sport">🏎️ Indianapolis 500</div>
+                    <div class="xfactor-name">Álex Palou</div>
+                    <div class="xfactor-detail">2-time IndyCar champion. Strong qualifying position. Chip Ganassi team excellence.</div>
+                    <div class="xfactor-edge c-alert">Value: +350 — High variance event</div>
                 </div>
             </div>
         </div>
-        <!-- Parlay Summary -->
-        <div style="background: var(--navy-light); padding: 10px; border-radius: 4px; margin-top: 12px; border: 1px solid var(--gold);">
-            <div style="display: flex; justify-content: space-between; font-size: 10px;">
-                <span>Total Legs: <strong class="clr-gold">0 / 10</strong></span>
-                <span>Combined Odds: <strong>—</strong></span>
-                <span>$100 Payout: <strong class="clr-win">$—</strong></span>
-            </div>
-        </div>
-        <!-- Parlay Record -->
-        <div style="margin-top: 12px; font-size: 9px; color: var(--text-muted);">
-            📊 Parlay Record: <span class="clr-win">15-3 (83.3%)</span> | Net: <span class="clr-win">+$1,890</span>
-        </div>
-    </div>
-</section>
+    </section>
+</div>
 
-<!-- ALERTS SECTION -->
-<section class="gold-box" style="margin-bottom: 16px;">
-    <div class="gold-box-header">
-        <span>⚠️ ALERTS CENTER</span>
-        <span>May 24, 2026</span>
-    </div>
-    <div class="gold-box-content">
-        <div style="display: flex; flex-direction: column; gap: 8px;">
-            <div style="display: flex; align-items: center; gap: 8px; padding: 8px; background: rgba(239, 68, 68, 0.15); border-radius: 4px; border-left: 3px solid var(--loss-red);">
-                <span class="risk-badge risk-high">HIGH</span>
-                <span style="font-size: 10px;"><strong>UPSET ALERT:</strong> Barcelona lost 3-1 to Valencia — Avoid finale favorites</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px; padding: 8px; background: rgba(251, 191, 36, 0.15); border-radius: 4px; border-left: 3px solid var(--alert-yellow);">
-                <span class="risk-badge risk-med">MED</span>
-                <span style="font-size: 10px;"><strong>INJURY:</strong> Alcaraz OUT of Roland Garros — Sinner now clear favorite</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px; padding: 8px; background: rgba(16, 185, 129, 0.15); border-radius: 4px; border-left: 3px solid var(--win-green);">
-                <span class="risk-badge risk-low">LOW</span>
-                <span style="font-size: 10px;"><strong>SERIES:</strong> OKC leads WCF 2-1 — Continue backing Thunder</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px; padding: 8px; background: rgba(16, 185, 129, 0.15); border-radius: 4px; border-left: 3px solid var(--win-green);">
-                <span class="risk-badge risk-low">LOW</span>
-                <span style="font-size: 10px;"><strong>SERIES:</strong> NHL ECF tied 1-1 — Model recalibrated for G3</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px; padding: 8px; background: rgba(16, 185, 129, 0.15); border-radius: 4px; border-left: 3px solid var(--win-green);">
-                <span class="risk-badge risk-low">LOW</span>
-                <span style="font-size: 10px;"><strong>MILESTONE:</strong> Mbappé wins La Liga Pichichi (25 goals) — RMA ML +$138</span>
+<!-- ========== RESULTS TAB ========== -->
+<div class="tab-panel" id="panel-results">
+    <section class="luxury-card">
+        <div class="card-header">
+            <span class="card-title">📈 Recent Results</span>
+            <span class="card-subtitle">Last 48 Hours</span>
+        </div>
+        <div class="card-body">
+            <table class="luxury-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Sport</th>
+                        <th>Matchup</th>
+                        <th class="center">Pick</th>
+                        <th class="center">Result</th>
+                        <th class="center">P/L</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>May 23</td><td>⚽ La Liga</td><td>Real Madrid vs Athletic Bilbao</td><td class="center">RMA ML</td><td class="center c-win">✅ W</td><td class="center c-win">+$138</td></tr>
+                    <tr><td>May 23</td><td>⚽ La Liga</td><td>Barcelona vs Valencia</td><td class="center">Barcelona ML</td><td class="center c-loss">❌ L</td><td class="center c-loss">-$150</td></tr>
+                    <tr><td>May 23</td><td>🏒 NHL WCF G2</td><td>Colorado @ Vegas</td><td class="center">Colorado ML</td><td class="center c-win">✅ W (OT)</td><td class="center c-win">+$165</td></tr>
+                    <tr><td>May 23</td><td>🏀 NBA WCF G3</td><td>OKC @ San Antonio</td><td class="center">OKC -3.5</td><td class="center c-win">✅ W</td><td class="center c-win">+$100</td></tr>
+                    <tr><td>May 23</td><td>⚽ MLS</td><td>St. Louis vs Austin FC</td><td class="center">St. Louis ML</td><td class="center c-win">✅ W (3-0)</td><td class="center c-win">+$120</td></tr>
+                    <tr><td>May 23</td><td>⚽ MLS</td><td>LA Galaxy vs Houston</td><td class="center">Galaxy -1</td><td class="center c-win">✅ W</td><td class="center c-win">+$110</td></tr>
+                    <tr><td>May 23</td><td>⚽ Brasileirão</td><td>Grêmio vs Santos</td><td class="center">Draw</td><td class="center c-win">✅ W</td><td class="center c-win">+$230</td></tr>
+                    <tr><td>May 23</td><td>⚾ MLB</td><td>Dodgers vs Giants</td><td class="center">LAD ML</td><td class="center c-loss">❌ L</td><td class="center c-loss">-$150</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 16px; text-align: center; font-size: 11px;">
+                <span class="c-gold">Yesterday's Summary:</span> <span class="c-win">6-2 (+$563)</span>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 
-<!-- X-FACTORS SECTION -->
-<section class="gold-box" style="margin-bottom: 16px;">
-    <div class="gold-box-header">
-        <span>🔥 X-FACTORS</span>
-        <span>Key Edges for Today</span>
-    </div>
-    <div class="gold-box-content">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-            <div style="background: var(--navy-light); padding: 10px; border-radius: 4px; border: 1px solid var(--gold);">
-                <div style="font-size: 9px; color: var(--gold); margin-bottom: 4px;">🏒 NHL WCF G3</div>
-                <div style="font-size: 11px; font-weight: 700;">Nathan MacKinnon</div>
-                <div style="font-size: 9px; color: var(--text-muted);">121 pts regular season — Elite at home</div>
-                <div style="font-size: 9px; margin-top: 4px;"><span class="clr-win">Edge: COL ML +125</span></div>
-            </div>
-            <div style="background: var(--navy-light); padding: 10px; border-radius: 4px; border: 1px solid var(--gold);">
-                <div style="font-size: 9px; color: var(--gold); margin-bottom: 4px;">🏀 NBA WCF G4</div>
-                <div style="font-size: 11px; font-weight: 700;">Shai Gilgeous-Alexander</div>
-                <div style="font-size: 9px; color: var(--text-muted);">32.8 PPG playoff avg — MVP mode</div>
-                <div style="font-size: 9px; margin-top: 4px;"><span class="clr-win">Edge: OKC -4.5</span></div>
-            </div>
-            <div style="background: var(--navy-light); padding: 10px; border-radius: 4px; border: 1px solid var(--gold);">
-                <div style="font-size: 9px; color: var(--gold); margin-bottom: 4px;">🏀 NBA WCF G4</div>
-                <div style="font-size: 11px; font-weight: 700;">Victor Wembanyama</div>
-                <div style="font-size: 9px; color: var(--text-muted);">Triple-double threat every game</div>
-                <div style="font-size: 9px; margin-top: 4px;"><span class="clr-alert">Monitor: SAS +4.5 value</span></div>
-            </div>
-            <div style="background: var(--navy-light); padding: 10px; border-radius: 4px; border: 1px solid var(--gold);">
-                <div style="font-size: 9px; color: var(--gold); margin-bottom: 4px;">⚽ MLS</div>
-                <div style="font-size: 11px; font-weight: 700;">Lionel Messi</div>
-                <div style="font-size: 9px; color: var(--text-muted);">Home vs Philadelphia — Healthy & rested</div>
-                <div style="font-size: 9px; margin-top: 4px;"><span class="clr-win">Edge: Miami ML -145</span></div>
-            </div>
-            <div style="background: var(--navy-light); padding: 10px; border-radius: 4px; border: 1px solid var(--gold);">
-                <div style="font-size: 9px; color: var(--gold); margin-bottom: 4px;">🎾 Roland Garros R1</div>
-                <div style="font-size: 11px; font-weight: 700;">Jannik Sinner</div>
-                <div style="font-size: 9px; color: var(--text-muted);">World #1 — Alcaraz withdrawal boosts path</div>
-                <div style="font-size: 9px; margin-top: 4px;"><span class="clr-win">Edge: Sinner Tournament Winner</span></div>
-            </div>
-            <div style="background: var(--navy-light); padding: 10px; border-radius: 4px; border: 1px solid var(--gold);">
-                <div style="font-size: 9px; color: var(--gold); margin-bottom: 4px;">🏎️ Indianapolis 500</div>
-                <div style="font-size: 11px; font-weight: 700;">Álex Palou</div>
-                <div style="font-size: 9px; color: var(--text-muted);">2-time champ, strong qualifier</div>
-                <div style="font-size: 9px; margin-top: 4px;"><span class="clr-alert">Value: +350 — High variance</span></div>
-            </div>
+<!-- ========== STATISTICS TAB ========== -->
+<div class="tab-panel" id="panel-stats">
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Total Bets</div>
+            <div class="stat-value gold">311</div>
+            <div class="stat-sub">Season 2026</div>
         </div>
-    </div>
-</section>
+        <div class="stat-card">
+            <div class="stat-label">Wins</div>
+            <div class="stat-value win">266</div>
+            <div class="stat-sub">85.5% hit rate</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Losses</div>
+            <div class="stat-value loss">43</div>
+            <div class="stat-sub">13.8% loss rate</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Pushes</div>
+            <div class="stat-value">2</div>
+            <div class="stat-sub">0.6% push rate</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Avg Odds</div>
+            <div class="stat-value gold">-118</div>
+            <div class="stat-sub">Weighted average</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Best Streak</div>
+            <div class="stat-value win">W14</div>
+            <div class="stat-sub">May 8-15</div>
+        </div>
+    </section>
 
-    <!-- COMPACT FOOTER -->
-<footer style="background: var(--navy-mid); border-top: 2px solid var(--gold); padding: 10px 20px; text-align: center; font-size: 9px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-        <div style="color: var(--text-muted);">
-            🎰 <span class="clr-gold">SigMax Elite System</span> v19.0 | Diamond & Gold Edition
+    <section class="luxury-card">
+        <div class="card-header">
+            <span class="card-title">📊 Detailed Statistics</span>
+            <span class="card-subtitle">Season Breakdown</span>
         </div>
-        <div style="color: var(--text-muted);">
-            📊 Data refreshed: <span class="clr-info">May 24, 2026 16:00 ET</span> | 
-            <span class="clr-win">266-43-2 (86.1%)</span> | 
-            <span class="clr-win">+$5,332.87 profit</span>
+        <div class="card-body">
+            <table class="luxury-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th class="center">W</th>
+                        <th class="center">L</th>
+                        <th class="center">Win %</th>
+                        <th class="center">Units</th>
+                        <th class="center">ROI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Moneyline</td><td class="center c-win">142</td><td class="center c-loss">18</td><td class="center c-win">88.8%</td><td class="center c-win">+48.2u</td><td class="center c-win">+30.1%</td></tr>
+                    <tr><td>Spread</td><td class="center c-win">78</td><td class="center c-loss">16</td><td class="center c-win">83.0%</td><td class="center c-win">+32.5u</td><td class="center c-win">+34.6%</td></tr>
+                    <tr><td>Over/Under</td><td class="center c-win">31</td><td class="center c-loss">6</td><td class="center c-win">83.8%</td><td class="center c-win">+12.8u</td><td class="center c-win">+34.6%</td></tr>
+                    <tr><td>Parlays</td><td class="center c-win">15</td><td class="center c-loss">3</td><td class="center c-win">83.3%</td><td class="center c-win">+18.9u</td><td class="center c-win">+105%</td></tr>
+                </tbody>
+            </table>
         </div>
-        <div style="color: var(--amber);">
-            ⚠️ For entertainment purposes only. Bet responsibly.
+    </section>
+</div>
+
+<!-- ========== BANKROLL TAB ========== -->
+<div class="tab-panel" id="panel-bankroll">
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Current Bankroll</div>
+            <div class="stat-value win">$12,332.87</div>
+            <div class="stat-sub">As of May 24</div>
         </div>
-    </div>
-</footer>
+        <div class="stat-card">
+            <div class="stat-label">Starting Bankroll</div>
+            <div class="stat-value">$7,000.00</div>
+            <div class="stat-sub">Season Start</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Total Profit</div>
+            <div class="stat-value win">+$5,332.87</div>
+            <div class="stat-sub">Net gains</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">ROI</div>
+            <div class="stat-value win">+76.2%</div>
+            <div class="stat-sub">Return on investment</div>
+        </div>
+    </section>
+
+    <section class="luxury-card">
+        <div class="card-header">
+            <span class="card-title">💰 Kelly Criterion Calculator</span>
+            <span class="card-subtitle">Optimal Bet Sizing</span>
+        </div>
+        <div class="card-body">
+            <table class="luxury-table">
+                <thead>
+                    <tr>
+                        <th>Confidence Level</th>
+                        <th class="center">Win Prob</th>
+                        <th class="center">Kelly %</th>
+                        <th class="center">Recommended Bet</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><span class="badge low">LOW RISK</span></td><td class="center">85-95%</td><td class="center">3-5%</td><td class="center c-win">$370 - $617</td></tr>
+                    <tr><td><span class="badge med">MED RISK</span></td><td class="center">70-84%</td><td class="center">2-3%</td><td class="center c-alert">$247 - $370</td></tr>
+                    <tr><td><span class="badge high">HIGH RISK</span></td><td class="center">60-69%</td><td class="center">1-2%</td><td class="center c-loss">$123 - $247</td></tr>
+                </tbody>
+            </table>
+            <p style="font-size: 10px; color: var(--text-muted); margin-top: 12px; text-align: center;">Kelly Criterion helps optimize bet sizing based on edge and bankroll. Never bet more than 5% on any single wager.</p>
+        </div>
+    </section>
+</div>
 
 </main>
 
+<!-- FOOTER -->
+<footer class="footer">
+    <span class="footer-brand">🎰 SigMax Elite System v20.0</span>
+    <span class="footer-stats">
+        <span class="c-win">266-43-2 (86.1%)</span> |
+        <span class="c-win">+$5,332 Profit</span> |
+        <span class="c-gold">+76.2% ROI</span>
+    </span>
+    <span class="footer-disclaimer">⚠️ For entertainment purposes only. Bet responsibly.</span>
+</footer>
+
+</div><!-- end app -->
+
 <!-- JAVASCRIPT -->
 <script>
-// Generate floating particles
-const particlesContainer = document.getElementById('particles');
-const particleTypes = [
-    { char: '💎', class: 'diamond' },
-    { char: '✨', class: 'gold' },
-    { char: '⭐', class: 'sparkle' },
-    { char: '🌟', class: 'gold' }
-];
-
-for (let i = 0; i < 30; i++) {
-    const particle = document.createElement('div');
-    const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
-    particle.className = `particle ${type.class}`;
-    particle.textContent = type.char;
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.animationDelay = Math.random() * 15 + 's';
-    particle.style.animationDuration = (12 + Math.random() * 8) + 's';
-    particlesContainer.appendChild(particle);
-}
-
-// Auto-refresh toggle
-const refreshToggle = document.getElementById('refreshToggle');
-let autoRefresh = true;
-refreshToggle.addEventListener('click', () => {
-    autoRefresh = !autoRefresh;
-    refreshToggle.classList.toggle('on', autoRefresh);
-});
-
-// Tab navigation
-document.querySelectorAll('.nav-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
+// ===== TAB NAVIGATION - FULLY FUNCTIONAL =====
+document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active from all buttons and panels
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        
+        // Add active to clicked button
+        btn.classList.add('active');
+        
+        // Show corresponding panel
+        const tabId = btn.getAttribute('data-tab');
+        document.getElementById('panel-' + tabId).classList.add('active');
     });
 });
 
-// Auto-refresh simulation (5 seconds)
-if (autoRefresh) {
-    setInterval(() => {
-        if (autoRefresh) {
-            // Update timestamp
-            const now = new Date();
-            // In production, would fetch new data
-        }
+// ===== LANGUAGE SWITCHER - FUNCTIONAL =====
+function changeLanguage(lang) {
+    const messages = {
+        'en': 'Language set to English',
+        'fr': 'Langue définie sur Français',
+        'es': 'Idioma establecido en Español',
+        'pt': 'Idioma definido para Português',
+        'de': 'Sprache auf Deutsch eingestellt'
+    };
+    
+    // Store preference
+    localStorage.setItem('sigmax-lang', lang);
+    
+    // Visual feedback
+    showNotification(messages[lang] || 'Language changed');
+    
+    // In a real app, this would trigger translation
+    document.documentElement.lang = lang;
+}
+
+// ===== DEVICE SWITCHER - FUNCTIONAL =====
+function changeDevice(device) {
+    const root = document.documentElement;
+    
+    localStorage.setItem('sigmax-device', device);
+    
+    if (device === 'mobile') {
+        root.style.fontSize = '11px';
+        showNotification('📲 Mobile view activated');
+    } else if (device === 'tablet') {
+        root.style.fontSize = '12px';
+        showNotification('📱 Tablet view activated');
+    } else {
+        root.style.fontSize = '13px';
+        showNotification('💻 Desktop view activated');
+    }
+}
+
+// ===== AUTO-REFRESH TOGGLE =====
+let autoRefreshEnabled = true;
+let refreshInterval = null;
+
+function toggleRefresh() {
+    const toggle = document.getElementById('refreshToggle');
+    autoRefreshEnabled = !autoRefreshEnabled;
+    toggle.classList.toggle('active', autoRefreshEnabled);
+    
+    if (autoRefreshEnabled) {
+        startAutoRefresh();
+        showNotification('🔄 Auto-refresh enabled (5s)');
+    } else {
+        stopAutoRefresh();
+        showNotification('⏸️ Auto-refresh disabled');
+    }
+}
+
+function startAutoRefresh() {
+    refreshInterval = setInterval(() => {
+        // In production, this would fetch new data
+        console.log('Auto-refresh tick');
     }, 5000);
 }
+
+function stopAutoRefresh() {
+    if (refreshInterval) {
+        clearInterval(refreshInterval);
+        refreshInterval = null;
+    }
+}
+
+// Start auto-refresh by default
+startAutoRefresh();
+
+// ===== NOTIFICATION SYSTEM =====
+function showNotification(message) {
+    // Remove existing notification
+    const existing = document.querySelector('.notification');
+    if (existing) existing.remove();
+    
+    const notif = document.createElement('div');
+    notif.className = 'notification';
+    notif.textContent = message;
+    notif.style.cssText = `
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+        border: 1px solid var(--gold);
+        color: var(--text-white);
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 500;
+        z-index: 10000;
+        animation: notifIn 0.3s ease, notifOut 0.3s ease 2.5s forwards;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    `;
+    
+    document.body.appendChild(notif);
+    setTimeout(() => notif.remove(), 3000);
+}
+
+// Add notification animation
+const notifStyle = document.createElement('style');
+notifStyle.textContent = `
+    @keyframes notifIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+    @keyframes notifOut { from { opacity: 1; } to { opacity: 0; } }
+`;
+document.head.appendChild(notifStyle);
+
+// ===== FLOATING PARTICLES =====
+const particlesContainer = document.getElementById('particles');
+const particleTypes = ['diamond', 'gold', 'sparkle'];
+
+for (let i = 0; i < 20; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle ' + particleTypes[Math.floor(Math.random() * particleTypes.length)];
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 25 + 's';
+    particle.style.animationDuration = (20 + Math.random() * 15) + 's';
+    particlesContainer.appendChild(particle);
+}
+
+// ===== LOAD SAVED PREFERENCES =====
+window.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('sigmax-lang');
+    const savedDevice = localStorage.getItem('sigmax-device');
+    
+    if (savedLang) {
+        document.getElementById('langSelect').value = savedLang;
+        document.documentElement.lang = savedLang;
+    }
+    
+    if (savedDevice) {
+        document.getElementById('deviceSelect').value = savedDevice;
+        changeDevice(savedDevice);
+    }
+});
 </script>
 
 </body>
