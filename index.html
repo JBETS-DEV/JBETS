@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SigMax Elite v26.0 - Watch Passionately. Bet Wisely!</title>
+    <title>SigMax Elite v26.1 - Watch Passionately. Bet Wisely!</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -70,6 +70,10 @@
         .tagline { font-size: 0.85rem; color: var(--text-secondary); font-style: italic; }
         .timestamp { font-size: 0.6rem; color: var(--text-secondary); margin-top: 6px; }
         
+        /* SHARE APP BUTTON */
+        .share-app-btn { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; padding: 6px 12px; background: linear-gradient(135deg, var(--gold), #b8960c); color: #000; border: none; border-radius: 6px; font-size: 0.65rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .share-app-btn:hover { transform: scale(1.05); box-shadow: 0 0 12px rgba(212, 175, 55, 0.5); }
+        
         /* REFRESH CONTROLS */
         .refresh-controls { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
         .refresh-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--gold); color: #000; border: none; border-radius: 8px; font-weight: 600; font-size: 0.75rem; cursor: pointer; transition: all 0.3s ease; }
@@ -108,6 +112,17 @@
         .badge { padding: 2px 6px; border-radius: 4px; font-size: 0.55rem; font-weight: 600; }
         .badge-hot { background: rgba(239,68,68,0.2); color: var(--red); }
         .badge-good { background: rgba(16,185,129,0.2); color: var(--green); }
+        
+        /* SHARE BUTTONS ROW */
+        .share-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+        .share-btn { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 10px 8px; border: none; border-radius: 8px; font-size: 0.65rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .share-btn:hover { transform: scale(1.03); }
+        .share-btn.whatsapp { background: #25D366; color: white; }
+        .share-btn.twitter { background: #1DA1F2; color: white; }
+        .share-btn.copy { background: var(--gold); color: #000; }
+        .share-btn.telegram { background: #0088cc; color: white; }
+        .share-btn.sms { background: var(--green); color: white; }
+        .share-btn.email { background: #EA4335; color: white; }
         
         /* PARLAY BUILDER STYLES */
         .parlay-builder-card { border-color: var(--gold); }
@@ -157,13 +172,14 @@
     </div>
     
     <div class="app-container">
-        <!-- HEADER with REFRESH -->
+        <!-- HEADER with REFRESH + SHARE APP -->
         <div class="header">
             <div class="header-top">
                 <div class="header-left">
                     <div class="logo">🏆 SigMAX Elite</div>
                     <div class="tagline">Watch Passionately. Bet Wisely.</div>
-                    <div class="timestamp" id="timestamp">v26.0 | May 25, 2026</div>
+                    <div class="timestamp" id="timestamp">v26.1 | May 25, 2026</div>
+                    <button class="share-app-btn" onclick="shareApp()">📤 Share This App</button>
                 </div>
                 <div class="refresh-controls">
                     <button id="refresh-btn" class="refresh-btn" onclick="refreshAllData()">
@@ -276,7 +292,7 @@
             </div>
         </div>
         
-        <!-- TOP 5 TAB -->
+        <!-- TOP 5 TAB with SHARE BUTTONS -->
         <div id="top5" class="tab-content">
             <div class="card">
                 <h3 class="card-title">🎯 Top 5 Picks — May 26, 2026</h3>
@@ -291,6 +307,18 @@
                         <tr><td>5</td><td style="font-weight:600;">Golden Knights G4</td><td>🏒</td><td style="color:var(--blue);">-180</td><td style="color:var(--green);">85%</td></tr>
                     </tbody>
                 </table>
+                
+                <!-- SHARE BUTTONS for Top 5 -->
+                <div class="share-row">
+                    <button class="share-btn whatsapp" onclick="shareTop5('whatsapp')">📱 WhatsApp</button>
+                    <button class="share-btn twitter" onclick="shareTop5('twitter')">🐦 Twitter</button>
+                    <button class="share-btn copy" onclick="shareTop5('copy')">📋 Copy</button>
+                </div>
+                <div class="share-row" style="margin-top:6px;">
+                    <button class="share-btn telegram" onclick="shareTop5('telegram')">✈️ Telegram</button>
+                    <button class="share-btn sms" onclick="shareTop5('sms')">💬 SMS</button>
+                    <button class="share-btn email" onclick="shareTop5('email')">📧 Email</button>
+                </div>
             </div>
             
             <div class="card">
@@ -310,18 +338,9 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="card">
-                <h3 class="card-title">📤 Share Picks</h3>
-                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
-                    <button onclick="shareWhatsApp()" style="background:#25D366;color:white;border:none;padding:10px;border-radius:8px;font-size:0.7rem;cursor:pointer;">📱 WhatsApp</button>
-                    <button onclick="shareTwitter()" style="background:#1DA1F2;color:white;border:none;padding:10px;border-radius:8px;font-size:0.7rem;cursor:pointer;">🐦 Twitter</button>
-                    <button onclick="copyPicks()" style="background:var(--gold);color:#000;border:none;padding:10px;border-radius:8px;font-size:0.7rem;cursor:pointer;font-weight:600;">📋 Copy</button>
-                </div>
-            </div>
         </div>
 
-        <!-- PROPS TAB -->
+        <!-- PROPS TAB with SHARE BUTTONS -->
         <div id="props" class="tab-content">
             <div class="card">
                 <h3 class="card-title">👤 Top 10 Player Props</h3>
@@ -341,6 +360,18 @@
                         <tr><td>N. Djokovic</td><td>Aces</td><td>5.5</td><td style="color:var(--green);">OVER</td><td style="color:var(--gold);">75%</td></tr>
                     </tbody>
                 </table>
+                
+                <!-- SHARE BUTTONS for Props -->
+                <div class="share-row">
+                    <button class="share-btn whatsapp" onclick="shareProps('whatsapp')">📱 WhatsApp</button>
+                    <button class="share-btn twitter" onclick="shareProps('twitter')">🐦 Twitter</button>
+                    <button class="share-btn copy" onclick="shareProps('copy')">📋 Copy</button>
+                </div>
+                <div class="share-row" style="margin-top:6px;">
+                    <button class="share-btn telegram" onclick="shareProps('telegram')">✈️ Telegram</button>
+                    <button class="share-btn sms" onclick="shareProps('sms')">💬 SMS</button>
+                    <button class="share-btn email" onclick="shareProps('email')">📧 Email</button>
+                </div>
             </div>
         </div>
         
@@ -472,7 +503,7 @@
             </div>
         </div>
 
-        <!-- PARLAY TAB -->
+        <!-- PARLAY TAB with SHARE BUTTONS -->
         <div id="parlay" class="tab-content">
             <div class="card parlay-builder-card">
                 <h3 class="card-title">🎰 SigMAX Parlay Builder</h3>
@@ -486,7 +517,7 @@
                         <button onclick="clearAllPicks()" style="font-size:0.6rem;padding:4px 8px;background:rgba(239,68,68,0.2);color:var(--red);border:1px solid var(--red);border-radius:4px;cursor:pointer;">Clear All</button>
                     </div>
                     
-                    <!-- PICK 1 -->
+                    <!-- PICKS 1-5 -->
                     <div class="preset-pick" id="preset-pick-1">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num">1</span>
@@ -496,13 +527,12 @@
                             </div>
                         </div>
                         <div class="preset-pick-actions">
-                            <button class="pick-btn keep-btn active" onclick="keepPick(1)">✓ Keep</button>
-                            <button class="pick-btn swap-btn" onclick="openSwapModal(1)">⇄ Swap</button>
+                            <button class="pick-btn keep-btn active" onclick="keepPick(1)">✓</button>
+                            <button class="pick-btn swap-btn" onclick="openSwapModal(1)">⇄</button>
                             <button class="pick-btn remove-btn" onclick="removePick(1)">✕</button>
                         </div>
                     </div>
                     
-                    <!-- PICK 2 -->
                     <div class="preset-pick" id="preset-pick-2">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num">2</span>
@@ -512,13 +542,12 @@
                             </div>
                         </div>
                         <div class="preset-pick-actions">
-                            <button class="pick-btn keep-btn active" onclick="keepPick(2)">✓ Keep</button>
-                            <button class="pick-btn swap-btn" onclick="openSwapModal(2)">⇄ Swap</button>
+                            <button class="pick-btn keep-btn active" onclick="keepPick(2)">✓</button>
+                            <button class="pick-btn swap-btn" onclick="openSwapModal(2)">⇄</button>
                             <button class="pick-btn remove-btn" onclick="removePick(2)">✕</button>
                         </div>
                     </div>
                     
-                    <!-- PICK 3 -->
                     <div class="preset-pick" id="preset-pick-3">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num">3</span>
@@ -528,13 +557,12 @@
                             </div>
                         </div>
                         <div class="preset-pick-actions">
-                            <button class="pick-btn keep-btn active" onclick="keepPick(3)">✓ Keep</button>
-                            <button class="pick-btn swap-btn" onclick="openSwapModal(3)">⇄ Swap</button>
+                            <button class="pick-btn keep-btn active" onclick="keepPick(3)">✓</button>
+                            <button class="pick-btn swap-btn" onclick="openSwapModal(3)">⇄</button>
                             <button class="pick-btn remove-btn" onclick="removePick(3)">✕</button>
                         </div>
                     </div>
                     
-                    <!-- PICK 4 -->
                     <div class="preset-pick" id="preset-pick-4">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num">4</span>
@@ -544,13 +572,12 @@
                             </div>
                         </div>
                         <div class="preset-pick-actions">
-                            <button class="pick-btn keep-btn active" onclick="keepPick(4)">✓ Keep</button>
-                            <button class="pick-btn swap-btn" onclick="openSwapModal(4)">⇄ Swap</button>
+                            <button class="pick-btn keep-btn active" onclick="keepPick(4)">✓</button>
+                            <button class="pick-btn swap-btn" onclick="openSwapModal(4)">⇄</button>
                             <button class="pick-btn remove-btn" onclick="removePick(4)">✕</button>
                         </div>
                     </div>
                     
-                    <!-- PICK 5 -->
                     <div class="preset-pick" id="preset-pick-5">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num">5</span>
@@ -560,13 +587,13 @@
                             </div>
                         </div>
                         <div class="preset-pick-actions">
-                            <button class="pick-btn keep-btn active" onclick="keepPick(5)">✓ Keep</button>
-                            <button class="pick-btn swap-btn" onclick="openSwapModal(5)">⇄ Swap</button>
+                            <button class="pick-btn keep-btn active" onclick="keepPick(5)">✓</button>
+                            <button class="pick-btn swap-btn" onclick="openSwapModal(5)">⇄</button>
                             <button class="pick-btn remove-btn" onclick="removePick(5)">✕</button>
                         </div>
                     </div>
                     
-                    <!-- PROP 1 -->
+                    <!-- PROPS 6-10 -->
                     <div class="preset-pick prop-pick" id="preset-pick-6">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num prop">P1</span>
@@ -576,13 +603,12 @@
                             </div>
                         </div>
                         <div class="preset-pick-actions">
-                            <button class="pick-btn keep-btn active" onclick="keepPick(6)">✓ Keep</button>
-                            <button class="pick-btn swap-btn" onclick="openSwapModal(6)">⇄ Swap</button>
+                            <button class="pick-btn keep-btn active" onclick="keepPick(6)">✓</button>
+                            <button class="pick-btn swap-btn" onclick="openSwapModal(6)">⇄</button>
                             <button class="pick-btn remove-btn" onclick="removePick(6)">✕</button>
                         </div>
                     </div>
                     
-                    <!-- PROP 2 -->
                     <div class="preset-pick prop-pick" id="preset-pick-7">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num prop">P2</span>
@@ -592,13 +618,12 @@
                             </div>
                         </div>
                         <div class="preset-pick-actions">
-                            <button class="pick-btn keep-btn active" onclick="keepPick(7)">✓ Keep</button>
-                            <button class="pick-btn swap-btn" onclick="openSwapModal(7)">⇄ Swap</button>
+                            <button class="pick-btn keep-btn active" onclick="keepPick(7)">✓</button>
+                            <button class="pick-btn swap-btn" onclick="openSwapModal(7)">⇄</button>
                             <button class="pick-btn remove-btn" onclick="removePick(7)">✕</button>
                         </div>
                     </div>
                     
-                    <!-- PROP 3 -->
                     <div class="preset-pick prop-pick" id="preset-pick-8">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num prop">P3</span>
@@ -608,13 +633,12 @@
                             </div>
                         </div>
                         <div class="preset-pick-actions">
-                            <button class="pick-btn keep-btn active" onclick="keepPick(8)">✓ Keep</button>
-                            <button class="pick-btn swap-btn" onclick="openSwapModal(8)">⇄ Swap</button>
+                            <button class="pick-btn keep-btn active" onclick="keepPick(8)">✓</button>
+                            <button class="pick-btn swap-btn" onclick="openSwapModal(8)">⇄</button>
                             <button class="pick-btn remove-btn" onclick="removePick(8)">✕</button>
                         </div>
                     </div>
                     
-                    <!-- PROP 4 -->
                     <div class="preset-pick prop-pick" id="preset-pick-9">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num prop">P4</span>
@@ -624,13 +648,12 @@
                             </div>
                         </div>
                         <div class="preset-pick-actions">
-                            <button class="pick-btn keep-btn active" onclick="keepPick(9)">✓ Keep</button>
-                            <button class="pick-btn swap-btn" onclick="openSwapModal(9)">⇄ Swap</button>
+                            <button class="pick-btn keep-btn active" onclick="keepPick(9)">✓</button>
+                            <button class="pick-btn swap-btn" onclick="openSwapModal(9)">⇄</button>
                             <button class="pick-btn remove-btn" onclick="removePick(9)">✕</button>
                         </div>
                     </div>
                     
-                    <!-- PROP 5 -->
                     <div class="preset-pick prop-pick" id="preset-pick-10">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num prop">P5</span>
@@ -640,8 +663,8 @@
                             </div>
                         </div>
                         <div class="preset-pick-actions">
-                            <button class="pick-btn keep-btn active" onclick="keepPick(10)">✓ Keep</button>
-                            <button class="pick-btn swap-btn" onclick="openSwapModal(10)">⇄ Swap</button>
+                            <button class="pick-btn keep-btn active" onclick="keepPick(10)">✓</button>
+                            <button class="pick-btn swap-btn" onclick="openSwapModal(10)">⇄</button>
                             <button class="pick-btn remove-btn" onclick="removePick(10)">✕</button>
                         </div>
                     </div>
@@ -652,7 +675,7 @@
                     <div style="font-weight:600;color:var(--gold);margin-bottom:8px;">➕ Add Your Own Pick</div>
                     <div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-bottom:8px;">
                         <input type="text" id="custom-pick-name" placeholder="Pick description..." style="padding:10px;border-radius:6px;border:1px solid var(--border);background:rgba(0,0,0,0.3);color:var(--text-primary);font-size:0.7rem;">
-                        <input type="text" id="custom-pick-odds" placeholder="Odds (e.g. -150)" style="padding:10px;border-radius:6px;border:1px solid var(--border);background:rgba(0,0,0,0.3);color:var(--text-primary);font-size:0.7rem;">
+                        <input type="text" id="custom-pick-odds" placeholder="Odds" style="padding:10px;border-radius:6px;border:1px solid var(--border);background:rgba(0,0,0,0.3);color:var(--text-primary);font-size:0.7rem;">
                     </div>
                     <button onclick="addCustomPick()" style="width:100%;padding:10px;background:var(--gold);color:#000;border:none;border-radius:6px;font-weight:600;cursor:pointer;">Add to Parlay</button>
                 </div>
@@ -669,7 +692,7 @@
                             <input type="number" id="parlay-stake" value="100" style="width:100%;padding:10px;border-radius:6px;border:1px solid var(--border);background:rgba(0,0,0,0.3);color:var(--text-primary);font-size:0.8rem;font-weight:600;">
                         </div>
                         <div>
-                            <label style="font-size:0.6rem;color:var(--text-secondary);">Kelly % (Recommended)</label>
+                            <label style="font-size:0.6rem;color:var(--text-secondary);">Kelly %</label>
                             <div style="padding:10px;border-radius:6px;background:rgba(16,185,129,0.15);color:var(--green);font-size:0.8rem;font-weight:600;text-align:center;" id="kelly-suggestion">3.2%</div>
                         </div>
                     </div>
@@ -694,6 +717,21 @@
                                 <div style="font-size:1.1rem;font-weight:700;color:var(--orange);" id="expected-value">+$124</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                
+                <!-- SHARE BUTTONS for Parlay -->
+                <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);">
+                    <div style="font-weight:600;color:var(--gold);margin-bottom:8px;font-size:0.75rem;">📤 Share Your Parlay</div>
+                    <div class="share-row">
+                        <button class="share-btn whatsapp" onclick="shareParlay('whatsapp')">📱 WhatsApp</button>
+                        <button class="share-btn twitter" onclick="shareParlay('twitter')">🐦 Twitter</button>
+                        <button class="share-btn copy" onclick="shareParlay('copy')">📋 Copy</button>
+                    </div>
+                    <div class="share-row" style="margin-top:6px;">
+                        <button class="share-btn telegram" onclick="shareParlay('telegram')">✈️ Telegram</button>
+                        <button class="share-btn sms" onclick="shareParlay('sms')">💬 SMS</button>
+                        <button class="share-btn email" onclick="shareParlay('email')">📧 Email</button>
                     </div>
                 </div>
             </div>
@@ -736,28 +774,6 @@
                     </tbody>
                 </table>
             </div>
-            
-            <div class="card">
-                <h3 class="card-title">🎯 Model Performance</h3>
-                <div style="font-size:0.65rem;">
-                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-                        <span>Brier Score</span>
-                        <span style="color:var(--green);font-weight:600;">0.182</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-                        <span>Calibration Error</span>
-                        <span style="color:var(--green);font-weight:600;">2.1%</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-                        <span>Log Loss</span>
-                        <span style="color:var(--green);font-weight:600;">0.412</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;padding:8px 0;">
-                        <span>Accuracy vs Closing</span>
-                        <span style="color:var(--gold);font-weight:600;">+3.8%</span>
-                    </div>
-                </div>
-            </div>
         </div>
         
         <!-- INDEX TAB -->
@@ -795,11 +811,12 @@
             </div>
         </div>
 
-        <!-- FOOTER -->
+        <!-- FOOTER with SHARE APP -->
         <footer style="text-align:center;padding:20px 0;border-top:0.5px solid var(--border);margin-top:20px;">
-            <div style="font-size:0.7rem;color:var(--gold);font-weight:600;">SigMAX Elite v26.0</div>
+            <div style="font-size:0.7rem;color:var(--gold);font-weight:600;">SigMAX Elite v26.1</div>
             <div style="font-size:0.55rem;color:var(--text-secondary);margin-top:4px;">Watch Passionately. Bet Wisely.</div>
-            <div style="font-size:0.5rem;color:var(--text-secondary);margin-top:4px;">© 2026 SigMAX Analytics | For Entertainment Only</div>
+            <button class="share-app-btn" onclick="shareApp()" style="margin-top:10px;">📤 Share SigMAX Elite</button>
+            <div style="font-size:0.5rem;color:var(--text-secondary);margin-top:8px;">© 2026 SigMAX Analytics | For Entertainment Only</div>
         </footer>
         
     </div>
@@ -820,8 +837,11 @@
 
 <script>
 // ============================================
-// SIGMAX ELITE v26.0 - COMPLETE JAVASCRIPT
+// SIGMAX ELITE v26.1 - COMPLETE JAVASCRIPT
 // ============================================
+
+// APP URL - Change this to your actual URL
+const APP_URL = 'https://jbets-dev.github.io/JBETS/';
 
 let parlayPicks = [];
 let swapPickIndex = null;
@@ -851,7 +871,9 @@ document.addEventListener('DOMContentLoaded', function() {
     updateActiveLegsCount();
 });
 
+// ============================================
 // TAB NAVIGATION
+// ============================================
 function showTab(tabId) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -865,7 +887,110 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     });
 });
 
+// ============================================
+// SHARE FUNCTIONS
+// ============================================
+
+// Share the App itself
+function shareApp() {
+    const text = '🏆 SigMAX Elite - Sports Betting Analytics\n\n📊 Record: 273-43 (86.4%)\n💰 ROI: +94%\n\nWatch Passionately. Bet Wisely!\n\n👉 ' + APP_URL;
+    
+    if (navigator.share) {
+        navigator.share({ title: 'SigMAX Elite', text: text, url: APP_URL });
+    } else {
+        navigator.clipboard.writeText(text).then(function() {
+            alert('App link copied to clipboard!');
+        });
+    }
+}
+
+// Generate Top 5 text
+function generateTop5Text() {
+    return '🏆 SigMAX Elite - Top 5 Picks\n📅 May 26, 2026\n📊 Record: 273-43 (86.4%)\n\n' +
+        '1. 🎾 Sinner R2 ML (-450) - 92%\n' +
+        '2. 🎾 Djokovic R2 ML (-350) - 90%\n' +
+        '3. 🎾 Swiatek R2 ML (-500) - 93%\n' +
+        '4. 🏀 Thunder ML G5 (-145) - 78%\n' +
+        '5. 🏒 Golden Knights G4 (-180) - 85%\n\n' +
+        '🎰 Watch Passionately. Bet Wisely!\n👉 ' + APP_URL;
+}
+
+// Generate Props text
+function generatePropsText() {
+    return '🏆 SigMAX Elite - Top 10 Props\n📅 May 26, 2026\n📊 Props Record: 53-8 (86.9%)\n\n' +
+        '1. 🏒 Aho O0.5 Pts (-115) - 85%\n' +
+        '2. 🏒 MacKinnon O1.5 Pts (+105) - 82%\n' +
+        '3. ⚽ Messi O0.5 Goals (-120) - 78%\n' +
+        '4. 🏀 Wemby O2.5 Blocks (-130) - 80%\n' +
+        '5. 🏀 SGA O28.5 Pts (-110) - 77%\n' +
+        '6. 🏒 Eichel O0.5 Ast (-125) - 83%\n' +
+        '7. 🏒 Stone O2.5 SOG (-115) - 81%\n' +
+        '8. 🎾 Sinner U6.5 Games (-125) - 88%\n' +
+        '9. 🎾 Alcaraz U2.5 Sets (-130) - 84%\n' +
+        '10. 🎾 Djokovic O5.5 Aces (+100) - 75%\n\n' +
+        '🎰 Watch Passionately. Bet Wisely!\n👉 ' + APP_URL;
+}
+
+// Generate Parlay text
+function generateParlayText() {
+    let text = '🏆 SigMAX Elite - My Parlay\n📅 May 26, 2026\n\n';
+    let count = 1;
+    parlayPicks.forEach(function(pick) {
+        if (pick.active) {
+            text += count + '. ' + pick.name + ' (' + (pick.odds > 0 ? '+' : '') + pick.odds + ')\n';
+            count++;
+        }
+    });
+    text += '\n🎰 Watch Passionately. Bet Wisely!\n👉 ' + APP_URL;
+    return text;
+}
+
+// Universal share function
+function shareTo(platform, text, subject) {
+    const encoded = encodeURIComponent(text);
+    
+    switch(platform) {
+        case 'whatsapp':
+            window.open('https://wa.me/?text=' + encoded, '_blank');
+            break;
+        case 'twitter':
+            window.open('https://twitter.com/intent/tweet?text=' + encoded, '_blank');
+            break;
+        case 'telegram':
+            window.open('https://t.me/share/url?url=' + encodeURIComponent(APP_URL) + '&text=' + encoded, '_blank');
+            break;
+        case 'sms':
+            window.open('sms:?body=' + encoded, '_blank');
+            break;
+        case 'email':
+            window.open('mailto:?subject=' + encodeURIComponent(subject || 'SigMAX Elite Picks') + '&body=' + encoded, '_blank');
+            break;
+        case 'copy':
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Copied to clipboard!');
+            });
+            break;
+    }
+}
+
+// Share Top 5
+function shareTop5(platform) {
+    shareTo(platform, generateTop5Text(), 'SigMAX Elite - Top 5 Picks');
+}
+
+// Share Props
+function shareProps(platform) {
+    shareTo(platform, generatePropsText(), 'SigMAX Elite - Top 10 Props');
+}
+
+// Share Parlay
+function shareParlay(platform) {
+    shareTo(platform, generateParlayText(), 'SigMAX Elite - My Parlay');
+}
+
+// ============================================
 // AUTO-REFRESH SYSTEM
+// ============================================
 function refreshAllData() {
     const refreshBtn = document.getElementById('refresh-btn');
     const refreshStatus = document.getElementById('refresh-status');
@@ -920,7 +1045,9 @@ function toggleAutoRefresh() {
     }
 }
 
+// ============================================
 // PARLAY BUILDER
+// ============================================
 function initializeParlayPicks() {
     parlayPicks = [
         { id: 1, name: 'Sinner R2 ML', odds: -450, conf: 92, active: true, type: 'game' },
@@ -1010,18 +1137,13 @@ function swapWithPick(newName, newOdds, newConf) {
 }
 
 function clearAllPicks() {
-    for (let i = 1; i <= 10; i++) {
-        removePick(i);
-    }
+    for (let i = 1; i <= 10; i++) { removePick(i); }
 }
 
 function addCustomPick() {
     const name = document.getElementById('custom-pick-name').value.trim();
     const odds = parseInt(document.getElementById('custom-pick-odds').value);
-    if (!name || isNaN(odds)) {
-        alert('Please enter both pick name and odds');
-        return;
-    }
+    if (!name || isNaN(odds)) { alert('Please enter both pick name and odds'); return; }
     parlayPicks.push({ id: parlayPicks.length + 1, name: name, odds: odds, conf: 70, active: true, type: 'custom' });
     document.getElementById('custom-pick-name').value = '';
     document.getElementById('custom-pick-odds').value = '';
@@ -1039,32 +1161,16 @@ function calculateParlay() {
     const activePicks = parlayPicks.filter(function(p) { return p.active; });
     const stake = parseFloat(document.getElementById('parlay-stake').value) || 100;
     
-    if (activePicks.length === 0) {
-        document.getElementById('parlay-results').style.display = 'none';
-        return;
-    }
+    if (activePicks.length === 0) { document.getElementById('parlay-results').style.display = 'none'; return; }
     
-    let combinedDecimal = 1;
-    let combinedProbability = 1;
-    
+    let combinedDecimal = 1, combinedProbability = 1;
     activePicks.forEach(function(pick) {
-        let decimal;
-        if (pick.odds > 0) {
-            decimal = 1 + (pick.odds / 100);
-        } else {
-            decimal = 1 + (100 / Math.abs(pick.odds));
-        }
+        let decimal = pick.odds > 0 ? 1 + (pick.odds / 100) : 1 + (100 / Math.abs(pick.odds));
         combinedDecimal *= decimal;
         combinedProbability *= (pick.conf / 100);
     });
     
-    let americanOdds;
-    if (combinedDecimal >= 2) {
-        americanOdds = Math.round((combinedDecimal - 1) * 100);
-    } else {
-        americanOdds = Math.round(-100 / (combinedDecimal - 1));
-    }
-    
+    let americanOdds = combinedDecimal >= 2 ? Math.round((combinedDecimal - 1) * 100) : Math.round(-100 / (combinedDecimal - 1));
     const payout = stake * combinedDecimal;
     const ev = (combinedProbability * (payout - stake)) - ((1 - combinedProbability) * stake);
     
@@ -1074,44 +1180,12 @@ function calculateParlay() {
     document.getElementById('win-probability').textContent = (combinedProbability * 100).toFixed(1) + '%';
     document.getElementById('expected-value').textContent = (ev >= 0 ? '+' : '') + '$' + ev.toFixed(2);
     document.getElementById('expected-value').style.color = ev >= 0 ? 'var(--green)' : 'var(--red)';
-    
-    const kellyPct = ev > 0 ? Math.min(5, (ev / payout) * 100).toFixed(1) : '0';
-    document.getElementById('kelly-suggestion').textContent = kellyPct + '%';
-}
-
-// SHARE FUNCTIONS
-function generateShareText() {
-    let text = '🏆 SigMAX Elite Picks - May 26, 2026\n📊 Record: 273-43 (86.4%)\n\n';
-    let count = 1;
-    parlayPicks.forEach(function(pick) {
-        if (pick.active) {
-            text += count + '. ' + pick.name + ' (' + (pick.odds > 0 ? '+' : '') + pick.odds + ')\n';
-            count++;
-        }
-    });
-    text += '\n🎰 Watch Passionately. Bet Wisely!';
-    return text;
-}
-
-function shareWhatsApp() {
-    window.open('https://wa.me/?text=' + encodeURIComponent(generateShareText()), '_blank');
-}
-
-function shareTwitter() {
-    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(generateShareText()), '_blank');
-}
-
-function copyPicks() {
-    navigator.clipboard.writeText(generateShareText()).then(function() {
-        alert('Picks copied to clipboard!');
-    });
+    document.getElementById('kelly-suggestion').textContent = (ev > 0 ? Math.min(5, (ev / payout) * 100).toFixed(1) : '0') + '%';
 }
 
 // Close modal on background click
 document.addEventListener('click', function(e) {
-    if (e.target === document.getElementById('swap-modal')) {
-        closeSwapModal();
-    }
+    if (e.target === document.getElementById('swap-modal')) { closeSwapModal(); }
 });
 </script>
 </body>
