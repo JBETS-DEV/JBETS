@@ -3,1179 +3,717 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SigMAX ELITE — Maximum Signal. Maximum Edge.</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>SigMAX ELITE - Sports Betting Dashboard</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg-primary: #080b12;
-            --bg-secondary: #0c1018;
-            --gold: #d4af37;
-            --gold-light: #f4d03f;
-            --green: #10b981;
-            --red: #ef4444;
-            --blue: #2563eb;
-            --orange: #f97316;
-            --text: #ffffff;
-            --text-muted: #94a3b8;
+            --gold: #D4AF37; --gold-light: #F4E4BC; --black: #0a0a0a; --dark: #1a1a1a;
+            --darker: #111; --green: #00C853; --red: #FF1744; --blue: #2196F3;
         }
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-            font-size: 14px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
+            color: #fff; min-height: 100vh; font-size: 14px; line-height: 1.5;
         }
-        /* FLOATING PARTICLES */
-        .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
-        .particle {
-            position: absolute;
-            opacity: 0.6;
-            animation: float 15s infinite ease-in-out;
+        .container { max-width: 1400px; margin: 0 auto; padding: 10px; position: relative; }
+        .particle-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .particle { position: absolute; width: 4px; height: 4px; background: var(--gold); border-radius: 50%; opacity: 0.3; animation: float 20s infinite linear; }
+        @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.3; } 90% { opacity: 0.3; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
+        
+        /* HEADER */
+        .site-header {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+            border-bottom: 3px solid var(--gold); padding: 20px; position: relative; z-index: 10;
         }
-        .particle.diamond {
-            width: 8px; height: 8px;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
-            transform: rotate(45deg);
-            box-shadow: 0 0 10px var(--gold);
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .logo-section { display: flex; align-items: center; gap: 15px; text-align: left; }
+        .logo-icon { font-size: 48px; filter: drop-shadow(0 0 10px var(--gold)); }
+        .logo-text { display: flex; flex-direction: column; }
+        .logo-name { font-size: 28px; font-weight: 800; color: var(--gold); text-shadow: 0 0 20px rgba(212,175,55,0.5); letter-spacing: 2px; }
+        .logo-motivation { font-size: 11px; color: #888; font-style: italic; margin-top: 2px; }
+        .logo-tagline { font-size: 13px; color: var(--gold-light); font-weight: 600; margin-top: 4px; }
+        
+        .header-controls { display: flex; gap: 10px; align-items: center; }
+        .control-select {
+            background: var(--dark); color: var(--gold); border: 1px solid var(--gold);
+            padding: 8px 12px; border-radius: 6px; font-size: 13px; cursor: pointer;
         }
-        .particle.gold-dot {
-            width: 4px; height: 4px;
-            background: var(--gold);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--gold);
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-100px) rotate(405deg); opacity: 0; }
-        }
-        /* L-CORNER FRAME */
-        .corner-frame { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 1; }
-        .corner { position: absolute; width: 60px; height: 60px; }
-        .corner::before, .corner::after {
-            content: '';
-            position: absolute;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
-        }
-        .corner.top-left { top: 10px; left: 10px; }
-        .corner.top-left::before { width: 40px; height: 3px; top: 0; left: 0; }
-        .corner.top-left::after { width: 3px; height: 40px; top: 0; left: 0; }
-        .corner.top-right { top: 10px; right: 10px; }
-        .corner.top-right::before { width: 40px; height: 3px; top: 0; right: 0; }
-        .corner.top-right::after { width: 3px; height: 40px; top: 0; right: 0; }
-        .corner.bottom-left { bottom: 10px; left: 10px; }
-        .corner.bottom-left::before { width: 40px; height: 3px; bottom: 0; left: 0; }
-        .corner.bottom-left::after { width: 3px; height: 40px; bottom: 0; left: 0; }
-        .corner.bottom-right { bottom: 10px; right: 10px; }
-        .corner.bottom-right::before { width: 40px; height: 3px; bottom: 0; right: 0; }
-        .corner.bottom-right::after { width: 3px; height: 40px; bottom: 0; right: 0; }
-        /* MAIN CONTAINER */
-        .main-container { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 20px; }
-                /* HEADER */
-        .header {
-            text-align: left;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, transparent 50%);
-            border: 0.5px solid rgba(212,175,55,0.3);
-            border-radius: 10px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .logo-icon {
-            font-size: 4em;
-            line-height: 1;
-        }
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-        }
-        .logo { font-family: 'Playfair Display', serif; font-size: 2.5em; font-weight: 700; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 3px; line-height: 1.1; }
-        .motivation { color: var(--gold-light); font-size: 0.9em; letter-spacing: 2px; font-weight: 400; margin-top: 4px; }
-        .tagline { color: var(--text-muted); font-size: 0.85em; letter-spacing: 1px; margin-top: 4px; font-weight: 300; font-style: italic; }
-        .date-display { color: var(--text-muted); font-size: 0.9em; margin-top: 10px; }
+        .control-select:hover { background: rgba(212,175,55,0.2); }
+        
         /* STATS BAR */
         .stats-bar {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            padding: 15px;
-            background: var(--bg-secondary);
-            border: 0.5px solid rgba(212,175,55,0.2);
-            border-radius: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px; padding: 15px; background: rgba(26,26,26,0.9);
+            border-bottom: 2px solid rgba(212,175,55,0.3); margin-bottom: 10px;
         }
-        .stat-item { text-align: center; }
-        .stat-value { font-size: 1.5em; font-weight: 700; }
+        .stat-item { text-align: center; padding: 10px; background: var(--darker); border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); }
+        .stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-size: 20px; font-weight: 700; color: var(--gold); margin-top: 4px; }
         .stat-value.green { color: var(--green); }
-        .stat-value.gold { color: var(--gold); }
-        .stat-label { font-size: 0.8em; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        /* SCROLLING BANNER */
-        .banner-container { overflow: hidden; background: linear-gradient(90deg, var(--bg-secondary), rgba(212,175,55,0.1), var(--bg-secondary)); border: 0.5px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 10px 0; margin-bottom: 15px; }
-        .banner-content { display: flex; animation: scroll 30s linear infinite; white-space: nowrap; }
-        .banner-item { padding: 0 30px; font-size: 0.9em; display: flex; align-items: center; gap: 8px; }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-                /* CONTROLS */
-        .controls-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: var(--bg-secondary); border: 0.5px solid rgba(212,175,55,0.2); border-radius: 10px; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-        .control-group { display: flex; gap: 10px; align-items: center; }
-        .control-label { color: var(--text-muted); font-size: 0.8em; }
-        .control-select { padding: 8px 12px; background: var(--bg-primary); border: 0.5px solid rgba(212,175,55,0.3); color: var(--gold); border-radius: 5px; cursor: pointer; font-size: 0.85em; }
-        .control-select:focus { outline: none; border-color: var(--gold); }
-        .control-btn { padding: 8px 14px; background: transparent; border: 0.5px solid rgba(212,175,55,0.3); color: var(--text-muted); border-radius: 5px; cursor: pointer; font-size: 0.85em; transition: all 0.3s; }
-        .control-btn:hover, .control-btn.active { background: rgba(212,175,55,0.2); color: var(--gold); border-color: var(--gold); }
-        /* SHARE BUTTONS */
-        .share-buttons { display: flex; gap: 8px; }
-        .share-btn { width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer; font-size: 0.8em; transition: transform 0.3s; display: flex; align-items: center; justify-content: center; }
-        .share-btn:hover { transform: scale(1.1); }
-        .share-btn.whatsapp { background: #25D366; color: white; }
-        .share-btn.sms { background: #5856D6; color: white; }
-        .share-btn.copy { background: var(--gold); color: var(--bg-primary); }
-        .share-btn.twitter { background: #1DA1F2; color: white; }
-        .share-btn.email { background: #EA4335; color: white; }        /* TABS */
-        .tabs-container { display: flex; gap: 5px; padding: 10px; background: var(--bg-secondary); border: 0.5px solid rgba(212,175,55,0.2); border-radius: 10px; margin-bottom: 15px; overflow-x: auto; }
-        .tab-btn { padding: 10px 16px; background: transparent; border: 0.5px solid rgba(212,175,55,0.2); color: var(--text-muted); border-radius: 8px; cursor: pointer; font-size: 0.85em; white-space: nowrap; transition: all 0.3s; }
-        .tab-btn:hover { border-color: var(--gold); color: var(--gold); }
-        .tab-btn.active { background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(212,175,55,0.1)); border-color: var(--gold); color: var(--gold); }
-        /* TAB CONTENT */
-        .tab-content { display: none; }
+        
+        /* TABS */
+        .tab-nav {
+            display: flex; flex-wrap: wrap; gap: 5px; padding: 10px;
+            background: var(--darker); border-bottom: 2px solid var(--gold);
+        }
+        .tab-btn {
+            padding: 12px 18px; background: transparent; border: 1px solid rgba(212,175,55,0.3);
+            color: #ccc; cursor: pointer; border-radius: 8px 8px 0 0; font-size: 13px; font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .tab-btn:hover { background: rgba(212,175,55,0.1); color: var(--gold); }
+        .tab-btn.active { background: linear-gradient(180deg, var(--gold) 0%, #b8962e 100%); color: #000; border-color: var(--gold); }
+        .tab-content { display: none; padding: 20px; background: rgba(26,26,26,0.95); border-radius: 0 0 10px 10px; min-height: 400px; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        /* CARDS */
-        .card { background: var(--bg-secondary); border: 0.5px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 15px; margin-bottom: 12px; }
-        .card-title { font-family: 'Playfair Display', serif; font-size: 1.15em; color: var(--gold); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        /* PICKS GRID */
-        .picks-grid { display: grid; gap: 10px; }
-        .pick-card { background: rgba(0,0,0,0.3); border: 0.5px solid rgba(212,175,55,0.15); border-radius: 8px; padding: 12px; }
-        .pick-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .pick-sport { font-size: 0.7em; color: var(--text-muted); }
-        .pick-confidence { padding: 3px 8px; border-radius: 12px; font-size: 0.65em; font-weight: 600; }
-        .pick-confidence.fire { background: rgba(239,68,68,0.2); color: var(--red); }
-        .pick-confidence.hot { background: rgba(249,115,22,0.2); color: var(--orange); }
-        .pick-confidence.good { background: rgba(16,185,129,0.2); color: var(--green); }
-        .pick-matchup { font-weight: 600; font-size: 0.85em; margin-bottom: 5px; }
-        .pick-selection { color: var(--green); font-weight: 600; font-size: 0.8em; }
-        .pick-odds { color: var(--blue); font-size: 0.75em; }
-        .pick-time { font-size: 0.65em; color: var(--text-muted); margin-top: 5px; }
-        /* X-FACTORS */
-        .xfactor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-        .xfactor-card { background: rgba(0,0,0,0.3); border: 0.5px solid rgba(212,175,55,0.15); border-radius: 8px; padding: 12px; }
-        .xfactor-title { font-size: 0.8em; color: var(--gold); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-        .xfactor-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); font-size: 0.7em; }
-        .xfactor-row:last-child { border-bottom: none; }
-        .xfactor-label { color: var(--text-muted); }
-        .xfactor-value { font-weight: 500; }
-        .xfactor-value.good { color: var(--green); }
-        .xfactor-value.warning { color: var(--orange); }
-        .xfactor-value.danger { color: var(--red); }
-        /* PARLAY BUILDER */
-        .parlay-section { margin-bottom: 15px; }
-        .parlay-section-title { font-size: 0.85em; color: var(--gold); padding: 10px; background: rgba(212,175,55,0.1); border-radius: 8px 8px 0 0; }
-        .parlay-table { width: 100%; border-collapse: collapse; font-size: 0.7em; }
-        .parlay-table th { background: rgba(0,0,0,0.3); padding: 8px; text-align: left; color: var(--text-muted); font-weight: 500; }
-        .parlay-table td { padding: 8px; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
-        .parlay-select { background: var(--bg-primary); border: 0.5px solid rgba(212,175,55,0.3); color: var(--text); padding: 5px 8px; border-radius: 5px; font-size: 0.9em; width: 100%; cursor: pointer; }
-        .parlay-select:focus { outline: none; border-color: var(--gold); }
-        .parlay-summary { background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05)); padding: 15px; border-radius: 8px; margin-top: 15px; }
-        .parlay-summary-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 0.75em; }
-        .parlay-summary-label { color: var(--text-muted); }
-        .parlay-summary-value { font-weight: 600; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* CARDS & PICKS */
+        .pick-card {
+            background: linear-gradient(145deg, #1e1e1e 0%, #141414 100%);
+            border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 18px; margin-bottom: 15px;
+        }
+        .pick-card:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(212,175,55,0.2); }
+        .pick-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .pick-sport { font-size: 12px; color: var(--gold); font-weight: 600; }
+        .pick-confidence { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+        .pick-confidence.hot { background: linear-gradient(90deg, #ff6b35, #f7931e); color: #000; }
+        .pick-confidence.high { background: var(--green); color: #000; }
+        .pick-matchup { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .pick-selection { font-size: 22px; font-weight: 800; color: var(--gold); }
+        .pick-odds { font-size: 18px; color: var(--green); font-weight: 700; margin-left: 10px; }
+        
         /* ALERTS */
-        .alert-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid; }
-        .alert-item.breaking { border-color: var(--red); }
-        .alert-item.injury { border-color: var(--orange); }
-        .alert-item.weather { border-color: var(--blue); }
-        .alert-item.trend { border-color: var(--green); }
-        .alert-icon { font-size: 1.2em; }
-        .alert-content { flex: 1; }
-        .alert-title { font-weight: 600; font-size: 0.8em; margin-bottom: 3px; }
-        .alert-text { font-size: 0.7em; color: var(--text-muted); }
-        .alert-time { font-size: 0.6em; color: var(--text-muted); }
+        .alert-card { padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid; }
+        .alert-card.fire { background: rgba(255,87,34,0.15); border-color: #FF5722; }
+        .alert-card.lock { background: rgba(0,200,83,0.15); border-color: var(--green); }
+        .alert-card.alert { background: rgba(255,193,7,0.15); border-color: #FFC107; }
+        
+        /* X-FACTORS */
+        .xfactor-card { background: var(--darker); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 15px; margin-bottom: 12px; }
+        .xfactor-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .xfactor-pick { font-weight: 700; color: var(--gold); font-size: 15px; }
+        .xfactor-analysis { color: #ccc; font-size: 13px; line-height: 1.6; }
+        .xfactor-tag { background: var(--gold); color: #000; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+        
+        /* PARLAY BUILDER */
+        .parlay-section { margin-bottom: 20px; }
+        .parlay-section h3 { color: var(--gold); margin-bottom: 12px; font-size: 16px; }
+        .parlay-table { width: 100%; border-collapse: collapse; background: var(--darker); border-radius: 8px; overflow: hidden; }
+        .parlay-table th { background: var(--gold); color: #000; padding: 12px; text-align: left; font-size: 12px; }
+        .parlay-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .parlay-select { background: var(--dark); color: #fff; border: 1px solid rgba(212,175,55,0.3); padding: 8px; border-radius: 4px; width: 100%; font-size: 12px; }
+        .parlay-summary { background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border: 2px solid var(--gold); border-radius: 12px; padding: 20px; margin-top: 20px; }
+        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 15px 0; }
+        .summary-item { text-align: center; }
+        .summary-item .value { font-size: 20px; font-weight: 700; color: var(--gold); }
+        .summary-item .value.highlight { color: var(--green); }
+        .parlay-validation { text-align: center; color: var(--green); font-size: 12px; margin-top: 10px; }
+        .record-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .record-table th, .record-table td { padding: 8px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .record-table th { color: var(--gold); }
+        .record-table .profit { color: var(--green); font-weight: 700; }
+        .record-table .total { background: rgba(212,175,55,0.1); font-weight: 700; }
+        
+        /* BANKROLL */
+        .bankroll-overview { display: grid; gap: 15px; }
+        .bankroll-card { background: var(--darker); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 15px; text-align: center; }
+        .bankroll-card.main { background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border: 2px solid var(--gold); }
+        .bankroll-amount { font-size: 36px; font-weight: 800; color: var(--gold); }
+        .bankroll-change { color: var(--green); font-size: 16px; margin-top: 5px; }
+        .bankroll-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+        .bankroll-rules { margin-top: 20px; }
+        .bankroll-rules ul { list-style: none; }
+        .bankroll-rules li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        
+        /* ELITE STATUS */
+        .elite-badge { text-align: center; padding: 30px; background: linear-gradient(145deg, #2a2a2a, #1a1a1a); border: 3px solid var(--gold); border-radius: 20px; margin-bottom: 20px; }
+        .badge-icon { font-size: 60px; margin-bottom: 10px; }
+        .badge-title { font-size: 28px; font-weight: 800; color: var(--gold); }
+        .badge-subtitle { color: #888; margin-top: 5px; }
+        .elite-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px; }
+        .elite-stat { background: var(--darker); border-radius: 10px; padding: 15px; text-align: center; }
+        .elite-stat .value { font-size: 24px; font-weight: 700; color: var(--gold); }
+        .achievements { background: var(--darker); border-radius: 10px; padding: 15px; }
+        .achievement { padding: 10px; margin: 5px 0; border-radius: 6px; }
+        .achievement.unlocked { background: rgba(212,175,55,0.1); border-left: 3px solid var(--gold); }
+        
+        /* SHARE */
+        .share-card { background: var(--darker); border-radius: 10px; padding: 15px; margin-top: 15px; }
+        .share-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .share-btn { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; }
+        .share-btn.whatsapp { background: #25D366; color: #fff; }
+        .share-btn.twitter { background: #000; color: #fff; border: 1px solid #333; }
+        .share-btn.sms { background: var(--blue); color: #fff; }
+        .share-btn.copy { background: var(--gold); color: #000; }
+        .share-btn.email { background: #EA4335; color: #fff; }
+        .share-btn.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
+        
+        /* FOOTER */
+        .site-footer { background: var(--darker); border-top: 2px solid var(--gold); padding: 20px; margin-top: 20px; text-align: center; }
+        .footer-brand { margin-bottom: 15px; }
+        .footer-logo { font-size: 18px; font-weight: 700; color: var(--gold); }
+        .footer-tagline { color: #888; margin-left: 10px; }
+        .footer-disclaimer { background: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.3); border-radius: 8px; padding: 15px; margin: 15px auto; max-width: 800px; font-size: 12px; color: #ccc; }
+        .footer-links { color: #666; font-size: 12px; margin-top: 15px; }
+        
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .stats-bar { gap: 15px; }
-            .controls-bar { flex-direction: column; align-items: stretch; }
-            .tabs-container { flex-wrap: nowrap; }
-            .xfactor-grid { grid-template-columns: 1fr; }
+            .header-content { flex-direction: column; text-align: center; }
+            .logo-section { flex-direction: column; text-align: center; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .tab-btn { padding: 10px 12px; font-size: 11px; }
+            .summary-grid, .elite-stats, .bankroll-stats { grid-template-columns: repeat(2, 1fr); }
         }
+        .mobile-view { max-width: 480px; margin: 0 auto; }
+        .tablet-view { max-width: 768px; margin: 0 auto; }
+        .desktop-view { max-width: 1400px; }
     </style>
 </head>
-<body>    <!-- FLOATING PARTICLES -->
-    <div class="particles-container" id="particles"></div>
-    
-    <!-- L-CORNER FRAME -->
-    <div class="corner-frame">
-        <div class="corner top-left"></div>
-        <div class="corner top-right"></div>
-        <div class="corner bottom-left"></div>
-        <div class="corner bottom-right"></div>
-    </div>
-    
-    <!-- MAIN CONTAINER -->
-    <div class="main-container">
-                <!-- HEADER -->
-        <header class="header">
-            <div class="logo-icon">📡</div>
-            <div class="logo-text">
-                <div class="logo">SigMAX ELITE</div>
-                <div class="motivation">⚡ MAXIMUM SIGNAL. MAXIMUM EDGE. ⚡</div>
-                <div class="tagline" data-i18n="tagline">Watch Passionately. Bet Wisely!!</div>
+<body>
+    <div class="particle-container"></div>
+    <div class="container">
+        <!-- HEADER -->
+        <header class="site-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">📡</div>
+                    <div class="logo-text">
+                        <div class="logo-name">SigMAX ELITE</div>
+                        <div class="logo-motivation">Signals That Move Markets</div>
+                        <div class="logo-tagline">Watch Passionately. Bet Wisely!!</div>
+                    </div>
+                </div>
+                <div class="header-controls">
+                    <select id="lang-select" class="control-select">
+                        <option value="en">🇺🇸 EN</option>
+                        <option value="fr">🇫🇷 FR</option>
+                        <option value="es">🇪🇸 ES</option>
+                        <option value="it">🇮🇹 IT</option>
+                        <option value="de">🇩🇪 DE</option>
+                        <option value="pt">🇧🇷 PT</option>
+                    </select>
+                    <select id="device-select" class="control-select">
+                        <option value="desktop">🖥️ Desktop</option>
+                        <option value="tablet">📱 Tablet</option>
+                        <option value="mobile">📲 Mobile</option>
+                    </select>
+                </div>
             </div>
         </header>
-        <div class="date-display" style="text-align:center; padding:10px; color:var(--text-muted); font-size:0.9em;">📅 May 25, 2026 | 🏎️ INDY 500 RACE DAY! | 🎾 ROLAND GARROS | 🏒 NHL PLAYOFFS</div>
         
         <!-- STATS BAR -->
         <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-value gold">266-43-2</div>
-                <div class="stat-label" data-i18n="record">Record</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value green">86.1%</div>
-                <div class="stat-label" data-i18n="winRate">Win Rate</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value green">$12,333</div>
-                <div class="stat-label" data-i18n="bankroll">Bankroll</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value green">+76.2%</div>
-                <div class="stat-label">ROI</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value gold">15-3</div>
-                <div class="stat-label" data-i18n="parlays">Parlays</div>
-            </div>
+            <div class="stat-item"><div class="stat-label">Record</div><div class="stat-value">266-43-2</div></div>
+            <div class="stat-item"><div class="stat-label">Win Rate</div><div class="stat-value green">86.1%</div></div>
+            <div class="stat-item"><div class="stat-label">Profit</div><div class="stat-value green">+$5,333</div></div>
+            <div class="stat-item"><div class="stat-label">ROI</div><div class="stat-value green">+76.2%</div></div>
+            <div class="stat-item"><div class="stat-label">Bankroll</div><div class="stat-value">$12,333</div></div>
+            <div class="stat-item"><div class="stat-label">Streak</div><div class="stat-value green">🔥 12W</div></div>
         </div>
         
-        <!-- SCROLLING BANNER -->
-        <div class="banner-container">
-            <div class="banner-content">
-                <span class="banner-item">🔴 LIVE: NHL WCF G2 — VGK @ COL</span>
-                <span class="banner-item">✅ Yesterday: 6-2 (+$340)</span>
-                <span class="banner-item">🎾 ROLAND GARROS R1: Sinner, Djokovic, Świątek</span>
-                <span class="banner-item">🏎️ INDY 500 RACE DAY!</span>
-                <span class="banner-item">⚠️ ALCARAZ OUT — Injury</span>
-                <span class="banner-item">🔥 NHL: 40-6 (87.0%)</span>
-                <span class="banner-item">🏀 NBA: 100-13 (88.5%)</span>
-                <span class="banner-item">⚽ Soccer: 56-7 (88.9%)</span>
-                <span class="banner-item">🔴 LIVE: NHL WCF G2 — VGK @ COL</span>
-                <span class="banner-item">✅ Yesterday: 6-2 (+$340)</span>
-                <span class="banner-item">🎾 ROLAND GARROS R1: Sinner, Djokovic, Świątek</span>
-                <span class="banner-item">🏎️ INDY 500 RACE DAY!</span>
-            </div>
-        </div>
+        <!-- TAB NAVIGATION -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="home">Home</button>
+            <button class="tab-btn" data-tab="alerts">Alerts</button>
+            <button class="tab-btn" data-tab="top5">Top 5</button>
+            <button class="tab-btn" data-tab="props">Props</button>
+            <button class="tab-btn" data-tab="games">Games</button>
+            <button class="tab-btn" data-tab="xfactors">X-Factors</button>
+            <button class="tab-btn" data-tab="journal">Journal</button>
+            <button class="tab-btn" data-tab="parlay">Parlay</button>
+            <button class="tab-btn" data-tab="bankroll">Bankroll</button>
+            <button class="tab-btn" data-tab="elite">Elite</button>
+        </nav>
         
-                <!-- CONTROLS BAR -->
-        <div class="controls-bar">
-            <div class="control-group">
-                <span class="control-label">🌍</span>
-                <select class="control-select" id="langSelect" onchange="setLang(this.value)">
-                    <option value="en">🇬🇧 English</option>
-                    <option value="fr">🇫🇷 Français</option>
-                    <option value="es">🇪🇸 Español</option>
-                    <option value="it">🇮🇹 Italiano</option>
-                    <option value="de">🇩🇪 Deutsch</option>
-                    <option value="pt">🇵🇹 Português</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <button class="control-btn" onclick="setDevice('desktop')">🖥️</button>
-                <button class="control-btn active" onclick="setDevice('tablet')">📱</button>
-                <button class="control-btn" onclick="setDevice('mobile')">📲</button>
-            </div>
-            <div class="share-buttons">
-                <button class="share-btn whatsapp" onclick="shareWhatsApp()" title="WhatsApp">📱</button>
-                <button class="share-btn sms" onclick="shareSMS()" title="SMS">💬</button>
-                <button class="share-btn copy" onclick="copyLink()" title="Copy">📋</button>
-                <button class="share-btn twitter" onclick="shareTwitter()" title="Twitter">🐦</button>
-                <button class="share-btn email" onclick="shareEmail()" title="Email">✉️</button>
-            </div>
-        </div>        <!-- TABS NAVIGATION -->
+        <!-- TAB CONTENTS -->
         <div class="tabs-container">
-            <button class="tab-btn active" data-tab="home">🏠 <span data-i18n="tabHome">Home</span></button>
-            <button class="tab-btn" data-tab="alerts">⚠️ <span data-i18n="tabAlerts">Alerts</span></button>
-            <button class="tab-btn" data-tab="top5">🎯 <span data-i18n="tabTop5">Top 5</span></button>
-            <button class="tab-btn" data-tab="props">👤 <span data-i18n="tabProps">Props</span></button>
-            <button class="tab-btn" data-tab="games">📅 <span data-i18n="tabGames">Games</span></button>
-            <button class="tab-btn" data-tab="xfactors">🎲 <span data-i18n="tabXFactors">X-Factors</span></button>
-            <button class="tab-btn" data-tab="journal">📋 <span data-i18n="tabJournal">Journal</span></button>
-            <button class="tab-btn" data-tab="parlay">🎰 <span data-i18n="tabParlay">Parlay</span></button>
-            <button class="tab-btn" data-tab="elite">📊 <span data-i18n="tabElite">Elite</span></button>
-            <button class="tab-btn" data-tab="bankroll">💰 <span data-i18n="tabBankroll">Bankroll</span></button>
-        </div>
-        
-        <!-- TAB: HOME -->
-        <div id="tab-home" class="tab-content active">
-            <div class="card">
-                <div class="card-title">🏆 <span data-i18n="perfBySport">Performance by Sport</span></div>
-                <div class="picks-grid">
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🏒 NHL</span>
-                            <span class="pick-confidence hot">87.0%</span>
-                        </div>
-                        <div class="pick-matchup">Record: 40-6</div>
-                        <div class="pick-selection">🔴 WCF G2 LIVE NOW!</div>
+            <!-- TAB 1: HOME -->
+            <div id="tab-home" class="tab-content active">
+                <h2>🏠 WELCOME TO SigMAX ELITE</h2>
+                <p style="color:#888;margin:10px 0 20px;">📅 May 25, 2026 | 🏁 INDY 500 RACE DAY!</p>
+                
+                <div class="alert-card fire">
+                    <strong>🔥 INDY 500 TODAY!</strong> - The Greatest Spectacle in Racing is HERE! Check the Games tab for Indy 500 picks!
+                </div>
+                
+                <div class="pick-card">
+                    <div class="pick-header">
+                        <span class="pick-sport">🎾 FRENCH OPEN — R1</span>
+                        <span class="pick-confidence hot">🔥 92%</span>
                     </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🏀 NBA</span>
-                            <span class="pick-confidence hot">88.5%</span>
-                        </div>
-                        <div class="pick-matchup">Record: 100-13</div>
-                        <div class="pick-selection">✅ Season Done</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">⚽ Soccer</span>
-                            <span class="pick-confidence fire">88.9%</span>
-                        </div>
-                        <div class="pick-matchup">Record: 56-7</div>
-                        <div class="pick-selection">🌍 Worldwide</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🎾 Tennis</span>
-                            <span class="pick-confidence good">85.7%</span>
-                        </div>
-                        <div class="pick-matchup">Record: 6-1</div>
-                        <div class="pick-selection">⚠️ Alcaraz OUT</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">⚾ MLB</span>
-                            <span class="pick-confidence good">80.0%</span>
-                        </div>
-                        <div class="pick-matchup">Record: 20-5</div>
-                        <div class="pick-selection">🔴 10 Games Live</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🥊 UFC</span>
-                            <span class="pick-confidence fire">100%</span>
-                        </div>
-                        <div class="pick-matchup">Record: 3-0</div>
-                        <div class="pick-selection">🔥 PERFECT</div>
+                    <div class="pick-matchup">Jannik Sinner vs Challenger</div>
+                    <div><span class="pick-selection">SINNER ML</span><span class="pick-odds">-450</span></div>
+                </div>
+                
+                <div class="share-card">
+                    <h4>📤 Share SigMAX</h4>
+                    <div class="share-buttons">
+                        <button class="share-btn whatsapp" onclick="shareWhatsApp()">WhatsApp</button>
+                        <button class="share-btn twitter" onclick="shareTwitter()">𝕏 Post</button>
+                        <button class="share-btn sms" onclick="shareSMS()">💬 SMS</button>
+                        <button class="share-btn copy" onclick="copyLink()">📋 Copy</button>
+                        <button class="share-btn email" onclick="shareEmail()">✉️ Email</button>
                     </div>
                 </div>
             </div>
-        </div>        <!-- TAB: ALERTS -->
-        <div id="tab-alerts" class="tab-content">
-            <div class="card">
-                <div class="card-title">⚠️ <span data-i18n="liveAlerts">Live Alerts</span></div>
-                <div class="alert-item breaking">
-                    <span class="alert-icon">🚨</span>
-                    <div class="alert-content">
-                        <div class="alert-title">BREAKING: Alcaraz Withdraws from Roland Garros</div>
-                        <div class="alert-text">Right forearm injury — Remove from all parlays immediately</div>
-                        <div class="alert-time">2 hours ago</div>
+            
+            <!-- TAB 2: ALERTS -->
+            <div id="tab-alerts" class="tab-content">
+                <h2>🚨 LIVE ALERTS</h2>
+                <div class="alert-card fire"><strong>🔥 INDY 500 RACE DAY</strong> - The Greatest Spectacle in Racing! Check Games tab!</div>
+                <div class="alert-card lock"><strong>🔒 FRENCH OPEN LOCK</strong> - Sinner ML (-450) | 92% Confidence</div>
+                <div class="alert-card lock"><strong>🔒 NHL WCF</strong> - Vegas ML (-135) | 85% Confidence</div>
+                <div class="alert-card alert"><strong>⚡ NBA WCF G3</strong> - Thunder -4.5 at home | 82%</div>
+            </div>
+            
+            <!-- TAB 3: TOP 5 -->
+            <div id="tab-top5" class="tab-content">
+                <h2>🏆 TODAY'S TOP 5 PICKS</h2>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">🎾 FRENCH OPEN — R1</span><span class="pick-confidence hot">🔥 92%</span></div>
+                    <div class="pick-matchup">Jannik Sinner vs Challenger</div>
+                    <div><span class="pick-selection">#1 SINNER ML</span><span class="pick-odds">-450</span></div>
+                </div>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">🎾 FRENCH OPEN — R1</span><span class="pick-confidence hot">🔥 90%</span></div>
+                    <div class="pick-matchup">Novak Djokovic vs Qualifier</div>
+                    <div><span class="pick-selection">#2 DJOKOVIC ML</span><span class="pick-odds">-550</span></div>
+                </div>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">🏒 NHL — WCF Game 2</span><span class="pick-confidence high">✅ 85%</span></div>
+                    <div class="pick-matchup">Colorado Avalanche @ Vegas Golden Knights</div>
+                    <div><span class="pick-selection">#3 VEGAS ML</span><span class="pick-odds">-135</span></div>
+                </div>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">🏀 NBA — WCF Game 3</span><span class="pick-confidence high">✅ 82%</span></div>
+                    <div class="pick-matchup">Minnesota Timberwolves @ OKC Thunder</div>
+                    <div><span class="pick-selection">#4 THUNDER -4.5</span><span class="pick-odds">-110</span></div>
+                </div>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">⚽ MLS — Sunday Night</span><span class="pick-confidence high">✅ 80%</span></div>
+                    <div class="pick-matchup">Orlando City @ Inter Miami</div>
+                    <div><span class="pick-selection">#5 INTER MIAMI ML</span><span class="pick-odds">-120</span></div>
+                </div>
+            </div>
+            
+            <!-- TAB 4: PROPS -->
+            <div id="tab-props" class="tab-content">
+                <h2>🎯 PLAYER PROPS</h2>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">🏀 NBA — Shai Gilgeous-Alexander</span><span class="pick-confidence hot">🔥 88%</span></div>
+                    <div class="pick-matchup">vs Minnesota Timberwolves</div>
+                    <div><span class="pick-selection">OVER 31.5 Points</span><span class="pick-odds">-115</span></div>
+                </div>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">🏒 NHL — Jack Eichel</span><span class="pick-confidence high">✅ 84%</span></div>
+                    <div class="pick-matchup">vs Colorado Avalanche</div>
+                    <div><span class="pick-selection">OVER 0.5 Goals</span><span class="pick-odds">+120</span></div>
+                </div>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">⚽ MLS — Lionel Messi</span><span class="pick-confidence hot">🔥 86%</span></div>
+                    <div class="pick-matchup">vs Orlando City</div>
+                    <div><span class="pick-selection">Anytime Goalscorer</span><span class="pick-odds">-130</span></div>
+                </div>
+            </div>
+            
+            <!-- TAB 5: GAMES -->
+            <div id="tab-games" class="tab-content">
+                <h2>📅 TODAY'S GAMES</h2>
+                <div class="alert-card fire"><strong>🏎️ INDY 500 RACE DAY!</strong> — 12:45 PM ET Start | The Greatest Spectacle in Racing!</div>
+                
+                <h3 style="color:var(--gold);margin:20px 0 10px;">🏎️ INDY 500 — Indianapolis Motor Speedway</h3>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">🏎️ INDYCAR — INDY 500</span><span class="pick-confidence hot">🔥 85%</span></div>
+                    <div class="pick-matchup">Race Winner Market</div>
+                    <div><span class="pick-selection">ÁLEX PALOU to WIN</span><span class="pick-odds">+450</span></div>
+                </div>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">🏎️ INDYCAR — INDY 500</span><span class="pick-confidence high">✅ 78%</span></div>
+                    <div class="pick-matchup">Top 5 Finish</div>
+                    <div><span class="pick-selection">SCOTT DIXON Top 5</span><span class="pick-odds">-140</span></div>
+                </div>
+                
+                <h3 style="color:var(--gold);margin:20px 0 10px;">🎾 French Open — Roland Garros</h3>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">🎾 TENNIS — R1</span><span class="pick-confidence hot">🔥 92%</span></div>
+                    <div class="pick-matchup">Jannik Sinner vs Challenger</div>
+                    <div><span class="pick-selection">SINNER ML</span><span class="pick-odds">-450</span></div>
+                </div>
+                
+                <h3 style="color:var(--gold);margin:20px 0 10px;">🏒 NHL Western Conference Finals</h3>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">🏒 NHL — WCF Game 2</span><span class="pick-confidence high">✅ 85%</span></div>
+                    <div class="pick-matchup">Colorado Avalanche @ Vegas Golden Knights</div>
+                    <div><span class="pick-selection">VEGAS ML</span><span class="pick-odds">-135</span></div>
+                </div>
+                
+                <h3 style="color:var(--gold);margin:20px 0 10px;">🏀 NBA Western Conference Finals</h3>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">🏀 NBA — WCF Game 3</span><span class="pick-confidence high">✅ 82%</span></div>
+                    <div class="pick-matchup">Minnesota Timberwolves @ OKC Thunder</div>
+                    <div><span class="pick-selection">THUNDER -4.5</span><span class="pick-odds">-110</span></div>
+                </div>
+                
+                <h3 style="color:var(--gold);margin:20px 0 10px;">⚽ MLS</h3>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">⚽ MLS — Sunday Night</span><span class="pick-confidence high">✅ 80%</span></div>
+                    <div class="pick-matchup">Orlando City @ Inter Miami</div>
+                    <div><span class="pick-selection">INTER MIAMI ML</span><span class="pick-odds">-120</span></div>
+                </div>
+            </div>
+            
+            <!-- TAB 6: X-FACTORS -->
+            <div id="tab-xfactors" class="tab-content">
+                <h2>🔬 X-FACTORS ANALYSIS</h2>
+                <p style="color:#888;margin-bottom:20px;">Deep-dive analysis on ALL Top 5 picks</p>
+                
+                <div class="xfactor-card">
+                    <div class="xfactor-header">
+                        <span class="xfactor-pick">🎾 #1 SINNER ML (-450)</span>
+                        <span class="xfactor-tag">92% CONF</span>
+                    </div>
+                    <div class="xfactor-analysis">
+                        <strong>Why it hits:</strong> Sinner is the world #1 and defending champion. He's 14-1 on clay this season with dominant serving (68% first serve points won). R1 opponent is a qualifier with zero Grand Slam wins. Surface + form + ranking gap = easy cover.
                     </div>
                 </div>
-                <div class="alert-item injury">
-                    <span class="alert-icon">🏥</span>
-                    <div class="alert-content">
-                        <div class="alert-title">NHL: MacKinnon GTD for Game 2</div>
-                        <div class="alert-text">Lower body tightness — Game-time decision</div>
-                        <div class="alert-time">45 min ago</div>
+                
+                <div class="xfactor-card">
+                    <div class="xfactor-header">
+                        <span class="xfactor-pick">🎾 #2 DJOKOVIC ML (-550)</span>
+                        <span class="xfactor-tag">90% CONF</span>
+                    </div>
+                    <div class="xfactor-analysis">
+                        <strong>Why it hits:</strong> 24-time Grand Slam champion with 3 French Open titles. Djokovic is 87-19 lifetime at Roland Garros. Fresh legs after Rome rest. R1 qualifier has never won a set against a top-10 player. Experience and clay mastery prevail.
                     </div>
                 </div>
-                <div class="alert-item weather">
-                    <span class="alert-icon">🌧️</span>
-                    <div class="alert-content">
-                        <div class="alert-title">Weather Alert: Rain Delay Possible at French Open</div>
-                        <div class="alert-text">60% chance of showers after 3 PM local time</div>
-                        <div class="alert-time">1 hour ago</div>
+                
+                <div class="xfactor-card">
+                    <div class="xfactor-header">
+                        <span class="xfactor-pick">🏒 #3 VEGAS ML (-135)</span>
+                        <span class="xfactor-tag">85% CONF</span>
+                    </div>
+                    <div class="xfactor-analysis">
+                        <strong>Why it hits:</strong> Vegas is 8-2 at home this postseason with elite goaltending from Hill (.928 SV%). Colorado's altitude travel back-to-back creates fatigue. Knights' forecheck disrupts Colorado's transition game. T-Mobile Arena is a fortress.
                     </div>
                 </div>
-                <div class="alert-item trend">
-                    <span class="alert-icon">📈</span>
-                    <div class="alert-content">
-                        <div class="alert-title">HOT STREAK: Soccer at 88.9%</div>
-                        <div class="alert-text">56-7 record — Best performing sport this month</div>
-                        <div class="alert-time">Today</div>
+                
+                <div class="xfactor-card">
+                    <div class="xfactor-header">
+                        <span class="xfactor-pick">🏀 #4 OKC -4.5 (-110)</span>
+                        <span class="xfactor-tag">82% CONF</span>
+                    </div>
+                    <div class="xfactor-analysis">
+                        <strong>Why it hits:</strong> Thunder are 12-2 ATS at home this postseason. SGA averaging 32.5 PPG vs Minnesota. Wolves struggle on the road (4-7 ATS away in playoffs). OKC's pace and 3PT shooting (39.2%) exploits Minnesota's defensive gaps. Home crowd energy is massive.
+                    </div>
+                </div>
+                
+                <div class="xfactor-card">
+                    <div class="xfactor-header">
+                        <span class="xfactor-pick">⚽ #5 INTER MIAMI ML (-120)</span>
+                        <span class="xfactor-tag">80% CONF</span>
+                    </div>
+                    <div class="xfactor-analysis">
+                        <strong>Why it hits:</strong> Messi + Suárez at home is lethal (14 combined goals in last 8 home games). Miami is 7-1-1 at Chase Stadium this season. Orlando missing key defender. Miami's attack vs Orlando's porous away defense (1.8 GA/road game) = goals and the W.
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- TAB: TOP 5 -->
-        <div id="tab-top5" class="tab-content">
-            <div class="card">
-                <div class="card-title">🎯 <span data-i18n="top5Today">Top 5 Picks Today</span></div>
-                <div class="picks-grid">
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🎾 Tennis — Roland Garros R1</span>
-                            <span class="pick-confidence fire">🔥 92%</span>
-                        </div>
-                        <div class="pick-matchup">Jannik Sinner vs TBD</div>
-                        <div class="pick-selection">✅ Sinner 2-0</div>
-                        <div class="pick-odds">-350</div>
-                        <div class="pick-time">⏰ 4:59 AM ET</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🎾 Tennis — Roland Garros R1</span>
-                            <span class="pick-confidence fire">🔥 90%</span>
-                        </div>
-                        <div class="pick-matchup">Novak Djokovic vs TBD</div>
-                        <div class="pick-selection">✅ Djokovic 2-0</div>
-                        <div class="pick-odds">-400</div>
-                        <div class="pick-time">⏰ 7:00 AM ET</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🎾 Tennis — Roland Garros R1</span>
-                            <span class="pick-confidence fire">🔥 94%</span>
-                        </div>
-                        <div class="pick-matchup">Iga Świątek vs TBD</div>
-                        <div class="pick-selection">✅ Świątek 2-0</div>
-                        <div class="pick-odds">-500</div>
-                        <div class="pick-time">⏰ 6:00 AM ET</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🏒 NHL — WCF Game 2</span> <span class="pick-confidence hot">🔥 85%</span>
-                        </div>
-                        <div class="pick-matchup">Colorado Avalanche @ Vegas Golden Knights</div>
-                        <div class="pick-selection">✅ VGK ML</div>
-                        <div class="pick-odds">-130</div>
-                        <div class="pick-time">🔴 LIVE NOW</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">⚽ MLS</span>
-                            <span class="pick-confidence hot">🔥 86%</span>
-                        </div>
-                        <div class="pick-matchup">Inter Miami vs Philadelphia Union</div>
-                        <div class="pick-selection">✅ Miami ML</div>
-                        <div class="pick-odds">-145</div>
-                        <div class="pick-time">⏰ 7:30 PM ET</div>
-                    </div>
+            
+            <!-- TAB 7: JOURNAL -->
+            <div id="tab-journal" class="tab-content">
+                <h2>📔 BETTING JOURNAL</h2>
+                <p style="color:#888;margin-bottom:20px;">Track your betting history and learn from results</p>
+                
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">📅 May 24, 2026</span><span class="pick-confidence high">✅ WIN</span></div>
+                    <div class="pick-matchup">🏒 NHL — Vegas Golden Knights ML</div>
+                    <div><span class="pick-selection">Result: VGK 4, COL 2</span><span class="pick-odds">+$135</span></div>
+                </div>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">📅 May 24, 2026</span><span class="pick-confidence high">✅ WIN</span></div>
+                    <div class="pick-matchup">🏀 NBA — OKC Thunder -3.5</div>
+                    <div><span class="pick-selection">Result: OKC 118, MIN 106</span><span class="pick-odds">+$100</span></div>
+                </div>
+                <div class="pick-card">
+                    <div class="pick-header"><span class="pick-sport">📅 May 23, 2026</span><span class="pick-confidence high">✅ WIN</span></div>
+                    <div class="pick-matchup">🎾 ATP Rome — Sinner ML</div>
+                    <div><span class="pick-selection">Result: Sinner 2-0</span><span class="pick-odds">+$85</span></div>
                 </div>
             </div>
-        </div>        <!-- TAB: PROPS -->
-        <div id="tab-props" class="tab-content">
-            <div class="card">
-                <div class="card-title">👤 <span data-i18n="playerProps">Top 10 Player Props</span></div>
-                <div class="picks-grid">
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🎾 Tennis</span>
-                            <span class="pick-confidence fire">🔥 93%</span>
-                        </div>
-                        <div class="pick-matchup">Jannik Sinner</div>
-                        <div class="pick-selection">O 12.5 Games Won</div>
-                        <div class="pick-odds">-115</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🏒 NHL</span>
-                            <span class="pick-confidence hot">🔥 87%</span>
-                        </div>
-                        <div class="pick-matchup">Nathan MacKinnon</div>
-                        <div class="pick-selection">O 1.5 Points</div>
-                        <div class="pick-odds">-125</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">⚽ MLS</span>
-                            <span class="pick-confidence hot">🔥 85%</span>
-                        </div>
-                        <div class="pick-matchup">Lionel Messi</div>
-                        <div class="pick-selection">Anytime Goal</div>
-                        <div class="pick-odds">+110</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">⚾ MLB</span>
-                            <span class="pick-confidence good">🔥 82%</span>
-                        </div>
-                        <div class="pick-matchup">Shohei Ohtani</div>
-                        <div class="pick-selection">O 1.5 Total Bases</div>
-                        <div class="pick-odds">-130</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🎾 Tennis</span>
-                            <span class="pick-confidence fire">🔥 91%</span>
-                        </div>
-                        <div class="pick-matchup">Iga Świątek</div>
-                        <div class="pick-selection">O 11.5 Games Won</div>
-                        <div class="pick-odds">-120</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- TAB: GAMES -->
-        <div id="tab-games" class="tab-content">
-            <div class="card">
-                <div class="card-title">📅 <span data-i18n="upcomingGames">Upcoming Games</span> — 63+ Today</div>
-                <div class="picks-grid">
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🎾 Roland Garros R1</span>
-                            <span class="pick-confidence fire">LIVE</span>
-                        </div>
-                        <div class="pick-matchup">Sinner vs TBD</div>
-                        <div class="pick-time">4:59 AM ET</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🎾 Roland Garros R1</span>
-                        </div>
-                        <div class="pick-matchup">Djokovic vs TBD</div>
-                        <div class="pick-time">7:00 AM ET</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🏒 NHL WCF G2</span>
-                            <span class="pick-confidence fire">🔴 LIVE</span>
-                        </div>
-                        <div class="pick-matchup">Avalanche @ Golden Knights</div>
-                        <div class="pick-time">LIVE NOW</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">⚽ DFB Pokal Final</span>
-                        </div>
-                        <div class="pick-matchup">Bayern Munich vs Borussia Dortmund</div>
-                        <div class="pick-time">2:00 PM ET</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">⚽ MLS</span>
-                        </div>
-                        <div class="pick-matchup">Inter Miami vs Philadelphia</div>
-                        <div class="pick-time">7:30 PM ET</div>
-                    </div>
-                    <div class="pick-card">
-                        <div class="pick-header">
-                            <span class="pick-sport">🏎️ IndyCar</span>
-                        </div>
-                        <div class="pick-matchup">Indianapolis 500</div>
-                        <div class="pick-time">Sunday 12:45 PM ET</div>
-                    </div>
-                </div>
-            </div>
-        </div>        <!-- TAB: X-FACTORS — COMPLETE EXTERNAL FACTORS -->
-        <div id="tab-xfactors" class="tab-content">
-            <div class="card">
-                <div class="card-title">🎲 <span data-i18n="xfactors">X-Factors — Why We Picked These Top 5</span></div>
+            
+            <!-- TAB 8: PARLAY BUILDER -->
+            <div id="tab-parlay" class="tab-content">
+                <h2>🎰 PARLAY BUILDER</h2>
+                <p style="color:#888;margin-bottom:20px;">Build your custom parlay (Max: 5 Team + 5 Props = 10 Legs)</p>
                 
-                <!-- PICK #1: SINNER -->
-                <div class="xfactor-card" style="margin-bottom: 12px; border-left: 3px solid #10b981;">
-                    <div class="xfactor-title">🎾 #1 — Jannik SINNER vs Qualifier | SINNER ML (-450)</div>
-                    <div class="xfactor-row"><span class="xfactor-label">World Ranking</span><span class="xfactor-value good">#1 ATP</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">Clay Season</span><span class="xfactor-value good">15-2 (88%)</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">vs Qualifiers Career</span><span class="xfactor-value good">12-0</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">Rest Days</span><span class="xfactor-value good">4 days fresh</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">🔑 KEY EDGE</span><span class="xfactor-value good">Chasing Career Slam — Peak Focus</span></div>
-                </div>
-                
-                <!-- PICK #2: DJOKOVIC -->
-                <div class="xfactor-card" style="margin-bottom: 12px; border-left: 3px solid #10b981;">
-                    <div class="xfactor-title">🎾 #2 — Novak DJOKOVIC vs Qualifier | DJOKOVIC ML (-550)</div>
-                    <div class="xfactor-row"><span class="xfactor-label">Grand Slam Titles</span><span class="xfactor-value good">24 (GOAT)</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">R1 at Majors</span><span class="xfactor-value good">79-0 PERFECT</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">RG Titles</span><span class="xfactor-value good">3x Champion</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">2026 Form</span><span class="xfactor-value">AO Champ, Rome SF</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">🔑 KEY EDGE</span><span class="xfactor-value good">NEVER loses R1 at Slams</span></div>
-                </div>
-                
-                <!-- PICK #3: VGK -->
-                <div class="xfactor-card" style="margin-bottom: 12px; border-left: 3px solid #d4af37;">
-                    <div class="xfactor-title">🏒 #3 — Colorado @ Vegas WCF G3 | VGK ML (-135)</div>
-                    <div class="xfactor-row"><span class="xfactor-label">Series Lead</span><span class="xfactor-value good">VGK 2-0</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">Home Playoff Record</span><span class="xfactor-value good">8-1</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">MacKinnon</span><span class="xfactor-value warning">GTD (lower body)</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">Power Play</span><span class="xfactor-value good">32% (#1 NHL)</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">🔑 KEY EDGE</span><span class="xfactor-value good">Sweep opportunity + T-Mobile Arena</span></div>
-                </div>
-                
-                <!-- PICK #4: OKC -->
-                <div class="xfactor-card" style="margin-bottom: 12px; border-left: 3px solid #2563eb;">
-                    <div class="xfactor-title">🏀 #4 — OKC @ San Antonio WCF G4 | OKC -4.5 (-110)</div>
-                    <div class="xfactor-row"><span class="xfactor-label">Series Lead</span><span class="xfactor-value good">OKC 2-1</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">SGA Playoff Avg</span><span class="xfactor-value good">32.4 PPG</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">Road Record</span><span class="xfactor-value good">6-2 playoffs</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">OKC 3PT%</span><span class="xfactor-value good">42% (#1)</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">🔑 KEY EDGE</span><span class="xfactor-value good">G3 blowout momentum</span></div>
-                </div>
-                
-                <!-- PICK #5: INTER MIAMI -->
-                <div class="xfactor-card" style="margin-bottom: 12px; border-left: 3px solid #10b981;">
-                    <div class="xfactor-title">⚽ #5 — Inter Miami vs Philadelphia | MIAMI ML (-120)</div>
-                    <div class="xfactor-row"><span class="xfactor-label">Messi 2026</span><span class="xfactor-value good">12G + 8A</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">Home Record</span><span class="xfactor-value good">7-1-0</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">PHI Away Record</span><span class="xfactor-value danger">1-4-2</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">H2H 2025-26</span><span class="xfactor-value good">Miami 3-0</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">🔑 KEY EDGE</span><span class="xfactor-value good">Messi magic + PHI travel issues</span></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- TAB: JOURNAL -->
-        <div id="tab-journal class="tab-content">
-            <div class="card">
-                <div class="card-title">📋 <span data-i18n="bettingJournal">Betting Journal</span></div>
-                
-                <div style="overflow-x: auto;">
-                    <table class="parlay-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Sport</th>
-                                <th>Pick</th>
-                                <th>Odds</th>
-                                <th>Stake</th>
-                                <th>Result</th>
-                                <th>P/L</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>May 23</td>
-                                <td>🏒 NHL</td>
-                                <td>MTL ML</td>
-                                <td>+145</td>
-                                <td>$100</td>
-                                <td style="color: var(--green);">✅ WIN</td>
-                                <td style="color: var(--green);">+$145</td>
-                            </tr>
-                            <tr>
-                                <td>May 23</td>
-                                <td>⚽ Soccer</td>
-                                <td>Peñarol +0.5</td>
-                                <td>-110</td>
-                                <td>$110</td>
-                                <td style="color: var(--green);">✅ WIN</td>
-                                <td style="color: var(--green);">+$100</td>
-                            </tr>
-                            <tr>
-                                <td>May 23</td>
-                                <td>🏒 NHL</td>
-                                <td>COL ML</td>
-                                <td>+125</td>
-                                <td>$100</td>
-                                <td style="color: var(--red);">❌ LOSS</td>
-                                <td style="color: var(--red);">-$100</td>
-                            </tr>
-                            <tr>
-                                <td>May 23</td>
-                                <td>⚾ MLB</td>
-                                <td>CHC ML</td>
-                                <td>-125</td>
-                                <td>$125</td>
-                                <td style="color: var(--red);">❌ LOSS</td>
-                                <td style="color: var(--red);">-$125</td>
-                            </tr>
-                            <tr>
-                                <td>May 23</td>
-                                <td>⚾ MLB</td>
-                                <td>PHI ML</td>
-                                <td>-145</td>
-                                <td>$145</td>
-                                <td style="color: var(--green);">✅ WIN</td>
-                                <td style="color: var(--green);">+$100</td>
-                            </tr>
-                            <tr>
-                                <td>May 23</td>
-                                <td>⚾ MLB</td>
-                                <td>NYY ML</td>
-                                <td>-140</td>
-                                <td>$140</td>
-                                <td style="color: var(--green);">✅ WIN</td>
-                                <td style="color: var(--green);">+$100</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <!-- DAILY SUMMARY -->
-                <div class="parlay-summary" style="margin-top: 15px;">
-                    <div class="parlay-summary-row">
-                        <span class="parlay-summary-label">Yesterday's Record</span>
-                        <span class="parlay-summary-value" style="color: var(--green);">6-2</span>
-                    </div>
-                    <div class="parlay-summary-row">
-                        <span class="parlay-summary-label">Net Profit</span>
-                        <span class="parlay-summary-value" style="color: var(--green);">+$320</span>
-                    </div>
-                    <div class="parlay-summary-row">
-                        <span class="parlay-summary-label">Running Bankroll</span>
-                        <span class="parlay-summary-value" style="color: var(--gold);">$12,333</span>
-                    </div>
-                </div>
-            </div>
-        </div>        <!-- TAB: PARLAY BUILDER — 5 Team Bets + 5 Player Props = 10 MAX LEGS -->
-        <div id="tab-parlay" class="tab-content">
-            <div class="card">
-                <div class="card-title">🎰 <span data-i18n="parlayBuilder">Parlay Builder</span></div>
-                <p style="font-size: 1em; color: var(--text-muted); margin-bottom: 15px;">
-                    🔒 LOCKED RULES: Max 5 Team Bets + Max 5 Player Props = 10 Total Legs Maximum
-                </p>
-                
-                <!-- TEAM/GAME BETS SECTION (MAX 5) -->
                 <div class="parlay-section">
-                    <div class="parlay-section-title">🏆 Team/Game Bets (Max 5 Legs)</div>
+                    <h3>🏆 TEAM/GAME BETS (Max 5)</h3>
                     <table class="parlay-table">
-                        <thead>
-                            <tr>
-                                <th>Leg</th>
-                                <th>Sport</th>
-                                <th>Matchup</th>
-                                <th>Bet Type</th>
-                                <th>Pick</th>
-                                <th>Odds</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>#</th><th>Sport</th><th>Matchup</th><th>Type</th><th>Pick</th><th>Odds</th><th>Status</th></tr></thead>
                         <tbody>
                             <tr>
                                 <td>T1</td>
-                                <td>
-                                    <select class="parlay-select" onchange="updateParlay()">
-                                        <option>Select Sport ▼</option>
-                                        <option>🏒 NHL</option>
-                                        <option>🏀 NBA</option>
-                                        <option>⚾ MLB</option>
-                                        <option>⚽ MLS</option>
-                                        <option>⚽ La Liga</option>
-                                        <option>⚽ Serie A</option>
-                                        <option>⚽ Bundesliga</option>
-                                        <option>⚽ Ligue 1</option>
-                                        <option>🎾 Tennis</option>
-                                        <option>🏎️ F1</option>
-                                        <option>🏎️ IndyCar</option>
-                                        <option>⛳ PGA Tour</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="parlay-select">
-                                        <option>Select Matchup ▼</option>
-                                        <option>COL @ VGK</option>
-                                        <option>MTL @ CAR</option>
-                                        <option>Miami vs Philly</option>
-                                        <option>Bayern vs BVB</option>
-                                        <option>Sinner vs TBD</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="parlay-select">
-                                        <option>Select Type ▼</option>
-                                        <option>Moneyline</option>
-                                        <option>Spread</option>
-                                        <option>Over/Under</option>
-                                        <option>1st Half ML</option>
-                                        <option>1st Half Spread</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="parlay-select">
-                                        <option>Select Pick ▼</option>
-                                        <option>Home ML</option>
-                                        <option>Away ML</option>
-                                        <option>Over</option>
-                                        <option>Under</option>
-                                    </select>
-                                </td>
-                                <td><input type="text" class="parlay-select" placeholder="Odds" style="width: 70px;"></td>
+                                <td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>🎾 Tennis</option><option>🏎️ IndyCar</option></select></td>
+                                <td><select class="parlay-select"><option>Select Matchup ▼</option><option>COL @ VGK</option><option>MIN @ OKC</option><option>ORL @ MIA</option><option>Sinner vs TBD</option></select></td>
+                                <td><select class="parlay-select"><option>Select Type ▼</option><option>Moneyline</option><option>Spread</option><option>Over/Under</option></select></td>
+                                <td><select class="parlay-select"><option>Select Pick ▼</option></select></td>
+                                <td class="parlay-odds"></td>
+                                <td><span class="status-pending">⏳</span></td>
                             </tr>
                             <tr>
                                 <td>T2</td>
-                                <td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>🎾 Tennis</option></select></td>
-                                <td><select class="parlay-select"><option>Select Matchup ▼</option></select></td>
-                                <td><select class="parlay-select"><option>Select Type ▼</option><option>Moneyline</option><option>Spread</option><option>O/U</option></select></td>
+                                <td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>🎾 Tennis</option><option>🏎️ IndyCar</option></select></td>
+                                <td><select class="parlay-select"><option>Select Matchup ▼</option><option>COL @ VGK</option><option>MIN @ OKC</option><option>ORL @ MIA</option><option>Sinner vs TBD</option></select></td>
+                                <td><select class="parlay-select"><option>Select Type ▼</option><option>Moneyline</option><option>Spread</option><option>Over/Under</option></select></td>
                                 <td><select class="parlay-select"><option>Select Pick ▼</option></select></td>
-                                <td><input type="text" class="parlay-select" placeholder="Odds" style="width: 70px;"></td>
+                                <td class="parlay-odds"></td>
+                                <td><span class="status-pending">⏳</span></td>
                             </tr>
                             <tr>
                                 <td>T3</td>
-                                <td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>🎾 Tennis</option></select></td>
-                                <td><select class="parlay-select"><option>Select Matchup ▼</option></select></td>
-                                <td><select class="parlay-select"><option>Select Type ▼</option><option>Moneyline</option><option>Spread</option><option>O/U</option></select></td>
+                                <td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>🎾 Tennis</option><option>🏎️ IndyCar</option></select></td>
+                                <td><select class="parlay-select"><option>Select Matchup ▼</option><option>COL @ VGK</option><option>MIN @ OKC</option><option>ORL @ MIA</option><option>Sinner vs TBD</option></select></td>
+                                <td><select class="parlay-select"><option>Select Type ▼</option><option>Moneyline</option><option>Spread</option><option>Over/Under</option></select></td>
                                 <td><select class="parlay-select"><option>Select Pick ▼</option></select></td>
-                                <td><input type="text" class="parlay-select" placeholder="Odds" style="width: 70px;"></td>
-                            </tr>
-                            <tr>
-                                <td>T4</td>
-                                <td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>🎾 Tennis</option></select></td>
-                                <td><select class="parlay-select"><option>Select Matchup ▼</option></select></td>
-                                <td><select class="parlay-select"><option>Select Type ▼</option><option>Moneyline</option><option>Spread</option><option>O/U</option></select></td>
-                                <td><select class="parlay-select"><option>Select Pick ▼</option></select></td>
-                                <td><input type="text" class="parlay-select" placeholder="Odds" style="width: 70px;"></td>
-                            </tr>
-                            <tr>
-                                <td>T5</td>
-                                <td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>🎾 Tennis</option></select></td>
-                                <td><select class="parlay-select"><option>Select Matchup ▼</option></select></td>
-                                <td><select class="parlay-select"><option>Select Type ▼</option><option>Moneyline</option><option>Spread</option><option>O/U</option></select></td>
-                                <td><select class="parlay-select"><option>Select Pick ▼</option></select></td>
-                                <td><input type="text" class="parlay-select" placeholder="Odds" style="width: 70px;"></td>
+                                <td class="parlay-odds"></td>
+                                <td><span class="status-pending">⏳</span></td>
                             </tr>
                         </tbody>
                     </table>
-                    <p style="font-size: 0.95em; color: var(--gold); margin-top: 8px;">📊 Team Bets Selected: <span id="team-count">0</span> / 5</p>
-                </div>                <!-- PLAYER PROPS SECTION (MAX 5) -->
+                </div>
+                
                 <div class="parlay-section">
-                    <div class="parlay-section-title">👤 Player Props (Max 5 Legs)</div>
+                    <h3>👤 PLAYER PROPS (Max 5)</h3>
                     <table class="parlay-table">
-                        <thead>
-                            <tr><th>Leg</th><th>Player</th><th>Sport</th><th>Stat</th><th>Line</th><th>Odds</th></tr>
-                        </thead>
+                        <thead><tr><th>#</th><th>Player</th><th>Sport</th><th>Stat</th><th>Line</th><th>Odds</th><th>Status</th></tr></thead>
                         <tbody>
-                            <tr><td>P1</td><td><select class="parlay-select"><option>Select Player ▼</option><optgroup label="🏒 NHL"><option>Nathan MacKinnon</option><option>Cale Makar</option><option>Jack Eichel</option></optgroup><optgroup label="🎾 Tennis"><option>Jannik Sinner</option><option>Novak Djokovic</option><option>Iga Świątek</option></optgroup><optgroup label="⚾ MLB"><option>Shohei Ohtani</option><option>Aaron Judge</option></optgroup><optgroup label="⚽ Soccer"><option>Lionel Messi</option></optgroup></select></td><td>—</td><td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Goals</option><option>Assists</option><option>Games Won</option><option>Hits</option><option>Total Bases</option></select></td><td><select class="parlay-select"><option>O/U ▼</option><option>O 0.5</option><option>O 1.5</option><option>O 2.5</option><option>U 0.5</option><option>U 1.5</option></select></td><td><input type="text" class="parlay-select" placeholder="Odds" style="width:70px"></td></tr>
-                            <tr><td>P2</td><td><select class="parlay-select"><option>Select Player ▼</option><option>Nathan MacKinnon</option><option>Jannik Sinner</option><option>Shohei Ohtani</option><option>Lionel Messi</option></select></td><td>—</td><td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Goals</option><option>Games Won</option></select></td><td><select class="parlay-select"><option>O/U ▼</option><option>O 0.5</option><option>O 1.5</option></select></td><td><input type="text" class="parlay-select" placeholder="Odds" style="width:70px"></td></tr>
-                            <tr><td>P3</td><td><select class="parlay-select"><option>Select Player ▼</option><option>Nathan MacKinnon</option><option>Jannik Sinner</option><option>Shohei Ohtani</option><option>Lionel Messi</option></select></td><td>—</td><td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Goals</option><option>Games Won</option></select></td><td><select class="parlay-select"><option>O/U ▼</option><option>O 0.5</option><option>O 1.5</option></select></td><td><input type="text" class="parlay-select" placeholder="Odds" style="width:70px"></td></tr>
-                            <tr><td>P4</td><td><select class="parlay-select"><option>Select Player ▼</option><option>Nathan MacKinnon</option><option>Jannik Sinner</option><option>Shohei Ohtani</option><option>Lionel Messi</option></select></td><td>—</td><td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Goals</option><option>Games Won</option></select></td><td><select class="parlay-select"><option>O/U ▼</option><option>O 0.5</option><option>O 1.5</option></select></td><td><input type="text" class="parlay-select" placeholder="Odds" style="width:70px"></td></tr>
-                            <tr><td>P5</td><td><select class="parlay-select"><option>Select Player ▼</option><option>Nathan MacKinnon</option><option>Jannik Sinner</option><option>Shohei Ohtani</option><option>Lionel Messi</option></select></td><td>—</td><td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Goals</option><option>Games Won</option></select></td><td><select class="parlay-select"><option>O/U ▼</option><option>O 0.5</option><option>O 1.5</option></select></td><td><input type="text" class="parlay-select" placeholder="Odds" style="width:70px"></td></tr>
+                            <tr>
+                                <td>P1</td>
+                                <td><select class="parlay-select"><option>Select Player ▼</option><option>Shai Gilgeous-Alexander</option><option>Jack Eichel</option><option>Lionel Messi</option><option>Jannik Sinner</option></select></td>
+                                <td>Auto</td>
+                                <td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Rebounds</option><option>Assists</option><option>Goals</option><option>Shots</option></select></td>
+                                <td><select class="parlay-select"><option>O/U Line ▼</option><option>Over</option><option>Under</option></select></td>
+                                <td class="parlay-odds"></td>
+                                <td><span class="status-pending">⏳</span></td>
+                            </tr>
+                            <tr>
+                                <td>P2</td>
+                                <td><select class="parlay-select"><option>Select Player ▼</option><option>Shai Gilgeous-Alexander</option><option>Jack Eichel</option><option>Lionel Messi</option><option>Jannik Sinner</option></select></td>
+                                <td>Auto</td>
+                                <td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Rebounds</option><option>Assists</option><option>Goals</option><option>Shots</option></select></td>
+                                <td><select class="parlay-select"><option>O/U Line ▼</option><option>Over</option><option>Under</option></select></td>
+                                <td class="parlay-odds"></td>
+                                <td><span class="status-pending">⏳</span></td>
+                            </tr>
                         </tbody>
                     </table>
-                    <p style="font-size:0.65em;color:var(--gold);margin-top:8px">📊 Player Props: <span id="prop-count">0</span>/5</p>
+                </div>
+                </select>
+                                </td>
+                                <td class="parlay-odds"></td>
+                                <td><span class="status-pending">⏳</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 
-                <!-- PARLAY SUMMARY -->
                 <div class="parlay-summary">
-                    <div class="parlay-summary-row"><span class="parlay-summary-label">Total Legs</span><span class="parlay-summary-value"><span id="total-legs">0</span>/10 MAX</span></div>
-                    <div class="parlay-summary-row"><span class="parlay-summary-label">Combined Odds</span><span class="parlay-summary-value" id="combined-odds">—</span></div>
-                    <div class="parlay-summary-row"><span class="parlay-summary-label">Payout ($100)</span><span class="parlay-summary-value" style="color:var(--green)" id="potential-payout">$—</span></div>
-                    <div class="parlay-summary-row" style="margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.1)"><span class="parlay-summary-label">⚠️ Validation</span><span class="parlay-summary-value" style="color:var(--green)" id="validation-status">✓ Team ≤5 | ✓ Props ≤5 | ✓ Total ≤10</span></div>
+                    <h3>📊 PARLAY SUMMARY</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item"><span>Total Legs:</span><span class="value">0 / 10</span></div>
+                        <div class="summary-item"><span>Combined Odds:</span><span class="value">---</span></div>
+                        <div class="summary-item"><span>Potential ($100):</span><span class="value highlight">$---</span></div>
+                    </div>
+                    <div class="parlay-validation">✅ Team ≤5 | ✅ Props ≤5 | ✅ Total ≤10</div>
                 </div>
                 
-                <!-- PARLAY RECORD -->
-                <div style="margin-top:15px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px">
-                    <div style="font-size:0.8em;color:var(--gold);margin-bottom:10px">🏆 Parlay Record</div>
-                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;font-size:0.7em">
-                        <div><span style="color:var(--text-muted)">2-Leg:</span> 5-1</div>
-                        <div><span style="color:var(--text-muted)">3-Leg:</span> 6-1</div>
-                        <div><span style="color:var(--text-muted)">4+:</span> 4-1</div>
-                        <div><span style="color:var(--gold)">Total:</span> <span style="color:var(--green)">15-3 (83.3%)</span></div>
-                    </div>
+                <div class="parlay-record">
+                    <h3>🏆 PARLAY RECORD</h3>
+                    <table class="record-table">
+                        <tr><th>Type</th><th>W</th><th>L</th><th>Win%</th><th>P/L</th></tr>
+                        <tr><td>2-Leg</td><td>5</td><td>1</td><td>83.3%</td><td class="profit">+$320</td></tr>
+                        <tr><td>3-Leg</td><td>6</td><td>1</td><td>85.7%</td><td class="profit">+$890</td></tr>
+                        <tr><td>4+ Leg</td><td>4</td><td>1</td><td>80.0%</td><td class="profit">+$680</td></tr>
+                        <tr class="total"><td>TOTAL</td><td>15</td><td>3</td><td>83.3%</td><td class="profit">+$1,890</td></tr>
+                    </table>
+                </div>
                 
-                
-                <!-- PARLAY SHARE BUTTONS -->
-                <div class="card" style="margin-top: 15px;">
-                    <div class="card-title">📤 <span data-i18n="shareParlay">Share Your Parlay</span></div>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 15px;">
-                        <button onclick="shareParlayWhatsApp()" style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95em; transition: transform 0.2s;">
-                            <span style="font-size: 1.2em;">📱</span> WhatsApp
-                        </button>
-                        <button onclick="shareParlayTwitter()" style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: #1DA1F2; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95em; transition: transform 0.2s;">
-                            <span style="font-size: 1.2em;">🐦</span> Twitter/X
-                        </button>
-                        <button onclick="shareParlayFacebook()" style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: #1877F2; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95em; transition: transform 0.2s;">
-                            <span style="font-size: 1.2em;">📘</span> Facebook
-                        </button>
-                        <button onclick="shareParlaySMS()" style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: #5856D6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95em; transition: transform 0.2s;">
-                            <span style="font-size: 1.2em;">💬</span> SMS
-                        </button>
-                        <button onclick="shareParlayInstagram()" style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95em; transition: transform 0.2s;">
-                            <span style="font-size: 1.2em;">📸</span> Instagram
-                        </button>
-                        <button onclick="copyParlayLink()" style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: var(--gold); color: var(--bg-primary); border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95em; transition: transform 0.2s;">
-                            <span style="font-size: 1.2em;">📋</span> Copy Parlay
-                        </button>
-                    </div>
-                    <div style="text-align: center; font-size: 0.85em; color: var(--text-muted); padding-top: 10px;">
-                        💡 Share your winning parlay with friends!
+                <div class="share-card parlay-share">
+                    <h4>📤 Share Your Parlay</h4>
+                    <div class="share-buttons">
+                        <button class="share-btn whatsapp" onclick="shareParlayWhatsApp()">WhatsApp</button>
+                        <button class="share-btn twitter" onclick="shareParlayTwitter()">𝕏</button>
+                        <button class="share-btn sms" onclick="shareParlaySMS()">SMS</button>
+                        <button class="share-btn copy" onclick="copyParlayLink()">📋 Copy</button>
+                        <button class="share-btn email" onclick="shareParlayEmail()">✉️ Email</button>
+                        <button class="share-btn instagram" onclick="shareParlayInstagram()">📸 IG</button>
                     </div>
                 </div>
             </div>
-        </div>        <!-- TAB: ELITE DASHBOARD -->
-        <div id="tab-elite" class="tab-content">
-            <div class="card">
-                <div class="card-title">📊 <span data-i18n="eliteDash">Elite Analytics Dashboard</span></div>
-                
-                <div class="picks-grid" style="grid-template-columns: repeat(3, 1fr);">
-                    <div class="pick-card" style="text-align: center;">
-                        <div style="font-size: 2em; color: var(--gold);">266-43-2</div>
-                        <div style="font-size: 0.85em; color: var(--text-muted);">Overall Record</div>
+            
+            <!-- TAB 9: BANKROLL -->
+            <div id="tab-bankroll" class="tab-content">
+                <h2>💰 BANKROLL MANAGEMENT</h2>
+                <div class="bankroll-overview">
+                    <div class="bankroll-card main">
+                        <div class="bankroll-label">Current Bankroll</div>
+                        <div class="bankroll-amount">$12,333</div>
+                        <div class="bankroll-change positive">+$5,333 (+76.2%)</div>
                     </div>
-                    <div class="pick-card" style="text-align: center;">
-                        <div style="font-size: 2em; color: var(--green);">86.1%</div>
-                        <div style="font-size: 0.85em; color: var(--text-muted);">Win Rate</div>
-                    </div>
-                    <div class="pick-card" style="text-align: center;">
-                        <div style="font-size: 2em; color: var(--green);">+76.2%</div>
-                        <div style="font-size: 0.85em; color: var(--text-muted);">ROI</div>
+                    <div class="bankroll-stats">
+                        <div class="bankroll-card"><div class="label">Starting</div><div class="value">$7,000</div></div>
+                        <div class="bankroll-card"><div class="label">Peak</div><div class="value">$12,600</div></div>
+                        <div class="bankroll-card"><div class="label">Unit Size</div><div class="value">$100</div></div>
+                        <div class="bankroll-card"><div class="label">Daily Target</div><div class="value">+$200</div></div>
                     </div>
                 </div>
-                
-                <div style="margin-top: 20px;">
-                    <div style="font-size: 0.85em; color: var(--gold); margin-bottom: 12px;">📈 Performance Breakdown</div>
-                    <div class="picks-grid">
-                        <div class="pick-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span>🏒 NHL</span>
-                                <span style="color: var(--green);">40-6 (87.0%)</span>
-                            </div>
-                            <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 8px;">
-                                <div style="height: 100%; width: 87%; background: var(--green); border-radius: 3px;"></div>
-                            </div>
-                        </div>
-                        <div class="pick-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span>🏀 NBA</span>
-                                <span style="color: var(--green);">100-13 (88.5%)</span>
-                            </div>
-                            <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 8px;">
-                                <div style="height: 100%; width: 88.5%; background: var(--green); border-radius: 3px;"></div>
-                            </div>
-                        </div>
-                        <div class="pick-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span>⚽ Soccer</span>
-                                <span style="color: var(--green);">56-7 (88.9%)</span>
-                            </div>
-                            <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 8px;">
-                                <div style="height: 100%; width: 88.9%; background: var(--green); border-radius: 3px;"></div>
-                            </div>
-                        </div>
-                        <div class="pick-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span>🎾 Tennis</span>
-                                <span style="color: var(--green);">6-1 (85.7%)</span>
-                            </div>
-                            <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 8px;">
-                                <div style="height: 100%; width: 85.7%; background: var(--green); border-radius: 3px;"></div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="bankroll-rules">
+                    <h3>📋 Betting Rules</h3>
+                    <ul>
+                        <li>✅ Max 5% bankroll per single bet</li>
+                        <li>✅ Max 3% on parlays</li>
+                        <li>✅ Stop-loss: -$500/day</li>
+                        <li>✅ Take profit: +$400/day</li>
+                    </ul>
                 </div>
-                
-                <div class="parlay-summary" style="margin-top: 20px;">
-                    <div class="parlay-summary-row">
-                        <span class="parlay-summary-label">Starting Bankroll</span>
-                        <span class="parlay-summary-value">$7,000</span>
-                    </div>
-                    <div class="parlay-summary-row">
-                        <span class="parlay-summary-label">Current Bankroll</span>
-                        <span class="parlay-summary-value" style="color: var(--green);">$12,333</span>
-                    </div>
-                    <div class="parlay-summary-row">
-                        <span class="parlay-summary-label">Total Profit</span>
-                        <span class="parlay-summary-value" style="color: var(--green);">+$5,333</span>
-                    </div>
+            </div>
+            
+            <!-- TAB 10: ELITE STATUS -->
+            <div id="tab-elite" class="tab-content">
+                <h2>🎖️ ELITE STATUS</h2>
+                <div class="elite-badge">
+                    <div class="badge-icon">👑</div>
+                    <div class="badge-title">PLATINUM ELITE</div>
+                    <div class="badge-subtitle">Top 1% Performance</div>
+                </div>
+                <div class="elite-stats">
+                    <div class="elite-stat"><span class="label">Win Rate</span><span class="value">86.1%</span></div>
+                    <div class="elite-stat"><span class="label">ROI</span><span class="value">+76.2%</span></div>
+                    <div class="elite-stat"><span class="label">Streak</span><span class="value">🔥 12W</span></div>
+                    <div class="elite-stat"><span class="label">Since</span><span class="value">May 2026</span></div>
+                </div>
+                <div class="achievements">
+                    <h3>🏆 Achievements</h3>
+                    <div class="achievement unlocked">🎯 Perfect Day (5/5)</div>
+                    <div class="achievement unlocked">💰 $5K Profit Club</div>
+                    <div class="achievement unlocked">🔥 10-Win Streak</div>
+                    <div class="achievement unlocked">📈 250+ Winning Bets</div>
                 </div>
             </div>
         </div>
         
-                <!-- TAB: BANKROLL -->
-        <div id="tab-bankroll" class="tab-content">
-            <div class="card">
-                <div class="card-title">💰 <span data-i18n="bankrollTitle">Bankroll Tracker</span></div>
-                
-                <!-- CURRENT STATUS -->
-                <div class="parlay-summary" style="margin-bottom: 15px;">
-                    <div class="parlay-summary-row" style="font-size: 1.1em;">
-                        <span class="parlay-summary-label">💵 Current Bankroll</span>
-                        <span class="parlay-summary-value" style="color: #10b981; font-size: 1.3em;">$12,333</span>
-                    </div>
-                    <div class="parlay-summary-row">
-                        <span class="parlay-summary-label">🏁 Starting Bankroll</span>
-                        <span class="parlay-summary-value">$7,000</span>
-                    </div>
-                    <div class="parlay-summary-row">
-                        <span class="parlay-summary-label">📈 Total Profit</span>
-                        <span class="parlay-summary-value" style="color: #10b981;">+$5,333</span>
-                    </div>
-                    <div class="parlay-summary-row">
-                        <span class="parlay-summary-label">📊 ROI</span>
-                        <span class="parlay-summary-value" style="color: #d4af37;">+76.2%</span>
-                    </div>
+        <!-- FOOTER WITH DISCLAIMER -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-logo">📡 SigMAX ELITE</span>
+                    <span class="footer-tagline">Watch Passionately. Bet Wisely!!</span>
                 </div>
-                
-                <!-- KELLY CRITERION -->
-                <div class="xfactor-card" style="margin-bottom: 12px;">
-                    <div class="xfactor-title">🎯 Kelly Criterion — Recommended Bet Sizes</div>
-                    <div class="xfactor-row"><span class="xfactor-label">Standard Unit (1%)</span><span class="xfactor-value">$123</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">Conservative (0.5%)</span><span class="xfactor-value">$62</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">Aggressive (2%)</span><span class="xfactor-value">$247</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">Max Daily Risk (5%)</span><span class="xfactor-value warning">$617</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">Stop Loss (10%)</span><span class="xfactor-value danger">$1,233</span></div>
+                <div class="footer-disclaimer">
+                    ⚠️ <strong>DISCLAIMER:</strong> Sports betting involves risk. Gamble responsibly. 
+                    Must be 21+ in most jurisdictions. This is for entertainment purposes only. 
+                    Past performance does not guarantee future results. Never bet more than you can afford to lose.
                 </div>
-                
-                <!-- PROFIT BY SPORT -->
-                <div class="xfactor-card" style="margin-bottom: 12px;">
-                    <div class="xfactor-title">🏆 Profit by Sport</div>
-                    <div class="xfactor-row"><span class="xfactor-label">🏀 NBA</span><span class="xfactor-value good">+$2,450</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">🏒 NHL</span><span class="xfactor-value good">+$1,280</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">⚽ Soccer</span><span class="xfactor-value good">+$890</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">🎾 Tennis</span><span class="xfactor-value good">+$340</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">⚾ MLB</span><span class="xfactor-value good">+$245</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">🥊 UFC</span><span class="xfactor-value good">+$128</span></div>
-                </div>
-                
-                <!-- BANKROLL HISTORY -->
-                <div class="xfactor-card">
-                    <div class="xfactor-title">📅 Recent Bankroll History</div>
-                    <div class="xfactor-row"><span class="xfactor-label">May 25</span><span class="xfactor-value">$12,333 (Today)</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">May 24</span><span class="xfactor-value good">$11,993 (+$340)</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">May 23</span><span class="xfactor-value good">$11,469 (+$524)</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">May 22</span><span class="xfactor-value good">$10,945 (+$524)</span></div>
-                    <div class="xfactor-row"><span class="xfactor-label">May 21</span><span class="xfactor-value danger">$11,200 (-$255)</span></div>
+                <div class="footer-links">
+                    <span>© 2026 SigMAX ELITE</span> | <span>v22.1</span> | <span>Updated: May 25, 2026</span>
                 </div>
             </div>
-        </div>
-
-        <script>
-        // ========== TRANSLATIONS ==========
-        // TRANSLATIONS - 6 LANGUAGES
+        </footer>
+    </div>
+    
+    <!-- COMPLETE JAVASCRIPT -->
+    <script>
+        // ===== TAB NAVIGATION =====
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Remove active from all buttons and contents
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active to clicked button and corresponding content
+                this.classList.add('active');
+                document.getElementById('tab-' + tabId).classList.add('active');
+            });
+        });
+        
+        // ===== LANGUAGE SWITCHER =====
         const translations = {
-            en: {
-                tagline: "Watch Passionately. Bet Wisely!!",
-                tabHome: "Home", tabAlerts: "Alerts", tabTop5: "Top 5", tabProps: "Props",
-                tabGames: "Games", tabXFactors: "X-Factors", tabJournal: "Journal",
-                tabParlay: "Parlay", tabElite: "Elite", tabBankroll: "Bankroll",
-                xfactors: "X-Factors — Why We Picked These Top 5",
-                bankrollTitle: "Bankroll Tracker"
-            },
-            fr: {
-                tagline: "Regardez Passionnément. Pariez Sagement!!",
-                tabHome: "Accueil", tabAlerts: "Alertes", tabTop5: "Top 5", tabProps: "Props",
-                tabGames: "Matchs", tabXFactors: "X-Factors", tabJournal: "Journal",
-                tabParlay: "Parlay", tabElite: "Élite", tabBankroll: "Bankroll",
-                xfactors: "X-Factors — Pourquoi Nous Avons Choisi Ces Top 5",
-                bankrollTitle: "Suivi du Bankroll"
-            },
-            es: {
-                tagline: "¡Mira con Pasión. Apuesta con Sabiduría!!",
-                tabHome: "Inicio", tabAlerts: "Alertas", tabTop5: "Top 5", tabProps: "Props",
-                tabGames: "Partidos", tabXFactors: "X-Factors", tabJournal: "Diario",
-                tabParlay: "Parlay", tabElite: "Élite", tabBankroll: "Bankroll",
-                xfactors: "X-Factors — Por Qué Elegimos Estos Top 5",
-                bankrollTitle: "Seguimiento del Bankroll"
-            },
-            it: {
-                tagline: "Guarda con Passione. Scommetti con Saggezza!!",
-                tabHome: "Home", tabAlerts: "Avvisi", tabTop5: "Top 5", tabProps: "Props",
-                tabGames: "Partite", tabXFactors: "X-Factors", tabJournal: "Diario",
-                tabParlay: "Parlay", tabElite: "Elite", tabBankroll: "Bankroll",
-                xfactors: "X-Factors — Perché Abbiamo Scelto Questi Top 5",
-                bankrollTitle: "Tracker del Bankroll"
-            },
-            de: {
-                tagline: "Schau Leidenschaftlich. Wette Weise!!",
-                tabHome: "Startseite", tabAlerts: "Warnungen", tabTop5: "Top 5", tabProps: "Props",
-                tabGames: "Spiele", tabXFactors: "X-Factors", tabJournal: "Tagebuch",
-                tabParlay: "Parlay", tabElite: "Elite", tabBankroll: "Bankroll",
-                xfactors: "X-Factors — Warum Wir Diese Top 5 Gewählt Haben",
-                bankrollTitle: "Bankroll-Tracker"
-            },
-            pt: {
-                tagline: "Assista com Paixão. Aposte com Sabedoria!!",
-                tabHome: "Início", tabAlerts: "Alertas", tabTop5: "Top 5", tabProps: "Props",
-                tabGames: "Jogos", tabXFactors: "X-Factors", tabJournal: "Diário",
-                tabParlay: "Parlay", tabElite: "Elite", tabBankroll: "Bankroll",
-                xfactors: "X-Factors — Por Que Escolhemos Estes Top 5",
-                bankrollTitle: "Rastreador de Bankroll"
-            }
+            en: { home: 'Home', alerts: 'Alerts', top5: 'Top 5', props: 'Props', games: 'Games', xfactors: 'X-Factors', journal: 'Journal', parlay: 'Parlay', bankroll: 'Bankroll', elite: 'Elite' },
+            fr: { home: 'Accueil', alerts: 'Alertes', top5: 'Top 5', props: 'Props', games: 'Matchs', xfactors: 'X-Factors', journal: 'Journal', parlay: 'Parlay', bankroll: 'Banque', elite: 'Élite' },
+            es: { home: 'Inicio', alerts: 'Alertas', top5: 'Top 5', props: 'Props', games: 'Partidos', xfactors: 'X-Factors', journal: 'Diario', parlay: 'Parlay', bankroll: 'Banca', elite: 'Élite' },
+            it: { home: 'Home', alerts: 'Avvisi', top5: 'Top 5', props: 'Props', games: 'Partite', xfactors: 'X-Factors', journal: 'Diario', parlay: 'Parlay', bankroll: 'Cassa', elite: 'Élite' },
+            de: { home: 'Start', alerts: 'Warnungen', top5: 'Top 5', props: 'Props', games: 'Spiele', xfactors: 'X-Factors', journal: 'Journal', parlay: 'Parlay', bankroll: 'Kasse', elite: 'Elite' },
+            pt: { home: 'Início', alerts: 'Alertas', top5: 'Top 5', props: 'Props', games: 'Jogos', xfactors: 'X-Factors', journal: 'Diário', parlay: 'Parlay', bankroll: 'Banca', elite: 'Elite' }
         };
         
         function setLang(lang) {
-            const t = translations[lang] || translations.en;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (t[key]) el.textContent = t[key];
+            const t = translations[lang];
+            if (!t) return;
+            const tabs = ['home','alerts','top5','props','games','xfactors','journal','parlay','bankroll','elite'];
+            document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+                if (tabs[i] && t[tabs[i]]) btn.textContent = t[tabs[i]];
             });
-            document.getElementById('langSelect').value = lang;
         }
-
+        
+        // ===== DEVICE SWITCHER =====
         function setDevice(device) {
-            const container = document.querySelector('.main-container');
-            container.style.maxWidth = device === 'mobile' ? '375px' : device === 'tablet' ? '768px' : '1400px';
-            document.querySelectorAll('.control-group')[1].querySelectorAll('button').forEach((btn, i) => {
-                btn.classList.toggle('active', (device === 'desktop' && i === 0) || (device === 'tablet' && i === 1) || (device === 'mobile' && i === 2));
-            });
+            const container = document.querySelector('.container');
+            container.classList.remove('mobile-view', 'tablet-view', 'desktop-view');
+            container.classList.add(device + '-view');
         }
         
-        // ========== SHARE FUNCTIONS ==========
-        const shareText = "🎰 SigMAX ELITE: 266-43-2 (86.1%) | $12,333 Bankroll | +76.2% ROI";
-        const shareUrl = window.location.href;
+        // ===== SHARE FUNCTIONS =====
+        function shareWhatsApp() {
+            const text = "🎰 SigMAX ELITE - 266-43-2 (86.1%) | +$5,333 Profit | #SigMAXElite";
+            window.open('https://wa.me/?text=' + encodeURIComponent(text + '\n' + window.location.href), '_blank');
+        }
+        function shareTwitter() {
+            const text = "🎰 SigMAX ELITE | 266-43-2 (86.1%) | +$5,333 💰 | ROI: +76.2% 📈 #SigMAXElite #SportsBetting";
+            window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(window.location.href), '_blank');
+        }
+        function shareSMS() {
+            window.open('sms:?body=' + encodeURIComponent('Check out SigMAX ELITE: 266-43-2 (86.1%) | +$5,333 Profit! ' + window.location.href), '_blank');
+        }
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert('✅ Link copied!');
+        }
+        function shareEmail() {
+            const subject = '🎰 SigMAX ELITE Sports Betting';
+            const body = 'Check out my picks: 266-43-2 (86.1%)\n+$5,333 Profit | ROI: +76.2%\n\n' + window.location.href;
+            window.open('mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body), '_blank');
+        }
         
-        function shareWhatsApp() { window.open('https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + shareUrl)); }
-        function shareSMS() { window.open('sms:?body=' + encodeURIComponent(shareText + ' ' + shareUrl)); }
-        function copyLink() { navigator.clipboard.writeText(shareUrl).then(() => alert('Link copied!')); }
-        function shareTwitter() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(shareUrl)); }
-        function shareEmail() { window.open('mailto:?subject=SigMAX ELITE Picks&body=' + encodeURIComponent(shareText + '\n\n' + shareUrl)); }
+        // ===== PARLAY SHARE FUNCTIONS =====
+        function getParlayText() {
+            return "🎰 SigMAX ELITE PARLAY\n📊 15-3 (83.3%)\n💰 +$1,890 Profit\n" + window.location.href;
+        }
+        function shareParlayWhatsApp() { window.open('https://wa.me/?text=' + encodeURIComponent(getParlayText()), '_blank'); }
+        function shareParlayTwitter() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(getParlayText()), '_blank'); }
+        function shareParlaySMS() { window.open('sms:?body=' + encodeURIComponent(getParlayText()), '_blank'); }
+        function copyParlayLink() { navigator.clipboard.writeText(window.location.href); alert('✅ Parlay link copied!'); }
+        function shareParlayEmail() { window.open('mailto:?subject=' + encodeURIComponent('🎰 My SigMAX Parlay') + '&body=' + encodeURIComponent(getParlayText()), '_blank'); }
+        function shareParlayInstagram() { alert('📸 Screenshot this parlay and share on Instagram Stories!'); }
         
-        // ========== FLOATING PARTICLES ==========
+        // ===== PARTICLE ANIMATION =====
         function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 25; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle ' + (Math.random() > 0.5 ? 'diamond' : 'gold-dot');
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
-                container.appendChild(particle);
+            const container = document.querySelector('.particle-container');
+            if (!container) return;
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 15 + 's';
+                p.style.animationDuration = (15 + Math.random() * 20) + 's';
+                container.appendChild(p);
             }
         }
         createParticles();
         
-        // ========== PARLAY CALCULATOR ==========
-        function updateParlay() {
-            // Count filled selections
-            let teamCount = 0, propCount = 0;
-            document.querySelectorAll('#tab-parlay .parlay-section:first-of-type select').forEach(sel => {
-                if (sel.value && !sel.value.includes('Select')) teamCount++;
-            });
-            document.querySelectorAll('#tab-parlay .parlay-section:last-of-type select').forEach(sel => {
-                if (sel.value && !sel.value.includes('Select')) propCount++;
-            });
-            // Approximate counts (simplified)
-            teamCount = Math.min(Math.floor(teamCount / 4), 5);
-            propCount = Math.min(Math.floor(propCount / 3), 5);
-            
-            document.getElementById('team-count').textContent = teamCount;
-            document.getElementById('prop-count').textContent = propCount;
-            document.getElementById('total-legs').textContent = teamCount + propCount;
-            
-            // Validation
-            const valid = teamCount <= 5 && propCount <= 5 && (teamCount + propCount) <= 10;
-            document.getElementById('validation-status').innerHTML = valid ? 
-                '✓ Team ≤5 | ✓ Props ≤5 | ✓ Total ≤10' : 
-                '<span style="color:var(--red)">⚠️ LIMIT EXCEEDED</span>';
-        }
-        
-        // X-Factors game selector (placeholder)
-        function showXFactors(game) { console.log('Loading X-Factors for:', game); }
-    
-        
-        // PARLAY-SPECIFIC SHARE FUNCTIONS
-        function getParlayText() {
-            return "🎰 SigMAX ELITE PARLAY\n\n" +
-                   "📊 Record: 15-3 (83.3%)\n" +
-                   "💰 Net P/L: +$1,890\n\n" +
-                   "🔥 Build your winning parlay at:\n" +
-                   window.location.href;
-        }
-        
-        function shareParlayWhatsApp() {
-            const text = getParlayText();
-            window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
-        }
-        
-        function shareParlayTwitter() {
-            const text = "🎰 SigMAX ELITE PARLAY 🎰\n\n📊 15-3 Record (83.3%)\n💰 +$1,890 Profit\n\n#SigMAXElite #Parlay #SportsBetting";
-            window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(window.location.href), '_blank');
-        }
-        
-        function shareParlayFacebook() {
-            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href) + '&quote=' + encodeURIComponent('🎰 SigMAX ELITE PARLAY - 15-3 Record (83.3%) +$1,890 Profit!'), '_blank');
-        }
-        
-        function shareParlaySMS() {
-            const text = getParlayText();
-            window.open('sms:?body=' + encodeURIComponent(text), '_blank');
-        }
-        
-        function shareParlayInstagram() {
-            // Instagram doesn't support direct sharing via URL, show instructions
-            alert('📸 Instagram Sharing:\n\n1. Screenshot this parlay\n2. Open Instagram\n3. Create a Story or Post\n4. 
+        // ===== INIT DROPDOWNS =====
+        document.getElementById('lang-select')?.addEventListener('change', function() { setLang(this.value); });
+        document.getElementById('device-select')?.addEventListener('change', function() { setDevice(this.value); });
+    </script>
+</body>
+</html>
