@@ -37,7 +37,7 @@
         @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes flash-green { 0%,100% { background: var(--gold); } 50% { background: var(--green); } }
+        @keyframes flash-green { 0%,100% { background: rgba(255,255,255,0.03); } 50% { background: rgba(16,185,129,0.3); } }
         
         /* FALLING STARS */
         .stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
@@ -80,6 +80,7 @@
         .auto-refresh-toggle { padding: 5px 10px; font-size: 0.65rem; background: rgba(239,68,68,0.2); color: var(--red); border: 1px solid var(--red); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
         .refresh-status { font-size: 0.6rem; color: var(--text-secondary); text-align: right; }
         #last-update-time { font-size: 0.55rem; color: var(--text-secondary); }
+
         /* METRICS ROW */
         .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
         .metric-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
@@ -155,7 +156,7 @@
         <div class="diamond"></div><div class="diamond"></div><div class="diamond"></div><div class="diamond"></div>
     </div>
     
-    <div class="app-container app-container-bottom">
+    <div class="app-container">
         <!-- HEADER with REFRESH -->
         <div class="header">
             <div class="header-top">
@@ -166,8 +167,8 @@
                 </div>
                 <div class="refresh-controls">
                     <button id="refresh-btn" class="refresh-btn" onclick="refreshAllData()">
-                        <span class="refresh-spinner"></span>
-                        <span>🔄 Refresh</span>
+                        <span class="refresh-spinner" id="refresh-spinner"></span>
+                        <span id="refresh-text">🔄 Refresh</span>
                     </button>
                     <button id="auto-refresh-toggle" class="auto-refresh-toggle" onclick="toggleAutoRefresh()">⏸ Auto: OFF</button>
                     <div id="refresh-status" class="refresh-status">Ready</div>
@@ -175,101 +176,77 @@
                 </div>
             </div>
         </div>
-        /* METRICS ROW */
-        .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
-        .metric-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
-        .metric-value { font-size: 1.1rem; font-weight: 700; }
-        .metric-label { font-size: 0.6rem; color: var(--text-secondary); margin-top: 2px; }
+
+        <!-- KEY METRICS -->
+        <div class="metrics-row">
+            <div class="metric-box">
+                <div class="metric-value" style="color: var(--green);" id="metric-bankroll">$13,580</div>
+                <div class="metric-label">💰 Bankroll</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-value" style="color: var(--gold);" id="metric-winrate">86.4%</div>
+                <div class="metric-label">🎯 Win Rate</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-value" style="color: var(--green);" id="metric-record">273-43</div>
+                <div class="metric-label">🏆 Record</div>
+            </div>
+        </div>
         
-        /* TABS */
-        .tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-        .tab-btn { padding: 6px 10px; font-size: 0.65rem; background: transparent; color: var(--text-secondary); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
-        .tab-btn:hover { border-color: var(--gold); color: var(--gold); }
-        .tab-btn.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        <!-- NAVIGATION TABS -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="home">🏠 Home</button>
+            <button class="tab-btn" data-tab="alerts">⚠️ Alerts</button>
+            <button class="tab-btn" data-tab="top5">🎯 Top 5</button>
+            <button class="tab-btn" data-tab="props">👤 Props</button>
+            <button class="tab-btn" data-tab="games">📅 Games</button>
+            <button class="tab-btn" data-tab="xfactors">🎲 X-Factors</button>
+            <button class="tab-btn" data-tab="journal">📋 Journal</button>
+            <button class="tab-btn" data-tab="parlay">🎰 Parlay</button>
+            <button class="tab-btn" data-tab="elite">📊 Elite</button>
+            <button class="tab-btn" data-tab="index">📚 Index</button>
+        </div>
         
-        /* CARDS */
-        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
-        .card-title { font-size: 0.85rem; font-weight: 600; color: var(--gold); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-        
-        /* DATA TABLES */
-        .data-table { width: 100%; border-collapse: collapse; font-size: 0.7rem; }
-        .data-table th { text-align: left; padding: 8px 6px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border); font-size: 0.6rem; }
-        .data-table td { padding: 8px 6px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        
-        /* BADGES */
-        .badge { padding: 2px 6px; border-radius: 4px; font-size: 0.55rem; font-weight: 600; }
-        .badge-hot { background: rgba(239,68,68,0.2); color: var(--red); }
-        .badge-good { background: rgba(16,185,129,0.2); color: var(--green); }
-        
-        /* PARLAY BUILDER STYLES */
-        .parlay-builder-card { border-color: var(--gold); }
-        .preset-picks-section { margin-bottom: 16px; }
-        .preset-pick { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 6px; border-left: 3px solid var(--gold); transition: all 0.3s ease; }
-        .preset-pick.prop-pick { border-left-color: var(--blue); }
-        .preset-pick.removed { opacity: 0.4; border-left-color: var(--red); background: rgba(239,68,68,0.05); }
-        .preset-pick.kept { border-left-color: var(--green); background: rgba(16,185,129,0.05); }
-        .preset-pick.swapped { animation: flash-green 0.5s ease; }
-        .preset-pick-info { display: flex; align-items: center; gap: 10px; }
-        .preset-pick-num { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: var(--gold); color: #000; border-radius: 50%; font-size: 0.65rem; font-weight: 700; }
-        .preset-pick-num.prop { background: var(--blue); color: white; }
-        .preset-pick-name { font-weight: 600; font-size: 0.75rem; }
-        .preset-pick-odds { font-size: 0.6rem; color: var(--text-secondary); }
-        .preset-pick-actions { display: flex; gap: 4px; }
-        .pick-btn { padding: 4px 8px; border-radius: 4px; font-size: 0.6rem; border: none; cursor: pointer; transition: all 0.2s; }
-        .keep-btn { background: rgba(16,185,129,0.2); color: var(--green); }
-        .keep-btn.active { background: var(--green); color: white; }
-        .swap-btn { background: rgba(249,115,22,0.2); color: var(--orange); }
-        .swap-btn:hover { background: var(--orange); color: white; }
-        .remove-btn { background: rgba(239,68,68,0.2); color: var(--red); }
-        .remove-btn:hover, .remove-btn.active { background: var(--red); color: white; }
-        
-        /* ADD PICK + CALCULATOR */
-        .add-pick-section { padding: 12px; background: rgba(212,175,55,0.05); border-radius: 8px; margin-bottom: 16px; border: 1px dashed var(--border); }
-        .parlay-calculator { padding: 16px; background: rgba(0,0,0,0.3); border-radius: 10px; border: 1px solid var(--border); }
-        
-        /* SWAP MODAL */
-        .swap-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .swap-modal-content { background: var(--bg-card); border: 1px solid var(--gold); border-radius: 12px; width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto; }
-        .swap-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border); }
-        .swap-modal-header h3 { color: var(--gold); font-size: 0.9rem; }
-        .swap-close-btn { background: none; border: none; color: var(--text-secondary); font-size: 1.2rem; cursor: pointer; }
-        .swap-modal-body { padding: 16px; }
-        .swap-option { padding: 12px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
-        .swap-option:hover { border-color: var(--gold); background: rgba(212,175,55,0.1); }
-        .swap-option-name { font-weight: 600; font-size: 0.75rem; margin-bottom: 2px; }
-        .swap-option-odds { font-size: 0.6rem; color: var(--text-secondary); }
-    </style>
-</head>
-<body>
-    <!-- FALLING STARS -->
-    <div class="stars-container">
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        <div class="diamond"></div><div class="diamond"></div><div class="diamond"></div><div class="diamond"></div>
-    </div>
-    
-    <div class="app-container app-container-bottom">
-        <!-- HEADER with REFRESH -->
-        <div class="header">
-            <div class="header-top">
-                <div class="header-left">
-                    <div class="logo">🏆 SigMAX Elite</div>
-                    <div class="tagline">Watch Passionately. Bet Wisely.</div>
-                    <div class="timestamp" id="timestamp">v26.0 | May 25, 2026</div>
-                </div>
-                <div class="refresh-controls">
-                    <button id="refresh-btn" class="refresh-btn" onclick="refreshAllData()">
-                        <span class="refresh-spinner"></span>
-                        <span>🔄 Refresh</span>
-                    </button>
-                    <button id="auto-refresh-toggle" class="auto-refresh-toggle" onclick="toggleAutoRefresh()">⏸ Auto: OFF</button>
-                    <div id="refresh-status" class="refresh-status">Ready</div>
-                    <div id="last-update-time">Last: --:--</div>
+        <!-- HOME TAB -->
+        <div id="home" class="tab-content active">
+            <div class="card">
+                <h3 class="card-title">🏆 Performance by Sport</h3>
+                <table class="data-table">
+                    <thead><tr><th>Sport</th><th>Record</th><th>Win %</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>🏒 NHL</td><td style="color:var(--green);">41-6</td><td>87.2%</td><td><span class="badge badge-hot">🔥 VGK 3-0!</span></td></tr>
+                        <tr><td>🏀 NBA</td><td style="color:var(--green);">100-13</td><td>88.5%</td><td><span class="badge badge-good">WCF 2-2</span></td></tr>
+                        <tr><td>⚽ Soccer</td><td style="color:var(--green);">57-7</td><td>89.1%</td><td><span class="badge badge-good">🌍 WORLDWIDE</span></td></tr>
+                        <tr><td>🎾 Tennis</td><td style="color:var(--green);">10-1</td><td>90.9%</td><td><span class="badge badge-hot">🔥 RG R2</span></td></tr>
+                        <tr><td>⚾ MLB</td><td style="color:var(--green);">20-5</td><td>80.0%</td><td><span class="badge badge-good">✅ ACTIVE</span></td></tr>
+                        <tr><td>🏎️ Racing</td><td style="color:var(--green);">2-0</td><td>100%</td><td><span class="badge badge-hot">🔥 PERFECT</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title">📊 Quick Stats</h3>
+                <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;font-size:0.7rem;">
+                    <div style="background:rgba(16,185,129,0.1);padding:10px;border-radius:8px;">
+                        <div style="color:var(--text-secondary);font-size:0.6rem;">Today's Record</div>
+                        <div style="color:var(--green);font-weight:700;" id="today-record">7-0 🔥</div>
+                    </div>
+                    <div style="background:rgba(212,175,55,0.1);padding:10px;border-radius:8px;">
+                        <div style="color:var(--text-secondary);font-size:0.6rem;">Hot Streak</div>
+                        <div style="color:var(--gold);font-weight:700;" id="hot-streak">W8</div>
+                    </div>
+                    <div style="background:rgba(37,99,235,0.1);padding:10px;border-radius:8px;">
+                        <div style="color:var(--text-secondary);font-size:0.6rem;">ROI</div>
+                        <div style="color:var(--blue);font-weight:700;" id="current-roi">+94.0%</div>
+                    </div>
+                    <div style="background:rgba(249,115,22,0.1);padding:10px;border-radius:8px;">
+                        <div style="color:var(--text-secondary);font-size:0.6rem;">Profit</div>
+                        <div style="color:var(--orange);font-weight:700;" id="total-profit">+$6,580</div>
+                    </div>
                 </div>
             </div>
         </div>
+
         <!-- ALERTS TAB -->
         <div id="alerts" class="tab-content">
             <div class="card" style="border-color: var(--orange);">
@@ -304,7 +281,7 @@
             <div class="card">
                 <h3 class="card-title">🎯 Top 5 Picks — May 26, 2026</h3>
                 <div style="font-size:0.6rem;color:var(--text-secondary);margin-bottom:10px;">🔒 Locked at 8:00 AM ET</div>
-                <table class="data-table" id="top5-table">
+                <table class="data-table">
                     <thead><tr><th>#</th><th>Pick</th><th>Sport</th><th>Odds</th><th>Conf</th></tr></thead>
                     <tbody>
                         <tr><td>1</td><td style="font-weight:600;">Sinner R2 ML</td><td>🎾</td><td style="color:var(--blue);">-450</td><td style="color:var(--green);">92%</td></tr>
@@ -334,7 +311,6 @@
                 </div>
             </div>
             
-            <!-- SHARE BUTTONS -->
             <div class="card">
                 <h3 class="card-title">📤 Share Picks</h3>
                 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
@@ -344,12 +320,13 @@
                 </div>
             </div>
         </div>
+
         <!-- PROPS TAB -->
         <div id="props" class="tab-content">
             <div class="card">
                 <h3 class="card-title">👤 Top 10 Player Props</h3>
                 <div style="font-size:0.6rem;color:var(--text-secondary);margin-bottom:8px;">Record: 53-8 (86.9%) | ROI: +41.2%</div>
-                <table class="data-table" id="props-table">
+                <table class="data-table">
                     <thead><tr><th>Player</th><th>Prop</th><th>Line</th><th>Pick</th><th>Conf</th></tr></thead>
                     <tbody>
                         <tr><td>S. Aho</td><td>Points</td><td>0.5</td><td style="color:var(--green);">OVER</td><td style="color:var(--green);">85%</td></tr>
@@ -371,7 +348,7 @@
         <div id="games" class="tab-content">
             <div class="card">
                 <h3 class="card-title">📅 Upcoming Games — May 26-27</h3>
-                <table class="data-table" id="games-table">
+                <table class="data-table">
                     <thead><tr><th>Time</th><th>Game</th><th>Sport</th><th>Pick</th></tr></thead>
                     <tbody>
                         <tr><td>11 AM</td><td style="font-weight:600;">Roland Garros R2</td><td>🎾</td><td style="color:var(--green);">Multiple</td></tr>
@@ -396,7 +373,14 @@
                         <span style="color:var(--green);font-weight:600;">93%</span>
                     </div>
                     <div style="display:flex;justify-content:space-between;padding:8px;background:rgba(212,175,55,0.1);border-radius:6px;">
-                        <span>🏒 VGK G4 (Sweep?)</spa<!-- X-FACTORS TAB -->
+                        <span>🏒 VGK G4 (Sweep?)</span>
+                        <span style="color:var(--gold);font-weight:600;">85%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- X-FACTORS TAB -->
         <div id="xfactors" class="tab-content">
             <div class="card">
                 <h3 class="card-title">🎲 X-Factor Analysis</h3>
@@ -488,7 +472,7 @@
             </div>
         </div>
 
-                            <!-- PARLAY TAB - ENHANCED with Pre-loaded Picks -->
+        <!-- PARLAY TAB -->
         <div id="parlay" class="tab-content">
             <div class="card parlay-builder-card">
                 <h3 class="card-title">🎰 SigMAX Parlay Builder</h3>
@@ -496,15 +480,14 @@
                     Pre-loaded with Top 5 + Top 5 Props | Customize your parlay below
                 </div>
                 
-                <!-- PRE-LOADED PICKS SECTION -->
                 <div class="preset-picks-section">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
                         <span style="font-weight:600;color:var(--gold);">📋 SigMAX Selections (10)</span>
                         <button onclick="clearAllPicks()" style="font-size:0.6rem;padding:4px 8px;background:rgba(239,68,68,0.2);color:var(--red);border:1px solid var(--red);border-radius:4px;cursor:pointer;">Clear All</button>
                     </div>
                     
-                    <!-- PRESET PICK 1 -->
-                    <div class="preset-pick" id="preset-pick-1" data-pick="sinner-r2" data-odds="-450" data-conf="92">
+                    <!-- PICK 1 -->
+                    <div class="preset-pick" id="preset-pick-1">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num">1</span>
                             <div>
@@ -519,8 +502,8 @@
                         </div>
                     </div>
                     
-                    <!-- PRESET PICK 2 -->
-                    <div class="preset-pick" id="preset-pick-2" data-pick="djokovic-r2" data-odds="-350" data-conf="90">
+                    <!-- PICK 2 -->
+                    <div class="preset-pick" id="preset-pick-2">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num">2</span>
                             <div>
@@ -535,8 +518,8 @@
                         </div>
                     </div>
                     
-                    <!-- PRESET PICK 3 -->
-                    <div class="preset-pick" id="preset-pick-3" data-pick="swiatek-r2" data-odds="-500" data-conf="93">
+                    <!-- PICK 3 -->
+                    <div class="preset-pick" id="preset-pick-3">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num">3</span>
                             <div>
@@ -551,8 +534,8 @@
                         </div>
                     </div>
                     
-                    <!-- PRESET PICK 4 -->
-                    <div class="preset-pick" id="preset-pick-4" data-pick="thunder-g5" data-odds="-145" data-conf="78">
+                    <!-- PICK 4 -->
+                    <div class="preset-pick" id="preset-pick-4">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num">4</span>
                             <div>
@@ -567,8 +550,8 @@
                         </div>
                     </div>
                     
-                    <!-- PRESET PICK 5 -->
-                    <div class="preset-pick" id="preset-pick-5" data-pick="vgk-g4" data-odds="-180" data-conf="85">
+                    <!-- PICK 5 -->
+                    <div class="preset-pick" id="preset-pick-5">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num">5</span>
                             <div>
@@ -582,8 +565,9 @@
                             <button class="pick-btn remove-btn" onclick="removePick(5)">✕</button>
                         </div>
                     </div>
-                    <!-- PRESET PICK 6 (PROP) -->
-                    <div class="preset-pick prop-pick" id="preset-pick-6" data-pick="aho-pts" data-odds="-115" data-conf="85">
+                    
+                    <!-- PROP 1 -->
+                    <div class="preset-pick prop-pick" id="preset-pick-6">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num prop">P1</span>
                             <div>
@@ -598,8 +582,8 @@
                         </div>
                     </div>
                     
-                    <!-- PRESET PICK 7 (PROP) -->
-                    <div class="preset-pick prop-pick" id="preset-pick-7" data-pick="mackinnon-pts" data-odds="+105" data-conf="82">
+                    <!-- PROP 2 -->
+                    <div class="preset-pick prop-pick" id="preset-pick-7">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num prop">P2</span>
                             <div>
@@ -614,8 +598,8 @@
                         </div>
                     </div>
                     
-                    <!-- PRESET PICK 8 (PROP) -->
-                    <div class="preset-pick prop-pick" id="preset-pick-8" data-pick="wemby-blocks" data-odds="-130" data-conf="80">
+                    <!-- PROP 3 -->
+                    <div class="preset-pick prop-pick" id="preset-pick-8">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num prop">P3</span>
                             <div>
@@ -630,8 +614,8 @@
                         </div>
                     </div>
                     
-                    <!-- PRESET PICK 9 (PROP) -->
-                    <div class="preset-pick prop-pick" id="preset-pick-9" data-pick="sga-pts" data-odds="-110" data-conf="77">
+                    <!-- PROP 4 -->
+                    <div class="preset-pick prop-pick" id="preset-pick-9">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num prop">P4</span>
                             <div>
@@ -646,8 +630,8 @@
                         </div>
                     </div>
                     
-                    <!-- PRESET PICK 10 (PROP) -->
-                    <div class="preset-pick prop-pick" id="preset-pick-10" data-pick="eichel-ast" data-odds="-125" data-conf="83">
+                    <!-- PROP 5 -->
+                    <div class="preset-pick prop-pick" id="preset-pick-10">
                         <div class="preset-pick-info">
                             <span class="preset-pick-num prop">P5</span>
                             <div>
@@ -691,7 +675,6 @@
                     </div>
                     <button onclick="calculateParlay()" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--green),#059669);color:white;border:none;border-radius:8px;font-weight:700;font-size:0.85rem;cursor:pointer;margin-bottom:12px;">📊 Calculate Parlay</button>
                     
-                    <!-- RESULTS DISPLAY -->
                     <div id="parlay-results" style="display:none;background:rgba(212,175,55,0.1);border-radius:8px;padding:12px;border:1px solid var(--gold);">
                         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:center;">
                             <div>
@@ -715,29 +698,8 @@
                 </div>
             </div>
         </div>
-        
-        <!-- SWAP MODAL -->
-        <div id="swap-modal" class="swap-modal" style="display:none;">
-            <div class="swap-modal-content">
-                <div class="swap-modal-header">
-                    <h3>⇄ Swap Pick <span id="swap-pick-num">1</span></h3>
-                    <button onclick="closeSwapModal()" class="swap-close-btn">✕</button>
-                </div>
-                <div class="swap-modal-body">
-                    <div style="font-size:0.65rem;color:var(--text-secondary);margin-bottom:12px;">Select an alternative pick:</div>
-                    <div class="swap-options" id="swap-options">
-                        <!-- Options populated by JS -->
-                    </div>
-                </div>
-            </div>
-        </div>
-                            n>
-                        <span style="color:var(--gold);font-weight:600;">85%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-                <!-- ELITE TAB -->
+
+        <!-- ELITE TAB -->
         <div id="elite" class="tab-content">
             <div class="card">
                 <h3 class="card-title">📊 Elite Analytics Dashboard</h3>
@@ -832,6 +794,7 @@
                 </div>
             </div>
         </div>
+
         <!-- FOOTER -->
         <footer style="text-align:center;padding:20px 0;border-top:0.5px solid var(--border);margin-top:20px;">
             <div style="font-size:0.7rem;color:var(--gold);font-weight:600;">SigMAX Elite v26.0</div>
@@ -839,49 +802,56 @@
             <div style="font-size:0.5rem;color:var(--text-secondary);margin-top:4px;">© 2026 SigMAX Analytics | For Entertainment Only</div>
         </footer>
         
-    </div> <!-- End app-container -->
+    </div>
     
+    <!-- SWAP MODAL -->
+    <div id="swap-modal" class="swap-modal" style="display:none;">
+        <div class="swap-modal-content">
+            <div class="swap-modal-header">
+                <h3>⇄ Swap Pick <span id="swap-pick-num">1</span></h3>
+                <button onclick="closeSwapModal()" class="swap-close-btn">✕</button>
+            </div>
+            <div class="swap-modal-body">
+                <div style="font-size:0.65rem;color:var(--text-secondary);margin-bottom:12px;">Select an alternative pick:</div>
+                <div id="swap-options"></div>
+            </div>
+        </div>
+    </div>
+
 <script>
 // ============================================
-// SIGMAX ELITE v26.0 - CORE JAVASCRIPT
+// SIGMAX ELITE v26.0 - COMPLETE JAVASCRIPT
 // ============================================
 
-// Global State
 let parlayPicks = [];
 let swapPickIndex = null;
 let autoRefreshInterval = null;
-let lastRefreshTime = null;
 
-// Alternative picks for swap modal
 const alternativePicks = {
     games: [
-        { id: 'alt-1', name: '🏀 Spurs ML G5', odds: '+135', conf: '65' },
-        { id: 'alt-2', name: '🏒 Oilers ML G4', odds: '+155', conf: '55' },
-        { id: 'alt-3', name: '🏒 Canadiens ML G3', odds: '+130', conf: '62' },
-        { id: 'alt-4', name: '🏒 Hurricanes ML G3', odds: '-140', conf: '72' },
-        { id: 'alt-5', name: '🎾 Alcaraz R2 ML', odds: '-400', conf: '89' },
-        { id: 'alt-6', name: '⚽ Inter Miami ML', odds: '-180', conf: '75' }
+        { id: 'alt-1', name: '🏀 Spurs ML G5', odds: '+135', conf: 65 },
+        { id: 'alt-2', name: '🏒 Oilers ML G4', odds: '+155', conf: 55 },
+        { id: 'alt-3', name: '🏒 Canadiens ML G3', odds: '+130', conf: 62 },
+        { id: 'alt-4', name: '🏒 Hurricanes ML G3', odds: '-140', conf: 72 },
+        { id: 'alt-5', name: '🎾 Alcaraz R2 ML', odds: '-400', conf: 89 },
+        { id: 'alt-6', name: '⚽ Inter Miami ML', odds: '-180', conf: 75 }
     ],
     props: [
-        { id: 'alt-p1', name: '🏀 SGA O8.5 Assists', odds: '+115', conf: '70' },
-        { id: 'alt-p2', name: '🏒 Stone O2.5 SOG', odds: '-120', conf: '81' },
-        { id: 'alt-p3', name: '🎾 Sinner U6.5 Games', odds: '-125', conf: '88' },
-        { id: 'alt-p4', name: '🏀 Wemby O22.5 Pts', odds: '-115', conf: '76' },
-        { id: 'alt-p5', name: '🏒 Svechnikov O0.5 Pts', odds: '-130', conf: '79' },
-        { id: 'alt-p6', name: '⚽ Messi O0.5 Goals', odds: '+140', conf: '68' }
+        { id: 'alt-p1', name: '🏀 SGA O8.5 Assists', odds: '+115', conf: 70 },
+        { id: 'alt-p2', name: '🏒 Stone O2.5 SOG', odds: '-120', conf: 81 },
+        { id: 'alt-p3', name: '🎾 Sinner U6.5 Games', odds: '-125', conf: 88 },
+        { id: 'alt-p4', name: '🏀 Wemby O22.5 Pts', odds: '-115', conf: 76 },
+        { id: 'alt-p5', name: '🏒 Svechnikov O0.5 Pts', odds: '-130', conf: 79 },
+        { id: 'alt-p6', name: '⚽ Messi O0.5 Goals', odds: '+140', conf: 68 }
     ]
 };
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     initializeParlayPicks();
     updateActiveLegsCount();
-    updateTimestamp();
 });
 
-// ============================================
 // TAB NAVIGATION
-// ============================================
 function showTab(tabId) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -895,39 +865,38 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     });
 });
 
-// ============================================
-// AUTO-REFRESH SYSTEM (WORKING!)
-// ============================================
+// AUTO-REFRESH SYSTEM
 function refreshAllData() {
     const refreshBtn = document.getElementById('refresh-btn');
     const refreshStatus = document.getElementById('refresh-status');
-    const spinner = refreshBtn.querySelector('.refresh-spinner');
+    const spinner = document.getElementById('refresh-spinner');
+    const refreshText = document.getElementById('refresh-text');
     
     refreshBtn.disabled = true;
     refreshBtn.classList.add('loading');
     spinner.style.display = 'inline-block';
+    refreshText.textContent = 'Loading...';
     refreshStatus.textContent = 'Refreshing...';
     refreshStatus.style.color = 'var(--gold)';
     
-    setTimeout(() => {
+    setTimeout(function() {
         const bankrollEl = document.getElementById('metric-bankroll');
         const currentBankroll = 13580 + Math.floor(Math.random() * 50) - 25;
         bankrollEl.textContent = '$' + currentBankroll.toLocaleString();
         
-        lastRefreshTime = new Date();
-        const timeStr = lastRefreshTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
         document.getElementById('last-update-time').textContent = 'Last: ' + timeStr;
         
         refreshBtn.disabled = false;
         refreshBtn.classList.remove('loading');
         spinner.style.display = 'none';
+        refreshText.textContent = '🔄 Refresh';
         refreshStatus.textContent = '✓ Updated ' + timeStr;
         refreshStatus.style.color = 'var(--green)';
         
         refreshBtn.style.background = 'var(--green)';
-        setTimeout(() => { refreshBtn.style.background = ''; }, 500);
-        
-        updateLiveAlerts();
+        setTimeout(function() { refreshBtn.style.background = ''; }, 500);
     }, 1500);
 }
 
@@ -951,25 +920,7 @@ function toggleAutoRefresh() {
     }
 }
 
-function updateLiveAlerts() {
-    const alertsContainer = document.getElementById('live-alerts-container');
-    if (alertsContainer) {
-        alertsContainer.style.animation = 'pulse 0.5s ease';
-        setTimeout(() => { alertsContainer.style.animation = ''; }, 500);
-    }
-}
-
-function updateTimestamp() {
-    const now = new Date();
-    const timestamp = document.querySelector('.timestamp');
-    if (timestamp) {
-        timestamp.textContent = 'v26.0 | ' + now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    }
-}
-    // ============================================
-// PARLAY BUILDER FUNCTIONS
-// ============================================
-
+// PARLAY BUILDER
 function initializeParlayPicks() {
     parlayPicks = [
         { id: 1, name: 'Sinner R2 ML', odds: -450, conf: 92, active: true, type: 'game' },
@@ -1019,13 +970,14 @@ function openSwapModal(index) {
     const pickType = parlayPicks[index - 1].type;
     const options = pickType === 'prop' ? alternativePicks.props : alternativePicks.games;
     
-    document.getElementById('swap-options').innerHTML = options.map(opt => 
-        '<div class="swap-option" onclick="swapWithPick(\'' + opt.id + '\', \'' + opt.name + '\', \'' + opt.odds + '\', ' + opt.conf + ')">' +
-            '<div class="swap-option-name">' + opt.name + '</div>' +
-            '<div class="swap-option-odds">' + opt.odds + ' | ' + opt.conf + '% Conf</div>' +
-        '</div>'
-    ).join('');
-    
+    let html = '';
+    options.forEach(function(opt) {
+        html += '<div class="swap-option" onclick="swapWithPick(\'' + opt.name + '\', \'' + opt.odds + '\', ' + opt.conf + ')">';
+        html += '<div class="swap-option-name">' + opt.name + '</div>';
+        html += '<div class="swap-option-odds">' + opt.odds + ' | ' + opt.conf + '% Conf</div>';
+        html += '</div>';
+    });
+    document.getElementById('swap-options').innerHTML = html;
     modal.style.display = 'flex';
 }
 
@@ -1034,7 +986,7 @@ function closeSwapModal() {
     swapPickIndex = null;
 }
 
-function swapWithPick(newId, newName, newOdds, newConf) {
+function swapWithPick(newName, newOdds, newConf) {
     if (swapPickIndex === null) return;
     
     const pickEl = document.getElementById('preset-pick-' + swapPickIndex);
@@ -1043,22 +995,33 @@ function swapWithPick(newId, newName, newOdds, newConf) {
         pickEl.querySelector('.preset-pick-odds').textContent = newOdds + ' | ' + newConf + '% Conf';
         
         const oddsNum = parseInt(newOdds.replace('+', ''));
-        parlayPicks[swapPickIndex - 1] = { ...parlayPicks[swapPickIndex - 1], name: newName, odds: oddsNum, conf: newConf, active: true };
+        parlayPicks[swapPickIndex - 1].name = newName;
+        parlayPicks[swapPickIndex - 1].odds = oddsNum;
+        parlayPicks[swapPickIndex - 1].conf = newConf;
+        parlayPicks[swapPickIndex - 1].active = true;
         
+        pickEl.classList.remove('removed');
         pickEl.classList.add('swapped');
-        setTimeout(() => pickEl.classList.remove('swapped'), 1000);
+        setTimeout(function() { pickEl.classList.remove('swapped'); }, 1000);
     }
     closeSwapModal();
     updateActiveLegsCount();
     calculateParlay();
 }
 
-function clearAllPicks() { for (let i = 1; i <= 10; i++) { removePick(i); } }
+function clearAllPicks() {
+    for (let i = 1; i <= 10; i++) {
+        removePick(i);
+    }
+}
 
 function addCustomPick() {
     const name = document.getElementById('custom-pick-name').value.trim();
     const odds = parseInt(document.getElementById('custom-pick-odds').value);
-    if (!name || isNaN(odds)) { alert('Please enter both pick name and odds'); return; }
+    if (!name || isNaN(odds)) {
+        alert('Please enter both pick name and odds');
+        return;
+    }
     parlayPicks.push({ id: parlayPicks.length + 1, name: name, odds: odds, conf: 70, active: true, type: 'custom' });
     document.getElementById('custom-pick-name').value = '';
     document.getElementById('custom-pick-odds').value = '';
@@ -1068,24 +1031,40 @@ function addCustomPick() {
 }
 
 function updateActiveLegsCount() {
-    const activeCount = parlayPicks.filter(p => p.active).length;
+    const activeCount = parlayPicks.filter(function(p) { return p.active; }).length;
     document.getElementById('active-legs-count').textContent = activeCount + ' legs active';
 }
 
 function calculateParlay() {
-    const activePicks = parlayPicks.filter(p => p.active);
+    const activePicks = parlayPicks.filter(function(p) { return p.active; });
     const stake = parseFloat(document.getElementById('parlay-stake').value) || 100;
     
-    if (activePicks.length === 0) { document.getElementById('parlay-results').style.display = 'none'; return; }
+    if (activePicks.length === 0) {
+        document.getElementById('parlay-results').style.display = 'none';
+        return;
+    }
     
-    let combinedDecimal = 1, combinedProbability = 1;
-    activePicks.forEach(pick => {
-        let decimal = pick.odds > 0 ? 1 + (pick.odds / 100) : 1 + (100 / Math.abs(pick.odds));
+    let combinedDecimal = 1;
+    let combinedProbability = 1;
+    
+    activePicks.forEach(function(pick) {
+        let decimal;
+        if (pick.odds > 0) {
+            decimal = 1 + (pick.odds / 100);
+        } else {
+            decimal = 1 + (100 / Math.abs(pick.odds));
+        }
         combinedDecimal *= decimal;
         combinedProbability *= (pick.conf / 100);
     });
     
-    let americanOdds = combinedDecimal >= 2 ? Math.round((combinedDecimal - 1) * 100) : Math.round(-100 / (combinedDecimal - 1));
+    let americanOdds;
+    if (combinedDecimal >= 2) {
+        americanOdds = Math.round((combinedDecimal - 1) * 100);
+    } else {
+        americanOdds = Math.round(-100 / (combinedDecimal - 1));
+    }
+    
     const payout = stake * combinedDecimal;
     const ev = (combinedProbability * (payout - stake)) - ((1 - combinedProbability) * stake);
     
@@ -1095,22 +1074,45 @@ function calculateParlay() {
     document.getElementById('win-probability').textContent = (combinedProbability * 100).toFixed(1) + '%';
     document.getElementById('expected-value').textContent = (ev >= 0 ? '+' : '') + '$' + ev.toFixed(2);
     document.getElementById('expected-value').style.color = ev >= 0 ? 'var(--green)' : 'var(--red)';
-    document.getElementById('kelly-suggestion').textContent = (ev > 0 ? Math.min(5, (ev / payout) * 100).toFixed(1) : 0) + '%';
+    
+    const kellyPct = ev > 0 ? Math.min(5, (ev / payout) * 100).toFixed(1) : '0';
+    document.getElementById('kelly-suggestion').textContent = kellyPct + '%';
 }
 
 // SHARE FUNCTIONS
-function shareWhatsApp() { window.open('https://wa.me/?text=' + encodeURIComponent(generateShareText()), '_blank'); }
-function shareTwitter() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(generateShareText()), '_blank'); }
-function copyPicks() { navigator.clipboard.writeText(generateShareText()).then(() => alert('Picks copied!')); }
-
 function generateShareText() {
     let text = '🏆 SigMAX Elite Picks - May 26, 2026\n📊 Record: 273-43 (86.4%)\n\n';
-    parlayPicks.filter(p => p.active).forEach((pick, i) => { text += (i + 1) + '. ' + pick.name + ' (' + (pick.odds > 0 ? '+' : '') + pick.odds + ')\n'; });
-    return text + '\n🎰 Watch Passionately. Bet Wisely!';
+    let count = 1;
+    parlayPicks.forEach(function(pick) {
+        if (pick.active) {
+            text += count + '. ' + pick.name + ' (' + (pick.odds > 0 ? '+' : '') + pick.odds + ')\n';
+            count++;
+        }
+    });
+    text += '\n🎰 Watch Passionately. Bet Wisely!';
+    return text;
 }
 
-document.addEventListener('click', function(e) { if (e.target === document.getElementById('swap-modal')) closeSwapModal(); });
+function shareWhatsApp() {
+    window.open('https://wa.me/?text=' + encodeURIComponent(generateShareText()), '_blank');
+}
+
+function shareTwitter() {
+    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(generateShareText()), '_blank');
+}
+
+function copyPicks() {
+    navigator.clipboard.writeText(generateShareText()).then(function() {
+        alert('Picks copied to clipboard!');
+    });
+}
+
+// Close modal on background click
+document.addEventListener('click', function(e) {
+    if (e.target === document.getElementById('swap-modal')) {
+        closeSwapModal();
+    }
+});
 </script>
 </body>
 </html>
-        
