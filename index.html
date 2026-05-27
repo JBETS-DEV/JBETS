@@ -22,7 +22,6 @@ body.light-mode{--bg:#f5f5f5;--card:rgba(255,255,255,0.95);--text:#1a1a2e;--mute
 .header-controls{display:flex;gap:8px;align-items:center}
 .control-btn{background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);color:var(--gold);padding:6px 10px;border-radius:6px;font-size:0.7rem;cursor:pointer;transition:all 0.3s}
 .control-btn:hover{background:rgba(212,175,55,0.2);transform:scale(1.05)}
-.control-btn.active{background:var(--gold);color:#000}
 .mode-toggle{width:50px;height:26px;background:rgba(255,255,255,0.1);border-radius:13px;position:relative;cursor:pointer;border:1px solid rgba(212,175,55,0.3)}
 .mode-toggle::after{content:'☀️';position:absolute;width:22px;height:22px;background:var(--gold);border-radius:50%;top:1px;left:2px;transition:all 0.3s;display:flex;align-items:center;justify-content:center;font-size:12px}
 body.light-mode .mode-toggle::after{content:'🌙';left:26px}
@@ -129,19 +128,19 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 .lang-selector{display:flex;flex-wrap:wrap;gap:6px;padding:10px}
 .lang-btn{padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--muted);font-size:0.7rem;cursor:pointer;transition:all 0.3s}
 .lang-btn:hover,.lang-btn.active{background:var(--gold);color:#000;border-color:var(--gold)}
-.footer{background:linear-gradient(135deg,#0a0f18,#1a1f2e);border-top:var(--border);padding:20px 15px;margin-top:20px}
-.footer-section{margin-bottom:15px;padding-bottom:15px;border-bottom:1px solid rgba(255,255,255,0.1)}
-.footer-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
-.footer-title{font-size:0.75rem;font-weight:600;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.footer-text{font-size:0.65rem;color:var(--muted);line-height:1.6}
-.footer-text a{color:var(--gold);text-decoration:none}
-.footer-text a:hover{text-decoration:underline}
-.disclaimer-box{background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:12px;margin-bottom:10px}
-.disclaimer-box.warning{background:rgba(212,175,55,0.05);border-color:rgba(212,175,55,0.2)}
-.hotline{display:inline-flex;align-items:center;gap:5px;background:rgba(212,175,55,0.1);padding:4px 10px;border-radius:4px;margin:5px 0}
-.favorites-btn{position:fixed;bottom:80px;right:15px;width:50px;height:50px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;cursor:pointer;box-shadow:0 4px 15px rgba(212,175,55,0.4);z-index:99;transition:all 0.3s}
+.footer{background:linear-gradient(135deg,#0a0f18,#1a1f2e);border-top:var(--border);padding:15px;margin-top:20px}
+.disclaimer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border:1px solid rgba(212,175,55,0.2)}
+.disclaimer-col{padding:8px;text-align:center;border-right:1px solid rgba(255,255,255,0.1)}
+.disclaimer-col:last-child{border-right:none}
+.disclaimer-title{font-size:0.7rem;font-weight:600;color:var(--gold);margin-bottom:6px}
+.disclaimer-text{font-size:0.6rem;color:var(--muted);line-height:1.5}
+.disclaimer-text a{color:var(--gold);text-decoration:none}
+.disclaimer-text a:hover{text-decoration:underline}
+.portal-disclaimer{font-size:0.55rem;color:var(--muted);text-align:center;padding:10px;margin-top:10px;border-top:1px solid rgba(255,255,255,0.1)}
+.footer-brand{font-size:0.6rem;color:var(--gold);text-align:center;margin-top:8px;opacity:0.7}
+.favorites-btn{position:fixed;bottom:20px;right:15px;width:50px;height:50px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;cursor:pointer;box-shadow:0 4px 15px rgba(212,175,55,0.4);z-index:99;transition:all 0.3s;border:none}
 .favorites-btn:hover{transform:scale(1.1)}
-@media(max-width:480px){.stats-grid.four{grid-template-columns:repeat(2,1fr)}.theme-selector{grid-template-columns:repeat(6,1fr)}}
+@media(max-width:480px){.stats-grid.four{grid-template-columns:repeat(2,1fr)}.theme-selector{grid-template-columns:repeat(6,1fr)}.disclaimer-grid{grid-template-columns:1fr;gap:10px}.disclaimer-col{border-right:none;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px}.disclaimer-col:last-child{border-bottom:none}}
 </style>
 </head>
 <body>
@@ -155,7 +154,6 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 <button class="control-btn" onclick="showPanel('langs')">🌐</button>
 </div>
 </header>
-
 <div class="ticker-wrap">
 <div class="ticker">
 <span class="ticker-item">🏀 Thunder vs Spurs 7:30 PM • NBA Playoffs</span>
@@ -168,12 +166,10 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 <span class="ticker-item">🎾 French Open R1 • Nadal Court Philippe-Chatrier</span>
 </div>
 </div>
-
 <div class="search-bar">
 <span>🔍</span>
 <input type="text" id="searchInput" placeholder="Search picks, teams, players..." onkeyup="filterPicks()">
 </div>
-
 <nav class="nav-container">
 <div class="nav-tabs">
 <button class="nav-tab active" onclick="showTab('dashboard')">📊 Dashboard</button>
@@ -186,9 +182,7 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 <button class="nav-tab" onclick="showTab('settings')">⚙️ Settings</button>
 </div>
 </nav>
-
 <main class="main">
-<!-- DASHBOARD TAB -->
 <div id="dashboard" class="tab-content active">
 <div class="card">
 <div class="card-header"><span class="card-title">📊 Performance Overview</span><span class="badge badge-win">+92% ROI</span></div>
@@ -221,8 +215,6 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 </div>
 </div>
 </div>
-
-<!-- PICKS TAB -->
 <div id="picks" class="tab-content">
 <div class="card">
 <div class="card-header"><span class="card-title">🏀 NBA Playoffs</span><span class="badge badge-live">● LIVE</span></div>
@@ -240,8 +232,6 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 <div class="momentum-bar"><div class="momentum-fill high" style="width:85%"></div></div>
 </div>
 </div>
-
-<!-- HOT PICKS TAB -->
 <div id="hot" class="tab-content">
 <div class="card" style="border-color:rgba(255,107,107,0.5)">
 <div class="card-header"><span class="card-title">🔥 HIGHEST CONFIDENCE PICKS</span><span class="badge badge-hot">HOT STREAK</span></div>
@@ -257,19 +247,17 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 </div>
 </div>
 </div>
-
-<!-- ALERTS TAB -->
 <div id="alerts" class="tab-content">
 <div class="alert-card">
 <div class="alert-header"><span class="alert-icon">🚨</span><span class="alert-title">CRITICAL: Thunder vs Spurs Injury Report</span></div>
 <div class="alert-content">
 <span class="alert-badge injury">INJURY</span><span class="alert-badge lineup">LINEUP</span>
 <ul>
-<li><strong>Chet Holmgren</strong> (OKC) - <em>PROBABLE</em> - Hip contusion from Game 3, practiced fully today</li>
+<li><strong>Chet Holmgren</strong> (OKC) - <em>PROBABLE</em> - Hip contusion, practiced fully</li>
 <li><strong>Victor Wembanyama</strong> (SAS) - <em>QUESTIONABLE</em> - Ankle soreness, game-time decision</li>
-<li><strong>Devin Vassell</strong> (SAS) - <em>OUT</em> - Knee injury, significant loss for Spurs perimeter D</li>
+<li><strong>Devin Vassell</strong> (SAS) - <em>OUT</em> - Knee injury, significant loss for perimeter D</li>
 </ul>
-<p><strong>Impact:</strong> If Wemby sits, Thunder spread value increases significantly. Monitor 30 mins before tip.</p>
+<p><strong>Impact:</strong> If Wemby sits, Thunder spread value increases. Monitor 30 mins before tip.</p>
 </div>
 </div>
 <div class="alert-card">
@@ -278,47 +266,31 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 <span class="alert-badge weather">WEATHER</span>
 <ul>
 <li><strong>Forecast:</strong> 70% chance of rain after 3 PM local time</li>
-<li><strong>Temperature:</strong> 18°C (64°F), moderate humidity at 65%</li>
-<li><strong>Court:</strong> Philippe-Chatrier has retractable roof - matches will continue</li>
+<li><strong>Temperature:</strong> 18°C (64°F), humidity 65%</li>
+<li><strong>Court:</strong> Philippe-Chatrier has retractable roof</li>
 </ul>
-<p><strong>Impact:</strong> Roof closure favors bigger servers. Sinner's flat groundstrokes perform well indoors.</p>
+<p><strong>Impact:</strong> Roof closure favors bigger servers. Sinner performs well indoors.</p>
 </div>
 </div>
 <div class="alert-card">
-<div class="alert-header"><span class="alert-icon">📈</span><span class="alert-title">Line Movement Alert: Knights vs Avalanche</span></div>
+<div class="alert-header"><span class="alert-icon">📈</span><span class="alert-title">Line Movement: Knights vs Avalanche</span></div>
 <div class="alert-content">
 <span class="alert-badge trend">SHARP MONEY</span>
 <ul>
-<li><strong>Opening Line:</strong> Knights -1.5 (+145)</li>
-<li><strong>Current Line:</strong> Knights -1.5 (+125)</li>
-<li><strong>Movement:</strong> 20 cents of juice moved toward Knights</li>
-<li><strong>Handle:</strong> 68% of money on Knights despite 55% of tickets on Avalanche</li>
+<li><strong>Opening:</strong> Knights -1.5 (+145) → <strong>Current:</strong> (+125)</li>
+<li><strong>Handle:</strong> 68% money on Knights despite 55% tickets on Avalanche</li>
 </ul>
-<p><strong>Impact:</strong> Sharp money clearly backing Vegas. Reverse line movement = professional action.</p>
-</div>
-</div>
-<div class="alert-card">
-<div class="alert-header"><span class="alert-icon">⚡</span><span class="alert-title">Momentum Shift: Knicks 10-0 Run</span></div>
-<div class="alert-content">
-<span class="alert-badge trend">LIVE TREND</span>
-<ul>
-<li><strong>Current Score:</strong> Knicks 78, Pacers 72 (Q3 4:32)</li>
-<li><strong>Run:</strong> 10-0 run in last 2:15 of play</li>
-<li><strong>Key Players:</strong> Brunson 8 pts in run, DiVincenzo 2 threes</li>
-</ul>
-<p><strong>Impact:</strong> Live bet opportunity closed. Knicks ML now -450 (was -180 at half).</p>
+<p><strong>Impact:</strong> Sharp money backing Vegas. Reverse line movement = pro action.</p>
 </div>
 </div>
 </div>
-
-<!-- XFACTORS TAB -->
 <div id="xfactors" class="tab-content">
 <div class="xfactor-card">
 <div class="xfactor-header"><span class="xfactor-title">🏀 Thunder vs Spurs XFactors</span><span class="xfactor-game">Game 4 • 7:30 PM ET</span></div>
 <div class="xfactor-content">
-<div class="xfactor-item"><div class="xfactor-icon">⭐</div><div class="xfactor-text"><div class="xfactor-label">SGA Playoff Mode</div><div class="xfactor-value">32.4 PPG / 6.8 AST / 2.1 STL in playoffs</div><div class="xfactor-detail">Shai Gilgeous-Alexander is averaging career-high playoff numbers. His isolation scoring (1.21 PPP) is elite and Spurs have no answer defensively.</div></div></div>
-<div class="xfactor-item"><div class="xfactor-icon">🛡️</div><div class="xfactor-text"><div class="xfactor-label">Defensive Rating Gap</div><div class="xfactor-value">OKC: 104.2 DRTG vs SAS: 112.8 DRTG</div><div class="xfactor-detail">Thunder's elite perimeter defense limits Spurs' three-point attempts. Spurs shooting 31.2% from 3 this series (league-worst).</div></div></div>
-<div class="xfactor-item"><div class="xfactor-icon">🏠</div><div class="xfactor-text"><div class="xfactor-label">Home Court Dominance</div><div class="xfactor-value">Thunder 34-7 at home this season</div><div class="xfactor-detail">Paycom Center has been a fortress. +8.4 average margin of victory at home. Crowd energy in playoffs amplifies advantage.</div></div></div>
+<div class="xfactor-item"><div class="xfactor-icon">⭐</div><div class="xfactor-text"><div class="xfactor-label">SGA Playoff Mode</div><div class="xfactor-value">32.4 PPG / 6.8 AST / 2.1 STL</div><div class="xfactor-detail">Career-high playoff numbers. Isolation scoring 1.21 PPP - elite. Spurs have no answer.</div></div></div>
+<div class="xfactor-item"><div class="xfactor-icon">🛡️</div><div class="xfactor-text"><div class="xfactor-label">Defensive Rating Gap</div><div class="xfactor-value">OKC: 104.2 vs SAS: 112.8 DRTG</div><div class="xfactor-detail">Thunder elite perimeter D. Spurs shooting 31.2% from 3 this series.</div></div></div>
+<div class="xfactor-item"><div class="xfactor-icon">🏠</div><div class="xfactor-text"><div class="xfactor-label">Home Court</div><div class="xfactor-value">Thunder 34-7 at home</div><div class="xfactor-detail">+8.4 average margin at home. Playoff crowd amplifies advantage.</div></div></div>
 </div>
 <div class="weather-grid">
 <div class="weather-item"><div class="weather-icon">🌡️</div><div class="weather-value">72°F</div><div class="weather-label">Indoor</div></div>
@@ -329,22 +301,20 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 <div class="xfactor-card">
 <div class="xfactor-header"><span class="xfactor-title">🏒 Knights vs Avalanche XFactors</span><span class="xfactor-game">Game 3 • 8:00 PM ET</span></div>
 <div class="xfactor-content">
-<div class="xfactor-item"><div class="xfactor-icon">🥅</div><div class="xfactor-text"><div class="xfactor-label">Goaltending Edge</div><div class="xfactor-value">Hill: .928 SV% vs Georgiev: .891 SV%</div><div class="xfactor-detail">Adin Hill has been outstanding in playoffs. Georgiev struggling with .891 SV% - 3rd worst among starting goalies this postseason.</div></div></div>
-<div class="xfactor-item"><div class="xfactor-icon">⚡</div><div class="xfactor-text"><div class="xfactor-label">Power Play Differential</div><div class="xfactor-value">VGK: 28.6% PP vs COL: 18.2% PP</div><div class="xfactor-detail">Knights' PP clicking at elite rate. Avalanche taking too many penalties (4.2/game in series). Discipline issue could be decisive.</div></div></div>
-<div class="xfactor-item"><div class="xfactor-icon">🏔️</div><div class="xfactor-text"><div class="xfactor-label">Altitude Factor</div><div class="xfactor-value">Denver: 5,280 ft elevation</div><div class="xfactor-detail">Game in Vegas tonight - no altitude advantage for Avs. Knights 8-2 at T-Mobile Arena in playoffs.</div></div></div>
+<div class="xfactor-item"><div class="xfactor-icon">🥅</div><div class="xfactor-text"><div class="xfactor-label">Goaltending Edge</div><div class="xfactor-value">Hill .928 SV% vs Georgiev .891 SV%</div><div class="xfactor-detail">Hill outstanding. Georgiev struggling - 3rd worst among starters.</div></div></div>
+<div class="xfactor-item"><div class="xfactor-icon">⚡</div><div class="xfactor-text"><div class="xfactor-label">Power Play</div><div class="xfactor-value">VGK: 28.6% vs COL: 18.2%</div><div class="xfactor-detail">Knights PP elite. Avs taking 4.2 penalties/game. Discipline issue.</div></div></div>
 </div>
 <div class="weather-grid">
 <div class="weather-item"><div class="weather-icon">☀️</div><div class="weather-value">95°F</div><div class="weather-label">Outside</div></div>
 <div class="weather-item"><div class="weather-icon">❄️</div><div class="weather-value">60°F</div><div class="weather-label">Arena</div></div>
-<div class="weather-item"><div class="weather-icon">💨</div><div class="weather-value">12 mph</div><div class="weather-label">Wind</div></div>
+<div class="weather-item"><div class="weather-icon">💨</div><div class="weather-value">12mph</div><div class="weather-label">Wind</div></div>
 </div>
 </div>
 <div class="xfactor-card">
 <div class="xfactor-header"><span class="xfactor-title">🎾 French Open XFactors</span><span class="xfactor-game">Round 1 • Tomorrow</span></div>
 <div class="xfactor-content">
-<div class="xfactor-item"><div class="xfactor-icon">🏆</div><div class="xfactor-text"><div class="xfactor-label">Sinner's Clay Form</div><div class="xfactor-value">15-2 record on clay in 2026</div><div class="xfactor-detail">World #1 has adapted his game beautifully to clay. Won Monte Carlo, reached Rome final. Serving at 68% first serve points won on clay.</div></div></div>
-<div class="xfactor-item"><div class="xfactor-icon">🌧️</div><div class="xfactor-text"><div class="xfactor-label">Weather Conditions</div><div class="xfactor-value">70% rain chance after 3 PM</div><div class="xfactor-detail">Philippe-Chatrier roof may close. Sinner's flat, penetrating groundstrokes actually improve indoors. His opponent prefers open-air conditions.</div></div></div>
-<div class="xfactor-item"><div class="xfactor-icon">📊</div><div class="xfactor-text"><div class="xfactor-label">H2H & Surface Stats</div><div class="xfactor-value">First meeting on clay</div><div class="xfactor-detail">Sinner 3-0 vs opponent overall. On clay specifically, Sinner's return game (42% return points won) is elite.</div></div></div>
+<div class="xfactor-item"><div class="xfactor-icon">🏆</div><div class="xfactor-text"><div class="xfactor-label">Sinner Clay Form</div><div class="xfactor-value">15-2 on clay 2026</div><div class="xfactor-detail">Won Monte Carlo, Rome final. 68% first serve points won on clay.</div></div></div>
+<div class="xfactor-item"><div class="xfactor-icon">🌧️</div><div class="xfactor-text"><div class="xfactor-label">Weather Impact</div><div class="xfactor-value">70% rain after 3 PM</div><div class="xfactor-detail">Roof may close. Sinner's flat groundstrokes improve indoors.</div></div></div>
 </div>
 <div class="weather-grid">
 <div class="weather-item"><div class="weather-icon">🌧️</div><div class="weather-value">70%</div><div class="weather-label">Rain</div></div>
@@ -353,26 +323,22 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 </div>
 </div>
 </div>
-
-<!-- PARLAYS TAB -->
 <div id="parlays" class="tab-content">
 <div class="parlay-section">
 <div class="parlay-title">🎰 Featured 3-Leg Parlay</div>
 <div class="parlay-leg"><span>🏀 Thunder ML vs Spurs</span><span>-165</span></div>
 <div class="parlay-leg"><span>🏒 Knights -1.5 vs Avalanche</span><span>+125</span></div>
-<div class="parlay-leg"><span>🎾 Sinner ML vs TBD</span><span>-180</span></div>
+<div class="parlay-leg"><span>🎾 Sinner ML</span><span>-180</span></div>
 <div class="parlay-odds">Combined Odds: +285 💰</div>
 </div>
 <div class="parlay-section">
 <div class="parlay-title">⚡ High-Risk / High-Reward</div>
 <div class="parlay-leg"><span>🏀 Thunder -5.5</span><span>-110</span></div>
-<div class="parlay-leg"><span>🏒 Knights + Over 5.5 Goals</span><span>+180</span></div>
-<div class="parlay-leg"><span>🎾 Sinner 3-0 Straight Sets</span><span>-125</span></div>
+<div class="parlay-leg"><span>🏒 Knights + O5.5 Goals</span><span>+180</span></div>
+<div class="parlay-leg"><span>🎾 Sinner 3-0</span><span>-125</span></div>
 <div class="parlay-odds">Combined Odds: +520 🔥</div>
 </div>
 </div>
-
-<!-- HISTORY TAB -->
 <div id="history" class="tab-content">
 <div class="card">
 <div class="card-header"><span class="card-title">📈 7-Day Performance</span><span class="badge badge-win">36-6 (85.7%)</span></div>
@@ -391,8 +357,6 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 <div class="pick-row"><div class="pick-info"><div class="pick-team">✅ Panthers ML vs Rangers</div><div class="pick-detail">May 24 • Final: 3-1</div></div><div class="pick-odds">-135</div><div class="pick-result win">✓</div></div>
 </div>
 </div>
-
-<!-- SETTINGS TAB -->
 <div id="settings" class="tab-content">
 <div class="card">
 <div class="card-header"><span class="card-title">🎨 Country Themes (48 FIFA WC2026)</span></div>
@@ -403,199 +367,46 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 <div class="lang-selector" id="langSelector"></div>
 </div>
 <div class="card">
-<div class="card-header"><span class="card-title">⚙️ Display Options</span></div>
-<div class="pick-row" onclick="toggleMode()"><div class="pick-info"><div class="pick-team">🌓 Dark/Light Mode</div><div class="pick-detail">Toggle display theme</div></div><div class="mode-toggle"></div></div>
+<div class="card-header"><span class="card-title">⚙️ Display</span></div>
+<div class="pick-row" onclick="toggleMode()"><div class="pick-info"><div class="pick-team">🌓 Dark/Light Mode</div><div class="pick-detail">Toggle theme</div></div><div class="mode-toggle"></div></div>
 </div>
 </div>
 </main>
-
-<!-- FOOTER WITH DISCLAIMERS -->
 <footer class="footer">
-<div class="footer-section">
-<div class="footer-title">🍁 Ontario Responsible Gambling</div>
-<div class="disclaimer-box">
-<div class="footer-text">
-<strong>GameSense:</strong> Gambling is intended for entertainment. Keep it fun by setting limits and playing responsibly.<br><br>
-<strong>Need Help?</strong><br>
-<span class="hotline">📞 ConnexOntario: 1-866-531-2600</span><br>
-Available 24/7 • Free • Confidential<br><br>
-<strong>Self-Exclusion:</strong> <a href="https://igamingontario.ca/en/self-exclusion" target="_blank">igamingontario.ca/en/self-exclusion</a><br><br>
-<strong>⚠️ You must be 19+ to gamble in Ontario.</strong>
+<div class="disclaimer-grid">
+<div class="disclaimer-col">
+<div class="disclaimer-title">🍁 Ontario</div>
+<div class="disclaimer-text"><strong>GameSense:</strong> Play responsibly.<br>📞 <strong>1-866-531-2600</strong> (24/7)<br><a href="https://igamingontario.ca/en/self-exclusion">Self-Exclusion</a> • 19+</div>
+</div>
+<div class="disclaimer-col">
+<div class="disclaimer-title">🇺🇸 USA</div>
+<div class="disclaimer-text"><strong>NCPG Helpline:</strong><br>📞 <strong>1-800-522-4700</strong> (24/7)<br><a href="https://www.ncpgambling.org">ncpgambling.org</a></div>
+</div>
+<div class="disclaimer-col">
+<div class="disclaimer-title">🌍 International</div>
+<div class="disclaimer-text"><strong>UK:</strong> 0808-8020-133<br><a href="https://www.begambleaware.org">BeGambleAware</a><br><a href="https://www.gamblingtherapy.org">GamblingTherapy</a></div>
 </div>
 </div>
-</div>
-<div class="footer-section">
-<div class="footer-title">🇺🇸 USA Problem Gambling Resources</div>
-<div class="disclaimer-box">
-<div class="footer-text">
-<span class="hotline">📞 National Council on Problem Gambling: 1-800-522-4700</span><br>
-Text or Call 24/7 • Free • Confidential<br><br>
-<strong>Resources:</strong> <a href="https://www.ncpgambling.org" target="_blank">ncpgambling.org</a>
-</div>
-</div>
-</div>
-<div class="footer-section">
-<div class="footer-title">🌍 International Support</div>
-<div class="disclaimer-box">
-<div class="footer-text">
-<strong>UK:</strong> GamCare 0808-8020-133 | <a href="https://www.begambleaware.org" target="_blank">BeGambleAware.org</a><br>
-<strong>EU:</strong> <a href="https://www.gamblingtherapy.org" target="_blank">GamblingTherapy.org</a> (Free online support)<br>
-<strong>Australia:</strong> Gambling Help 1800-858-858
-</div>
-</div>
-</div>
-<div class="footer-section">
-<div class="footer-title">📜 Portal Disclaimer</div>
-<div class="disclaimer-box warning">
-<div class="footer-text">
-<strong>⚠️ IMPORTANT NOTICE:</strong><br><br>
-SigMAX ELITE is an <strong>INFORMATIONAL COMPILATION</strong> of publicly available sports data, statistics, and analysis.<br><br>
-• This portal does <strong>NOT GUARANTEE</strong> any winning outcomes<br>
-• Past performance does <strong>NOT INDICATE</strong> future results<br>
-• This portal does <strong>NOT ENCOURAGE OR PROMOTE</strong> gambling<br>
-• All betting decisions are made at your <strong>OWN RISK</strong><br>
-• Always gamble responsibly and within your means<br><br>
-<em>The information provided is for entertainment purposes only. Please consult local laws regarding sports betting in your jurisdiction.</em>
-</div>
-</div>
-</div>
-<div class="footer-section">
-<div class="footer-text" style="text-align:center;padding-top:10px;">
-<strong>SigMAX ELITE v29.2 ULTIMATE</strong> • May 27, 2026<br>
-48 FIFA WC2026 Themes • 16 Languages • Built with 💛
-</div>
-</div>
+<div class="portal-disclaimer">⚠️ <strong>SigMAX ELITE</strong> is informational only. Does NOT guarantee wins. Does NOT encourage gambling. Past performance ≠ future results. Bet at your own risk.</div>
+<div class="footer-brand">SigMAX ELITE v29.2 • May 27, 2026 • 48 FIFA WC2026 Themes • 16 Languages</div>
 </footer>
 </div>
-
-<div class="favorites-btn" onclick="showFavorites()">⭐</div>
+<button class="favorites-btn" onclick="showFavorites()">⭐</button>
 <script>
-// 48 FIFA WC2026 Official Teams with Colors
-const T={
-fra:{f:'🇫🇷',n:'France',c:'#002654'},esp:{f:'🇪🇸',n:'Spain',c:'#AA151B'},ger:{f:'🇩🇪',n:'Germany',c:'#000000'},eng:{f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',n:'England',c:'#CE1124'},por:{f:'🇵🇹',n:'Portugal',c:'#006600'},ned:{f:'🇳🇱',n:'Netherlands',c:'#FF6600'},bel:{f:'🇧🇪',n:'Belgium',c:'#000000'},cro:{f:'🇭🇷',n:'Croatia',c:'#FF0000'},sui:{f:'🇨🇭',n:'Switzerland',c:'#FF0000'},aut:{f:'🇦🇹',n:'Austria',c:'#ED2939'},sco:{f:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',n:'Scotland',c:'#0065BD'},nor:{f:'🇳🇴',n:'Norway',c:'#BA0C2F'},bih:{f:'🇧🇦',n:'Bosnia',c:'#002395'},swe:{f:'🇸🇪',n:'Sweden',c:'#006AA7'},tur:{f:'🇹🇷',n:'Türkiye',c:'#E30A17'},cze:{f:'🇨🇿',n:'Czechia',c:'#11457E'},
-arg:{f:'🇦🇷',n:'Argentina',c:'#74ACDF'},bra:{f:'🇧🇷',n:'Brazil',c:'#009739'},uru:{f:'🇺🇾',n:'Uruguay',c:'#0038A8'},col:{f:'🇨🇴',n:'Colombia',c:'#FCD116'},ecu:{f:'🇪🇨',n:'Ecuador',c:'#FFD100'},par:{f:'🇵🇾',n:'Paraguay',c:'#D52B1E'},
-usa:{f:'🇺🇸',n:'USA',c:'#B22234'},mex:{f:'🇲🇽',n:'Mexico',c:'#006847'},can:{f:'🇨🇦',n:'Canada',c:'#FF0000'},pan:{f:'🇵🇦',n:'Panama',c:'#D21034'},cuw:{f:'🇨🇼',n:'Curaçao',c:'#002B7F'},hai:{f:'🇭🇹',n:'Haiti',c:'#00209F'},
-mar:{f:'🇲🇦',n:'Morocco',c:'#C1272D'},sen:{f:'🇸🇳',n:'Senegal',c:'#00853F'},egy:{f:'🇪🇬',n:'Egypt',c:'#CE1126'},alg:{f:'🇩🇿',n:'Algeria',c:'#006633'},tun:{f:'🇹🇳',n:'Tunisia',c:'#E70013'},rsa:{f:'🇿🇦',n:'South Africa',c:'#007A4D'},civ:{f:'🇨🇮',n:'Côte d\'Ivoire',c:'#FF8200'},gha:{f:'🇬🇭',n:'Ghana',c:'#006B3F'},cpv:{f:'🇨🇻',n:'Cape Verde',c:'#003893'},
-jpn:{f:'🇯🇵',n:'Japan',c:'#000080'},irn:{f:'🇮🇷',n:'Iran',c:'#239F40'},kor:{f:'🇰🇷',n:'South Korea',c:'#CD2E3A'},aus:{f:'🇦🇺',n:'Australia',c:'#00843D'},ksa:{f:'🇸🇦',n:'Saudi Arabia',c:'#006C35'},qat:{f:'🇶🇦',n:'Qatar',c:'#8A1538'},uzb:{f:'🇺🇿',n:'Uzbekistan',c:'#0099B5'},jor:{f:'🇯🇴',n:'Jordan',c:'#007A3D'},
-nzl:{f:'🇳🇿',n:'New Zealand',c:'#00247D'},
-irq:{f:'🇮🇶',n:'Iraq',c:'#CE1126'},cod:{f:'🇨🇩',n:'DR Congo',c:'#007FFF'}
-};
-
-// 16 Languages
-const L={
-en:{dashboard:'Dashboard',picks:'Picks',hot:'Hot',alerts:'Alerts',xfactors:'XFactors',parlays:'Parlays',history:'History',settings:'Settings',wins:'Wins',losses:'Losses',winrate:'Win Rate',bankroll:'Bankroll'},
-es:{dashboard:'Panel',picks:'Apuestas',hot:'Caliente',alerts:'Alertas',xfactors:'XFactores',parlays:'Combinadas',history:'Historial',settings:'Ajustes',wins:'Victorias',losses:'Derrotas',winrate:'Tasa',bankroll:'Fondos'},
-fr:{dashboard:'Tableau',picks:'Pronostics',hot:'Chaud',alerts:'Alertes',xfactors:'XFacteurs',parlays:'Combinés',history:'Historique',settings:'Paramètres',wins:'Victoires',losses:'Défaites',winrate:'Taux',bankroll:'Solde'},
-pt:{dashboard:'Painel',picks:'Apostas',hot:'Quente',alerts:'Alertas',xfactors:'XFatores',parlays:'Múltiplas',history:'Histórico',settings:'Config',wins:'Vitórias',losses:'Derrotas',winrate:'Taxa',bankroll:'Banca'},
-de:{dashboard:'Übersicht',picks:'Tipps',hot:'Heiß',alerts:'Warnungen',xfactors:'XFaktoren',parlays:'Kombis',history:'Verlauf',settings:'Einstellungen',wins:'Siege',losses:'Verluste',winrate:'Quote',bankroll:'Guthaben'},
-it:{dashboard:'Pannello',picks:'Scommesse',hot:'Caldo',alerts:'Avvisi',xfactors:'XFattori',parlays:'Multiple',history:'Storico',settings:'Impostazioni',wins:'Vittorie',losses:'Perdite',winrate:'Percentuale',bankroll:'Cassa'},
-ar:{dashboard:'لوحة',picks:'اختيارات',hot:'ساخن',alerts:'تنبيهات',xfactors:'عوامل',parlays:'مجمعة',history:'السجل',settings:'إعدادات',wins:'فوز',losses:'خسارة',winrate:'معدل',bankroll:'رصيد'},
-ja:{dashboard:'ダッシュボード',picks:'予想',hot:'注目',alerts:'アラート',xfactors:'分析',parlays:'マルチ',history:'履歴',settings:'設定',wins:'勝ち',losses:'負け',winrate:'勝率',bankroll:'残高'},
-ko:{dashboard:'대시보드',picks:'픽',hot:'핫',alerts:'알림',xfactors:'분석',parlays:'조합',history:'기록',settings:'설정',wins:'승',losses:'패',winrate:'승률',bankroll:'자금'},
-zh:{dashboard:'仪表板',picks:'选择',hot:'热门',alerts:'警报',xfactors:'分析',parlays:'串关',history:'历史',settings:'设置',wins:'胜',losses:'负',winrate:'胜率',bankroll:'资金'},
-ht:{dashboard:'Tablo',picks:'Chwa',hot:'Cho',alerts:'Alèt',xfactors:'Faktè',parlays:'Konbine',history:'Istwa',settings:'Paramèt',wins:'Viktwa',losses:'Pèdi',winrate:'To',bankroll:'Lajan'},
-nl:{dashboard:'Dashboard',picks:'Tips',hot:'Heet',alerts:'Alerts',xfactors:'XFactoren',parlays:'Combi',history:'Geschiedenis',settings:'Instellingen',wins:'Winst',losses:'Verlies',winrate:'Percentage',bankroll:'Saldo'},
-ru:{dashboard:'Панель',picks:'Ставки',hot:'Горячее',alerts:'Оповещения',xfactors:'XФакторы',parlays:'Экспресс',history:'История',settings:'Настройки',wins:'Победы',losses:'Поражения',winrate:'Процент',bankroll:'Банк'},
-pl:{dashboard:'Panel',picks:'Typy',hot:'Gorące',alerts:'Alerty',xfactors:'XFaktory',parlays:'Akumulatory',history:'Historia',settings:'Ustawienia',wins:'Wygrane',losses:'Przegrane',winrate:'Procent',bankroll:'Bank'},
-tr:{dashboard:'Panel',picks:'Tahminler',hot:'Sıcak',alerts:'Uyarılar',xfactors:'XFaktörler',parlays:'Kombine',history:'Geçmiş',settings:'Ayarlar',wins:'Kazanç',losses:'Kayıp',winrate:'Oran',bankroll:'Bakiye'},
-el:{dashboard:'Πίνακας',picks:'Επιλογές',hot:'Καυτό',alerts:'Ειδοποιήσεις',xfactors:'XΠαράγοντες',parlays:'Παρολί',history:'Ιστορικό',settings:'Ρυθμίσεις',wins:'Νίκες',losses:'Ήττες',winrate:'Ποσοστό',bankroll:'Κεφάλαιο'}
-};
-
+const T={fra:{f:'🇫🇷',n:'France',c:'#002654'},esp:{f:'🇪🇸',n:'Spain',c:'#AA151B'},ger:{f:'🇩🇪',n:'Germany',c:'#000000'},eng:{f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',n:'England',c:'#CE1124'},por:{f:'🇵🇹',n:'Portugal',c:'#006600'},ned:{f:'🇳🇱',n:'Netherlands',c:'#FF6600'},bel:{f:'🇧🇪',n:'Belgium',c:'#000000'},cro:{f:'🇭🇷',n:'Croatia',c:'#FF0000'},sui:{f:'🇨🇭',n:'Switzerland',c:'#FF0000'},aut:{f:'🇦🇹',n:'Austria',c:'#ED2939'},sco:{f:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',n:'Scotland',c:'#0065BD'},nor:{f:'🇳🇴',n:'Norway',c:'#BA0C2F'},bih:{f:'🇧🇦',n:'Bosnia',c:'#002395'},swe:{f:'🇸🇪',n:'Sweden',c:'#006AA7'},tur:{f:'🇹🇷',n:'Türkiye',c:'#E30A17'},cze:{f:'🇨🇿',n:'Czechia',c:'#11457E'},arg:{f:'🇦🇷',n:'Argentina',c:'#74ACDF'},bra:{f:'🇧🇷',n:'Brazil',c:'#009739'},uru:{f:'🇺🇾',n:'Uruguay',c:'#0038A8'},col:{f:'🇨🇴',n:'Colombia',c:'#FCD116'},ecu:{f:'🇪🇨',n:'Ecuador',c:'#FFD100'},par:{f:'🇵🇾',n:'Paraguay',c:'#D52B1E'},usa:{f:'🇺🇸',n:'USA',c:'#B22234'},mex:{f:'🇲🇽',n:'Mexico',c:'#006847'},can:{f:'🇨🇦',n:'Canada',c:'#FF0000'},pan:{f:'🇵🇦',n:'Panama',c:'#D21034'},cuw:{f:'🇨🇼',n:'Curaçao',c:'#002B7F'},hai:{f:'🇭🇹',n:'Haiti',c:'#00209F'},mar:{f:'🇲🇦',n:'Morocco',c:'#C1272D'},sen:{f:'🇸🇳',n:'Senegal',c:'#00853F'},egy:{f:'🇪🇬',n:'Egypt',c:'#CE1126'},alg:{f:'🇩🇿',n:'Algeria',c:'#006633'},tun:{f:'🇹🇳',n:'Tunisia',c:'#E70013'},rsa:{f:'🇿🇦',n:'South Africa',c:'#007A4D'},civ:{f:'🇨🇮',n:"Côte d'Ivoire",c:'#FF8200'},gha:{f:'🇬🇭',n:'Ghana',c:'#006B3F'},cpv:{f:'🇨🇻',n:'Cape Verde',c:'#003893'},jpn:{f:'🇯🇵',n:'Japan',c:'#000080'},irn:{f:'🇮🇷',n:'Iran',c:'#239F40'},kor:{f:'🇰🇷',n:'South Korea',c:'#CD2E3A'},aus:{f:'🇦🇺',n:'Australia',c:'#00843D'},ksa:{f:'🇸🇦',n:'Saudi Arabia',c:'#006C35'},qat:{f:'🇶🇦',n:'Qatar',c:'#8A1538'},uzb:{f:'🇺🇿',n:'Uzbekistan',c:'#0099B5'},jor:{f:'🇯🇴',n:'Jordan',c:'#007A3D'},nzl:{f:'🇳🇿',n:'New Zealand',c:'#00247D'},irq:{f:'🇮🇶',n:'Iraq',c:'#CE1126'},cod:{f:'🇨🇩',n:'DR Congo',c:'#007FFF'}};
+const L={en:{dashboard:'Dashboard',picks:'Picks',hot:'Hot',alerts:'Alerts',xfactors:'XFactors',parlays:'Parlays',history:'History',settings:'Settings'},es:{dashboard:'Panel',picks:'Apuestas',hot:'Caliente',alerts:'Alertas',xfactors:'XFactores',parlays:'Combinadas',history:'Historial',settings:'Ajustes'},fr:{dashboard:'Tableau',picks:'Pronostics',hot:'Chaud',alerts:'Alertes',xfactors:'XFacteurs',parlays:'Combinés',history:'Historique',settings:'Paramètres'},pt:{dashboard:'Painel',picks:'Apostas',hot:'Quente',alerts:'Alertas',xfactors:'XFatores',parlays:'Múltiplas',history:'Histórico',settings:'Config'},de:{dashboard:'Übersicht',picks:'Tipps',hot:'Heiß',alerts:'Warnungen',xfactors:'XFaktoren',parlays:'Kombis',history:'Verlauf',settings:'Einstellungen'},it:{dashboard:'Pannello',picks:'Scommesse',hot:'Caldo',alerts:'Avvisi',xfactors:'XFattori',parlays:'Multiple',history:'Storico',settings:'Impostazioni'},ar:{dashboard:'لوحة',picks:'اختيارات',hot:'ساخن',alerts:'تنبيهات',xfactors:'عوامل',parlays:'مجمعة',history:'السجل',settings:'إعدادات'},ja:{dashboard:'ダッシュボード',picks:'予想',hot:'注目',alerts:'アラート',xfactors:'分析',parlays:'マルチ',history:'履歴',settings:'設定'},ko:{dashboard:'대시보드',picks:'픽',hot:'핫',alerts:'알림',xfactors:'분석',parlays:'조합',history:'기록',settings:'설정'},zh:{dashboard:'仪表板',picks:'选择',hot:'热门',alerts:'警报',xfactors:'分析',parlays:'串关',history:'历史',settings:'设置'},ht:{dashboard:'Tablo',picks:'Chwa',hot:'Cho',alerts:'Alèt',xfactors:'Faktè',parlays:'Konbine',history:'Istwa',settings:'Paramèt'},nl:{dashboard:'Dashboard',picks:'Tips',hot:'Heet',alerts:'Alerts',xfactors:'XFactoren',parlays:'Combi',history:'Geschiedenis',settings:'Instellingen'},ru:{dashboard:'Панель',picks:'Ставки',hot:'Горячее',alerts:'Оповещения',xfactors:'XФакторы',parlays:'Экспресс',history:'История',settings:'Настройки'},pl:{dashboard:'Panel',picks:'Typy',hot:'Gorące',alerts:'Alerty',xfactors:'XFaktory',parlays:'Akumulatory',history:'Historia',settings:'Ustawienia'},tr:{dashboard:'Panel',picks:'Tahminler',hot:'Sıcak',alerts:'Uyarılar',xfactors:'XFaktörler',parlays:'Kombine',history:'Geçmiş',settings:'Ayarlar'},el:{dashboard:'Πίνακας',picks:'Επιλογές',hot:'Καυτό',alerts:'Ειδοποιήσεις',xfactors:'XΠαράγοντες',parlays:'Παρολί',history:'Ιστορικό',settings:'Ρυθμίσεις'}};
 let currentLang='en',currentTheme='usa';
-
-function showTab(id){
-document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-event.target.classList.add('active');
-}
-
+function showTab(id){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active')}
 function toggleMode(){document.body.classList.toggle('light-mode')}
-
-function setTheme(code){
-currentTheme=code;
-document.documentElement.style.setProperty('--gold',T[code].c);
-document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
-document.querySelector(`[data-theme="${code}"]`)?.classList.add('active');
-}
-
-function setLang(code){
-currentLang=code;
-const l=L[code];
-document.querySelectorAll('.nav-tab').forEach((t,i)=>{
-const keys=['dashboard','picks','hot','alerts','xfactors','parlays','history','settings'];
-const icons=['📊','🎯','🔥','⚠️','🔬','🎰','📈','⚙️'];
-if(keys[i])t.innerHTML=icons[i]+' '+l[keys[i]];
-});
-document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
-document.querySelector(`[data-lang="${code}"]`)?.classList.add('active');
-}
-
-function filterPicks(){
-const q=document.getElementById('searchInput').value.toLowerCase();
-document.querySelectorAll('.pick-row[data-search]').forEach(r=>{
-r.style.display=r.dataset.search.includes(q)?'flex':'none';
-});
-}
-
-function showPanel(type){
-const panel=type==='themes'?'themeSelector':'langSelector';
-document.getElementById(panel).scrollIntoView({behavior:'smooth'});
-showTab('settings');
-}
-
-function showFavorites(){alert('⭐ Favorites feature coming soon!')}
-
-function createStars(){
-const c=document.getElementById('stars');
-for(let i=0;i<50;i++){
-const s=document.createElement('div');
-s.className='star';
-s.style.left=Math.random()*100+'%';
-s.style.animationDuration=(3+Math.random()*7)+'s';
-s.style.animationDelay=Math.random()*5+'s';
-c.appendChild(s);
-}
-for(let i=0;i<15;i++){
-const d=document.createElement('div');
-d.className='diamond';
-d.style.left=Math.random()*100+'%';
-d.style.animationDuration=(8+Math.random()*12)+'s';
-d.style.animationDelay=Math.random()*10+'s';
-c.appendChild(d);
-}
-}
-
-function initThemes(){
-const sel=document.getElementById('themeSelector');
-Object.keys(T).forEach(k=>{
-const btn=document.createElement('button');
-btn.className='theme-btn'+(k===currentTheme?' active':'');
-btn.dataset.theme=k;
-btn.innerHTML=T[k].f;
-btn.title=T[k].n;
-btn.style.background=T[k].c;
-btn.onclick=()=>setTheme(k);
-sel.appendChild(btn);
-});
-}
-
-function initLangs(){
-const sel=document.getElementById('langSelector');
-const names={en:'English',es:'Español',fr:'Français',pt:'Português',de:'Deutsch',it:'Italiano',ar:'العربية',ja:'日本語',ko:'한국어',zh:'中文',ht:'Kreyòl',nl:'Nederlands',ru:'Русский',pl:'Polski',tr:'Türkçe',el:'Ελληνικά'};
-Object.keys(L).forEach(k=>{
-const btn=document.createElement('button');
-btn.className='lang-btn'+(k===currentLang?' active':'');
-btn.dataset.lang=k;
-btn.textContent=names[k];
-btn.onclick=()=>setLang(k);
-sel.appendChild(btn);
-});
-}
-
-createStars();
-initThemes();
-initLangs();
+function setTheme(code){currentTheme=code;document.documentElement.style.setProperty('--gold',T[code].c);document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));document.querySelector(`[data-theme="${code}"]`)?.classList.add('active')}
+function setLang(code){currentLang=code;const l=L[code];document.querySelectorAll('.nav-tab').forEach((t,i)=>{const keys=['dashboard','picks','hot','alerts','xfactors','parlays','history','settings'];const icons=['📊','🎯','🔥','⚠️','🔬','🎰','📈','⚙️'];if(keys[i])t.innerHTML=icons[i]+' '+l[keys[i]]});document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));document.querySelector(`[data-lang="${code}"]`)?.classList.add('active')}
+function filterPicks(){const q=document.getElementById('searchInput').value.toLowerCase();document.querySelectorAll('.pick-row[data-search]').forEach(r=>{r.style.display=r.dataset.search.includes(q)?'flex':'none'})}
+function showPanel(type){showTab('settings');setTimeout(()=>{document.getElementById(type==='themes'?'themeSelector':'langSelector').scrollIntoView({behavior:'smooth'})},100)}
+function showFavorites(){alert('⭐ Favorites coming soon!')}
+function createStars(){const c=document.getElementById('stars');for(let i=0;i<50;i++){const s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.animationDuration=(3+Math.random()*7)+'s';s.style.animationDelay=Math.random()*5+'s';c.appendChild(s)}for(let i=0;i<15;i++){const d=document.createElement('div');d.className='diamond';d.style.left=Math.random()*100+'%';d.style.animationDuration=(8+Math.random()*12)+'s';d.style.animationDelay=Math.random()*10+'s';c.appendChild(d)}}
+function initThemes(){const sel=document.getElementById('themeSelector');Object.keys(T).forEach(k=>{const btn=document.createElement('button');btn.className='theme-btn'+(k===currentTheme?' active':'');btn.dataset.theme=k;btn.innerHTML=T[k].f;btn.title=T[k].n;btn.style.background=T[k].c;btn.onclick=()=>setTheme(k);sel.appendChild(btn)})}
+function initLangs(){const sel=document.getElementById('langSelector');const names={en:'English',es:'Español',fr:'Français',pt:'Português',de:'Deutsch',it:'Italiano',ar:'العربية',ja:'日本語',ko:'한국어',zh:'中文',ht:'Kreyòl',nl:'Nederlands',ru:'Русский',pl:'Polski',tr:'Türkçe',el:'Ελληνικά'};Object.keys(L).forEach(k=>{const btn=document.createElement('button');btn.className='lang-btn'+(k===currentLang?' active':'');btn.dataset.lang=k;btn.textContent=names[k];btn.onclick=()=>setLang(k);sel.appendChild(btn)})}
+createStars();initThemes();initLangs();
 </script>
 </body>
 </html>
