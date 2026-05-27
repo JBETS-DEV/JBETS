@@ -16,12 +16,27 @@ body.light-mode{--bg:#f5f5f5;--card:rgba(255,255,255,0.95);--text:#1a1a2e;--mute
 .diamond{position:absolute;width:8px;height:8px;background:linear-gradient(135deg,#d4af37,#fff5cc);transform:rotate(45deg);animation:float linear infinite;opacity:0}
 @keyframes fall{0%{transform:translateY(-100vh);opacity:0.8}100%{transform:translateY(100vh);opacity:0}}
 @keyframes float{0%{transform:rotate(45deg) translateY(100vh);opacity:0}50%{opacity:0.6}100%{transform:rotate(45deg) translateY(-100vh);opacity:0}}
-.header{background:linear-gradient(135deg,#0a0f18,#1a1f2e);padding:15px 20px;border-bottom:var(--border);position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
-.header-left{text-align:left}
-.logo{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:700;color:var(--gold);text-shadow:0 0 20px rgba(212,175,55,0.5)}
-.tagline{font-size:0.65rem;color:var(--muted);margin-top:4px;line-height:1.4}
+.header{background:linear-gradient(135deg,#0a0f18,#1a1f2e);padding:12px 20px;border-bottom:var(--border);position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
+.header-left{text-align:left;flex:1}
+.logo{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:700;color:var(--gold);text-shadow:0 0 20px rgba(212,175,55,0.5)}
+.tagline{font-size:0.6rem;color:var(--muted);margin-top:3px;line-height:1.4}
 .tagline-bold{color:var(--gold);font-weight:600}
-.header-controls{display:flex;gap:8px;align-items:center}
+.header-center{flex:1;display:flex;justify-content:center;align-items:center}
+.sports-logo{position:relative;width:80px;height:80px;display:flex;align-items:center;justify-content:center}
+.antenna-icon{font-size:1.8rem;transform:scaleX(-1);z-index:2;filter:drop-shadow(0 0 8px rgba(212,175,55,0.6));animation:pulse-antenna 2s infinite}
+@keyframes pulse-antenna{0%,100%{filter:drop-shadow(0 0 8px rgba(212,175,55,0.6))}50%{filter:drop-shadow(0 0 15px rgba(212,175,55,0.9))}}
+.sports-orbit{position:absolute;width:100%;height:100%;animation:spin-orbit 20s linear infinite}
+@keyframes spin-orbit{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.orbit-item{position:absolute;font-size:0.9rem;filter:drop-shadow(0 0 3px rgba(255,255,255,0.5))}
+.orbit-item:nth-child(1){top:0;left:50%;transform:translateX(-50%)}
+.orbit-item:nth-child(2){top:15%;right:5%;transform:rotate(60deg)}
+.orbit-item:nth-child(3){bottom:15%;right:5%;transform:rotate(120deg)}
+.orbit-item:nth-child(4){bottom:0;left:50%;transform:translateX(-50%)}
+.orbit-item:nth-child(5){bottom:15%;left:5%;transform:rotate(240deg)}
+.orbit-item:nth-child(6){top:15%;left:5%;transform:rotate(300deg)}
+.orbit-border{position:absolute;width:70px;height:70px;border:2px solid rgba(212,175,55,0.4);border-radius:50%;animation:pulse-border 3s infinite}
+@keyframes pulse-border{0%,100%{border-color:rgba(212,175,55,0.4);box-shadow:0 0 10px rgba(212,175,55,0.2)}50%{border-color:rgba(212,175,55,0.8);box-shadow:0 0 20px rgba(212,175,55,0.4)}}
+.header-right{flex:1;display:flex;justify-content:flex-end;gap:8px;align-items:center}
 .control-btn{background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);color:var(--gold);padding:6px 10px;border-radius:6px;font-size:0.7rem;cursor:pointer;transition:all 0.3s}
 .control-btn:hover{background:rgba(212,175,55,0.2);transform:scale(1.05)}
 .mode-toggle{width:50px;height:26px;background:rgba(255,255,255,0.1);border-radius:13px;position:relative;cursor:pointer;border:1px solid rgba(212,175,55,0.3)}
@@ -154,6 +169,7 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 .footer-brand{font-size:0.6rem;color:var(--gold);text-align:left;margin-top:8px;opacity:0.7}
 .favorites-btn{position:fixed;bottom:20px;right:15px;width:50px;height:50px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;cursor:pointer;box-shadow:0 4px 15px rgba(212,175,55,0.4);z-index:99;transition:all 0.3s;border:none}
 .favorites-btn:hover{transform:scale(1.1)}
+@media(max-width:600px){.header-center{display:none}.sports-logo{width:60px;height:60px}.antenna-icon{font-size:1.4rem}.orbit-item{font-size:0.7rem}.orbit-border{width:50px;height:50px}}
 @media(max-width:480px){.stats-grid.four{grid-template-columns:repeat(2,1fr)}.theme-selector{grid-template-columns:repeat(6,1fr)}.disclaimer-grid{grid-template-columns:1fr;gap:10px}.disclaimer-col{border-right:none;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px}.disclaimer-col:last-child{border-bottom:none}.parlay-leg-builder{grid-template-columns:1fr 1fr;gap:4px}.parlay-leg-builder select,.parlay-leg-builder input{font-size:0.65rem;padding:6px}}
 </style>
 </head>
@@ -165,7 +181,21 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 <div class="logo">SigMax</div>
 <div class="tagline"><span class="tagline-bold">Maximum Edge. Maximum Energy. Maximum Signal.</span><br>Watch Passionately. Bet Wisely!</div>
 </div>
-<div class="header-controls">
+<div class="header-center">
+<div class="sports-logo">
+<div class="orbit-border"></div>
+<div class="sports-orbit">
+<span class="orbit-item">⚽</span>
+<span class="orbit-item">🏐</span>
+<span class="orbit-item">🎾</span>
+<span class="orbit-item">🏈</span>
+<span class="orbit-item">🏒</span>
+<span class="orbit-item">🤾</span>
+</div>
+<span class="antenna-icon">📡</span>
+</div>
+</div>
+<div class="header-right">
 <div class="mode-toggle" onclick="toggleMode()"></div>
 <button class="control-btn" onclick="showPanel('themes')">🎨</button>
 <button class="control-btn" onclick="showPanel('langs')">🌐</button>
@@ -438,7 +468,7 @@ body.light-mode .mode-toggle::after{content:'🌙';left:26px}
 </div>
 <button class="favorites-btn" onclick="showFavorites()">⭐</button>
 <script>
-const T={fra:{f:'🇫🇷',n:'France',c:'#002654'},esp:{f:'🇪🇸',n:'Spain',c:'#AA151B'},ger:{f:'🇩🇪',n:'Germany',c:'#000000'},eng:{f:'🏴',n:'England',c:'#CE1124'},por:{f:'🇵🇹',n:'Portugal',c:'#006600'},ned:{f:'🇳🇱',n:'Netherlands',c:'#FF6600'},bel:{f:'🇧🇪',n:'Belgium',c:'#000000'},cro:{f:'🇭🇷',n:'Croatia',c:'#FF0000'},sui:{f:'🇨🇭',n:'Switzerland',c:'#FF0000'},aut:{f:'🇦🇹',n:'Austria',c:'#ED2939'},sco:{f:'🏴',n:'Scotland',c:'#0065BD'},nor:{f:'🇳🇴',n:'Norway',c:'#BA0C2F'},bih:{f:'🇧🇦',n:'Bosnia',c:'#002395'},swe:{f:'🇸🇪',n:'Sweden',c:'#006AA7'},tur:{f:'🇹🇷',n:'Türkiye',c:'#E30A17'},cze:{f:'🇨🇿',n:'Czechia',c:'#11457E'},arg:{f:'🇦🇷',n:'Argentina',c:'#74ACDF'},bra:{f:'🇧🇷',n:'Brazil',c:'#009739'},uru:{f:'🇺🇾',n:'Uruguay',c:'#0038A8'},col:{f:'🇨🇴',n:'Colombia',c:'#FCD116'},ecu:{f:'🇪🇨',n:'Ecuador',c:'#FFD100'},par:{f:'🇵🇾',n:'Paraguay',c:'#D52B1E'},usa:{f:'🇺🇸',n:'USA',c:'#B22234'},mex:{f:'🇲🇽',n:'Mexico',c:'#006847'},can:{f:'🇨🇦',n:'Canada',c:'#FF0000'},pan:{f:'🇵🇦',n:'Panama',c:'#D21034'},cuw:{f:'🇨🇼',n:'Curaçao',c:'#002B7F'},hai:{f:'🇭🇹',n:'Haiti',c:'#00209F'},mar:{f:'🇲🇦',n:'Morocco',c:'#C1272D'},sen:{f:'🇸🇳',n:'Senegal',c:'#00853F'},egy:{f:'🇪🇬',n:'Egypt',c:'#CE1126'},alg:{f:'🇩🇿',n:'Algeria',c:'#006633'},tun:{f:'🇹🇳',n:'Tunisia',c:'#E70013'},rsa:{f:'🇿🇦',n:'South Africa',c:'#007A4D'},civ:{f:'🇨🇮',n:"Côte d'Ivoire",c:'#FF8200'},gha:{f:'🇬🇭',n:'Ghana',c:'#006B3F'},cpv:{f:'🇨🇻',n:'Cape Verde',c:'#003893'},jpn:{f:'🇯🇵',n:'Japan',c:'#000080'},irn:{f:'🇮🇷',n:'Iran',c:'#239F40'},kor:{f:'🇰🇷',n:'South Korea',c:'#CD2E3A'},aus:{f:'🇦🇺',n:'Australia',c:'#00843D'},ksa:{f:'🇸🇦',n:'Saudi Arabia',c:'#006C35'},qat:{f:'🇶🇦',n:'Qatar',c:'#8A1538'},uzb:{f:'🇺🇿',n:'Uzbekistan',c:'#0099B5'},jor:{f:'🇯🇴',n:'Jordan',c:'#007A3D'},nzl:{f:'🇳🇿',n:'New Zealand',c:'#00247D'},irq:{f:'🇮🇶',n:'Iraq',c:'#CE1126'},cod:{f:'🇨🇩',n:'DR Congo',c:'#007FFF'}};
+const T={fra:{f:'🇫🇷',n:'France',c:'#002654'},esp:{f:'🇪🇸',n:'Spain',c:'#AA151B'},ger:{f:'🇩🇪',n:'Germany',c:'#000000'},eng:{f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',n:'England',c:'#CE1124'},por:{f:'🇵🇹',n:'Portugal',c:'#006600'},ned:{f:'🇳🇱',n:'Netherlands',c:'#FF6600'},bel:{f:'🇧🇪',n:'Belgium',c:'#000000'},cro:{f:'🇭🇷',n:'Croatia',c:'#FF0000'},sui:{f:'🇨🇭',n:'Switzerland',c:'#FF0000'},aut:{f:'🇦🇹',n:'Austria',c:'#ED2939'},sco:{f:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',n:'Scotland',c:'#0065BD'},nor:{f:'🇳🇴',n:'Norway',c:'#BA0C2F'},bih:{f:'🇧🇦',n:'Bosnia',c:'#002395'},swe:{f:'🇸🇪',n:'Sweden',c:'#006AA7'},tur:{f:'🇹🇷',n:'Türkiye',c:'#E30A17'},cze:{f:'🇨🇿',n:'Czechia',c:'#11457E'},arg:{f:'🇦🇷',n:'Argentina',c:'#74ACDF'},bra:{f:'🇧🇷',n:'Brazil',c:'#009739'},uru:{f:'🇺🇾',n:'Uruguay',c:'#0038A8'},col:{f:'🇨🇴',n:'Colombia',c:'#FCD116'},ecu:{f:'🇪🇨',n:'Ecuador',c:'#FFD100'},par:{f:'🇵🇾',n:'Paraguay',c:'#D52B1E'},usa:{f:'🇺🇸',n:'USA',c:'#B22234'},mex:{f:'🇲🇽',n:'Mexico',c:'#006847'},can:{f:'🇨🇦',n:'Canada',c:'#FF0000'},pan:{f:'🇵🇦',n:'Panama',c:'#D21034'},cuw:{f:'🇨🇼',n:'Curaçao',c:'#002B7F'},hai:{f:'🇭🇹',n:'Haiti',c:'#00209F'},mar:{f:'🇲🇦',n:'Morocco',c:'#C1272D'},sen:{f:'🇸🇳',n:'Senegal',c:'#00853F'},egy:{f:'🇪🇬',n:'Egypt',c:'#CE1126'},alg:{f:'🇩🇿',n:'Algeria',c:'#006633'},tun:{f:'🇹🇳',n:'Tunisia',c:'#E70013'},rsa:{f:'🇿🇦',n:'South Africa',c:'#007A4D'},civ:{f:'🇨🇮',n:"Côte d'Ivoire",c:'#FF8200'},gha:{f:'🇬🇭',n:'Ghana',c:'#006B3F'},cpv:{f:'🇨🇻',n:'Cape Verde',c:'#003893'},jpn:{f:'🇯🇵',n:'Japan',c:'#000080'},irn:{f:'🇮🇷',n:'Iran',c:'#239F40'},kor:{f:'🇰🇷',n:'South Korea',c:'#CD2E3A'},aus:{f:'🇦🇺',n:'Australia',c:'#00843D'},ksa:{f:'🇸🇦',n:'Saudi Arabia',c:'#006C35'},qat:{f:'🇶🇦',n:'Qatar',c:'#8A1538'},uzb:{f:'🇺🇿',n:'Uzbekistan',c:'#0099B5'},jor:{f:'🇯🇴',n:'Jordan',c:'#007A3D'},nzl:{f:'🇳🇿',n:'New Zealand',c:'#00247D'},irq:{f:'🇮🇶',n:'Iraq',c:'#CE1126'},cod:{f:'🇨🇩',n:'DR Congo',c:'#007FFF'}};
 const L={en:{dashboard:'Dashboard',picks:'Picks',hot:'Hot',alerts:'Alerts',xfactors:'XFactors',parlays:'Parlays',history:'History',settings:'Settings'},es:{dashboard:'Panel',picks:'Apuestas',hot:'Caliente',alerts:'Alertas',xfactors:'XFactores',parlays:'Combinadas',history:'Historial',settings:'Ajustes'},fr:{dashboard:'Tableau',picks:'Pronostics',hot:'Chaud',alerts:'Alertes',xfactors:'XFacteurs',parlays:'Combinés',history:'Historique',settings:'Paramètres'},pt:{dashboard:'Painel',picks:'Apostas',hot:'Quente',alerts:'Alertas',xfactors:'XFatores',parlays:'Múltiplas',history:'Histórico',settings:'Config'},de:{dashboard:'Übersicht',picks:'Tipps',hot:'Heiß',alerts:'Warnungen',xfactors:'XFaktoren',parlays:'Kombis',history:'Verlauf',settings:'Einstellungen'},it:{dashboard:'Pannello',picks:'Scommesse',hot:'Caldo',alerts:'Avvisi',xfactors:'XFattori',parlays:'Multiple',history:'Storico',settings:'Impostazioni'},ar:{dashboard:'لوحة',picks:'اختيارات',hot:'ساخن',alerts:'تنبيهات',xfactors:'عوامل',parlays:'مجمعة',history:'السجل',settings:'إعدادات'},ja:{dashboard:'ダッシュボード',picks:'予想',hot:'注目',alerts:'アラート',xfactors:'分析',parlays:'マルチ',history:'履歴',settings:'設定'},ko:{dashboard:'대시보드',picks:'픽',hot:'핫',alerts:'알림',xfactors:'분석',parlays:'조합',history:'기록',settings:'설정'},zh:{dashboard:'仪表板',picks:'选择',hot:'热门',alerts:'警报',xfactors:'分析',parlays:'串关',history:'历史',settings:'设置'},ht:{dashboard:'Tablo',picks:'Chwa',hot:'Cho',alerts:'Alèt',xfactors:'Faktè',parlays:'Konbine',history:'Istwa',settings:'Paramèt'},nl:{dashboard:'Dashboard',picks:'Tips',hot:'Heet',alerts:'Alerts',xfactors:'XFactoren',parlays:'Combi',history:'Geschiedenis',settings:'Instellingen'},ru:{dashboard:'Панель',picks:'Ставки',hot:'Горячее',alerts:'Оповещения',xfactors:'XФакторы',parlays:'Экспресс',history:'История',settings:'Настройки'},pl:{dashboard:'Panel',picks:'Typy',hot:'Gorące',alerts:'Alerty',xfactors:'XFaktory',parlays:'Akumulatory',history:'Historia',settings:'Ustawienia'},tr:{dashboard:'Panel',picks:'Tahminler',hot:'Sıcak',alerts:'Uyarılar',xfactors:'XFaktörler',parlays:'Kombine',history:'Geçmiş',settings:'Ayarlar'},el:{dashboard:'Πίνακας',picks:'Επιλογές',hot:'Καυτό',alerts:'Ειδοποιήσεις',xfactors:'XΠαράγοντες',parlays:'Παρολί',history:'Ιστορικό',settings:'Ρυθμίσεις'}};
 let currentLang='en',currentTheme='usa';
 function showTab(id){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active')}
