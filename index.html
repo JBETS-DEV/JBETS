@@ -3,154 +3,230 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>SigMAX ELITE v30.7 — May 29, 2026</title>
+<title>SigMAX ELITE v30.9 — May 29, 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080b12;--card:rgba(15,20,30,0.95);--primary:#d4af37;--secondary:#1a1a2e;--accent:#ffd700;--text:#fff;--muted:rgba(255,255,255,0.6);--border:0.5px solid rgba(212,175,55,0.3);--green:#10b981;--red:#ef4444;--gold:#d4af37}
+:root{--bg:#080b12;--card:rgba(15,20,30,0.95);--gold:#d4af37;--green:#10b981;--red:#ef4444;--text:#fff;--muted:rgba(255,255,255,0.6);--border:0.5px solid rgba(212,175,55,0.3)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 .app{max-width:100%;margin:0 auto}
-.header{background:linear-gradient(135deg,#0a0f18,#1a1f2e);padding:12px 15px;border-bottom:var(--border);position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
-.header-left{display:flex;flex-direction:column;align-items:flex-start;flex:1}
-.logo{font-size:1.4rem;font-weight:700;color:var(--primary);text-shadow:0 0 20px rgba(212,175,55,0.5);display:flex;align-items:center;gap:4px}
-.sparkle{font-size:1rem}
-.tagline{font-size:0.65rem;color:var(--muted);margin-top:2px;font-style:italic}
-.header-center{display:flex;justify-content:center;align-items:center;flex:1}
-.orbit-container{position:relative;width:80px;height:80px}
-.orbit-ring{position:absolute;top:0;left:0;width:100%;height:100%;border:1.5px solid rgba(212,175,55,0.3);border-radius:50%;animation:pulse 3s infinite}
-@keyframes pulse{0%,100%{opacity:0.4;transform:scale(1)}50%{opacity:0.8;transform:scale(1.05)}}
-.antenna{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center}
-.antenna-tip{width:8px;height:8px;background:var(--primary);border-radius:50%;box-shadow:0 0 10px var(--primary);animation:glow 1.5s infinite}
-.antenna-base{width:3px;height:16px;background:linear-gradient(to bottom,var(--primary),transparent);margin-top:-2px}
-@keyframes glow{0%,100%{box-shadow:0 0 5px var(--primary)}50%{box-shadow:0 0 20px var(--primary),0 0 30px var(--primary)}}
-.orbit-ball{position:absolute;font-size:12px;animation:orbit 8s linear infinite}
-.orbit-ball:nth-child(1){animation-delay:0s}
-.orbit-ball:nth-child(2){animation-delay:-1.33s}
-.orbit-ball:nth-child(3){animation-delay:-2.66s}
-.orbit-ball:nth-child(4){animation-delay:-4s}
-.orbit-ball:nth-child(5){animation-delay:-5.33s}
-.orbit-ball:nth-child(6){animation-delay:-6.66s}
-@keyframes orbit{0%{top:0;left:50%;transform:translate(-50%,-50%)}25%{top:50%;left:100%;transform:translate(-50%,-50%)}50%{top:100%;left:50%;transform:translate(-50%,-50%)}75%{top:50%;left:0;transform:translate(-50%,-50%)}100%{top:0;left:50%;transform:translate(-50%,-50%)}}
-.header-right{display:flex;flex-direction:column;align-items:flex-end;flex:1;gap:4px}
-.header-controls{display:flex;gap:8px;align-items:center}
-.header-btn{background:transparent;border:1px solid rgba(212,175,55,0.3);color:var(--muted);padding:4px 8px;border-radius:6px;font-size:0.7rem;cursor:pointer}
-.header-btn:hover{border-color:var(--primary);color:var(--primary)}
-.version{font-size:0.65rem;color:var(--muted);text-align:right}
-.ticker-wrap{background:linear-gradient(90deg,rgba(212,175,55,0.1),rgba(212,175,55,0.05));border-bottom:var(--border);overflow:hidden;height:32px}
-.ticker{display:flex;animation:ticker 30s linear infinite;white-space:nowrap;padding:8px 0}
-.ticker-item{padding:0 40px;font-size:0.8rem;color:var(--primary)}
+
+/* HEADER - 3 COLUMN WITH CENTERED 80px ORBIT - LOCKED */
+.header{background:linear-gradient(135deg,#0a0f18,#1a1f2e);padding:12px 15px;border-bottom:var(--border);position:sticky;top:0;z-index:100;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.logo-section{display:flex;flex-direction:column;align-items:flex-start}
+.logo{font-size:1.4rem;font-weight:700;display:flex;align-items:center;gap:4px}
+.logo .sparkle{color:var(--gold);font-size:1rem}
+.logo .sig{color:var(--gold);text-shadow:0 0 20px rgba(212,175,55,0.5)}
+.logo .max{color:#fff}
+.logo .elite{color:var(--gold);font-size:0.8rem;margin-left:4px}
+.tagline{font-size:0.6rem;color:var(--muted);margin-top:2px;font-style:italic}
+
+/* CENTER ORBIT CONTAINER - 80px WITH PARABOLIC ANTENNA */
+.orbit-center{width:80px;height:80px;position:relative;display:flex;align-items:center;justify-content:center}
+
+/* PARABOLIC ANTENNA FACING LEFT */
+.parabolic-antenna{position:absolute;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.dish{position:absolute;width:36px;height:50px;border:3px solid var(--gold);border-radius:0 50% 50% 0;border-left:none;left:22px;top:15px;background:linear-gradient(90deg,rgba(212,175,55,0.1),transparent);box-shadow:0 0 10px rgba(212,175,55,0.3)}
+.dish::before{content:'';position:absolute;width:8px;height:8px;background:var(--gold);border-radius:50%;left:-4px;top:50%;transform:translateY(-50%);box-shadow:0 0 8px var(--gold)}
+.feed-arm{position:absolute;width:20px;height:2px;background:linear-gradient(90deg,var(--gold),rgba(212,175,55,0.5));left:2px;top:50%;transform:translateY(-50%)}
+.feed-horn{position:absolute;width:6px;height:10px;border:2px solid var(--gold);border-right:none;border-radius:4px 0 0 4px;left:0;top:50%;transform:translateY(-50%);background:rgba(212,175,55,0.2)}
+
+/* 6 ORBITING BALLS */
+.orbit-ring{position:absolute;width:76px;height:76px;border:1px solid rgba(212,175,55,0.2);border-radius:50%;top:2px;left:2px}
+.orbit-ball{position:absolute;width:8px;height:8px;border-radius:50%;box-shadow:0 0 6px currentColor}
+.ball-1{animation:orbit1 6s linear infinite;color:#ef4444}
+.ball-2{animation:orbit2 6s linear infinite;color:#f59e0b}
+.ball-3{animation:orbit3 6s linear infinite;color:#10b981}
+.ball-4{animation:orbit4 6s linear infinite;color:#3b82f6}
+.ball-5{animation:orbit5 6s linear infinite;color:#8b5cf6}
+.ball-6{animation:orbit6 6s linear infinite;color:#ec4899}
+
+@keyframes orbit1{0%{top:0;left:36px;background:#ef4444}50%{top:68px;left:36px}100%{top:0;left:36px}}
+@keyframes orbit2{0%{top:10px;left:66px;background:#f59e0b}50%{top:58px;left:6px}100%{top:10px;left:66px}}
+@keyframes orbit3{0%{top:34px;left:72px;background:#10b981}50%{top:34px;left:0}100%{top:34px;left:72px}}
+@keyframes orbit4{0%{top:58px;left:66px;background:#3b82f6}50%{top:10px;left:6px}100%{top:58px;left:66px}}
+@keyframes orbit5{0%{top:68px;left:36px;background:#8b5cf6}50%{top:0;left:36px}100%{top:68px;left:36px}}
+@keyframes orbit6{0%{top:34px;left:0;background:#ec4899}50%{top:34px;left:72px}100%{top:34px;left:0}}
+
+/* Signal waves from antenna */
+.signal-wave{position:absolute;left:-5px;top:50%;transform:translateY(-50%);width:12px;height:24px;border:2px solid var(--gold);border-right:none;border-radius:12px 0 0 12px;opacity:0;animation:wave 2s ease-out infinite}
+.signal-wave:nth-child(2){animation-delay:0.5s;width:16px;height:32px;left:-10px}
+.signal-wave:nth-child(3){animation-delay:1s;width:20px;height:40px;left:-15px}
+@keyframes wave{0%{opacity:0.8;transform:translateY(-50%) scale(0.8)}100%{opacity:0;transform:translateY(-50%) scale(1.2)}}
+
+/* HEADER RIGHT CONTROLS */
+.header-controls{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.control-buttons{display:flex;gap:8px}
+.control-btn{background:transparent;border:1px solid rgba(212,175,55,0.3);color:var(--muted);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center}
+.control-btn:hover{background:rgba(212,175,55,0.1);color:var(--gold)}
+.version-info{font-size:0.6rem;color:var(--muted);text-align:right}
+
+/* TICKER */
+.ticker-wrap{background:linear-gradient(90deg,rgba(212,175,55,0.1),rgba(212,175,55,0.05));border-bottom:var(--border);overflow:hidden;height:30px}
+.ticker{display:flex;animation:ticker 30s linear infinite;white-space:nowrap;padding:7px 0}
+.ticker-item{padding:0 40px;font-size:0.75rem;color:var(--gold)}
 @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.nav-container{background:rgba(10,15,24,0.98);border-bottom:var(--border);padding:10px 15px;overflow-x:auto}
-.nav-tabs{display:flex;gap:6px;min-width:max-content}
-.nav-tab{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--muted);padding:8px 14px;border-radius:8px;font-size:0.8rem;cursor:pointer;transition:all 0.3s}
-.nav-tab.active{background:linear-gradient(135deg,var(--primary),#b8962e);color:#000;border-color:var(--primary);font-weight:600}
-.nav-tab:hover:not(.active){border-color:var(--primary);color:var(--primary)}
-.main{padding:15px}
-.card{background:var(--card);border:var(--border);border-radius:10px;padding:15px;margin-bottom:12px}
-.card-title{font-size:0.9rem;font-weight:600;color:var(--primary);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}
-.stat-box{background:rgba(0,0,0,0.3);border-radius:8px;padding:12px;text-align:center}
-.stat-value{font-size:1.2rem;font-weight:700;color:var(--primary)}
-.stat-label{font-size:0.65rem;color:var(--muted);margin-top:4px}
-.pick-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
-.pick-row:last-child{border-bottom:none}
-.pick-info{flex:1}
-.pick-team{font-weight:600;font-size:0.9rem}
-.pick-detail{font-size:0.7rem;color:var(--muted)}
-.pick-odds{font-weight:700;font-size:0.95rem;color:var(--primary)}
-.conf{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;margin-left:8px;background:rgba(16,185,129,0.2);color:var(--green)}
+
+/* NAVIGATION */
+.nav-container{background:rgba(10,15,24,0.98);border-bottom:var(--border);padding:8px 12px;overflow-x:auto}
+.nav-tabs{display:flex;gap:5px;min-width:max-content}
+.nav-tab{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--muted);padding:7px 12px;border-radius:8px;font-size:0.75rem;cursor:pointer;white-space:nowrap}
+.nav-tab.active{background:linear-gradient(135deg,var(--gold),#b8962e);color:#000;border-color:var(--gold);font-weight:600}
+
+/* MAIN CONTENT */
+.main{padding:12px}
+.card{background:var(--card);border:var(--border);border-radius:10px;padding:12px;margin-bottom:10px}
+.card-title{font-size:0.85rem;font-weight:600;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .tab-content{display:none}
 .tab-content.active{display:block}
-.prop-row{display:flex;justify-content:space-between;align-items:center;padding:10px;background:rgba(0,0,0,0.2);border-radius:6px;margin-bottom:6px}
-.prop-player{font-weight:600;font-size:0.85rem}
-.prop-line{font-size:0.7rem;color:var(--muted)}
-.prop-pick{font-size:0.8rem;color:var(--green);font-weight:600}
+
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.stat-box{background:rgba(0,0,0,0.3);border-radius:8px;padding:10px;text-align:center}
+.stat-value{font-size:1.1rem;font-weight:700;color:var(--gold)}
+.stat-label{font-size:0.6rem;color:var(--muted);margin-top:3px}
+
+/* PICKS */
+.pick-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.pick-info{flex:1}
+.pick-team{font-weight:600;font-size:0.85rem}
+.pick-detail{font-size:0.65rem;color:var(--muted)}
+.pick-odds{font-weight:700;font-size:0.9rem;color:var(--gold)}
+.conf{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.6rem;margin-left:6px;font-weight:700}
+.conf.high{background:rgba(16,185,129,0.2);color:var(--green)}
+.conf.med{background:rgba(234,179,8,0.2);color:#eab308}
+
+/* ===== PARLAY BUILDER STYLES ===== */
+.parlay-rules{background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px;margin-bottom:15px;font-size:0.7rem;text-align:center;color:var(--gold)}
+.parlay-section-title{font-size:0.8rem;font-weight:600;color:var(--gold);margin:15px 0 10px;padding-bottom:5px;border-bottom:1px solid rgba(212,175,55,0.2)}
+.parlay-slot{display:grid;grid-template-columns:40px 1fr 1fr 1fr 1fr 80px 40px;gap:8px;align-items:center;padding:10px;background:rgba(0,0,0,0.2);border-radius:8px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.05)}
+.parlay-slot.active{border-color:var(--gold);background:rgba(212,175,55,0.05)}
+.slot-label{font-weight:700;color:var(--gold);font-size:0.8rem;text-align:center}
+.slot-select{background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:8px;color:var(--text);font-size:0.7rem;cursor:pointer;width:100%}
+.slot-select:hover{border-color:var(--gold)}
+.slot-select option{background:#1a1f2e;color:var(--text)}
+.slot-odds{font-weight:700;color:var(--gold);text-align:center;font-size:0.85rem}
+.slot-remove{background:rgba(239,68,68,0.2);border:none;color:var(--red);width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.slot-remove:hover{background:rgba(239,68,68,0.4)}
+.slot-remove:disabled{opacity:0.3;cursor:not-allowed}
+.parlay-count{font-size:0.7rem;color:var(--muted);margin-top:5px;text-align:right}
+
+/* PARLAY SUMMARY */
+.parlay-summary{background:linear-gradient(135deg,rgba(212,175,55,0.1),rgba(16,185,129,0.1));border:1px solid var(--gold);border-radius:10px;padding:15px;margin-top:15px}
+.summary-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.summary-row:last-child{border-bottom:none}
+.summary-label{color:var(--muted);font-size:0.75rem}
+.summary-value{font-weight:700;color:var(--gold);font-size:0.9rem}
+.summary-value.payout{color:var(--green);font-size:1.1rem}
+.parlay-actions{display:flex;gap:10px;margin-top:15px}
+.parlay-btn{flex:1;padding:12px;border-radius:8px;font-weight:600;font-size:0.8rem;cursor:pointer;border:none}
+.parlay-btn.clear{background:rgba(239,68,68,0.2);color:var(--red)}
+.parlay-btn.clear:hover{background:rgba(239,68,68,0.4)}
+.parlay-btn.save{background:linear-gradient(135deg,var(--gold),#b8962e);color:#000}
+.parlay-btn.save:hover{opacity:0.9}
+.parlay-validation{margin-top:10px;padding:10px;border-radius:6px;font-size:0.7rem;text-align:center}
+.parlay-validation.valid{background:rgba(16,185,129,0.1);color:var(--green)}
+.parlay-validation.invalid{background:rgba(239,68,68,0.1);color:var(--red)}
+
+/* PROPS */
+.prop-row{display:flex;justify-content:space-between;align-items:center;padding:10px;background:rgba(0,0,0,0.2);border-radius:8px;margin-bottom:8px}
+.prop-player{font-weight:600;font-size:0.8rem}
+.prop-stat{font-size:0.65rem;color:var(--muted)}
+.prop-line{font-weight:700;color:var(--gold)}
+
+/* SPORT BREAKDOWN */
 .sport-row{display:flex;justify-content:space-between;padding:10px;background:rgba(0,0,0,0.2);border-radius:6px;margin-bottom:6px}
-.parlay-section{margin-top:15px}
-.parlay-slots{display:flex;flex-direction:column;gap:6px}
-.slot-group-title{font-size:0.75rem;color:var(--primary);font-weight:600;margin:10px 0 5px;border-bottom:1px solid rgba(212,175,55,0.2);padding-bottom:4px}
-.parlay-slot{display:flex;justify-content:space-between;align-items:center;padding:10px;background:rgba(0,0,0,0.3);border-radius:6px;border:1px dashed rgba(255,255,255,0.1)}
-.parlay-slot.filled{border:1px solid var(--green);background:rgba(16,185,129,0.1)}
-.slot-label{font-size:0.75rem;color:var(--muted)}
-.slot-pick{font-size:0.8rem;color:var(--text)}
-.slot-odds{font-size:0.8rem;color:var(--primary);font-weight:600}
-.parlay-total{margin-top:15px;padding:15px;background:linear-gradient(135deg,rgba(212,175,55,0.2),rgba(212,175,55,0.1));border-radius:8px;text-align:center}
-.parlay-odds{font-size:1.5rem;font-weight:700;color:var(--primary)}
-.parlay-payout{font-size:0.85rem;color:var(--green)}
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:200;overflow-y:auto;padding:20px}
+.sport-name{font-size:0.8rem}
+.sport-record{font-size:0.8rem;color:var(--gold)}
+
+/* THEME MODAL */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:1000;overflow-y:auto}
 .modal.active{display:block}
-.modal-content{background:var(--card);border-radius:12px;padding:20px;max-width:500px;margin:0 auto}
-.modal-title{font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:15px;text-align:center}
+.modal-content{max-width:500px;margin:20px auto;padding:20px;background:var(--card);border-radius:12px;border:var(--border)}
+.modal-title{font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:15px;text-align:center}
 .modal-close{position:absolute;top:15px;right:20px;font-size:1.5rem;color:var(--muted);cursor:pointer}
 .theme-group{margin-bottom:15px}
-.theme-group-title{font-size:0.75rem;color:var(--primary);font-weight:600;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid rgba(212,175,55,0.2)}
-.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.theme-btn{padding:10px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);cursor:pointer;text-align:center;font-size:1.2rem;transition:all 0.3s}
-.theme-btn:hover{transform:scale(1.1);border-color:var(--primary)}
-.theme-btn.active{border:2px solid var(--primary);box-shadow:0 0 10px rgba(212,175,55,0.5)}
-.theme-label{font-size:0.55rem;color:var(--muted);margin-top:2px;display:block}
-.footer{background:rgba(0,0,0,0.5);padding:15px;font-size:0.65rem;color:var(--muted);text-align:center;margin-top:20px;border-top:var(--border)}
-.footer-tagline{color:var(--primary);font-style:italic;margin-bottom:8px;font-size:0.75rem}
-.footer a{color:var(--primary)}
+.theme-group-title{font-size:0.7rem;color:var(--muted);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.theme-btn{padding:8px 4px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);cursor:pointer;text-align:center;font-size:0.65rem;color:var(--text)}
+.theme-btn:hover{border-color:var(--gold);transform:scale(1.05)}
+.theme-btn.active{border-color:var(--gold);border-width:2px}
+
+/* FOOTER */
+.footer{background:rgba(0,0,0,0.5);padding:15px;font-size:0.6rem;color:var(--muted);text-align:center;margin-top:20px;border-top:var(--border)}
+.footer a{color:var(--gold)}
+.footer-tagline{font-size:0.75rem;color:var(--gold);margin-bottom:8px;font-style:italic}
 </style>
 </head>
 <body>
 <div class="app">
+<!-- HEADER WITH PARABOLIC ANTENNA + 6 ORBITING BALLS -->
 <header class="header">
-<div class="header-left">
-<div class="logo"><span class="sparkle">✨</span> Sig<span style="color:#fff">MAX</span> ELITE</div>
+<div class="logo-section">
+<div class="logo"><span class="sparkle">✨</span><span class="sig">Sig</span><span class="max">MAX</span><span class="elite">ELITE</span></div>
 <div class="tagline">Watch Passionately. Bet Wisely!</div>
 </div>
-<div class="header-center">
-<div class="orbit-container">
+<div class="orbit-center">
+<!-- Orbit ring -->
 <div class="orbit-ring"></div>
-<div class="antenna"><div class="antenna-tip"></div><div class="antenna-base"></div></div>
-<div class="orbit-ball">🏀</div>
-<div class="orbit-ball">⚽</div>
-<div class="orbit-ball">🏈</div>
-<div class="orbit-ball">⚾</div>
-<div class="orbit-ball">🏒</div>
-<div class="orbit-ball">🎾</div>
+<!-- Parabolic antenna facing LEFT -->
+<div class="parabolic-antenna">
+<div class="signal-wave"></div>
+<div class="signal-wave"></div>
+<div class="signal-wave"></div>
+<div class="feed-horn"></div>
+<div class="feed-arm"></div>
+<div class="dish"></div>
 </div>
+<!-- 6 Orbiting balls (different colors) -->
+<div class="orbit-ball ball-1"></div>
+<div class="orbit-ball ball-2"></div>
+<div class="orbit-ball ball-3"></div>
+<div class="orbit-ball ball-4"></div>
+<div class="orbit-ball ball-5"></div>
+<div class="orbit-ball ball-6"></div>
 </div>
-<div class="header-right">
 <div class="header-controls">
-<button class="header-btn" onclick="toggleLang()">🌐 EN</button>
-<button class="header-btn" onclick="toggleDevice()">📱</button>
-<button class="header-btn" onclick="openThemeModal()">🎨</button>
-<button class="header-btn" onclick="sharePage()">📤</button>
+<div class="control-buttons">
+<button class="control-btn" onclick="toggleThemeModal()" title="Themes">🎨</button>
+<button class="control-btn" onclick="shareResults()" title="Share">📤</button>
 </div>
-<div class="version">v30.7 | May 29, 2026</div>
+<div class="version-info">v30.9 | May 29, 2026</div>
 </div>
 </header>
+
+<!-- TICKER -->
 <div class="ticker-wrap">
 <div class="ticker">
 <span class="ticker-item">🏆 SEASON: 290-52-2 (84.8%)</span>
 <span class="ticker-item">💰 BANKROLL: $13,750 (+96% ROI)</span>
-<span class="ticker-item">🏒 CANES CAN CLINCH ECF TONIGHT vs MTL!</span>
-<span class="ticker-item">🏒 VEGAS → STANLEY CUP FINAL (Swept COL 4-0)</span>
-<span class="ticker-item">🏀 OKC vs SAS GAME 7 SATURDAY!</span>
-<span class="ticker-item">🎾 FRENCH OPEN R3 — DJOKOVIC • SWIATEK • GAUFF</span>
+<span class="ticker-item">🏒 ECF G5: CAR @ MTL — 7:00 PM ET</span>
+<span class="ticker-item">🎾 FRENCH OPEN R3: SINNER • SABALENKA</span>
+<span class="ticker-item">⚾ MLB: 15 GAMES TODAY</span>
 <span class="ticker-item">🏆 SEASON: 290-52-2 (84.8%)</span>
 <span class="ticker-item">💰 BANKROLL: $13,750 (+96% ROI)</span>
 </div>
 </div>
+
+<!-- NAVIGATION - 10 TABS -->
 <nav class="nav-container">
 <div class="nav-tabs">
-<button class="nav-tab active" onclick="showTab('home')">🏠 Home</button>
-<button class="nav-tab" onclick="showTab('alerts')">⚠️ Alerts</button>
-<button class="nav-tab" onclick="showTab('top5')">🎯 Top 5</button>
-<button class="nav-tab" onclick="showTab('props')">👤 Props</button>
-<button class="nav-tab" onclick="showTab('games')">📅 Games</button>
-<button class="nav-tab" onclick="showTab('xfactors')">🎲 XFactors</button>
-<button class="nav-tab" onclick="showTab('journal')">📋 Journal</button>
-<button class="nav-tab" onclick="showTab('parlay')">🎰 Parlay</button>
-<button class="nav-tab" onclick="showTab('elite')">📊 Elite</button>
-<button class="nav-tab" onclick="showTab('index')">📚 Index</button>
+<button class="nav-tab active" onclick="showTab('picks')">🎯 PICKS</button>
+<button class="nav-tab" onclick="showTab('props')">👤 PROPS</button>
+<button class="nav-tab" onclick="showTab('parlay')">🎰 PARLAY</button>
+<button class="nav-tab" onclick="showTab('live')">📺 LIVE</button>
+<button class="nav-tab" onclick="showTab('results')">✅ RESULTS</button>
+<button class="nav-tab" onclick="showTab('bankroll')">💰 BANKROLL</button>
+<button class="nav-tab" onclick="showTab('stats')">📊 STATS</button>
+<button class="nav-tab" onclick="showTab('sports')">🏆 SPORTS</button>
+<button class="nav-tab" onclick="showTab('history')">📜 HISTORY</button>
+<button class="nav-tab" onclick="showTab('settings')">⚙️ SETTINGS</button>
 </div>
 </nav>
+
 <main class="main">
-<div id="home" class="tab-content active">
+<!-- TAB 1: PICKS -->
+<div id="picks" class="tab-content active">
 <div class="card">
 <div class="card-title">📊 Performance — May 29, 2026</div>
 <div class="stats-grid">
@@ -161,312 +237,558 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 </div>
 </div>
 <div class="card">
-<div class="card-title">🔥 Today's Highlights</div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">🏒 CAR Hurricanes vs MTL</div><div class="pick-detail">ECF G5 • 8:00 PM • CAR CAN CLINCH!</div></div><div class="pick-odds">CAR -250</div><div class="conf">85%</div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">🎾 Iga Swiatek vs Linette</div><div class="pick-detail">French Open R3 • 4x Champ</div></div><div class="pick-odds">SWI 2-0</div><div class="conf">92%</div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">⚾ LAD Dodgers vs PHI</div><div class="pick-detail">10:15 PM • Best in NL</div></div><div class="pick-odds">LAD -120</div><div class="conf">74%</div></div>
+<div class="card-title">🎯 Top 5 Picks — May 29</div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">🏒 Carolina Hurricanes ML</div><div class="pick-detail">ECF G5 @ Montreal • 7:00 PM</div></div><div class="pick-odds">-165</div><div class="conf high">92%</div></div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">🎾 Jannik Sinner -2.5 Sets</div><div class="pick-detail">French Open R3 vs Shapovalov</div></div><div class="pick-odds">-140</div><div class="conf high">88%</div></div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">⚾ Tampa Bay Rays ML</div><div class="pick-detail">vs Baltimore Orioles • 6:40 PM</div></div><div class="pick-odds">+110</div><div class="conf high">85%</div></div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">🎾 Aryna Sabalenka -2.5 Sets</div><div class="pick-detail">French Open R3 vs Andreescu</div></div><div class="pick-odds">-155</div><div class="conf high">86%</div></div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">⚾ Philadelphia Phillies -1.5</div><div class="pick-detail">vs Washington Nationals • 7:05 PM</div></div><div class="pick-odds">-125</div><div class="conf med">79%</div></div>
 </div>
 </div>
-<div id="alerts" class="tab-content">
-<div class="card">
-<div class="card-title">⚠️ Active Alerts</div>
-<div class="pick-row" style="background:rgba(239,68,68,0.1);padding:12px;border-radius:6px;margin-bottom:8px"><div class="pick-info"><div class="pick-team" style="color:#ef4444">🚨 CLINCH ALERT: CAR vs MTL G5</div><div class="pick-detail">Hurricanes can advance to Stanley Cup Final tonight!</div></div></div>
-<div class="pick-row" style="background:rgba(16,185,129,0.1);padding:12px;border-radius:6px;margin-bottom:8px"><div class="pick-info"><div class="pick-team" style="color:#10b981">✅ VEGAS → SCF</div><div class="pick-detail">Golden Knights swept Avalanche 4-0, await ECF winner</div></div></div>
-<div class="pick-row" style="background:rgba(249,115,22,0.1);padding:12px;border-radius:6px"><div class="pick-info"><div class="pick-team" style="color:#f97316">🏀 GAME 7 SATURDAY</div><div class="pick-detail">OKC vs SAS tied 3-3 • Winner goes to NBA Finals</div></div></div>
-</div>
-</div>
-<div id="top5" class="tab-content">
-<div class="card">
-<div class="card-title">🎯 Top 5 Picks — May 29, 2026</div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">🏒 CAR Hurricanes ML ⭐</div><div class="pick-detail">ECF G5 vs MTL • CAN CLINCH • 8:00 PM</div></div><div class="pick-odds">-250</div><div class="conf">85%</div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">🎾 Iga Swiatek 2-0</div><div class="pick-detail">French Open R3 vs Linette • 4x Champ</div></div><div class="pick-odds">-650</div><div class="conf">92%</div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">🎾 Novak Djokovic 3-0</div><div class="pick-detail">French Open R3 vs Fonseca • 3x Champ</div></div><div class="pick-odds">-350</div><div class="conf">88%</div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">⚾ Tampa Bay Rays ML</div><div class="pick-detail">vs LAA • Martinez 1.51 ERA • 7:10 PM</div></div><div class="pick-odds">-186</div><div class="conf">78%</div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">⚾ NY Yankees ML</div><div class="pick-detail">vs OAK • Rodon on mound • 9:40 PM</div></div><div class="pick-odds">-156</div><div class="conf">75%</div></div>
-</div>
-</div>
+
+<!-- TAB 2: PROPS -->
 <div id="props" class="tab-content">
 <div class="card">
-<div class="card-title">👤 Top Player Props — May 29</div>
-<div class="prop-row"><div class="pick-info"><div class="prop-player">🏒 Sebastian Aho (CAR)</div><div class="prop-line">Points O/U 0.5</div></div><div class="prop-pick">OVER 0.5 pts</div><div class="conf">82%</div></div>
-<div class="prop-row"><div class="pick-info"><div class="prop-player">🏒 Andrei Svechnikov (CAR)</div><div class="prop-line">Shots O/U 3.5</div></div><div class="prop-pick">OVER 3.5 SOG</div><div class="conf">78%</div></div>
-<div class="prop-row"><div class="pick-info"><div class="prop-player">🎾 Iga Swiatek</div><div class="prop-line">Games Lost O/U 4.5</div></div><div class="prop-pick">UNDER 4.5</div><div class="conf">85%</div></div>
-<div class="prop-row"><div class="pick-info"><div class="prop-player">⚾ Shane Baz (TB)</div><div class="prop-line">Strikeouts O/U 5.5</div></div><div class="prop-pick">OVER 5.5 K</div><div class="conf">73%</div></div>
-<div class="prop-row"><div class="pick-info"><div class="prop-player">⚾ Shohei Ohtani (LAD)</div><div class="prop-line">Total Bases O/U 1.5</div></div><div class="prop-pick">OVER 1.5 TB</div><div class="conf">76%</div></div>
+<div class="card-title">👤 Player Props — May 29</div>
+<div class="prop-row"><div class="prop-info"><div class="prop-player">🏒 Sebastian Aho (CAR)</div><div class="prop-stat">Points O/U 1.5</div></div><div class="prop-line">OVER -125</div></div>
+<div class="prop-row"><div class="prop-info"><div class="prop-player">🏒 Andrei Svechnikov (CAR)</div><div class="prop-stat">Shots O/U 3.5</div></div><div class="prop-line">OVER -110</div></div>
+<div class="prop-row"><div class="prop-info"><div class="prop-player">🎾 Jannik Sinner</div><div class="prop-stat">Total Games O/U 32.5</div></div><div class="prop-line">UNDER -115</div></div>
+<div class="prop-row"><div class="prop-info"><div class="prop-player">⚾ Zack Eflin (TB)</div><div class="prop-stat">Strikeouts O/U 5.5</div></div><div class="prop-line">OVER -120</div></div>
+<div class="prop-row"><div class="prop-info"><div class="prop-player">⚾ Kyle Schwarber (PHI)</div><div class="prop-stat">Total Bases O/U 1.5</div></div><div class="prop-line">OVER -105</div></div>
 </div>
 </div>
-<div id="games" class="tab-content">
-<div class="card">
-<div class="card-title">📅 Today's Games — May 29, 2026</div>
-<div class="sport-row"><div>🏒 MTL @ CAR G5 (ECF)</div><div>8:00 PM</div><div style="color:var(--green)">CAR -250</div></div>
-<div class="sport-row"><div>🎾 Djokovic vs Fonseca</div><div>9:30 AM</div><div style="color:var(--green)">DJOK 3-0</div></div>
-<div class="sport-row"><div>🎾 Swiatek vs Linette</div><div>6:00 AM</div><div style="color:var(--green)">SWI 2-0</div></div>
-<div class="sport-row"><div>🎾 Gauff vs Sakkari</div><div>TBD</div><div style="color:var(--green)">GAUFF 2-0</div></div>
-<div class="sport-row"><div>🎾 Zverev vs Halys</div><div>2:15 PM</div><div style="color:var(--green)">ZVER 3-0</div></div>
-<div class="sport-row"><div>⚾ PHI @ LAD</div><div>10:15 PM</div><div style="color:var(--green)">LAD ML</div></div>
-<div class="sport-row"><div>⚾ NYY @ OAK</div><div>9:40 PM</div><div style="color:var(--green)">NYY ML</div></div>
-<div class="sport-row"><div>⚾ LAA @ TB</div><div>7:10 PM</div><div style="color:var(--green)">TB ML</div></div>
-<div class="sport-row"><div>⚾ ATL @ CIN</div><div>6:40 PM</div><div style="color:var(--green)">ATL ML</div></div>
-<div class="sport-row"><div>⚾ MIL @ HOU</div><div>8:10 PM</div><div style="color:var(--green)">MIL ML</div></div>
-</div>
-</div>
-<div id="xfactors" class="tab-content">
-<div class="card">
-<div class="card-title">🎲 X-Factors — May 29</div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">🏒 CLINCH FACTOR</div><div class="pick-detail">CAR 3-1 lead, can end MTL tonight at home</div></div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">🎾 CLAY DOMINANCE</div><div class="pick-detail">Swiatek 4x RG champ, 21-match win streak on clay</div></div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">⚾ PITCHING EDGE</div><div class="pick-detail">Martinez (TB) 1.51 ERA vs struggling Angels</div></div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">🏀 REST ADVANTAGE</div><div class="pick-detail">OKC/SAS G7 Saturday - extra rest after G6 blowout</div></div></div>
-</div>
-</div>
-<div id="journal" class="tab-content">
-<div class="card">
-<div class="card-title">📋 Betting Journal</div>
-<div class="stats-grid">
-<div class="stat-box"><div class="stat-value">290</div><div class="stat-label">WINS</div></div>
-<div class="stat-box"><div class="stat-value">52</div><div class="stat-label">LOSSES</div></div>
-<div class="stat-box"><div class="stat-value">2</div><div class="stat-label">PUSH</div></div>
-<div class="stat-box"><div class="stat-value">84.8%</div><div class="stat-label">WIN %</div></div>
-</div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">May 28 Results</div><div class="pick-detail">Yesterday's Performance</div></div><div class="pick-odds" style="color:var(--green)">+$450</div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">Week 22 Total</div><div class="pick-detail">May 26-29</div></div><div class="pick-odds" style="color:var(--green)">+$1,250</div></div>
-</div>
-</div>
+
+<!-- TAB 3: PARLAY BUILDER - INTERACTIVE -->
 <div id="parlay" class="tab-content">
 <div class="card">
 <div class="card-title">🎰 Parlay Builder</div>
-<div class="parlay-section">
-<div class="slot-group-title">🏆 TEAM/GAME PICKS (T1-T5)</div>
-<div class="parlay-slots">
-<div class="parlay-slot filled"><span class="slot-label">T1</span><span class="slot-pick">🏒 CAR Hurricanes ML</span><span class="slot-odds">-250</span></div>
-<div class="parlay-slot filled"><span class="slot-label">T2</span><span class="slot-pick">⚾ TB Rays ML</span><span class="slot-odds">-186</span></div>
-<div class="parlay-slot filled"><span class="slot-label">T3</span><span class="slot-pick">⚾ NYY Yankees ML</span><span class="slot-odds">-156</span></div>
-<div class="parlay-slot"><span class="slot-label">T4</span><span class="slot-pick">— Empty —</span><span class="slot-odds">—</span></div>
-<div class="parlay-slot"><span class="slot-label">T5</span><span class="slot-pick">— Empty —</span><span class="slot-odds">—</span></div>
+<div class="parlay-rules">🔒 MAX: 5 Team Bets (T1-T5) + 5 Player Props (P1-P5) = 10 Total Legs</div>
+
+<!-- TEAM/GAME BETS SECTION (T1-T5) -->
+<div class="parlay-section-title">🏆 TEAM/GAME BETS (T1-T5) — Max 5 Legs</div>
+
+<div class="parlay-slot" id="slot-T1">
+<span class="slot-label">T1</span>
+<select class="slot-select" onchange="updateParlay('T1','sport',this.value)">
+<option value="">Sport ▼</option>
+<option value="nhl">🏒 NHL</option>
+<option value="mlb">⚾ MLB</option>
+<option value="tennis">🎾 Tennis</option>
+<option value="mls">⚽ MLS</option>
+</select>
+<select class="slot-select" onchange="updateParlay('T1','matchup',this.value)">
+<option value="">Matchup ▼</option>
+<option value="car-mtl">CAR @ MTL</option>
+<option value="tb-bal">TB vs BAL</option>
+<option value="phi-was">PHI vs WAS</option>
+</select>
+<select class="slot-select" onchange="updateParlay('T1','type',this.value)">
+<option value="">Bet Type ▼</option>
+<option value="ml">Moneyline</option>
+<option value="spread">Spread</option>
+<option value="total">Total O/U</option>
+</select>
+<select class="slot-select" onchange="updateParlay('T1','pick',this.value)">
+<option value="">Pick ▼</option>
+<option value="fav">Favorite</option>
+<option value="dog">Underdog</option>
+<option value="over">Over</option>
+<option value="under">Under</option>
+</select>
+<span class="slot-odds" id="odds-T1">---</span>
+<button class="slot-remove" onclick="clearSlot('T1')">✕</button>
 </div>
-<div class="slot-group-title">👤 PLAYER PROPS (P1-P5)</div>
-<div class="parlay-slots">
-<div class="parlay-slot filled"><span class="slot-label">P1</span><span class="slot-pick">🏒 Aho O0.5 pts</span><span class="slot-odds">-165</span></div>
-<div class="parlay-slot filled"><span class="slot-label">P2</span><span class="slot-pick">🎾 Swiatek U4.5 games</span><span class="slot-odds">-140</span></div>
-<div class="parlay-slot"><span class="slot-label">P3</span><span class="slot-pick">— Empty —</span><span class="slot-odds">—</span></div>
-<div class="parlay-slot"><span class="slot-label">P4</span><span class="slot-pick">— Empty —</span><span class="slot-odds">—</span></div>
-<div class="parlay-slot"><span class="slot-label">P5</span><span class="slot-pick">— Empty —</span><span class="slot-odds">—</span></div>
+
+<div class="parlay-slot" id="slot-T2">
+<span class="slot-label">T2</span>
+<select class="slot-select" onchange="updateParlay('T2','sport',this.value)"><option value="">Sport ▼</option><option value="nhl">🏒 NHL</option><option value="mlb">⚾ MLB</option><option value="tennis">🎾 Tennis</option><option value="mls">⚽ MLS</option></select>
+<select class="slot-select" onchange="updateParlay('T2','matchup',this.value)"><option value="">Matchup ▼</option><option value="car-mtl">CAR @ MTL</option><option value="tb-bal">TB vs BAL</option><option value="phi-was">PHI vs WAS</option></select>
+<select class="slot-select" onchange="updateParlay('T2','type',this.value)"><option value="">Bet Type ▼</option><option value="ml">Moneyline</option><option value="spread">Spread</option><option value="total">Total O/U</option></select>
+<select class="slot-select" onchange="updateParlay('T2','pick',this.value)"><option value="">Pick ▼</option><option value="fav">Favorite</option><option value="dog">Underdog</option><option value="over">Over</option><option value="under">Under</option></select>
+<span class="slot-odds" id="odds-T2">---</span>
+<button class="slot-remove" onclick="clearSlot('T2')">✕</button>
+</div>
+
+<div class="parlay-slot" id="slot-T3">
+<span class="slot-label">T3</span>
+<select class="slot-select" onchange="updateParlay('T3','sport',this.value)"><option value="">Sport ▼</option><option value="nhl">🏒 NHL</option><option value="mlb">⚾ MLB</option><option value="tennis">🎾 Tennis</option><option value="mls">⚽ MLS</option></select>
+<select class="slot-select" onchange="updateParlay('T3','matchup',this.value)"><option value="">Matchup ▼</option><option value="car-mtl">CAR @ MTL</option><option value="tb-bal">TB vs BAL</option><option value="phi-was">PHI vs WAS</option></select>
+<select class="slot-select" onchange="updateParlay('T3','type',this.value)"><option value="">Bet Type ▼</option><option value="ml">Moneyline</option><option value="spread">Spread</option><option value="total">Total O/U</option></select>
+<select class="slot-select" onchange="updateParlay('T3','pick',this.value)"><option value="">Pick ▼</option><option value="fav">Favorite</option><option value="dog">Underdog</option><option value="over">Over</option><option value="under">Under</option></select>
+<span class="slot-odds" id="odds-T3">---</span>
+<button class="slot-remove" onclick="clearSlot('T3')">✕</button>
+</div>
+
+<div class="parlay-slot" id="slot-T4">
+<span class="slot-label">T4</span>
+<select class="slot-select" onchange="updateParlay('T4','sport',this.value)"><option value="">Sport ▼</option><option value="nhl">🏒 NHL</option><option value="mlb">⚾ MLB</option><option value="tennis">🎾 Tennis</option><option value="mls">⚽ MLS</option></select>
+<select class="slot-select" onchange="updateParlay('T4','matchup',this.value)"><option value="">Matchup ▼</option><option value="car-mtl">CAR @ MTL</option><option value="tb-bal">TB vs BAL</option><option value="phi-was">PHI vs WAS</option></select>
+<select class="slot-select" onchange="updateParlay('T4','type',this.value)"><option value="">Bet Type ▼</option><option value="ml">Moneyline</option><option value="spread">Spread</option><option value="total">Total O/U</option></select>
+<select class="slot-select" onchange="updateParlay('T4','pick',this.value)"><option value="">Pick ▼</option><option value="fav">Favorite</option><option value="dog">Underdog</option><option value="over">Over</option><option value="under">Under</option></select>
+<span class="slot-odds" id="odds-T4">---</span>
+<button class="slot-remove" onclick="clearSlot('T4')">✕</button>
+</div>
+
+<div class="parlay-slot" id="slot-T5">
+<span class="slot-label">T5</span>
+<select class="slot-select" onchange="updateParlay('T5','sport',this.value)"><option value="">Sport ▼</option><option value="nhl">🏒 NHL</option><option value="mlb">⚾ MLB</option><option value="tennis">🎾 Tennis</option><option value="mls">⚽ MLS</option></select>
+<select class="slot-select" onchange="updateParlay('T5','matchup',this.value)"><option value="">Matchup ▼</option><option value="car-mtl">CAR @ MTL</option><option value="tb-bal">TB vs BAL</option><option value="phi-was">PHI vs WAS</option></select>
+<select class="slot-select" onchange="updateParlay('T5','type',this.value)"><option value="">Bet Type ▼</option><option value="ml">Moneyline</option><option value="spread">Spread</option><option value="total">Total O/U</option></select>
+<select class="slot-select" onchange="updateParlay('T5','pick',this.value)"><option value="">Pick ▼</option><option value="fav">Favorite</option><option value="dog">Underdog</option><option value="over">Over</option><option value="under">Under</option></select>
+<span class="slot-odds" id="odds-T5">---</span>
+<button class="slot-remove" onclick="clearSlot('T5')">✕</button>
+</div>
+
+<div class="parlay-count">Team Bets: <span id="team-count">0</span> / 5</div>
+
+<!-- PLAYER PROPS SECTION (P1-P5) -->
+<div class="parlay-section-title">👤 PLAYER PROPS (P1-P5) — Max 5 Legs</div>
+
+<div class="parlay-slot" id="slot-P1">
+<span class="slot-label">P1</span>
+<select class="slot-select" onchange="updateParlay('P1','player',this.value)">
+<option value="">Player ▼</option>
+<option value="aho">Sebastian Aho (CAR)</option>
+<option value="svech">Andrei Svechnikov (CAR)</option>
+<option value="sinner">Jannik Sinner</option>
+<option value="eflin">Zack Eflin (TB)</option>
+<option value="schwarber">Kyle Schwarber (PHI)</option>
+</select>
+<select class="slot-select" onchange="updateParlay('P1','stat',this.value)">
+<option value="">Stat ▼</option>
+<option value="pts">Points</option>
+<option value="shots">Shots</option>
+<option value="games">Games</option>
+<option value="k">Strikeouts</option>
+<option value="tb">Total Bases</option>
+</select>
+<select class="slot-select" onchange="updateParlay('P1','line',this.value)">
+<option value="">Line ▼</option>
+<option value="o1.5">O 1.5</option>
+<option value="u1.5">U 1.5</option>
+<option value="o3.5">O 3.5</option>
+<option value="u3.5">U 3.5</option>
+<option value="o5.5">O 5.5</option>
+</select>
+<select class="slot-select" onchange="updateParlay('P1','pick',this.value)">
+<option value="">O/U ▼</option>
+<option value="over">OVER</option>
+<option value="under">UNDER</option>
+</select>
+<span class="slot-odds" id="odds-P1">---</span>
+<button class="slot-remove" onclick="clearSlot('P1')">✕</button>
+</div>
+
+<div class="parlay-slot" id="slot-P2">
+<span class="slot-label">P2</span>
+<select class="slot-select" onchange="updateParlay('P2','player',this.value)"><option value="">Player ▼</option><option value="aho">Sebastian Aho (CAR)</option><option value="svech">Andrei Svechnikov (CAR)</option><option value="sinner">Jannik Sinner</option><option value="eflin">Zack Eflin (TB)</option><option value="schwarber">Kyle Schwarber (PHI)</option></select>
+<select class="slot-select" onchange="updateParlay('P2','stat',this.value)"><option value="">Stat ▼</option><option value="pts">Points</option><option value="shots">Shots</option><option value="games">Games</option><option value="k">Strikeouts</option><option value="tb">Total Bases</option></select>
+<select class="slot-select" onchange="updateParlay('P2','line',this.value)"><option value="">Line ▼</option><option value="o1.5">O 1.5</option><option value="u1.5">U 1.5</option><option value="o3.5">O 3.5</option><option value="u3.5">U 3.5</option><option value="o5.5">O 5.5</option></select>
+<select class="slot-select" onchange="updateParlay('P2','pick',this.value)"><option value="">O/U ▼</option><option value="over">OVER</option><option value="under">UNDER</option></select>
+<span class="slot-odds" id="odds-P2">---</span>
+<button class="slot-remove" onclick="clearSlot('P2')">✕</button>
+</div>
+
+<div class="parlay-slot" id="slot-P3">
+<span class="slot-label">P3</span>
+<select class="slot-select" onchange="updateParlay('P3','player',this.value)"><option value="">Player ▼</option><option value="aho">Sebastian Aho (CAR)</option><option value="svech">Andrei Svechnikov (CAR)</option><option value="sinner">Jannik Sinner</option><option value="eflin">Zack Eflin (TB)</option><option value="schwarber">Kyle Schwarber (PHI)</option></select>
+<select class="slot-select" onchange="updateParlay('P3','stat',this.value)"><option value="">Stat ▼</option><option value="pts">Points</option><option value="shots">Shots</option><option value="games">Games</option><option value="k">Strikeouts</option><option value="tb">Total Bases</option></select>
+<select class="slot-select" onchange="updateParlay('P3','line',this.value)"><option value="">Line ▼</option><option value="o1.5">O 1.5</option><option value="u1.5">U 1.5</option><option value="o3.5">O 3.5</option><option value="u3.5">U 3.5</option><option value="o5.5">O 5.5</option></select>
+<select class="slot-select" onchange="updateParlay('P3','pick',this.value)"><option value="">O/U ▼</option><option value="over">OVER</option><option value="under">UNDER</option></select>
+<span class="slot-odds" id="odds-P3">---</span>
+<button class="slot-remove" onclick="clearSlot('P3')">✕</button>
+</div>
+
+<div class="parlay-slot" id="slot-P4">
+<span class="slot-label">P4</span>
+<select class="slot-select" onchange="updateParlay('P4','player',this.value)"><option value="">Player ▼</option><option value="aho">Sebastian Aho (CAR)</option><option value="svech">Andrei Svechnikov (CAR)</option><option value="sinner">Jannik Sinner</option><option value="eflin">Zack Eflin (TB)</option><option value="schwarber">Kyle Schwarber (PHI)</option></select>
+<select class="slot-select" onchange="updateParlay('P4','stat',this.value)"><option value="">Stat ▼</option><option value="pts">Points</option><option value="shots">Shots</option><option value="games">Games</option><option value="k">Strikeouts</option><option value="tb">Total Bases</option></select>
+<select class="slot-select" onchange="updateParlay('P4','line',this.value)"><option value="">Line ▼</option><option value="o1.5">O 1.5</option><option value="u1.5">U 1.5</option><option value="o3.5">O 3.5</option><option value="u3.5">U 3.5</option><option value="o5.5">O 5.5</option></select>
+<select class="slot-select" onchange="updateParlay('P4','pick',this.value)"><option value="">O/U ▼</option><option value="over">OVER</option><option value="under">UNDER</option></select>
+<span class="slot-odds" id="odds-P4">---</span>
+<button class="slot-remove" onclick="clearSlot('P4')">✕</button>
+</div>
+
+<div class="parlay-slot" id="slot-P5">
+<span class="slot-label">P5</span>
+<select class="slot-select" onchange="updateParlay('P5','player',this.value)"><option value="">Player ▼</option><option value="aho">Sebastian Aho (CAR)</option><option value="svech">Andrei Svechnikov (CAR)</option><option value="sinner">Jannik Sinner</option><option value="eflin">Zack Eflin (TB)</option><option value="schwarber">Kyle Schwarber (PHI)</option></select>
+<select class="slot-select" onchange="updateParlay('P5','stat',this.value)"><option value="">Stat ▼</option><option value="pts">Points</option><option value="shots">Shots</option><option value="games">Games</option><option value="k">Strikeouts</option><option value="tb">Total Bases</option></select>
+<select class="slot-select" onchange="updateParlay('P5','line',this.value)"><option value="">Line ▼</option><option value="o1.5">O 1.5</option><option value="u1.5">U 1.5</option><option value="o3.5">O 3.5</option><option value="u3.5">U 3.5</option><option value="o5.5">O 5.5</option></select>
+<select class="slot-select" onchange="updateParlay('P5','pick',this.value)"><option value="">O/U ▼</option><option value="over">OVER</option><option value="under">UNDER</option></select>
+<span class="slot-odds" id="odds-P5">---</span>
+<button class="slot-remove" onclick="clearSlot('P5')">✕</button>
+</div>
+
+<div class="parlay-count">Player Props: <span id="prop-count">0</span> / 5</div>
+
+<!-- PARLAY SUMMARY -->
+<div class="parlay-summary">
+<div class="summary-row"><span class="summary-label">Total Legs</span><span class="summary-value" id="total-legs">0 / 10</span></div>
+<div class="summary-row"><span class="summary-label">Combined Odds</span><span class="summary-value" id="combined-odds">---</span></div>
+<div class="summary-row"><span class="summary-label">Potential Payout ($100)</span><span class="summary-value payout" id="potential-payout">$---</span></div>
+</div>
+
+<div class="parlay-validation valid" id="parlay-status">✅ Valid: Teams ≤5 ✓ | Props ≤5 ✓ | Total ≤10 ✓</div>
+
+<div class="parlay-actions">
+<button class="parlay-btn clear" onclick="clearAllParlay()">🗑️ Clear All</button>
+<button class="parlay-btn save" onclick="saveParlay()">💾 Save Parlay</button>
 </div>
 </div>
-<div class="parlay-total">
-<div style="font-size:0.75rem;color:var(--muted)">5-LEG PARLAY</div>
-<div class="parlay-odds">+385</div>
-<div class="parlay-payout">$100 → $485</div>
 </div>
-</div>
-</div>
-<div id="elite" class="tab-content">
+
+<!-- TAB 4: LIVE -->
+<div id="live" class="tab-content">
 <div class="card">
-<div class="card-title">📊 Elite Stats</div>
+<div class="card-title">📺 Live Games — May 29</div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">🏒 CAR @ MTL — ECF G5</div><div class="pick-detail">7:00 PM ET • ESPN</div></div><div class="pick-odds">CAR -165</div></div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">🎾 French Open R3</div><div class="pick-detail">All Day • Tennis Channel</div></div><div class="pick-odds">Sinner -450</div></div>
+</div>
+</div>
+
+<!-- TAB 5: RESULTS -->
+<div id="results" class="tab-content">
+<div class="card">
+<div class="card-title">✅ Yesterday's Results — May 28</div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team" style="color:var(--green)">✅ VGK Stanley Cup Final</div><div class="pick-detail">4-0 Sweep vs EDM</div></div><div class="pick-odds" style="color:var(--green)">+$450</div></div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team" style="color:var(--green)">✅ Sinner R2 -2.5 Sets</div><div class="pick-detail">Won 3-0 vs Ruusuvuori</div></div><div class="pick-odds" style="color:var(--green)">+$250</div></div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team" style="color:var(--green)">✅ CAR Hurricanes ML</div><div class="pick-detail">Won 4-2 vs MTL</div></div><div class="pick-odds" style="color:var(--green)">+$200</div></div>
+</div>
+</div>
+
+<!-- TAB 6: BANKROLL -->
+<div id="bankroll" class="tab-content">
+<div class="card">
+<div class="card-title">💰 Bankroll Tracker</div>
 <div class="stats-grid">
-<div class="stat-box"><div class="stat-value">88%</div><div class="stat-label">NHL</div></div>
-<div class="stat-box"><div class="stat-value">88%</div><div class="stat-label">NBA</div></div>
-<div class="stat-box"><div class="stat-value">87%</div><div class="stat-label">TENNIS</div></div>
-<div class="stat-box"><div class="stat-value">80%</div><div class="stat-label">MLB</div></div>
+<div class="stat-box"><div class="stat-value">$7,000</div><div class="stat-label">STARTING</div></div>
+<div class="stat-box"><div class="stat-value">$13,750</div><div class="stat-label">CURRENT</div></div>
+<div class="stat-box"><div class="stat-value">+$6,750</div><div class="stat-label">PROFIT</div></div>
+<div class="stat-box"><div class="stat-value">+96.4%</div><div class="stat-label">ROI</div></div>
 </div>
 </div>
+</div>
+
+<!-- TAB 7: STATS -->
+<div id="stats" class="tab-content">
 <div class="card">
-<div class="card-title">🔥 Hot Streaks</div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">🏒 NHL Playoffs</div><div class="pick-detail">44-6 (88.0%)</div></div><div class="pick-odds" style="color:var(--green)">🔥 HOT</div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">🏀 NBA Playoffs</div><div class="pick-detail">104-14 (88.1%)</div></div><div class="pick-odds" style="color:var(--green)">🔥 HOT</div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">🎾 French Open</div><div class="pick-detail">13-2 (86.7%)</div></div><div class="pick-odds" style="color:var(--green)">🔥 HOT</div></div>
+<div class="card-title">📊 Detailed Stats</div>
+<div class="stats-grid">
+<div class="stat-box"><div class="stat-value">290</div><div class="stat-label">WINS</div></div>
+<div class="stat-box"><div class="stat-value">52</div><div class="stat-label">LOSSES</div></div>
+<div class="stat-box"><div class="stat-value">2</div><div class="stat-label">PUSHES</div></div>
+<div class="stat-box"><div class="stat-value">84.8%</div><div class="stat-label">WIN %</div></div>
 </div>
 </div>
-<div id="index" class="tab-content">
+</div>
+
+<!-- TAB 8: SPORTS -->
+<div id="sports" class="tab-content">
 <div class="card">
-<div class="card-title">📚 Quick Reference</div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">System Version</div><div class="pick-detail">v30.7 FINAL</div></div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">Last Updated</div><div class="pick-detail">May 29, 2026 12:00 PM ET</div></div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">Data Sources</div><div class="pick-detail">NHL.com, NBA.com, ESPN, RolandGarros.com</div></div></div>
-<div class="pick-row"><div class="pick-info"><div class="pick-team">Theme Count</div><div class="pick-detail">53 Themes (48 WC2026 + FIFA Elite + 4 Sports)</div></div></div>
+<div class="card-title">🏆 Sport Breakdown</div>
+<div class="sport-row"><div class="sport-name">🏒 NHL</div><div class="sport-record">72-12 (85.7%)</div></div>
+<div class="sport-row"><div class="sport-name">🏀 NBA</div><div class="sport-record">85-18 (82.5%)</div></div>
+<div class="sport-row"><div class="sport-name">⚾ MLB</div><div class="sport-record">68-14 (82.9%)</div></div>
+<div class="sport-row"><div class="sport-name">🎾 Tennis</div><div class="sport-record">45-6 (88.2%)</div></div>
+<div class="sport-row"><div class="sport-name">⚽ Soccer</div><div class="sport-record">20-2 (90.9%)</div></div>
+</div>
+</div>
+
+<!-- TAB 9: HISTORY -->
+<div id="history" class="tab-content">
+<div class="card">
+<div class="card-title">📜 Recent History</div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">May 28: 4-0 ✅</div><div class="pick-detail">+$900</div></div></div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">May 27: 3-1 ✅</div><div class="pick-detail">+$425</div></div></div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">May 26: 5-1 ✅</div><div class="pick-detail">+$750</div></div></div>
+</div>
+</div>
+
+<!-- TAB 10: SETTINGS -->
+<div id="settings" class="tab-content">
+<div class="card">
+<div class="card-title">⚙️ Settings</div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">Theme</div><div class="pick-detail">Current: FIFA Elite</div></div><button class="control-btn" onclick="toggleThemeModal()">🎨</button></div>
+<div class="pick-row"><div class="pick-info"><div class="pick-team">Version</div><div class="pick-detail">v30.9 — May 29, 2026</div></div></div>
 </div>
 </div>
 </main>
+
+<!-- FOOTER -->
 <footer class="footer">
-<div class="footer-tagline">✨ Watch Passionately. Bet Wisely! ✨</div>
-<div>SigMAX ELITE v30.7 | 📊 Data: NHL.com, NBA.com, ESPN, RolandGarros.com, MLB.com</div>
-<div style="margin-top:5px">© 2026 SigMAX Sports Analytics | 49 World Cup 2026 Themes</div>
+<div class="footer-tagline">Watch Passionately. Bet Wisely!</div>
+<div>SigMAX ELITE v30.9 | May 29, 2026 | 84.8% Win Rate</div>
+<div style="margin-top:5px">Data: ESPN, DraftKings, FanDuel | For Entertainment Only</div>
 </footer>
 </div>
+
+<!-- THEME MODAL - ALL 48 WORLD CUP TEAMS + FIFA ELITE -->
 <div id="themeModal" class="modal">
 <div class="modal-content">
-<span class="modal-close" onclick="closeThemeModal()">✕</span>
-<div class="modal-title">🎨 Select Theme — 49 World Cup 2026 Options</div>
+<span class="modal-close" onclick="toggleThemeModal()">×</span>
+<div class="modal-title">🎨 Choose Theme — 49 World Cup 2026 Themes</div>
+
 <div class="theme-group">
-<div class="theme-group-title">🏆 FIFA ELITE PREMIUM</div>
+<div class="theme-group-title">🏆 FIFA OFFICIAL</div>
 <div class="theme-grid">
-<div class="theme-btn" onclick="setTheme('fifa')">⚽<span class="theme-label">FIFA Elite</span></div>
+<button class="theme-btn active" onclick="setTheme('fifa')">⚽ FIFA Elite</button>
 </div>
 </div>
+
 <div class="theme-group">
-<div class="theme-group-title">🌎 CONCACAF HOSTS (3)</div>
+<div class="theme-group-title">🇪🇺 UEFA (16 Teams)</div>
 <div class="theme-grid">
-<div class="theme-btn" onclick="setTheme('usa')">🇺🇸<span class="theme-label">USA</span></div>
-<div class="theme-btn" onclick="setTheme('mexico')">🇲🇽<span class="theme-label">Mexico</span></div>
-<div class="theme-btn" onclick="setTheme('canada')">🇨🇦<span class="theme-label">Canada</span></div>
+<button class="theme-btn" onclick="setTheme('france')">🇫🇷 France</button>
+<button class="theme-btn" onclick="setTheme('spain')">🇪🇸 Spain</button>
+<button class="theme-btn" onclick="setTheme('germany')">🇩🇪 Germany</button>
+<button class="theme-btn" onclick="setTheme('england')">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</button>
+<button class="theme-btn" onclick="setTheme('portugal')">🇵🇹 Portugal</button>
+<button class="theme-btn" onclick="setTheme('netherlands')">🇳🇱 Netherlands</button>
+<button class="theme-btn" onclick="setTheme('belgium')">🇧🇪 Belgium</button>
+<button class="theme-btn" onclick="setTheme('croatia')">🇭🇷 Croatia</button>
+<button class="theme-btn" onclick="setTheme('switzerland')">🇨🇭 Switzerland</button>
+<button class="theme-btn" onclick="setTheme('austria')">🇦🇹 Austria</button>
+<button class="theme-btn" onclick="setTheme('scotland')">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</button>
+<button class="theme-btn" onclick="setTheme('norway')">🇳🇴 Norway</button>
+<button class="theme-btn" onclick="setTheme('bosnia')">🇧🇦 Bosnia</button>
+<button class="theme-btn" onclick="setTheme('sweden')">🇸🇪 Sweden</button>
+<button class="theme-btn" onclick="setTheme('turkiye')">🇹🇷 Türkiye</button>
+<button class="theme-btn" onclick="setTheme('czechia')">🇨🇿 Czechia</button>
 </div>
 </div>
+
 <div class="theme-group">
-<div class="theme-group-title">🇪🇺 UEFA EUROPE (16)</div>
+<div class="theme-group-title">🌎 CONMEBOL (6 Teams)</div>
 <div class="theme-grid">
-<div class="theme-btn" onclick="setTheme('france')">🇫🇷<span class="theme-label">France</span></div>
-<div class="theme-btn" onclick="setTheme('spain')">🇪🇸<span class="theme-label">Spain</span></div>
-<div class="theme-btn" onclick="setTheme('germany')">🇩🇪<span class="theme-label">Germany</span></div>
-<div class="theme-btn" onclick="setTheme('england')">🏴󠁧󠁢󠁥󠁮󠁧󠁿<span class="theme-label">England</span></div>
-<div class="theme-btn" onclick="setTheme('portugal')">🇵🇹<span class="theme-label">Portugal</span></div>
-<div class="theme-btn" onclick="setTheme('netherlands')">🇳🇱<span class="theme-label">Netherlands</span></div>
-<div class="theme-btn" onclick="setTheme('belgium')">🇧🇪<span class="theme-label">Belgium</span></div>
-<div class="theme-btn" onclick="setTheme('croatia')">🇭🇷<span class="theme-label">Croatia</span></div>
-<div class="theme-btn" onclick="setTheme('switzerland')">🇨🇭<span class="theme-label">Switzerland</span></div>
-<div class="theme-btn" onclick="setTheme('austria')">🇦🇹<span class="theme-label">Austria</span></div>
-<div class="theme-btn" onclick="setTheme('scotland')">🏴󠁧󠁢󠁳󠁣󠁴󠁿<span class="theme-label">Scotland</span></div>
-<div class="theme-btn" onclick="setTheme('norway')">🇳🇴<span class="theme-label">Norway</span></div>
-<div class="theme-btn" onclick="setTheme('bosnia')">🇧🇦<span class="theme-label">Bosnia</span></div>
-<div class="theme-btn" onclick="setTheme('sweden')">🇸🇪<span class="theme-label">Sweden</span></div>
-<div class="theme-btn" onclick="setTheme('turkey')">🇹🇷<span class="theme-label">Türkiye</span></div>
-<div class="theme-btn" onclick="setTheme('czechia')">🇨🇿<span class="theme-label">Czechia</span></div>
+<button class="theme-btn" onclick="setTheme('argentina')">🇦🇷 Argentina</button>
+<button class="theme-btn" onclick="setTheme('brazil')">🇧🇷 Brazil</button>
+<button class="theme-btn" onclick="setTheme('uruguay')">🇺🇾 Uruguay</button>
+<button class="theme-btn" onclick="setTheme('colombia')">🇨🇴 Colombia</button>
+<button class="theme-btn" onclick="setTheme('ecuador')">🇪🇨 Ecuador</button>
+<button class="theme-btn" onclick="setTheme('paraguay')">🇵🇾 Paraguay</button>
 </div>
 </div>
+
 <div class="theme-group">
-<div class="theme-group-title">🌎 CONMEBOL SOUTH AMERICA (6)</div>
+<div class="theme-group-title">🌎 CONCACAF (6 Teams) — 🏠 Hosts</div>
 <div class="theme-grid">
-<div class="theme-btn" onclick="setTheme('argentina')">🇦🇷<span class="theme-label">Argentina</span></div>
-<div class="theme-btn" onclick="setTheme('brazil')">🇧🇷<span class="theme-label">Brazil</span></div>
-<div class="theme-btn" onclick="setTheme('uruguay')">🇺🇾<span class="theme-label">Uruguay</span></div>
-<div class="theme-btn" onclick="setTheme('colombia')">🇨🇴<span class="theme-label">Colombia</span></div>
-<div class="theme-btn" onclick="setTheme('ecuador')">🇪🇨<span class="theme-label">Ecuador</span></div>
-<div class="theme-btn" onclick="setTheme('paraguay')">🇵🇾<span class="theme-label">Paraguay</span></div>
+<button class="theme-btn" onclick="setTheme('usa')">🇺🇸 USA 🏠</button>
+<button class="theme-btn" onclick="setTheme('mexico')">🇲🇽 Mexico 🏠</button>
+<button class="theme-btn" onclick="setTheme('canada')">🇨🇦 Canada 🏠</button>
+<button class="theme-btn" onclick="setTheme('panama')">🇵🇦 Panama</button>
+<button class="theme-btn" onclick="setTheme('curacao')">🇨🇼 Curaçao ⭐</button>
+<button class="theme-btn" onclick="setTheme('haiti')">🇭🇹 Haiti</button>
 </div>
 </div>
+
 <div class="theme-group">
-<div class="theme-group-title">🌎 CONCACAF OTHER (3)</div>
+<div class="theme-group-title">🌍 CAF (9 Teams)</div>
 <div class="theme-grid">
-<div class="theme-btn" onclick="setTheme('panama')">🇵🇦<span class="theme-label">Panama</span></div>
-<div class="theme-btn" onclick="setTheme('curacao')">🇨🇼<span class="theme-label">Curaçao ★</span></div>
-<div class="theme-btn" onclick="setTheme('haiti')">🇭🇹<span class="theme-label">Haiti</span></div>
+<button class="theme-btn" onclick="setTheme('morocco')">🇲🇦 Morocco</button>
+<button class="theme-btn" onclick="setTheme('senegal')">🇸🇳 Senegal</button>
+<button class="theme-btn" onclick="setTheme('egypt')">🇪🇬 Egypt</button>
+<button class="theme-btn" onclick="setTheme('algeria')">🇩🇿 Algeria</button>
+<button class="theme-btn" onclick="setTheme('tunisia')">🇹🇳 Tunisia</button>
+<button class="theme-btn" onclick="setTheme('southafrica')">🇿🇦 South Africa</button>
+<button class="theme-btn" onclick="setTheme('ivorycoast')">🇨🇮 Côte d'Ivoire</button>
+<button class="theme-btn" onclick="setTheme('ghana')">🇬🇭 Ghana</button>
+<button class="theme-btn" onclick="setTheme('capeverde')">🇨🇻 Cape Verde ⭐</button>
 </div>
 </div>
+
 <div class="theme-group">
-<div class="theme-group-title">🌍 CAF AFRICA (9)</div>
+<div class="theme-group-title">🌏 AFC (8 Teams)</div>
 <div class="theme-grid">
-<div class="theme-btn" onclick="setTheme('morocco')">🇲🇦<span class="theme-label">Morocco</span></div>
-<div class="theme-btn" onclick="setTheme('senegal')">🇸🇳<span class="theme-label">Senegal</span></div>
-<div class="theme-btn" onclick="setTheme('egypt')">🇪🇬<span class="theme-label">Egypt</span></div>
-<div class="theme-btn" onclick="setTheme('algeria')">🇩🇿<span class="theme-label">Algeria</span></div>
-<div class="theme-btn" onclick="setTheme('tunisia')">🇹🇳<span class="theme-label">Tunisia</span></div>
-<div class="theme-btn" onclick="setTheme('southafrica')">🇿🇦<span class="theme-label">S. Africa</span></div>
-<div class="theme-btn" onclick="setTheme('ivorycoast')">🇨🇮<span class="theme-label">Côte d'Ivoire</span></div>
-<div class="theme-btn" onclick="setTheme('ghana')">🇬🇭<span class="theme-label">Ghana</span></div>
-<div class="theme-btn" onclick="setTheme('capeverde')">🇨🇻<span class="theme-label">Cape Verde ★</span></div>
+<button class="theme-btn" onclick="setTheme('japan')">🇯🇵 Japan</button>
+<button class="theme-btn" onclick="setTheme('iran')">🇮🇷 Iran</button>
+<button class="theme-btn" onclick="setTheme('southkorea')">🇰🇷 South Korea</button>
+<button class="theme-btn" onclick="setTheme('australia')">🇦🇺 Australia</button>
+<button class="theme-btn" onclick="setTheme('saudiarabia')">🇸🇦 Saudi Arabia</button>
+<button class="theme-btn" onclick="setTheme('qatar')">🇶🇦 Qatar</button>
+<button class="theme-btn" onclick="setTheme('uzbekistan')">🇺🇿 Uzbekistan ⭐</button>
+<button class="theme-btn" onclick="setTheme('jordan')">🇯🇴 Jordan ⭐</button>
 </div>
 </div>
+
 <div class="theme-group">
-<div class="theme-group-title">🌏 AFC ASIA (8)</div>
+<div class="theme-group-title">🌐 INTERCONTINENTAL (2 Teams)</div>
 <div class="theme-grid">
-<div class="theme-btn" onclick="setTheme('japan')">🇯🇵<span class="theme-label">Japan</span></div>
-<div class="theme-btn" onclick="setTheme('iran')">🇮🇷<span class="theme-label">Iran</span></div>
-<div class="theme-btn" onclick="setTheme('southkorea')">🇰🇷<span class="theme-label">S. Korea</span></div>
-<div class="theme-btn" onclick="setTheme('australia')">🇦🇺<span class="theme-label">Australia</span></div>
-<div class="theme-btn" onclick="setTheme('saudiarabia')">🇸🇦<span class="theme-label">Saudi Arabia</span></div>
-<div class="theme-btn" onclick="setTheme('qatar')">🇶🇦<span class="theme-label">Qatar</span></div>
-<div class="theme-btn" onclick="setTheme('uzbekistan')">🇺🇿<span class="theme-label">Uzbekistan ★</span></div>
-<div class="theme-btn" onclick="setTheme('jordan')">🇯🇴<span class="theme-label">Jordan ★</span></div>
+<button class="theme-btn" onclick="setTheme('iraq')">🇮🇶 Iraq</button>
+<button class="theme-btn" onclick="setTheme('drcongo')">🇨🇩 DR Congo</button>
 </div>
 </div>
+
 <div class="theme-group">
-<div class="theme-group-title">🌏 INTERCONTINENTAL PLAYOFFS (2)</div>
+<div class="theme-group-title">🌊 OFC (1 Team)</div>
 <div class="theme-grid">
-<div class="theme-btn" onclick="setTheme('iraq')">🇮🇶<span class="theme-label">Iraq</span></div>
-<div class="theme-btn" onclick="setTheme('drcongo')">🇨🇩<span class="theme-label">DR Congo</span></div>
+<button class="theme-btn" onclick="setTheme('newzealand')">🇳🇿 New Zealand</button>
 </div>
 </div>
-<div class="theme-group">
-<div class="theme-group-title">🌏 OFC OCEANIA (1)</div>
-<div class="theme-grid">
-<div class="theme-btn" onclick="setTheme('newzealand')">🇳🇿<span class="theme-label">New Zealand</span></div>
-</div>
-</div>
+
 <div class="theme-group">
 <div class="theme-group-title">🏆 SPORTS LEAGUES</div>
 <div class="theme-grid">
-<div class="theme-btn" onclick="setTheme('nba')">🏀<span class="theme-label">NBA</span></div>
-<div class="theme-btn" onclick="setTheme('nhl')">🏒<span class="theme-label">NHL</span></div>
-<div class="theme-btn" onclick="setTheme('mlb')">⚾<span class="theme-label">MLB</span></div>
-<div class="theme-btn" onclick="setTheme('tennis')">🎾<span class="theme-label">Tennis</span></div>
+<button class="theme-btn" onclick="setTheme('nhl')">🏒 NHL</button>
+<button class="theme-btn" onclick="setTheme('nba')">🏀 NBA</button>
+<button class="theme-btn" onclick="setTheme('mlb')">⚾ MLB</button>
+<button class="theme-btn" onclick="setTheme('nfl')">🏈 NFL</button>
 </div>
 </div>
+
+<div style="margin-top:15px;font-size:0.65rem;color:var(--muted);text-align:center">⭐ = First World Cup Appearance</div>
 </div>
 </div>
+
 <script>
-const themes={
-fifa:{bg:'#0a0a0a',card:'rgba(20,20,30,0.95)',primary:'#d4af37',secondary:'#1a1a2e',accent:'#ffd700'},
-usa:{bg:'#0a1628',card:'rgba(15,25,50,0.95)',primary:'#B22234',secondary:'#3C3B6E',accent:'#FFFFFF'},
-mexico:{bg:'#0a1f0a',card:'rgba(0,30,15,0.95)',primary:'#006847',secondary:'#FFFFFF',accent:'#CE1126'},
-canada:{bg:'#1a0505',card:'rgba(40,10,10,0.95)',primary:'#FF0000',secondary:'#FFFFFF',accent:'#FF0000'},
-france:{bg:'#000d26',card:'rgba(0,20,50,0.95)',primary:'#002654',secondary:'#FFFFFF',accent:'#CE1126'},
-spain:{bg:'#1a0505',card:'rgba(50,10,10,0.95)',primary:'#AA151B',secondary:'#F1BF00',accent:'#FFFFFF'},
-germany:{bg:'#0a0a0a',card:'rgba(15,15,15,0.95)',primary:'#000000',secondary:'#DD0000',accent:'#FFCC00'},
-england:{bg:'#1a0508',card:'rgba(40,10,15,0.95)',primary:'#CE1124',secondary:'#FFFFFF',accent:'#012169'},
-portugal:{bg:'#001a00',card:'rgba(0,30,0,0.95)',primary:'#006600',secondary:'#FF0000',accent:'#FFCC00'},
-netherlands:{bg:'#1a0f00',card:'rgba(50,30,0,0.95)',primary:'#FF6600',secondary:'#FFFFFF',accent:'#21468B'},
-belgium:{bg:'#0a0a0a',card:'rgba(15,15,15,0.95)',primary:'#000000',secondary:'#FFD100',accent:'#FF0F21'},
-croatia:{bg:'#1a0505',card:'rgba(50,10,10,0.95)',primary:'#FF0000',secondary:'#FFFFFF',accent:'#0093DD'},
-switzerland:{bg:'#1a0505',card:'rgba(50,10,10,0.95)',primary:'#FF0000',secondary:'#FFFFFF',accent:'#FFFFFF'},
-austria:{bg:'#1a0508',card:'rgba(50,10,15,0.95)',primary:'#ED2939',secondary:'#FFFFFF',accent:'#ED2939'},
-scotland:{bg:'#001a33',card:'rgba(0,30,60,0.95)',primary:'#0065BD',secondary:'#FFFFFF',accent:'#FFFFFF'},
-norway:{bg:'#1a050a',card:'rgba(50,10,20,0.95)',primary:'#BA0C2F',secondary:'#00205B',accent:'#FFFFFF'},
-bosnia:{bg:'#00081a',card:'rgba(0,15,40,0.95)',primary:'#002395',secondary:'#FECB00',accent:'#FFFFFF'},
-sweden:{bg:'#001833',card:'rgba(0,25,50,0.95)',primary:'#006AA7',secondary:'#FECC00',accent:'#FFFFFF'},
-turkey:{bg:'#1a0505',card:'rgba(50,10,10,0.95)',primary:'#E30A17',secondary:'#FFFFFF',accent:'#E30A17'},
-czechia:{bg:'#050d1a',card:'rgba(10,20,40,0.95)',primary:'#11457E',secondary:'#D7141A',accent:'#FFFFFF'},
-argentina:{bg:'#0f1a26',card:'rgba(20,35,55,0.95)',primary:'#74ACDF',secondary:'#FFFFFF',accent:'#F6B40E'},
-brazil:{bg:'#001a0a',card:'rgba(0,30,15,0.95)',primary:'#009739',secondary:'#FEDD00',accent:'#002776'},
-uruguay:{bg:'#000d1a',card:'rgba(0,20,40,0.95)',primary:'#0038A8',secondary:'#FFFFFF',accent:'#FCD116'},
-colombia:{bg:'#1a1500',card:'rgba(40,35,0,0.95)',primary:'#FCD116',secondary:'#003893',accent:'#CE1126'},
-ecuador:{bg:'#1a1500',card:'rgba(40,35,0,0.95)',primary:'#FFD100',secondary:'#0033A0',accent:'#CE1126'},
-paraguay:{bg:'#1a0808',card:'rgba(50,15,15,0.95)',primary:'#D52B1E',secondary:'#0038A8',accent:'#FFFFFF'},
-panama:{bg:'#1a050a',card:'rgba(50,10,20,0.95)',primary:'#D21034',secondary:'#0067C6',accent:'#FFFFFF'},
-curacao:{bg:'#00081a',card:'rgba(0,15,40,0.95)',primary:'#002B7F',secondary:'#F9E814',accent:'#FFFFFF'},
-haiti:{bg:'#00051a',card:'rgba(0,10,40,0.95)',primary:'#00209F',secondary:'#D21034',accent:'#FFFFFF'},
-morocco:{bg:'#1a0508',card:'rgba(50,10,15,0.95)',primary:'#C1272D',secondary:'#006233',accent:'#FFFFFF'},
-senegal:{bg:'#001a0f',card:'rgba(0,30,20,0.95)',primary:'#00853F',secondary:'#FDEF42',accent:'#E31B23'},
-egypt:{bg:'#1a0508',card:'rgba(50,10,15,0.95)',primary:'#CE1126',secondary:'#FFFFFF',accent:'#000000'},
-algeria:{bg:'#001a0f',card:'rgba(0,30,20,0.95)',primary:'#006633',secondary:'#FFFFFF',accent:'#D21034'},
-tunisia:{bg:'#1a0005',card:'rgba(50,0,10,0.95)',primary:'#E70013',secondary:'#FFFFFF',accent:'#E70013'},
-southafrica:{bg:'#001a0f',card:'rgba(0,30,20,0.95)',primary:'#007A4D',secondary:'#FFB612',accent:'#DE3831'},
-ivorycoast:{bg:'#1a1000',card:'rgba(50,30,0,0.95)',primary:'#FF8200',secondary:'#009A44',accent:'#FFFFFF'},
-ghana:{bg:'#001a0f',card:'rgba(0,30,20,0.95)',primary:'#006B3F',secondary:'#FCD116',accent:'#CE1126'},
-capeverde:{bg:'#00081a',card:'rgba(0,15,40,0.95)',primary:'#003893',secondary:'#CE1126',accent:'#F7D116'},
-japan:{bg:'#00001a',card:'rgba(0,0,40,0.95)',primary:'#000080',secondary:'#FFFFFF',accent:'#BC002D'},
-iran:{bg:'#051a08',card:'rgba(10,40,15,0.95)',primary:'#239F40',secondary:'#FFFFFF',accent:'#DA0000'},
-southkorea:{bg:'#1a0508',card:'rgba(50,10,15,0.95)',primary:'#CD2E3A',secondary:'#0047A0',accent:'#FFFFFF'},
-australia:{bg:'#001a0a',card:'rgba(0,30,15,0.95)',primary:'#00843D',secondary:'#FFCD00',accent:'#FFFFFF'},
-saudiarabia:{bg:'#001a0a',card:'rgba(0,30,15,0.95)',primary:'#006C35',secondary:'#FFFFFF',accent:'#006C35'},
-qatar:{bg:'#150510',card:'rgba(35,10,25,0.95)',primary:'#8A1538',secondary:'#FFFFFF',accent:'#8A1538'},
-uzbekistan:{bg:'#001a1a',card:'rgba(0,30,35,0.95)',primary:'#0099B5',secondary:'#1EB53A',accent:'#FFFFFF'},
-jordan:{bg:'#001a0a',card:'rgba(0,30,15,0.95)',primary:'#007A3D',secondary:'#CE1126',accent:'#000000'},
-iraq:{bg:'#1a0508',card:'rgba(50,10,15,0.95)',primary:'#CE1126',secondary:'#007A3D',accent:'#FFFFFF'},
-drcongo:{bg:'#001a33',card:'rgba(0,30,60,0.95)',primary:'#007FFF',secondary:'#CE1021',accent:'#F7D618'},
-newzealand:{bg:'#00081a',card:'rgba(0,15,40,0.95)',primary:'#00247D',secondary:'#FFFFFF',accent:'#C8102E'},
-nba:{bg:'#0a0a1a',card:'rgba(15,15,35,0.95)',primary:'#C9082A',secondary:'#17408B',accent:'#FFFFFF'},
-nhl:{bg:'#0a0a0a',card:'rgba(15,15,15,0.95)',primary:'#000000',secondary:'#A2AAAD',accent:'#FFFFFF'},
-mlb:{bg:'#0a0a1a',card:'rgba(15,15,35,0.95)',primary:'#002D72',secondary:'#D50032',accent:'#FFFFFF'},
-tennis:{bg:'#0a1a0a',card:'rgba(15,35,15,0.95)',primary:'#2E7D32',secondary:'#D4AF37',accent:'#FFFFFF'}
+// ALL 53 THEMES (48 WC Nations + FIFA Elite + 4 Sports Leagues)
+const themes = {
+fifa:{bg:'#080b12',card:'rgba(15,20,30,0.95)',gold:'#d4af37',green:'#10b981',accent:'#d4af37'},
+france:{bg:'#002654',card:'rgba(0,38,84,0.95)',gold:'#fff',green:'#ef4135',accent:'#fff'},
+spain:{bg:'#c60b1e',card:'rgba(198,11,30,0.95)',gold:'#ffc400',green:'#ffc400',accent:'#ffc400'},
+germany:{bg:'#000',card:'rgba(0,0,0,0.95)',gold:'#ffcc00',green:'#dd0000',accent:'#ffcc00'},
+england:{bg:'#fff',card:'rgba(255,255,255,0.95)',gold:'#cf081f',green:'#cf081f',accent:'#002366'},
+portugal:{bg:'#006600',card:'rgba(0,102,0,0.95)',gold:'#ff0000',green:'#ffcc00',accent:'#ff0000'},
+netherlands:{bg:'#ff6600',card:'rgba(255,102,0,0.95)',gold:'#fff',green:'#21468b',accent:'#fff'},
+belgium:{bg:'#000',card:'rgba(0,0,0,0.95)',gold:'#fdda24',green:'#ef3340',accent:'#fdda24'},
+croatia:{bg:'#ff0000',card:'rgba(255,0,0,0.95)',gold:'#fff',green:'#171796',accent:'#fff'},
+switzerland:{bg:'#ff0000',card:'rgba(255,0,0,0.95)',gold:'#fff',green:'#fff',accent:'#fff'},
+austria:{bg:'#ed2939',card:'rgba(237,41,57,0.95)',gold:'#fff',green:'#fff',accent:'#fff'},
+scotland:{bg:'#0065bd',card:'rgba(0,101,189,0.95)',gold:'#fff',green:'#fff',accent:'#fff'},
+norway:{bg:'#ef2b2d',card:'rgba(239,43,45,0.95)',gold:'#fff',green:'#002868',accent:'#fff'},
+bosnia:{bg:'#002395',card:'rgba(0,35,149,0.95)',gold:'#fecb00',green:'#fecb00',accent:'#fecb00'},
+sweden:{bg:'#006aa7',card:'rgba(0,106,167,0.95)',gold:'#fecc00',green:'#fecc00',accent:'#fecc00'},
+turkiye:{bg:'#e30a17',card:'rgba(227,10,23,0.95)',gold:'#fff',green:'#fff',accent:'#fff'},
+czechia:{bg:'#11457e',card:'rgba(17,69,126,0.95)',gold:'#d7141a',green:'#fff',accent:'#d7141a'},
+argentina:{bg:'#74acdf',card:'rgba(116,172,223,0.95)',gold:'#fff',green:'#f6b40e',accent:'#fff'},
+brazil:{bg:'#009c3b',card:'rgba(0,156,59,0.95)',gold:'#ffdf00',green:'#002776',accent:'#ffdf00'},
+uruguay:{bg:'#0038a8',card:'rgba(0,56,168,0.95)',gold:'#fff',green:'#fff',accent:'#fff'},
+colombia:{bg:'#fcd116',card:'rgba(252,209,22,0.95)',gold:'#003893',green:'#ce1126',accent:'#003893'},
+ecuador:{bg:'#ffdd00',card:'rgba(255,221,0,0.95)',gold:'#034ea2',green:'#ed1c24',accent:'#034ea2'},
+paraguay:{bg:'#0038a8',card:'rgba(0,56,168,0.95)',gold:'#fff',green:'#d52b1e',accent:'#fff'},
+usa:{bg:'#3c3b6e',card:'rgba(60,59,110,0.95)',gold:'#fff',green:'#b22234',accent:'#fff'},
+mexico:{bg:'#006341',card:'rgba(0,99,65,0.95)',gold:'#fff',green:'#ce1126',accent:'#fff'},
+canada:{bg:'#ff0000',card:'rgba(255,0,0,0.95)',gold:'#fff',green:'#fff',accent:'#fff'},
+panama:{bg:'#005293',card:'rgba(0,82,147,0.95)',gold:'#fff',green:'#da121a',accent:'#fff'},
+curacao:{bg:'#002b7f',card:'rgba(0,43,127,0.95)',gold:'#f9e814',green:'#fff',accent:'#f9e814'},
+haiti:{bg:'#00209f',card:'rgba(0,32,159,0.95)',gold:'#d21034',green:'#fff',accent:'#d21034'},
+morocco:{bg:'#c1272d',card:'rgba(193,39,45,0.95)',gold:'#006233',green:'#006233',accent:'#006233'},
+senegal:{bg:'#00853f',card:'rgba(0,133,63,0.95)',gold:'#fdef42',green:'#e31b23',accent:'#fdef42'},
+egypt:{bg:'#000',card:'rgba(0,0,0,0.95)',gold:'#c8102e',green:'#fff',accent:'#c8102e'},
+algeria:{bg:'#006233',card:'rgba(0,98,51,0.95)',gold:'#fff',green:'#d21034',accent:'#fff'},
+tunisia:{bg:'#e70013',card:'rgba(231,0,19,0.95)',gold:'#fff',green:'#fff',accent:'#fff'},
+southafrica:{bg:'#007749',card:'rgba(0,119,73,0.95)',gold:'#ffb81c',green:'#e03c31',accent:'#ffb81c'},
+ivorycoast:{bg:'#ff8200',card:'rgba(255,130,0,0.95)',gold:'#fff',green:'#009e60',accent:'#fff'},
+ghana:{bg:'#006b3f',card:'rgba(0,107,63,0.95)',gold:'#fcd116',green:'#ce1126',accent:'#fcd116'},
+capeverde:{bg:'#003893',card:'rgba(0,56,147,0.95)',gold:'#fff',green:'#cf2027',accent:'#f7d116'},
+japan:{bg:'#bc002d',card:'rgba(188,0,45,0.95)',gold:'#fff',green:'#fff',accent:'#fff'},
+iran:{bg:'#239f40',card:'rgba(35,159,64,0.95)',gold:'#fff',green:'#da0000',accent:'#fff'},
+southkorea:{bg:'#003478',card:'rgba(0,52,120,0.95)',gold:'#fff',green:'#c60c30',accent:'#fff'},
+australia:{bg:'#00008b',card:'rgba(0,0,139,0.95)',gold:'#ffcd00',green:'#fff',accent:'#ffcd00'},
+saudiarabia:{bg:'#006c35',card:'rgba(0,108,53,0.95)',gold:'#fff',green:'#fff',accent:'#fff'},
+qatar:{bg:'#8a1538',card:'rgba(138,21,56,0.95)',gold:'#fff',green:'#fff',accent:'#fff'},
+uzbekistan:{bg:'#0099b5',card:'rgba(0,153,181,0.95)',gold:'#fff',green:'#1eb53a',accent:'#fff'},
+jordan:{bg:'#000',card:'rgba(0,0,0,0.95)',gold:'#fff',green:'#007a3d',accent:'#ce1126'},
+iraq:{bg:'#007a3d',card:'rgba(0,122,61,0.95)',gold:'#fff',green:'#ce1126',accent:'#fff'},
+drcongo:{bg:'#007fff',card:'rgba(0,127,255,0.95)',gold:'#f7d618',green:'#ce1021',accent:'#f7d618'},
+newzealand:{bg:'#00247d',card:'rgba(0,36,125,0.95)',gold:'#fff',green:'#cc142b',accent:'#fff'},
+nhl:{bg:'#000',card:'rgba(0,0,0,0.95)',gold:'#a2aaad',green:'#fff',accent:'#a2aaad'},
+nba:{bg:'#17408b',card:'rgba(23,64,139,0.95)',gold:'#c9082a',green:'#fff',accent:'#c9082a'},
+mlb:{bg:'#002d72',card:'rgba(0,45,114,0.95)',gold:'#d50032',green:'#fff',accent:'#d50032'},
+nfl:{bg:'#013369',card:'rgba(1,51,105,0.95)',gold:'#d50a0a',green:'#fff',accent:'#d50a0a'}
 };
-let currentLang='en';let currentDevice='mobile';let currentTheme='fifa';
-function showTab(tabId){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.getElementById(tabId).classList.add('active');event.target.classList.add('active');}
-function setTheme(themeName){const t=themes[themeName];if(!t)return;currentTheme=themeName;const root=document.documentElement;root.style.setProperty('--bg',t.bg);root.style.setProperty('--card',t.card);root.style.setProperty('--primary',t.primary);root.style.setProperty('--gold',t.primary);root.style.setProperty('--secondary',t.secondary);root.style.setProperty('--accent',t.accent);document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));if(event&&event.target)event.target.closest('.theme-btn').classList.add('active');closeThemeModal();}
-function openThemeModal(){document.getElementById('themeModal').classList.add('active');}
-function closeThemeModal(){document.getElementById('themeModal').classList.remove('active');}
-function toggleLang(){const langs=['EN','FR','ES','PT'];const btn=event.target;const curr=btn.textContent.split(' ')[1];const idx=langs.indexOf(curr);const next=langs[(idx+1)%langs.length];btn.textContent='🌐 '+next;currentLang=next.toLowerCase();}
-function toggleDevice(){const devices=['📱','📟','💻'];const btn=event.target;const curr=btn.textContent;const idx=devices.indexOf(curr);const next=devices[(idx+1)%devices.length];btn.textContent=next;currentDevice=['mobile','tablet','desktop'][devices.indexOf(next)];}
-function sharePage(){if(navigator.share){navigator.share({title:'SigMAX ELITE v30.7',text:'Watch Passionately. Bet Wisely!',url:window.location.href});}else{navigator.clipboard.writeText(window.location.href);alert('Link copied to clipboard!');}}
-document.getElementById('themeModal').addEventListener('click',function(e){if(e.target===this)closeThemeModal();});
+
+// PARLAY STATE
+const parlayState = {T1:{},T2:{},T3:{},T4:{},T5:{},P1:{},P2:{},P3:{},P4:{},P5:{}};
+
+function updateParlay(slot, field, value) {
+parlayState[slot][field] = value;
+calculateParlay();
+}
+
+function clearSlot(slot) {
+const slotEl = document.getElementById('slot-' + slot);
+const selects = slotEl.querySelectorAll('select');
+selects.forEach(s => s.selectedIndex = 0);
+document.getElementById('odds-' + slot).textContent = '---';
+parlayState[slot] = {};
+calculateParlay();
+}
+
+function clearAllParlay() {
+['T1','T2','T3','T4','T5','P1','P2','P3','P4','P5'].forEach(slot => clearSlot(slot));
+}
+
+function calculateParlay() {
+let teamCount = 0, propCount = 0, totalOdds = 1, validLegs = 0;
+['T1','T2','T3','T4','T5'].forEach(slot => {
+if (parlayState[slot].pick && parlayState[slot].matchup) {
+teamCount++; validLegs++;
+const odds = getRandomOdds();
+document.getElementById('odds-' + slot).textContent = odds > 0 ? '+' + odds : odds;
+totalOdds *= americanToDecimal(odds);
+}
+});
+['P1','P2','P3','P4','P5'].forEach(slot => {
+if (parlayState[slot].pick && parlayState[slot].player) {
+propCount++; validLegs++;
+const odds = getRandomOdds();
+document.getElementById('odds-' + slot).textContent = odds > 0 ? '+' + odds : odds;
+totalOdds *= americanToDecimal(odds);
+}
+});
+document.getElementById('team-count').textContent = teamCount;
+document.getElementById('prop-count').textContent = propCount;
+document.getElementById('total-legs').textContent = validLegs + ' / 10';
+if (validLegs > 0) {
+const combinedAmerican = decimalToAmerican(totalOdds);
+document.getElementById('combined-odds').textContent = combinedAmerican > 0 ? '+' + combinedAmerican : combinedAmerican;
+document.getElementById('potential-payout').textContent = '$' + (100 * totalOdds).toFixed(2);
+} else {
+document.getElementById('combined-odds').textContent = '---';
+document.getElementById('potential-payout').textContent = '$---';
+}
+const statusEl = document.getElementById('parlay-status');
+if (teamCount <= 5 && propCount <= 5 && validLegs <= 10) {
+statusEl.className = 'parlay-validation valid';
+statusEl.textContent = '✅ Valid: Teams ' + teamCount + '/5 ✓ | Props ' + propCount + '/5 ✓ | Total ' + validLegs + '/10 ✓';
+} else {
+statusEl.className = 'parlay-validation invalid';
+statusEl.textContent = '❌ Invalid: Check limits!';
+}
+}
+
+function getRandomOdds() {
+const odds = [-250,-200,-165,-150,-140,-125,-115,-110,+100,+110,+115,+125,+140,+150,+175,+200];
+return odds[Math.floor(Math.random() * odds.length)];
+}
+function americanToDecimal(odds) { return odds > 0 ? (odds / 100) + 1 : (100 / Math.abs(odds)) + 1; }
+function decimalToAmerican(decimal) { return decimal >= 2 ? Math.round((decimal - 1) * 100) : Math.round(-100 / (decimal - 1)); }
+function saveParlay() { alert('Parlay saved! Total legs: ' + document.getElementById('total-legs').textContent); }
+
+function showTab(tabId) {
+document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+document.getElementById(tabId).classList.add('active');
+event.target.classList.add('active');
+}
+
+function setTheme(themeName) {
+const t = themes[themeName];
+if (!t) return;
+document.documentElement.style.setProperty('--bg', t.bg);
+document.documentElement.style.setProperty('--card', t.card);
+document.documentElement.style.setProperty('--gold', t.gold);
+document.documentElement.style.setProperty('--green', t.green);
+document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+event.target.classList.add('active');
+toggleThemeModal();
+}
+
+function toggleThemeModal() { document.getElementById('themeModal').classList.toggle('active'); }
+function shareResults() {
+if (navigator.share) { navigator.share({title:'SigMAX ELITE',text:'290-52 (84.8%) | +96% ROI',url:window.location.href}); }
+else { alert('Share: 290-52 (84.8%) | +96% ROI | SigMAX ELITE v30.9'); }
+}
 </script>
 </body>
 </html>
