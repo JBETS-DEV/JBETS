@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#d4af37">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>SigMAX ELITE v31.3 — May 30, 2026 — VERIFIED</title>
+<title>SigMAX ELITE v31.4 — May 30, 2026 — PARLAY UPDATE</title>
 <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiU2lnTUFYIEVMSVRFIHYzMS4zIiwic2hvcnRfbmFtZSI6IlNpZ01BWCIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMDgwYjEyIiwidGhlbWVfY29sb3IiOiIjZDRhZjM3IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0NzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTAwIDEwMCclM0UlM0NjaXJjbGUgY3g9JzUwJyBjeT0nNTAnIHI9JzQ1JyBmaWxsPSclMjNkNGFmMzcnLyUzRSUzQ3RleHQgeD0nNTAnIHk9JzY1JyBmb250LXNpemU9JzQwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmaWxsPSclMjMwMDAnJTNFJUYwJTlGJTkzJUExJTNDL3RleHQlM0UlM0Mvc3ZnJTNFIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -208,10 +208,46 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 ::-webkit-scrollbar-track{background:rgba(0,0,0,0.2)}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px}
 @media print{.header,.nav-container,.ticker-wrap{display:none}.main{padding:0}}
+.parlay-input-row{display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.parlay-select{background:rgba(0,0,0,0.4);border:1px solid rgba(212,175,55,0.3);color:var(--text);padding:8px 10px;border-radius:6px;font-size:0.75rem;min-width:90px;cursor:pointer;transition:all 0.2s}
+.parlay-select:hover{border-color:var(--gold)}
+.parlay-select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 8px rgba(212,175,55,0.3)}
+.parlay-select option{background:#1a1f2e;color:var(--text)}
+.parlay-input{background:rgba(0,0,0,0.4);border:1px solid rgba(212,175,55,0.3);color:var(--text);padding:8px 10px;border-radius:6px;font-size:0.75rem;transition:all 0.2s}
+.parlay-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 8px rgba(212,175,55,0.3)}
+.parlay-add-btn{background:var(--gradient);color:#000;border:none;width:32px;height:32px;border-radius:6px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.2s}
+.parlay-add-btn:hover{transform:scale(1.1);box-shadow:0 2px 10px rgba(212,175,55,0.4)}
+.parlay-add-btn:active{transform:scale(0.95)}
+.parlay-summary-card{background:linear-gradient(135deg,rgba(212,175,55,0.12),rgba(212,175,55,0.04));border:1px solid rgba(212,175,55,0.4);border-radius:12px;padding:15px;margin-top:15px}
+.parlay-summary-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:0.8rem}
+.parlay-summary-row.highlight{font-weight:700}
+.parlay-summary-row.payout{font-size:1rem;padding-top:10px}
+.parlay-summary-row.payout span:last-child{font-size:1.2rem;color:var(--green)}
+.parlay-summary-divider{height:1px;background:rgba(212,175,55,0.3);margin:8px 0}
+.parlay-leg{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:8px;margin-bottom:6px;font-size:0.8rem;transition:all 0.2s}
+.parlay-leg:hover{border-color:rgba(212,175,55,0.3);background:rgba(0,0,0,0.4)}
+.parlay-leg-type{background:rgba(212,175,55,0.2);color:var(--gold);padding:2px 6px;border-radius:4px;font-size:0.65rem;font-weight:600;margin-right:8px}
+.parlay-leg-pick{flex:1;font-weight:600}
+.parlay-leg-odds{color:var(--gold);font-weight:700;margin-right:10px}
+.parlay-leg-remove{color:var(--red);cursor:pointer;font-size:1rem;padding:4px 8px;border-radius:4px;transition:all 0.2s}
+.parlay-leg-remove:hover{background:rgba(239,68,68,0.2)}
+.wager-calc{background:rgba(0,0,0,0.3);border:1px solid rgba(212,175,55,0.2);border-radius:10px;padding:15px;margin-top:15px}
+.sport-select{min-width:75px}
+.game-select{min-width:140px;flex:1}
+.bet-type-select{min-width:100px}
+.player-select{min-width:150px;flex:1}
+.prop-type-select{min-width:90px}
+.ou-select{min-width:70px}
+@media(max-width:600px){
+.parlay-input-row{flex-direction:column;align-items:stretch}
+.parlay-select,.parlay-input{width:100%!important;min-width:100%}
+.parlay-add-btn{width:100%;margin-top:5px}
+}
 </style>
 </head>
 <body>
 <div class="app">
+<!-- HEADER -->
 <header class="header">
 <div class="header-grid">
 <div class="logo-section">
@@ -244,6 +280,8 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 </div>
 </div>
 </header>
+
+<!-- TICKER -->
 <div class="ticker-wrap">
 <div class="ticker" id="ticker">
 <div class="ticker-item">🏒 <span class="win">STANLEY CUP FINAL SET:</span> Vegas Golden Knights vs Carolina Hurricanes • June 2</div>
@@ -264,6 +302,8 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <div class="ticker-item">🥊 <span class="hot">UFC MACAU:</span> Song Yadong (-575) vs Figueiredo (+400) • May 30</div>
 </div>
 </div>
+
+<!-- NAVIGATION -->
 <nav class="nav-container">
 <div class="nav-tabs" id="nav">
 <button class="nav-tab active" data-section="dashboard">📊 Dashboard</button>
@@ -282,25 +322,55 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <button class="nav-tab" data-section="stats">📈 Stats</button>
 </div>
 </nav>
+
 <main class="main">
+<!-- ==================== DASHBOARD ==================== -->
 <div class="section active" id="dashboard">
 <div class="card">
 <div class="card-title">📊 Performance Dashboard</div>
 <div class="card-subtitle">Last updated: May 30, 2026 12:00 AM ET</div>
 <div class="stats-grid">
-<div class="stat-box"><div class="stat-value">292</div><div class="stat-label">Wins</div></div>
-<div class="stat-box"><div class="stat-value">53</div><div class="stat-label">Losses</div></div>
-<div class="stat-box"><div class="stat-value green">84.6%</div><div class="stat-label">Win Rate</div></div>
-<div class="stat-box"><div class="stat-value green">+96.2%</div><div class="stat-label">ROI</div></div>
+<div class="stat-box">
+<div class="stat-value">292</div>
+<div class="stat-label">Wins</div>
+</div>
+<div class="stat-box">
+<div class="stat-value">53</div>
+<div class="stat-label">Losses</div>
+</div>
+<div class="stat-box">
+<div class="stat-value green">84.6%</div>
+<div class="stat-label">Win Rate</div>
+</div>
+<div class="stat-box">
+<div class="stat-value green">+96.2%</div>
+<div class="stat-label">ROI</div>
+</div>
 </div>
 <div class="stats-grid">
-<div class="stat-box"><div class="stat-value">$13,735</div><div class="stat-label">Bankroll</div></div>
-<div class="stat-box"><div class="stat-value green">+$6,735</div><div class="stat-label">Profit</div></div>
-<div class="stat-box"><div class="stat-value">18</div><div class="stat-label">Win Streak</div></div>
-<div class="stat-box"><div class="stat-value">2</div><div class="stat-label">Pushes</div></div>
+<div class="stat-box">
+<div class="stat-value">$13,735</div>
+<div class="stat-label">Bankroll</div>
 </div>
-<div class="chart-container"><canvas id="profitChart"></canvas></div>
+<div class="stat-box">
+<div class="stat-value green">+$6,735</div>
+<div class="stat-label">Profit</div>
 </div>
+<div class="stat-box">
+<div class="stat-value">18</div>
+<div class="stat-label">Win Streak</div>
+</div>
+<div class="stat-box">
+<div class="stat-value">2</div>
+<div class="stat-label">Pushes</div>
+</div>
+</div>
+<div class="chart-container">
+<canvas id="profitChart"></canvas>
+</div>
+</div>
+
+<!-- COUNTDOWN -->
 <div class="card countdown-card">
 <div class="countdown-title">⏱️ NEXT FEATURED EVENT</div>
 <div class="countdown-game">🏀 WCF GAME 7: Thunder vs Spurs</div>
@@ -312,44 +382,79 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 </div>
 <div class="countdown-alert">⚠️ JALEN WILLIAMS OUT (Hamstring) — MAJOR LINE MOVEMENT EXPECTED</div>
 </div>
+
+<!-- TODAY'S FEATURED PICKS -->
 <div class="card">
 <div class="card-title">🎯 Top Picks for May 30</div>
 <div class="pick-card featured">
-<div class="pick-header"><span class="pick-sport">🏀 NBA — WCF Game 7</span><span class="pick-confidence">🔥🔥🔥🔥🔥</span></div>
+<div class="pick-header">
+<span class="pick-sport">🏀 NBA — WCF Game 7</span>
+<span class="pick-confidence">🔥🔥🔥🔥🔥</span>
+</div>
 <div class="pick-matchup">Thunder ML (with Williams OUT adjustment)</div>
-<div class="pick-details"><span class="pick-selection">OKC Thunder -175</span><span class="pick-odds">SGA revenge game at home</span></div>
+<div class="pick-details">
+<span class="pick-selection">OKC Thunder -175</span>
+<span class="pick-odds">SGA revenge game at home</span>
+</div>
 <div class="pick-edge mt-2">📊 Edge: +6.2% • Home team 4-2 in series • Wemby fatigue factor</div>
 </div>
 <div class="pick-card">
-<div class="pick-header"><span class="pick-sport">🏀 NBA — WCF Game 7</span><span class="pick-confidence">🔥🔥🔥🔥</span></div>
+<div class="pick-header">
+<span class="pick-sport">🏀 NBA — WCF Game 7</span>
+<span class="pick-confidence">🔥🔥🔥🔥</span>
+</div>
 <div class="pick-matchup">Thunder -3.5 Spread</div>
-<div class="pick-details"><span class="pick-selection">Thunder -3.5 (-110)</span><span class="pick-odds">Adjusted for Williams absence</span></div>
+<div class="pick-details">
+<span class="pick-selection">Thunder -3.5 (-110)</span>
+<span class="pick-odds">Adjusted for Williams absence</span>
+</div>
 <div class="pick-edge mt-2">📊 Edge: +4.8% • Home court decisive • SGA averaging 32 PPG at home</div>
 </div>
 <div class="pick-card">
-<div class="pick-header"><span class="pick-sport">🏀 NBA — WCF Game 7</span><span class="pick-confidence">🔥🔥🔥🔥</span></div>
+<div class="pick-header">
+<span class="pick-sport">🏀 NBA — WCF Game 7</span>
+<span class="pick-confidence">🔥🔥🔥🔥</span>
+</div>
 <div class="pick-matchup">Under 216.5 Total</div>
-<div class="pick-details"><span class="pick-selection">Under 216.5 (-108)</span><span class="pick-odds">Defensive intensity in Game 7</span></div>
+<div class="pick-details">
+<span class="pick-selection">Under 216.5 (-108)</span>
+<span class="pick-odds">Defensive intensity in Game 7</span>
+</div>
 <div class="pick-edge mt-2">📊 Edge: +5.1% • Avg total last 3: 211.3 • Game 7s avg -6.2 pts vs line</div>
 </div>
 <div class="pick-card">
-<div class="pick-header"><span class="pick-sport">🎾 FRENCH OPEN</span><span class="pick-confidence">🔥🔥🔥🔥</span></div>
+<div class="pick-header">
+<span class="pick-sport">🎾 FRENCH OPEN</span>
+<span class="pick-confidence">🔥🔥🔥🔥</span>
+</div>
 <div class="pick-matchup">Casper Ruud ML (R4)</div>
-<div class="pick-details"><span class="pick-selection">Ruud -180</span><span class="pick-odds">vs TBD opponent</span></div>
+<div class="pick-details">
+<span class="pick-selection">Ruud -180</span>
+<span class="pick-odds">vs TBD opponent</span>
+</div>
 <div class="pick-edge mt-2">📊 Edge: +4.5% • Saved 2 MPs last round • Clay specialist • 2x Roland Garros finalist</div>
 </div>
 <div class="pick-card">
-<div class="pick-header"><span class="pick-sport">🥊 UFC MACAU</span><span class="pick-confidence">🔥🔥🔥🔥🔥</span></div>
+<div class="pick-header">
+<span class="pick-sport">🥊 UFC MACAU</span>
+<span class="pick-confidence">🔥🔥🔥🔥🔥</span>
+</div>
 <div class="pick-matchup">Song Yadong by Decision</div>
-<div class="pick-details"><span class="pick-selection">Song -575 (Method: Decision +145)</span><span class="pick-odds">Home crowd advantage</span></div>
+<div class="pick-details">
+<span class="pick-selection">Song -575 (Method: Decision +145)</span>
+<span class="pick-odds">Home crowd advantage</span>
+</div>
 <div class="pick-edge mt-2">📊 Edge: +7.3% • Figueiredo moving up in weight • Song KO power at BW</div>
 </div>
 </div>
 </div>
+<!-- ==================== PICKS SECTION ==================== -->
 <div class="section" id="picks">
 <div class="card">
 <div class="card-title">🎯 All Active Picks — May 30, 2026</div>
 <div class="card-subtitle">✅ Triple-verified data • Last refresh: 12:00 AM ET</div>
+
+<!-- NBA PICKS -->
 <h3 style="color:var(--gold);font-size:0.85rem;margin:12px 0 8px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:6px">🏀 NBA — WCF Game 7</h3>
 <div class="pick-card featured">
 <div class="pick-header"><span class="pick-sport">THUNDER VS SPURS</span><span class="pick-confidence">🔥🔥🔥🔥🔥</span></div>
@@ -382,6 +487,8 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <div class="pick-matchup">Wembanyama Over 9.5 Rebounds</div>
 <div class="pick-details"><span class="pick-selection">Over 9.5 (-105)</span><span class="pick-odds">10+ REB in 5 of last 6</span></div>
 </div>
+
+<!-- TENNIS PICKS -->
 <h3 style="color:var(--gold);font-size:0.85rem;margin:12px 0 8px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:6px">🎾 French Open — Round 4</h3>
 <div class="pick-card featured">
 <div class="pick-header"><span class="pick-sport">MEN'S SINGLES R4</span><span class="pick-confidence">🔥🔥🔥🔥</span></div>
@@ -400,6 +507,8 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <div class="pick-details"><span class="pick-selection">Fonseca +3.5 (-115)</span><span class="pick-odds">Just beat Djokovic in 5!</span></div>
 <div class="pick-edge mt-2">⚡ 18-year-old sensation • Riding momentum wave • No pressure</div>
 </div>
+
+<!-- UFC PICKS -->
 <h3 style="color:var(--gold);font-size:0.85rem;margin:12px 0 8px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:6px">🥊 UFC Macau — May 30</h3>
 <div class="pick-card featured">
 <div class="pick-header"><span class="pick-sport">MAIN EVENT</span><span class="pick-confidence">🔥🔥🔥🔥🔥</span></div>
@@ -420,133 +529,689 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 </div>
 </div>
 </div>
+
+<!-- ==================== GAMES SECTION ==================== -->
 <div class="section" id="games">
 <div class="card">
 <div class="card-title">🏟️ Today's Games — May 30, 2026</div>
 <div class="card-subtitle">✅ All times Eastern • Click game for details</div>
+
+<!-- FEATURED GAME -->
 <div class="game-card featured">
-<div class="game-header"><span class="game-league">🏀 NBA — WCF Game 7</span><span class="game-status upcoming">8:00 PM ET</span></div>
+<div class="game-header">
+<span class="game-league">🏀 NBA — WCF Game 7</span>
+<span class="game-status upcoming">8:00 PM ET</span>
+</div>
 <div class="game-teams">
-<div class="team-row"><div class="team-info"><div class="team-logo">SAS</div><div><div class="team-name">San Antonio Spurs</div><div class="team-record">Series: 3-3</div></div></div><div class="team-score">—</div></div>
-<div class="team-row"><div class="team-info"><div class="team-logo">OKC</div><div><div class="team-name">Oklahoma City Thunder</div><div class="team-record">Series: 3-3 • HOME</div></div></div><div class="team-score">—</div></div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">SAS</div><div><div class="team-name">San Antonio Spurs</div><div class="team-record">Series: 3-3</div></div></div>
+<div class="team-score">—</div>
+</div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">OKC</div><div><div class="team-name">Oklahoma City Thunder</div><div class="team-record">Series: 3-3 • HOME</div></div></div>
+<div class="team-score">—</div>
+</div>
 </div>
 <div class="game-meta">📺 NBC/Peacock • ⚠️ Jalen Williams OUT • Winner to Finals vs Knicks</div>
 </div>
+
+<!-- RECENT RESULTS -->
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 10px">✅ Recent Results (Last 24 Hours)</h3>
+
 <div class="game-card">
-<div class="game-header"><span class="game-league">🏒 NHL — ECF Game 5</span><span class="game-status final">FINAL</span></div>
+<div class="game-header">
+<span class="game-league">🏒 NHL — ECF Game 5</span>
+<span class="game-status final">FINAL</span>
+</div>
 <div class="game-teams">
-<div class="team-row"><div class="team-info"><div class="team-logo">MTL</div><div><div class="team-name">Montreal Canadiens</div><div class="team-record">Series: 1-4</div></div></div><div class="team-score">1</div></div>
-<div class="team-row"><div class="team-info"><div class="team-logo">CAR</div><div><div class="team-name">Carolina Hurricanes</div><div class="team-record">ADVANCES TO CUP FINAL</div></div></div><div class="team-score winner">6</div></div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">MTL</div><div><div class="team-name">Montreal Canadiens</div><div class="team-record">Series: 1-4</div></div></div>
+<div class="team-score">1</div>
+</div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">CAR</div><div><div class="team-name">Carolina Hurricanes</div><div class="team-record">ADVANCES TO CUP FINAL</div></div></div>
+<div class="team-score winner">6</div>
+</div>
 </div>
 <div class="game-meta">✅ Carolina wins series 4-1 • Andersen: 35 saves • Stanley Cup Final set: Vegas vs Carolina June 2</div>
 </div>
+
 <div class="game-card">
-<div class="game-header"><span class="game-league">🏀 NBA — WCF Game 6</span><span class="game-status final">FINAL</span></div>
+<div class="game-header">
+<span class="game-league">🏀 NBA — WCF Game 6</span>
+<span class="game-status final">FINAL</span>
+</div>
 <div class="game-teams">
-<div class="team-row"><div class="team-info"><div class="team-logo">OKC</div><div><div class="team-name">Oklahoma City Thunder</div><div class="team-record">Series: 3-3</div></div></div><div class="team-score">91</div></div>
-<div class="team-row"><div class="team-info"><div class="team-logo">SAS</div><div><div class="team-name">San Antonio Spurs</div><div class="team-record">@ HOME</div></div></div><div class="team-score winner">118</div></div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">OKC</div><div><div class="team-name">Oklahoma City Thunder</div><div class="team-record">Series: 3-3</div></div></div>
+<div class="team-score">91</div>
+</div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">SAS</div><div><div class="team-name">San Antonio Spurs</div><div class="team-record">@ HOME</div></div></div>
+<div class="team-score winner">118</div>
+</div>
 </div>
 <div class="game-meta">✅ Wembanyama: 28 PTS, 10 REB • Spurs force Game 7 • OKC shot 38% from field</div>
 </div>
+
+<!-- UPCOMING -->
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 10px">📅 Upcoming This Week</h3>
+
 <div class="game-card">
-<div class="game-header"><span class="game-league">🏒 NHL — STANLEY CUP FINAL</span><span class="game-status upcoming">JUNE 2</span></div>
+<div class="game-header">
+<span class="game-league">🏒 NHL — STANLEY CUP FINAL</span>
+<span class="game-status upcoming">JUNE 2</span>
+</div>
 <div class="game-teams">
-<div class="team-row"><div class="team-info"><div class="team-logo">VGK</div><div><div class="team-name">Vegas Golden Knights</div><div class="team-record">Swept Colorado 4-0</div></div></div><div class="team-score">—</div></div>
-<div class="team-row"><div class="team-info"><div class="team-logo">CAR</div><div><div class="team-name">Carolina Hurricanes</div><div class="team-record">Beat Montreal 4-1</div></div></div><div class="team-score">—</div></div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">VGK</div><div><div class="team-name">Vegas Golden Knights</div><div class="team-record">Swept Colorado 4-0</div></div></div>
+<div class="team-score">—</div>
+</div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">CAR</div><div><div class="team-name">Carolina Hurricanes</div><div class="team-record">Beat Montreal 4-1</div></div></div>
+<div class="team-score">—</div>
+</div>
 </div>
 <div class="game-meta">🏆 Stanley Cup Final Game 1 • Vegas defending champions • Andersen vs Hill</div>
 </div>
+
 <div class="game-card">
-<div class="game-header"><span class="game-league">🏀 NBA — FINALS</span><span class="game-status upcoming">JUNE 3</span></div>
+<div class="game-header">
+<span class="game-league">🏀 NBA — FINALS</span>
+<span class="game-status upcoming">JUNE 3</span>
+</div>
 <div class="game-teams">
-<div class="team-row"><div class="team-info"><div class="team-logo">NYK</div><div><div class="team-name">New York Knicks</div><div class="team-record">ECF Winners</div></div></div><div class="team-score">—</div></div>
-<div class="team-row"><div class="team-info"><div class="team-logo">TBD</div><div><div class="team-name">Thunder or Spurs</div><div class="team-record">WCF G7 Winner</div></div></div><div class="team-score">—</div></div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">NYK</div><div><div class="team-name">New York Knicks</div><div class="team-record">ECF Winners</div></div></div>
+<div class="team-score">—</div>
+</div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">TBD</div><div><div class="team-name">Thunder or Spurs</div><div class="team-record">WCF G7 Winner</div></div></div>
+<div class="team-score">—</div>
+</div>
 </div>
 <div class="game-meta">🏆 NBA Finals Game 1 • First Knicks Finals since 1999 if vs Spurs</div>
 </div>
 </div>
 </div>
+<!-- ==================== ALERTS SECTION ==================== -->
 <div class="section" id="alerts">
 <div class="card">
 <div class="card-title">🚨 Breaking News & Alerts</div>
 <div class="card-subtitle">Real-time updates • Last refresh: 12:00 AM ET May 30</div>
-<div class="alert-item breaking"><div class="alert-icon">🚨</div><div class="alert-content"><div class="alert-title">JALEN WILLIAMS OUT FOR GAME 7</div><div class="alert-time">Hamstring injury • Thunder's 2nd leading scorer (21.4 PPG) • Line moved OKC -4.5 → -3.5</div></div></div>
-<div class="alert-item upset"><div class="alert-icon">😱</div><div class="alert-content"><div class="alert-title">DJOKOVIC ELIMINATED BY 18-YEAR-OLD FONSECA</div><div class="alert-time">Lost 4-6, 4-6, 6-3, 7-5, 7-5 • Fonseca becomes giant-killer • Wide open draw</div></div></div>
-<div class="alert-item win"><div class="alert-icon">🏆</div><div class="alert-content"><div class="alert-title">CAROLINA TO STANLEY CUP FINAL</div><div class="alert-time">Beat Montreal 6-1 in Game 5 • Series 4-1 • Face Vegas June 2</div></div></div>
-<div class="alert-item win"><div class="alert-icon">🏆</div><div class="alert-content"><div class="alert-title">ARSENAL WINS PREMIER LEAGUE</div><div class="alert-time">First title in 22 years! • Clinched on final day • End of Man City dynasty</div></div></div>
-<div class="alert-item win"><div class="alert-icon">🏆</div><div class="alert-content"><div class="alert-title">ASTON VILLA WINS EUROPA LEAGUE</div><div class="alert-time">Beat Freiburg 3-0 in final • First European trophy since 1982</div></div></div>
-<div class="alert-item breaking"><div class="alert-icon">⚽</div><div class="alert-content"><div class="alert-title">WEST HAM RELEGATED TO CHAMPIONSHIP</div><div class="alert-time">Lost on final day • Sunderland beat Chelsea to steal Europa spot • Bournemouth 6th</div></div></div>
-<div class="alert-item breaking"><div class="alert-icon">🏈</div><div class="alert-content"><div class="alert-title">WORLD CUP 2026 STARTS JUNE 11</div><div class="alert-time">USMNT roster official: Pulisic, McKennie, Adams, Balogun • Neymar OUT 2-3 weeks</div></div></div>
-<div class="alert-item injury"><div class="alert-icon">⚠️</div><div class="alert-content"><div class="alert-title">TIGER WOODS OUT INDEFINITELY</div><div class="alert-time">In Switzerland for treatment • Will miss Memorial Tournament</div></div></div>
-<div class="alert-item injury"><div class="alert-icon">⚠️</div><div class="alert-content"><div class="alert-title">MESSI HAMSTRING CONCERN</div><div class="alert-time">Argentina star dealing with tightness • World Cup 2026 prep disrupted</div></div></div>
-<div class="alert-item win"><div class="alert-icon">🏎️</div><div class="alert-content"><div class="alert-title">KIMI ANTONELLI LEADS F1 CHAMPIONSHIP</div><div class="alert-time">4 wins in 2026 season for Mercedes • Monaco GP June 5-7</div></div></div>
-<div class="alert-item"><div class="alert-icon">⛳</div><div class="alert-content"><div class="alert-title">MEMORIAL TOURNAMENT JUNE 4-7</div><div class="alert-time">$20M purse • Muirfield Village • Scheffler defending back-to-back titles</div></div></div>
+
+<div class="alert-item breaking">
+<div class="alert-icon">🚨</div>
+<div class="alert-content">
+<div class="alert-title">JALEN WILLIAMS OUT FOR GAME 7</div>
+<div class="alert-time">Hamstring injury • Thunder's 2nd leading scorer (21.4 PPG) • Line moved OKC -4.5 → -3.5</div>
 </div>
 </div>
+
+<div class="alert-item upset">
+<div class="alert-icon">😱</div>
+<div class="alert-content">
+<div class="alert-title">DJOKOVIC ELIMINATED BY 18-YEAR-OLD FONSECA</div>
+<div class="alert-time">Lost 4-6, 4-6, 6-3, 7-5, 7-5 • Fonseca becomes giant-killer • Wide open draw</div>
+</div>
+</div>
+
+<div class="alert-item win">
+<div class="alert-icon">🏆</div>
+<div class="alert-content">
+<div class="alert-title">CAROLINA TO STANLEY CUP FINAL</div>
+<div class="alert-time">Beat Montreal 6-1 in Game 5 • Series 4-1 • Face Vegas June 2</div>
+</div>
+</div>
+
+<div class="alert-item win">
+<div class="alert-icon">🏆</div>
+<div class="alert-content">
+<div class="alert-title">ARSENAL WINS PREMIER LEAGUE</div>
+<div class="alert-time">First title in 22 years! • Clinched on final day • End of Man City dynasty</div>
+</div>
+</div>
+
+<div class="alert-item win">
+<div class="alert-icon">🏆</div>
+<div class="alert-content">
+<div class="alert-title">ASTON VILLA WINS EUROPA LEAGUE</div>
+<div class="alert-time">Beat Freiburg 3-0 in final • First European trophy since 1982</div>
+</div>
+</div>
+
+<div class="alert-item breaking">
+<div class="alert-icon">⚽</div>
+<div class="alert-content">
+<div class="alert-title">WEST HAM RELEGATED TO CHAMPIONSHIP</div>
+<div class="alert-time">Lost on final day • Sunderland beat Chelsea to steal Europa spot • Bournemouth 6th</div>
+</div>
+</div>
+
+<div class="alert-item breaking">
+<div class="alert-icon">🏈</div>
+<div class="alert-content">
+<div class="alert-title">WORLD CUP 2026 STARTS JUNE 11</div>
+<div class="alert-time">USMNT roster official: Pulisic, McKennie, Adams, Balogun • Neymar OUT 2-3 weeks</div>
+</div>
+</div>
+
+<div class="alert-item injury">
+<div class="alert-icon">⚠️</div>
+<div class="alert-content">
+<div class="alert-title">TIGER WOODS OUT INDEFINITELY</div>
+<div class="alert-time">In Switzerland for treatment • Will miss Memorial Tournament</div>
+</div>
+</div>
+
+<div class="alert-item injury">
+<div class="alert-icon">⚠️</div>
+<div class="alert-content">
+<div class="alert-title">MESSI HAMSTRING CONCERN</div>
+<div class="alert-time">Argentina star dealing with tightness • World Cup 2026 prep disrupted</div>
+</div>
+</div>
+
+<div class="alert-item win">
+<div class="alert-icon">🏎️</div>
+<div class="alert-content">
+<div class="alert-title">KIMI ANTONELLI LEADS F1 CHAMPIONSHIP</div>
+<div class="alert-time">4 wins in 2026 season for Mercedes • Monaco GP June 5-7</div>
+</div>
+</div>
+
+<div class="alert-item">
+<div class="alert-icon">⛳</div>
+<div class="alert-content">
+<div class="alert-title">MEMORIAL TOURNAMENT JUNE 4-7</div>
+<div class="alert-time">$20M purse • Muirfield Village • Scheffler defending back-to-back titles</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== ENHANCED PARLAY BUILDER ==================== -->
 <div class="section" id="parlay">
 <div class="card">
-<div class="card-title">🔗 Parlay Builder</div>
-<div class="parlay-rules">📋 Rules: Max 5 Teams + Max 5 Props = 10 Total Legs • Min 2 legs required • Max odds +15000</div>
-<div class="parlay-builder">
-<div class="parlay-header"><div class="parlay-title">Current Parlay (0 legs)</div><div class="parlay-clear" onclick="clearParlay()">Clear All</div></div>
-<div class="parlay-legs" id="parlayLegs"><div style="text-align:center;padding:30px;color:var(--muted);font-size:0.8rem">Tap picks below to add to parlay</div></div>
-<div class="parlay-summary" style="display:none" id="parlaySummary"><div><span style="color:var(--muted);font-size:0.75rem">Total Odds:</span><div class="parlay-odds" id="parlayOdds">—</div></div><div><span style="color:var(--muted);font-size:0.75rem">$100 Payout:</span><div class="parlay-payout" id="parlayPayout">—</div></div></div>
+<div class="card-title">🎰 Enhanced Parlay Builder</div>
+<div class="card-subtitle">Build custom parlays with real-time odds • Max 5 Teams + 5 Props = 10 Legs</div>
+
+<!-- SECTION 1: TEAM BETS INPUT (5 rows) -->
+<h3 style="color:var(--gold);font-size:0.85rem;margin:15px 0 10px;display:flex;align-items:center;gap:8px">
+🏆 TEAM BETS <span style="background:rgba(212,175,55,0.2);padding:2px 8px;border-radius:10px;font-size:0.7rem">Max 5</span>
+</h3>
+
+<div id="teamRow1" class="parlay-input-row">
+<select class="parlay-select sport-select" onchange="updateGameOptions(1)">
+<option value="">Sport</option>
+<option value="NBA">🏀 NBA</option>
+<option value="NHL">🏒 NHL</option>
+<option value="MLB">⚾ MLB</option>
+<option value="UFC">🥊 UFC</option>
+<option value="TENNIS">🎾 Tennis</option>
+<option value="SOCCER">⚽ Soccer</option>
+<option value="GOLF">⛳ Golf</option>
+<option value="F1">🏎️ F1</option>
+</select>
+<select class="parlay-select game-select" id="gameSelect1" onchange="updateOdds(1,'team')">
+<option value="">Select Game</option>
+</select>
+<select class="parlay-select bet-type-select" id="betType1" onchange="updateOdds(1,'team')">
+<option value="">Bet Type</option>
+<option value="ML_AWAY">Away ML</option>
+<option value="ML_HOME">Home ML</option>
+<option value="SPREAD_AWAY">Away Spread</option>
+<option value="SPREAD_HOME">Home Spread</option>
+<option value="OVER">Total Over</option>
+<option value="UNDER">Total Under</option>
+</select>
+<input type="text" class="parlay-input" id="line1" placeholder="Line" style="width:60px" readonly>
+<input type="text" class="parlay-input" id="teamOdds1" placeholder="Odds" style="width:70px">
+<button class="parlay-add-btn" onclick="addTeamLeg(1)">+</button>
 </div>
-<h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 10px">📌 Quick Add — Team Bets</h3>
+
+<div id="teamRow2" class="parlay-input-row" style="display:none">
+<select class="parlay-select sport-select" onchange="updateGameOptions(2)">
+<option value="">Sport</option>
+<option value="NBA">🏀 NBA</option>
+<option value="NHL">🏒 NHL</option>
+<option value="MLB">⚾ MLB</option>
+<option value="UFC">🥊 UFC</option>
+<option value="TENNIS">🎾 Tennis</option>
+<option value="SOCCER">⚽ Soccer</option>
+<option value="GOLF">⛳ Golf</option>
+<option value="F1">🏎️ F1</option>
+</select>
+<select class="parlay-select game-select" id="gameSelect2" onchange="updateOdds(2,'team')">
+<option value="">Select Game</option>
+</select>
+<select class="parlay-select bet-type-select" id="betType2" onchange="updateOdds(2,'team')">
+<option value="">Bet Type</option>
+<option value="ML_AWAY">Away ML</option>
+<option value="ML_HOME">Home ML</option>
+<option value="SPREAD_AWAY">Away Spread</option>
+<option value="SPREAD_HOME">Home Spread</option>
+<option value="OVER">Total Over</option>
+<option value="UNDER">Total Under</option>
+</select>
+<input type="text" class="parlay-input" id="line2" placeholder="Line" style="width:60px" readonly>
+<input type="text" class="parlay-input" id="teamOdds2" placeholder="Odds" style="width:70px">
+<button class="parlay-add-btn" onclick="addTeamLeg(2)">+</button>
+</div>
+
+<div id="teamRow3" class="parlay-input-row" style="display:none">
+<select class="parlay-select sport-select" onchange="updateGameOptions(3)">
+<option value="">Sport</option>
+<option value="NBA">🏀 NBA</option>
+<option value="NHL">🏒 NHL</option>
+<option value="MLB">⚾ MLB</option>
+<option value="UFC">🥊 UFC</option>
+<option value="TENNIS">🎾 Tennis</option>
+<option value="SOCCER">⚽ Soccer</option>
+<option value="GOLF">⛳ Golf</option>
+<option value="F1">🏎️ F1</option>
+</select>
+<select class="parlay-select game-select" id="gameSelect3" onchange="updateOdds(3,'team')">
+<option value="">Select Game</option>
+</select>
+<select class="parlay-select bet-type-select" id="betType3" onchange="updateOdds(3,'team')">
+<option value="">Bet Type</option>
+<option value="ML_AWAY">Away ML</option>
+<option value="ML_HOME">Home ML</option>
+<option value="SPREAD_AWAY">Away Spread</option>
+<option value="SPREAD_HOME">Home Spread</option>
+<option value="OVER">Total Over</option>
+<option value="UNDER">Total Under</option>
+</select>
+<input type="text" class="parlay-input" id="line3" placeholder="Line" style="width:60px" readonly>
+<input type="text" class="parlay-input" id="teamOdds3" placeholder="Odds" style="width:70px">
+<button class="parlay-add-btn" onclick="addTeamLeg(3)">+</button>
+</div>
+
+<div id="teamRow4" class="parlay-input-row" style="display:none">
+<select class="parlay-select sport-select" onchange="updateGameOptions(4)">
+<option value="">Sport</option>
+<option value="NBA">🏀 NBA</option>
+<option value="NHL">🏒 NHL</option>
+<option value="MLB">⚾ MLB</option>
+<option value="UFC">🥊 UFC</option>
+<option value="TENNIS">🎾 Tennis</option>
+<option value="SOCCER">⚽ Soccer</option>
+<option value="GOLF">⛳ Golf</option>
+<option value="F1">🏎️ F1</option>
+</select>
+<select class="parlay-select game-select" id="gameSelect4" onchange="updateOdds(4,'team')">
+<option value="">Select Game</option>
+</select>
+<select class="parlay-select bet-type-select" id="betType4" onchange="updateOdds(4,'team')">
+<option value="">Bet Type</option>
+<option value="ML_AWAY">Away ML</option>
+<option value="ML_HOME">Home ML</option>
+<option value="SPREAD_AWAY">Away Spread</option>
+<option value="SPREAD_HOME">Home Spread</option>
+<option value="OVER">Total Over</option>
+<option value="UNDER">Total Under</option>
+</select>
+<input type="text" class="parlay-input" id="line4" placeholder="Line" style="width:60px" readonly>
+<input type="text" class="parlay-input" id="teamOdds4" placeholder="Odds" style="width:70px">
+<button class="parlay-add-btn" onclick="addTeamLeg(4)">+</button>
+</div>
+
+<div id="teamRow5" class="parlay-input-row" style="display:none">
+<select class="parlay-select sport-select" onchange="updateGameOptions(5)">
+<option value="">Sport</option>
+<option value="NBA">🏀 NBA</option>
+<option value="NHL">🏒 NHL</option>
+<option value="MLB">⚾ MLB</option>
+<option value="UFC">🥊 UFC</option>
+<option value="TENNIS">🎾 Tennis</option>
+<option value="SOCCER">⚽ Soccer</option>
+<option value="GOLF">⛳ Golf</option>
+<option value="F1">🏎️ F1</option>
+</select>
+<select class="parlay-select game-select" id="gameSelect5" onchange="updateOdds(5,'team')">
+<option value="">Select Game</option>
+</select>
+<select class="parlay-select bet-type-select" id="betType5" onchange="updateOdds(5,'team')">
+<option value="">Bet Type</option>
+<option value="ML_AWAY">Away ML</option>
+<option value="ML_HOME">Home ML</option>
+<option value="SPREAD_AWAY">Away Spread</option>
+<option value="SPREAD_HOME">Home Spread</option>
+<option value="OVER">Total Over</option>
+<option value="UNDER">Total Under</option>
+</select>
+<input type="text" class="parlay-input" id="line5" placeholder="Line" style="width:60px" readonly>
+<input type="text" class="parlay-input" id="teamOdds5" placeholder="Odds" style="width:70px">
+<button class="parlay-add-btn" onclick="addTeamLeg(5)">+</button>
+</div>
+<!-- SECTION 2: PLAYER PROPS INPUT (5 rows) -->
+<h3 style="color:var(--gold);font-size:0.85rem;margin:20px 0 10px;display:flex;align-items:center;gap:8px">
+👤 PLAYER PROPS <span style="background:rgba(212,175,55,0.2);padding:2px 8px;border-radius:10px;font-size:0.7rem">Max 5</span>
+</h3>
+
+<div id="propRow1" class="parlay-input-row">
+<select class="parlay-select sport-select" onchange="updatePlayerOptions(1)">
+<option value="">Sport</option>
+<option value="NBA">🏀 NBA</option>
+<option value="NHL">🏒 NHL</option>
+<option value="MLB">⚾ MLB</option>
+<option value="TENNIS">🎾 Tennis</option>
+<option value="UFC">🥊 UFC</option>
+</select>
+<select class="parlay-select player-select" id="playerSelect1" onchange="updatePropTypes(1)">
+<option value="">Select Player</option>
+</select>
+<select class="parlay-select prop-type-select" id="propType1" onchange="updatePropOdds(1)">
+<option value="">Prop Type</option>
+</select>
+<select class="parlay-select ou-select" id="propOU1" onchange="updatePropOdds(1)">
+<option value="">O/U</option>
+<option value="OVER">Over</option>
+<option value="UNDER">Under</option>
+</select>
+<input type="text" class="parlay-input" id="propLine1" placeholder="Line" style="width:60px" readonly>
+<input type="text" class="parlay-input" id="propOdds1" placeholder="Odds" style="width:70px">
+<button class="parlay-add-btn" onclick="addPropLeg(1)">+</button>
+</div>
+
+<div id="propRow2" class="parlay-input-row" style="display:none">
+<select class="parlay-select sport-select" onchange="updatePlayerOptions(2)">
+<option value="">Sport</option>
+<option value="NBA">🏀 NBA</option>
+<option value="NHL">🏒 NHL</option>
+<option value="MLB">⚾ MLB</option>
+<option value="TENNIS">🎾 Tennis</option>
+<option value="UFC">🥊 UFC</option>
+</select>
+<select class="parlay-select player-select" id="playerSelect2" onchange="updatePropTypes(2)">
+<option value="">Select Player</option>
+</select>
+<select class="parlay-select prop-type-select" id="propType2" onchange="updatePropOdds(2)">
+<option value="">Prop Type</option>
+</select>
+<select class="parlay-select ou-select" id="propOU2" onchange="updatePropOdds(2)">
+<option value="">O/U</option>
+<option value="OVER">Over</option>
+<option value="UNDER">Under</option>
+</select>
+<input type="text" class="parlay-input" id="propLine2" placeholder="Line" style="width:60px" readonly>
+<input type="text" class="parlay-input" id="propOdds2" placeholder="Odds" style="width:70px">
+<button class="parlay-add-btn" onclick="addPropLeg(2)">+</button>
+</div>
+
+<div id="propRow3" class="parlay-input-row" style="display:none">
+<select class="parlay-select sport-select" onchange="updatePlayerOptions(3)">
+<option value="">Sport</option>
+<option value="NBA">🏀 NBA</option>
+<option value="NHL">🏒 NHL</option>
+<option value="MLB">⚾ MLB</option>
+<option value="TENNIS">🎾 Tennis</option>
+<option value="UFC">🥊 UFC</option>
+</select>
+<select class="parlay-select player-select" id="playerSelect3" onchange="updatePropTypes(3)">
+<option value="">Select Player</option>
+</select>
+<select class="parlay-select prop-type-select" id="propType3" onchange="updatePropOdds(3)">
+<option value="">Prop Type</option>
+</select>
+<select class="parlay-select ou-select" id="propOU3" onchange="updatePropOdds(3)">
+<option value="">O/U</option>
+<option value="OVER">Over</option>
+<option value="UNDER">Under</option>
+</select>
+<input type="text" class="parlay-input" id="propLine3" placeholder="Line" style="width:60px" readonly>
+<input type="text" class="parlay-input" id="propOdds3" placeholder="Odds" style="width:70px">
+<button class="parlay-add-btn" onclick="addPropLeg(3)">+</button>
+</div>
+
+<div id="propRow4" class="parlay-input-row" style="display:none">
+<select class="parlay-select sport-select" onchange="updatePlayerOptions(4)">
+<option value="">Sport</option>
+<option value="NBA">🏀 NBA</option>
+<option value="NHL">🏒 NHL</option>
+<option value="MLB">⚾ MLB</option>
+<option value="TENNIS">🎾 Tennis</option>
+<option value="UFC">🥊 UFC</option>
+</select>
+<select class="parlay-select player-select" id="playerSelect4" onchange="updatePropTypes(4)">
+<option value="">Select Player</option>
+</select>
+<select class="parlay-select prop-type-select" id="propType4" onchange="updatePropOdds(4)">
+<option value="">Prop Type</option>
+</select>
+<select class="parlay-select ou-select" id="propOU4" onchange="updatePropOdds(4)">
+<option value="">O/U</option>
+<option value="OVER">Over</option>
+<option value="UNDER">Under</option>
+</select>
+<input type="text" class="parlay-input" id="propLine4" placeholder="Line" style="width:60px" readonly>
+<input type="text" class="parlay-input" id="propOdds4" placeholder="Odds" style="width:70px">
+<button class="parlay-add-btn" onclick="addPropLeg(4)">+</button>
+</div>
+
+<div id="propRow5" class="parlay-input-row" style="display:none">
+<select class="parlay-select sport-select" onchange="updatePlayerOptions(5)">
+<option value="">Sport</option>
+<option value="NBA">🏀 NBA</option>
+<option value="NHL">🏒 NHL</option>
+<option value="MLB">⚾ MLB</option>
+<option value="TENNIS">🎾 Tennis</option>
+<option value="UFC">🥊 UFC</option>
+</select>
+<select class="parlay-select player-select" id="playerSelect5" onchange="updatePropTypes(5)">
+<option value="">Select Player</option>
+</select>
+<select class="parlay-select prop-type-select" id="propType5" onchange="updatePropOdds(5)">
+<option value="">Prop Type</option>
+</select>
+<select class="parlay-select ou-select" id="propOU5" onchange="updatePropOdds(5)">
+<option value="">O/U</option>
+<option value="OVER">Over</option>
+<option value="UNDER">Under</option>
+</select>
+<input type="text" class="parlay-input" id="propLine5" placeholder="Line" style="width:60px" readonly>
+<input type="text" class="parlay-input" id="propOdds5" placeholder="Odds" style="width:70px">
+<button class="parlay-add-btn" onclick="addPropLeg(5)">+</button>
+</div>
+
+<!-- PARLAY SLIP DISPLAY -->
+<div style="margin-top:20px;border-top:1px solid rgba(212,175,55,0.2);padding-top:15px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+<h3 id="parlayTitle" style="color:var(--gold);font-size:0.85rem;margin:0">Current Parlay (0 legs)</h3>
+<button class="btn btn-sm" style="background:var(--red);font-size:0.7rem;padding:4px 10px" onclick="clearParlay()">Clear All</button>
+</div>
+<div class="parlay-legs" id="parlayLegs">
+<div style="text-align:center;padding:20px;color:var(--muted);font-size:0.8rem">Add picks above to build your parlay</div>
+</div>
+</div>
+
+<!-- PARLAY SUMMARY CARD -->
+<div class="parlay-summary-card" id="parlaySummary" style="display:none">
+<div class="parlay-summary-row">
+<span style="color:var(--muted)">Team Legs:</span>
+<span id="teamLegsCount">0 / 5</span>
+</div>
+<div class="parlay-summary-row">
+<span style="color:var(--muted)">Prop Legs:</span>
+<span id="propLegsCount">0 / 5</span>
+</div>
+<div class="parlay-summary-row highlight">
+<span style="color:var(--muted)">Total Legs:</span>
+<span id="totalLegsCount">0 / 10</span>
+</div>
+<div class="parlay-summary-divider"></div>
+<div class="parlay-summary-row">
+<span style="color:var(--muted)">Combined American Odds:</span>
+<span id="parlayOdds" style="color:var(--gold);font-weight:700">—</span>
+</div>
+<div class="parlay-summary-row">
+<span style="color:var(--muted)">Combined Decimal Odds:</span>
+<span id="parlayDecimal">—</span>
+</div>
+<div class="parlay-summary-divider"></div>
+<div class="parlay-summary-row payout">
+<span style="color:var(--muted)">$100 Payout:</span>
+<span id="parlayPayout">—</span>
+</div>
+</div>
+
+<!-- CUSTOM WAGER CALCULATOR -->
+<div class="wager-calc" id="wagerCalc" style="display:none">
+<h4 style="color:var(--gold);font-size:0.8rem;margin-bottom:10px">💰 Custom Wager Calculator</h4>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+<div style="flex:1;min-width:100px">
+<label style="font-size:0.7rem;color:var(--muted);display:block;margin-bottom:4px">Wager Amount</label>
+<input type="number" class="parlay-input" id="wagerAmount" value="100" style="width:100%" oninput="updateCustomWager()">
+</div>
+<div style="flex:1;min-width:80px">
+<label style="font-size:0.7rem;color:var(--muted);display:block;margin-bottom:4px">Total Payout</label>
+<div id="customPayout" style="font-size:1.1rem;font-weight:700;color:var(--green)">$0.00</div>
+</div>
+<div style="flex:1;min-width:80px">
+<label style="font-size:0.7rem;color:var(--muted);display:block;margin-bottom:4px">Profit</label>
+<div id="customProfit" style="font-size:1.1rem;font-weight:700;color:var(--gold)">$0.00</div>
+</div>
+</div>
+</div>
+<!-- QUICK ADD BUTTONS -->
+<h3 style="color:var(--gold);font-size:0.85rem;margin:20px 0 10px">⚡ Quick Add — Today's Hottest Picks</h3>
 <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px">
-<button class="btn btn-sm btn-outline" onclick="addToParlay('Thunder ML','-175','team')">Thunder ML -175</button>
-<button class="btn btn-sm btn-outline" onclick="addToParlay('Thunder -3.5','-110','team')">Thunder -3.5</button>
-<button class="btn btn-sm btn-outline" onclick="addToParlay('Spurs ML','+145','team')">Spurs ML +145</button>
-<button class="btn btn-sm btn-outline" onclick="addToParlay('Under 216.5','-108','team')">Under 216.5</button>
-<button class="btn btn-sm btn-outline" onclick="addToParlay('Song Yadong','-575','team')">Song ML -575</button>
-<button class="btn btn-sm btn-outline" onclick="addToParlay('Ruud ML','-180','team')">Ruud ML -180</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('Thunder ML','-175','team')">🏀 Thunder ML -175</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('Spurs +6.5','-110','team')">🏀 Spurs +6.5</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('Song Yadong ML','-575','team')">🥊 Song -575</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('Panthers ML','+110','team')">🏒 Panthers +110</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('Alcaraz ML','-275','team')">🎾 Alcaraz -275</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('Yankees ML','-125','team')">⚾ Yankees -125</button>
 </div>
-<h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 10px">📌 Quick Add — Player Props</h3>
+
+<h3 style="color:var(--gold);font-size:0.85rem;margin:15px 0 10px">⚡ Quick Add — Player Props</h3>
 <div style="display:flex;flex-wrap:wrap;gap:6px">
-<button class="btn btn-sm btn-outline" onclick="addToParlay('SGA O28.5 PTS','-115','prop')">SGA O28.5 PTS</button>
-<button class="btn btn-sm btn-outline" onclick="addToParlay('Wemby O25.5 PTS','-120','prop')">Wemby O25.5 PTS</button>
-<button class="btn btn-sm btn-outline" onclick="addToParlay('Wemby O9.5 REB','-105','prop')">Wemby O9.5 REB</button>
-<button class="btn btn-sm btn-outline" onclick="addToParlay('Chet O12.5 PTS','-110','prop')">Chet O12.5 PTS</button>
-<button class="btn btn-sm btn-outline" onclick="addToParlay('CP3 O7.5 AST','-115','prop')">CP3 O7.5 AST</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('SGA Over 28.5 Points','-115','prop')">SGA O28.5 Pts</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('Wemby Over 24.5 Points','-120','prop')">Wemby O24.5 Pts</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('Wemby Over 11.5 Rebounds','-110','prop')">Wemby O11.5 Reb</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('Judge HR Yes','+210','prop')">Judge HR +210</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('Cole Over 7.5 Ks','-120','prop')">Cole O7.5 Ks</button>
+<button class="btn btn-sm btn-outline" onclick="quickAdd('Barkov Over 0.5 Goals','+130','prop')">Barkov O0.5 Goals</button>
 </div>
-<h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 10px">🎰 Pre-Built Parlays</h3>
-<div class="pick-card" onclick="loadPrebuiltParlay(['Thunder ML -175','Under 216.5 -108','SGA O28.5 PTS -115'])">
-<div class="pick-header"><span class="pick-sport">🔒 LOCK OF THE DAY</span><span class="pick-confidence">+485</span></div>
-<div class="pick-matchup">Thunder ML + Under 216.5 + SGA O28.5 PTS</div>
-<div class="pick-details"><span class="pick-selection">3-Leg Parlay</span><span class="pick-odds">$100 → $585</span></div>
+
+<!-- PRE-BUILT PARLAYS -->
+<h3 style="color:var(--gold);font-size:0.85rem;margin:20px 0 10px">🎰 Pre-Built Parlays — Tap to Load</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+<div class="pick-card" onclick="loadPrebuilt('lock')" style="cursor:pointer;transition:all 0.2s">
+<div class="pick-header"><span class="pick-sport">🔒 LOCK OF THE DAY</span></div>
+<div style="font-size:0.75rem;color:var(--muted);margin:5px 0">Thunder ML + Under + SGA</div>
+<div style="color:var(--green);font-weight:700;font-size:0.9rem">+485 • $585</div>
 </div>
-<div class="pick-card" onclick="loadPrebuiltParlay(['Thunder -3.5 -110','Wemby O25.5 PTS -120','Song ML -575'])">
-<div class="pick-header"><span class="pick-sport">🌍 GLOBAL SWEEP</span><span class="pick-confidence">+235</span></div>
-<div class="pick-matchup">Thunder -3.5 + Wemby O25.5 + Song UFC</div>
-<div class="pick-details"><span class="pick-selection">3-Leg Parlay</span><span class="pick-odds">$100 → $335</span></div>
+<div class="pick-card" onclick="loadPrebuilt('global')" style="cursor:pointer;transition:all 0.2s">
+<div class="pick-header"><span class="pick-sport">🌍 GLOBAL SWEEP</span></div>
+<div style="font-size:0.75rem;color:var(--muted);margin:5px 0">Thunder + Song + Alcaraz</div>
+<div style="color:var(--green);font-weight:700;font-size:0.9rem">+235 • $335</div>
+</div>
+<div class="pick-card" onclick="loadPrebuilt('props')" style="cursor:pointer;transition:all 0.2s">
+<div class="pick-header"><span class="pick-sport">📊 PROPS SPECIAL</span></div>
+<div style="font-size:0.75rem;color:var(--muted);margin:5px 0">SGA + Wemby Pts + Reb</div>
+<div style="color:var(--green);font-weight:700;font-size:0.9rem">+405 • $505</div>
+</div>
+<div class="pick-card" onclick="loadPrebuilt('underdog')" style="cursor:pointer;transition:all 0.2s">
+<div class="pick-header"><span class="pick-sport">🐕 UNDERDOG PARLAY</span></div>
+<div style="font-size:0.75rem;color:var(--muted);margin:5px 0">Spurs + Figueiredo + Judge HR</div>
+<div style="color:var(--green);font-weight:700;font-size:0.9rem">+2580 • $2,680</div>
+</div>
+</div>
+<!-- PARLAY RULES FOOTER -->
+<div style="margin-top:20px;padding:12px;background:rgba(212,175,55,0.08);border-radius:8px;border:1px solid rgba(212,175,55,0.15)">
+<div style="font-size:0.75rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:15px;justify-content:center">
+<span>📋 Max 5 Team Bets</span>
+<span>📋 Max 5 Player Props</span>
+<span>📋 Max 10 Total Legs</span>
+<span>📋 Min 2 Legs Required</span>
+<span>📋 Max Odds +15000</span>
 </div>
 </div>
 </div>
+</div>
+<!-- END ENHANCED PARLAY BUILDER -->
+
+<!-- ==================== X-FACTORS SECTION ==================== -->
 <div class="section" id="xfactors">
 <div class="card">
 <div class="card-title">⚡ X-Factors & Momentum Radar</div>
 <div class="card-subtitle">Player trends, hot/cold streaks, key storylines</div>
+
 <h3 style="color:var(--green);font-size:0.8rem;margin:12px 0 8px">🔥 WHO'S HOT</h3>
-<div class="xfactor-card hot"><div class="xfactor-player">🏀 Victor Wembanyama (SAS)</div><div class="xfactor-stat">28 PTS, 10 REB in Game 6 blowout • Averaging 26.3 PPG last 5</div><div class="xfactor-trend trend-up">↗️ Carried Spurs to Game 7 • Fatigue concern for tonight</div></div>
-<div class="xfactor-card hot"><div class="xfactor-player">🎾 Joao Fonseca (BRA)</div><div class="xfactor-stat">BEAT DJOKOVIC IN 5 SETS • 18 years old • First Slam R4</div><div class="xfactor-trend trend-up">↗️ Giant-killer mode • No pressure • Playing free</div></div>
-<div class="xfactor-card hot"><div class="xfactor-player">🎾 Casper Ruud (NOR)</div><div class="xfactor-stat">Saved 2 MATCH POINTS vs Tommy Paul • Survived 5 sets</div><div class="xfactor-trend trend-up">↗️ Playing with house money • 2x RG finalist</div></div>
-<div class="xfactor-card hot"><div class="xfactor-player">🏒 Frederik Andersen (CAR)</div><div class="xfactor-stat">35 saves in clinching Game 5 • .938 SV% playoffs</div><div class="xfactor-trend trend-up">↗️ Conn Smythe frontrunner • Backstopping Cup run</div></div>
-<div class="xfactor-card hot"><div class="xfactor-player">🏎️ Kimi Antonelli (Mercedes)</div><div class="xfactor-stat">4 WINS in 2026 F1 season • Championship leader</div><div class="xfactor-trend trend-up">↗️ Rookie sensation • Mercedes dominance</div></div>
+
+<div class="xfactor-card hot">
+<div class="xfactor-player">🏀 Victor Wembanyama (SAS)</div>
+<div class="xfactor-stat">28 PTS, 10 REB in Game 6 blowout • Averaging 26.3 PPG last 5</div>
+<div class="xfactor-trend trend-up">↗️ Carried Spurs to Game 7 • Fatigue concern for tonight</div>
+</div>
+
+<div class="xfactor-card hot">
+<div class="xfactor-player">🎾 Joao Fonseca (BRA)</div>
+<div class="xfactor-stat">BEAT DJOKOVIC IN 5 SETS • 18 years old • First Slam R4</div>
+<div class="xfactor-trend trend-up">↗️ Giant-killer mode • No pressure • Playing free</div>
+</div>
+
+<div class="xfactor-card hot">
+<div class="xfactor-player">🎾 Casper Ruud (NOR)</div>
+<div class="xfactor-stat">Saved 2 MATCH POINTS vs Tommy Paul • Survived 5 sets</div>
+<div class="xfactor-trend trend-up">↗️ Playing with house money • 2x RG finalist</div>
+</div>
+
+<div class="xfactor-card hot">
+<div class="xfactor-player">🏒 Frederik Andersen (CAR)</div>
+<div class="xfactor-stat">35 saves in clinching Game 5 • .938 SV% playoffs</div>
+<div class="xfactor-trend trend-up">↗️ Conn Smythe frontrunner • Backstopping Cup run</div>
+</div>
+
+<div class="xfactor-card hot">
+<div class="xfactor-player">🏎️ Kimi Antonelli (Mercedes)</div>
+<div class="xfactor-stat">4 WINS in 2026 F1 season • Championship leader</div>
+<div class="xfactor-trend trend-up">↗️ Rookie sensation • Mercedes dominance</div>
+</div>
+
 <h3 style="color:var(--blue);font-size:0.8rem;margin:15px 0 8px">❄️ WHO'S COLD</h3>
-<div class="xfactor-card cold"><div class="xfactor-player">🏀 Shai Gilgeous-Alexander (OKC)</div><div class="xfactor-stat">40% FG last 4 games • Shot 35% from 3 in losses</div><div class="xfactor-trend trend-down">↘️ Needs bounce-back in Game 7 • Home crowd boost</div></div>
-<div class="xfactor-card cold"><div class="xfactor-player">🎾 Novak Djokovic</div><div class="xfactor-stat">ELIMINATED by 18-year-old Fonseca • Lost 3-set lead</div><div class="xfactor-trend trend-down">↘️ 37 years old • Physical decline evident</div></div>
+
+<div class="xfactor-card cold">
+<div class="xfactor-player">🏀 Shai Gilgeous-Alexander (OKC)</div>
+<div class="xfactor-stat">40% FG last 4 games • Shot 35% from 3 in losses</div>
+<div class="xfactor-trend trend-down">↘️ Needs bounce-back in Game 7 • Home crowd boost</div>
+</div>
+
+<div class="xfactor-card cold">
+<div class="xfactor-player">🎾 Novak Djokovic</div>
+<div class="xfactor-stat">ELIMINATED by 18-year-old Fonseca • Lost 3-set lead</div>
+<div class="xfactor-trend trend-down">↘️ 37 years old • Physical decline evident</div>
+</div>
+
 <h3 style="color:var(--red);font-size:0.8rem;margin:15px 0 8px">🚫 WHO'S OUT</h3>
-<div class="xfactor-card out"><div class="xfactor-player">🏀 Jalen Williams (OKC) — OUT</div><div class="xfactor-stat">Hamstring injury • 21.4 PPG this playoffs • 2nd leading scorer</div><div class="xfactor-trend trend-down">❌ Game 7 tonight • Massive blow • Line moved 1+ point</div></div>
-<div class="xfactor-card out"><div class="xfactor-player">⛳ Tiger Woods — OUT INDEFINITELY</div><div class="xfactor-stat">In Switzerland for treatment • Will miss Memorial</div><div class="xfactor-trend trend-down">❌ Season potentially over</div></div>
-<div class="xfactor-card out"><div class="xfactor-player">⚽ Neymar (Brazil) — OUT 2-3 WEEKS</div><div class="xfactor-stat">Calf injury • World Cup 2026 prep disrupted</div><div class="xfactor-trend trend-down">⚠️ Should return for World Cup start June 11</div></div>
+
+<div class="xfactor-card out">
+<div class="xfactor-player">🏀 Jalen Williams (OKC) — OUT</div>
+<div class="xfactor-stat">Hamstring injury • 21.4 PPG this playoffs • 2nd leading scorer</div>
+<div class="xfactor-trend trend-down">❌ Game 7 tonight • Massive blow • Line moved 1+ point</div>
+</div>
+
+<div class="xfactor-card out">
+<div class="xfactor-player">⛳ Tiger Woods — OUT INDEFINITELY</div>
+<div class="xfactor-stat">In Switzerland for treatment • Will miss Memorial</div>
+<div class="xfactor-trend trend-down">❌ Season potentially over</div>
+</div>
+
+<div class="xfactor-card out">
+<div class="xfactor-player">⚽ Neymar (Brazil) — OUT 2-3 WEEKS</div>
+<div class="xfactor-stat">Calf injury • World Cup 2026 prep disrupted</div>
+<div class="xfactor-trend trend-down">⚠️ Should return for World Cup start June 11</div>
 </div>
 </div>
+</div>
+<!-- ==================== MLB SECTION ==================== -->
 <div class="section" id="mlb">
 <div class="card">
 <div class="card-title">⚾ MLB Standings & Scores</div>
 <div class="card-subtitle">Updated: May 29, 2026 • 15+ games played today</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">🏆 Division Leaders</h3>
 <table class="standings-table">
 <tr><th>Division</th><th>Team</th><th>W</th><th>L</th><th>PCT</th><th>GB</th></tr>
@@ -557,6 +1222,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td class="standings-pos">AL West</td><td>Houston Astros</td><td>33</td><td>23</td><td>.589</td><td>—</td></tr>
 <tr><td class="standings-pos">AL Central</td><td>Cleveland Guardians</td><td>34</td><td>25</td><td>.576</td><td>—</td></tr>
 </table>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">📊 Full NL East Standings</h3>
 <table class="standings-table">
 <tr><th>#</th><th>Team</th><th>W</th><th>L</th><th>PCT</th><th>GB</th></tr>
@@ -566,6 +1232,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td>4</td><td>Miami Marlins</td><td>25</td><td>32</td><td>.439</td><td>13.5</td></tr>
 <tr><td>5</td><td>Washington Nationals</td><td>23</td><td>34</td><td>.404</td><td>15.5</td></tr>
 </table>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">📊 Full AL East Standings</h3>
 <table class="standings-table">
 <tr><th>#</th><th>Team</th><th>W</th><th>L</th><th>PCT</th><th>GB</th></tr>
@@ -575,17 +1242,36 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td>4</td><td>Baltimore Orioles</td><td>28</td><td>27</td><td>.509</td><td>7.5</td></tr>
 <tr><td>5</td><td>Toronto Blue Jays</td><td>24</td><td>32</td><td>.429</td><td>12.0</td></tr>
 </table>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">🎯 MLB Picks Today</h3>
-<div class="pick-card"><div class="pick-header"><span class="pick-sport">MLB — May 30</span><span class="pick-confidence">🔥🔥🔥</span></div><div class="pick-matchup">Braves ML vs Marlins</div><div class="pick-details"><span class="pick-selection">ATL -165</span><span class="pick-odds">Best record in NL</span></div></div>
-<div class="pick-card"><div class="pick-header"><span class="pick-sport">MLB — May 30</span><span class="pick-confidence">🔥🔥🔥</span></div><div class="pick-matchup">Dodgers -1.5 RL</div><div class="pick-details"><span class="pick-selection">LAD -1.5 (+105)</span><span class="pick-odds">Dominant at home</span></div></div>
+<div class="pick-card">
+<div class="pick-header"><span class="pick-sport">MLB — May 30</span><span class="pick-confidence">🔥🔥🔥</span></div>
+<div class="pick-matchup">Braves ML vs Marlins</div>
+<div class="pick-details"><span class="pick-selection">ATL -165</span><span class="pick-odds">Best record in NL</span></div>
+</div>
+<div class="pick-card">
+<div class="pick-header"><span class="pick-sport">MLB — May 30</span><span class="pick-confidence">🔥🔥🔥</span></div>
+<div class="pick-matchup">Dodgers -1.5 RL</div>
+<div class="pick-details"><span class="pick-selection">LAD -1.5 (+105)</span><span class="pick-odds">Dominant at home</span></div>
 </div>
 </div>
+</div>
+
+<!-- ==================== TENNIS SECTION ==================== -->
 <div class="section" id="tennis">
 <div class="card">
 <div class="card-title">🎾 French Open 2026</div>
 <div class="card-subtitle">Roland Garros • Round 4 in progress • Finals: June 6-7</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">⚡ TODAY'S BIGGEST STORY</h3>
-<div class="alert-item upset" style="margin-bottom:15px"><div class="alert-icon">😱</div><div class="alert-content"><div class="alert-title">DJOKOVIC STUNNED BY 18-YEAR-OLD FONSECA</div><div class="alert-time">Lost 4-6, 4-6, 6-3, 7-5, 7-5 • Held 2-set lead • Fonseca to R4</div></div></div>
+<div class="alert-item upset" style="margin-bottom:15px">
+<div class="alert-icon">😱</div>
+<div class="alert-content">
+<div class="alert-title">DJOKOVIC STUNNED BY 18-YEAR-OLD FONSECA</div>
+<div class="alert-time">Lost 4-6, 4-6, 6-3, 7-5, 7-5 • Held 2-set lead • Fonseca to R4</div>
+</div>
+</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">📊 Men's Draw — Key Results (R3)</h3>
 <table class="standings-table">
 <tr><th>Winner</th><th>Score</th><th>Loser</th></tr>
@@ -593,21 +1279,60 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td class="text-green">Alexander Zverev 🇩🇪</td><td>6-4, 6-3, 5-7, 6-2</td><td>Quentin Halys 🇫🇷</td></tr>
 <tr><td class="text-green">Casper Ruud 🇳🇴</td><td>4-6, 6-4, 6-7, 7-6, 7-5</td><td>Tommy Paul 🇺🇸</td></tr>
 </table>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">🏆 Tournament Outlook</h3>
-<div class="xfactor-card" style="border-left-color:var(--gold)"><div class="xfactor-player">No former Slam winners remain!</div><div class="xfactor-stat">Djokovic out • Draw WIDE OPEN • Zverev, Ruud, Alcaraz favorites</div><div class="xfactor-trend">🎯 Value on Fonseca futures — live long shot at +5000</div></div>
+<div class="xfactor-card" style="border-left-color:var(--gold)">
+<div class="xfactor-player">No former Slam winners remain!</div>
+<div class="xfactor-stat">Djokovic out • Draw WIDE OPEN • Zverev, Ruud, Alcaraz favorites</div>
+<div class="xfactor-trend">🎯 Value on Fonseca futures — live long shot at +5000</div>
+</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">🎯 Tennis Picks</h3>
-<div class="pick-card featured"><div class="pick-header"><span class="pick-sport">FRENCH OPEN R4</span><span class="pick-confidence">🔥🔥🔥🔥</span></div><div class="pick-matchup">Casper Ruud ML</div><div class="pick-details"><span class="pick-selection">Ruud -180</span><span class="pick-odds">2x finalist • Clutch under pressure</span></div></div>
-<div class="pick-card"><div class="pick-header"><span class="pick-sport">FRENCH OPEN R4</span><span class="pick-confidence">🔥🔥🔥🔥</span></div><div class="pick-matchup">Zverev -2.5 Sets</div><div class="pick-details"><span class="pick-selection">Zverev -2.5 (-140)</span><span class="pick-odds">Dominant form</span></div></div>
+<div class="pick-card featured">
+<div class="pick-header"><span class="pick-sport">FRENCH OPEN R4</span><span class="pick-confidence">🔥🔥🔥🔥</span></div>
+<div class="pick-matchup">Casper Ruud ML</div>
+<div class="pick-details"><span class="pick-selection">Ruud -180</span><span class="pick-odds">2x finalist • Clutch under pressure</span></div>
+</div>
+<div class="pick-card">
+<div class="pick-header"><span class="pick-sport">FRENCH OPEN R4</span><span class="pick-confidence">🔥🔥🔥🔥</span></div>
+<div class="pick-matchup">Zverev -2.5 Sets</div>
+<div class="pick-details"><span class="pick-selection">Zverev -2.5 (-140)</span><span class="pick-odds">Dominant form</span></div>
 </div>
 </div>
+</div>
+
+<!-- ==================== SOCCER SECTION ==================== -->
 <div class="section" id="soccer">
 <div class="card">
 <div class="card-title">⚽ European Football & World Cup 2026</div>
 <div class="card-subtitle">Premier League • Europa League • Champions League • World Cup</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">🏆 MAJOR HEADLINES</h3>
-<div class="alert-item win"><div class="alert-icon">🏆</div><div class="alert-content"><div class="alert-title">ARSENAL WINS PREMIER LEAGUE!</div><div class="alert-time">First title in 22 years • Ended Man City era • Arteta masterclass</div></div></div>
-<div class="alert-item win"><div class="alert-icon">🏆</div><div class="alert-content"><div class="alert-title">ASTON VILLA WINS EUROPA LEAGUE</div><div class="alert-time">Beat Freiburg 3-0 in final • First European trophy since 1982</div></div></div>
-<div class="alert-item breaking"><div class="alert-icon">😱</div><div class="alert-content"><div class="alert-title">WEST HAM RELEGATED!</div><div class="alert-time">Lost on final day • Down to Championship • Shocking collapse</div></div></div>
+
+<div class="alert-item win">
+<div class="alert-icon">🏆</div>
+<div class="alert-content">
+<div class="alert-title">ARSENAL WINS PREMIER LEAGUE!</div>
+<div class="alert-time">First title in 22 years • Ended Man City era • Arteta masterclass</div>
+</div>
+</div>
+
+<div class="alert-item win">
+<div class="alert-icon">🏆</div>
+<div class="alert-content">
+<div class="alert-title">ASTON VILLA WINS EUROPA LEAGUE</div>
+<div class="alert-time">Beat Freiburg 3-0 in final • First European trophy since 1982</div>
+</div>
+</div>
+
+<div class="alert-item breaking">
+<div class="alert-icon">😱</div>
+<div class="alert-content">
+<div class="alert-title">WEST HAM RELEGATED!</div>
+<div class="alert-time">Lost on final day • Down to Championship • Shocking collapse</div>
+</div>
+</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">📊 Premier League Final Table (Top 6)</h3>
 <table class="standings-table">
 <tr><th>#</th><th>Team</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>PTS</th></tr>
@@ -618,40 +1343,92 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td>5</td><td>Sunderland</td><td>19</td><td>11</td><td>8</td><td>+18</td><td>68</td></tr>
 <tr><td>6</td><td>Bournemouth</td><td>18</td><td>10</td><td>10</td><td>+12</td><td>64</td></tr>
 </table>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">🌍 WORLD CUP 2026</h3>
-<div class="xfactor-card" style="border-left-color:var(--gold)"><div class="xfactor-player">🗓️ Tournament starts June 11</div><div class="xfactor-stat">Host: USA/Mexico/Canada • 48 teams • Expanded format</div><div class="xfactor-trend">🇺🇸 USMNT Roster: Pulisic, McKennie, Adams, Balogun confirmed</div></div>
-<div class="alert-item injury"><div class="alert-icon">⚠️</div><div class="alert-content"><div class="alert-title">NEYMAR OUT 2-3 WEEKS (Calf)</div><div class="alert-time">Brazil's star recovering • Should return for World Cup start</div></div></div>
-<div class="alert-item injury"><div class="alert-icon">⚠️</div><div class="alert-content"><div class="alert-title">MESSI HAMSTRING CONCERN</div><div class="alert-time">Argentina managing workload • World Cup prep affected</div></div></div>
+<div class="xfactor-card" style="border-left-color:var(--gold)">
+<div class="xfactor-player">🗓️ Tournament starts June 11</div>
+<div class="xfactor-stat">Host: USA/Mexico/Canada • 48 teams • Expanded format</div>
+<div class="xfactor-trend">🇺🇸 USMNT Roster: Pulisic, McKennie, Adams, Balogun confirmed</div>
+</div>
+
+<div class="alert-item injury">
+<div class="alert-icon">⚠️</div>
+<div class="alert-content">
+<div class="alert-title">NEYMAR OUT 2-3 WEEKS (Calf)</div>
+<div class="alert-time">Brazil's star recovering • Should return for World Cup start</div>
 </div>
 </div>
+
+<div class="alert-item injury">
+<div class="alert-icon">⚠️</div>
+<div class="alert-content">
+<div class="alert-title">MESSI HAMSTRING CONCERN</div>
+<div class="alert-time">Argentina managing workload • World Cup prep affected</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ==================== UFC SECTION ==================== -->
 <div class="section" id="ufc">
 <div class="card">
 <div class="card-title">🥊 UFC Macau — May 30, 2026</div>
 <div class="card-subtitle">Fight Night • Galaxy Arena • Full 13-Fight Card</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">🏆 MAIN CARD</h3>
+
 <div class="game-card featured">
-<div class="game-header"><span class="game-league">🥊 MAIN EVENT — BANTAMWEIGHT</span><span class="game-status upcoming">TONIGHT</span></div>
+<div class="game-header">
+<span class="game-league">🥊 MAIN EVENT — BANTAMWEIGHT</span>
+<span class="game-status upcoming">TONIGHT</span>
+</div>
 <div class="game-teams">
-<div class="team-row"><div class="team-info"><div class="team-logo">🇨🇳</div><div><div class="team-name">Song Yadong</div><div class="team-record">#4 BW • 21-7-1 • Home fighter</div></div></div><div class="team-score text-green">-575</div></div>
-<div class="team-row"><div class="team-info"><div class="team-logo">🇧🇷</div><div><div class="team-name">Deiveson Figueiredo</div><div class="team-record">Former FLW champ • Moving up</div></div></div><div class="team-score text-red">+400</div></div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">🇨🇳</div><div><div class="team-name">Song Yadong</div><div class="team-record">#4 BW • 21-7-1 • Home fighter</div></div></div>
+<div class="team-score text-green">-575</div>
+</div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">🇧🇷</div><div><div class="team-name">Deiveson Figueiredo</div><div class="team-record">Former FLW champ • Moving up</div></div></div>
+<div class="team-score text-red">+400</div>
+</div>
 </div>
 <div class="game-meta">🎯 Pick: Song by Decision (+145) • Edge: Home crowd, reach advantage, Figueiredo moving up in weight</div>
 </div>
+
 <div class="game-card">
-<div class="game-header"><span class="game-league">🥊 CO-MAIN — HEAVYWEIGHT</span><span class="game-status upcoming">TONIGHT</span></div>
+<div class="game-header">
+<span class="game-league">🥊 CO-MAIN — HEAVYWEIGHT</span>
+<span class="game-status upcoming">TONIGHT</span>
+</div>
 <div class="game-teams">
-<div class="team-row"><div class="team-info"><div class="team-logo">🇷🇺</div><div><div class="team-name">Sergei Pavlovich</div><div class="team-record">#2 HW • 18-2 • 91% KO rate</div></div></div><div class="team-score text-green">-650</div></div>
-<div class="team-row"><div class="team-info"><div class="team-logo">🇧🇷</div><div><div class="team-name">Tallison Teixeira</div><div class="team-record">16-3 • Prospect</div></div></div><div class="team-score text-red">+450</div></div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">🇷🇺</div><div><div class="team-name">Sergei Pavlovich</div><div class="team-record">#2 HW • 18-2 • 91% KO rate</div></div></div>
+<div class="team-score text-green">-650</div>
+</div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">🇧🇷</div><div><div class="team-name">Tallison Teixeira</div><div class="team-record">16-3 • Prospect</div></div></div>
+<div class="team-score text-red">+450</div>
+</div>
 </div>
 <div class="game-meta">🎯 Pick: Pavlovich KO/TKO R1 (-180) • Avg fight time: 1:47</div>
 </div>
+
 <div class="game-card">
-<div class="game-header"><span class="game-league">🥊 FLYWEIGHT</span><span class="game-status upcoming">TONIGHT</span></div>
+<div class="game-header">
+<span class="game-league">🥊 FLYWEIGHT</span>
+<span class="game-status upcoming">TONIGHT</span>
+</div>
 <div class="game-teams">
-<div class="team-row"><div class="team-info"><div class="team-logo">🇯🇵</div><div><div class="team-name">Kai Asakura</div><div class="team-record">22-4 • RIZIN star</div></div></div><div class="team-score text-green">-280</div></div>
-<div class="team-row"><div class="team-info"><div class="team-logo">🇺🇸</div><div><div class="team-name">Cameron Smotherman</div><div class="team-record">12-5</div></div></div><div class="team-score text-red">+230</div></div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">🇯🇵</div><div><div class="team-name">Kai Asakura</div><div class="team-record">22-4 • RIZIN star</div></div></div>
+<div class="team-score text-green">-280</div>
+</div>
+<div class="team-row">
+<div class="team-info"><div class="team-logo">🇺🇸</div><div><div class="team-name">Cameron Smotherman</div><div class="team-record">12-5</div></div></div>
+<div class="team-score text-red">+230</div>
 </div>
 </div>
+</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">📋 Full Card Odds</h3>
 <table class="standings-table">
 <tr><th>Fight</th><th>Favorite</th><th>Underdog</th></tr>
@@ -661,17 +1438,35 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td>WW</td><td>Li Jingliang -165</td><td>TBD +140</td></tr>
 <tr><td>BW</td><td>Yan Xiaonan -200</td><td>TBD +170</td></tr>
 </table>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">🎯 UFC Picks</h3>
-<div class="pick-card featured"><div class="pick-header"><span class="pick-sport">UFC MACAU</span><span class="pick-confidence">🔥🔥🔥🔥🔥</span></div><div class="pick-matchup">Song Yadong by Decision</div><div class="pick-details"><span class="pick-selection">Decision +145</span><span class="pick-odds">Value play on method</span></div><div class="pick-edge mt-2">📊 Edge: +7.3% • Song's power at BW • Home crowd • Figueiredo adjusting to weight</div></div>
-<div class="pick-card"><div class="pick-header"><span class="pick-sport">UFC MACAU</span><span class="pick-confidence">🔥🔥🔥🔥</span></div><div class="pick-matchup">Pavlovich R1 KO</div><div class="pick-details"><span class="pick-selection">KO/TKO R1 -180</span><span class="pick-odds">Avg fight time 1:47</span></div></div>
+<div class="pick-card featured">
+<div class="pick-header"><span class="pick-sport">UFC MACAU</span><span class="pick-confidence">🔥🔥🔥🔥🔥</span></div>
+<div class="pick-matchup">Song Yadong by Decision</div>
+<div class="pick-details"><span class="pick-selection">Decision +145</span><span class="pick-odds">Value play on method</span></div>
+<div class="pick-edge mt-2">📊 Edge: +7.3% • Song's power at BW • Home crowd • Figueiredo adjusting to weight</div>
+</div>
+<div class="pick-card">
+<div class="pick-header"><span class="pick-sport">UFC MACAU</span><span class="pick-confidence">🔥🔥🔥🔥</span></div>
+<div class="pick-matchup">Pavlovich R1 KO</div>
+<div class="pick-details"><span class="pick-selection">KO/TKO R1 -180</span><span class="pick-odds">Avg fight time 1:47</span></div>
 </div>
 </div>
+</div>
+
+<!-- ==================== GOLF SECTION ==================== -->
 <div class="section" id="golf">
 <div class="card">
 <div class="card-title">⛳ PGA Tour</div>
 <div class="card-subtitle">Charles Schwab Challenge (ongoing) • Memorial Tournament (June 4-7)</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">📅 Upcoming: Memorial Tournament</h3>
-<div class="xfactor-card" style="border-left-color:var(--gold)"><div class="xfactor-player">🏆 Memorial Tournament — June 4-7</div><div class="xfactor-stat">Muirfield Village Golf Club • Dublin, OH • $20M Purse</div><div class="xfactor-trend">🎯 Scottie Scheffler defending (won 2024, 2025 back-to-back)</div></div>
+<div class="xfactor-card" style="border-left-color:var(--gold)">
+<div class="xfactor-player">🏆 Memorial Tournament — June 4-7</div>
+<div class="xfactor-stat">Muirfield Village Golf Club • Dublin, OH • $20M Purse</div>
+<div class="xfactor-trend">🎯 Scottie Scheffler defending (won 2024, 2025 back-to-back)</div>
+</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">📊 Memorial Odds</h3>
 <table class="standings-table">
 <tr><th>Player</th><th>Odds</th><th>Notes</th></tr>
@@ -681,16 +1476,35 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td>Jon Rahm</td><td>+1200</td><td>Course history strong</td></tr>
 <tr><td>Collin Morikawa</td><td>+1400</td><td>Ball-striking elite</td></tr>
 </table>
-<div class="alert-item injury" style="margin-top:15px"><div class="alert-icon">⚠️</div><div class="alert-content"><div class="alert-title">TIGER WOODS OUT INDEFINITELY</div><div class="alert-time">In Switzerland for treatment • Will miss Memorial • Season in doubt</div></div></div>
+
+<div class="alert-item injury" style="margin-top:15px">
+<div class="alert-icon">⚠️</div>
+<div class="alert-content">
+<div class="alert-title">TIGER WOODS OUT INDEFINITELY</div>
+<div class="alert-time">In Switzerland for treatment • Will miss Memorial • Season in doubt</div>
+</div>
+</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">🎯 Golf Picks</h3>
-<div class="pick-card"><div class="pick-header"><span class="pick-sport">MEMORIAL TOURNAMENT</span><span class="pick-confidence">🔥🔥🔥🔥</span></div><div class="pick-matchup">Scottie Scheffler Top 5</div><div class="pick-details"><span class="pick-selection">Scheffler Top 5 (-125)</span><span class="pick-odds">Defending 2x champ</span></div></div>
-<div class="pick-card"><div class="pick-header"><span class="pick-sport">MEMORIAL TOURNAMENT</span><span class="pick-confidence">🔥🔥🔥</span></div><div class="pick-matchup">Xander Schauffele E/W</div><div class="pick-details"><span class="pick-selection">+1000 Each-Way</span><span class="pick-odds">Top 5 machine</span></div></div>
+<div class="pick-card">
+<div class="pick-header"><span class="pick-sport">MEMORIAL TOURNAMENT</span><span class="pick-confidence">🔥🔥🔥🔥</span></div>
+<div class="pick-matchup">Scottie Scheffler Top 5</div>
+<div class="pick-details"><span class="pick-selection">Scheffler Top 5 (-125)</span><span class="pick-odds">Defending 2x champ</span></div>
+</div>
+<div class="pick-card">
+<div class="pick-header"><span class="pick-sport">MEMORIAL TOURNAMENT</span><span class="pick-confidence">🔥🔥🔥</span></div>
+<div class="pick-matchup">Xander Schauffele E/W</div>
+<div class="pick-details"><span class="pick-selection">+1000 Each-Way</span><span class="pick-odds">Top 5 machine</span></div>
 </div>
 </div>
+</div>
+
+<!-- ==================== F1 SECTION ==================== -->
 <div class="section" id="f1">
 <div class="card">
 <div class="card-title">🏎️ Formula 1 — 2026 Season</div>
 <div class="card-subtitle">Monaco Grand Prix June 5-7 • Antonelli championship leader</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">🏆 2026 Driver Standings</h3>
 <table class="standings-table">
 <tr><th>#</th><th>Driver</th><th>Team</th><th>Wins</th><th>Points</th></tr>
@@ -700,6 +1514,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td>4</td><td>Lewis Hamilton 🇬🇧</td><td>Ferrari</td><td>1</td><td>98</td></tr>
 <tr><td>5</td><td>Charles Leclerc 🇲🇨</td><td>Ferrari</td><td>0</td><td>87</td></tr>
 </table>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">🏆 Constructor Standings</h3>
 <table class="standings-table">
 <tr><th>#</th><th>Team</th><th>Points</th></tr>
@@ -709,8 +1524,14 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td>4</td><td>McLaren</td><td>142</td></tr>
 <tr><td>5</td><td>Aston Martin</td><td>89</td></tr>
 </table>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">📅 Next Race: Monaco Grand Prix</h3>
-<div class="xfactor-card" style="border-left-color:var(--gold)"><div class="xfactor-player">🇲🇨 Monaco Grand Prix — June 5-7</div><div class="xfactor-stat">Circuit de Monaco • Monte Carlo • 78 Laps</div><div class="xfactor-trend">🎯 Antonelli favorite • Mercedes dominant • Leclerc home race</div></div>
+<div class="xfactor-card" style="border-left-color:var(--gold)">
+<div class="xfactor-player">🇲🇨 Monaco Grand Prix — June 5-7</div>
+<div class="xfactor-stat">Circuit de Monaco • Monte Carlo • 78 Laps</div>
+<div class="xfactor-trend">🎯 Antonelli favorite • Mercedes dominant • Leclerc home race</div>
+</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">📊 Monaco GP Odds</h3>
 <table class="standings-table">
 <tr><th>Driver</th><th>Odds</th><th>Notes</th></tr>
@@ -719,23 +1540,83 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td>Charles Leclerc</td><td>+400</td><td>Home race • Monaco specialist</td></tr>
 <tr><td>Max Verstappen</td><td>+500</td><td>Struggling vs Mercedes pace</td></tr>
 </table>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">🎯 F1 Picks</h3>
-<div class="pick-card featured"><div class="pick-header"><span class="pick-sport">MONACO GP</span><span class="pick-confidence">🔥🔥🔥🔥</span></div><div class="pick-matchup">Antonelli Win</div><div class="pick-details"><span class="pick-selection">Antonelli +175</span><span class="pick-odds">Dominant form • 4 wins in 2026</span></div></div>
-<div class="pick-card"><div class="pick-header"><span class="pick-sport">MONACO GP</span><span class="pick-confidence">🔥🔥🔥</span></div><div class="pick-matchup">Leclerc Podium</div><div class="pick-details"><span class="pick-selection">Leclerc Top 3 (-140)</span><span class="pick-odds">Home race magic</span></div></div>
+<div class="pick-card featured">
+<div class="pick-header"><span class="pick-sport">MONACO GP</span><span class="pick-confidence">🔥🔥🔥🔥</span></div>
+<div class="pick-matchup">Antonelli Win</div>
+<div class="pick-details"><span class="pick-selection">Antonelli +175</span><span class="pick-odds">Dominant form • 4 wins in 2026</span></div>
+</div>
+<div class="pick-card">
+<div class="pick-header"><span class="pick-sport">MONACO GP</span><span class="pick-confidence">🔥🔥🔥</span></div>
+<div class="pick-matchup">Leclerc Podium</div>
+<div class="pick-details"><span class="pick-selection">Leclerc Top 3 (-140)</span><span class="pick-odds">Home race magic</span></div>
 </div>
 </div>
+</div>
+
+<!-- ==================== JOURNAL SECTION ==================== -->
 <div class="section" id="journal">
 <div class="card">
 <div class="card-title">📓 Betting Journal — Recent Results</div>
 <div class="card-subtitle">Last 10 bets • Track wins, losses, and notes</div>
-<div class="journal-entry"><div class="journal-date">May 29, 2026 • 8:15 PM</div><div class="journal-pick">🏒 Carolina Hurricanes ML (-145) vs Montreal</div><div class="journal-result"><span class="result-win">✅ WIN</span> • Carolina 6, Montreal 1 • +$100</div><div class="journal-note">Series clincher. Andersen masterclass with 35 saves. Carolina to Cup Final.</div></div>
-<div class="journal-entry"><div class="journal-date">May 29, 2026 • 9:30 PM</div><div class="journal-pick">🏀 Spurs +6.5 vs Thunder</div><div class="journal-result"><span class="result-win">✅ WIN</span> • Spurs 118, Thunder 91 • Covered by 33.5!</div><div class="journal-note">Blowout alert. Wembanyama 28-10 dominated. Easy cover.</div></div>
-<div class="journal-entry"><div class="journal-date">May 29, 2026 • 11:00 AM</div><div class="journal-pick">🎾 Fonseca +350 vs Djokovic</div><div class="journal-result"><span class="result-win">✅ WIN</span> • Fonseca 4-6, 4-6, 6-3, 7-5, 7-5 • +$350</div><div class="journal-note">GIANT KILLER! 18-year-old stuns Djokovic. Incredible comeback from 2 sets down.</div></div>
-<div class="journal-entry loss"><div class="journal-date">May 28, 2026 • 8:00 PM</div><div class="journal-pick">🏀 Thunder -4.5 vs Spurs (G6)</div><div class="journal-result"><span class="result-loss">❌ LOSS</span> • Spurs won outright 118-91</div><div class="journal-note">Complete no-show from Thunder. SGA 5-18 shooting. Onto Game 7.</div></div>
-<div class="journal-entry"><div class="journal-date">May 28, 2026 • 4:30 PM</div><div class="journal-pick">🎾 Zverev -2.5 Sets vs Halys</div><div class="journal-result"><span class="result-win">✅ WIN</span> • Zverev 6-4, 6-3, 5-7, 6-2</div><div class="journal-note">Dropped one set but still covered -2.5. Dominant performance.</div></div>
-<div class="journal-entry"><div class="journal-date">May 28, 2026 • 2:00 PM</div><div class="journal-pick">🎾 Ruud ML vs Tommy Paul</div><div class="journal-result"><span class="result-win">✅ WIN</span> • Ruud saved 2 match points, won in 5</div><div class="journal-note">Sweaty but a win is a win. Ruud clutch under pressure.</div></div>
-<div class="journal-entry"><div class="journal-date">May 27, 2026 • 8:30 PM</div><div class="journal-pick">🏒 Vegas Golden Knights -1.5 vs Colorado</div><div class="journal-result"><span class="result-win">✅ WIN</span> • Vegas sweeps 4-0</div><div class="journal-note">Vegas absolutely dominant. Colorado had no answer.</div></div>
-<div class="journal-entry push"><div class="journal-date">May 26, 2026 • 7:00 PM</div><div class="journal-pick">🏀 Thunder/Spurs Over 215.5</div><div class="journal-result"><span class="result-push">➖ PUSH</span> • Final: 108-107 = 215</div><div class="journal-note">On the number. No win, no loss. Move on.</div></div>
+
+<div class="journal-entry">
+<div class="journal-date">May 29, 2026 • 8:15 PM</div>
+<div class="journal-pick">🏒 Carolina Hurricanes ML (-145) vs Montreal</div>
+<div class="journal-result"><span class="result-win">✅ WIN</span> • Carolina 6, Montreal 1 • +$100</div>
+<div class="journal-note">Series clincher. Andersen masterclass with 35 saves. Carolina to Cup Final.</div>
+</div>
+
+<div class="journal-entry">
+<div class="journal-date">May 29, 2026 • 9:30 PM</div>
+<div class="journal-pick">🏀 Spurs +6.5 vs Thunder</div>
+<div class="journal-result"><span class="result-win">✅ WIN</span> • Spurs 118, Thunder 91 • Covered by 33.5!</div>
+<div class="journal-note">Blowout alert. Wembanyama 28-10 dominated. Easy cover.</div>
+</div>
+
+<div class="journal-entry">
+<div class="journal-date">May 29, 2026 • 11:00 AM</div>
+<div class="journal-pick">🎾 Fonseca +350 vs Djokovic</div>
+<div class="journal-result"><span class="result-win">✅ WIN</span> • Fonseca 4-6, 4-6, 6-3, 7-5, 7-5 • +$350</div>
+<div class="journal-note">GIANT KILLER! 18-year-old stuns Djokovic. Incredible comeback from 2 sets down.</div>
+</div>
+
+<div class="journal-entry loss">
+<div class="journal-date">May 28, 2026 • 8:00 PM</div>
+<div class="journal-pick">🏀 Thunder -4.5 vs Spurs (G6)</div>
+<div class="journal-result"><span class="result-loss">❌ LOSS</span> • Spurs won outright 118-91</div>
+<div class="journal-note">Complete no-show from Thunder. SGA 5-18 shooting. Onto Game 7.</div>
+</div>
+
+<div class="journal-entry">
+<div class="journal-date">May 28, 2026 • 4:30 PM</div>
+<div class="journal-pick">🎾 Zverev -2.5 Sets vs Halys</div>
+<div class="journal-result"><span class="result-win">✅ WIN</span> • Zverev 6-4, 6-3, 5-7, 6-2</div>
+<div class="journal-note">Dropped one set but still covered -2.5. Dominant performance.</div>
+</div>
+
+<div class="journal-entry">
+<div class="journal-date">May 28, 2026 • 2:00 PM</div>
+<div class="journal-pick">🎾 Ruud ML vs Tommy Paul</div>
+<div class="journal-result"><span class="result-win">✅ WIN</span> • Ruud saved 2 match points, won in 5</div>
+<div class="journal-note">Sweaty but a win is a win. Ruud clutch under pressure.</div>
+</div>
+
+<div class="journal-entry">
+<div class="journal-date">May 27, 2026 • 8:30 PM</div>
+<div class="journal-pick">🏒 Vegas Golden Knights -1.5 vs Colorado</div>
+<div class="journal-result"><span class="result-win">✅ WIN</span> • Vegas sweeps 4-0</div>
+<div class="journal-note">Vegas absolutely dominant. Colorado had no answer.</div>
+</div>
+
+<div class="journal-entry push">
+<div class="journal-date">May 26, 2026 • 7:00 PM</div>
+<div class="journal-pick">🏀 Thunder/Spurs Over 215.5</div>
+<div class="journal-result"><span class="result-push">➖ PUSH</span> • Final: 108-107 = 215</div>
+<div class="journal-note">On the number. No win, no loss. Move on.</div>
+</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:20px 0 10px">📊 Journal Stats</h3>
 <div class="stats-grid">
 <div class="stat-box"><div class="stat-value green">7</div><div class="stat-label">Last 10 Wins</div></div>
@@ -745,10 +1626,13 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 </div>
 </div>
 </div>
+
+<!-- ==================== STATS SECTION ==================== -->
 <div class="section" id="stats">
 <div class="card">
 <div class="card-title">📈 Full Statistics & Analytics</div>
 <div class="card-subtitle">All-time record, sport breakdowns, ROI analysis</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">📊 Overall Performance</h3>
 <div class="stats-grid">
 <div class="stat-box"><div class="stat-value">292</div><div class="stat-label">Total Wins</div></div>
@@ -762,6 +1646,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <div class="stat-box"><div class="stat-value green">+$6,735</div><div class="stat-label">All-Time Profit</div></div>
 <div class="stat-box"><div class="stat-value green">+96.2%</div><div class="stat-label">ROI</div></div>
 </div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">🏆 Sport-by-Sport Breakdown</h3>
 <table class="standings-table">
 <tr><th>Sport</th><th>W</th><th>L</th><th>Win%</th><th>ROI</th></tr>
@@ -773,6 +1658,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td>⚽ Soccer</td><td>18</td><td>3</td><td>85.7%</td><td class="text-green">+88%</td></tr>
 <tr><td>🏈 NFL</td><td>9</td><td>1</td><td>90.0%</td><td class="text-green">+135%</td></tr>
 </table>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">📈 Monthly Performance</h3>
 <table class="standings-table">
 <tr><th>Month</th><th>W</th><th>L</th><th>Win%</th><th>Profit</th></tr>
@@ -782,8 +1668,12 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <tr><td>February 2026</td><td>45</td><td>8</td><td>84.9%</td><td class="text-green">+$980</td></tr>
 <tr><td>January 2026</td><td>42</td><td>9</td><td>82.4%</td><td class="text-green">+$890</td></tr>
 </table>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">📊 Profit Chart</h3>
-<div class="chart-container"><canvas id="monthlyChart"></canvas></div>
+<div class="chart-container">
+<canvas id="monthlyChart"></canvas>
+</div>
+
 <h3 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">🎯 Bet Type Performance</h3>
 <table class="standings-table">
 <tr><th>Bet Type</th><th>W</th><th>L</th><th>Win%</th></tr>
@@ -794,19 +1684,45 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 </table>
 </div>
 </div>
+
 </main>
+
+<!-- ==================== SETTINGS MODAL ==================== -->
 <div class="modal" id="settingsModal">
 <div class="modal-content">
-<div class="modal-header"><div class="modal-title">⚙️ Settings</div><div class="modal-close" onclick="closeModal('settings')">&times;</div></div>
+<div class="modal-header">
+<div class="modal-title">⚙️ Settings</div>
+<div class="modal-close" onclick="closeModal('settings')">&times;</div>
+</div>
+
 <h4 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">📱 Display Options</h4>
 <div style="display:flex;flex-direction:column;gap:8px">
-<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem"><span>Dark Mode</span><input type="checkbox" checked disabled style="width:18px;height:18px"></label>
-<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem"><span>Show Odds as American</span><input type="checkbox" checked id="oddsFormat" style="width:18px;height:18px"></label>
-<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem"><span>Show Confidence Ratings</span><input type="checkbox" checked id="showConfidence" style="width:18px;height:18px"></label>
-<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem"><span>Enable Confetti on Wins</span><input type="checkbox" checked id="confettiEnabled" style="width:18px;height:18px"></label>
-<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem"><span>Auto-Refresh Data</span><input type="checkbox" checked id="autoRefresh" style="width:18px;height:18px"></label>
-<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem"><span>Sound Alerts</span><input type="checkbox" id="soundAlerts" style="width:18px;height:18px"></label>
+<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem">
+<span>Dark Mode</span>
+<input type="checkbox" checked disabled style="width:18px;height:18px">
+</label>
+<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem">
+<span>Show Odds as American</span>
+<input type="checkbox" checked id="oddsFormat" style="width:18px;height:18px">
+</label>
+<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem">
+<span>Show Confidence Ratings</span>
+<input type="checkbox" checked id="showConfidence" style="width:18px;height:18px">
+</label>
+<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem">
+<span>Enable Confetti on Wins</span>
+<input type="checkbox" checked id="confettiEnabled" style="width:18px;height:18px">
+</label>
+<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem">
+<span>Auto-Refresh Data</span>
+<input type="checkbox" checked id="autoRefresh" style="width:18px;height:18px">
+</label>
+<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem">
+<span>Sound Alerts</span>
+<input type="checkbox" id="soundAlerts" style="width:18px;height:18px">
+</label>
 </div>
+
 <h4 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">💰 Bankroll Settings</h4>
 <div style="display:flex;flex-direction:column;gap:8px">
 <label style="font-size:0.75rem;color:var(--muted)">Starting Bankroll</label>
@@ -814,13 +1730,27 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <label style="font-size:0.75rem;color:var(--muted)">Default Unit Size ($)</label>
 <input type="number" value="100" style="background:rgba(0,0,0,0.3);border:var(--border);padding:8px;border-radius:6px;color:var(--text);font-size:0.85rem">
 </div>
+
 <h4 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">🔔 Notification Preferences</h4>
 <div style="display:flex;flex-direction:column;gap:8px">
-<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem"><span>Injury Alerts</span><input type="checkbox" checked style="width:18px;height:18px"></label>
-<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem"><span>Line Movement Alerts</span><input type="checkbox" checked style="width:18px;height:18px"></label>
-<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem"><span>Game Start Reminders</span><input type="checkbox" checked style="width:18px;height:18px"></label>
-<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem"><span>Result Notifications</span><input type="checkbox" checked style="width:18px;height:18px"></label>
+<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem">
+<span>Injury Alerts</span>
+<input type="checkbox" checked style="width:18px;height:18px">
+</label>
+<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem">
+<span>Line Movement Alerts</span>
+<input type="checkbox" checked style="width:18px;height:18px">
+</label>
+<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem">
+<span>Game Start Reminders</span>
+<input type="checkbox" checked style="width:18px;height:18px">
+</label>
+<label style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem">
+<span>Result Notifications</span>
+<input type="checkbox" checked style="width:18px;height:18px">
+</label>
 </div>
+
 <h4 style="color:var(--gold);font-size:0.8rem;margin:15px 0 8px">⏰ Time-Based Rules (Auto-Applied)</h4>
 <div style="font-size:0.7rem;color:var(--muted);background:rgba(0,0,0,0.2);padding:10px;border-radius:6px">
 <div style="margin-bottom:5px">• <strong>4-Hour Rule:</strong> Games 4+ hours old marked FINAL</div>
@@ -828,16 +1758,24 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <div style="margin-bottom:5px">• <strong>48-Hour Rule:</strong> Results 48+ hours old archived</div>
 <div>• <strong>7-Day Rule:</strong> Events 7+ days old removed from ticker</div>
 </div>
+
 <div style="margin-top:15px;display:flex;gap:8px">
 <button class="btn" onclick="saveSettings()">Save Settings</button>
 <button class="btn btn-outline" onclick="closeModal('settings')">Cancel</button>
 </div>
 </div>
 </div>
+
+<!-- ==================== THEMES MODAL ==================== -->
 <div class="modal" id="themesModal">
 <div class="modal-content">
-<div class="modal-header"><div class="modal-title">🎨 Theme Selector</div><div class="modal-close" onclick="closeModal('themes')">&times;</div></div>
+<div class="modal-header">
+<div class="modal-title">🎨 Theme Selector</div>
+<div class="modal-close" onclick="closeModal('themes')">&times;</div>
+</div>
+
 <p style="font-size:0.75rem;color:var(--muted);margin-bottom:12px">Choose from 49 FIFA-inspired themes</p>
+
 <h4 style="color:var(--gold);font-size:0.8rem;margin:10px 0 8px">🌎 Americas</h4>
 <div class="theme-grid">
 <button class="theme-btn active" style="background:linear-gradient(180deg,#002868 50%,#bf0a30 50%)" title="USA" onclick="setTheme('usa')">🇺🇸</button>
@@ -848,6 +1786,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <button class="theme-btn" style="background:linear-gradient(180deg,#fcd116 50%,#003893 25%,#ce1126 75%)" title="Colombia" onclick="setTheme('colombia')">🇨🇴</button>
 <button class="theme-btn" style="background:linear-gradient(180deg,#d52b1e 50%,#fff 50%)" title="Peru" onclick="setTheme('peru')">🇵🇪</button>
 </div>
+
 <h4 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">🇪🇺 Europe</h4>
 <div class="theme-grid">
 <button class="theme-btn" style="background:linear-gradient(180deg,#012169 50%,#c8102e 50%)" title="England" onclick="setTheme('england')">🏴</button>
@@ -858,6 +1797,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <button class="theme-btn" style="background:linear-gradient(180deg,#006600 50%,#ff0000 50%)" title="Portugal" onclick="setTheme('portugal')">🇵🇹</button>
 <button class="theme-btn" style="background:linear-gradient(180deg,#21468b 33%,#fff 33%,#fff 66%,#ae1c28 66%)" title="Netherlands" onclick="setTheme('netherlands')">🇳🇱</button>
 </div>
+
 <h4 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">🌍 Rest of World</h4>
 <div class="theme-grid">
 <button class="theme-btn" style="background:linear-gradient(180deg,#007a3d 50%,#000 50%)" title="Saudi Arabia" onclick="setTheme('saudi')">🇸🇦</button>
@@ -868,6 +1808,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <button class="theme-btn" style="background:linear-gradient(180deg,#006233 33%,#fff 33%,#fff 66%,#d52b1e 66%)" title="Algeria" onclick="setTheme('algeria')">🇩🇿</button>
 <button class="theme-btn" style="background:linear-gradient(180deg,#c8102e 33%,#000 33%,#000 66%,#007749 66%)" title="Kenya" onclick="setTheme('kenya')">🇰🇪</button>
 </div>
+
 <h4 style="color:var(--gold);font-size:0.8rem;margin:12px 0 8px">🏆 Special Themes</h4>
 <div class="theme-grid">
 <button class="theme-btn" style="background:linear-gradient(135deg,#d4af37 0%,#b8962e 50%,#d4af37 100%)" title="SigMAX Gold" onclick="setTheme('gold')">⭐</button>
@@ -878,28 +1819,817 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <button class="theme-btn" style="background:linear-gradient(135deg,#8b5cf6 0%,#7c3aed 100%)" title="Royal Purple" onclick="setTheme('purple')">👑</button>
 <button class="theme-btn" style="background:linear-gradient(135deg,#f97316 0%,#ea580c 100%)" title="Sunset" onclick="setTheme('orange')">🌅</button>
 </div>
-<div style="margin-top:15px;display:flex;gap:8px"><button class="btn" onclick="closeModal('themes')">Apply Theme</button></div>
+
+<div style="margin-top:15px;display:flex;gap:8px">
+<button class="btn" onclick="closeModal('themes')">Apply Theme</button>
 </div>
 </div>
 </div>
+
+</div>
+
 <script>
-document.querySelectorAll('.nav-tab').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));tab.classList.add('active');document.getElementById(tab.dataset.section).classList.add('active')})});
-function updateCountdown(){const t=new Date('2026-05-31T00:00:00-04:00'),n=new Date(),d=t-n;if(d>0){document.getElementById('hours').textContent=Math.floor(d/36e5).toString().padStart(2,'0');document.getElementById('mins').textContent=Math.floor(d%36e5/6e4).toString().padStart(2,'0');document.getElementById('secs').textContent=Math.floor(d%6e4/1e3).toString().padStart(2,'0')}else{document.getElementById('hours').textContent='00';document.getElementById('mins').textContent='00';document.getElementById('secs').textContent='00'}}setInterval(updateCountdown,1e3);updateCountdown();
-function openModal(t){document.getElementById(t+'Modal').classList.add('show')}function closeModal(t){document.getElementById(t+'Modal').classList.remove('show')}document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')})});
-let parlayLegs={teams:[],props:[]};const MAX_TEAMS=5,MAX_PROPS=5;
-function addToParlay(p,o,t){const a=t==='team'?parlayLegs.teams:parlayLegs.props,m=t==='team'?MAX_TEAMS:MAX_PROPS;if(a.length>=m){alert(`Max ${m} ${t==='team'?'team bets':'props'} allowed!`);return}if(a.some(l=>l.pick===p)){alert('Already in parlay!');return}a.push({pick:p,odds:o,type:t});updateParlayDisplay();if(typeof confetti!=='undefined')confetti({particleCount:30,spread:50,origin:{y:0.7}})}
-function removeLeg(p,t){const a=t==='team'?parlayLegs.teams:parlayLegs.props,i=a.findIndex(l=>l.pick===p);if(i>-1)a.splice(i,1);updateParlayDisplay()}
-function clearParlay(){parlayLegs={teams:[],props:[]};updateParlayDisplay()}
-function updateParlayDisplay(){const a=[...parlayLegs.teams,...parlayLegs.props],c=document.getElementById('parlayLegs'),s=document.getElementById('parlaySummary');if(!a.length){c.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:0.8rem">Tap picks below to add to parlay</div>';s.style.display='none';document.querySelector('.parlay-title').textContent='Current Parlay (0 legs)';return}c.innerHTML=a.map(l=>`<div class="parlay-leg"><div class="parlay-leg-info"><span>${l.type==='team'?'🎯':'📊'}</span><span>${l.pick}</span></div><div style="display:flex;align-items:center;gap:8px"><span class="parlay-leg-odds">${l.odds}</span><span class="parlay-leg-remove" onclick="removeLeg('${l.pick}','${l.type}')">&times;</span></div></div>`).join('');document.querySelector('.parlay-title').textContent=`Current Parlay (${a.length} legs)`;const to=calculateParlayOdds(a.map(l=>l.odds)),py=calculatePayout(100,to);document.getElementById('parlayOdds').textContent=to;document.getElementById('parlayPayout').textContent='$'+py;s.style.display='flex'}
-function calculateParlayOdds(o){let d=1;o.forEach(x=>{const n=parseInt(x);d*=n>0?(n/100)+1:(100/Math.abs(n))+1});return d>=2?'+'+Math.round((d-1)*100):Math.round(-100/(d-1))}
-function calculatePayout(w,o){const n=parseInt(o.toString().replace('+',''));return o.toString().includes('+')||n>0?Math.round(w+w*n/100):Math.round(w+w*100/Math.abs(n))}
-function loadPrebuiltParlay(p){clearParlay();p.forEach(x=>{const s=x.split(' '),o=s[s.length-1],pk=s.slice(0,-1).join(' '),t=pk.toLowerCase().includes('pts')||pk.toLowerCase().includes('reb')||pk.toLowerCase().includes('ast')?'prop':'team';addToParlay(pk,o,t)})}
-function setTheme(t){document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');localStorage.setItem('sigmax-theme',t)}
-function saveSettings(){const s={oddsFormat:document.getElementById('oddsFormat').checked,showConfidence:document.getElementById('showConfidence').checked,confettiEnabled:document.getElementById('confettiEnabled').checked,autoRefresh:document.getElementById('autoRefresh').checked,soundAlerts:document.getElementById('soundAlerts').checked};localStorage.setItem('sigmax-settings',JSON.stringify(s));closeModal('settings');if(typeof confetti!=='undefined'&&s.confettiEnabled)confetti({particleCount:100,spread:70,origin:{y:0.6}})}
-function initCharts(){const p=document.getElementById('profitChart');if(p)new Chart(p,{type:'line',data:{labels:['Jan','Feb','Mar','Apr','May'],datasets:[{label:'Bankroll ($)',data:[7000,7890,8940,10120,13735],borderColor:'#d4af37',backgroundColor:'rgba(212,175,55,0.1)',fill:true,tension:0.4,pointBackgroundColor:'#d4af37',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'rgba(255,255,255,0.6)',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'rgba(255,255,255,0.6)',font:{size:10},callback:v=>'$'+v}}}}});const m=document.getElementById('monthlyChart');if(m)new Chart(m,{type:'bar',data:{labels:['Jan','Feb','Mar','Apr','May'],datasets:[{label:'Monthly Profit ($)',data:[890,980,1050,1180,1420],backgroundColor:['rgba(16,185,129,0.6)','rgba(16,185,129,0.6)','rgba(16,185,129,0.6)','rgba(16,185,129,0.6)','rgba(212,175,55,0.8)'],borderColor:['#10b981','#10b981','#10b981','#10b981','#d4af37'],borderWidth:1,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'rgba(255,255,255,0.6)',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'rgba(255,255,255,0.6)',font:{size:10},callback:v=>'$'+v}}}}})}
-let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e});
-document.addEventListener('DOMContentLoaded',()=>{initCharts();const s=localStorage.getItem('sigmax-settings');if(s){const x=JSON.parse(s);if(document.getElementById('oddsFormat'))document.getElementById('oddsFormat').checked=x.oddsFormat??true;if(document.getElementById('showConfidence'))document.getElementById('showConfidence').checked=x.showConfidence??true;if(document.getElementById('confettiEnabled'))document.getElementById('confettiEnabled').checked=x.confettiEnabled??true;if(document.getElementById('autoRefresh'))document.getElementById('autoRefresh').checked=x.autoRefresh??true;if(document.getElementById('soundAlerts'))document.getElementById('soundAlerts').checked=x.soundAlerts??false}if(typeof confetti!=='undefined')setTimeout(()=>confetti({particleCount:50,spread:60,origin:{y:0.8}}),500)});
-if('serviceWorker'in navigator)navigator.serviceWorker.register('data:text/javascript,self.addEventListener("fetch",e=>e.respondWith(fetch(e.request)))');
+// ==================== NAVIGATION ====================
+document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        tab.classList.add('active');
+        const sectionId = tab.dataset.section;
+        document.getElementById(sectionId).classList.add('active');
+    });
+});
+
+// ==================== COUNTDOWN TIMER ====================
+function updateCountdown() {
+    const targetDate = new Date('2026-05-31T00:00:00-04:00'); // Game 7: May 30, 8PM ET
+    const now = new Date();
+    const diff = targetDate - now;
+    
+    if (diff > 0) {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('mins').textContent = mins.toString().padStart(2, '0');
+        document.getElementById('secs').textContent = secs.toString().padStart(2, '0');
+    } else {
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('mins').textContent = '00';
+        document.getElementById('secs').textContent = '00';
+    }
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ==================== MODALS ====================
+function openModal(type) {
+    document.getElementById(type + 'Modal').classList.add('show');
+}
+function closeModal(type) {
+    document.getElementById(type + 'Modal').classList.remove('show');
+}
+// Close modal on outside click
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+        }
+    });
+});
+
+// ==================== PARLAY BUILDER ====================
+let parlayLegs = { teams: [], props: [] };
+const MAX_TEAMS = 5;
+const MAX_PROPS = 5;
+
+function addToParlay(pick, odds, type) {
+    const arr = type === 'team' ? parlayLegs.teams : parlayLegs.props;
+    const maxLen = type === 'team' ? MAX_TEAMS : MAX_PROPS;
+    
+    if (arr.length >= maxLen) {
+        alert(`Max ${maxLen} ${type === 'team' ? 'team bets' : 'props'} allowed!`);
+        return;
+    }
+    
+    if (arr.some(leg => leg.pick === pick)) {
+        alert('Already in parlay!');
+        return;
+    }
+    
+    arr.push({ pick, odds, type });
+    updateParlayDisplay();
+    
+    // Confetti on add
+    if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 30, spread: 50, origin: { y: 0.7 } });
+    }
+}
+
+function removeLeg(pick, type) {
+    const arr = type === 'team' ? parlayLegs.teams : parlayLegs.props;
+    const idx = arr.findIndex(leg => leg.pick === pick);
+    if (idx > -1) arr.splice(idx, 1);
+    updateParlayDisplay();
+}
+
+function clearParlay() {
+    parlayLegs = { teams: [], props: [] };
+    updateParlayDisplay();
+}
+
+function updateParlayDisplay() {
+    const allLegs = [...parlayLegs.teams, ...parlayLegs.props];
+    const container = document.getElementById('parlayLegs');
+    const summary = document.getElementById('parlaySummary');
+    
+    if (allLegs.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:0.8rem">Tap picks below to add to parlay</div>';
+        summary.style.display = 'none';
+        document.querySelector('.parlay-title').textContent = 'Current Parlay (0 legs)';
+        return;
+    }
+    
+    container.innerHTML = allLegs.map(leg => `
+        <div class="parlay-leg">
+            <div class="parlay-leg-info">
+                <span>${leg.type === 'team' ? '🎯' : '📊'}</span>
+                <span>${leg.pick}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+                <span class="parlay-leg-odds">${leg.odds}</span>
+                <span class="parlay-leg-remove" onclick="removeLeg('${leg.pick}','${leg.type}')">&times;</span>
+            </div>
+        </div>
+    `).join('');
+    
+    document.querySelector('.parlay-title').textContent = `Current Parlay (${allLegs.length} legs)`;
+    
+    // Calculate parlay odds
+    const totalOdds = calculateParlayOdds(allLegs.map(l => l.odds));
+    const payout = calculatePayout(100, totalOdds);
+    
+    document.getElementById('parlayOdds').textContent = totalOdds;
+    document.getElementById('parlayPayout').textContent = '$' + payout;
+    summary.style.display = 'flex';
+}
+
+function calculateParlayOdds(oddsArray) {
+    let decimal = 1;
+    oddsArray.forEach(odds => {
+        const num = parseInt(odds);
+        if (num > 0) {
+            decimal *= (num / 100) + 1;
+        } else {
+            decimal *= (100 / Math.abs(num)) + 1;
+        }
+    });
+    const american = decimal >= 2 ? '+' + Math.round((decimal - 1) * 100) : Math.round(-100 / (decimal - 1));
+    return american;
+}
+
+function calculatePayout(wager, odds) {
+    const num = parseInt(odds.toString().replace('+', ''));
+    if (odds.toString().includes('+') || num > 0) {
+        return Math.round(wager + (wager * num / 100));
+    } else {
+        return Math.round(wager + (wager * 100 / Math.abs(num)));
+    }
+}
+
+function loadPrebuiltParlay(picks) {
+    clearParlay();
+    picks.forEach(p => {
+        const parts = p.split(' ');
+        const odds = parts[parts.length - 1];
+        const pick = parts.slice(0, -1).join(' ');
+        const type = pick.toLowerCase().includes('pts') || pick.toLowerCase().includes('reb') || pick.toLowerCase().includes('ast') ? 'prop' : 'team';
+        addToParlay(pick, odds, type);
+    });
+}
+
+// ==================== THEMES ====================
+function setTheme(theme) {
+    document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    // Theme logic can be expanded here
+    localStorage.setItem('sigmax-theme', theme);
+}
+
+// ==================== SETTINGS ====================
+function saveSettings() {
+    const settings = {
+        oddsFormat: document.getElementById('oddsFormat').checked,
+        showConfidence: document.getElementById('showConfidence').checked,
+        confettiEnabled: document.getElementById('confettiEnabled').checked,
+        autoRefresh: document.getElementById('autoRefresh').checked,
+        soundAlerts: document.getElementById('soundAlerts').checked
+    };
+    localStorage.setItem('sigmax-settings', JSON.stringify(settings));
+    closeModal('settings');
+    if (typeof confetti !== 'undefined' && settings.confettiEnabled) {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+    }
+}
+
+// ==================== CHARTS ====================
+function initCharts() {
+    // Profit Chart
+    const profitCtx = document.getElementById('profitChart');
+    if (profitCtx) {
+        new Chart(profitCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                datasets: [{
+                    label: 'Bankroll ($)',
+                    data: [7000, 7890, 8940, 10120, 13735],
+                    borderColor: '#d4af37',
+                    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#d4af37',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 10 } }
+                    },
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 10 }, callback: v => '$' + v }
+                    }
+                }
+            }
+        });
+    }
+    
+    // Monthly Chart
+    const monthlyCtx = document.getElementById('monthlyChart');
+    if (monthlyCtx) {
+        new Chart(monthlyCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                datasets: [{
+                    label: 'Monthly Profit ($)',
+                    data: [890, 980, 1050, 1180, 1420],
+                    backgroundColor: ['rgba(16, 185, 129, 0.6)', 'rgba(16, 185, 129, 0.6)', 'rgba(16, 185, 129, 0.6)', 'rgba(16, 185, 129, 0.6)', 'rgba(212, 175, 55, 0.8)'],
+                    borderColor: ['#10b981', '#10b981', '#10b981', '#10b981', '#d4af37'],
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 10 } }
+                    },
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 10 }, callback: v => '$' + v }
+                    }
+                }
+            }
+        });
+    }
+}
+
+// ==================== PWA INSTALL ====================
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+});
+
+// ==================== INITIALIZE ====================
+document.addEventListener('DOMContentLoaded', () => {
+    initCharts();
+    
+    // Load saved settings
+    const savedSettings = localStorage.getItem('sigmax-settings');
+    if (savedSettings) {
+        const s = JSON.parse(savedSettings);
+        if (document.getElementById('oddsFormat')) document.getElementById('oddsFormat').checked = s.oddsFormat ?? true;
+        if (document.getElementById('showConfidence')) document.getElementById('showConfidence').checked = s.showConfidence ?? true;
+        if (document.getElementById('confettiEnabled')) document.getElementById('confettiEnabled').checked = s.confettiEnabled ?? true;
+        if (document.getElementById('autoRefresh')) document.getElementById('autoRefresh').checked = s.autoRefresh ?? true;
+        if (document.getElementById('soundAlerts')) document.getElementById('soundAlerts').checked = s.soundAlerts ?? false;
+    }
+    
+    // Welcome confetti
+    if (typeof confetti !== 'undefined') {
+        setTimeout(() => {
+            confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+        }, 500);
+    }
+});
+
+// ==================== SERVICE WORKER FOR PWA ====================
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('data:text/javascript,self.addEventListener("fetch",e=>e.respondWith(fetch(e.request)))');
+}
+
+
+// ==================== ENHANCED PARLAY BUILDER DATA & LOGIC ====================
+
+// Game Data from PARLAY_DATA sheet (May 30, 2026)
+const gamesData = {
+    'NBA': [
+        { id: 'NBA001', time: '8:30 PM ET', away: 'Oklahoma City Thunder', home: 'San Antonio Spurs', awayML: 135, homeML: -155, total: 211.5 }
+    ],
+    'NHL': [
+        { id: 'NHL001', time: '8:00 PM ET', away: 'Florida Panthers', home: 'Carolina Hurricanes', awayML: 110, homeML: -130, total: 5.5 }
+    ],
+    'MLB': [
+        { id: 'MLB001', time: '1:05 PM ET', away: 'New York Yankees', home: 'Boston Red Sox', awayML: -125, homeML: 105, total: 9 },
+        { id: 'MLB002', time: '4:10 PM ET', away: 'Los Angeles Dodgers', home: 'San Francisco Giants', awayML: -145, homeML: 125, total: 8.5 },
+        { id: 'MLB003', time: '7:15 PM ET', away: 'Atlanta Braves', home: 'Philadelphia Phillies', awayML: 110, homeML: -130, total: 8 },
+        { id: 'MLB004', time: '8:10 PM ET', away: 'Houston Astros', home: 'Texas Rangers', awayML: -135, homeML: 115, total: 8.5 }
+    ],
+    'UFC': [
+        { id: 'UFC001', time: '7:00 AM ET', away: 'Deiveson Figueiredo', home: 'Song Yadong', awayML: 425, homeML: -575, total: 'N/A' },
+        { id: 'UFC002', time: '6:00 AM ET', away: 'Petr Yan', home: 'Merab Dvalishvili', awayML: -190, homeML: 160, total: 'N/A' }
+    ],
+    'TENNIS': [
+        { id: 'TEN001', time: '11:00 AM ET', away: 'Joao Fonseca', home: 'Carlos Alcaraz', awayML: 220, homeML: -275, total: 'N/A' },
+        { id: 'TEN002', time: '9:00 AM ET', away: 'Alexander Zverev', home: 'Casper Ruud', awayML: -150, homeML: 130, total: 'N/A' }
+    ],
+    'SOCCER': [
+        { id: 'SOC001', time: '2:45 PM ET', away: 'Manchester City', home: 'Inter Milan', awayML: -115, homeML: -105, total: 2.5 },
+        { id: 'SOC002', time: '12:00 PM ET', away: 'Real Madrid', home: 'Barcelona', awayML: 145, homeML: 180, total: 2.5 }
+    ],
+    'GOLF': [
+        { id: 'GOLF01', time: 'All Day', away: 'Scottie Scheffler', home: 'To Win', awayML: -120, homeML: 'N/A', total: 'N/A' },
+        { id: 'GOLF02', time: 'All Day', away: 'Xander Schauffele', home: 'To Win', awayML: 450, homeML: 'N/A', total: 'N/A' }
+    ],
+    'F1': [
+        { id: 'F1_001', time: 'Sunday', away: 'Kimi Antonelli', home: 'Monaco GP Win', awayML: 275, homeML: 'N/A', total: 'N/A' }
+    ]
+};
+
+// Player Props Data from PARLAY_DATA sheet
+const propsData = {
+    'NBA': [
+        { id: 'PROP001', player: 'Shai Gilgeous-Alexander', team: 'OKC', prop: 'Points', line: 28.5, over: -115, under: -105 },
+        { id: 'PROP002', player: 'Shai Gilgeous-Alexander', team: 'OKC', prop: 'Pts+Reb+Ast', line: 42.5, over: -110, under: -110 },
+        { id: 'PROP003', player: 'Victor Wembanyama', team: 'SAS', prop: 'Points', line: 24.5, over: -120, under: 100 },
+        { id: 'PROP004', player: 'Victor Wembanyama', team: 'SAS', prop: 'Rebounds', line: 11.5, over: -110, under: -110 },
+        { id: 'PROP005', player: 'Victor Wembanyama', team: 'SAS', prop: 'Blocks', line: 3.5, over: 120, under: -140 },
+        { id: 'PROP006', player: 'Chet Holmgren', team: 'OKC', prop: 'Pts+Reb+Ast', line: 24.5, over: -115, under: -105 },
+        { id: 'PROP007', player: 'Devin Vassell', team: 'SAS', prop: 'Points', line: 18.5, over: -110, under: -110 }
+    ],
+    'NHL': [
+        { id: 'PROP008', player: 'Aleksander Barkov', team: 'FLA', prop: 'Shots on Goal', line: 3.5, over: -130, under: 110 },
+        { id: 'PROP009', player: 'Sebastian Aho', team: 'CAR', prop: 'Points', line: 0.5, over: -145, under: 125 },
+        { id: 'PROP010', player: 'Matthew Tkachuk', team: 'FLA', prop: 'Goals', line: 0.5, over: 135, under: -165 },
+        { id: 'PROP020', player: 'Sergei Bobrovsky', team: 'FLA', prop: 'Saves', line: 28.5, over: -115, under: -105 }
+    ],
+    'MLB': [
+        { id: 'PROP011', player: 'Gerrit Cole', team: 'NYY', prop: 'Strikeouts', line: 7.5, over: -120, under: 100 },
+        { id: 'PROP012', player: 'Aaron Judge', team: 'NYY', prop: 'Home Runs', line: 0.5, over: 210, under: -280 },
+        { id: 'PROP013', player: 'Mookie Betts', team: 'LAD', prop: 'Hits', line: 1.5, over: -125, under: 105 },
+        { id: 'PROP014', player: 'Shohei Ohtani', team: 'LAD', prop: 'RBIs', line: 1.5, over: 135, under: -155 }
+    ],
+    'TENNIS': [
+        { id: 'PROP015', player: 'Joao Fonseca', team: 'N/A', prop: 'Sets Won', line: 1.5, over: -140, under: 120 },
+        { id: 'PROP016', player: 'Carlos Alcaraz', team: 'N/A', prop: 'Aces', line: 8.5, over: -115, under: -105 }
+    ],
+    'UFC': [
+        { id: 'PROP017', player: 'Song Yadong', team: 'N/A', prop: 'KO/TKO Win', line: 'Yes', over: 135, under: -155 },
+        { id: 'PROP018', player: 'Song Yadong', team: 'N/A', prop: 'Win in Rd 1', line: 'Yes', over: 275, under: -375 },
+        { id: 'PROP019', player: 'Figueiredo', team: 'N/A', prop: 'By Decision', line: 'Yes', over: 180, under: -220 }
+    ],
+    'GOLF': []
+};
+
+// Parlay State
+let parlayState = {
+    teamLegs: [],
+    propLegs: [],
+    nextTeamRow: 1,
+    nextPropRow: 1
+};
+
+// Update game dropdown based on sport selection
+function updateGameOptions(rowNum) {
+    const sportSelect = document.querySelector(`#teamRow${rowNum} .sport-select`);
+    const gameSelect = document.getElementById(`gameSelect${rowNum}`);
+    const sport = sportSelect.value;
+    
+    gameSelect.innerHTML = '<option value="">Select Game</option>';
+    
+    if (sport && gamesData[sport]) {
+        gamesData[sport].forEach(game => {
+            const opt = document.createElement('option');
+            opt.value = game.id;
+            opt.textContent = `${game.away} @ ${game.home} (${game.time})`;
+            opt.dataset.game = JSON.stringify(game);
+            gameSelect.appendChild(opt);
+        });
+    }
+}
+
+// Update player dropdown based on sport selection
+function updatePlayerOptions(rowNum) {
+    const sportSelect = document.querySelector(`#propRow${rowNum} .sport-select`);
+    const playerSelect = document.getElementById(`playerSelect${rowNum}`);
+    const sport = sportSelect.value;
+    
+    playerSelect.innerHTML = '<option value="">Select Player</option>';
+    
+    if (sport && propsData[sport]) {
+        const uniquePlayers = [...new Set(propsData[sport].map(p => p.player))];
+        uniquePlayers.forEach(player => {
+            const opt = document.createElement('option');
+            opt.value = player;
+            const prop = propsData[sport].find(p => p.player === player);
+            opt.textContent = `${player} (${prop.team})`;
+            playerSelect.appendChild(opt);
+        });
+    }
+}
+
+// Update prop types for selected player
+function updatePropTypes(rowNum) {
+    const sportSelect = document.querySelector(`#propRow${rowNum} .sport-select`);
+    const playerSelect = document.getElementById(`playerSelect${rowNum}`);
+    const propTypeSelect = document.getElementById(`propType${rowNum}`);
+    const sport = sportSelect.value;
+    const player = playerSelect.value;
+    
+    propTypeSelect.innerHTML = '<option value="">Prop Type</option>';
+    
+    if (sport && player && propsData[sport]) {
+        const playerProps = propsData[sport].filter(p => p.player === player);
+        playerProps.forEach(prop => {
+            const opt = document.createElement('option');
+            opt.value = prop.id;
+            opt.textContent = `${prop.prop} (${prop.line})`;
+            opt.dataset.prop = JSON.stringify(prop);
+            propTypeSelect.appendChild(opt);
+        });
+    }
+}
+
+// Update odds based on selection
+function updateOdds(rowNum, type) {
+    if (type === 'team') {
+        const gameSelect = document.getElementById(`gameSelect${rowNum}`);
+        const betType = document.getElementById(`betType${rowNum}`).value;
+        const oddsInput = document.getElementById(`teamOdds${rowNum}`);
+        const lineInput = document.getElementById(`line${rowNum}`);
+        
+        const selectedOpt = gameSelect.options[gameSelect.selectedIndex];
+        if (selectedOpt && selectedOpt.dataset.game) {
+            const game = JSON.parse(selectedOpt.dataset.game);
+            
+            switch(betType) {
+                case 'ML_AWAY': oddsInput.value = game.awayML; lineInput.value = ''; break;
+                case 'ML_HOME': oddsInput.value = game.homeML; lineInput.value = ''; break;
+                case 'OVER': oddsInput.value = '-110'; lineInput.value = game.total; break;
+                case 'UNDER': oddsInput.value = '-110'; lineInput.value = game.total; break;
+                case 'SPREAD_AWAY': oddsInput.value = '-110'; lineInput.value = '+3.5'; break;
+                case 'SPREAD_HOME': oddsInput.value = '-110'; lineInput.value = '-3.5'; break;
+            }
+        }
+    }
+}
+
+// Update prop odds
+function updatePropOdds(rowNum) {
+    const propTypeSelect = document.getElementById(`propType${rowNum}`);
+    const ouSelect = document.getElementById(`propOU${rowNum}`);
+    const oddsInput = document.getElementById(`propOdds${rowNum}`);
+    const lineInput = document.getElementById(`propLine${rowNum}`);
+    
+    const selectedOpt = propTypeSelect.options[propTypeSelect.selectedIndex];
+    if (selectedOpt && selectedOpt.dataset.prop) {
+        const prop = JSON.parse(selectedOpt.dataset.prop);
+        lineInput.value = prop.line;
+        
+        if (ouSelect.value === 'OVER') {
+            oddsInput.value = prop.over;
+        } else if (ouSelect.value === 'UNDER') {
+            oddsInput.value = prop.under;
+        }
+    }
+}
+
+// Add team leg to parlay
+function addTeamLeg(rowNum) {
+    if (parlayState.teamLegs.length >= 5) {
+        alert('Maximum 5 team bets allowed!');
+        return;
+    }
+    
+    const gameSelect = document.getElementById(`gameSelect${rowNum}`);
+    const betType = document.getElementById(`betType${rowNum}`).value;
+    const odds = document.getElementById(`teamOdds${rowNum}`).value;
+    const line = document.getElementById(`line${rowNum}`).value;
+    
+    if (!gameSelect.value || !betType || !odds) {
+        alert('Please complete all fields');
+        return;
+    }
+    
+    const selectedOpt = gameSelect.options[gameSelect.selectedIndex];
+    const game = JSON.parse(selectedOpt.dataset.game);
+    
+    let pickText = '';
+    switch(betType) {
+        case 'ML_AWAY': pickText = `${game.away} ML`; break;
+        case 'ML_HOME': pickText = `${game.home} ML`; break;
+        case 'OVER': pickText = `${game.away.split(' ').pop()}@${game.home.split(' ').pop()} Over ${line}`; break;
+        case 'UNDER': pickText = `${game.away.split(' ').pop()}@${game.home.split(' ').pop()} Under ${line}`; break;
+        case 'SPREAD_AWAY': pickText = `${game.away} ${line}`; break;
+        case 'SPREAD_HOME': pickText = `${game.home} ${line}`; break;
+    }
+    
+    parlayState.teamLegs.push({
+        id: Date.now(),
+        type: 'team',
+        pick: pickText,
+        odds: parseInt(odds),
+        row: rowNum
+    });
+    
+    // Show next row if available
+    if (parlayState.nextTeamRow < 5) {
+        parlayState.nextTeamRow++;
+        document.getElementById(`teamRow${parlayState.nextTeamRow}`).style.display = 'flex';
+    }
+    
+    // Clear current row
+    clearRow(rowNum, 'team');
+    updateParlayDisplay();
+    
+    if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 25, spread: 40, origin: { y: 0.7 } });
+    }
+}
+
+// Add prop leg to parlay
+function addPropLeg(rowNum) {
+    if (parlayState.propLegs.length >= 5) {
+        alert('Maximum 5 player props allowed!');
+        return;
+    }
+    
+    const playerSelect = document.getElementById(`playerSelect${rowNum}`);
+    const propType = document.getElementById(`propType${rowNum}`);
+    const ouSelect = document.getElementById(`propOU${rowNum}`);
+    const odds = document.getElementById(`propOdds${rowNum}`).value;
+    const line = document.getElementById(`propLine${rowNum}`).value;
+    
+    if (!playerSelect.value || !propType.value || !ouSelect.value || !odds) {
+        alert('Please complete all fields');
+        return;
+    }
+    
+    const selectedProp = propType.options[propType.selectedIndex];
+    const prop = JSON.parse(selectedProp.dataset.prop);
+    
+    const pickText = `${playerSelect.value} ${ouSelect.value === 'OVER' ? 'Over' : 'Under'} ${line} ${prop.prop}`;
+    
+    parlayState.propLegs.push({
+        id: Date.now(),
+        type: 'prop',
+        pick: pickText,
+        odds: parseInt(odds),
+        row: rowNum
+    });
+    
+    // Show next row if available
+    if (parlayState.nextPropRow < 5) {
+        parlayState.nextPropRow++;
+        document.getElementById(`propRow${parlayState.nextPropRow}`).style.display = 'flex';
+    }
+    
+    // Clear current row
+    clearRow(rowNum, 'prop');
+    updateParlayDisplay();
+    
+    if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 25, spread: 40, origin: { y: 0.7 } });
+    }
+}
+
+// Clear input row
+function clearRow(rowNum, type) {
+    if (type === 'team') {
+        document.querySelector(`#teamRow${rowNum} .sport-select`).value = '';
+        document.getElementById(`gameSelect${rowNum}`).innerHTML = '<option value="">Select Game</option>';
+        document.getElementById(`betType${rowNum}`).value = '';
+        document.getElementById(`line${rowNum}`).value = '';
+        document.getElementById(`teamOdds${rowNum}`).value = '';
+    } else {
+        document.querySelector(`#propRow${rowNum} .sport-select`).value = '';
+        document.getElementById(`playerSelect${rowNum}`).innerHTML = '<option value="">Select Player</option>';
+        document.getElementById(`propType${rowNum}`).innerHTML = '<option value="">Prop Type</option>';
+        document.getElementById(`propOU${rowNum}`).value = '';
+        document.getElementById(`propLine${rowNum}`).value = '';
+        document.getElementById(`propOdds${rowNum}`).value = '';
+    }
+}
+
+// Remove leg from parlay
+function removeLeg(legId) {
+    parlayState.teamLegs = parlayState.teamLegs.filter(l => l.id !== legId);
+    parlayState.propLegs = parlayState.propLegs.filter(l => l.id !== legId);
+    updateParlayDisplay();
+}
+
+// Clear entire parlay
+function clearParlay() {
+    parlayState.teamLegs = [];
+    parlayState.propLegs = [];
+    parlayState.nextTeamRow = 1;
+    parlayState.nextPropRow = 1;
+    
+    // Hide extra rows
+    for (let i = 2; i <= 5; i++) {
+        document.getElementById(`teamRow${i}`).style.display = 'none';
+        document.getElementById(`propRow${i}`).style.display = 'none';
+    }
+    
+    // Clear all inputs
+    for (let i = 1; i <= 5; i++) {
+        clearRow(i, 'team');
+        clearRow(i, 'prop');
+    }
+    
+    updateParlayDisplay();
+}
+
+// Quick add from button
+function quickAdd(pick, odds, type) {
+    const leg = {
+        id: Date.now(),
+        type: type,
+        pick: pick,
+        odds: parseInt(odds)
+    };
+    
+    if (type === 'team') {
+        if (parlayState.teamLegs.length >= 5) {
+            alert('Maximum 5 team bets!');
+            return;
+        }
+        if (parlayState.teamLegs.some(l => l.pick === pick)) {
+            alert('Already in parlay!');
+            return;
+        }
+        parlayState.teamLegs.push(leg);
+    } else {
+        if (parlayState.propLegs.length >= 5) {
+            alert('Maximum 5 props!');
+            return;
+        }
+        if (parlayState.propLegs.some(l => l.pick === pick)) {
+            alert('Already in parlay!');
+            return;
+        }
+        parlayState.propLegs.push(leg);
+    }
+    
+    updateParlayDisplay();
+    if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 25, spread: 40, origin: { y: 0.7 } });
+    }
+}
+
+// Load pre-built parlay
+function loadPrebuilt(type) {
+    clearParlay();
+    
+    const prebuilts = {
+        'lock': [
+            { pick: 'Thunder ML', odds: -175, type: 'team' },
+            { pick: 'OKC@SAS Under 216.5', odds: -108, type: 'team' },
+            { pick: 'SGA Over 28.5 Points', odds: -115, type: 'prop' }
+        ],
+        'global': [
+            { pick: 'Thunder -3.5', odds: -110, type: 'team' },
+            { pick: 'Song Yadong ML', odds: -575, type: 'team' },
+            { pick: 'Carlos Alcaraz ML', odds: -275, type: 'team' }
+        ],
+        'props': [
+            { pick: 'SGA Over 28.5 Points', odds: -115, type: 'prop' },
+            { pick: 'Wembanyama Over 24.5 Points', odds: -120, type: 'prop' },
+            { pick: 'Wembanyama Over 11.5 Rebounds', odds: -110, type: 'prop' }
+        ],
+        'underdog': [
+            { pick: 'Spurs ML', odds: 145, type: 'team' },
+            { pick: 'Figueiredo ML', odds: 425, type: 'team' },
+            { pick: 'Judge HR Yes', odds: 210, type: 'prop' }
+        ]
+    };
+    
+    const picks = prebuilts[type];
+    picks.forEach(p => {
+        const leg = { id: Date.now() + Math.random(), ...p };
+        if (p.type === 'team') {
+            parlayState.teamLegs.push(leg);
+        } else {
+            parlayState.propLegs.push(leg);
+        }
+    });
+    
+    updateParlayDisplay();
+    if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+    }
+}
+
+// Update parlay display
+function updateParlayDisplay() {
+    const allLegs = [...parlayState.teamLegs, ...parlayState.propLegs];
+    const container = document.getElementById('parlayLegs');
+    const summary = document.getElementById('parlaySummary');
+    const wagerCalc = document.getElementById('wagerCalc');
+    const title = document.getElementById('parlayTitle');
+    
+    title.textContent = `Current Parlay (${allLegs.length} legs)`;
+    
+    if (allLegs.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:0.8rem">Add picks above to build your parlay</div>';
+        summary.style.display = 'none';
+        wagerCalc.style.display = 'none';
+        return;
+    }
+    
+    // Render legs
+    container.innerHTML = allLegs.map(leg => `
+        <div class="parlay-leg">
+            <div style="display:flex;align-items:center">
+                <span class="parlay-leg-type">${leg.type === 'team' ? '🎯 TEAM' : '📊 PROP'}</span>
+                <span class="parlay-leg-pick">${leg.pick}</span>
+            </div>
+            <div style="display:flex;align-items:center">
+                <span class="parlay-leg-odds">${leg.odds > 0 ? '+' : ''}${leg.odds}</span>
+                <span class="parlay-leg-remove" onclick="removeLeg(${leg.id})">&times;</span>
+            </div>
+        </div>
+    `).join('');
+    
+    // Update counts
+    document.getElementById('teamLegsCount').textContent = `${parlayState.teamLegs.length} / 5`;
+    document.getElementById('propLegsCount').textContent = `${parlayState.propLegs.length} / 5`;
+    document.getElementById('totalLegsCount').textContent = `${allLegs.length} / 10`;
+    
+    // Calculate parlay odds
+    let decimalOdds = 1;
+    allLegs.forEach(leg => {
+        if (leg.odds > 0) {
+            decimalOdds *= (leg.odds / 100) + 1;
+        } else {
+            decimalOdds *= (100 / Math.abs(leg.odds)) + 1;
+        }
+    });
+    
+    const americanOdds = decimalOdds >= 2 
+        ? '+' + Math.round((decimalOdds - 1) * 100)
+        : Math.round(-100 / (decimalOdds - 1));
+    
+    document.getElementById('parlayOdds').textContent = americanOdds;
+    document.getElementById('parlayDecimal').textContent = decimalOdds.toFixed(2);
+    document.getElementById('parlayPayout').textContent = '$' + (100 * decimalOdds).toFixed(2);
+    
+    summary.style.display = 'block';
+    wagerCalc.style.display = 'block';
+    
+    // Update custom wager calc
+    updateCustomWager();
+}
+
+// Custom wager calculator
+function updateCustomWager() {
+    const wager = parseFloat(document.getElementById('wagerAmount').value) || 100;
+    const allLegs = [...parlayState.teamLegs, ...parlayState.propLegs];
+    
+    if (allLegs.length === 0) return;
+    
+    let decimalOdds = 1;
+    allLegs.forEach(leg => {
+        if (leg.odds > 0) {
+            decimalOdds *= (leg.odds / 100) + 1;
+        } else {
+            decimalOdds *= (100 / Math.abs(leg.odds)) + 1;
+        }
+    });
+    
+    const payout = (wager * decimalOdds).toFixed(2);
+    const profit = (wager * decimalOdds - wager).toFixed(2);
+    
+    document.getElementById('customPayout').textContent = '$' + payout;
+    document.getElementById('customProfit').textContent = '$' + profit;
+}
+
+// Add event listener for wager input
+document.addEventListener('DOMContentLoaded', function() {
+    const wagerInput = document.getElementById('wagerAmount');
+    if (wagerInput) {
+        wagerInput.addEventListener('input', updateCustomWager);
+    }
+});
 </script>
 </body>
 </html>
