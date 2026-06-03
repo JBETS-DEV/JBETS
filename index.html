@@ -2416,15 +2416,15 @@ if (e.key === 'Enter') sendMessage();
 const countdownEvents = [
 { id: 'nba', target: new Date('2026-06-03T20:30:00-04:00'), name: 'NBA Finals G1' },
 { id: 'nhl', target: new Date('2026-06-04T20:00:00-04:00'), name: 'Stanley Cup G2' },
-{ id: 'tennis', target: new Date('2026-06-03T11:00:00-04:00'), name: 'French Open QF' }
+{ id: 'fo', target: new Date('2026-06-06T09:00:00-04:00'), name: 'French Open SF' }
 ];
 
 function updateCountdowns() {
 const now = new Date();
 countdownEvents.forEach(event => {
 const hoursEl = document.getElementById(event.id + '-hours');
-const minutesEl = document.getElementById(event.id + '-minutes');
-const secondsEl = document.getElementById(event.id + '-seconds');
+const minutesEl = document.getElementById(event.id + '-mins');
+const secondsEl = document.getElementById(event.id + '-secs');
 const statusEl = document.getElementById(event.id + '-status');
 if (!hoursEl || !minutesEl || !secondsEl) return;
 const diff = event.target - now;
@@ -2433,9 +2433,6 @@ hoursEl.textContent = '00';
 minutesEl.textContent = '00';
 secondsEl.textContent = '00';
 if (statusEl) { statusEl.textContent = '🔴 LIVE NOW!'; statusEl.classList.add('live'); }
-hoursEl.classList.add('urgent');
-minutesEl.classList.add('urgent');
-secondsEl.classList.add('urgent');
 } else {
 const totalSeconds = Math.floor(diff / 1000);
 const hours = Math.floor(totalSeconds / 3600);
@@ -2444,18 +2441,12 @@ const seconds = totalSeconds % 60;
 hoursEl.textContent = hours.toString().padStart(2, '0');
 minutesEl.textContent = minutes.toString().padStart(2, '0');
 secondsEl.textContent = seconds.toString().padStart(2, '0');
-if (statusEl) {
-if (hours < 1) { statusEl.textContent = '🔥 LESS THAN 1 HOUR!'; statusEl.style.color = 'var(--orange)'; hoursEl.classList.add('urgent'); minutesEl.classList.add('urgent'); }
-else if (hours < 3) { statusEl.textContent = '⚡ COMING SOON!'; statusEl.style.color = 'var(--gold)'; }
-else { statusEl.textContent = '⏳ Countdown...'; statusEl.style.color = 'var(--green)'; }
-}
 }
 });
 }
 
 updateCountdowns();
 setInterval(updateCountdowns, 1000);
-
 document.addEventListener('DOMContentLoaded', () => { updateCountdowns(); });
 
 </script>
