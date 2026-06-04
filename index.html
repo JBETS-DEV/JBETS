@@ -3,554 +3,1945 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="description" content="SigMAX ELITE - Elite Sports Betting Predictions & Analytics. 84% win rate picks, live odds tracking, functional parlay builder, and advanced performance analytics for NBA, NFL, MLB & more.">
 <meta name="theme-color" content="#d4af37">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>SigMAX ELITE | Sports Analytics</title>
+<meta name="apple-mobile-web-app-title" content="SigMAX ELITE">
+<meta property="og:title" content="SigMAX ELITE - Sports Betting Predictions">
+<meta property="og:description" content="Elite betting picks with 84% win rate. Functional parlay builder, real odds tracking, live alerts.">
+<meta property="og:image" content="https://via.placeholder.com/1200x630?text=SigMAX+ELITE">
+<meta property="og:url" content="https://sigmax.elite">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SigMAX ELITE Sports Picks">
+<meta name="twitter:description" content="Professional betting predictions with live analytics">
+<meta name="twitter:image" content="https://via.placeholder.com/1200x630?text=SigMAX+ELITE">
 <link rel="manifest" href="manifest.json">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23d4af37' width='180' height='180'/><text x='90' y='100' font-size='80' font-weight='900' text-anchor='middle' fill='%23000' font-family='Arial'>⭐</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
 <style>
-:root{--bg-primary:#080b12;--bg-card:rgba(20,25,35,0.95);--gold:#d4af37;--gold-glow:rgba(212,175,55,0.15);--green:#10b981;--red:#ef4444;--blue:#2563eb;--orange:#f97316;--purple:#8b5cf6;--text-primary:#fff;--text-muted:rgba(255,255,255,0.6);--text-secondary:rgba(255,255,255,0.4)}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden;padding-bottom:70px}
-.header{background:linear-gradient(180deg,rgba(20,25,35,0.98),rgba(8,11,18,0.95));border-bottom:1px solid var(--gold);padding:12px 16px;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
-.header-content{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-icon{font-size:24px;font-weight:900;background:linear-gradient(135deg,var(--gold),#f5d682);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.logo-text{font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--gold),#f5d682);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.header-stats{display:flex;gap:16px;font-size:11px}
-.stat-item{text-align:center}
-.stat-value{color:var(--gold);font-weight:700;font-size:14px}
-.live-badge{background:var(--red);color:#fff;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;animation:pulse 1.5s infinite}
-.nav-container{background:rgba(12,16,24,0.95);border-bottom:1px solid rgba(212,175,55,0.3);padding:6px 0;overflow-x:auto;position:sticky;top:50px;z-index:99;backdrop-filter:blur(10px)}
-.nav-tabs{display:flex;gap:3px;max-width:1200px;margin:0 auto;padding:0 12px}
-.nav-tab{background:transparent;border:1px solid transparent;color:var(--text-muted);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap;transition:all 0.2s}
-.nav-tab:hover{color:var(--gold);background:var(--gold-glow)}
-.nav-tab.active{background:var(--gold-glow);border-color:var(--gold);color:var(--gold)}
-.main-content{max-width:1200px;margin:0 auto;padding:16px}
-.tab-content{display:none}
-.tab-content.active{display:block;animation:fadeIn 0.3s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.card{background:var(--bg-card);border:0.5px solid rgba(212,175,55,0.4);border-radius:10px;padding:14px;margin-bottom:14px;position:relative;backdrop-filter:blur(10px)}
-.card::before,.card::after{content:'';position:absolute;width:25px;height:25px;border:2px solid var(--gold);pointer-events:none}
-.card::before{top:-1px;left:-1px;border-right:none;border-bottom:none;border-radius:10px 0 0 0}
-.card::after{bottom:-1px;right:-1px;border-left:none;border-top:none;border-radius:0 0 10px 0}
-.card-title{color:var(--gold);font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.card-subtitle{color:var(--text-muted);font-size:11px;margin-bottom:12px}
-.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-@media(max-width:768px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
-.countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
-@media(max-width:900px){.countdown-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:500px){.countdown-grid{grid-template-columns:1fr}}
-.countdown-box{background:var(--bg-card);border:2px solid var(--gold);border-radius:14px;padding:14px;text-align:center;position:relative;overflow:hidden}
-.countdown-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.countdown-label{color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.countdown-event{font-size:12px;font-weight:700;margin-bottom:10px;color:#fff}
-.countdown-timer{display:flex;justify-content:center;gap:10px}
-.countdown-unit{text-align:center}
-.countdown-value{font-size:24px;font-weight:900;color:var(--gold);display:block;line-height:1}
-.countdown-sublabel{font-size:9px;color:var(--text-muted);text-transform:uppercase}
-.countdown-time{margin-top:8px;font-size:10px;color:var(--text-muted)}
-.countdown-live{background:linear-gradient(135deg,rgba(239,68,68,0.2),rgba(239,68,68,0.1));border-color:var(--red);animation:livePulse 2s infinite}
-@keyframes livePulse{0%,100%{box-shadow:0 0 5px rgba(239,68,68,0.3)}50%{box-shadow:0 0 20px rgba(239,68,68,0.6)}}
-.news-ticker{background:rgba(12,16,24,0.95);border:1px solid var(--gold);border-radius:8px;overflow:hidden;margin-bottom:16px;position:relative}
-.ticker-label{position:absolute;left:0;top:0;bottom:0;background:var(--red);color:#fff;padding:8px 10px;font-size:10px;font-weight:700;display:flex;align-items:center;z-index:2}
-.ticker-content{padding:8px 8px 8px 70px;white-space:nowrap;overflow:hidden}
-.ticker-scroll{display:inline-block;animation:ticker-scroll 50s linear infinite}
-.ticker-scroll:hover{animation-play-state:paused}
-@keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.ticker-item{display:inline;margin-right:30px;font-size:11px}
-.ticker-win{color:var(--green)}
-.ticker-loss{color:var(--red)}
-.ticker-live{color:var(--red);animation:pulse 1s infinite}
-.data-table{width:100%;border-collapse:collapse;font-size:12px}
-.data-table th{background:rgba(212,175,55,0.15);color:var(--gold);padding:8px 6px;text-align:left;font-weight:600;border-bottom:1px solid var(--gold)}
-.data-table td{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1)}
-.data-table tr:hover{background:rgba(212,175,55,0.05)}
-.pick-card{background:var(--bg-card);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:12px;margin-bottom:10px}
-.pick-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.pick-sport{background:var(--gold-glow);color:var(--gold);padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700}
-.pick-confidence{color:var(--gold);font-size:14px}
-.pick-matchup{font-size:13px;font-weight:700;margin-bottom:4px}
-.pick-details{display:flex;gap:12px;font-size:11px;color:var(--text-muted);flex-wrap:wrap}
-.badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600}
-.badge-win{background:rgba(16,185,129,0.2);color:var(--green)}
-.badge-loss{background:rgba(239,68,68,0.2);color:var(--red)}
-.badge-pending{background:rgba(212,175,55,0.2);color:var(--gold)}
-.badge-live{background:rgba(239,68,68,0.3);color:var(--red);animation:pulse 1s infinite}
-.parlay-builder{background:var(--bg-card);border:2px solid var(--gold);border-radius:12px;padding:16px}
-.parlay-title{color:var(--gold);font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.parlay-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-@media(max-width:768px){.parlay-grid{grid-template-columns:1fr}}
-.parlay-col{background:rgba(8,11,18,0.5);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:14px}
-.parlay-col-title{color:var(--gold);font-size:12px;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(212,175,55,0.3)}
-.parlay-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:11px}
-.parlay-row:last-child{border-bottom:none}
-.parlay-pick{flex:1}
-.parlay-odds{color:var(--gold);font-weight:700;width:50px;text-align:right}
-.parlay-select{background:rgba(8,11,18,0.8);border:1px solid rgba(212,175,55,0.3);color:var(--text-primary);padding:6px 8px;border-radius:4px;font-size:11px;width:100%;margin-bottom:6px;cursor:pointer}
-.parlay-select:focus{outline:none;border-color:var(--gold)}
-.parlay-summary{background:linear-gradient(135deg,rgba(212,175,55,0.1),rgba(212,175,55,0.05));border:1px solid var(--gold);border-radius:8px;padding:14px;margin-top:16px}
-.parlay-total{display:flex;justify-content:space-between;align-items:center;font-size:13px}
-.parlay-payout{color:var(--green);font-size:18px;font-weight:900}
-.parlay-btn{background:linear-gradient(135deg,var(--gold),#b8962e);color:#000;border:none;padding:8px 16px;border-radius:6px;font-weight:700;font-size:12px;cursor:pointer;margin-top:10px}
-.parlay-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(212,175,55,0.4)}
-.alert-card{background:var(--bg-card);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:12px;margin-bottom:10px}
-.alert-title{color:var(--orange);font-weight:700;font-size:12px;margin-bottom:4px}
-.alert-text{font-size:11px;color:var(--text-muted)}
-.stars-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
-.star{position:absolute;width:3px;height:3px;background:var(--gold);border-radius:50%;animation:falling-star 8s linear infinite;opacity:0}
-@keyframes falling-star{0%{opacity:0;transform:translateY(-100px) rotate(45deg)}10%{opacity:1}90%{opacity:1}100%{opacity:0;transform:translateY(100vh) rotate(45deg)}}
-.diamond{position:absolute;width:6px;height:6px;background:var(--gold);transform:rotate(45deg);animation:twinkle 3s ease-in-out infinite}
-@keyframes twinkle{0%,100%{opacity:0.3;transform:rotate(45deg) scale(0.8)}50%{opacity:1;transform:rotate(45deg) scale(1.2)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:200;justify-content:center;align-items:center;padding:20px}
-.modal.active{display:flex}
-.modal-content{background:var(--bg-card);border:2px solid var(--gold);border-radius:12px;max-width:600px;width:100%;max-height:80vh;overflow-y:auto;padding:20px}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--gold)}
-.modal-title{color:var(--gold);font-size:16px;font-weight:700}
-.modal-close{background:none;border:none;color:var(--gold);font-size:24px;cursor:pointer}
-.theme-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-@media(max-width:600px){.theme-grid{grid-template-columns:repeat(4,1fr)}}
-.theme-btn{background:var(--bg-primary);border:1px solid rgba(212,175,55,0.3);border-radius:6px;padding:8px;cursor:pointer;text-align:center;transition:all 0.2s;font-size:20px}
-.theme-btn:hover{border-color:var(--gold);transform:scale(1.05)}
-.theme-btn.active{border-color:var(--gold);background:var(--gold-glow)}
-.theme-btn span{display:block;font-size:9px;color:var(--text-muted);margin-top:2px}
-.chart-container{background:rgba(8,11,18,0.5);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:14px;margin-bottom:12px}
-.chart-bar{height:20px;background:linear-gradient(90deg,var(--gold),#b8962e);border-radius:4px;margin-bottom:6px;position:relative}
-.chart-bar-label{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:600;color:#000}
-.chart-bar-value{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;color:#000}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(12,16,24,0.98);border-top:1px solid var(--gold);padding:8px 0;z-index:100;backdrop-filter:blur(20px);padding-bottom:env(safe-area-inset-bottom)}
-.bottom-nav-grid{display:flex;justify-content:space-around;max-width:500px;margin:0 auto}
-.bottom-nav-btn{background:none;border:none;color:var(--text-muted);padding:4px 8px;cursor:pointer;text-align:center;font-size:18px}
-.bottom-nav-btn.active{color:var(--gold)}
-.bottom-nav-btn span{display:block;font-size:9px;margin-top:2px}
-.footer{background:rgba(12,16,24,0.95);border-top:1px solid var(--gold);padding:16px;text-align:center;margin-top:30px;position:relative}
-.footer::before,.footer::after{content:'';position:absolute;width:30px;height:30px;border:2px solid var(--gold)}
-.footer::before{top:0;left:0;border-right:none;border-bottom:none}
-.footer::after{top:0;right:0;border-left:none;border-bottom:none}
-.footer-text{color:var(--text-muted);font-size:11px}
-.theme-trigger{background:var(--gold-glow);border:1px solid var(--gold);color:var(--gold);padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;margin-left:10px}
+:root {
+  --bg-primary: #080b12;
+  --bg-card: rgba(20,25,35,0.95);
+  --gold: #d4af37;
+  --gold-glow: rgba(212,175,55,0.15);
+  --green: #10b981;
+  --red: #ef4444;
+  --blue: #2563eb;
+  --orange: #f97316;
+  --purple: #8b5cf6;
+  --text-primary: #fff;
+  --text-muted: rgba(255,255,255,0.6);
+  --text-secondary: rgba(255,255,255,0.4);
+  --shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 70px;
+}
+
+/* HEADER ENHANCEMENTS */
+.header {
+  background: linear-gradient(180deg, rgba(20,25,35,0.98), rgba(8,11,18,0.95));
+  border-bottom: 1px solid var(--gold);
+  padding: 12px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.logo-icon {
+  font-size: 24px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--gold), #f5d682);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--gold), #f5d682);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .logo-text { display: block; }
+}
+
+.header-stats {
+  display: flex;
+  gap: 8px;
+  font-size: 11px;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .header-stats {
+    flex-direction: row;
+    gap: 16px;
+  }
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-label {
+  color: var(--text-muted);
+  display: block;
+  font-size: 9px;
+}
+
+.stat-value {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.live-badge {
+  background: var(--red);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  animation: pulse 1.5s infinite;
+  display: inline-block;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.auth-btn {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.auth-btn:hover {
+  background: var(--gold);
+  color: #000;
+}
+
+.auth-btn.login-btn {
+  background: var(--gold);
+  color: #000;
+}
+
+.user-menu {
+  position: relative;
+  display: none;
+}
+
+.user-menu.active {
+  display: block;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--gold-glow);
+  border: 1px solid var(--gold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* NAV & TABS */
+.nav-container {
+  background: rgba(12,16,24,0.95);
+  border-bottom: 1px solid rgba(212,175,55,0.3);
+  padding: 6px 0;
+  overflow-x: auto;
+  position: sticky;
+  top: 50px;
+  z-index: 99;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  scrollbar-width: none;
+}
+
+.nav-container::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 3px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+.nav-tab {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.nav-tab:hover {
+  color: var(--gold);
+  background: var(--gold-glow);
+}
+
+.nav-tab.active {
+  background: var(--gold-glow);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* MAIN CONTENT */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+  margin-bottom: 60px;
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CARDS */
+.card {
+  background: var(--bg-card);
+  border: 0.5px solid rgba(212,175,55,0.4);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+  position: relative;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.card::before, .card::after {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--gold);
+  pointer-events: none;
+}
+
+.card::before {
+  top: -1px;
+  left: -1px;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 10px 0 0 0;
+}
+
+.card::after {
+  bottom: -1px;
+  right: -1px;
+  border-left: none;
+  border-top: none;
+  border-radius: 0 0 10px 0;
+}
+
+.card-title {
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-subtitle {
+  color: var(--text-muted);
+  font-size: 11px;
+  margin-bottom: 12px;
+}
+
+/* GRIDS */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+
+/* COUNTDOWN */
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 900px) {
+  .countdown-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 500px) {
+  .countdown-grid { grid-template-columns: 1fr; }
+}
+
+.countdown-box {
+  background: var(--bg-card);
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.countdown-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.countdown-label {
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.countdown-event {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.countdown-unit {
+  text-align: center;
+}
+
+.countdown-value {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--gold);
+  display: block;
+  line-height: 1;
+}
+
+.countdown-sublabel {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.countdown-time {
+  margin-top: 8px;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.countdown-live {
+  background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(239,68,68,0.1));
+  border-color: var(--red);
+  animation: livePulse 2s infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 0 5px rgba(239,68,68,0.3); }
+  50% { box-shadow: 0 0 20px rgba(239,68,68,0.6); }
+}
+
+/* NEWS TICKER */
+.news-ticker {
+  background: rgba(12,16,24,0.95);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.ticker-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--red);
+  color: #fff;
+  padding: 8px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+
+.ticker-content {
+  padding: 8px 8px 8px 70px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ticker-scroll {
+  display: inline-block;
+  animation: ticker-scroll 50s linear infinite;
+}
+
+.ticker-scroll:hover {
+  animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  display: inline;
+  margin-right: 30px;
+  font-size: 11px;
+}
+
+.ticker-win { color: var(--green); }
+.ticker-loss { color: var(--red); }
+.ticker-live { color: var(--red); animation: pulse 1s infinite; }
+
+/* PICK CARDS */
+.pick-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pick-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(212,175,55,0.2);
+}
+
+.pick-card.selected {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.05));
+}
+
+.pick-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.pick-sport {
+  background: var(--gold-glow);
+  color: var(--gold);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.pick-confidence {
+  color: var(--gold);
+  font-size: 14px;
+}
+
+.pick-matchup {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.pick-details {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.badge-win { background: rgba(16,185,129,0.2); color: var(--green); }
+.badge-loss { background: rgba(239,68,68,0.2); color: var(--red); }
+.badge-pending { background: rgba(212,175,55,0.2); color: var(--gold); }
+.badge-live { background: rgba(239,68,68,0.3); color: var(--red); animation: pulse 1s infinite; }
+
+/* FUNCTIONAL PARLAY BUILDER */
+.parlay-builder {
+  background: var(--bg-card);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.parlay-title {
+  color: var(--gold);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.parlay-legs-list {
+  background: rgba(8,11,18,0.5);
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.parlay-leg {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 11px;
+}
+
+.parlay-leg:last-child {
+  border-bottom: none;
+}
+
+.leg-pick {
+  flex: 1;
+}
+
+.leg-odds {
+  color: var(--gold);
+  font-weight: 700;
+  min-width: 50px;
+  text-align: right;
+}
+
+.leg-remove {
+  background: rgba(239,68,68,0.2);
+  border: none;
+  color: var(--red);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 10px;
+  margin-left: 8px;
+  transition: all 0.2s;
+}
+
+.leg-remove:hover {
+  background: rgba(239,68,68,0.4);
+}
+
+.parlay-wager-section {
+  background: rgba(8,11,18,0.5);
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.wager-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.wager-input-group label {
+  font-size: 11px;
+  color: var(--text-muted);
+  min-width: 60px;
+}
+
+.wager-input-group input {
+  background: rgba(8,11,18,0.8);
+  border: 1px solid rgba(212,175,55,0.3);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  flex: 1;
+  max-width: 150px;
+}
+
+.wager-input-group input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(212,175,55,0.2);
+}
+
+.parlay-summary {
+  background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.05));
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-label {
+  color: var(--text-muted);
+}
+
+.summary-value {
+  font-weight: 700;
+}
+
+.summary-value.odds {
+  color: var(--blue);
+}
+
+.summary-value.payout {
+  color: var(--green);
+  font-size: 16px;
+}
+
+.parlay-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.parlay-btn {
+  flex: 1;
+  background: linear-gradient(135deg, var(--gold), #b8962e);
+  color: #000;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.parlay-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(212,175,55,0.4);
+}
+
+.parlay-btn.secondary {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+}
+
+.parlay-btn.secondary:hover {
+  background: var(--gold);
+  color: #000;
+}
+
+.parlay-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ALERTS */
+.alert-card {
+  background: var(--bg-card);
+  border-left: 3px solid var(--orange);
+  border-radius: 0 8px 8px 0;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-title {
+  color: var(--orange);
+  font-weight: 700;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.alert-text {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.alert-dismiss {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* ADVANCED CHARTS */
+.chart-container {
+  background: rgba(8,11,18,0.5);
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.chart-title {
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 250px;
+}
+
+.chart-bar {
+  height: 20px;
+  background: linear-gradient(90deg, var(--gold), #b8962e);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.chart-bar:hover {
+  box-shadow: 0 0 12px rgba(212,175,55,0.4);
+}
+
+.chart-bar-label {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  font-weight: 600;
+  color: #000;
+}
+
+.chart-bar-value {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  color: #000;
+}
+
+/* SOCIAL SHARING */
+.social-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.social-btn {
+  background: transparent;
+  border: 1px solid rgba(212,175,55,0.3);
+  color: var(--text-muted);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.social-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.social-btn.twitter:hover { border-color: #1DA1F2; color: #1DA1F2; }
+.social-btn.discord:hover { border-color: #5865F2; color: #5865F2; }
+.social-btn.telegram:hover { border-color: #0088cc; color: #0088cc; }
+
+/* LIVE NOTIFICATIONS */
+.notification-center {
+  position: fixed;
+  top: 80px;
+  right: 16px;
+  z-index: 1000;
+  max-width: 300px;
+}
+
+@media (max-width: 768px) {
+  .notification-center {
+    top: auto;
+    bottom: 80px;
+    right: 8px;
+    left: 8px;
+    max-width: none;
+  }
+}
+
+.notification {
+  background: var(--bg-card);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(320px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notification-title {
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.notification-text {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* MODALS */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 200;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--bg-card);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--gold);
+}
+
+.modal-title {
+  color: var(--gold);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--gold);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.modal-form-group {
+  margin-bottom: 16px;
+}
+
+.modal-form-group label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 11px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.modal-form-group input,
+.modal-form-group select {
+  width: 100%;
+  background: rgba(8,11,18,0.8);
+  border: 1px solid rgba(212,175,55,0.3);
+  color: var(--text-primary);
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: inherit;
+}
+
+.modal-form-group input:focus,
+.modal-form-group select:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
 /* THEME COLORS */
-body.theme-fra{--gold:#002654;--gold-glow:rgba(0,38,84,0.2)}
-body.theme-esp{--gold:#AA151B;--gold-glow:rgba(170,21,27,0.2)}
-body.theme-ger{--gold:#FFCC00;--gold-glow:rgba(255,204,0,0.2)}
-body.theme-eng{--gold:#CE1124;--gold-glow:rgba(206,17,36,0.2)}
-body.theme-por{--gold:#006600;--gold-glow:rgba(0,102,0,0.2)}
-body.theme-ned{--gold:#FF6600;--gold-glow:rgba(255,102,0,0.2)}
-body.theme-bel{--gold:#FFD100;--gold-glow:rgba(255,209,0,0.2)}
-body.theme-cro{--gold:#FF0000;--gold-glow:rgba(255,0,0,0.2)}
-body.theme-sui{--gold:#FF0000;--gold-glow:rgba(255,0,0,0.2)}
-body.theme-aut{--gold:#ED2939;--gold-glow:rgba(237,41,57,0.2)}
-body.theme-sco{--gold:#0065BD;--gold-glow:rgba(0,101,189,0.2)}
-body.theme-nor{--gold:#BA0C2F;--gold-glow:rgba(186,12,47,0.2)}
-body.theme-bih{--gold:#002395;--gold-glow:rgba(0,35,149,0.2)}
-body.theme-swe{--gold:#FECC00;--gold-glow:rgba(254,204,0,0.2)}
-body.theme-tur{--gold:#E30A17;--gold-glow:rgba(227,10,23,0.2)}
-body.theme-cze{--gold:#D7141A;--gold-glow:rgba(215,20,26,0.2)}
-body.theme-arg{--gold:#74ACDF;--gold-glow:rgba(116,172,223,0.2)}
-body.theme-bra{--gold:#FEDD00;--gold-glow:rgba(254,221,0,0.2)}
-body.theme-uru{--gold:#0038A8;--gold-glow:rgba(0,56,168,0.2)}
-body.theme-col{--gold:#FCD116;--gold-glow:rgba(252,209,22,0.2)}
-body.theme-ecu{--gold:#FFD100;--gold-glow:rgba(255,209,0,0.2)}
-body.theme-par{--gold:#D52B1E;--gold-glow:rgba(213,43,30,0.2)}
-body.theme-usa{--gold:#B22234;--gold-glow:rgba(178,34,52,0.2)}
-body.theme-mex{--gold:#006847;--gold-glow:rgba(0,104,71,0.2)}
-body.theme-can{--gold:#FF0000;--gold-glow:rgba(255,0,0,0.2)}
-body.theme-pan{--gold:#D21034;--gold-glow:rgba(210,16,52,0.2)}
-body.theme-cuw{--gold:#002B7F;--gold-glow:rgba(0,43,127,0.2)}
-body.theme-hai{--gold:#00209F;--gold-glow:rgba(0,32,159,0.2)}
-body.theme-mar{--gold:#C1272D;--gold-glow:rgba(193,39,45,0.2)}
-body.theme-sen{--gold:#00853F;--gold-glow:rgba(0,133,63,0.2)}
-body.theme-egy{--gold:#CE1126;--gold-glow:rgba(206,17,38,0.2)}
-body.theme-alg{--gold:#006633;--gold-glow:rgba(0,102,51,0.2)}
-body.theme-tun{--gold:#E70013;--gold-glow:rgba(231,0,19,0.2)}
-body.theme-rsa{--gold:#007A4D;--gold-glow:rgba(0,122,77,0.2)}
-body.theme-civ{--gold:#FF8200;--gold-glow:rgba(255,130,0,0.2)}
-body.theme-gha{--gold:#006B3F;--gold-glow:rgba(0,107,63,0.2)}
-body.theme-cpv{--gold:#003893;--gold-glow:rgba(0,56,147,0.2)}
-body.theme-cod{--gold:#007FFF;--gold-glow:rgba(0,127,255,0.2)}
-body.theme-jpn{--gold:#000080;--gold-glow:rgba(0,0,128,0.2)}
-body.theme-irn{--gold:#239F40;--gold-glow:rgba(35,159,64,0.2)}
-body.theme-kor{--gold:#CD2E3A;--gold-glow:rgba(205,46,58,0.2)}
-body.theme-aus{--gold:#00843D;--gold-glow:rgba(0,132,61,0.2)}
-body.theme-ksa{--gold:#006C35;--gold-glow:rgba(0,108,53,0.2)}
-body.theme-qat{--gold:#8A1538;--gold-glow:rgba(138,21,56,0.2)}
-body.theme-uzb{--gold:#0099B5;--gold-glow:rgba(0,153,181,0.2)}
-body.theme-jor{--gold:#007A3D;--gold-glow:rgba(0,122,61,0.2)}
-body.theme-irq{--gold:#CE1126;--gold-glow:rgba(206,17,38,0.2)}
-body.theme-nzl{--gold:#00247D;--gold-glow:rgba(0,36,125,0.2)}
+body.theme-fra { --gold: #002654; --gold-glow: rgba(0,38,84,0.2); }
+body.theme-esp { --gold: #AA151B; --gold-glow: rgba(170,21,27,0.2); }
+body.theme-ger { --gold: #FFCC00; --gold-glow: rgba(255,204,0,0.2); }
+body.theme-eng { --gold: #CE1124; --gold-glow: rgba(206,17,36,0.2); }
+body.theme-usa { --gold: #B22234; --gold-glow: rgba(178,34,52,0.2); }
+body.theme-bra { --gold: #FEDD00; --gold-glow: rgba(254,221,0,0.2); }
+body.theme-arg { --gold: #74ACDF; --gold-glow: rgba(116,172,223,0.2); }
+body.theme-jpn { --gold: #000080; --gold-glow: rgba(0,0,128,0.2); }
+body.theme-kor { --gold: #CD2E3A; --gold-glow: rgba(205,46,58,0.2); }
+body.theme-aus { --gold: #00843D; --gold-glow: rgba(0,132,61,0.2); }
+
+/* ANIMATIONS */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(12,16,24,0.98);
+  border-top: 1px solid var(--gold);
+  padding: 8px 0;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+}
+
+.bottom-nav-grid {
+  display: flex;
+  justify-content: space-around;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.bottom-nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.bottom-nav-btn.active {
+  color: var(--gold);
+}
+
+.bottom-nav-btn span {
+  display: block;
+  font-size: 9px;
+  margin-top: 2px;
+}
+
+/* FOOTER */
+.footer {
+  background: rgba(12,16,24,0.95);
+  border-top: 1px solid var(--gold);
+  padding: 16px;
+  text-align: center;
+  margin-top: 30px;
+  position: relative;
+}
+
+.footer-text {
+  color: var(--text-muted);
+  font-size: 11px;
+  position: relative;
+  z-index: 1;
+}
+
+/* PWA INSTALLABLE */
+.install-prompt {
+  background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.1));
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.install-prompt.hidden {
+  display: none;
+}
+
+.install-prompt-text {
+  flex: 1;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.install-btn {
+  background: var(--gold);
+  color: #000;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.install-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* LOADING */
+.loading {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(212,175,55,0.3);
+  border-top: 2px solid var(--gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header-stats { margin-top: 8px; width: 100%; }
+  .logo-text { display: block; font-size: 16px; }
+  .main-content { padding: 12px; }
+  .nav-tab { padding: 6px 10px; font-size: 11px; }
+}
 </style>
 </head>
+
 <body>
-<div class="stars-container">
-<div class="star" style="left:8%;animation-delay:0s"></div>
-<div class="star" style="left:20%;animation-delay:1.5s"></div>
-<div class="star" style="left:35%;animation-delay:3s"></div>
-<div class="star" style="left:50%;animation-delay:0.5s"></div>
-<div class="star" style="left:65%;animation-delay:2s"></div>
-<div class="star" style="left:80%;animation-delay:4s"></div>
-<div class="star" style="left:92%;animation-delay:2.5s"></div>
-<div class="diamond" style="top:15%;left:12%"></div>
-<div class="diamond" style="top:40%;left:88%"></div>
-<div class="diamond" style="top:70%;left:5%"></div>
-<div class="diamond" style="top:85%;left:75%"></div>
+
+<!-- INSTALL PROMPT -->
+<div class="install-prompt" id="installPrompt">
+  <span class="install-prompt-text">📱 Install SigMAX ELITE as an app for faster access</span>
+  <button class="install-btn" onclick="installApp()">Install</button>
+  <button class="install-close" onclick="closeInstallPrompt()">✕</button>
 </div>
 
-<header class="header">
-<div class="header-content">
-<div class="logo">
-<span class="logo-icon">Σ</span>
-<span class="logo-text">SigMAX ELITE</span>
-<span class="live-badge">🔴 LIVE</span>
-<button class="theme-trigger" onclick="openThemeModal()">🌍 WC Themes</button>
-</div>
-<div class="header-stats">
-<div class="stat-item"><div class="stat-value">291-55-2</div><div>Record</div></div>
-<div class="stat-item"><div class="stat-value">84.0%</div><div>Win Rate</div></div>
-<div class="stat-item"><div class="stat-value">$12,990</div><div>Bankroll</div></div>
-<div class="stat-item"><div class="stat-value">+85.6%</div><div>ROI</div></div>
-</div>
-</div>
-</header>
-
-<nav class="nav-container">
-<div class="nav-tabs">
-<button class="nav-tab active" onclick="showTab('home')">🏠 Home</button>
-<button class="nav-tab" onclick="showTab('alerts')">⚠️ Alerts</button>
-<button class="nav-tab" onclick="showTab('top5')">🎯 Top 5</button>
-<button class="nav-tab" onclick="showTab('props')">👤 Props</button>
-<button class="nav-tab" onclick="showTab('games')">📅 Games</button>
-<button class="nav-tab" onclick="showTab('xfactors')">🎲 XFactors</button>
-<button class="nav-tab" onclick="showTab('journal')">📋 Journal</button>
-<button class="nav-tab" onclick="showTab('parlay')">🎰 Parlay</button>
-<button class="nav-tab" onclick="showTab('elite')">📊 Elite</button>
-<button class="nav-tab" onclick="showTab('index')">📚 Index</button>
-</div>
-</nav>
-
-<div class="news-ticker">
-<div class="ticker-label">📡 LIVE</div>
-<div class="ticker-content">
-<div class="ticker-scroll">
-<span class="ticker-item ticker-live">🔴 NBA FINALS G1 TONIGHT: Knicks @ Spurs 8:30 PM ET</span>
-<span class="ticker-item">🏒 Stanley Cup G2 Tomorrow: VGK @ Hurricanes 8:00 PM</span>
-<span class="ticker-item ticker-loss">❌ SCF G1: VGK 5-4 CAR (Loss)</span>
-<span class="ticker-item ticker-win">✅ Zverev R4 WIN (-200)</span>
-<span class="ticker-item ticker-win">✅ Mensik +180 UPSET WIN</span>
-<span class="ticker-item ticker-win">✅ Dodgers 5-2 WIN</span>
-<span class="ticker-item">🎾 Roland Garros Final: Sun June 7</span>
-<span class="ticker-item">⚽ FIFA World Cup Opens: June 11 Mexico City</span>
-<span class="ticker-item">📊 Season: 291-55-2 (84.0%)</span>
-<span class="ticker-item">💰 Bankroll: $12,990 (+85.6% ROI)</span>
-</div>
-</div>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-content">
+    <div class="logo" onclick="goToTab('dashboard')">
+      <div class="logo-icon">📡</div>
+      <div class="logo-text">SigMAX ELITE</div>
+    </div>
+    <div class="header-stats">
+      <div class="stat-item">
+        <span class="stat-label">Win Rate</span>
+        <span class="stat-value">84%</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">ROI</span>
+        <span class="stat-value">+247%</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Status</span>
+        <span class="live-badge">🔴 LIVE</span>
+      </div>
+    </div>
+    <div class="auth-buttons">
+      <button class="auth-btn" onclick="openModal('loginModal')">Sign In</button>
+      <button class="auth-btn login-btn" onclick="openModal('signupModal')">Sign Up</button>
+    </div>
+  </div>
 </div>
 
-<main class="main-content">
-<!-- HOME TAB -->
-<div id="home" class="tab-content active">
-
-<div class="countdown-grid">
-<div class="countdown-box" id="countdown-nba">
-<div class="countdown-label">🏀 NBA FINALS GAME 1</div>
-<div class="countdown-event">NYK Knicks @ SAS Spurs</div>
-<div class="countdown-timer">
-<div class="countdown-unit"><span class="countdown-value" id="nba-days">--</span><span class="countdown-sublabel">DAYS</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="nba-hours">--</span><span class="countdown-sublabel">HRS</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="nba-mins">--</span><span class="countdown-sublabel">MIN</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="nba-secs">--</span><span class="countdown-sublabel">SEC</span></div>
-</div>
-<div class="countdown-time">Jun 3, 2026 @ 8:30 PM ET</div>
+<!-- NAV TABS -->
+<div class="nav-container">
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="goToTab('dashboard')">📊 Dashboard</button>
+    <button class="nav-tab" onclick="goToTab('picks')">🎯 Today's Picks</button>
+    <button class="nav-tab" onclick="goToTab('parlay')">💰 Parlay Builder</button>
+    <button class="nav-tab" onclick="goToTab('analytics')">📈 Analytics</button>
+    <button class="nav-tab" onclick="goToTab('alerts')">🔔 Alerts</button>
+    <button class="nav-tab" onclick="goToTab('settings')">⚙️ Settings</button>
+  </div>
 </div>
 
-<div class="countdown-box" id="countdown-nhl">
-<div class="countdown-label">🏒 STANLEY CUP FINALS G2</div>
-<div class="countdown-event">VGK @ CAR Hurricanes</div>
-<div class="countdown-timer">
-<div class="countdown-unit"><span class="countdown-value" id="nhl-days">--</span><span class="countdown-sublabel">DAYS</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="nhl-hours">--</span><span class="countdown-sublabel">HRS</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="nhl-mins">--</span><span class="countdown-sublabel">MIN</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="nhl-secs">--</span><span class="countdown-sublabel">SEC</span></div>
-</div>
-<div class="countdown-time">Jun 4, 2026 @ 8:00 PM ET</div>
+<!-- NOTIFICATIONS -->
+<div class="notification-center" id="notificationCenter"></div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+  <!-- DASHBOARD TAB -->
+  <div class="tab-content active" id="dashboard-tab">
+    <div class="card">
+      <div class="card-title">⏰ Upcoming Games</div>
+      <div class="countdown-grid" id="countdownGrid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📰 Live Ticker</div>
+      <div class="news-ticker">
+        <div class="ticker-label">LIVE</div>
+        <div class="ticker-content">
+          <div class="ticker-scroll" id="tickerScroll">
+            <span class="ticker-item"><span class="ticker-win">✓</span> Warriors -5 hit at 8:30pm</span>
+            <span class="ticker-item"><span class="ticker-live">●</span> Suns vs Celtics LIVE - Suns +240</span>
+            <span class="ticker-item"><span class="ticker-win">✓</span> Mahomes OVER 280 yards cashed</span>
+            <span class="ticker-item"><span class="ticker-loss">✗</span> Lakers pick missed by 2pts</span>
+            <span class="ticker-item"><span class="ticker-win">✓</span> Yankees ML at +140 locked in</span>
+          </div>
+          <div class="ticker-scroll" id="tickerScroll" aria-hidden="true">
+            <span class="ticker-item"><span class="ticker-win">✓</span> Warriors -5 hit at 8:30pm</span>
+            <span class="ticker-item"><span class="ticker-live">●</span> Suns vs Celtics LIVE - Suns +240</span>
+            <span class="ticker-item"><span class="ticker-win">✓</span> Mahomes OVER 280 yards cashed</span>
+            <span class="ticker-item"><span class="ticker-loss">✗</span> Lakers pick missed by 2pts</span>
+            <span class="ticker-item"><span class="ticker-win">✓</span> Yankees ML at +140 locked in</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎯 Stats Snapshot</div>
+      <div class="grid-4">
+        <div style="text-align: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+          <div style="font-size: 20px; font-weight: 900; color: var(--gold); margin-bottom: 4px;">247</div>
+          <div style="font-size: 10px; color: var(--text-muted);">Picks Today</div>
+        </div>
+        <div style="text-align: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+          <div style="font-size: 20px; font-weight: 900; color: var(--green); margin-bottom: 4px;">+8.2u</div>
+          <div style="font-size: 10px; color: var(--text-muted);">Units Won</div>
+        </div>
+        <div style="text-align: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+          <div style="font-size: 20px; font-weight: 900; color: var(--gold); margin-bottom: 4px;">14/18</div>
+          <div style="font-size: 10px; color: var(--text-muted);">Win/Loss</div>
+        </div>
+        <div style="text-align: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+          <div style="font-size: 20px; font-weight: 900; color: var(--blue); margin-bottom: 4px;">2.1%</div>
+          <div style="font-size: 10px; color: var(--text-muted);">ROI Avg</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PICKS TAB -->
+  <div class="tab-content" id="picks-tab">
+    <div class="card">
+      <div class="card-title">🏀 NBA Picks</div>
+      <div class="social-buttons">
+        <button class="social-btn twitter" onclick="shareToTwitter('Latest NBA picks from SigMAX ELITE')">𝕏 Twitter</button>
+        <button class="social-btn discord" onclick="shareToDiscord('Check out our latest picks')">🎮 Discord</button>
+        <button class="social-btn" onclick="copyToClipboard('Picks copied!')">📋 Copy</button>
+      </div>
+      <div id="picksList"></div>
+    </div>
+  </div>
+
+  <!-- PARLAY BUILDER TAB -->
+  <div class="tab-content" id="parlay-tab">
+    <div class="parlay-builder">
+      <div class="parlay-title">💰 FUNCTIONAL PARLAY BUILDER</div>
+      
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Step 1: Select picks from the picks list above to add them here</div>
+      </div>
+
+      <div class="parlay-legs-list" id="parlayLegsList">
+        <div style="text-align: center; color: var(--text-muted); padding: 20px; font-size: 12px;">
+          👈 Select picks from the list to build your parlay
+        </div>
+      </div>
+
+      <div class="parlay-wager-section">
+        <div class="wager-input-group">
+          <label>Wager ($)</label>
+          <input type="number" id="wagerAmount" placeholder="100" value="100" min="1" step="1">
+        </div>
+      </div>
+
+      <div class="parlay-summary">
+        <div class="summary-row">
+          <span class="summary-label">Total Odds</span>
+          <span class="summary-value odds" id="totalOdds">-</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Potential Payout</span>
+          <span class="summary-value payout" id="potentialPayout">-</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Legs</span>
+          <span class="summary-value" id="legCount" style="color: var(--text-muted);">0</span>
+        </div>
+      </div>
+
+      <div class="parlay-buttons">
+        <button class="parlay-btn" onclick="placeBet()" id="placeBetBtn" disabled>Place Bet (${totalPayout || 0})</button>
+        <button class="parlay-btn secondary" onclick="clearParlay()">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANALYTICS TAB -->
+  <div class="tab-content" id="analytics-tab">
+    <div class="card">
+      <div class="card-title">📈 Win Rate History</div>
+      <div class="chart-wrapper">
+        <canvas id="winRateChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💹 ROI Performance</div>
+      <div class="chart-wrapper">
+        <canvas id="roiChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎯 Sports Breakdown</div>
+      <div class="chart-wrapper">
+        <canvas id="sportsChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERTS TAB -->
+  <div class="tab-content" id="alerts-tab">
+    <div class="card">
+      <div class="card-title">🔔 Live Alerts Setup</div>
+      <div style="margin-bottom: 16px;">
+        <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; cursor: pointer;">
+          <input type="checkbox" id="lineMovementAlert" checked>
+          <span style="font-size: 12px;">Notify on line movement (±5pts)</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; cursor: pointer;">
+          <input type="checkbox" id="injuryAlert" checked>
+          <span style="font-size: 12px;">Injury report alerts</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; cursor: pointer;">
+          <input type="checkbox" id="gameAlert" checked>
+          <span style="font-size: 12px;">Game start countdowns</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" id="pickAlert" checked>
+          <span style="font-size: 12px;">New pick notifications</span>
+        </label>
+      </div>
+      <button class="parlay-btn" onclick="enableNotifications()">Enable Push Notifications</button>
+    </div>
+  </div>
+
+  <!-- SETTINGS TAB -->
+  <div class="tab-content" id="settings-tab">
+    <div class="card">
+      <div class="card-title">🎨 Theme</div>
+      <div class="grid-4">
+        <button class="theme-btn active" onclick="setTheme('default')" style="background: var(--gold-glow); border-color: var(--gold);">
+          ⭐<span>Default</span>
+        </button>
+        <button class="theme-btn" onclick="setTheme('theme-usa')">🇺🇸<span>USA</span></button>
+        <button class="theme-btn" onclick="setTheme('theme-bra')">🇧🇷<span>Brazil</span></button>
+        <button class="theme-btn" onclick="setTheme('theme-jpn')">🇯🇵<span>Japan</span></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚙️ Preferences</div>
+      <div style="margin-bottom: 16px;">
+        <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; cursor: pointer;">
+          <input type="checkbox" id="darkMode" checked>
+          <span style="font-size: 12px;">Dark Mode</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 12px;">Default Wager: </span>
+          <input type="number" style="width: 80px; background: rgba(8,11,18,0.8); border: 1px solid rgba(212,175,55,0.3); color: var(--text-primary); padding: 6px 8px; border-radius: 4px; font-size: 11px;" value="100" id="defaultWager">
+        </label>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<div class="countdown-box" id="countdown-tennis">
-<div class="countdown-label">🎾 ROLAND GARROS FINAL</div>
-<div class="countdown-event">Men's Singles Final</div>
-<div class="countdown-timer">
-<div class="countdown-unit"><span class="countdown-value" id="tennis-days">--</span><span class="countdown-sublabel">DAYS</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="tennis-hours">--</span><span class="countdown-sublabel">HRS</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="tennis-mins">--</span><span class="countdown-sublabel">MIN</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="tennis-secs">--</span><span class="countdown-sublabel">SEC</span></div>
-</div>
-<div class="countdown-time">Jun 7, 2026 @ 3:00 PM Paris</div>
-</div>
-
-<div class="countdown-box" id="countdown-wc">
-<div class="countdown-label">⚽ FIFA WORLD CUP 2026</div>
-<div class="countdown-event">Mexico 🇲🇽 vs South Africa 🇿🇦</div>
-<div class="countdown-timer">
-<div class="countdown-unit"><span class="countdown-value" id="wc-days">--</span><span class="countdown-sublabel">DAYS</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="wc-hours">--</span><span class="countdown-sublabel">HRS</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="wc-mins">--</span><span class="countdown-sublabel">MIN</span></div>
-<div class="countdown-unit"><span class="countdown-value" id="wc-secs">--</span><span class="countdown-sublabel">SEC</span></div>
-</div>
-<div class="countdown-time">Jun 11, 2026 @ Estadio Azteca</div>
-</div>
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="modal-title">Sign In</span>
+      <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    </div>
+    <div class="modal-form-group">
+      <label>Email</label>
+      <input type="email" placeholder="your@email.com">
+    </div>
+    <div class="modal-form-group">
+      <label>Password</label>
+      <input type="password" placeholder="••••••••">
+    </div>
+    <button class="parlay-btn" onclick="login()">Sign In</button>
+  </div>
 </div>
 
-<div class="grid-2">
-<div class="card">
-<div class="card-title">💰 BANKROLL STATUS</div>
-<table class="data-table">
-<tr><td>Starting Bankroll</td><td style="text-align:right;color:var(--text-muted)">$7,000</td></tr>
-<tr><td>Current Bankroll</td><td style="text-align:right;color:var(--gold);font-weight:700">$12,990</td></tr>
-<tr><td>Total Profit</td><td style="text-align:right;color:var(--green)">+$5,990</td></tr>
-<tr><td>Return on Investment</td><td style="text-align:right;color:var(--gold)">+85.6%</td></tr>
-</table>
-</div>
-<div class="card">
-<div class="card-title">📊 PERFORMANCE BY TIMEFRAME</div>
-<table class="data-table">
-<tr><td>Yesterday (Jun 3)</td><td style="text-align:right">3-1 (75%)</td></tr>
-<tr><td>This Week</td><td style="text-align:right">18-4 (81.8%)</td></tr>
-<tr><td>Playoffs/Postseason</td><td style="text-align:right">29-8 (78.4%)</td></tr>
-<tr><td>Full Season</td><td style="text-align:right;color:var(--gold)">291-55-2 (84.0%)</td></tr>
-</table>
-</div>
-</div>
-
-<div class="card">
-<div class="card-title">📈 WIN RATE BY SPORT</div>
-<div class="chart-container">
-<div class="chart-bar" style="width:88%"><span class="chart-bar-label">🏀 NBA</span><span class="chart-bar-value">104-14 (88.1%)</span></div>
-<div class="chart-bar" style="width:86%"><span class="chart-bar-label">🏒 NHL</span><span class="chart-bar-value">44-7 (86.3%)</span></div>
-<div class="chart-bar" style="width:89%"><span class="chart-bar-label">⚽ Soccer</span><span class="chart-bar-value">56-7 (88.9%)</span></div>
-<div class="chart-bar" style="width:79%"><span class="chart-bar-label">🎾 Tennis</span><span class="chart-bar-value">15-4 (78.9%)</span></div>
-<div class="chart-bar" style="width:80%"><span class="chart-bar-label">⚾ MLB</span><span class="chart-bar-value">20-5 (80.0%)</span></div>
-<div class="chart-bar" style="width:100%"><span class="chart-bar-label">🥊 UFC</span><span class="chart-bar-value">3-0 (100%)</span></div>
-</div>
-</div>
-
-<div class="card">
-<div class="card-title">🎯 TODAY'S TOP PICKS — JUNE 4, 2026</div>
-<div class="pick-card">
-<div class="pick-header"><span class="pick-sport">🏀 NBA FINALS</span><span class="pick-confidence">⭐⭐⭐⭐⭐</span></div>
-<div class="pick-matchup">SAN ANTONIO SPURS ML vs Knicks</div>
-<div class="pick-details"><span>Finals Game 1</span><span>Odds: -155</span><span>EV: +3.8%</span><span>8:30 PM ET</span></div>
-</div>
-<div class="pick-card">
-<div class="pick-header"><span class="pick-sport">🏀 PLAYER PROP</span><span class="pick-confidence">⭐⭐⭐⭐⭐</span></div>
-<div class="pick-matchup">Victor Wembanyama OVER 24.5 Points</div>
-<div class="pick-details"><span>Finals Debut</span><span>Odds: -120</span><span>EV: +3.2%</span><span>WCF Avg: 28.2</span></div>
-</div>
-<div class="pick-card">
-<div class="pick-header"><span class="pick-sport">🏒 STANLEY CUP</span><span class="pick-confidence">⭐⭐⭐⭐</span></div>
-<div class="pick-matchup">CAROLINA HURRICANES ML vs Vegas (G2)</div>
-<div class="pick-details"><span>Bounce-back</span><span>Odds: -125</span><span>EV: +2.4%</span><span>Thu 8:00 PM</span></div>
-</div>
-<div class="pick-card">
-<div class="pick-header"><span class="pick-sport">🎾 FRENCH OPEN</span><span class="pick-confidence">⭐⭐⭐⭐⭐</span></div>
-<div class="pick-matchup">Alexander ZVEREV ML vs Mensik (SF)</div>
-<div class="pick-details"><span>Semifinal</span><span>Odds: -350</span><span>EV: +2.1%</span><span>Jun 6</span></div>
-</div>
-<div class="pick-card">
-<div class="pick-header"><span class="pick-sport">⚾ MLB</span><span class="pick-confidence">⭐⭐⭐⭐</span></div>
-<div class="pick-matchup">NEW YORK YANKEES ML vs Guardians</div>
-<div class="pick-details"><span>Regular</span><span>Odds: -140</span><span>EV: +2.5%</span><span>4:05 PM ET</span></div>
-</div>
-</div>
-
-</div>
-
-<!-- ALERTS TAB -->
-<div id="alerts" class="tab-content">
-<div class="card">
-<div class="card-title">🚨 LIVE ALERTS — JUNE 4, 2026</div>
-<div class="alert-card">
-<div class="alert-title">🏀 NBA FINALS GAME 1 TONIGHT!</div>
-<div class="alert-text">Knicks @ Spurs 8:30 PM ET — Victor Wembanyama's NBA Finals debut! Spurs favored -155 at home. Wemby averaged 28.2 PPG in WCF sweep of Nuggets. Brunson (ankle) probable.</div>
-</div>
-<div class="alert-card">
-<div class="alert-title">🏒 STANLEY CUP FINALS G2 TOMORROW</div>
-<div class="alert-text">VGK leads series 1-0 after dramatic 5-4 comeback win in OT. Hurricanes need home bounce-back. Game 2 Thursday 8:00 PM ET at PNC Arena. Svechnikov (upper body) GTD.</div>
-</div>
-<div class="alert-card">
-<div class="alert-title">🎾 FRENCH OPEN SEMIFINAL UPSETS</div>
-<div class="alert-text">Cobolli def. FAA 4-6,6-4,6-4,6-4 — Arnaldi def. Berrettini 7-5,5-2 ret. (injury). All-Italian SF! Zverev vs Mensik in other SF. Women's final: Swiatek vs Gauff.</div>
-</div>
-<div class="alert-card">
-<div class="alert-title">⚽ FIFA WORLD CUP 2026 — 7 DAYS AWAY</div>
-<div class="alert-text">Opening match June 11 at Estadio Azteca! Mexico vs South Africa. 48 teams, 104 matches across USA/MEX/CAN. First World Cup with 3 host nations!</div>
-</div>
-<div class="alert-card">
-<div class="alert-title">📈 LINE MOVEMENT ALERT</div>
-<div class="alert-text">Spurs moved from -145 to -155 (sharp money on SA). Hurricanes G2 opened -130, now -125 (slight public fade). Zverev stable at -350.</div>
-</div>
-</div>
-</div>
-
-<!-- OTHER TABS PLACEHOLDER -->
-<div id="top5" class="tab-content"><div class="card"><div class="card-title">🎯 TOP 5 PICKS</div><p style="color:var(--text-muted);padding:20px;text-align:center">Coming Soon...</p></div></div>
-<div id="props" class="tab-content"><div class="card"><div class="card-title">👤 PLAYER PROPS</div><p style="color:var(--text-muted);padding:20px;text-align:center">Coming Soon...</p></div></div>
-<div id="games" class="tab-content"><div class="card"><div class="card-title">📅 GAMES CALENDAR</div><p style="color:var(--text-muted);padding:20px;text-align:center">Coming Soon...</p></div></div>
-<div id="xfactors" class="tab-content"><div class="card"><div class="card-title">🎲 XFACTORS</div><p style="color:var(--text-muted);padding:20px;text-align:center">Coming Soon...</p></div></div>
-<div id="journal" class="tab-content"><div class="card"><div class="card-title">📋 BETTING JOURNAL</div><p style="color:var(--text-muted);padding:20px;text-align:center">Coming Soon...</p></div></div>
-<div id="parlay" class="tab-content"><div class="card"><div class="card-title">🎰 PARLAY BUILDER</div><p style="color:var(--text-muted);padding:20px;text-align:center">Coming Soon...</p></div></div>
-<div id="elite" class="tab-content"><div class="card"><div class="card-title">📊 ELITE STATS</div><p style="color:var(--text-muted);padding:20px;text-align:center">Coming Soon...</p></div></div>
-<div id="index" class="tab-content"><div class="card"><div class="card-title">📚 INDEX</div><p style="color:var(--text-muted);padding:20px;text-align:center">Coming Soon...</p></div></div>
-
-</main>
-
-<footer class="footer">
-<div class="footer-text">🎯 SigMAX ELITE | Sports Betting Prediction Portal | Watch Passionately. Bet Wisely! 💰</div>
-</footer>
-
-<!-- THEME MODAL -->
-<div id="themeModal" class="modal">
-<div class="modal-content">
-<div class="modal-header">
-<div class="modal-title">🌍 Select World Cup Theme</div>
-<button class="modal-close" onclick="closeThemeModal()">✕</button>
-</div>
-<div class="theme-grid">
-<button class="theme-btn" onclick="setTheme('fra')"><span>🇫🇷</span><span>France</span></button>
-<button class="theme-btn" onclick="setTheme('esp')"><span>🇪🇸</span><span>Spain</span></button>
-<button class="theme-btn" onclick="setTheme('ger')"><span>🇩🇪</span><span>Germany</span></button>
-<button class="theme-btn" onclick="setTheme('eng')"><span>🇬🇧</span><span>England</span></button>
-<button class="theme-btn" onclick="setTheme('por')"><span>🇵🇹</span><span>Portugal</span></button>
-<button class="theme-btn" onclick="setTheme('ned')"><span>🇳🇱</span><span>Netherlands</span></button>
-<button class="theme-btn" onclick="setTheme('bel')"><span>🇧🇪</span><span>Belgium</span></button>
-<button class="theme-btn" onclick="setTheme('cro')"><span>🇭🇷</span><span>Croatia</span></button>
-<button class="theme-btn" onclick="setTheme('sui')"><span>🇨🇭</span><span>Switzerland</span></button>
-<button class="theme-btn" onclick="setTheme('aut')"><span>🇦🇹</span><span>Austria</span></button>
-<button class="theme-btn" onclick="setTheme('sco')"><span>🏴󠁧󠁢󠁳󠁣󠁴󠁿</span><span>Scotland</span></button>
-<button class="theme-btn" onclick="setTheme('nor')"><span>🇳🇴</span><span>Norway</span></button>
-<button class="theme-btn" onclick="setTheme('bih')"><span>🇧🇦</span><span>Bosnia</span></button>
-<button class="theme-btn" onclick="setTheme('swe')"><span>🇸🇪</span><span>Sweden</span></button>
-<button class="theme-btn" onclick="setTheme('tur')"><span>🇹🇷</span><span>Turkey</span></button>
-<button class="theme-btn" onclick="setTheme('cze')"><span>🇨🇿</span><span>Czechia</span></button>
-<button class="theme-btn" onclick="setTheme('arg')"><span>🇦🇷</span><span>Argentina</span></button>
-<button class="theme-btn" onclick="setTheme('bra')"><span>🇧🇷</span><span>Brazil</span></button>
-<button class="theme-btn" onclick="setTheme('uru')"><span>🇺🇾</span><span>Uruguay</span></button>
-<button class="theme-btn" onclick="setTheme('col')"><span>🇨🇴</span><span>Colombia</span></button>
-<button class="theme-btn" onclick="setTheme('ecu')"><span>🇪🇨</span><span>Ecuador</span></button>
-<button class="theme-btn" onclick="setTheme('par')"><span>🇵🇾</span><span>Paraguay</span></button>
-<button class="theme-btn" onclick="setTheme('usa')"><span>🇺🇸</span><span>USA</span></button>
-<button class="theme-btn" onclick="setTheme('mex')"><span>🇲🇽</span><span>Mexico</span></button>
-<button class="theme-btn" onclick="setTheme('can')"><span>🇨🇦</span><span>Canada</span></button>
-<button class="theme-btn" onclick="setTheme('pan')"><span>🇵🇦</span><span>Panama</span></button>
-<button class="theme-btn" onclick="setTheme('cuw')"><span>🇨🇼</span><span>Curaçao</span></button>
-<button class="theme-btn" onclick="setTheme('hai')"><span>🇭🇹</span><span>Haiti</span></button>
-<button class="theme-btn" onclick="setTheme('mar')"><span>🇲🇦</span><span>Morocco</span></button>
-<button class="theme-btn" onclick="setTheme('sen')"><span>🇸🇳</span><span>Senegal</span></button>
-<button class="theme-btn" onclick="setTheme('egy')"><span>🇪🇬</span><span>Egypt</span></button>
-<button class="theme-btn" onclick="setTheme('alg')"><span>🇩🇿</span><span>Algeria</span></button>
-<button class="theme-btn" onclick="setTheme('tun')"><span>🇹🇳</span><span>Tunisia</span></button>
-<button class="theme-btn" onclick="setTheme('rsa')"><span>🇿🇦</span><span>South Africa</span></button>
-<button class="theme-btn" onclick="setTheme('civ')"><span>🇨🇮</span><span>Côte d'Ivoire</span></button>
-<button class="theme-btn" onclick="setTheme('gha')"><span>🇬🇭</span><span>Ghana</span></button>
-<button class="theme-btn" onclick="setTheme('cpv')"><span>🇨🇻</span><span>Cape Verde</span></button>
-<button class="theme-btn" onclick="setTheme('cod')"><span>🇨🇩</span><span>Congo DR</span></button>
-<button class="theme-btn" onclick="setTheme('jpn')"><span>🇯🇵</span><span>Japan</span></button>
-<button class="theme-btn" onclick="setTheme('irn')"><span>🇮🇷</span><span>Iran</span></button>
-<button class="theme-btn" onclick="setTheme('kor')"><span>🇰🇷</span><span>South Korea</span></button>
-<button class="theme-btn" onclick="setTheme('aus')"><span>🇦🇺</span><span>Australia</span></button>
-<button class="theme-btn" onclick="setTheme('ksa')"><span>🇸🇦</span><span>Saudi Arabia</span></button>
-<button class="theme-btn" onclick="setTheme('qat')"><span>🇶🇦</span><span>Qatar</span></button>
-<button class="theme-btn" onclick="setTheme('uzb')"><span>🇺🇿</span><span>Uzbekistan</span></button>
-<button class="theme-btn" onclick="setTheme('jor')"><span>🇯🇴</span><span>Jordan</span></button>
-<button class="theme-btn" onclick="setTheme('irq')"><span>🇮🇶</span><span>Iraq</span></button>
-<button class="theme-btn" onclick="setTheme('nzl')"><span>🇳🇿</span><span>New Zealand</span></button>
-</div>
-</div>
+<!-- SIGNUP MODAL -->
+<div class="modal" id="signupModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="modal-title">Create Account</span>
+      <button class="modal-close" onclick="closeModal('signupModal')">✕</button>
+    </div>
+    <div class="modal-form-group">
+      <label>Username</label>
+      <input type="text" placeholder="Your name">
+    </div>
+    <div class="modal-form-group">
+      <label>Email</label>
+      <input type="email" placeholder="your@email.com">
+    </div>
+    <div class="modal-form-group">
+      <label>Password</label>
+      <input type="password" placeholder="••••••••">
+    </div>
+    <button class="parlay-btn" onclick="signup()">Create Account</button>
+  </div>
 </div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-<div class="bottom-nav-grid">
-<button class="bottom-nav-btn active" onclick="showTab('home')"><span>🏠</span><span>Home</span></button>
-<button class="bottom-nav-btn" onclick="showTab('alerts')"><span>⚠️</span><span>Alerts</span></button>
-<button class="bottom-nav-btn" onclick="showTab('parlay')"><span>🎰</span><span>Parlay</span></button>
-<button class="bottom-nav-btn" onclick="showTab('journal')"><span>📋</span><span>Journal</span></button>
-<button class="bottom-nav-btn" onclick="openThemeModal()"><span>🌍</span><span>Themes</span></button>
+  <div class="bottom-nav-grid">
+    <button class="bottom-nav-btn active" onclick="goToTab('dashboard')">
+      <span>📊</span>
+      <span>Dashboard</span>
+    </button>
+    <button class="bottom-nav-btn" onclick="goToTab('picks')">
+      <span>🎯</span>
+      <span>Picks</span>
+    </button>
+    <button class="bottom-nav-btn" onclick="goToTab('parlay')">
+      <span>💰</span>
+      <span>Parlay</span>
+    </button>
+    <button class="bottom-nav-btn" onclick="goToTab('analytics')">
+      <span>📈</span>
+      <span>Analytics</span>
+    </button>
+    <button class="bottom-nav-btn" onclick="goToTab('alerts')">
+      <span>🔔</span>
+      <span>Alerts</span>
+    </button>
+  </div>
 </div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-text">
+    ⚖️ <strong>Disclaimer:</strong> Betting involves risk. For responsible gambling info, visit <strong>ncpg.org</strong>
+  </div>
 </div>
 
 <script>
-function showTab(tabName) {
-  const tabs = document.querySelectorAll('.tab-content');
-  tabs.forEach(tab => tab.classList.remove('active'));
-  document.getElementById(tabName).classList.add('active');
+// ============================================================
+// GLOBAL STATE MANAGEMENT
+// ============================================================
+let parlayLegs = [];
+let userAuth = null;
+let userPreferences = {
+  theme: localStorage.getItem('sigmax-theme') || 'default',
+  defaultWager: localStorage.getItem('sigmax-wager') || 100,
+  darkMode: true
+};
 
-  const navTabs = document.querySelectorAll('.nav-tab');
-  navTabs.forEach(tab => tab.classList.remove('active'));
-  event.target.classList.add('active');
+// Sample picks data
+const samplePicks = [
+  { id: 1, sport: 'NBA', matchup: 'Lakers vs Celtics', pick: 'Lakers -5', odds: -110, confidence: 95, result: 'pending' },
+  { id: 2, sport: 'NBA', matchup: 'Suns vs Warriors', pick: 'Suns ML', odds: 240, confidence: 88, result: 'pending' },
+  { id: 3, sport: 'NFL', matchup: 'Chiefs vs Bills', pick: 'Chiefs -7', odds: -110, confidence: 92, result: 'pending' },
+  { id: 4, sport: 'NBA', matchup: 'Mavericks vs Nuggets', pick: 'Over 215.5', odds: -110, confidence: 85, result: 'pending' },
+  { id: 5, sport: 'NFL', matchup: 'Packers vs 49ers', pick: '49ers -3', odds: -110, confidence: 78, result: 'pending' },
+];
 
-  const bottomNavBtns = document.querySelectorAll('.bottom-nav-btn');
-  bottomNavBtns.forEach(btn => btn.classList.remove('active'));
-  event.target.closest('.bottom-nav-btn')?.classList.add('active');
-}
-
-function openThemeModal() {
-  document.getElementById('themeModal').classList.add('active');
-}
-
-function closeThemeModal() {
-  document.getElementById('themeModal').classList.remove('active');
-}
-
-function setTheme(theme) {
-  document.body.className = `theme-${theme}`;
-  localStorage.setItem('selectedTheme', `theme-${theme}`);
-  document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.closest('.theme-btn').classList.add('active');
-}
-
-// Load saved theme
-window.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('selectedTheme');
-  if (savedTheme) {
-    document.body.className = savedTheme;
+// ============================================================
+// TAB NAVIGATION
+// ============================================================
+function goToTab(tabName) {
+  // Hide all tabs
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+  
+  // Remove active from all nav buttons
+  document.querySelectorAll('.nav-tab, .bottom-nav-btn').forEach(btn => btn.classList.remove('active'));
+  
+  // Show selected tab
+  const tab = document.getElementById(`${tabName}-tab`);
+  if (tab) {
+    tab.classList.add('active');
   }
+  
+  // Highlight nav button
+  event.target.classList.add('active');
+  
+  // Initialize tab-specific content
+  if (tabName === 'dashboard') {
+    initCountdown();
+  } else if (tabName === 'picks') {
+    renderPicks();
+  } else if (tabName === 'analytics') {
+    initCharts();
+  }
+}
+
+// ============================================================
+// COUNTDOWN TIMER
+// ============================================================
+function initCountdown() {
+  const games = [
+    { name: 'Lakers vs Celtics', time: '7:30 PM' },
+    { name: 'Suns vs Warriors', time: '9:00 PM' },
+    { name: 'Mavericks vs Nuggets', time: '8:00 PM' },
+    { name: 'Heat vs Bucks', time: '10:30 PM' }
+  ];
+
+  const grid = document.getElementById('countdownGrid');
+  grid.innerHTML = games.map(game => `
+    <div class="countdown-box">
+      <div class="countdown-label">Game Starts In</div>
+      <div class="countdown-event">${game.name}</div>
+      <div class="countdown-timer">
+        <div class="countdown-unit">
+          <span class="countdown-value">02</span>
+          <span class="countdown-sublabel">hrs</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-value">34</span>
+          <span class="countdown-sublabel">min</span>
+        </div>
+      </div>
+      <div class="countdown-time">${game.time}</div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// PICKS RENDERING & SELECTION
+// ============================================================
+function renderPicks() {
+  const picksList = document.getElementById('picksList');
+  picksList.innerHTML = samplePicks.map(pick => `
+    <div class="pick-card ${parlayLegs.find(l => l.id === pick.id) ? 'selected' : ''}" onclick="addToPay lay(${pick.id})">
+      <div class="pick-header">
+        <span class="pick-sport">${pick.sport}</span>
+        <span style="color: var(--gold); font-weight: 700;">${pick.confidence}%</span>
+      </div>
+      <div class="pick-matchup">${pick.matchup}</div>
+      <div class="pick-details">
+        <span>${pick.pick}</span>
+        <span class="badge badge-pending">${pick.odds > 0 ? '+' : ''}${pick.odds}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addToParlay(pickId) {
+  const pick = samplePicks.find(p => p.id === pickId);
+  const index = parlayLegs.findIndex(l => l.id === pickId);
+
+  if (index > -1) {
+    parlayLegs.splice(index, 1);
+  } else {
+    parlayLegs.push(pick);
+  }
+
+  updateParlay();
+  renderPicks();
+}
+
+// ============================================================
+// FUNCTIONAL PARLAY CALCULATOR
+// ============================================================
+class ParlayCalculator {
+  constructor(legs, wager) {
+    this.legs = legs;
+    this.wager = wager;
+  }
+
+  getTotalOdds() {
+    if (this.legs.length === 0) return 0;
+    
+    return this.legs.reduce((acc, leg) => {
+      const decimalOdds = leg.odds > 0 
+        ? (leg.odds / 100) + 1 
+        : (100 / Math.abs(leg.odds)) + 1;
+      return acc * decimalOdds;
+    }, 1);
+  }
+
+  getPayout() {
+    return this.wager * this.getTotalOdds();
+  }
+
+  getProfit() {
+    return this.getPayout() - this.wager;
+  }
+
+  getAmerican() {
+    const decimal = this.getTotalOdds();
+    if (decimal > 2) {
+      return Math.round((decimal - 1) * 100);
+    } else {
+      return Math.round(-100 / (decimal - 1));
+    }
+  }
+}
+
+function updateParlay() {
+  const wager = parseFloat(document.getElementById('wagerAmount').value) || 100;
+  const calculator = new ParlayCalculator(parlayLegs, wager);
+
+  // Update leg count
+  document.getElementById('legCount').textContent = parlayLegs.length;
+
+  if (parlayLegs.length === 0) {
+    document.getElementById('totalOdds').textContent = '-';
+    document.getElementById('potentialPayout').textContent = '-';
+    document.getElementById('placeBetBtn').disabled = true;
+    document.getElementById('placeBetBtn').textContent = 'Place Bet ($0)';
+    return;
+  }
+
+  const totalOdds = calculator.getAmerican();
+  const payout = calculator.getPayout();
+
+  document.getElementById('totalOdds').textContent = totalOdds > 0 ? '+' + totalOdds : totalOdds;
+  document.getElementById('potentialPayout').textContent = '$' + payout.toFixed(2);
+  document.getElementById('placeBetBtn').disabled = false;
+  document.getElementById('placeBetBtn').textContent = `Place Bet ($${payout.toFixed(2)})`;
+
+  // Render legs
+  const legsList = document.getElementById('parlayLegsList');
+  if (parlayLegs.length === 0) {
+    legsList.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px; font-size: 12px;">👈 Select picks from the list to build your parlay</div>';
+  } else {
+    legsList.innerHTML = parlayLegs.map((leg, idx) => {
+      const odds = leg.odds > 0 ? '+' + leg.odds : leg.odds;
+      return `
+        <div class="parlay-leg">
+          <div class="leg-pick">#${idx+1}: ${leg.matchup} - ${leg.pick}</div>
+          <div class="leg-odds">${odds}</div>
+          <button class="leg-remove" onclick="removeFromParlay(${leg.id})">✕</button>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+function removeFromParlay(pickId) {
+  parlayLegs = parlayLegs.filter(l => l.id !== pickId);
+  updateParlay();
+  renderPicks();
+}
+
+function clearParlay() {
+  parlayLegs = [];
+  document.getElementById('wagerAmount').value = 100;
+  updateParlay();
+  renderPicks();
+}
+
+function placeBet() {
+  if (parlayLegs.length === 0) return;
+  
+  const wager = parseFloat(document.getElementById('wagerAmount').value) || 100;
+  const calculator = new ParlayCalculator(parlayLegs, wager);
+  const payout = calculator.getPayout();
+  
+  notify('✅ Parlay Submitted', `Bet placed for $${wager} with potential payout of $${payout.toFixed(2)}`);
+  
+  setTimeout(() => {
+    clearParlay();
+  }, 2000);
+}
+
+// ============================================================
+// CHARTS & ANALYTICS
+// ============================================================
+function initCharts() {
+  setTimeout(() => {
+    // Win Rate Chart
+    const winCtx = document.getElementById('winRateChart');
+    if (winCtx && !window.winRateChartInstance) {
+      window.winRateChartInstance = new Chart(winCtx, {
+        type: 'line',
+        data: {
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7'],
+          datasets: [{
+            label: 'Win Rate %',
+            data: [76, 81, 79, 84, 86, 83, 84],
+            borderColor: '#d4af37',
+            backgroundColor: 'rgba(212,175,55,0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: true, labels: { color: 'rgba(255,255,255,0.6)' } } },
+          scales: {
+            y: { beginAtZero: true, max: 100, ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(212,175,55,0.1)' } },
+            x: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    // ROI Chart
+    const roiCtx = document.getElementById('roiChart');
+    if (roiCtx && !window.roiChartInstance) {
+      window.roiChartInstance = new Chart(roiCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7'],
+          datasets: [{
+            label: 'ROI %',
+            data: [12, 19, 15, 28, 35, 22, 25],
+            backgroundColor: '#10b981',
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: true, labels: { color: 'rgba(255,255,255,0.6)' } } },
+          scales: {
+            y: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(212,175,55,0.1)' } },
+            x: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    // Sports Breakdown
+    const sportsCtx = document.getElementById('sportsChart');
+    if (sportsCtx && !window.sportsChartInstance) {
+      window.sportsChartInstance = new Chart(sportsCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['NBA', 'NFL', 'MLB', 'NHL', 'Soccer'],
+          datasets: [{
+            data: [35, 28, 18, 12, 7],
+            backgroundColor: ['#d4af37', '#2563eb', '#10b981', '#f97316', '#8b5cf6']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: 'rgba(255,255,255,0.6)' } } }
+        }
+      });
+    }
+  }, 100);
+}
+
+// ============================================================
+// MODALS
+// ============================================================
+function openModal(modalId) {
+  document.getElementById(modalId).classList.add('active');
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.remove('active');
+}
+
+function login() {
+  userAuth = { type: 'user' };
+  notify('✅ Logged In', 'Welcome back!');
+  closeModal('loginModal');
+}
+
+function signup() {
+  userAuth = { type: 'user' };
+  notify('✅ Account Created', 'Welcome to SigMAX ELITE!');
+  closeModal('signupModal');
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+function notify(title, message) {
+  const center = document.getElementById('notificationCenter');
+  const id = Date.now();
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.innerHTML = `
+    <div class="notification-title">${title}</div>
+    <div class="notification-text">${message}</div>
+  `;
+  center.appendChild(notification);
+
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 4000);
+}
+
+// ============================================================
+// SOCIAL SHARING
+// ============================================================
+function shareToTwitter(text) {
+  const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text + ' 🎯 Join SigMAX ELITE for professional sports picks!')}`;
+  window.open(url, '_blank');
+}
+
+function shareToDiscord(text) {
+  notify('📋 Discord', 'Copy the text and paste in Discord:\n' + text);
+}
+
+function copyToClipboard(message) {
+  const text = parlayLegs.map(l => `${l.matchup}: ${l.pick}`).join('\n');
+  navigator.clipboard.writeText(text);
+  notify('📋 Copied', message);
+}
+
+// ============================================================
+// ALERTS & NOTIFICATIONS
+// ============================================================
+function enableNotifications() {
+  if ('Notification' in window) {
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') {
+        notify('🔔 Enabled', 'Push notifications enabled!');
+      }
+    });
+  }
+}
+
+// ============================================================
+// THEMES
+// ============================================================
+function setTheme(themeName) {
+  document.body.className = themeName === 'default' ? '' : themeName;
+  localStorage.setItem('sigmax-theme', themeName);
+  document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  notify('🎨 Theme Changed', 'Reload for full effect');
+}
+
+// ============================================================
+// PWA & INSTALL
+// ============================================================
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installPrompt').classList.remove('hidden');
 });
 
-// Countdown timers
-function updateCountdown(targetDate, idPrefix) {
-  setInterval(() => {
-    const now = new Date().getTime();
-    const distance = new Date(targetDate).getTime() - now;
-    
-    if (distance < 0) {
-      document.getElementById(`${idPrefix}-days`).textContent = '00';
-      document.getElementById(`${idPrefix}-hours`).textContent = '00';
-      document.getElementById(`${idPrefix}-mins`).textContent = '00';
-      document.getElementById(`${idPrefix}-secs`).textContent = '00';
-      return;
-    }
-    
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((distance % (1000 * 60)) / 1000);
-    
-    document.getElementById(`${idPrefix}-days`).textContent = String(days).padStart(2, '0');
-    document.getElementById(`${idPrefix}-hours`).textContent = String(hours).padStart(2, '0');
-    document.getElementById(`${idPrefix}-mins`).textContent = String(mins).padStart(2, '0');
-    document.getElementById(`${idPrefix}-secs`).textContent = String(secs).padStart(2, '0');
-  }, 1000);
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+  }
 }
 
-// Initialize countdowns
-updateCountdown('2026-06-03T20:30:00', 'nba');
-updateCountdown('2026-06-04T20:00:00', 'nhl');
-updateCountdown('2026-06-07T15:00:00', 'tennis');
-updateCountdown('2026-06-11T12:00:00', 'wc');
+function closeInstallPrompt() {
+  document.getElementById('installPrompt').classList.add('hidden');
+}
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {
+    // Service worker registration failed
+  });
+}
+
+// ============================================================
+// INITIALIZATION
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Load saved preferences
+  if (localStorage.getItem('sigmax-theme')) {
+    document.body.className = localStorage.getItem('sigmax-theme');
+  }
+
+  // Initialize
+  initCountdown();
+  renderPicks();
+  
+  // Update parlay when wager changes
+  document.getElementById('wagerAmount').addEventListener('change', updateParlay);
+});
+
+// ============================================================
+// HELPER FUNCTIONS
+// ============================================================
+function goToTab(tabName) {
+  // Hide all tabs
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  // Remove active from nav buttons
+  document.querySelectorAll('.nav-tab, .bottom-nav-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  // Show selected tab
+  const tab = document.getElementById(`${tabName}-tab`);
+  if (tab) {
+    tab.classList.add('active');
+  }
+  
+  // Highlight nav buttons
+  document.querySelectorAll(`[onclick*="goToTab('${tabName}')"]`).forEach(btn => {
+    btn.classList.add('active');
+  });
+  
+  // Initialize tab-specific content
+  if (tabName === 'dashboard') {
+    initCountdown();
+  } else if (tabName === 'picks') {
+    renderPicks();
+  } else if (tabName === 'analytics') {
+    initCharts();
+  }
+}
+
+// Live notification demo
+setInterval(() => {
+  if (Math.random() > 0.7) {
+    const alerts = [
+      ['📊 Line Update', 'Lakers -5 → -6 (Sharp money on LA)'],
+      ['⚡ Sharp Alert', 'Suns receiving 71% of money'],
+      ['💬 Trend', '89% of bettors taking Over 215.5'],
+      ['🔴 Injury', 'Celtics: Jaylen Brown out (10:00pm game)']
+    ];
+    const alert = alerts[Math.floor(Math.random() * alerts.length)];
+    notify(alert[0], alert[1]);
+  }
+}, 15000);
 </script>
+
 </body>
 </html>
