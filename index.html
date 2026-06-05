@@ -49,8 +49,6 @@
 [data-theme="slovenia"]{--gold:#005da4;--gold-light:#0080e0;--bg-primary:#ed1c24;--bg-secondary:#c0161c}
 [data-theme="albania"]{--gold:#e41e20;--gold-light:#f24547;--bg-primary:#000000;--bg-secondary:#1a1a1a}
 [data-theme="bosnia"]{--gold:#002395;--gold-light:#0030cc;--bg-primary:#fecb00;--bg-secondary:#d4a800;--text-primary:#000}
-Let me get the remaining 12 parts
-
 /* CAF (10) */
 [data-theme="morocco"]{--gold:#006233;--gold-light:#009050;--bg-primary:#c1272d;--bg-secondary:#991f24}
 [data-theme="senegal"]{--gold:#00853f;--gold-light:#00b050;--bg-primary:#fdef42;--bg-secondary:#d4ca38;--text-primary:#000}
@@ -132,7 +130,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--tex
 .slide-left{transform:translateX(-50px);opacity:0;transition:all 0.5s ease-out}
 .slide-left.visible{transform:translateX(0);opacity:1}
 
-  /* ═══ HEADER ═══ */
+/* ═══ HEADER ═══ */
 header{background:linear-gradient(135deg,rgba(15,20,35,0.95) 0%,rgba(5,8,16,0.98) 100%);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);padding:15px 20px;position:sticky;top:0;z-index:100}
 .header-content{display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:0 auto;flex-wrap:wrap;gap:15px}
 .logo{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -299,7 +297,7 @@ header{background:linear-gradient(135deg,rgba(15,20,35,0.95) 0%,rgba(5,8,16,0.98
 .edge-value.positive{background:rgba(16,185,129,0.2);color:#10b981}
 .edge-value.negative{background:rgba(239,68,68,0.2);color:#ef4444}
 
-  /* ═══ JOURNAL ═══ */
+/* ═══ JOURNAL ═══ */
 .journal-container{margin:20px 0}
 .journal-filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
 .journal-filter{padding:8px 15px;background:var(--bg-glass);border:1px solid var(--glass-border);border-radius:8px;color:var(--text-secondary);font-size:0.85rem;cursor:pointer;transition:all 0.3s}
@@ -377,9 +375,7 @@ footer{background:var(--bg-secondary);border-top:1px solid var(--glass-border);p
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .animate-spin{animation:spin 1s linear infinite}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-</style>
-
-</head>
+</style></head>
 <body>
 <!-- Particles Background -->
 <div id="particles-bg"></div>
@@ -981,7 +977,7 @@ footer{background:var(--bg-secondary);border-top:1px solid var(--glass-border);p
 </div>
 </div>
 </section>
-  
+
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- JOURNAL SECTION -->
 <!-- ═══════════════════════════════════════════════════════════ -->
@@ -1077,6 +1073,7 @@ footer{background:var(--bg-secondary);border-top:1px solid var(--glass-border);p
 </div>
 </div>
 </section>
+
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- ELITE CHARTS SECTION -->
 <!-- ═══════════════════════════════════════════════════════════ -->
@@ -1175,6 +1172,7 @@ footer{background:var(--bg-secondary);border-top:1px solid var(--glass-border);p
 </section>
 
 </div><!-- End Container -->
+
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- FOOTER -->
 <!-- ═══════════════════════════════════════════════════════════ -->
@@ -1183,10 +1181,10 @@ footer{background:var(--bg-secondary);border-top:1px solid var(--glass-border);p
 <div class="footer-section">
 <h4>SigMAX ELITE</h4>
 <ul class="footer-links">
-<li><a href="#home" onclick="showTab('home')">Dashboard</a></li>
-<li><a href="#top5" onclick="showTab('top5')">Today's Picks</a></li>
-<li><a href="#parlay" onclick="showTab('parlay')">Parlay Builder</a></li>
-<li><a href="#elite" onclick="showTab('elite')">Analytics</a></li>
+<li><a href="#home" onclick="showTab('home'); return false;">Dashboard</a></li>
+<li><a href="#top5" onclick="showTab('top5'); return false;">Today's Picks</a></li>
+<li><a href="#parlay" onclick="showTab('parlay'); return false;">Parlay Builder</a></li>
+<li><a href="#elite" onclick="showTab('elite'); return false;">Analytics</a></li>
 </ul>
 </div>
 <div class="footer-section">
@@ -1238,8 +1236,12 @@ function showTab(tabId) {
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
     const section = document.getElementById(tabId);
     if (section) section.classList.add('active');
-    const tab = document.querySelector(`[onclick="showTab('${tabId}')"]`);
-    if (tab) tab.classList.add('active');
+    const tabs = document.querySelectorAll('.nav-tab');
+    tabs.forEach(t => {
+        if (t.getAttribute('onclick') && t.getAttribute('onclick').includes(`'${tabId}'`)) {
+            t.classList.add('active');
+        }
+    });
     localStorage.setItem('activeTab', tabId);
 }
 
@@ -1287,10 +1289,10 @@ function updateCountdown() {
         const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const secs = Math.floor((diff % (1000 * 60)) / 1000);
         const el = (id) => document.getElementById(id);
-        if (el('countDays')) el('countDays').textContent = days;
-        if (el('countHours')) el('countHours').textContent = hours;
-        if (el('countMins')) el('countMins').textContent = mins;
-        if (el('countSecs')) el('countSecs').textContent = secs;
+        if (el('days')) el('days').textContent = days;
+        if (el('hours')) el('hours').textContent = hours;
+        if (el('minutes')) el('minutes').textContent = mins;
+        if (el('seconds')) el('seconds').textContent = secs;
     }
 }
 
@@ -1299,6 +1301,7 @@ window.addEventListener('scroll', () => {
     const btn = document.getElementById('scrollTop');
     if (btn) btn.classList.toggle('visible', window.scrollY > 300);
 });
+
 // ═══ PARLAY FUNCTIONS ═══
 let parlayLegs = [];
 
@@ -1307,7 +1310,7 @@ function addToParlay(selection, odds, game) {
         alert('Maximum 10 legs allowed!');
         return;
     }
-    parlayLegs.push({ selection, odds, game });
+    parlayLegs.push({ selection, odds, game: game || 'Game' });
     renderParlay();
     if (typeof confetti === 'function') {
         confetti({ particleCount: 30, spread: 50, origin: { y: 0.7 } });
@@ -1330,7 +1333,7 @@ function renderParlay() {
     if (!container) return;
     
     if (parlayLegs.length === 0) {
-        container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px;">No picks added yet. Click "Add to Parlay" on any pick card.</p>';
+        container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px;">No picks added yet. Click "+ Parlay" on any pick card.</p>';
         if (countEl) countEl.textContent = '0';
         return;
     }
@@ -1361,7 +1364,6 @@ function calculateParlay() {
     });
     
     const payout = stake * decimalOdds;
-    const profit = payout - stake;
     const americanOdds = decimalOdds >= 2 ? Math.round((decimalOdds - 1) * 100) : Math.round(-100 / (decimalOdds - 1));
     const impliedProb = (1 / decimalOdds * 100).toFixed(1);
     
@@ -1457,14 +1459,14 @@ function initCharts() {
 
 // ═══ 8-LANGUAGE TRANSLATIONS ═══
 const translations = {
-    en: { home: '🏠 Home', alerts: '🚨 Alerts', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Games', xfactors: '⚡ XFactors', journal: '📓 Journal', parlay: '🎰 Parlay', elite: '📊 Elite', index: '📑 Index', live: 'LIVE', homeTitle: '🏠 Dashboard', alertsTitle: '🚨 Live Alerts', top5Title: '🏆 Top 5 Picks', propsTitle: '🎯 Player Props & Edges', gamesTitle: '📅 Today\'s Games Schedule', xfactorsTitle: '⚡ X-Factors & Insights', journalTitle: '📓 Betting Journal', parlayTitle: '🎰 Parlay Builder', eliteTitle: '📊 Elite Analytics', indexTitle: '📑 Quick Navigation', parlayBuilder: 'Parlay Builder', record: 'Record', bankroll: 'Bankroll', roi: 'ROI', streak: 'Streak', addToParlay: 'Add to Parlay', viewDetails: 'Details' },
-    es: { home: '🏠 Inicio', alerts: '🚨 Alertas', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Juegos', xfactors: '⚡ XFactors', journal: '📓 Diario', parlay: '🎰 Parlay', elite: '📊 Elite', index: '📑 Índice', live: 'EN VIVO', homeTitle: '🏠 Panel', alertsTitle: '🚨 Alertas en Vivo', top5Title: '🏆 Top 5 Picks', propsTitle: '🎯 Props de Jugadores', gamesTitle: '📅 Juegos de Hoy', xfactorsTitle: '⚡ X-Factors', journalTitle: '📓 Diario de Apuestas', parlayTitle: '🎰 Constructor de Parlay', eliteTitle: '📊 Análisis Elite', indexTitle: '📑 Navegación Rápida', parlayBuilder: 'Constructor Parlay', record: 'Récord', bankroll: 'Bankroll', roi: 'ROI', streak: 'Racha', addToParlay: 'Agregar a Parlay', viewDetails: 'Detalles' },
-    fr: { home: '🏠 Accueil', alerts: '🚨 Alertes', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Matchs', xfactors: '⚡ XFactors', journal: '📓 Journal', parlay: '🎰 Parlay', elite: '📊 Élite', index: '📑 Index', live: 'EN DIRECT', homeTitle: '🏠 Tableau de Bord', alertsTitle: '🚨 Alertes en Direct', top5Title: '🏆 Top 5 Pronostics', propsTitle: '🎯 Props Joueurs', gamesTitle: '📅 Matchs du Jour', xfactorsTitle: '⚡ X-Factors', journalTitle: '📓 Journal des Paris', parlayTitle: '🎰 Constructeur Parlay', eliteTitle: '📊 Analyses Élite', indexTitle: '📑 Navigation Rapide', parlayBuilder: 'Constructeur Parlay', record: 'Bilan', bankroll: 'Bankroll', roi: 'ROI', streak: 'Série', addToParlay: 'Ajouter au Parlay', viewDetails: 'Détails' },
-    pt: { home: '🏠 Início', alerts: '🚨 Alertas', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Jogos', xfactors: '⚡ XFactors', journal: '📓 Diário', parlay: '🎰 Parlay', elite: '📊 Elite', index: '📑 Índice', live: 'AO VIVO', homeTitle: '🏠 Painel', alertsTitle: '🚨 Alertas ao Vivo', top5Title: '🏆 Top 5 Palpites', propsTitle: '🎯 Props de Jogadores', gamesTitle: '📅 Jogos de Hoje', xfactorsTitle: '⚡ X-Factors', journalTitle: '📓 Diário de Apostas', parlayTitle: '🎰 Construtor de Parlay', eliteTitle: '📊 Análise Elite', indexTitle: '📑 Navegação Rápida', parlayBuilder: 'Construtor Parlay', record: 'Registro', bankroll: 'Bankroll', roi: 'ROI', streak: 'Sequência', addToParlay: 'Adicionar ao Parlay', viewDetails: 'Detalhes' },
-    de: { home: '🏠 Start', alerts: '🚨 Warnungen', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Spiele', xfactors: '⚡ XFactors', journal: '📓 Journal', parlay: '🎰 Parlay', elite: '📊 Elite', index: '📑 Index', live: 'LIVE', homeTitle: '🏠 Dashboard', alertsTitle: '🚨 Live-Warnungen', top5Title: '🏆 Top 5 Tipps', propsTitle: '🎯 Spieler Props', gamesTitle: '📅 Heutige Spiele', xfactorsTitle: '⚡ X-Faktoren', journalTitle: '📓 Wett-Journal', parlayTitle: '🎰 Parlay Builder', eliteTitle: '📊 Elite-Analyse', indexTitle: '📑 Schnellnavigation', parlayBuilder: 'Parlay Builder', record: 'Bilanz', bankroll: 'Bankroll', roi: 'ROI', streak: 'Serie', addToParlay: 'Zum Parlay', viewDetails: 'Details' },
-    it: { home: '🏠 Home', alerts: '🚨 Avvisi', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Partite', xfactors: '⚡ XFactors', journal: '📓 Diario', parlay: '🎰 Parlay', elite: '📊 Elite', index: '📑 Indice', live: 'DAL VIVO', homeTitle: '🏠 Dashboard', alertsTitle: '🚨 Avvisi Live', top5Title: '🏆 Top 5 Pronostici', propsTitle: '🎯 Props Giocatori', gamesTitle: '📅 Partite di Oggi', xfactorsTitle: '⚡ X-Factors', journalTitle: '📓 Diario Scommesse', parlayTitle: '🎰 Costruttore Parlay', eliteTitle: '📊 Analisi Elite', indexTitle: '📑 Navigazione Rapida', parlayBuilder: 'Costruttore Parlay', record: 'Record', bankroll: 'Bankroll', roi: 'ROI', streak: 'Serie', addToParlay: 'Aggiungi al Parlay', viewDetails: 'Dettagli' },
-    ja: { home: '🏠 ホーム', alerts: '🚨 アラート', top5: '🏆 トップ5', props: '🎯 プロップ', games: '📅 試合', xfactors: '⚡ Xファクター', journal: '📓 ジャーナル', parlay: '🎰 パーレイ', elite: '📊 エリート', index: '📑 インデックス', live: 'ライブ', homeTitle: '🏠 ダッシュボード', alertsTitle: '🚨 ライブアラート', top5Title: '🏆 トップ5予想', propsTitle: '🎯 選手プロップ', gamesTitle: '📅 本日の試合', xfactorsTitle: '⚡ Xファクター', journalTitle: '📓 ベッティング日記', parlayTitle: '🎰 パーレイビルダー', eliteTitle: '📊 エリート分析', indexTitle: '📑 クイックナビ', parlayBuilder: 'パーレイビルダー', record: '成績', bankroll: 'バンクロール', roi: 'ROI', streak: '連勝', addToParlay: 'パーレイに追加', viewDetails: '詳細' },
-    zh: { home: '🏠 首页', alerts: '🚨 提醒', top5: '🏆 前5', props: '🎯 球员数据', games: '📅 比赛', xfactors: '⚡ X因素', journal: '📓 日志', parlay: '🎰 串关', elite: '📊 精英', index: '📑 索引', live: '直播', homeTitle: '🏠 仪表板', alertsTitle: '🚨 实时提醒', top5Title: '🏆 今日前5预测', propsTitle: '🎯 球员数据分析', gamesTitle: '📅 今日比赛', xfactorsTitle: '⚡ X因素分析', journalTitle: '📓 投注日志', parlayTitle: '🎰 串关构建器', eliteTitle: '📊 精英分析', indexTitle: '📑 快速导航', parlayBuilder: '串关构建器', record: '战绩', bankroll: '资金', roi: '投资回报率', streak: '连胜', addToParlay: '加入串关', viewDetails: '详情' }
+    en: { home: '🏠 Home', alerts: '🚨 Alerts', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Games', xfactors: '⚡ XFactors', journal: '📓 Journal', parlay: '🎰 Parlay', elite: '📊 Elite', index: '📑 Index', live: 'LIVE', record: 'Record', bankroll: 'Bankroll', roi: 'ROI', streak: 'Streak' },
+    es: { home: '🏠 Inicio', alerts: '🚨 Alertas', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Juegos', xfactors: '⚡ XFactors', journal: '📓 Diario', parlay: '🎰 Parlay', elite: '📊 Elite', index: '📑 Índice', live: 'EN VIVO', record: 'Récord', bankroll: 'Bankroll', roi: 'ROI', streak: 'Racha' },
+    fr: { home: '🏠 Accueil', alerts: '🚨 Alertes', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Matchs', xfactors: '⚡ XFactors', journal: '📓 Journal', parlay: '🎰 Parlay', elite: '📊 Élite', index: '📑 Index', live: 'EN DIRECT', record: 'Bilan', bankroll: 'Bankroll', roi: 'ROI', streak: 'Série' },
+    pt: { home: '🏠 Início', alerts: '🚨 Alertas', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Jogos', xfactors: '⚡ XFactors', journal: '📓 Diário', parlay: '🎰 Parlay', elite: '📊 Elite', index: '📑 Índice', live: 'AO VIVO', record: 'Registro', bankroll: 'Bankroll', roi: 'ROI', streak: 'Sequência' },
+    de: { home: '🏠 Start', alerts: '🚨 Warnungen', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Spiele', xfactors: '⚡ XFactors', journal: '📓 Journal', parlay: '🎰 Parlay', elite: '📊 Elite', index: '📑 Index', live: 'LIVE', record: 'Bilanz', bankroll: 'Bankroll', roi: 'ROI', streak: 'Serie' },
+    it: { home: '🏠 Home', alerts: '🚨 Avvisi', top5: '🏆 Top 5', props: '🎯 Props', games: '📅 Partite', xfactors: '⚡ XFactors', journal: '📓 Diario', parlay: '🎰 Parlay', elite: '📊 Elite', index: '📑 Indice', live: 'DAL VIVO', record: 'Record', bankroll: 'Bankroll', roi: 'ROI', streak: 'Serie' },
+    ja: { home: '🏠 ホーム', alerts: '🚨 アラート', top5: '🏆 トップ5', props: '🎯 プロップ', games: '📅 試合', xfactors: '⚡ Xファクター', journal: '📓 ジャーナル', parlay: '🎰 パーレイ', elite: '📊 エリート', index: '📑 インデックス', live: 'ライブ', record: '成績', bankroll: 'バンクロール', roi: 'ROI', streak: '連勝' },
+    zh: { home: '🏠 首页', alerts: '🚨 提醒', top5: '🏆 前5', props: '🎯 球员数据', games: '📅 比赛', xfactors: '⚡ X因素', journal: '📓 日志', parlay: '🎰 串关', elite: '📊 精英', index: '📑 索引', live: '直播', record: '战绩', bankroll: '资金', roi: '投资回报率', streak: '连胜' }
 };
 
 function applyTranslations(lang) {
