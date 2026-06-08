@@ -3,130 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>SigMAX Intelligence v68</title>
+<title>SigMAX Intelligence v69</title>
 <style>
-:root{--bg:#0a0a12;--card:#12121a;--text:#e8e8f0;--accent:#ffd700;--accent2:#ff6b35;--card-border:#2a2a3a;--success:#00ff88;--danger:#ff4757;--glass:rgba(255,255,255,0.05)}
+:root{--bg:#0a0a12;--bg2:#12121a;--card:#1a1a2a;--text:#e8e8f0;--text2:#aaa;--accent:#ffd700;--accent2:#ff6b35;--accent-glow:rgba(255,215,0,0.3);--border:#2a2a3a;--success:#00ff88;--danger:#ff4757}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:10px;overflow-x:hidden}
-body.light{--bg:#f0f0f5;--card:#ffffff;--text:#1a1a2e;--card-border:#ddd;--glass:rgba(0,0,0,0.05)}
-.device-desktop{font-size:10px}.device-laptop{font-size:9px}.device-mobile{font-size:8px}.device-tablet{font-size:9px}
-.ticker{background:linear-gradient(90deg,#1a1a2e,#0f0f1a);border-bottom:1px solid var(--accent);padding:6px 0;overflow:hidden;position:fixed;top:0;width:100%;z-index:1000}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:11px;overflow-x:hidden;transition:all 0.3s}
+body.device-desktop{font-size:11px}
+body.device-desktop .container{max-width:1400px}
+body.device-desktop .grid{grid-template-columns:repeat(3,1fr)}
+body.device-desktop nav button{padding:8px 16px;font-size:11px}
+body.device-laptop{font-size:10px}
+body.device-laptop .container{max-width:1100px}
+body.device-laptop .grid{grid-template-columns:repeat(2,1fr)}
+body.device-laptop nav button{padding:6px 12px;font-size:10px}
+body.device-laptop .card{padding:10px}
+body.device-tablet{font-size:10px}
+body.device-tablet .container{max-width:800px}
+body.device-tablet .grid{grid-template-columns:repeat(2,1fr)}
+body.device-tablet nav{flex-wrap:wrap}
+body.device-tablet nav button{padding:8px 10px;font-size:9px}
+body.device-tablet .countdown-grid{grid-template-columns:repeat(2,1fr)}
+body.device-mobile{font-size:9px}
+body.device-mobile .container{max-width:100%;padding:5px}
+body.device-mobile .grid{grid-template-columns:1fr}
+body.device-mobile nav button{padding:5px 8px;font-size:8px}
+body.device-mobile .card{padding:8px}
+body.device-mobile .countdown-grid{grid-template-columns:1fr}
+body.device-mobile .countdown-item{padding:8px}
+body.device-mobile .controls{flex-direction:column;gap:5px}
+body.device-mobile h1{font-size:16px}
+body.device-mobile .disclaimer-grid{grid-template-columns:1fr}
+body.light{--bg:#f5f5f8;--bg2:#ffffff;--card:#ffffff;--text:#1a1a2e;--text2:#555;--border:#ddd}
+.ticker{background:linear-gradient(90deg,var(--bg2),var(--bg));border-bottom:2px solid var(--accent);padding:8px 0;overflow:hidden;position:fixed;top:0;width:100%;z-index:1000}
 .ticker-content{display:flex;animation:scroll-left 45s linear infinite;white-space:nowrap}
-.ticker-item{padding:0 25px;font-size:9px;border-right:1px solid #333}
-.ticker-item.alert{color:#ff4757;font-weight:700}
-.ticker-item.hot{color:#ffd700}
+.ticker-item{padding:0 30px;font-size:10px;border-right:1px solid var(--border);color:var(--text2)}
+.ticker-item.alert{color:var(--danger);font-weight:700}
+.ticker-item.hot{color:var(--accent)}
 @keyframes scroll-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-header{margin-top:32px;text-align:center;padding:15px;background:linear-gradient(135deg,rgba(255,215,0,0.15),rgba(255,107,53,0.08));border-bottom:2px solid var(--accent);position:relative}
-h1{font-size:22px;background:linear-gradient(135deg,#ffd700,#ff6b35,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gold-shimmer 3s ease infinite;background-size:200% 100%}
+header{margin-top:36px;text-align:center;padding:20px;background:linear-gradient(135deg,var(--accent-glow),transparent);border-bottom:3px solid var(--accent);position:relative}
+h1{font-size:24px;background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gold-shimmer 3s ease infinite;background-size:200% 100%}
 @keyframes gold-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
-.subtitle{font-size:9px;color:#888;margin-top:3px;letter-spacing:2px}
-.tagline{font-size:8px;color:var(--accent);margin-top:5px;font-style:italic}
-.live-clock{position:absolute;top:10px;right:15px;font-size:10px;color:var(--accent);font-family:monospace}
-.live-clock span{animation:pulse-clock 1s infinite}
-@keyframes pulse-clock{0%,100%{opacity:1}50%{opacity:0.5}}
-nav{display:flex;justify-content:center;gap:3px;padding:8px;background:#0f0f1a;flex-wrap:wrap;border-bottom:1px solid #222}
-nav button{background:#1a1a2a;border:1px solid #333;color:#ccc;padding:5px 10px;font-size:10px;cursor:pointer;border-radius:3px;transition:all 0.2s}
-nav button:hover,nav button.active{background:var(--accent);color:#000;border-color:var(--accent);transform:scale(1.05)}
-.controls{display:flex;justify-content:center;gap:8px;padding:10px;background:#0a0a12;flex-wrap:wrap;align-items:center}
-.controls select,.controls button{background:#1a1a2a;border:1px solid #444;color:#fff;padding:5px 10px;font-size:9px;border-radius:3px;cursor:pointer}
-.controls button.active{background:var(--accent);color:#000}
-.control-group{display:flex;align-items:center;gap:5px;padding:3px 8px;background:rgba(255,255,255,0.03);border-radius:5px}
-.control-label{font-size:8px;color:#666;text-transform:uppercase}
-.container{max-width:1400px;margin:0 auto;padding:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.subtitle{font-size:10px;color:var(--text2);margin-top:5px;letter-spacing:3px}
+.live-clock{position:absolute;top:15px;right:20px;font-size:12px;color:var(--accent);font-family:monospace;background:var(--bg2);padding:5px 10px;border-radius:5px;border:1px solid var(--accent)}
+.countdown-section{background:linear-gradient(135deg,rgba(255,215,0,0.1),rgba(255,107,53,0.05));padding:15px;margin:10px 0;border-radius:10px;border:1px solid var(--accent)}
+.countdown-title{font-size:14px;color:var(--accent);text-align:center;margin-bottom:15px;text-transform:uppercase;letter-spacing:2px}
+.countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.countdown-item{background:var(--card);border:2px solid var(--accent);border-radius:10px;padding:15px;text-align:center;position:relative;overflow:hidden}
+.countdown-item::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.countdown-event{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.countdown-name{font-size:12px;color:var(--accent);font-weight:700;margin-bottom:8px}
+.countdown-timer{display:flex;justify-content:center;gap:8px}
+.countdown-unit{text-align:center}
+.countdown-number{font-size:20px;font-weight:800;color:var(--text);background:var(--bg);padding:8px 10px;border-radius:5px;min-width:45px;display:block;font-family:monospace}
+.countdown-label{font-size:7px;color:var(--text2);text-transform:uppercase;margin-top:3px}
+.countdown-item.imminent{border-color:var(--danger);animation:pulse-countdown 1s infinite}
+.countdown-item.imminent .countdown-number{color:var(--danger)}
+@keyframes pulse-countdown{0%,100%{box-shadow:0 0 10px rgba(255,71,87,0.3)}50%{box-shadow:0 0 25px rgba(255,71,87,0.6)}}
+nav{display:flex;justify-content:center;gap:5px;padding:10px;background:var(--bg2);flex-wrap:wrap;border-bottom:1px solid var(--border)}
+nav button{background:var(--card);border:2px solid var(--border);color:var(--text2);padding:8px 14px;font-size:10px;cursor:pointer;border-radius:5px;transition:all 0.2s}
+nav button:hover{border-color:var(--accent);color:var(--accent)}
+nav button.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
+.controls{display:flex;justify-content:center;gap:12px;padding:12px;background:var(--bg);flex-wrap:wrap;align-items:center}
+.control-group{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)}
+.control-label{font-size:8px;color:var(--text2);text-transform:uppercase;font-weight:600}
+.controls select{background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 10px;font-size:10px;border-radius:5px;cursor:pointer}
+.controls button{background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 12px;font-size:10px;border-radius:5px;cursor:pointer}
+.controls button.active{background:var(--accent);color:#000;border-color:var(--accent)}
+.container{max-width:1400px;margin:0 auto;padding:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:15px}
 .section{display:none}
 .section.active{display:block}
-.section h2{font-size:12px;color:var(--accent);margin:12px 0;text-transform:uppercase;letter-spacing:1px}
-.card{background:var(--card);border:1px solid var(--card-border);border-radius:8px;padding:12px;position:relative;overflow:hidden;backdrop-filter:blur(10px);background:linear-gradient(135deg,var(--glass),transparent)}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent))}
-.card h3{font-size:11px;margin-bottom:8px;color:var(--accent)}
-.card p{font-size:10px;color:#aaa;line-height:1.5}
-.stat{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:10px}
+.section h2{font-size:14px;color:var(--accent);margin:15px 0;text-transform:uppercase;letter-spacing:2px;border-bottom:2px solid var(--accent);padding-bottom:8px;display:inline-block}
+.card{background:var(--card);border:2px solid var(--border);border-radius:10px;padding:15px;position:relative;overflow:hidden;transition:all 0.3s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 5px 20px var(--accent-glow)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.card h3{font-size:12px;margin-bottom:10px;color:var(--accent)}
+.stat{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:10px}
 .stat:last-child{border:none}
-.xfactor-section{background:linear-gradient(135deg,rgba(255,215,0,0.2),rgba(255,107,53,0.15),rgba(0,247,255,0.1));border:2px solid var(--accent);border-radius:12px;padding:15px;margin:15px 0;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(255,215,0,0.2),inset 0 0 80px rgba(255,215,0,0.05)}
-.xfactor-section::before{content:'⚡💎⚡';position:absolute;top:10px;right:15px;font-size:16px;opacity:0.7;animation:twinkle 2s infinite}
-.xfactor-section::after{content:'';position:absolute;inset:0;background:linear-gradient(45deg,transparent 30%,rgba(255,215,0,0.15) 50%,transparent 70%);animation:shimmer 3s infinite}
-.xfactor-title{font-size:13px;font-weight:800;color:#ffd700;text-transform:uppercase;letter-spacing:3px;margin-bottom:12px;text-shadow:0 0 20px rgba(255,215,0,0.8),0 0 40px rgba(255,215,0,0.4)}
-.xfactor-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.xfactor-item{background:linear-gradient(135deg,rgba(0,0,0,0.7),rgba(20,20,40,0.9));border:1px solid rgba(255,215,0,0.5);border-radius:10px;padding:12px;position:relative;transition:all 0.3s;overflow:hidden}
-.xfactor-item:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 30px rgba(255,215,0,0.4);border-color:var(--accent)}
-.xfactor-item::before{content:'💎';position:absolute;top:-8px;left:10px;font-size:16px;filter:drop-shadow(0 0 8px #00f7ff)}
-.xfactor-label{font-size:8px;color:#999;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px}
-.xfactor-value{font-size:12px;color:#fff;font-weight:700;text-shadow:0 0 15px rgba(255,255,255,0.4)}
-.xfactor-edge{font-size:9px;color:#00ff88;margin-top:5px;padding:3px 8px;background:rgba(0,255,136,0.2);border-radius:4px;display:inline-block}
-.xfactor-confidence{font-size:8px;color:#ffd700;margin-top:4px}
-.alerts-section{background:linear-gradient(135deg,rgba(255,71,87,0.2),rgba(255,107,53,0.15));border:2px solid #ff4757;border-radius:12px;padding:15px;margin:15px 0;position:relative;animation:pulse-alert 2s infinite;box-shadow:0 0 40px rgba(255,71,87,0.25)}
-.alerts-section::before{content:'🚨⚠️🚨';position:absolute;top:10px;right:15px;font-size:14px;animation:flash 1s infinite}
-@keyframes flash{0%,100%{opacity:1}50%{opacity:0.4}}
-@keyframes pulse-alert{0%,100%{box-shadow:0 0 15px rgba(255,71,87,0.3)}50%{box-shadow:0 0 40px rgba(255,71,87,0.6)}}
-.alert-title{font-size:13px;font-weight:800;color:#ff4757;text-transform:uppercase;letter-spacing:3px;margin-bottom:12px;text-shadow:0 0 20px rgba(255,71,87,0.8)}
-.alert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
-.alert-item{background:linear-gradient(135deg,rgba(0,0,0,0.7),rgba(40,20,20,0.9));border-left:4px solid #ff4757;border-radius:0 8px 8px 0;padding:12px;font-size:10px;position:relative;transition:all 0.3s}
-.alert-item:hover{background:rgba(255,71,87,0.2);transform:translateX(5px)}
-.alert-item.critical{border-color:#ff0000;background:linear-gradient(135deg,rgba(255,0,0,0.2),rgba(40,0,0,0.9))}
-.alert-item.critical::before{content:'🔴';position:absolute;top:50%;right:10px;transform:translateY(-50%);animation:blink 0.5s infinite}
+.xfactor-section{background:linear-gradient(135deg,var(--accent-glow),rgba(255,107,53,0.1));border:3px solid var(--accent);border-radius:12px;padding:20px;margin:15px 0;position:relative;box-shadow:0 0 40px var(--accent-glow)}
+.xfactor-title{font-size:14px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:3px;margin-bottom:15px;text-shadow:0 0 20px var(--accent-glow)}
+.xfactor-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+.xfactor-item{background:var(--bg);border:2px solid var(--accent);border-radius:10px;padding:15px;transition:all 0.3s}
+.xfactor-item:hover{transform:scale(1.03);box-shadow:0 5px 25px var(--accent-glow)}
+.xfactor-label{font-size:8px;color:var(--text2);text-transform:uppercase;letter-spacing:2px}
+.xfactor-value{font-size:14px;color:var(--text);font-weight:700;margin:5px 0}
+.xfactor-edge{font-size:10px;color:var(--success);background:rgba(0,255,136,0.15);padding:4px 10px;border-radius:5px;display:inline-block}
+.xfactor-confidence{font-size:9px;color:var(--accent);margin-top:5px}
+.alerts-section{background:linear-gradient(135deg,rgba(255,71,87,0.15),rgba(255,107,53,0.1));border:3px solid var(--danger);border-radius:12px;padding:20px;margin:15px 0;animation:pulse-alert 2s infinite}
+@keyframes pulse-alert{0%,100%{box-shadow:0 0 15px rgba(255,71,87,0.3)}50%{box-shadow:0 0 35px rgba(255,71,87,0.5)}}
+.alert-title{font-size:14px;font-weight:800;color:var(--danger);text-transform:uppercase;letter-spacing:3px;margin-bottom:15px}
+.alert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.alert-item{background:var(--bg);border-left:5px solid var(--danger);border-radius:0 8px 8px 0;padding:12px 15px;font-size:10px;transition:all 0.3s}
+.alert-item:hover{transform:translateX(5px);background:rgba(255,71,87,0.1)}
+.alert-item.critical{border-color:#ff0000}
 .alert-item.warning{border-color:#ffa500}
-.alert-item.warning::before{content:'🟡';position:absolute;top:50%;right:10px;transform:translateY(-50%)}
 .alert-item.info{border-color:#00bfff}
-.alert-time{font-size:8px;color:#666;margin-top:5px}
-@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-@keyframes twinkle{0%,100%{opacity:0.3;transform:scale(0.9)}50%{opacity:1;transform:scale(1.1)}}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
-.bankroll-tracker{background:linear-gradient(135deg,rgba(0,255,136,0.15),rgba(0,200,100,0.1));border:2px solid #00ff88;border-radius:12px;padding:15px;margin:15px 0}
-.bankroll-title{font-size:12px;color:#00ff88;margin-bottom:10px;text-transform:uppercase}
-.bankroll-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.bankroll-stat{background:rgba(0,0,0,0.5);padding:10px;border-radius:8px;text-align:center}
-.bankroll-label{font-size:8px;color:#888;text-transform:uppercase}
-.bankroll-value{font-size:16px;font-weight:700;color:#00ff88}
-.bankroll-value.negative{color:#ff4757}
-.theme-fifa{--accent:#ffd700;--accent2:#1a1a2e}
-.theme-usa{--accent:#002868;--accent2:#BF0A30}
-.theme-mexico{--accent:#006847;--accent2:#CE1126}
-.theme-canada{--accent:#FF0000;--accent2:#FFFFFF}
-.theme-argentina{--accent:#75AADB;--accent2:#FFFFFF}
-.theme-brazil{--accent:#FFDF00;--accent2:#009739}
-.theme-france{--accent:#0055A4;--accent2:#EF4135}
-.theme-england{--accent:#FFFFFF;--accent2:#CE1124}
-.theme-germany{--accent:#FFCC00;--accent2:#DD0000}
-.theme-spain{--accent:#AA151B;--accent2:#F1BF00}
-.theme-portugal{--accent:#006600;--accent2:#FF0000}
-.theme-netherlands{--accent:#FF6600;--accent2:#FFFFFF}
-.theme-haiti{--accent:#00209F;--accent2:#D21034}
-.theme-scotland{--accent:#0065BF;--accent2:#FFFFFF}
-.theme-morocco{--accent:#C1272D;--accent2:#006233}
-.theme-japan{--accent:#BC002D;--accent2:#FFFFFF}
-.theme-senegal{--accent:#00853F;--accent2:#FDEF42}
-.theme-australia{--accent:#00008B;--accent2:#FFCD00}
-.theme-uruguay{--accent:#5CBFEB;--accent2:#FFFFFF}
-.theme-colombia{--accent:#FCD116;--accent2:#003893}
-.disclaimer-footer{background:linear-gradient(180deg,#0a0a12,#050508);border-top:1px solid #222;padding:15px 10px;margin-top:20px}
-.disclaimer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;max-width:1400px;margin:0 auto}
-.disclaimer-col{padding:12px;border:1px solid #1a1a2a;border-radius:6px;background:rgba(10,10,18,0.9)}
-.disclaimer-col h4{font-size:9px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #222}
-.disclaimer-col p{font-size:8px;color:#666;line-height:1.6}
-.disclaimer-col .hotline{color:#ff4757;font-weight:700}
-footer{text-align:center;padding:12px;background:#050508;border-top:1px solid #1a1a1a}
-footer p{font-size:8px;color:#444}
-.motto{font-size:9px;color:var(--accent);margin-bottom:6px;font-weight:700}
-@media(max-width:768px){.grid{grid-template-columns:1fr}.disclaimer-grid{grid-template-columns:1fr}nav{gap:2px}nav button{padding:4px 6px;font-size:8px}}
+.alert-time{font-size:8px;color:var(--text2);margin-top:5px}
+.bankroll-tracker{background:linear-gradient(135deg,rgba(0,255,136,0.1),rgba(0,200,100,0.05));border:2px solid var(--success);border-radius:12px;padding:15px;margin:15px 0}
+.bankroll-title{font-size:13px;color:var(--success);margin-bottom:12px;text-transform:uppercase}
+.bankroll-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.bankroll-stat{background:var(--bg);padding:12px;border-radius:8px;text-align:center;border:1px solid var(--border)}
+.bankroll-label{font-size:8px;color:var(--text2);text-transform:uppercase}
+.bankroll-value{font-size:18px;font-weight:700;color:var(--success)}
+.bankroll-value.negative{color:var(--danger)}
+.disclaimer-footer{background:var(--bg2);border-top:2px solid var(--border);padding:20px;margin-top:25px}
+.disclaimer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1400px;margin:0 auto}
+.disclaimer-col{padding:15px;border:1px solid var(--border);border-radius:8px;background:var(--bg)}
+.disclaimer-col h4{font-size:10px;color:var(--accent);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.disclaimer-col p{font-size:8px;color:var(--text2);line-height:1.7}
+.disclaimer-col .hotline{color:var(--danger);font-weight:700}
+footer{text-align:center;padding:15px;background:var(--bg);border-top:1px solid var(--border)}
+footer p{font-size:8px;color:var(--text2)}
+.motto{font-size:10px;color:var(--accent);margin-bottom:8px;font-weight:700}
+.theme-fifa{--accent:#ffd700;--accent2:#ff6b35;--accent-glow:rgba(255,215,0,0.3)}
+.theme-usa{--accent:#002868;--accent2:#BF0A30;--accent-glow:rgba(0,40,104,0.3);--bg:#0a0a18;--bg2:#0f1020;--card:#151530;--border:#002868}
+.theme-usa nav button.active{background:linear-gradient(135deg,#002868,#BF0A30);color:#fff}
+.theme-usa .card::before{background:linear-gradient(90deg,#002868,#BF0A30,#fff,#BF0A30,#002868)}
+.theme-mexico{--accent:#006847;--accent2:#CE1126;--accent-glow:rgba(0,104,71,0.3);--bg:#050a08;--bg2:#0a1510;--card:#0f1f18;--border:#006847}
+.theme-mexico nav button.active{background:linear-gradient(135deg,#006847,#fff,#CE1126);color:#000}
+.theme-mexico .card::before{background:linear-gradient(90deg,#006847,#fff,#CE1126)}
+.theme-canada{--accent:#FF0000;--accent2:#fff;--accent-glow:rgba(255,0,0,0.3);--bg:#0a0505;--bg2:#150a0a;--card:#1f0f0f;--border:#FF0000}
+.theme-canada nav button.active{background:#FF0000;color:#fff}
+.theme-argentina{--accent:#75AADB;--accent2:#fff;--accent-glow:rgba(117,170,219,0.3);--bg:#050810;--bg2:#0a1020;--card:#0f1830;--border:#75AADB}
+.theme-argentina nav button.active{background:linear-gradient(135deg,#75AADB,#fff,#75AADB);color:#000}
+.theme-brazil{--accent:#FFDF00;--accent2:#009739;--accent-glow:rgba(255,223,0,0.3);--bg:#080a05;--bg2:#101508;--card:#182010;--border:#009739}
+.theme-brazil nav button.active{background:linear-gradient(135deg,#FFDF00,#009739);color:#000}
+.theme-brazil .card::before{background:linear-gradient(90deg,#FFDF00,#009739,#002776,#009739,#FFDF00)}
+.theme-france{--accent:#0055A4;--accent2:#EF4135;--accent-glow:rgba(0,85,164,0.3);--bg:#05080a;--bg2:#0a1015;--card:#0f1520;--border:#0055A4}
+.theme-france nav button.active{background:linear-gradient(135deg,#0055A4,#fff,#EF4135);color:#000}
+.theme-england{--accent:#fff;--accent2:#CE1124;--accent-glow:rgba(255,255,255,0.2);--bg:#0a0a0a;--bg2:#151515;--card:#1a1a1a;--border:#CE1124}
+.theme-england nav button.active{background:#CE1124;color:#fff}
+.theme-germany{--accent:#FFCC00;--accent2:#DD0000;--accent-glow:rgba(255,204,0,0.3);--bg:#0a0a0a;--bg2:#151010;--card:#1a1515;--border:#DD0000}
+.theme-germany nav button.active{background:linear-gradient(135deg,#000,#DD0000,#FFCC00);color:#fff}
+.theme-spain{--accent:#AA151B;--accent2:#F1BF00;--accent-glow:rgba(170,21,27,0.3);--bg:#0a0505;--bg2:#150a08;--card:#1f0f0a;--border:#AA151B}
+.theme-spain nav button.active{background:linear-gradient(135deg,#AA151B,#F1BF00);color:#fff}
+.theme-portugal{--accent:#006600;--accent2:#FF0000;--accent-glow:rgba(0,102,0,0.3);--bg:#050805;--bg2:#0a100a;--card:#0f180f;--border:#006600}
+.theme-netherlands{--accent:#FF6600;--accent2:#fff;--accent-glow:rgba(255,102,0,0.4);--bg:#0a0805;--bg2:#151008;--card:#1f180a;--border:#FF6600}
+.theme-netherlands nav button.active{background:#FF6600;color:#fff}
+.theme-haiti{--accent:#00209F;--accent2:#D21034;--accent-glow:rgba(0,32,159,0.4);--bg:#050510;--bg2:#0a0a20;--card:#0f0f30;--border:#00209F}
+.theme-haiti nav button.active{background:linear-gradient(135deg,#00209F,#D21034);color:#fff}
+.theme-haiti .card::before{background:linear-gradient(90deg,#00209F,#D21034)}
+.theme-haiti .xfactor-section{border-color:#00209F;background:linear-gradient(135deg,rgba(0,32,159,0.2),rgba(210,16,52,0.1))}
+.theme-scotland{--accent:#0065BF;--accent2:#fff;--accent-glow:rgba(0,101,191,0.3);--bg:#050810;--bg2:#0a1020;--card:#0f1830;--border:#0065BF}
+.theme-scotland nav button.active{background:#0065BF;color:#fff}
+.theme-morocco{--accent:#C1272D;--accent2:#006233;--accent-glow:rgba(193,39,45,0.3);--bg:#0a0505;--bg2:#150a0a;--card:#1f0f0f;--border:#C1272D}
+.theme-morocco nav button.active{background:linear-gradient(135deg,#C1272D,#006233);color:#fff}
+.theme-japan{--accent:#BC002D;--accent2:#fff;--accent-glow:rgba(188,0,45,0.3);--bg:#0a0508;--bg2:#150a10;--card:#1f0f18;--border:#BC002D}
+.theme-japan nav button.active{background:#BC002D;color:#fff}
+.theme-senegal{--accent:#00853F;--accent2:#FDEF42;--accent-glow:rgba(0,133,63,0.3);--bg:#050a08;--bg2:#0a1510;--card:#0f2018;--border:#00853F}
+.theme-senegal nav button.active{background:linear-gradient(135deg,#00853F,#FDEF42,#E31B23);color:#000}
+.theme-uruguay{--accent:#5CBFEB;--accent2:#fff;--accent-glow:rgba(92,191,235,0.3);--bg:#050a10;--bg2:#0a1520;--card:#0f2030;--border:#5CBFEB}
+.theme-uruguay nav button.active{background:#5CBFEB;color:#000}
+.theme-colombia{--accent:#FCD116;--accent2:#003893;--accent-glow:rgba(252,209,22,0.3);--bg:#0a0a05;--bg2:#151508;--card:#1f1f0a;--border:#003893}
+.theme-colombia nav button.active{background:linear-gradient(135deg,#FCD116,#003893,#CE1126);color:#fff}
+.theme-australia{--accent:#00008B;--accent2:#FFCD00;--accent-glow:rgba(0,0,139,0.3);--bg:#050508;--bg2:#0a0a15;--card:#0f0f1f;--border:#00008B}
+.theme-australia nav button.active{background:linear-gradient(135deg,#00008B,#FFCD00);color:#fff}
+.theme-ghana{--accent:#006B3F;--accent2:#FCD116;--accent-glow:rgba(0,107,63,0.3);--bg:#050805;--bg2:#0a100a;--card:#0f1a0f;--border:#006B3F}
+.theme-ghana nav button.active{background:linear-gradient(135deg,#CE1126,#FCD116,#006B3F);color:#000}
+.theme-ivorycoast{--accent:#FF8200;--accent2:#009A44;--accent-glow:rgba(255,130,0,0.3);--bg:#0a0805;--bg2:#151008;--card:#1f1a0a;--border:#FF8200}
+.theme-ivorycoast nav button.active{background:linear-gradient(135deg,#FF8200,#fff,#009A44);color:#000}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.countdown-grid{grid-template-columns:1fr}.disclaimer-grid{grid-template-columns:1fr}nav{gap:3px}nav button{padding:5px 8px;font-size:8px}}
 </style>
 </head>
-<body class="theme-fifa">
+<body class="theme-fifa device-desktop">
 <div class="ticker"><div class="ticker-content">
 <span class="ticker-item hot">🏒 NHL SCF: Vegas 2-1 Carolina | G3: Eichel 2OT Winner 5-4</span>
 <span class="ticker-item">🏀 NBA Finals: Knicks 2-0 Spurs | 13-Game Win Streak!</span>
 <span class="ticker-item alert">⚽ WC 2026: Opens June 11 - Mexico vs South Africa @ Azteca</span>
 <span class="ticker-item">🇭🇹 Haiti Group C: vs Scotland Jun 13, Brazil Jun 19, Morocco Jun 24</span>
 <span class="ticker-item hot">⚾ MLB: Rangers 10-0 Guardians | deGrom Dominant</span>
-<span class="ticker-item">🔥 Angels 13-5 Dodgers | Rivero 5-for-5, 6 RBI</span>
-<span class="ticker-item hot">🏒 NHL SCF: Vegas 2-1 Carolina | G3: Eichel 2OT Winner 5-4</span>
-<span class="ticker-item">🏀 NBA Finals: Knicks 2-0 Spurs | 13-Game Win Streak!</span>
 </div></div>
 <header>
-<div class="live-clock" id="liveClock">🕐 <span id="clockTime">--:--:--</span> ET</div>
-<h1>💎 SigMAX Intelligence v68 🏆</h1>
-<p class="subtitle">ELITE PREMIUM EDITION</p>
-<p class="tagline">Maximum Edge. Maximum Signal. Maximum Energy.</p>
+<div class="live-clock">🕐 <span id="clockTime">--:--:--</span> ET</div>
+<h1>💎 SigMAX Intelligence v69 🏆</h1>
+<p class="subtitle">COUNTDOWN EDITION • IMMERSIVE THEMES</p>
 </header>
 <nav>
 <button class="active" onclick="showSection('dashboard')">📊 Dashboard</button>
@@ -136,36 +186,41 @@ footer p{font-size:8px;color:#444}
 <button onclick="showSection('wc2026')">⚽ WC 2026</button>
 <button onclick="showSection('parlay')">🎰 Parlay</button>
 <button onclick="showSection('bankroll')">💰 Bankroll</button>
-<button onclick="showSection('journal')">📓 Journal</button>
-<button onclick="showSection('props')">🎯 Props</button>
 <button onclick="showSection('settings')">⚙️ Settings</button>
 </nav>
 <div class="controls">
-<div class="control-group"><span class="control-label">Lang</span>
+<div class="control-group"><span class="control-label">🌐 Lang</span>
 <select id="langSelect" onchange="changeLanguage(this.value)">
-<option value="en">🇺🇸 EN</option><option value="es">🇪🇸 ES</option><option value="fr">🇫🇷 FR</option><option value="pt">🇧🇷 PT</option><option value="de">🇩🇪 DE</option><option value="it">🇮🇹 IT</option><option value="ja">🇯🇵 JA</option><option value="ht">🇭🇹 HT</option>
+<option value="en">🇺🇸 EN</option><option value="es">🇪🇸 ES</option><option value="fr">🇫🇷 FR</option><option value="ht">🇭🇹 HT</option>
 </select></div>
-<div class="control-group"><span class="control-label">Theme</span>
+<div class="control-group"><span class="control-label">🎨 Theme</span>
 <select id="themeSelect" onchange="changeTheme(this.value)">
-<option value="fifa">🏆 FIFA</option><option value="usa">🇺🇸 USA</option><option value="mexico">🇲🇽 MEX</option><option value="canada">🇨🇦 CAN</option><option value="argentina">🇦🇷 ARG</option><option value="brazil">🇧🇷 BRA</option><option value="france">🇫🇷 FRA</option><option value="england">🏴 ENG</option><option value="germany">🇩🇪 GER</option><option value="spain">🇪🇸 ESP</option><option value="portugal">🇵🇹 POR</option><option value="netherlands">🇳🇱 NED</option><option value="haiti">🇭🇹 HAI</option><option value="scotland">🏴󠁧󠁢󠁳󠁣󠁴󠁿 SCO</option><option value="morocco">🇲🇦 MAR</option><option value="japan">🇯🇵 JPN</option><option value="senegal">🇸🇳 SEN</option><option value="uruguay">🇺🇾 URU</option><option value="colombia">🇨🇴 COL</option><option value="australia">🇦🇺 AUS</option>
+<option value="fifa">🏆 FIFA Gold</option><option value="usa">🇺🇸 USA</option><option value="mexico">🇲🇽 Mexico</option><option value="canada">🇨🇦 Canada</option><option value="argentina">🇦🇷 Argentina</option><option value="brazil">🇧🇷 Brazil</option><option value="france">🇫🇷 France</option><option value="england">🏴 England</option><option value="germany">🇩🇪 Germany</option><option value="spain">🇪🇸 Spain</option><option value="portugal">🇵🇹 Portugal</option><option value="netherlands">🇳🇱 Netherlands</option><option value="haiti">🇭🇹 Haiti</option><option value="scotland">🏴 Scotland</option><option value="morocco">🇲🇦 Morocco</option><option value="japan">🇯🇵 Japan</option><option value="senegal">🇸🇳 Senegal</option><option value="uruguay">🇺🇾 Uruguay</option><option value="colombia">🇨🇴 Colombia</option><option value="australia">🇦🇺 Australia</option><option value="ghana">🇬🇭 Ghana</option><option value="ivorycoast">🇨🇮 Ivory Coast</option>
 </select></div>
-<div class="control-group"><span class="control-label">Device</span>
+<div class="control-group"><span class="control-label">📱 Device</span>
 <select id="deviceSelect" onchange="changeDevice(this.value)">
-<option value="auto">🔄 Auto</option><option value="desktop">🖥️ Desktop</option><option value="laptop">💻 Laptop</option><option value="tablet">📱 Tablet</option><option value="mobile">📲 Mobile</option>
+<option value="desktop">🖥️ Desktop</option><option value="laptop">💻 Laptop</option><option value="tablet">📱 Tablet</option><option value="mobile">📲 Mobile</option>
 </select></div>
-<div class="control-group"><span class="control-label">Mode</span>
-<button id="darkBtn" class="active" onclick="setMode('dark')">🌙</button>
-<button id="lightBtn" onclick="setMode('light')">☀️</button>
-</div>
-</div>
+<div class="control-group"><span class="control-label">🌓 Mode</span>
+<button id="darkBtn" class="active" onclick="setMode('dark')">🌙 Dark</button>
+<button id="lightBtn" onclick="setMode('light')">☀️ Light</button>
+</div></div>
 <div class="container">
-<div class="bankroll-tracker"><div class="bankroll-title">💰 Bankroll Tracker - Live</div><div class="bankroll-grid">
+<div class="countdown-section">
+<div class="countdown-title">⏱️ LIVE COUNTDOWNS - BIG EVENTS</div>
+<div class="countdown-grid">
+<div class="countdown-item" id="countdown-wc"><div class="countdown-event">⚽ FIFA World Cup 2026</div><div class="countdown-name">Opening Match: Mexico vs South Africa</div><div class="countdown-timer"><div class="countdown-unit"><span class="countdown-number" id="wc-days">--</span><div class="countdown-label">Days</div></div><div class="countdown-unit"><span class="countdown-number" id="wc-hours">--</span><div class="countdown-label">Hours</div></div><div class="countdown-unit"><span class="countdown-number" id="wc-mins">--</span><div class="countdown-label">Mins</div></div><div class="countdown-unit"><span class="countdown-number" id="wc-secs">--</span><div class="countdown-label">Secs</div></div></div></div>
+<div class="countdown-item" id="countdown-nba"><div class="countdown-event">🏀 NBA Finals Game 3</div><div class="countdown-name">Knicks vs Spurs @ MSG</div><div class="countdown-timer"><div class="countdown-unit"><span class="countdown-number" id="nba-days">--</span><div class="countdown-label">Days</div></div><div class="countdown-unit"><span class="countdown-number" id="nba-hours">--</span><div class="countdown-label">Hours</div></div><div class="countdown-unit"><span class="countdown-number" id="nba-mins">--</span><div class="countdown-label">Mins</div></div><div class="countdown-unit"><span class="countdown-number" id="nba-secs">--</span><div class="countdown-label">Secs</div></div></div></div>
+<div class="countdown-item" id="countdown-nhl"><div class="countdown-event">🏒 NHL Stanley Cup G4</div><div class="countdown-name">Vegas vs Carolina @ Vegas</div><div class="countdown-timer"><div class="countdown-unit"><span class="countdown-number" id="nhl-days">--</span><div class="countdown-label">Days</div></div><div class="countdown-unit"><span class="countdown-number" id="nhl-hours">--</span><div class="countdown-label">Hours</div></div><div class="countdown-unit"><span class="countdown-number" id="nhl-mins">--</span><div class="countdown-label">Mins</div></div><div class="countdown-unit"><span class="countdown-number" id="nhl-secs">--</span><div class="countdown-label">Secs</div></div></div></div>
+<div class="countdown-item" id="countdown-haiti"><div class="countdown-event">🇭🇹 Haiti World Cup Debut</div><div class="countdown-name">Haiti vs Scotland @ Boston</div><div class="countdown-timer"><div class="countdown-unit"><span class="countdown-number" id="haiti-days">--</span><div class="countdown-label">Days</div></div><div class="countdown-unit"><span class="countdown-number" id="haiti-hours">--</span><div class="countdown-label">Hours</div></div><div class="countdown-unit"><span class="countdown-number" id="haiti-mins">--</span><div class="countdown-label">Mins</div></div><div class="countdown-unit"><span class="countdown-number" id="haiti-secs">--</span><div class="countdown-label">Secs</div></div></div></div>
+</div></div>
+<div class="bankroll-tracker"><div class="bankroll-title">💰 BANKROLL TRACKER</div><div class="bankroll-grid">
 <div class="bankroll-stat"><div class="bankroll-label">Starting</div><div class="bankroll-value">$1,000</div></div>
 <div class="bankroll-stat"><div class="bankroll-label">Current</div><div class="bankroll-value">$1,247</div></div>
-<div class="bankroll-stat"><div class="bankroll-label">P/L Today</div><div class="bankroll-value">+$85</div></div>
+<div class="bankroll-stat"><div class="bankroll-label">Today P/L</div><div class="bankroll-value">+$85</div></div>
 <div class="bankroll-stat"><div class="bankroll-label">ROI</div><div class="bankroll-value">+24.7%</div></div>
 <div class="bankroll-stat"><div class="bankroll-label">Win Rate</div><div class="bankroll-value">67%</div></div>
-<div class="bankroll-stat"><div class="bankroll-label">Streak</div><div class="bankroll-value">W4</div></div>
+<div class="bankroll-stat"><div class="bankroll-label">Streak</div><div class="bankroll-value">W4 🔥</div></div>
 </div></div>
 <div class="xfactor-section"><div class="xfactor-title">🔥 X-FACTORS & EDGES 🔥</div><div class="xfactor-grid">
 <div class="xfactor-item"><div class="xfactor-label">NHL Stanley Cup</div><div class="xfactor-value">Eichel 2OT Magic</div><div class="xfactor-edge">+145 Value Play</div><div class="xfactor-confidence">⭐⭐⭐⭐⭐ 94% Conf</div></div>
@@ -173,50 +228,40 @@ footer p{font-size:8px;color:#444}
 <div class="xfactor-item"><div class="xfactor-label">WC 2026 Group C</div><div class="xfactor-value">Haiti vs Scotland</div><div class="xfactor-edge">Upset Potential</div><div class="xfactor-confidence">⭐⭐⭐ 72% Conf</div></div>
 <div class="xfactor-item"><div class="xfactor-label">MLB Pitching</div><div class="xfactor-value">deGrom Dominance</div><div class="xfactor-edge">10-0 Shutout</div><div class="xfactor-confidence">⭐⭐⭐⭐⭐ 96% Conf</div></div>
 </div></div>
-<div class="alerts-section"><div class="alert-title">⚠️ LIVE ALERTS ⚠️</div><div class="alert-grid">
-<div class="alert-item critical"><strong>NHL G4:</strong> June 9 @ Vegas 8PM ET - Series lead at stake<div class="alert-time">⏱️ 10:15 PM ET</div></div>
-<div class="alert-item warning"><strong>NBA G3:</strong> June 8 @ MSG 8:30PM - Knicks can go up 3-0<div class="alert-time">⏱️ 10:12 PM ET</div></div>
-<div class="alert-item info"><strong>WC 2026:</strong> Opens June 11 - Mexico vs South Africa @ Azteca<div class="alert-time">⏱️ 4 days away</div></div>
-<div class="alert-item warning"><strong>Injury:</strong> Cubs Taillon exits G2 - hamstring strain<div class="alert-time">⏱️ 9:45 PM ET</div></div>
+<div class="alerts-section"><div class="alert-title">🚨 LIVE ALERTS 🚨</div><div class="alert-grid">
+<div class="alert-item critical"><strong>NHL G4:</strong> June 9 @ Vegas 8PM ET<div class="alert-time">⏱️ Updated: Now</div></div>
+<div class="alert-item warning"><strong>NBA G3:</strong> June 8 @ MSG 8:30PM<div class="alert-time">⏱️ Tomorrow</div></div>
+<div class="alert-item info"><strong>WC 2026:</strong> Opens June 11 @ Azteca<div class="alert-time">⏱️ 4 days away</div></div>
+<div class="alert-item warning"><strong>Haiti Debut:</strong> June 13 vs Scotland<div class="alert-time">⏱️ 6 days away</div></div>
 </div></div>
-<section id="dashboard" class="section active"><h2 data-i18n="dashboard">📊 Live Dashboard</h2><div class="grid">
-<div class="card"><h3>🏒 NHL SCF - Vegas vs Carolina</h3><div class="stat"><span>Series</span><span style="color:#00ff88">Vegas 2-1</span></div><div class="stat"><span>Game 3</span><span>Vegas 5-4 (2OT)</span></div><div class="stat"><span>Hero</span><span style="color:#ffd700">Eichel 2OT GWG</span></div><div class="stat"><span>Next</span><span>G4: Jun 9 8PM</span></div></div>
-<div class="card"><h3>🏀 NBA Finals - Knicks vs Spurs</h3><div class="stat"><span>Series</span><span style="color:#00ff88">Knicks 2-0</span></div><div class="stat"><span>Game 2</span><span>NYK 105-104</span></div><div class="stat"><span>Streak</span><span style="color:#ffd700">13 Wins</span></div><div class="stat"><span>Next</span><span>G3: Jun 8 8:30PM</span></div></div>
-<div class="card"><h3>⚽ WC 2026 - Group C (Haiti)</h3><div class="stat"><span>Jun 13</span><span>🇭🇹 Haiti vs Scotland 🏴</span></div><div class="stat"><span>Jun 19</span><span>🇧🇷 Brazil vs Haiti 🇭🇹</span></div><div class="stat"><span>Jun 24</span><span>🇲🇦 Morocco vs Haiti 🇭🇹</span></div><div class="stat"><span>Venue</span><span>Boston/Philly/ATL</span></div></div>
+<section id="dashboard" class="section active"><h2>📊 LIVE DASHBOARD</h2><div class="grid">
+<div class="card"><h3>🏒 NHL SCF - Vegas vs Carolina</h3><div class="stat"><span>Series</span><span style="color:var(--success)">Vegas 2-1</span></div><div class="stat"><span>Game 3</span><span>Vegas 5-4 (2OT)</span></div><div class="stat"><span>Hero</span><span style="color:var(--accent)">Eichel 2OT GWG</span></div><div class="stat"><span>Next</span><span>G4: Jun 9 8PM</span></div></div>
+<div class="card"><h3>🏀 NBA Finals - Knicks vs Spurs</h3><div class="stat"><span>Series</span><span style="color:var(--success)">Knicks 2-0</span></div><div class="stat"><span>Game 2</span><span>NYK 105-104</span></div><div class="stat"><span>Streak</span><span style="color:var(--accent)">13 Wins 🔥</span></div><div class="stat"><span>Next</span><span>G3: Jun 8 8:30PM</span></div></div>
+<div class="card"><h3>⚽ WC 2026 - Group C (Haiti)</h3><div class="stat"><span>Jun 13</span><span>🇭🇹 Haiti vs Scotland 🏴</span></div><div class="stat"><span>Jun 19</span><span>🇧🇷 Brazil vs Haiti 🇭🇹</span></div><div class="stat"><span>Jun 24</span><span>🇲🇦 Morocco vs Haiti 🇭🇹</span></div><div class="stat"><span>Venues</span><span>Boston/Philly/ATL</span></div></div>
 </div></section>
-<section id="nhl" class="section"><h2>🏒 NHL Stanley Cup Finals</h2><div class="grid"><div class="card"><h3>Series: Vegas 2-1 Carolina</h3><div class="stat"><span>Game 1</span><span>Vegas 5-4</span></div><div class="stat"><span>Game 2</span><span>Carolina 4-3 (OT)</span></div><div class="stat"><span>Game 3</span><span style="color:#00ff88">Vegas 5-4 (2OT)</span></div><div class="stat"><span>Game 4</span><span>Jun 9 @ VGK 8PM</span></div><div class="stat"><span>Game 5</span><span>Jun 11 @ CAR 8PM</span></div></div></div></section>
-<section id="nba" class="section"><h2>🏀 NBA Finals</h2><div class="grid"><div class="card"><h3>Series: Knicks 2-0 Spurs</h3><div class="stat"><span>Game 1</span><span>Knicks 105-95</span></div><div class="stat"><span>Game 2</span><span>Knicks 105-104</span></div><div class="stat"><span>Game 3</span><span>Jun 8 @ NYK 8:30PM</span></div><div class="stat"><span>Game 4</span><span>Jun 10 @ NYK 8:30PM</span></div><div class="stat"><span>Wemby</span><span>27.5 PPG | 5 BLK</span></div><div class="stat"><span>Brunson</span><span>30 PTS G1</span></div></div></div></section>
-<section id="mlb" class="section"><h2>⚾ MLB - June 7 Results</h2><div class="grid"><div class="card"><h3>Final Scores</h3><div class="stat"><span>Yankees def Red Sox</span><span>6-1</span></div><div class="stat"><span>Phillies def White Sox</span><span>9-5</span></div><div class="stat"><span>Braves def Pirates</span><span>3-2</span></div><div class="stat"><span>Rangers def Guardians</span><span style="color:#ffd700">10-0</span></div><div class="stat"><span>Angels def Dodgers</span><span style="color:#ffd700">13-5</span></div><div class="stat"><span>Brewers def Rockies</span><span>12-4</span></div><div class="stat"><span>Mets def Padres</span><span>7-3</span></div></div></div></section>
-<section id="wc2026" class="section"><h2>⚽ FIFA World Cup 2026</h2><div class="grid">
-<div class="card"><h3>🏆 Tournament Info</h3><div class="stat"><span>Dates</span><span>Jun 11 - Jul 19</span></div><div class="stat"><span>Hosts</span><span>🇺🇸🇲🇽🇨🇦</span></div><div class="stat"><span>Teams</span><span>48 Nations</span></div><div class="stat"><span>Opening</span><span>Mexico vs S.Africa</span></div></div>
+<section id="nhl" class="section"><h2>🏒 NHL STANLEY CUP FINALS</h2><div class="grid"><div class="card"><h3>Series: Vegas 2-1 Carolina</h3><div class="stat"><span>Game 1</span><span>Vegas 5-4</span></div><div class="stat"><span>Game 2</span><span>Carolina 4-3 (OT)</span></div><div class="stat"><span>Game 3</span><span style="color:var(--success)">Vegas 5-4 (2OT)</span></div><div class="stat"><span>Game 4</span><span>Jun 9 @ VGK 8PM</span></div><div class="stat"><span>Game 5</span><span>Jun 11 @ CAR 8PM</span></div></div></div></section>
+<section id="nba" class="section"><h2>🏀 NBA FINALS</h2><div class="grid"><div class="card"><h3>Series: Knicks 2-0 Spurs</h3><div class="stat"><span>Game 1</span><span>Knicks 105-95</span></div><div class="stat"><span>Game 2</span><span>Knicks 105-104</span></div><div class="stat"><span>Game 3</span><span>Jun 8 @ NYK 8:30PM</span></div><div class="stat"><span>Game 4</span><span>Jun 10 @ NYK 8:30PM</span></div><div class="stat"><span>Wemby</span><span>27.5 PPG | 5 BLK</span></div></div></div></section>
+<section id="mlb" class="section"><h2>⚾ MLB - JUNE 7 RESULTS</h2><div class="grid"><div class="card"><h3>Final Scores</h3><div class="stat"><span>Yankees def Red Sox</span><span>6-1</span></div><div class="stat"><span>Rangers def Guardians</span><span style="color:var(--accent)">10-0</span></div><div class="stat"><span>Angels def Dodgers</span><span style="color:var(--accent)">13-5</span></div><div class="stat"><span>Mets def Padres</span><span>7-3</span></div></div></div></section>
+<section id="wc2026" class="section"><h2>⚽ FIFA WORLD CUP 2026</h2><div class="grid">
+<div class="card"><h3>🏆 Tournament Info</h3><div class="stat"><span>Dates</span><span>Jun 11 - Jul 19</span></div><div class="stat"><span>Hosts</span><span>🇺🇸 🇲🇽 🇨🇦</span></div><div class="stat"><span>Teams</span><span>48 Nations</span></div><div class="stat"><span>Opening</span><span>Mexico vs S.Africa</span></div></div>
 <div class="card"><h3>Group C Schedule</h3><div class="stat"><span>Jun 13 6PM</span><span>🇧🇷 vs 🇲🇦 MetLife</span></div><div class="stat"><span>Jun 13 9PM</span><span>🇭🇹 vs 🏴 Boston</span></div><div class="stat"><span>Jun 19 6PM</span><span>🏴 vs 🇲🇦 Boston</span></div><div class="stat"><span>Jun 19 9PM</span><span>🇧🇷 vs 🇭🇹 Philly</span></div><div class="stat"><span>Jun 24 6PM</span><span>🇲🇦 vs 🇭🇹 Atlanta</span></div><div class="stat"><span>Jun 24 6PM</span><span>🏴 vs 🇧🇷 Miami</span></div></div>
-<div class="card"><h3>Group C Teams</h3><div class="stat"><span>🇧🇷 Brazil</span><span>#6</span></div><div class="stat"><span>🇲🇦 Morocco</span><span>#8</span></div><div class="stat"><span>🏴 Scotland</span><span>#43</span></div><div class="stat"><span>🇭🇹 Haiti</span><span>#83</span></div></div>
+<div class="card"><h3>Group C Rankings</h3><div class="stat"><span>🇧🇷 Brazil</span><span>FIFA #6</span></div><div class="stat"><span>🇲🇦 Morocco</span><span>FIFA #8</span></div><div class="stat"><span>🏴 Scotland</span><span>FIFA #43</span></div><div class="stat"><span>🇭🇹 Haiti</span><span>FIFA #83</span></div></div>
 </div></section>
-<section id="parlay" class="section"><h2>🎰 Parlay Builder</h2><div class="grid"><div class="card"><h3>📋 Max Limits</h3><div class="stat"><span>Team Bets</span><span style="color:#ffd700">5 MAX</span></div><div class="stat"><span>Player Props</span><span style="color:#ffd700">5 MAX</span></div><div class="stat"><span>Total Legs</span><span style="color:#ffd700">10 MAX</span></div></div></div></section>
-<section id="bankroll" class="section"><h2>💰 Bankroll Management</h2><div class="grid"><div class="card"><h3>📊 Settings</h3><div class="stat"><span>Unit Size</span><span>$25 (2.5%)</span></div><div class="stat"><span>Max Daily Risk</span><span>$100 (10%)</span></div><div class="stat"><span>Stop Loss</span><span>-$150</span></div><div class="stat"><span>Take Profit</span><span>+$200</span></div></div></div></section>
-<section id="journal" class="section"><h2>📓 Betting Journal</h2><div class="grid"><div class="card"><h3>Recent Entries</h3><div class="stat"><span>Jun 7</span><span>NHL G3 Vegas ML ✅ +145</span></div><div class="stat"><span>Jun 6</span><span>MLB Yankees -1.5 ✅ +120</span></div><div class="stat"><span>Jun 5</span><span>NBA Knicks -3 ✅ -110</span></div></div></div></section>
-<section id="props" class="section"><h2>🎯 Player Props</h2><div class="grid"><div class="card"><h3>Hot Props Today</h3><div class="stat"><span>Eichel o1.5 pts</span><span style="color:#00ff88">+125 🔥</span></div><div class="stat"><span>Brunson o28.5 pts</span><span style="color:#00ff88">-115 🔥</span></div><div class="stat"><span>Wemby o2.5 blk</span><span>-120</span></div></div></div></section>
-<section id="settings" class="section"><h2>⚙️ Settings</h2><div class="grid"><div class="card"><h3>Preferences</h3><div class="stat"><span>Sound Alerts</span><span>ON 🔊</span></div><div class="stat"><span>Push Notifications</span><span>ON 🔔</span></div><div class="stat"><span>Auto-Refresh</span><span>30s</span></div><div class="stat"><span>Timezone</span><span>ET (UTC-4)</span></div></div></div></section>
+<section id="parlay" class="section"><h2>🎰 PARLAY BUILDER</h2><div class="grid"><div class="card"><h3>📋 Limits</h3><div class="stat"><span>Team Bets</span><span style="color:var(--accent)">5 MAX</span></div><div class="stat"><span>Player Props</span><span style="color:var(--accent)">5 MAX</span></div><div class="stat"><span>Total Legs</span><span style="color:var(--accent)">10 MAX</span></div></div></div></section>
+<section id="bankroll" class="section"><h2>💰 BANKROLL MANAGEMENT</h2><div class="grid"><div class="card"><h3>📊 Settings</h3><div class="stat"><span>Unit Size</span><span>$25 (2.5%)</span></div><div class="stat"><span>Max Daily Risk</span><span>$100 (10%)</span></div><div class="stat"><span>Stop Loss</span><span style="color:var(--danger)">-$150</span></div><div class="stat"><span>Take Profit</span><span style="color:var(--success)">+$200</span></div></div></div></section>
+<section id="settings" class="section"><h2>⚙️ SETTINGS</h2><div class="grid"><div class="card"><h3>Preferences</h3><div class="stat"><span>Sound Alerts</span><span>ON 🔊</span></div><div class="stat"><span>Notifications</span><span>ON 🔔</span></div><div class="stat"><span>Auto-Refresh</span><span>30s</span></div><div class="stat"><span>Timezone</span><span>ET (UTC-4)</span></div></div></div></section>
 </div>
 <div class="disclaimer-footer"><div class="disclaimer-grid">
-<div class="disclaimer-col"><h4>🍁 Ontario, Canada</h4><p>Gambling can be addictive. Play responsibly. 19+ only. Problem? Call ConnexOntario <span class="hotline">1-866-531-2600</span> or visit ConnexOntario.ca. Regulated by AGCO.</p></div>
-<div class="disclaimer-col"><h4>🇺🇸 United States</h4><p>21+ in most states. Problem? Call <span class="hotline">1-800-GAMBLER</span>. NJ/PA: 1-800-GAMBLER. NY: 1-877-8-HOPENY. Self-exclusion available.</p></div>
-<div class="disclaimer-col"><h4>🌍 International</h4><p>Laws vary by jurisdiction. Must be legal age. UK: GambleAware 0808-8020-133. Always verify local laws.</p></div>
+<div class="disclaimer-col"><h4>🍁 Ontario, Canada</h4><p>Gambling can be addictive. 19+ only. Problem? <span class="hotline">1-866-531-2600</span> ConnexOntario.ca</p></div>
+<div class="disclaimer-col"><h4>🇺🇸 United States</h4><p>21+ most states. Problem? <span class="hotline">1-800-GAMBLER</span></p></div>
+<div class="disclaimer-col"><h4>🌍 International</h4><p>Laws vary. Must be legal age. UK: GambleAware 0808-8020-133</p></div>
 </div></div>
-<footer><p class="motto">Watch Passionately. Bet Wisely!!</p><p>© 2026 SigMAX Intelligence v68 | Triple-Verified Data | Not affiliated with any league</p></footer>
+<footer><p class="motto">Watch Passionately. Bet Wisely!!</p><p>© 2026 SigMAX Intelligence v69 | Triple-Verified Data</p></footer>
 <script>
 function updateClock(){const now=new Date();const h=String(now.getHours()).padStart(2,'0');const m=String(now.getMinutes()).padStart(2,'0');const s=String(now.getSeconds()).padStart(2,'0');document.getElementById('clockTime').textContent=h+':'+m+':'+s}
 setInterval(updateClock,1000);updateClock();
-const translations={en:{dashboard:'📊 Live Dashboard'},es:{dashboard:'📊 Panel en Vivo'},fr:{dashboard:'📊 Tableau de Bord'},pt:{dashboard:'📊 Painel ao Vivo'},de:{dashboard:'📊 Live-Dashboard'},it:{dashboard:'📊 Pannello Live'},ja:{dashboard:'📊 ライブダッシュボード'},ht:{dashboard:'📊 Tablo an Dirèk'}};
-function changeLanguage(lang){const t=translations[lang]||translations.en;document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(t[key])el.textContent=t[key]});localStorage.setItem('sigmax-lang',lang)}
-function changeTheme(theme){document.body.className=document.body.className.replace(/theme-\w+/,'theme-'+theme);localStorage.setItem('sigmax-theme',theme)}
-function changeDevice(device){document.body.classList.remove('device-desktop','device-laptop','device-mobile','device-tablet');if(device!=='auto')document.body.classList.add('device-'+device);localStorage.setItem('sigmax-device',device)}
-function setMode(mode){document.body.classList.toggle('light',mode==='light');document.getElementById('darkBtn').classList.toggle('active',mode==='dark');document.getElementById('lightBtn').classList.toggle('active',mode==='light');localStorage.setItem('sigmax-mode',mode)}
-function showSection(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));event.target.classList.add('active')}
-const savedTheme=localStorage.getItem('sigmax-theme');if(savedTheme)changeTheme(savedTheme);
-const savedLang=localStorage.getItem('sigmax-lang');if(savedLang){document.getElementById('langSelect').value=savedLang;changeLanguage(savedLang)}
-const savedDevice=localStorage.getItem('sigmax-device');if(savedDevice){document.getElementById('deviceSelect').value=savedDevice;changeDevice(savedDevice)}
-const savedMode=localStorage.getItem('sigmax-mode');if(savedMode)setMode(savedMode);
-</script>
-</body>
-</html>
+const events={wc:{date:new Date('2026-06-11T21:00:00-04:00'),name:'WC Opening'},nba:{date:new Date('2026-06-08T20:30:00-04:00'),name:'NBA G3'},nhl:{date:new Date('2026-06-09T20:00:00-04:00'),name:'NHL G4'},haiti:{date:new Date('2026-06-13T21:00:00-04:00'),name:'Haiti vs Scotland'}};
+function updateCountdowns(){const now=new Date();for(const[key,event]of Object.entries(events)){const diff=event.date-now;const el=document.getElementById('countdown-'+key);if(diff<=0){document.getElementById(key+'-days').textContent='00';document.getElementById(key+'-hours').textContent='00';document.getElementById(key+'-mins').textContent='00';document.getElementById(key+'-secs').textContent='LIVE!';el.classList.add('imminent')}else{const days=Math.floor(diff/(1000*60*60*24));const hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));const mins=Math.floor((diff%(1000*60*60))/(1000*60));const secs=Math.floor((diff%(1000*60))/1000);document.getElementById(key+'-days').textContent=String(days).padStart(2,'0');document.getElementById(key+'-hours').textContent=String(hours).padStart(2,'0');document.getElementById(key+'-mins').textContent=String(mins).padStart(2,'0');document.getElementById(key+'-secs').textContent=String(secs).padStart(2,'0');if(days===0&&hours<12)el.classList.add('imminent');else el.classList.remove('imminent')}}}
+setInterval(updateCountdowns,1000);updateCountdowns();
+function changeTheme(theme){document.body.className=document.body.className.replace(/theme-\w+/g,'');document.body.classList.add('theme-'+theme);localStorage.setItem('sigmax-theme',
+                                                                                                                                                                      
