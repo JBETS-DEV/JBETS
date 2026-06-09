@@ -1,366 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>🏆 SIGMAX Intelligence — ULTIMATE PREMIUM EDITION</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>🏆 SIGMAX Intelligence v75 — Ultimate Premium Edition</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@400;600;800&display=swap');
-:root{--bg:#050508;--card:#0d0d14;--card-border:#1a1a2a;--accent:#ffd700;--accent2:#f4c430;--text:#e8e8e8;--text-muted:#888;--green:#00ff88;--red:#ff4757;--blue:#4ecdc4;--gold-gradient:linear-gradient(135deg,#ffd700 0%,#f4c430 25%,#fff8dc 50%,#f4c430 75%,#ffd700 100%);--luxury-bg:linear-gradient(180deg,#0a0a12 0%,#0f0f1a 50%,#050510 100%)}
+:root{--bg:#050508;--card:#0d0d14;--card-border:#1a1a2a;--accent:#ffd700;--text:#e8e8e8;--text-muted:#888;--green:#00ff88;--red:#ff4757;--blue:#4ecdc4}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Montserrat',sans-serif;background:var(--luxury-bg);color:var(--text);min-height:100vh;overflow-x:hidden;padding-top:50px}
-.luxury-font{font-family:'Playfair Display',serif}
-.container{max-width:1400px;margin:0 auto;padding:20px}
-/* Animations */
-@keyframes fall{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
-@keyframes twinkle{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
-@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
-@keyframes pulse-gold{0%,100%{box-shadow:0 0 20px rgba(255,215,0,0.4)}50%{box-shadow:0 0 40px rgba(255,215,0,0.8),0 0 60px rgba(255,215,0,0.4)}}
-@keyframes scroll-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@keyframes confetti-fall{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
-@keyframes countdown-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-/* Stars & Confetti */
-.stars-container,.confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
-.star,.diamond,.confetti{position:absolute;animation:fall linear infinite}
-.star{font-size:1.5rem;text-shadow:0 0 10px rgba(255,215,0,0.8)}
-.diamond{width:10px;height:10px;background:var(--gold-gradient);clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);box-shadow:0 0 15px rgba(255,215,0,0.6)}
-.confetti{width:10px;height:10px;opacity:0.8}
-
-/* Ticker */
-.ticker-wrapper{position:fixed;top:0;left:0;right:0;z-index:1000;background:linear-gradient(90deg,#0a0a0f 0%,#1a1a2a 50%,#0a0a0f 100%);border-bottom:2px solid;border-image:var(--gold-gradient) 1;height:45px;overflow:hidden}
-.ticker-track{display:flex;animation:scroll-left 60s linear infinite;width:max-content}
-.ticker-track:hover{animation-play-state:paused}
-.ticker-item{display:inline-flex;align-items:center;padding:12px 30px;white-space:nowrap;font-weight:600;font-size:0.95rem;gap:8px;border-right:1px solid #333}
-.ticker-item.win{color:var(--green)}.ticker-item.loss{color:var(--red)}.ticker-item.alert{color:#ff9f43}.ticker-item.upcoming{color:var(--accent)}
-/* Language Selector - TOP LEFT */
-.lang-selector{position:fixed;top:55px;left:20px;z-index:999}
-.lang-selector select{background:var(--card);color:var(--text);border:1px solid var(--accent);border-radius:8px;padding:8px 15px;cursor:pointer;font-size:0.85rem}
-
-/* Theme Selector - TOP RIGHT */
-.theme-selector{position:fixed;top:55px;right:20px;z-index:999}
-.theme-btn{background:var(--card);border:1px solid var(--accent);border-radius:10px;padding:10px 15px;cursor:pointer;color:var(--accent);font-weight:600}
-.theme-dropdown{display:none;position:absolute;top:45px;right:0;background:var(--card);border:1px solid var(--accent);border-radius:10px;max-height:400px;overflow-y:auto;min-width:200px}
-.theme-dropdown.show{display:block}
-.theme-category{padding:8px 15px;color:var(--accent);font-weight:700;border-bottom:1px solid #333;font-size:0.8rem}
-.theme-option{padding:10px 15px;cursor:pointer;display:flex;align-items:center;gap:10px}
-.theme-option:hover{background:rgba(255,215,0,0.1)}
-/* Header */
-/* ELITE COMPACT HEADER */
-.header{background:linear-gradient(135deg,#0a0a12 0%,#12121f 50%,#0a0a12 100%);border-radius:12px;padding:12px 20px;margin-bottom:15px;display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(255,215,0,0.3);box-shadow:0 4px 20px rgba(0,0,0,0.4)}
-.header-left{display:flex;align-items:center;gap:12px}
-.logo{font-size:2rem;animation:float 3s ease-in-out infinite}
-.header-text{text-align:left}
-.title{font-size:1.4rem;font-weight:800;background:var(--gold-gradient);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite;line-height:1.2;letter-spacing:1px}
-.tagline{color:var(--accent);font-size:0.65rem;margin-top:2px;letter-spacing:2px;text-transform:uppercase;opacity:0.8}
-.header-stats{display:flex;gap:20px;align-items:center}
-.hs{text-align:center;padding:0 15px;border-left:1px solid rgba(255,215,0,0.2)}
-.hs:first-child{border-left:none}
-.hs-val{font-size:1.1rem;font-weight:800;color:var(--accent);line-height:1}
-.hs-lbl{font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180deg,#0a0a12 0%,#0f0f1a 50%,#050510 100%);color:var(--text);min-height:100vh;overflow-x:hidden}
+.container{max-width:1400px;margin:0 auto;padding:60px 20px 20px}
+.header{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);border-radius:20px;padding:25px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;border:2px solid var(--accent);box-shadow:0 0 30px rgba(255,215,0,0.3)}
+.header-left{display:flex;align-items:center;gap:15px}
+.logo{font-size:3rem}
+.title{font-size:2rem;font-weight:800;background:linear-gradient(90deg,#ffd700,#ff6b35,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tagline{color:#888;font-size:0.9rem}
+.header-stats{display:flex;gap:25px;flex-wrap:wrap}
+.hs{text-align:center}
+.hs-val{font-size:1.5rem;font-weight:800;color:var(--accent)}
 .hs-val.green{color:var(--green)}
-@media(max-width:900px){.header{flex-direction:column;gap:12px;text-align:center}.header-left{flex-direction:column}.header-text{text-align:center}.header-stats{flex-wrap:wrap;justify-content:center}.hs{border-left:none;padding:5px 10px}}
-
-/* Stats Grid */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin:20px 0}
-.stat-card{background:var(--card);border-radius:15px;padding:20px;text-align:center;border:1px solid var(--card-border);transition:all 0.3s}
-.stat-card:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:0 10px 30px rgba(255,215,0,0.2)}
-.stat-value{font-size:2.2rem;font-weight:800;color:var(--accent)}
-.stat-label{color:var(--text-muted);font-size:0.85rem;margin-top:5px}
-/* Tabs - 10 Tabs */
-.tabs{display:flex;gap:8px;margin:20px 0;flex-wrap:wrap;justify-content:center}
-.tab{background:var(--card);border:1px solid #333;border-radius:25px;padding:10px 20px;cursor:pointer;transition:all 0.3s;font-weight:600;font-size:0.9rem}
+.hs-lbl{color:#888;font-size:0.8rem}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin:20px 0}
+.stat-card{background:var(--card);border-radius:15px;padding:20px;text-align:center;border:1px solid #333;transition:all 0.3s}
+.stat-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 10px 30px rgba(255,215,0,0.2)}
+.stat-value{font-size:2rem;font-weight:800;color:var(--accent)}
+.stat-label{color:#888;font-size:0.85rem;margin-top:5px}
+.countdown-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin:20px 0}
+.countdown-box{background:var(--card);border-radius:15px;padding:20px;text-align:center;border:2px solid var(--accent)}
+.cb-icon{font-size:2rem;margin-bottom:10px}
+.cb-title{font-weight:700;color:var(--accent);font-size:1.1rem}
+.cb-subtitle{color:var(--text-muted);font-size:0.9rem;margin:5px 0}
+.cb-value{font-size:2rem;font-weight:800;color:var(--accent)}
+.cb-label{color:var(--text-muted);font-size:0.8rem}
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0;padding:15px;background:var(--card);border-radius:15px}
+.tab{padding:12px 20px;background:#1a1a2a;border-radius:10px;cursor:pointer;font-weight:600;transition:all 0.3s;border:1px solid transparent}
 .tab:hover,.tab.active{background:var(--accent);color:#000;border-color:var(--accent)}
 .tab-content{display:none}
 .tab-content.active{display:block}
-
-/* Sections */
-.section{background:var(--card);border-radius:15px;padding:20px;margin:15px 0;border:1px solid var(--card-border)}
-.section-title{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:15px;display:flex;align-items:center;gap:10px}
-
-/* Game Cards */
-.game-card{background:#1a1a2e;border-radius:10px;padding:15px;margin:10px 0;border-left:4px solid var(--accent);display:grid;grid-template-columns:100px 1fr 120px;gap:15px;align-items:center}
-.game-time{font-size:0.85rem;color:var(--text-muted)}
-.game-matchup{font-weight:600;font-size:1.1rem}
+.section{margin:20px 0}
+.section-title{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid var(--accent)}
+.game-card{background:var(--card);border-radius:12px;padding:15px 20px;margin-bottom:12px;display:grid;grid-template-columns:100px 1fr auto;gap:15px;align-items:center;border:1px solid #333;transition:all 0.3s}
+.game-card:hover{border-color:var(--accent);transform:translateX(5px)}
+.game-card.win{border-left:4px solid var(--green)}
+.game-card.loss{border-left:4px solid var(--red)}
+.game-card.live{border-left:4px solid #ff0000;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 10px rgba(255,0,0,0.3)}50%{box-shadow:0 0 20px rgba(255,0,0,0.6)}}
+.game-time{font-size:0.85rem;color:var(--text-muted);text-align:center}
+.game-matchup{font-weight:600}
 .game-pick{text-align:right}
-.confidence{display:inline-flex;gap:2px}
-.star{color:var(--accent)}.star.empty{opacity:0.3}
-.win{color:var(--green)}.loss{color:var(--red)}.pending{color:var(--accent)}.live{color:#ff9f43;animation:pulse-gold 2s infinite}
-/* Countdown */
-.countdown-container{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
-.countdown-box{background:linear-gradient(135deg,#0a1628 0%,#0d1f3c 50%,#091422 100%);border-radius:12px;padding:12px 8px;text-align:center;border:1px solid rgba(255,215,0,0.3);position:relative;overflow:hidden}
-.countdown-box:hover{border-color:var(--accent);box-shadow:0 0 15px rgba(255,215,0,0.2)}
-.countdown-box .cb-icon{font-size:1.2rem;margin-bottom:4px}
-.countdown-box .cb-title{font-size:0.7rem;font-weight:700;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.countdown-box .cb-subtitle{font-size:0.55rem;color:rgba(255,255,255,0.7);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.countdown-box .cb-timer{display:flex;justify-content:center;gap:4px}
-.countdown-box .cb-unit{background:rgba(0,0,0,0.4);padding:4px 6px;border-radius:4px;min-width:32px}
-.countdown-box .cb-value{font-size:0.9rem;font-weight:800;color:var(--accent)}
-.countdown-box .cb-label{font-size:0.45rem;color:rgba(255,255,255,0.6);text-transform:uppercase}
-@media(max-width:768px){.countdown-container{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.countdown-container{grid-template-columns:1fr}}
-
-/* Parlay Builder */
-.parlay-builder{background:linear-gradient(135deg,#1a1a2e,#0f3460);border-radius:15px;padding:20px;border:2px solid var(--accent)}
-.parlay-rules{background:rgba(255,0,0,0.1);border:1px solid var(--red);border-radius:10px;padding:15px;margin:15px 0}
-.parlay-rules-title{color:var(--red);font-weight:700;margin-bottom:10px}
-.parlay-tagline{text-align:center;color:var(--accent);font-style:italic;margin-top:15px;font-size:0.9rem}
-.parlay-leg{display:grid;grid-template-columns:40px 1fr 100px 80px;gap:10px;padding:10px;background:rgba(255,255,255,0.05);border-radius:8px;margin:5px 0;align-items:center}
-.parlay-summary{background:var(--card);border-radius:10px;padding:15px;margin-top:15px;border:1px solid var(--accent)}
-/* X-Factors - 8 Sections */
-.xfactors-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:15px}
-.xfactor-card{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:12px;padding:15px;border-left:4px solid var(--accent)}
-.xfactor-category{font-size:0.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.xfactor-content{font-size:0.95rem;line-height:1.5}
-.xfactor-icon{font-size:1.5rem;margin-right:10px}
-
-/* Disclaimer - 3 Columns */
-.disclaimer{background:rgba(255,0,0,0.05);border:1px solid rgba(255,0,0,0.2);border-radius:10px;padding:20px;margin-top:30px}
-.disclaimer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-@media(max-width:768px){.disclaimer-grid{grid-template-columns:1fr}}
-.disclaimer-col h4{color:var(--red);margin-bottom:10px;font-size:0.9rem}
-.disclaimer-col p{font-size:0.75rem;color:var(--text-muted);line-height:1.6}
-
-/* Mobile Responsive */
-@media(max-width:768px){
-.game-card{grid-template-columns:1fr}
-.stats-grid{grid-template-columns:repeat(2,1fr)}
-.title{font-size:1.8rem}
-.tabs{gap:5px}
-.tab{padding:8px 12px;font-size:0.8rem}
-.parlay-leg{grid-template-columns:1fr}
-}
-/* ═══════════════ 49 COUNTRY THEMES ═══════════════ */
-/* Special Themes */
-.theme-gold{--accent:#ffd700;--accent2:#f4c430;--card:#1a1a2e}
-.theme-dark{--accent:#ffffff;--accent2:#888888;--card:#0a0a0f}
-.theme-neon{--accent:#00ff88;--accent2:#ff00ff;--card:#0a0a0f}
-/* CONCACAF */
-.theme-usa{--accent:#002868;--accent2:#bf0a30;--card:#1a1a2e}
-.theme-canada{--accent:#ff0000;--accent2:#ffffff;--card:#1a1a2e}
-.theme-mexico{--accent:#006847;--accent2:#ce1126;--card:#1a1a2e}
-.theme-costarica{--accent:#002b7f;--accent2:#ce1126;--card:#1a1a2e}
-.theme-jamaica{--accent:#009b3a;--accent2:#fed100;--card:#000000}
-.theme-honduras{--accent:#0073cf;--accent2:#ffffff;--card:#1a1a2e}
-.theme-panama{--accent:#005293;--accent2:#da121a;--card:#1a1a2e}
-/* UEFA */
-.theme-germany{--accent:#ffcc00;--accent2:#000000;--card:#dd0000}
-.theme-france{--accent:#0055a4;--accent2:#ef4135;--card:#1a1a2e}
-.theme-england{--accent:#ffffff;--accent2:#ce1124;--card:#1a1a2e}
-.theme-spain{--accent:#c60b1e;--accent2:#ffc400;--card:#1a1a2e}
-.theme-italy{--accent:#008c45;--accent2:#cd212a;--card:#1a1a2e}
-.theme-portugal{--accent:#006600;--accent2:#ff0000;--card:#1a1a2e}
-.theme-netherlands{--accent:#ff6600;--accent2:#ffffff;--card:#21468b}
-.theme-belgium{--accent:#fdda24;--accent2:#ef3340;--card:#000000}
-.theme-croatia{--accent:#ff0000;--accent2:#ffffff;--card:#171796}
-.theme-poland{--accent:#ffffff;--accent2:#dc143c;--card:#1a1a2e}
-.theme-switzerland{--accent:#ff0000;--accent2:#ffffff;--card:#1a1a2e}
-.theme-denmark{--accent:#c8102e;--accent2:#ffffff;--card:#1a1a2e}
-.theme-austria{--accent:#ed2939;--accent2:#ffffff;--card:#1a1a2e}
-.theme-serbia{--accent:#c8102e;--accent2:#0c4076;--card:#1a1a2e}
-.theme-scotland{--accent:#0065bd;--accent2:#ffffff;--card:#1a1a2e}
-.theme-wales{--accent:#00ab39;--accent2:#c8102e;--card:#1a1a2e}
-.theme-ukraine{--accent:#0057b7;--accent2:#ffd700;--card:#1a1a2e}
-.theme-czechia{--accent:#11457e;--accent2:#d7141a;--card:#1a1a2e}
-.theme-greece{--accent:#0d5eaf;--accent2:#ffffff;--card:#1a1a2e}
-.theme-sweden{--accent:#006aa7;--accent2:#fecc00;--card:#1a1a2e}
-.theme-norway{--accent:#ba0c2f;--accent2:#00205b;--card:#1a1a2e}
-/* CONMEBOL */
-.theme-brazil{--accent:#009c3b;--accent2:#ffdf00;--card:#002776}
-.theme-argentina{--accent:#74acdf;--accent2:#ffffff;--card:#1a1a2e}
-.theme-colombia{--accent:#fcd116;--accent2:#003893;--card:#ce1126}
-.theme-uruguay{--accent:#5cbfeb;--accent2:#ffffff;--card:#1a1a2e}
-.theme-chile{--accent:#d52b1e;--accent2:#0039a6;--card:#1a1a2e}
-.theme-peru{--accent:#d91023;--accent2:#ffffff;--card:#1a1a2e}
-.theme-ecuador{--accent:#ffce00;--accent2:#034ea2;--card:#1a1a2e}
-/* AFC */
-.theme-japan{--accent:#ffffff;--accent2:#bc002d;--card:#1a1a2e}
-.theme-southkorea{--accent:#003478;--accent2:#c60c30;--card:#1a1a2e}
-.theme-australia{--accent:#00843d;--accent2:#ffcd00;--card:#002b7f}
-.theme-saudiarabia{--accent:#006c35;--accent2:#ffffff;--card:#1a1a2e}
-.theme-iran{--accent:#239f40;--accent2:#da0000;--card:#1a1a2e}
-.theme-qatar{--accent:#8a1538;--accent2:#ffffff;--card:#1a1a2e}
-/* CAF */
-.theme-morocco{--accent:#c1272d;--accent2:#006233;--card:#1a1a2e}
-.theme-senegal{--accent:#00853f;--accent2:#fdef42;--card:#e31b23}
-.theme-cameroon{--accent:#007a5e;--accent2:#ce1126;--card:#fcd116}
-.theme-nigeria{--accent:#008751;--accent2:#ffffff;--card:#1a1a2e}
-.theme-egypt{--accent:#c8102e;--accent2:#000000;--card:#1a1a2e}
-.theme-southafrica{--accent:#007749;--accent2:#ffb81c;--card:#000000}
-/* Team Profile Cards */
-.tcg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
-.tc{background:var(--card);border-radius:12px;overflow:hidden;border:1px solid var(--card-border);transition:all 0.3s}
-.tc:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 10px 25px rgba(255,215,0,0.15)}
-.tc-h{height:120px;position:relative;display:flex;align-items:center;justify-content:center}
-.tc-h::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,0.8))}
-.tc-f{font-size:4rem;z-index:1;filter:drop-shadow(0 5px 10px rgba(0,0,0,0.5))}
-.tc-s{position:absolute;bottom:6px;left:10px;z-index:2;background:var(--gold-gradient);color:#000;padding:3px 8px;border-radius:10px;font-weight:700;font-size:0.65rem}
-.tc-b{padding:12px}
-.tc-n{font-size:1.1rem;font-weight:800;color:var(--accent)}
-.tc-g{display:inline-block;background:rgba(255,215,0,0.15);color:var(--accent);padding:2px 6px;border-radius:8px;font-size:0.65rem;margin-left:8px}
-.tc-i{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:8px 0}
-.tc-ii{background:rgba(0,0,0,0.25);padding:5px;border-radius:5px}
-.tc-il{font-size:0.55rem;color:var(--text-muted);text-transform:uppercase}
-.tc-iv{font-size:0.75rem;font-weight:600}
-.tc-his{margin-top:8px;padding:8px;background:rgba(255,215,0,0.03);border-left:2px solid var(--accent);font-size:0.7rem;color:var(--text-muted);line-height:1.3}
-
-/* Parlay Builder Inputs */
-.parlay-table{background:var(--card);border-radius:10px;overflow:hidden;margin:10px 0}
-.parlay-header{display:grid;grid-template-columns:40px 1fr 1fr 1fr 1fr 80px 60px;gap:8px;padding:10px 15px;background:rgba(255,215,0,0.1);font-weight:700;font-size:0.8rem;color:var(--accent)}
-.parlay-row{display:grid;grid-template-columns:40px 1fr 1fr 1fr 1fr 80px 60px;gap:8px;padding:10px 15px;border-top:1px solid rgba(255,255,255,0.05);align-items:center}
-.parlay-row:hover{background:rgba(255,215,0,0.03)}
-.p-select{background:var(--card);color:var(--text);border:1px solid #333;border-radius:6px;padding:6px 8px;font-size:0.8rem;cursor:pointer;width:100%}
-.p-select:focus{border-color:var(--accent);outline:none}
-.p-input{background:rgba(0,0,0,0.3);color:var(--text);border:1px solid #333;border-radius:6px;padding:6px 8px;font-size:0.8rem;width:100%}
-.p-input:focus{border-color:var(--accent);outline:none}
-.p-input::placeholder{color:#666}
-.p-odds{width:70px;text-align:center}
-.p-status{font-size:1rem;text-align:center}
-
-.tc-his{font-size:0.75rem;color:var(--text-muted);line-height:1.5;max-height:55px;overflow:hidden;transition:max-height 0.5s ease;cursor:pointer;position:relative;padding-bottom:18px;white-space:pre-wrap}
-.tc-his.open{max-height:600px;padding-bottom:5px}
-.tc-toggle{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:0.6rem;color:var(--accent);background:linear-gradient(transparent,var(--card) 60%);padding-top:12px}
-.tc-his.open .tc-toggle{display:none}
-
-/* Auto-Odds Parlay Builder */
-.p-auto{background:var(--card);color:var(--text);border:1px solid var(--card-border);border-radius:8px;padding:8px 10px;font-size:0.85rem;width:100%;cursor:pointer}
-.p-auto:hover{border-color:var(--accent)}
-.p-auto:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(255,215,0,0.2)}
-.auto-odds{font-weight:700;color:var(--accent);min-width:60px;text-align:center}
-.auto-odds.negative{color:var(--red)}
-.auto-odds.positive{color:var(--green)}
-.p-chk{font-size:1rem}
-.parlay-table{margin-top:10px}
-.parlay-header{display:grid;grid-template-columns:35px 1fr 70px 35px;gap:10px;padding:8px 10px;background:rgba(255,215,0,0.1);border-radius:8px 8px 0 0;font-weight:600;font-size:0.8rem;color:var(--accent)}
-.parlay-row{display:grid;grid-template-columns:35px 1fr 70px 35px;gap:10px;padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);align-items:center}
-.parlay-row:last-child{border-bottom:none}
-
-.auto-odds{font-weight:700;color:var(--accent);min-width:55px;text-align:center;display:inline-block}
-.auto-odds.pos{color:var(--green)}.auto-odds.neg{color:var(--red)}
-.p-auto{background:var(--card);color:var(--text);border:1px solid var(--card-border);border-radius:8px;padding:8px 10px;font-size:0.85rem;width:100%;cursor:pointer}
-.p-auto:hover{border-color:var(--accent)}.p-auto:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(255,215,0,0.2)}
-.p-chk{font-size:1rem}
-.p-grid{display:grid;grid-template-columns:40px 1fr 65px 40px;gap:8px;align-items:center}
-.p-hdr{display:grid;grid-template-columns:40px 1fr 65px 40px;gap:8px;padding:8px 10px;background:rgba(255,215,0,0.1);border-radius:8px 8px 0 0;font-weight:600;font-size:0.75rem;color:var(--accent)}
-.p-row{display:grid;grid-template-columns:40px 1fr 65px 40px;gap:8px;padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);align-items:center}
-.p-leg{font-weight:700;color:var(--accent)}
-.p-summ{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:15px;padding:15px;background:rgba(255,215,0,0.05);border-radius:10px;border:1px solid var(--accent)}
-.p-summ-box{text-align:center}.p-summ-val{font-size:1.5rem;font-weight:800;color:var(--accent)}.p-summ-lbl{font-size:0.75rem;color:var(--text-muted)}
-</style>
-</head>
-<body class="theme-gold">
-<!-- Stars Container -->
-<div class="stars-container" id="stars"></div>
-<!-- Confetti Container -->
-<div class="confetti-container" id="confetti"></div>
-
-<!-- Ticker Banner -->
+.confidence{color:gold;font-size:0.9rem}
+.star-icon.empty{opacity:0.3}
+.win{color:var(--green);font-weight:700}
+.loss{color:var(--red)}
+.pending{color:var(--text-muted)}
+.wc-banner{background:linear-gradient(135deg,#006400 0%,#228B22 50%,#32CD32 100%);border-radius:15px;padding:20px;text-align:center;border:2px solid gold}
+.ticker-wrapper{position:fixed;top:0;left:0;right:0;z-index:1000;background:linear-gradient(90deg,#0a0a0f,#1a1a2a,#0a0a0f);border-bottom:2px solid var(--accent);padding:12px 0;overflow:hidden}
+.ticker-track{display:flex;animation:scroll-left 45s linear infinite;width:max-content}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{display:inline-flex;align-items:center;padding:0 30px;white-space:nowrap;font-weight:600;font-size:0.9rem;gap:8px;border-right:1px solid #333}
+.ticker-item.win{color:var(--green)}
+.ticker-item.loss{color:var(--red)}
+.ticker-item.alert{color:#ff9f43}
+.ticker-item.upcoming{color:var(--accent)}
+@keyframes scroll-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.stars-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;animation:fall linear infinite}
+@keyframes fall{0%{transform:translateY(-100vh);opacity:1}100%{transform:translateY(100vh);opacity:0}}
+</style></head><body>
+<div class="stars-container"></div>
 <div class="ticker-wrapper">
 <div class="ticker-track">
-<div class="ticker-item win">✅ ZVEREV WINS FRENCH OPEN! 5 sets vs Cobolli — OUR PICK ✓</div>
-<div class="ticker-item win">✅ VGK 5-4 2OT — Theodore game-winner! Series 2-1</div>
-<div class="ticker-item alert">✅ NBA FINALS G3 COMPLETE — Spurs 115-111 Knicks | 🔴 SCF G4 TONIGHT!</div>
-<div class="ticker-item upcoming">⚽ WORLD CUP 2026 — 3 DAYS! Mexico vs South Africa June 11</div>
-<div class="ticker-item upcoming">🇭🇹 HAITI WC DEBUT — 5 DAYS! Haiti vs Scotland June 13 9PM ET</div>
-<div class="ticker-item win">📊 RECORD: 254-47 (84.4%) | PARLAY: 15-3 (83.3%)</div>
-<div class="ticker-item alert">💰 BANKROLL: $13,650 | ROI: +91.0%</div>
-<div class="ticker-item win">✅ HURRICANES +1.5 COVERED — Despite 4-5 2OT loss</div>
-<div class="ticker-item upcoming">🏒 SCF G4 TONIGHT — Carolina @ Vegas 8 PM ET</div>
-<div class="ticker-item win">✅ ZVEREV WINS FRENCH OPEN! 5 sets vs Cobolli — OUR PICK ✓</div>
-<div class="ticker-item win">✅ VGK 5-4 2OT — Theodore game-winner! Series 2-1</div>
-<div class="ticker-item alert">✅ NBA FINALS G3 COMPLETE — Spurs 115-111 Knicks | 🔴 SCF G4 TONIGHT!</div>
-<div class="ticker-item upcoming">⚽ WORLD CUP 2026 — 3 DAYS! Mexico vs South Africa June 11</div>
-<div class="ticker-item upcoming">🇭🇹 HAITI WC DEBUT — 5 DAYS! Haiti vs Scotland June 13 9PM ET</div>
-</div>
-</div>
-
-<!-- Language Selector - TOP LEFT -->
-<div class="lang-selector">
-<select id="langSelect" onchange="changeLanguage(this.value)">
-<option value="en">🇺🇸 English</option>
-<option value="es">🇪🇸 Español</option>
-<option value="fr">🇫🇷 Français</option>
-<option value="de">🇩🇪 Deutsch</option>
-<option value="it">🇮🇹 Italiano</option>
-<option value="pt">🇧🇷 Português</option>
-<option value="ja">🇯🇵 日本語</option>
-<option value="ko">🇰🇷 한국어</option>
-<option value="zh">🇨🇳 中文</option>
-</select>
-</div>
-<!-- Theme Selector - TOP RIGHT -->
-<div class="theme-selector">
-<button class="theme-btn" onclick="toggleThemeDropdown()">🎨 51 Themes ▼</button>
-<div class="theme-dropdown" id="themeDropdown">
-<div class="theme-category">🏆 SPECIAL</div>
-<div class="theme-option" onclick="setTheme('gold')">⭐ Gold Premium</div>
-<div class="theme-option" onclick="setTheme('dark')">🌙 Dark Mode</div>
-<div class="theme-option" onclick="setTheme('neon')">💚 Neon</div>
-<div class="theme-category">🌎 HOSTS</div>
-<div class="theme-option" onclick="setTheme('usa')">🇺🇸 USA</div>
-<div class="theme-option" onclick="setTheme('mexico')">🇲🇽 Mexico</div>
-<div class="theme-option" onclick="setTheme('canada')">🇨🇦 Canada</div>
-<div class="theme-category">🌎 CONCACAF</div>
-<div class="theme-option" onclick="setTheme('panama')">🇵🇦 Panama</div>
-<div class="theme-option" onclick="setTheme('curacao')">🇨🇼 Curaçao</div>
-<div class="theme-option" onclick="setTheme('haiti')">🇭🇹 Haiti</div>
-<div class="theme-category">🇪🇺 UEFA</div>
-<div class="theme-option" onclick="setTheme('germany')">🇩🇪 Germany</div>
-<div class="theme-option" onclick="setTheme('france')">🇫🇷 France</div>
-<div class="theme-option" onclick="setTheme('england')">🏴 England</div>
-<div class="theme-option" onclick="setTheme('spain')">🇪🇸 Spain</div>
-<div class="theme-option" onclick="setTheme('portugal')">🇵🇹 Portugal</div>
-<div class="theme-option" onclick="setTheme('netherlands')">🇳🇱 Netherlands</div>
-<div class="theme-option" onclick="setTheme('belgium')">🇧🇪 Belgium</div>
-<div class="theme-option" onclick="setTheme('croatia')">🇭🇷 Croatia</div>
-<div class="theme-option" onclick="setTheme('switzerland')">🇨🇭 Switzerland</div>
-<div class="theme-option" onclick="setTheme('austria')">🇦🇹 Austria</div>
-<div class="theme-option" onclick="setTheme('scotland')">🏴 Scotland</div>
-<div class="theme-option" onclick="setTheme('norway')">🇳🇴 Norway</div>
-<div class="theme-option" onclick="setTheme('sweden')">🇸🇪 Sweden</div>
-<div class="theme-option" onclick="setTheme('czechia')">🇨🇿 Czechia</div>
-<div class="theme-option" onclick="setTheme('bosnia')">🇧🇦 Bosnia</div>
-<div class="theme-option" onclick="setTheme('turkey')">🇹🇷 Turkey</div>
-<div class="theme-category">🌎 CONMEBOL</div>
-<div class="theme-option" onclick="setTheme('brazil')">🇧🇷 Brazil</div>
-<div class="theme-option" onclick="setTheme('argentina')">🇦🇷 Argentina</div>
-<div class="theme-option" onclick="setTheme('colombia')">🇨🇴 Colombia</div>
-<div class="theme-option" onclick="setTheme('uruguay')">🇺🇾 Uruguay</div>
-<div class="theme-option" onclick="setTheme('ecuador')">🇪🇨 Ecuador</div>
-<div class="theme-option" onclick="setTheme('paraguay')">🇵🇾 Paraguay</div>
-<div class="theme-category">🌏 AFC</div>
-<div class="theme-option" onclick="setTheme('japan')">🇯🇵 Japan</div>
-<div class="theme-option" onclick="setTheme('southkorea')">🇰🇷 South Korea</div>
-<div class="theme-option" onclick="setTheme('australia')">🇦🇺 Australia</div>
-<div class="theme-option" onclick="setTheme('saudiarabia')">🇸🇦 Saudi Arabia</div>
-<div class="theme-option" onclick="setTheme('iran')">🇮🇷 Iran</div>
-<div class="theme-option" onclick="setTheme('qatar')">🇶🇦 Qatar</div>
-<div class="theme-option" onclick="setTheme('uzbekistan')">🇺🇿 Uzbekistan</div>
-<div class="theme-option" onclick="setTheme('jordan')">🇯🇴 Jordan</div>
-<div class="theme-category">🌍 CAF</div>
-<div class="theme-option" onclick="setTheme('morocco')">🇲🇦 Morocco</div>
-<div class="theme-option" onclick="setTheme('senegal')">🇸🇳 Senegal</div>
-<div class="theme-option" onclick="setTheme('egypt')">🇪🇬 Egypt</div>
-<div class="theme-option" onclick="setTheme('algeria')">🇩🇿 Algeria</div>
-<div class="theme-option" onclick="setTheme('tunisia')">🇹🇳 Tunisia</div>
-<div class="theme-option" onclick="setTheme('southafrica')">🇿🇦 South Africa</div>
-<div class="theme-option" onclick="setTheme('ivorycoast')">🇨🇮 Ivory Coast</div>
-<div class="theme-option" onclick="setTheme('ghana')">🇬🇭 Ghana</div>
-<div class="theme-option" onclick="setTheme('capeverde')">🇨🇻 Cape Verde</div>
-<div class="theme-category">🌏 OFC/PLAYOFFS</div>
-<div class="theme-option" onclick="setTheme('newzealand')">🇳🇿 New Zealand</div>
-<div class="theme-option" onclick="setTheme('drcongo')">🇨🇩 DR Congo</div>
-<div class="theme-option" onclick="setTheme('iraq')">🇮🇶 Iraq</div>
+<div class="ticker-item alert">🔴 TONIGHT: SCF G4 8 PM ET — CAR @ VGK | VGK -184 favorites</div>
+<div class="ticker-item upcoming">🏀 TOMORROW: NBA Finals G4 — SAS @ NYK 8:30 PM</div>
+<div class="ticker-item upcoming">⚽ 2 DAYS: WC 2026 OPENS! 🇲🇽 Mexico vs 🇿🇦 S. Africa</div>
+<div class="ticker-item upcoming">🇭🇹 4 DAYS: Haiti WC DEBUT vs Scotland 🏴</div>
+<div class="ticker-item">📊 SIGMAX: 254-47 (84.4%) | $13,650 | +91% ROI</div>
+<div class="ticker-item">⚾ TODAY: 14 MLB games | Cole vs Cecconi headline</div>
+<div class="ticker-item alert">🔴 TONIGHT: SCF G4 8 PM ET — CAR @ VGK | VGK -184 favorites</div>
+<div class="ticker-item upcoming">🏀 TOMORROW: NBA Finals G4 — SAS @ NYK 8:30 PM</div>
+<div class="ticker-item upcoming">⚽ 2 DAYS: WC 2026 OPENS! 🇲🇽 Mexico vs 🇿🇦 S. Africa</div>
+<div class="ticker-item upcoming">🇭🇹 4 DAYS: Haiti WC DEBUT vs Scotland 🏴</div>
+<div class="ticker-item">📊 SIGMAX: 254-47 (84.4%) | $13,650 | +91% ROI</div>
+<div class="ticker-item">⚾ TODAY: 14 MLB games | Cole vs Cecconi headline</div>
 </div>
 </div>
 <div class="container">
-<!-- Header - NO VERSION NUMBER -->
+<!-- HEADER -->
 <div class="header">
 <div class="header-left">
 <div class="logo">🏆</div>
 <div class="header-text">
-<h1 class="title luxury-font">SIGMAX INTELLIGENCE</h1>
-<p class="tagline">Maximum Signal • Maximum Edge • Maximum Profit</p>
+<div class="title">SIGMAX INTELLIGENCE v75</div>
+<div class="tagline">Ultimate Premium Edition • June 9, 2026 @ 11:25 AM ET</div>
 </div>
 </div>
 <div class="header-stats">
@@ -368,1628 +93,462 @@ body{font-family:'Montserrat',sans-serif;background:var(--luxury-bg);color:var(-
 <div class="hs"><div class="hs-val green">84.4%</div><div class="hs-lbl">Win Rate</div></div>
 <div class="hs"><div class="hs-val">$13,650</div><div class="hs-lbl">Bankroll</div></div>
 <div class="hs"><div class="hs-val green">+91.0%</div><div class="hs-lbl">ROI</div></div>
-<div class="hs"><div class="hs-val">15-3</div><div class="hs-lbl">Parlays</div></div>
 </div>
 </div>
 
-<!-- 4 Compact Countdown Boxes -->
-<div class="countdown-container" id="countdownCarousel">
-<div class="countdown-box" data-date="2026-06-11T16:00:00-05:00">
-<div class="cb-icon">⚽</div>
-<div class="cb-title">FIFA WORLD CUP 2026</div>
-<div class="cb-subtitle">🇲🇽 Mexico vs 🇿🇦 South Africa</div>
-<div class="cb-timer"><div class="cb-unit"><div class="cb-value cd-d">--</div><div class="cb-label">Days</div></div><div class="cb-unit"><div class="cb-value cd-h">--</div><div class="cb-label">Hrs</div></div><div class="cb-unit"><div class="cb-value cd-m">--</div><div class="cb-label">Min</div></div><div class="cb-unit"><div class="cb-value cd-s">--</div><div class="cb-label">Sec</div></div></div>
+<!-- STATS GRID -->
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-value">254</div><div class="stat-label">Total Wins</div></div>
+<div class="stat-card"><div class="stat-value">47</div><div class="stat-label">Total Losses</div></div>
+<div class="stat-card"><div class="stat-value">84.4%</div><div class="stat-label">Win Rate</div></div>
+<div class="stat-card"><div class="stat-value">16-3</div><div class="stat-label">Parlay Record</div></div>
+<div class="stat-card"><div class="stat-value">$13,650</div><div class="stat-label">Bankroll</div></div>
+<div class="stat-card"><div class="stat-value">+91.0%</div><div class="stat-label">ROI</div></div>
 </div>
-<div class="countdown-box" data-date="2026-06-10T20:30:00-04:00">
+
+<!-- COUNTDOWN TIMERS -->
+<div class="countdown-container">
+<div class="countdown-box" style="border-color:#ff0000">
+<div class="cb-icon">🏒</div>
+<div class="cb-title">SCF GAME 4</div>
+<div class="cb-subtitle">CAR @ VGK • TONIGHT!</div>
+<div class="cb-timer"><div class="cb-value" style="color:#ff0000">8:00 PM</div><div class="cb-label">ET</div></div>
+</div>
+<div class="countdown-box">
 <div class="cb-icon">🏀</div>
 <div class="cb-title">NBA FINALS G4</div>
-<div class="cb-subtitle">🏀 Spurs @ Knicks | MSG</div>
-<div class="cb-timer"><div class="cb-unit"><div class="cb-value cd-d">--</div><div class="cb-label">Days</div></div><div class="cb-unit"><div class="cb-value cd-h">--</div><div class="cb-label">Hrs</div></div><div class="cb-unit"><div class="cb-value cd-m">--</div><div class="cb-label">Min</div></div><div class="cb-unit"><div class="cb-value cd-s">--</div><div class="cb-label">Sec</div></div></div>
+<div class="cb-subtitle">SAS @ NYK • TOMORROW</div>
+<div class="cb-timer"><div class="cb-value">8:30 PM</div><div class="cb-label">ET - Jun 10</div></div>
 </div>
-<div class="countdown-box" data-date="2026-06-09T20:00:00-04:00">
-<div class="cb-icon">🏒</div>
-<div class="cb-title">STANLEY CUP G4</div>
-<div class="cb-subtitle">🏒 CAR @ VGK | TONIGHT 8PM</div>
-<div class="cb-timer"><div class="cb-unit"><div class="cb-value cd-d">--</div><div class="cb-label">Days</div></div><div class="cb-unit"><div class="cb-value cd-h">--</div><div class="cb-label">Hrs</div></div><div class="cb-unit"><div class="cb-value cd-m">--</div><div class="cb-label">Min</div></div><div class="cb-unit"><div class="cb-value cd-s">--</div><div class="cb-label">Sec</div></div></div>
+<div class="countdown-box" style="border-color:#006847">
+<div class="cb-icon">⚽</div>
+<div class="cb-title">WORLD CUP 2026</div>
+<div class="cb-subtitle">🇲🇽 MEX vs SA 🇿🇦</div>
+<div class="cb-timer"><div class="cb-value">2</div><div class="cb-label">DAYS - Jun 11</div></div>
 </div>
-<div class="countdown-box" data-date="2026-06-13T21:00:00-04:00">
+<div class="countdown-box" style="border-color:#00209f">
 <div class="cb-icon">🇭🇹</div>
-<div class="cb-title">HAITI WC DEBUT!</div>
-<div class="cb-subtitle">🇭🇹 Haiti vs 🏴 Scotland | June 13, 9PM ET</div>
-<div class="cb-timer"><div class="cb-unit"><div class="cb-value cd-d">--</div><div class="cb-label">Days</div></div><div class="cb-unit"><div class="cb-value cd-h">--</div><div class="cb-label">Hrs</div></div><div class="cb-unit"><div class="cb-value cd-m">--</div><div class="cb-label">Min</div></div><div class="cb-unit"><div class="cb-value cd-s">--</div><div class="cb-label">Sec</div></div></div>
+<div class="cb-title">HAITI WC DEBUT</div>
+<div class="cb-subtitle">vs Scotland 🏴</div>
+<div class="cb-timer"><div class="cb-value">4</div><div class="cb-label">DAYS - Jun 13</div></div>
 </div>
 </div>
-<!-- 10 TABS -->
+
+<!-- TABS -->
 <div class="tabs">
-<button class="tab active" onclick="showTab('picks', this)">🎯 TOP PICKS</button>
-<button class="tab" onclick="showTab('props', this)">👤 PLAYER PROPS</button>
-<button class="tab" onclick="showTab('parlay', this)">🎰 PARLAY BUILDER</button>
-<button class="tab" onclick="showTab('nhl', this)">🏒 NHL SCF</button>
-<button class="tab" onclick="showTab('nba', this)">🏀 NBA FINALS</button>
-<button class="tab" onclick="showTab('mlb', this)">⚾ MLB</button>
-<button class="tab" onclick="showTab('worldcup', this)">⚽ WORLD CUP</button>
-<button class="tab" onclick="showTab('xfactors', this)">🔬 X-FACTORS</button>
-<button class="tab" onclick="showTab('records', this)">📊 RECORDS</button>
-<button class="tab" onclick="showTab('calendar', this)">📅 CALENDAR</button>
-<button class="tab" onclick="showTab('teams', this)">🌍 TEAMS</button>
+<div class="tab active" onclick="showTab('today')">🔴 TODAY Jun 9</div>
+<div class="tab" onclick="showTab('tomorrow')">📅 TOMORROW</div>
+<div class="tab" onclick="showTab('week')">📆 7-DAY</div>
+<div class="tab" onclick="showTab('nhl')">🏒 NHL</div>
+<div class="tab" onclick="showTab('nba')">🏀 NBA</div>
+<div class="tab" onclick="showTab('mlb')">⚾ MLB</div>
+<div class="tab" onclick="showTab('wc2026')">⚽ WC 2026</div>
+<div class="tab" onclick="showTab('parlays')">🎰 PARLAYS</div>
 </div>
-<!-- TAB: TOP PICKS -->
-<div class="tab-content active" id="tab-picks">
+
+<!-- TODAY TAB - JUNE 9, 2026 -->
+<div id="today" class="tab-content active">
 <div class="section">
-<div class="section-title">🎯 TOP 5 PICKS — June 8, 2026</div>
+<div class="section-title">🔴 TODAY'S TOP PICKS — Tuesday, June 9, 2026</div>
 
-<div class="game-card">
-<div class="game-time">✅ COMPLETE<br><span class="win">WINNER!</span></div>
-<div class="game-matchup">🎾 Zverev ML vs Cobolli<br><small>French Open Final — 6-1, 4-6, 6-4, 6-7(5), 6-3</small></div>
-<div class="game-pick"><span class="win">-200 ✅</span><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
+<div class="game-card live">
+<div class="game-time">🔴 8:00 PM ET<br><span style="color:#ff0000;font-weight:bold">TONIGHT!</span></div>
+<div class="game-matchup">🏒 SCF G4: Carolina @ Vegas<br><small style="color:var(--text-muted)">VGK leads 2-1 | VGK -184 series fav</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">VGK ML -130</strong><br><span class="confidence">⭐⭐⭐⭐<span class="star-icon empty">⭐</span></span></div>
+</div>
+
+<div class="game-card live">
+<div class="game-time">🔴 8:00 PM ET<br>HEDGE</div>
+<div class="game-matchup">🏒 SCF G4: Over 5.5 Goals<br><small style="color:var(--text-muted)">G1: 9 goals | G2: 7 goals | G3: 9 goals</small></div>
+<div class="game-pick"><strong style="color:var(--green)">OVER 5.5 -110</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
 </div>
 
 <div class="game-card">
-<div class="game-time">✅ COMPLETE<br><span class="win">WINNER!</span></div>
-<div class="game-matchup">🏒 Vegas Golden Knights ML<br><small>SCF G3 — VGK 5-4 2OT (Theodore game-winner!)</small></div>
-<div class="game-pick"><span class="win">-140 ✅</span><br><span class="confidence">⭐⭐⭐⭐<span class="star empty">⭐</span></span></div>
+<div class="game-time">3:40 PM ET<br>MLB</div>
+<div class="game-matchup">⚾ Yankees @ Guardians<br><small style="color:var(--text-muted)">Cole (ace) vs Cecconi | NYY -120</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">NYY ML -120</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
 </div>
 
 <div class="game-card">
-<div class="game-time">✅ COMPLETE<br><span class="win">COVERED!</span></div>
-<div class="game-matchup">🏒 Hurricanes +1.5<br><small>SCF G3 — Lost 4-5 2OT but covered spread</small></div>
-<div class="game-pick"><span class="win">+110 ✅</span><br><span class="confidence">⭐⭐⭐<span class="star empty">⭐⭐</span></span></div>
+<div class="game-time">4:40 PM ET<br>MLB</div>
+<div class="game-matchup">⚾ Braves @ White Sox<br><small style="color:var(--text-muted)">ATL 45-21 🔥 vs CWS 19-47 | ATL -157</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">ATL ML -157</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
 </div>
 
-<div class="game-card" style="border-color:#ff9f43">
-<div class="game-time"><span class="live">🔴 TONIGHT</span><br>8:30 PM ET</div>
-<div class="game-matchup">🏀 Knicks ML vs Spurs<br><small>NBA Finals G3 — MSG, NYK leads 2-1</small></div>
-<div class="game-pick"><span class="pending">-180</span><br><span class="confidence">⭐⭐⭐⭐<span class="star empty">⭐</span></span></div>
+<div class="game-card">
+<div class="game-time">3:40 PM ET<br>MLB</div>
+<div class="game-matchup">⚾ Dodgers @ Pirates<br><small style="color:var(--text-muted)">Lauer vs Skenes (2.83 ERA) | PIT slight fav</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">PIT ML -107</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
 </div>
 
-<div class="game-card" style="border-color:#ff9f43">
-<div class="game-time"><span class="live">🔴 TONIGHT</span><br>8:30 PM ET</div>
-<div class="game-matchup">🏀 Spurs +4.5 vs Knicks<br><small>NBA Finals G3 — Wemby at MSG, cover play</small></div>
-<div class="game-pick"><span class="pending">-110</span><br><span class="confidence">⭐⭐⭐<span class="star empty">⭐⭐</span></span></div>
+<div class="game-card">
+<div class="game-time">5:40 PM ET<br>MLB</div>
+<div class="game-matchup">⚾ Cubs @ Rockies<br><small style="color:var(--text-muted)">Coors Field | O/U 12.5 | CHC -156</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">OVER 12.5 -110</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
+</div>
+
+<div class="game-card">
+<div class="game-time">6:40 PM ET<br>MLB</div>
+<div class="game-matchup">⚾ Reds @ Padres<br><small style="color:var(--text-muted)">Burns vs Giolito | CIN -125</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">CIN ML -125</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
 </div>
 
 </div>
-</div><!-- TAB: NHL STANLEY CUP FINALS -->
-<div class="tab-content" id="tab-nhl">
+</div>
+<!-- TOMORROW TAB - JUNE 10, 2026 -->
+<div id="tomorrow" class="tab-content">
 <div class="section">
-<div class="section-title">🏒 STANLEY CUP FINALS — Vegas vs Carolina</div>
-<div style="margin-bottom:15px;padding:15px;background:linear-gradient(135deg,#333C41,#B4975A);border-radius:10px;text-align:center">
-<div style="font-size:1.5rem;font-weight:700;color:#fff">🏒 STANLEY CUP FINALS 2026</div>
-<div style="font-size:1.1rem;color:#ffd700;margin-top:5px">Vegas Golden Knights 2-1 Carolina Hurricanes</div>
+<div class="section-title">📅 TOMORROW'S PICKS — Wednesday, June 10, 2026</div>
+
+<div class="game-card" style="border-left:4px solid #f58426">
+<div class="game-time">8:30 PM ET<br>🏀 NBA</div>
+<div class="game-matchup">🏀 NBA Finals G4: Spurs @ Knicks<br><small style="color:var(--text-muted)">NYK leads 2-1 | Must win at MSG!</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">NYK ML -180</strong><br><span class="confidence">⭐⭐⭐⭐<span class="star-icon empty">⭐</span></span></div>
 </div>
 
-<div class="game-card" style="border-color:#B4975A">
-<div class="game-time">✅ GAME 3 FINAL</div>
-<div class="game-matchup">🏒 VGK 5-4 CAR (2OT)<br><small>Shea Theodore OT Winner! Series: 2-1 VGK</small></div>
-<div class="game-pick"><span class="win">✅ VGK ML +110</span><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
+<div class="game-card" style="border-left:4px solid #f58426">
+<div class="game-time">8:30 PM ET<br>🏀 PROP</div>
+<div class="game-matchup">Victor Wembanyama O27.5 Points<br><small style="color:var(--text-muted)">32 pts in G3 | Avg 26.3 in series</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">OVER 27.5 -115</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
 </div>
 
-<div class="game-card" style="border-color:#B4975A">
-<div class="game-time">🔴 TONIGHT 8:00 PM ET</div>
-<div class="game-matchup">🏒 Carolina Hurricanes @ Vegas Golden Knights<br><small>Game 4 | T-Mobile Arena | ESPN/ABC</small></div>
-<div class="game-pick"><span class="pending">VGK -125</span><br><span class="confidence">⭐⭐⭐⭐</span></div>
+<div class="game-card" style="border-left:4px solid #f58426">
+<div class="game-time">8:30 PM ET<br>🏀 PROP</div>
+<div class="game-matchup">Jalen Brunson O7.5 Assists<br><small style="color:var(--text-muted)">8 ast avg in Finals | Playmaking role</small></div>
+<div class="game-pick"><strong style="color:var(--green)">OVER 7.5 +105</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
 </div>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:15px">
-<div style="background:var(--card);padding:15px;border-radius:10px;border-left:3px solid #B4975A">
-<div style="font-weight:700;color:#B4975A;margin-bottom:8px">🏆 VEGAS GOLDEN KNIGHTS</div>
-<div style="font-size:0.85rem;line-height:1.6">• Record: 52-24-6 (110 pts)<br>• Star: Shea Theodore (2OT hero)<br>• Goalie: Adin Hill (.923 SV%)<br>• Home: 8-2 playoffs</div>
-</div>
-<div style="background:var(--card);padding:15px;border-radius:10px;border-left:3px solid #CC0000">
-<div style="font-weight:700;color:#CC0000;margin-bottom:8px">🌀 CAROLINA HURRICANES</div>
-<div style="font-size:0.85rem;line-height:1.6">• Record: 50-25-7 (107 pts)<br>• Star: Sebastian Aho (26 pts)<br>• Goalie: Pyotr Kochetkov<br>• Slavin questionable</div>
-</div>
+<div class="game-card">
+<div class="game-time">TBD<br>⚾ MLB</div>
+<div class="game-matchup">⚾ Full MLB slate (15 games)<br><small style="color:var(--text-muted)">Check back for updated picks</small></div>
+<div class="game-pick"><span class="pending">COMING SOON</span></div>
 </div>
 
-<div style="margin-top:15px;padding:10px;background:rgba(255,215,0,0.1);border-radius:8px;text-align:center">📊 SCF Pick Record: 4-1 | Series Prediction: VGK in 6</div>
 </div>
 </div>
 
-<!-- TAB: PLAYER PROPS -->
-<div class="tab-content" id="tab-props">
+<!-- 7-DAY CALENDAR TAB -->
+<div id="week" class="tab-content">
 <div class="section">
-<div class="section-title">👤 TOP 10 PLAYER PROPS — June 8, 2026</div>
-<div style="margin-bottom:15px;padding:10px;background:rgba(255,215,0,0.1);border-radius:8px">📊 Props Record: 70-23 (75.3%)</div>
+<div class="section-title">📆 7-DAY CALENDAR — June 9-15, 2026</div>
 
-<div class="game-card" style="border-color:#ff9f43">
-<div class="game-time"><span class="live">🔴 TONIGHT</span></div>
-<div class="game-matchup">🏀 Jalen Brunson<br><small>Points OVER 26.5</small></div>
-<div class="game-pick"><span class="pending">-120</span><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
-</div>
-
-<div class="game-card" style="border-color:#ff9f43">
-<div class="game-time"><span class="live">🔴 TONIGHT</span></div>
-<div class="game-matchup">🏀 Karl-Anthony Towns<br><small>Rebounds OVER 11.5</small></div>
-<div class="game-pick"><span class="pending">-110</span><br><spk Eichel (VGK)<br><small>Points OVER 1.5</small></div>
-<div class="game-pick"><span class="pending">+125</span><br><span class="confidence">⭐⭐⭐⭐<span class="star empty">⭐</span></span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">🔜 TOMORROW<br>8:00 PM ET</div>
-<div class="game-matchup">🏒 Sebastian Aho (CAR)<br><small>Shots on Goal OVER 3.5</small></div>
-<div class="game-pick"><span class="pending">-105</span><br><span class="confidence">⭐⭐⭐⭐<span class="star empty">⭐</span></span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">✅ COMPLETE</div>
-<div class="game-matchup">🎾 Alexander Zverev<br><small>To Win French Open — WINNER!</small></div>
-<div class="game-pick"><span class="win">+150 ✅</span><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
-</div>
-
-</div>
-</div>
-<!-- TAB: PARLAY BUILDER -->
-<div class="tab-content" id="tab-parlay">
-<div class="parlay-builder">
-<div class="section-title">🎰 AUTO-ODDS PARLAY BUILDER</div>
-
-<div class="parlay-rules">
-<div class="parlay-rules-title">🔒 LOCKED RULES</div>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center">
-<div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px"><div style="font-size:1.5rem;font-weight:800">5</div><div style="font-size:0.8rem">Team Bets MAX</div></div>
-<div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px"><div style="font-size:1.5rem;font-weight:800">5</div><div style="font-size:0.8rem">Props MAX</div></div>
-<div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px"><div style="font-size:1.5rem;font-weight:800">10</div><div style="font-size:0.8rem">Total Legs MAX</div></div>
+<div style="background:var(--card);border-radius:15px;padding:20px;margin-bottom:15px;border:2px solid var(--accent)">
+<div style="font-size:1.2rem;font-weight:700;color:var(--accent);margin-bottom:10px">📍 TUESDAY, JUNE 9 — TODAY</div>
+<div style="display:grid;gap:8px">
+<div>🏒 <strong>SCF G4:</strong> CAR @ VGK 8 PM — <span style="color:var(--accent)">VGK ML -130</span></div>
+<div>⚾ <strong>MLB:</strong> 14 games — NYY -120, ATL -157 top picks</div>
 </div>
 </div>
 
-<div class="section-title" style="margin-top:20px">🏆 TEAM BETS (Select to Auto-Calculate)</div>
-<div class="p-hdr"><span>#</span><span>PICK (w/ ODDS)</span><span>ODDS</span><span>✓</span></div>
-<div class="p-row"><span class="p-leg">T1</span><select class="p-auto" onchange="autoOdds(this,'t1')"><option value="">Select Pick...</option><optgroup label="🏀 NBA Finals G3 - Tonight"><option value="nba-nyk-ml">Knicks ML (-180)</option><option value="nba-sas-ml">Spurs ML (+155)</option><option value="nba-nyk-sp">Knicks -2.5 (-110)</option><option value="nba-sas-sp">Spurs +2.5 (-110)</option><option value="nba-over">Over 216.5 (-110)</option><option value="nba-under">Under 216.5 (-110)</option></optgroup><optgroup label="🏒 SCF G4 - Tomorrow"><option value="nhl-vgk-ml">Vegas ML (-145)</option><option value="nhl-car-ml">Carolina ML (+125)</option><option value="nhl-vgk-pk">Vegas -1.5 (+165)</option><option value="nhl-car-pk">Carolina +1.5 (-190)</option><option value="nhl-over">Over 5.5 (-115)</option><option value="nhl-under">Under 5.5 (-105)</option></optgroup><optgroup label="⚾ MLB Tonight"><option value="mlb-nyy">Yankees ML (-125)</option><option value="mlb-bos">Red Sox ML (+105)</option><option value="mlb-lad">Dodgers ML (-140)</option><option value="mlb-ari">D-backs ML (+120)</option></optgroup><optgroup label="⚽ World Cup"><option value="wc-mex">Mexico ML (-165)</option><option value="wc-usa">USA ML (-145)</option><option value="wc-bra">Brazil ML (-130)</option><option value="wc-arg">Argentina ML (-200)</option></optgroup></select><span class="auto-odds" id="ao-t1">—</span><span class="p-chk" id="chk-t1">⏳</span></div>
-<div class="p-row"><span class="p-leg">T2</span><select class="p-auto" onchange="autoOdds(this,'t2')"><option value="">Select Pick...</option><optgroup label="🏀 NBA Finals G3 - Tonight"><option value="nba-nyk-ml">Knicks ML (-180)</option><option value="nba-sas-ml">Spurs ML (+155)</option><option value="nba-nyk-sp">Knicks -2.5 (-110)</option><option value="nba-sas-sp">Spurs +2.5 (-110)</option><option value="nba-over">Over 216.5 (-110)</option><option value="nba-under">Under 216.5 (-110)</option></optgroup><optgroup label="🏒 SCF G4 - Tomorrow"><option value="nhl-vgk-ml">Vegas ML (-145)</option><option value="nhl-car-ml">Carolina ML (+125)</option><option value="nhl-vgk-pk">Vegas -1.5 (+165)</option><option value="nhl-car-pk">Carolina +1.5 (-190)</option><option value="nhl-over">Over 5.5 (-115)</option><option value="nhl-under">Under 5.5 (-105)</option></optgroup><optgroup label="⚾ MLB Tonight"><option value="mlb-nyy">Yankees ML (-125)</option><option value="mlb-bos">Red Sox ML (+105)</option><option value="mlb-lad">Dodgers ML (-140)</option><option value="mlb-ari">D-backs ML (+120)</option></optgroup><optgroup label="⚽ World Cup"><option value="wc-mex">Mexico ML (-165)</option><option value="wc-usa">USA ML (-145)</option><option value="wc-bra">Brazil ML (-130)</option><option value="wc-arg">Argentina ML (-200)</option></optgroup></select><span class="auto-odds" id="ao-t2">—</span><span class="p-chk" id="chk-t2">⏳</span></div>
-<div class="p-row"><span class="p-leg">T3</span><select class="p-auto" onchange="autoOdds(this,'t3')"><option value="">Select Pick...</option><optgroup label="🏀 NBA Finals G3 - Tonight"><option value="nba-nyk-ml">Knicks ML (-180)</option><option value="nba-sas-ml">Spurs ML (+155)</option><option value="nba-nyk-sp">Knicks -2.5 (-110)</option><option value="nba-sas-sp">Spurs +2.5 (-110)</option><option value="nba-over">Over 216.5 (-110)</option><option value="nba-under">Under 216.5 (-110)</option></optgroup><optgroup label="🏒 SCF G4 - Tomorrow"><option value="nhl-vgk-ml">Vegas ML (-145)</option><option value="nhl-car-ml">Carolina ML (+125)</option><option value="nhl-vgk-pk">Vegas -1.5 (+165)</option><option value="nhl-car-pk">Carolina +1.5 (-190)</option><option value="nhl-over">Over 5.5 (-115)</option><option value="nhl-under">Under 5.5 (-105)</option></optgroup><optgroup label="⚾ MLB Tonight"><option value="mlb-nyy">Yankees ML (-125)</option><option value="mlb-bos">Red Sox ML (+105)</option><option value="mlb-lad">Dodgers ML (-140)</option><option value="mlb-ari">D-backs ML (+120)</option></optgroup><optgroup label="⚽ World Cup"><option value="wc-mex">Mexico ML (-165)</option><option value="wc-usa">USA ML (-145)</option><option value="wc-bra">Brazil ML (-130)</option><option value="wc-arg">Argentina ML (-200)</option></optgroup></select><span class="auto-odds" id="ao-t3">—</span><span class="p-chk" id="chk-t3">⏳</span></div>
-<div class="p-row"><span class="p-leg">T4</span><select class="p-auto" onchange="autoOdds(this,'t4')"><option value="">Select Pick...</option><optgroup label="🏀 NBA Finals G3 - Tonight"><option value="nba-nyk-ml">Knicks ML (-180)</option><option value="nba-sas-ml">Spurs ML (+155)</option><option value="nba-nyk-sp">Knicks -2.5 (-110)</option><option value="nba-sas-sp">Spurs +2.5 (-110)</option><option value="nba-over">Over 216.5 (-110)</option><option value="nba-under">Under 216.5 (-110)</option></optgroup><optgroup label="🏒 SCF G4 - Tomorrow"><option value="nhl-vgk-ml">Vegas ML (-145)</option><option value="nhl-car-ml">Carolina ML (+125)</option><option value="nhl-vgk-pk">Vegas -1.5 (+165)</option><option value="nhl-car-pk">Carolina +1.5 (-190)</option><option value="nhl-over">Over 5.5 (-115)</option><option value="nhl-under">Under 5.5 (-105)</option></optgroup><optgroup label="⚾ MLB Tonight"><option value="mlb-nyy">Yankees ML (-125)</option><option value="mlb-bos">Red Sox ML (+105)</option><option value="mlb-lad">Dodgers ML (-140)</option><option value="mlb-ari">D-backs ML (+120)</option></optgroup><optgroup label="⚽ World Cup"><option value="wc-mex">Mexico ML (-165)</option><option value="wc-usa">USA ML (-145)</option><option value="wc-bra">Brazil ML (-130)</option><option value="wc-arg">Argentina ML (-200)</option></optgroup></select><span class="auto-odds" id="ao-t4">—</span><span class="p-chk" id="chk-t4">⏳</span></div>
-<div class="p-row"><span class="p-leg">T5</span><select class="p-auto" onchange="autoOdds(this,'t5')"><option value="">Select Pick...</option><optgroup label="🏀 NBA Finals G3 - Tonight"><option value="nba-nyk-ml">Knicks ML (-180)</option><option value="nba-sas-ml">Spurs ML (+155)</option><option value="nba-nyk-sp">Knicks -2.5 (-110)</option><option value="nba-sas-sp">Spurs +2.5 (-110)</option><option value="nba-over">Over 216.5 (-110)</option><option value="nba-under">Under 216.5 (-110)</option></optgroup><optgroup label="🏒 SCF G4 - Tomorrow"><option value="nhl-vgk-ml">Vegas ML (-145)</option><option value="nhl-car-ml">Carolina ML (+125)</option><option value="nhl-vgk-pk">Vegas -1.5 (+165)</option><option value="nhl-car-pk">Carolina +1.5 (-190)</option><option value="nhl-over">Over 5.5 (-115)</option><option value="nhl-under">Under 5.5 (-105)</option></optgroup><optgroup label="⚾ MLB Tonight"><option value="mlb-nyy">Yankees ML (-125)</option><option value="mlb-bos">Red Sox ML (+105)</option><option value="mlb-lad">Dodgers ML (-140)</option><option value="mlb-ari">D-backs ML (+120)</option></optgroup><optgroup label="⚽ World Cup"><option value="wc-mex">Mexico ML (-165)</option><option value="wc-usa">USA ML (-145)</option><option value="wc-bra">Brazil ML (-130)</option><option value="wc-arg">Argentina ML (-200)</option></optgroup></select><span class="auto-odds" id="ao-t5">—</span><span class="p-chk" id="chk-t5">⏳</span></div>
-<div style="padding:10px;font-size:0.85rem;color:var(--accent)">📊 Team Bets: <span id="team-ct">0</span> / 5</div>
-
-<div class="section-title" style="margin-top:20px">👤 PLAYER PROPS (Select to Auto-Calculate)</div>
-<div class="p-hdr"><span>#</span><span>PROP (w/ ODDS)</span><span>ODDS</span><span>✓</span></div>
-<div class="p-row"><span class="p-leg">P1</span><select class="p-auto" onchange="autoOdds(this,'p1')"><option value="">Select Prop...</option><optgroup label="🏀 NBA - Wembanyama"><option value="wemby-pts">Wemby O27.5 Pts (-115)</option><option value="wemby-reb">Wemby O10.5 Reb (-120)</option></optgroup><optgroup label="🏀 NBA - Knicks"><option value="brunson-pts">Brunson O24.5 Pts (-110)</option><option value="kat-reb">KAT O11.5 Reb (-115)</option><option value="bridges-3pm">Bridges O2.5 3PM (+100)</option></optgroup><optgroup label="🏀 NBA - Spurs"><option value="castle-ast">Castle O5.5 Ast (-105)</option></optgroup><optgroup label="🏒 NHL - Vegas"><option value="eichel-pts">Eichel O1.5 Pts (-130)</option><option value="stone-ast">Stone O0.5 Ast (-140)</option></optgroup><optgroup label="🏒 NHL - Carolina"><option value="aho-sog">Aho O3.5 SOG (-115)</option><option value="svech-sog">Svechnikov O3.5 SOG (-110)</option></optgroup><optgroup label="⚾ MLB"><option value="judge-hr">Judge HR (+280)</option><option value="ohtani-tb">Ohtani O1.5 TB (-135)</option><option value="soto-hits">Soto O0.5 Hits (-200)</option></optgroup></select><span class="auto-odds" id="ao-p1">—</span><span class="p-chk" id="chk-p1">⏳</span></div>
-<div class="p-row"><span class="p-leg">P2</span><select class="p-auto" onchange="autoOdds(this,'p2')"><option value="">Select Prop...</option><optgroup label="🏀 NBA - Wembanyama"><option value="wemby-pts">Wemby O27.5 Pts (-115)</option><option value="wemby-reb">Wemby O10.5 Reb (-120)</option></optgroup><optgroup label="🏀 NBA - Knicks"><option value="brunson-pts">Brunson O24.5 Pts (-110)</option><option value="kat-reb">KAT O11.5 Reb (-115)</option><option value="bridges-3pm">Bridges O2.5 3PM (+100)</option></optgroup><optgroup label="🏀 NBA - Spurs"><option value="castle-ast">Castle O5.5 Ast (-105)</option></optgroup><optgroup label="🏒 NHL - Vegas"><option value="eichel-pts">Eichel O1.5 Pts (-130)</option><option value="stone-ast">Stone O0.5 Ast (-140)</option></optgroup><optgroup label="🏒 NHL - Carolina"><option value="aho-sog">Aho O3.5 SOG (-115)</option><option value="svech-sog">Svechnikov O3.5 SOG (-110)</option></optgroup><optgroup label="⚾ MLB"><option value="judge-hr">Judge HR (+280)</option><option value="ohtani-tb">Ohtani O1.5 TB (-135)</option><option value="soto-hits">Soto O0.5 Hits (-200)</option></optgroup></select><span class="auto-odds" id="ao-p2">—</span><span class="p-chk" id="chk-p2">⏳</span></div>
-<div class="p-row"><span class="p-leg">P3</span><select class="p-auto" onchange="autoOdds(this,'p3')"><option value="">Select Prop...</option><optgroup label="🏀 NBA - Wembanyama"><option value="wemby-pts">Wemby O27.5 Pts (-115)</option><option value="wemby-reb">Wemby O10.5 Reb (-120)</option></optgroup><optgroup label="🏀 NBA - Knicks"><option value="brunson-pts">Brunson O24.5 Pts (-110)</option><option value="kat-reb">KAT O11.5 Reb (-115)</option><option value="bridges-3pm">Bridges O2.5 3PM (+100)</option></optgroup><optgroup label="🏀 NBA - Spurs"><option value="castle-ast">Castle O5.5 Ast (-105)</option></optgroup><optgroup label="🏒 NHL - Vegas"><option value="eichel-pts">Eichel O1.5 Pts (-130)</option><option value="stone-ast">Stone O0.5 Ast (-140)</option></optgroup><optgroup label="🏒 NHL - Carolina"><option value="aho-sog">Aho O3.5 SOG (-115)</option><option value="svech-sog">Svechnikov O3.5 SOG (-110)</option></optgroup><optgroup label="⚾ MLB"><option value="judge-hr">Judge HR (+280)</option><option value="ohtani-tb">Ohtani O1.5 TB (-135)</option><option value="soto-hits">Soto O0.5 Hits (-200)</option></optgroup></select><span class="auto-odds" id="ao-p3">—</span><span class="p-chk" id="chk-p3">⏳</span></div>
-<div class="p-row"><span class="p-leg">P4</span><select class="p-auto" onchange="autoOdds(this,'p4')"><option value="">Select Prop...</option><optgroup label="🏀 NBA - Wembanyama"><option value="wemby-pts">Wemby O27.5 Pts (-115)</option><option value="wemby-reb">Wemby O10.5 Reb (-120)</option></optgroup><optgroup label="🏀 NBA - Knicks"><option value="brunson-pts">Brunson O24.5 Pts (-110)</option><option value="kat-reb">KAT O11.5 Reb (-115)</option><option value="bridges-3pm">Bridges O2.5 3PM (+100)</option></optgroup><optgroup label="🏀 NBA - Spurs"><option value="castle-ast">Castle O5.5 Ast (-105)</option></optgroup><optgroup label="🏒 NHL - Vegas"><option value="eichel-pts">Eichel O1.5 Pts (-130)</option><option value="stone-ast">Stone O0.5 Ast (-140)</option></optgroup><optgroup label="🏒 NHL - Carolina"><option value="aho-sog">Aho O3.5 SOG (-115)</option><option value="svech-sog">Svechnikov O3.5 SOG (-110)</option></optgroup><optgroup label="⚾ MLB"><option value="judge-hr">Judge HR (+280)</option><option value="ohtani-tb">Ohtani O1.5 TB (-135)</option><option value="soto-hits">Soto O0.5 Hits (-200)</option></optgroup></select><span class="auto-odds" id="ao-p4">—</span><span class="p-chk" id="chk-p4">⏳</span></div>
-<div class="p-row"><span class="p-leg">P5</span><select class="p-auto" onchange="autoOdds(this,'p5')"><option value="">Select Prop...</option><optgroup label="🏀 NBA - Wembanyama"><option value="wemby-pts">Wemby O27.5 Pts (-115)</option><option value="wemby-reb">Wemby O10.5 Reb (-120)</option></optgroup><optgroup label="🏀 NBA - Knicks"><option value="brunson-pts">Brunson O24.5 Pts (-110)</option><option value="kat-reb">KAT O11.5 Reb (-115)</option><option value="bridges-3pm">Bridges O2.5 3PM (+100)</option></optgroup><optgroup label="🏀 NBA - Spurs"><option value="castle-ast">Castle O5.5 Ast (-105)</option></optgroup><optgroup label="🏒 NHL - Vegas"><option value="eichel-pts">Eichel O1.5 Pts (-130)</option><option value="stone-ast">Stone O0.5 Ast (-140)</option></optgroup><optgroup label="🏒 NHL - Carolina"><option value="aho-sog">Aho O3.5 SOG (-115)</option><option value="svech-sog">Svechnikov O3.5 SOG (-110)</option></optgroup><optgroup label="⚾ MLB"><option value="judge-hr">Judge HR (+280)</option><option value="ohtani-tb">Ohtani O1.5 TB (-135)</option><option value="soto-hits">Soto O0.5 Hits (-200)</option></optgroup></select><span class="auto-odds" id="ao-p5">—</span><span class="p-chk" id="chk-p5">⏳</span></div>
-<div style="padding:10px;font-size:0.85rem;color:var(--accent)">📊 Player Props: <span id="prop-ct">0</span> / 5</div>
-
-<div class="p-summ">
-<div class="p-summ-box"><div class="p-summ-val" id="total-legs">0</div><div class="p-summ-lbl">TOTAL LEGS</div></div>
-<div class="p-summ-box"><div class="p-summ-val" id="combined-odds">—</div><div class="p-summ-lbl">COMBINED ODDS</div></div>
-<div class="p-summ-box"><div class="p-summ-val" id="payout">$—</div><div class="p-summ-lbl">$100 PAYOUT</div></div>
+<div style="background:var(--card);border-radius:15px;padding:20px;margin-bottom:15px;border:1px solid #333">
+<div style="font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:10px">📍 WEDNESDAY, JUNE 10</div>
+<div style="display:grid;gap:8px">
+<div>🏀 <strong>NBA Finals G4:</strong> SAS @ NYK 8:30 PM — <span style="color:var(--accent)">NYK ML -180</span></div>
+<div>⚾ <strong>MLB:</strong> Full slate — picks updated daily</div>
+</div>
 </div>
 
-<div style="margin-top:15px;padding:15px;background:rgba(255,215,0,0.05);border-radius:10px;border:1px solid rgba(255,215,0,0.2)">
-<div style="font-weight:700;color:var(--accent);margin-bottom:10px">📖 HOW IT WORKS</div>
-<div style="font-size:0.85rem;color:var(--text-muted);line-height:1.6">
-• <b>Select any pick</b> → Odds auto-populate from FanDuel/DraftKings<br>
-• <b>Combined odds</b> calculate automatically as you build<br>
-• <b>Max 5 team bets + 5 props</b> = 10 total legs maximum<br>
-• <b>Payout</b> shows return on a $100 wager
+<div style="background:var(--card);border-radius:15px;padding:20px;margin-bottom:15px;border:2px solid #006847">
+<div style="font-size:1.2rem;font-weight:700;color:#32CD32;margin-bottom:10px">⚽ THURSDAY, JUNE 11 — WC 2026 OPENS!</div>
+<div style="display:grid;gap:8px">
+<div>⚽ <strong>OPENER:</strong> 🇲🇽 Mexico vs 🇿🇦 S. Africa 6 PM — <span style="color:var(--accent)">MEX ML -160</span></div>
+<div>🏒 <strong>SCF G5*:</strong> VGK @ CAR 8 PM (if needed)</div>
+</div>
+</div>
+
+<div style="background:var(--card);border-radius:15px;padding:20px;margin-bottom:15px;border:1px solid #333">
+<div style="font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:10px">📍 FRIDAY, JUNE 12</div>
+<div style="display:grid;gap:8px">
+<div>⚽ <strong>WC Grp B:</strong> 🇫🇷 France vs 🇦🇷 Argentina 8 PM — <span style="color:var(--accent)">DRAW +220</span></div>
+<div>🏀 <strong>NBA Finals G5*:</strong> NYK @ SAS 8:30 PM (if needed)</div>
+</div>
+</div>
+
+<div style="background:var(--card);border-radius:15px;padding:20px;margin-bottom:15px;border:2px solid #00209f">
+<div style="font-size:1.2rem;font-weight:700;color:#4ecdc4;margin-bottom:10px">🇭🇹 SATURDAY, JUNE 13 — HAITI WC DEBUT!</div>
+<div style="display:grid;gap:8px">
+<div>⚽ <strong>HAITI DEBUT:</strong> 🇭🇹 Haiti vs 🏴 Scotland 2 PM — <span style="color:#00209f;font-weight:bold">HAITI ML +280 🔥</span></div>
+<div>⚽ <strong>USA Opener:</strong> 🇺🇸 USA vs 🇵🇪 Peru 5:30 PM — <span style="color:var(--accent)">USA ML -150</span></div>
+<div>🏒 <strong>SCF G6*:</strong> CAR @ VGK 8 PM (if needed)</div>
+</div>
+</div>
+
+<div style="background:var(--card);border-radius:15px;padding:20px;margin-bottom:15px;border:1px solid #333">
+<div style="font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:10px">📍 SUNDAY, JUNE 14</div>
+<div style="display:grid;gap:8px">
+<div>⚽ <strong>WC Grp E:</strong> 🇧🇷 Brazil vs 🇲🇦 Morocco 6 PM — <span style="color:var(--accent)">BRA ML -140</span></div>
+<div>🏀 <strong>NBA Finals G6*:</strong> SAS @ NYK 8 PM (if needed)</div>
+</div>
+</div>
+
+<div style="background:var(--card);border-radius:15px;padding:20px;margin-bottom:15px;border:1px solid #333">
+<div style="font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:10px">📍 MONDAY, JUNE 15</div>
+<div style="display:grid;gap:8px">
+<div>⚽ <strong>WC Grp C:</strong> 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇩🇪 Germany 8 PM — <span style="color:var(--accent)">DRAW +210</span></div>
+<div>🏒 <strong>SCF G7*:</strong> VGK @ CAR 8 PM (if needed)</div>
 </div>
 </div>
 
 </div>
 </div>
-<!-- TAB: NBA FINALS -->
-<div class="tab-content" id="tab-nba">
+
+<!-- NHL TAB -->
+<div id="nhl" class="tab-content">
 <div class="section">
-<div class="section-title">🏀 NBA FINALS — Knicks lead 2-0</div>
-<div style="text-align:center;padding:15px;background:linear-gradient(135deg,#006BB6,#1a1a2e);border-radius:10px;margin-bottom:15px">
-<span style="font-size:2rem">🏀</span><br>
-<strong style="color:var(--accent)">NEW YORK KNICKS vs SAN ANTONIO SPURS</strong><br>
-<span style="color:var(--text-muted)">Best of 7 — Knicks lead 2-0</span>
+<div class="section-title">🏒 STANLEY CUP FINALS — Vegas leads 2-1</div>
+
+<div style="background:linear-gradient(135deg,#111,#1a1a2a);border-radius:15px;padding:20px;margin-bottom:20px;border:2px solid var(--accent);text-align:center">
+<div style="font-size:1.5rem;font-weight:800;color:var(--accent)">🏒 VEGAS -184 SERIES FAVORITES</div>
+<div style="color:var(--text-muted);margin-top:5px">VGK 4-1: +340 | VGK 4-2: +270 | VGK 4-3: +440</div>
+</div>
+
+<div class="game-card win">
+<div class="game-time">June 2<br>FINAL</div>
+<div class="game-matchup">Game 1: Vegas @ Carolina<br><small>VGK 5-4 — Eichel dominant</small></div>
+<div class="game-pick"><span class="win">🏆 VGK WIN</span><br><span style="color:var(--green)">✅ PICK HIT</span></div>
+</div>
+
+<div class="game-card loss">
+<div class="game-time">June 4<br>FINAL OT</div>
+<div class="game-matchup">Game 2: Vegas @ Carolina<br><small>CAR 4-3 OT — Jarvis PPG winner</small></div>
+<div class="game-pick"><span class="loss">CAR WIN (OT)</span><br><span style="color:var(--text-muted)">Series tied 1-1</span></div>
+</div>
+
+<div class="game-card win">
+<div class="game-time">June 7<br>FINAL 2OT</div>
+<div class="game-matchup">Game 3: Carolina @ Vegas<br><small>VGK 5-4 2OT — S. Theodore hero! 🔥</small></div>
+<div class="game-pick"><span class="win">🏆 VGK WIN</span><br><span style="color:var(--green)">✅ THEODORE 2OT!</span></div>
+</div>
+
+<div class="game-card live">
+<div class="game-time">🔴 TONIGHT<br>8:00 PM ET</div>
+<div class="game-matchup">Game 4: Carolina @ Vegas<br><small style="color:#ff0000;font-weight:bold">VGK can take 3-1 lead!</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">VGK ML -130</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
 </div>
 
 <div class="game-card">
-<div class="game-time">June 3<br><span class="win">FINAL</span></div>
-<div class="game-matchup">Game 1: Spurs @ Knicks<br><small>NYK 105-95 — Brunson 32 pts</small></div>
-<div class="game-pick"><span class="win">🏆 NYK</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">June 5<br><span class="win">FINAL</span></div>
-<div class="game-matchup">Game 2: Spurs @ Knicks<br><small>NYK 105-104 — OG clutch defense!</small></div>
-<div class="game-pick"><span class="win">🏆 NYK</span></div>
-</div>
-
-<div class="game-card" style="border-color:#ff9f43;animation:pulse-gold 2s infinite">
-<div class="game-time"><span class="live">🔴 TONIGHT</span><br>8:30 PM ET</div>
-<div class="game-matchup">Game 3: Spurs @ Knicks<br><small>Madison Square Garden — ABC/ESPN</small></div>
-<div class="game-pick"><span class="alert">LIVE G3</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">June 10<br>8:30 PM ET</div>
-<div class="game-matchup">Game 4: Spurs @ Knicks<br><small>Madison Square Garden</small></div>
-<div class="game-pick"><span class="pending">G4</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">June 13*</div>
-<div class="game-matchup">Game 5: Knicks @ Spurs<br><small>*If Necessary</small></div>
-<div class="game-pick"><span class="pending">G5*</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">June 16*</div>
-<div class="game-matchup">Game 6: Spurs @ Knicks<br><small>*If Necessary</small></div>
-<div class="game-pick"><span class="pending">G6*</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">June 19*</div>
-<div class="game-matchup">Game 7: Knicks @ Spurs<br><small>*If Necessary</small></div>
-<div class="game-pick"><span class="pending">G7*</span></div>
+<div class="game-time">June 11*<br>8:00 PM ET</div>
+<div class="game-matchup">Game 5: Vegas @ Carolina<br><small>*If necessary</small></div>
+<div class="game-pick"><span class="pending">UPCOMING</span></div>
 </div>
 
 </div>
 </div>
-<!-- TAB: MLB -->
-<div class="tab-content" id="tab-mlb">
+<!-- NBA TAB -->
+<div id="nba" class="tab-content">
 <div class="section">
-<div class="section-title">⚾ MLB RESULTS — June 7-8, 2026</div>
+<div class="section-title">🏀 NBA FINALS — Knicks lead 2-1</div>
 
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px">
+<div class="game-card win">
+<div class="game-time">June 3<br>FINAL</div>
+<div class="game-matchup">Game 1: Spurs @ Knicks<br><small>NYK 105-95 — Brunson 30pts</small></div>
+<div class="game-pick"><span class="win">🏆 NYK WIN</span><br><span style="color:var(--green)">✅ PICK HIT</span></div>
+</div>
 
-<div class="game-card">
-<div class="game-time"><span class="win">FINAL</span></div>
-<div class="game-matchup">NYY 6, BOS 1<br><small>Bellinger HR</small></div>
-<div class="game-pick"><span class="win">NYY 38-26</span></div>
+<div class="game-card win">
+<div class="game-time">June 5<br>FINAL</div>
+<div class="game-matchup">Game 2: Spurs @ Knicks<br><small>NYK 105-104 — Clutch OG defense</small></div>
+<div class="game-pick"><span class="win">🏆 NYK WIN</span><br><span style="color:var(--green)">✅ 13-GAME STREAK!</span></div>
+</div>
+
+<div class="game-card loss">
+<div class="game-time">June 8<br>FINAL</div>
+<div class="game-matchup">Game 3: Knicks @ Spurs<br><small>SAS 115-111 — Wemby 32/8/6! 🔥</small></div>
+<div class="game-pick"><span class="loss">SAS STEALS G3</span><br><span style="color:var(--red)">❌ Streak snapped</span></div>
+</div>
+
+<div class="game-card" style="border-left:4px solid #f58426">
+<div class="game-time">TOMORROW<br>8:30 PM ET</div>
+<div class="game-matchup">Game 4: Spurs @ Knicks (MSG)<br><small style="color:var(--accent)">Knicks must respond at home!</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">NYK ML -180</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
 </div>
 
 <div class="game-card">
-<div class="game-time"><span class="win">FINAL</span></div>
-<div class="game-matchup">PHI 9, CWS 5<br><small>9-run offense</small></div>
-<div class="game-pick"><span class="win">PHI 35-30</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time"><span class="win">FINAL</span></div>
-<div class="game-matchup">ATL 3, PIT 2<br><small>Sweep complete</small></div>
-<div class="game-pick"><span class="win">ATL 45-21 🔥</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time"><span class="win">FINAL</span></div>
-<div class="game-matchup">TOR 6, BAL 4<br><small>4-run comeback</small></div>
-<div class="game-pick"><span class="win">TOR 32-34</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time"><span class="win">FINAL</span></div>
-<div class="game-matchup">DET 5, SEA 4<br><small>Walk-off 9th!</small></div>
-<div class="game-pick"><span class="win">DET 27-39</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time"><span class="win">FINAL</span></div>
-<div class="game-matchup">MIA 4, TB 1<br><small>Alcantara 7IP 1ER</small></div>
-<div class="game-pick"><span class="win">MIA 31-35</span></div>
-</div>
-
-</div>
-
-<div style="margin-top:20px;padding:15px;background:rgba(255,215,0,0.1);border-radius:10px">
-<strong>🔥 HOT TEAMS:</strong> Braves (45-21, .682), Dodgers (42-24, .636), Yankees (38-26, .594)
+<div class="game-time">June 12*<br>8:30 PM ET</div>
+<div class="game-matchup">Game 5: Knicks @ Spurs<br><small>*If necessary</small></div>
+<div class="game-pick"><span class="pending">UPCOMING</span></div>
 </div>
 
 </div>
 </div>
-<!-- TAB: WORLD CUP 2026 -->
-<div class="tab-content" id="tab-worldcup">
+
+<!-- MLB TAB -->
+<div id="mlb" class="tab-content">
 <div class="section">
-<div class="section-title">⚽ FIFA WORLD CUP 2026 — Starting June 11!</div>
-
-<div style="text-align:center;padding:20px;background:linear-gradient(135deg,#006400,#228B22,#32CD32);border-radius:15px;margin-bottom:20px;border:2px solid var(--accent)">
-<div style="font-size:3rem">⚽🏆</div>
-<div style="font-size:1.5rem;font-weight:800;color:#fff">FIFA WORLD CUP 2026</div>
-<div style="color:#fff;opacity:0.9">🇺🇸 USA | 🇲🇽 Mexico | 🇨🇦 Canada</div>
-<div style="color:var(--accent);font-weight:700;margin-top:10px">48 TEAMS • 104 MATCHES • 16 HOST CITIES</div>
-</div>
-
-<div class="countdown-container">
-<div class="countdown-title">⏰ COUNTDOWN TO KICKOFF</div>
-<div style="color:#fff;margin-bottom:10px">🇲🇽 Mexico vs 🇿🇦 South Africa — Opening Match</div>
-<div style="font-size:2rem;font-weight:800;color:var(--accent)">3 DAYS</div>
-<div style="color:#fff;font-size:0.9rem">June 11, 2026 @ Azteca Stadium, Mexico City</div>
-</div>
-
-<div style="margin-top:20px">
-<div style="font-weight:700;color:var(--accent);margin-bottom:10px">🏟️ GROUP STAGE OPENING MATCHES</div>
+<div class="section-title">⚾ MLB — Today June 9 (14 Games)</div>
 
 <div class="game-card">
-<div class="game-time">June 11<br>3:00 PM ET</div>
-<div class="game-matchup">🇲🇽 Mexico vs 🇿🇦 South Africa<br><small>Azteca Stadium — OPENING MATCH</small></div>
-<div class="game-pick"><span class="pending">Group A</span></div>
+<div class="game-time">3:35 PM ET<br>AL</div>
+<div class="game-matchup">Mariners @ Orioles<br><small>Gilbert vs Rogers | SEA -112</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">SEA ML -112</strong><br><span class="confidence">⭐⭐⭐</span></div>
 </div>
 
 <div class="game-card">
-<div class="game-time">June 12<br>9:00 PM ET</div>
-<div class="game-matchup">🇺🇸 USA vs 🇵🇾 Paraguay<br><small>SoFi Stadium, Los Angeles</small></div>
-<div class="game-pick"><span class="pending">Group D</span></div>
+<div class="game-time">3:40 PM ET<br>NL</div>
+<div class="game-matchup">Dodgers @ Pirates<br><small>Lauer vs Skenes (2.83 ERA 🔥)</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">PIT ML -107</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
 </div>
 
 <div class="game-card">
-<div class="game-time">June 12<br>3:00 PM ET</div>
-<div class="game-matchup">🇨🇦 Canada vs 🇧🇦 Bosnia<br><small>BMO Field, Toronto</small></div>
-<div class="game-pick"><span class="pending">Group B</span></div>
+<div class="game-time">3:40 PM ET<br>AL</div>
+<div class="game-matchup">Red Sox @ Rays<br><small>Tolle vs Martinez | BOS -120</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">BOS ML -120</strong><br><span class="confidence">⭐⭐⭐</span></div>
 </div>
 
 <div class="game-card">
-<div class="game-time">June 13<br>6:00 PM ET</div>
-<div class="game-matchup">🇧🇷 Brazil vs 🇲🇦 Morocco<br><small>BLOCKBUSTER — Group C</small></div>
-<div class="game-pick"><span class="pending">🔥 MARQUEE</span></div>
+<div class="game-time">3:40 PM ET<br>AL</div>
+<div class="game-matchup">Yankees @ Guardians<br><small>Cole (ace) vs Cecconi | NYY -120</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">NYY ML -120</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
+</div>
+
+<div class="game-card">
+<div class="game-time">4:07 PM ET<br>IL</div>
+<div class="game-matchup">Phillies @ Blue Jays<br><small>Wheeler vs Cease | TOR slight fav</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">PHI ML +100</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
+</div>
+
+<div class="game-card">
+<div class="game-time">4:40 PM ET<br>IL</div>
+<div class="game-matchup">Braves @ White Sox<br><small>ATL 45-21 🔥 vs CWS 19-47 📉</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">ATL ML -157</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
+</div>
+
+<div class="game-card">
+<div class="game-time">5:40 PM ET<br>NL</div>
+<div class="game-matchup">Cubs @ Rockies<br><small>Coors Field | High-scoring potential</small></div>
+<div class="game-pick"><strong style="color:var(--green)">OVER 12.5 -110</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
+</div>
+
+<div class="game-card">
+<div class="game-time">6:40 PM ET<br>NL</div>
+<div class="game-matchup">Reds @ Padres<br><small>Burns vs Giolito | CIN favored</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">CIN ML -125</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
+</div>
+
+<div class="game-card">
+<div class="game-time">7:07 PM ET<br>NL</div>
+<div class="game-matchup">Cardinals @ Mets<br><small>Citi Field | NYM home adv</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">NYM ML -130</strong><br><span class="confidence">⭐⭐⭐</span></div>
 </div>
 
 </div>
 </div>
-</div>
-<!-- TAB: X-FACTORS (8 SECTIONS) -->
-<div class="tab-content" id="tab-xfactors">
+
+<!-- WC 2026 TAB -->
+<div id="wc2026" class="tab-content">
 <div class="section">
-<div class="section-title">🔬 X-FACTORS — Deep Analysis (8 Categories)</div>
+<div class="section-title">⚽ FIFA WORLD CUP 2026 — 2 DAYS AWAY!</div>
 
-<div class="xfactors-grid">
-
-<div class="xfactor-card">
-<div class="xfactor-category">1️⃣ MOMENTUM & FORM</div>
-<div class="xfactor-content">
-<strong>VGK:</strong> 5-1 last 6, Theodore 2OT hero<br>
-<strong>NYK:</strong> 8-game win streak, MSG energy<br>
-<strong>Zverev:</strong> Career Grand Slam complete ✅
-</div>
+<div class="wc-banner" style="margin-bottom:20px">
+<div style="font-size:2rem;font-weight:800;color:gold">🏆 WORLD CUP 2026 🏆</div>
+<div style="color:#fff;margin-top:10px">USA • CANADA • MEXICO | 48 TEAMS | 104 MATCHES</div>
+<div style="color:#ffd700;margin-top:10px;font-size:1.2rem">KICKOFF: June 11, 2026</div>
 </div>
 
-<div class="xfactor-card">
-<div class="xfactor-category">2️⃣ INJURIES & AVAILABILITY</div>
-<div class="xfactor-content">
-<strong>CAR:</strong> Slavin questionable (lower body)<br>
-<strong>SAS:</strong> Wemby full health, 38+ PRA avg<br>
-<strong>NYK:</strong> Full roster, OG at 100%
-</div>
+<div class="game-card" style="border-left:4px solid #006847">
+<div class="game-time">June 11<br>🇲🇽 OPENER</div>
+<div class="game-matchup">🇲🇽 Mexico vs South Africa 🇿🇦<br><small>Azteca Stadium, Mexico City | 6 PM ET</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">MEX ML -160</strong><br><small>Ancelotti's WC debut!</small></div>
 </div>
 
-<div class="xfactor-card">
-<div class="xfactor-category">3️⃣ REST & TRAVEL</div>
-<div class="xfactor-content">
-<strong>VGK:</strong> Home ice advantage G3-4<br>
-<strong>NYK:</strong> Home court G3-4 at MSG<br>
-<strong>Both Series:</strong> 2-day rest between games
-</div>
+<div class="game-card">
+<div class="game-time">June 12<br>Group B</div>
+<div class="game-matchup">🇫🇷 France vs Argentina 🇦🇷<br><small>MetLife Stadium, NJ | 8 PM ET</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">DRAW +220</strong><br><small>2022 WC Final rematch!</small></div>
 </div>
 
-<div class="xfactor-card">
-<div class="xfactor-category">4️⃣ HEAD-TO-HEAD HISTORY</div>
-<div class="xfactor-content">
-<strong>VGK-CAR:</strong> First SCF meeting<br>
-<strong>NYK-SAS:</strong> Knicks 3-1 regular season<br>
-<strong>Brunson vs SAS:</strong> 28.5 PPG career
-</div>
+<div class="game-card" style="border-left:4px solid #00209f">
+<div class="game-time">June 13<br>Group D</div>
+<div class="game-matchup">🇭🇹 HAITI vs Scotland 🏴<br><small>Gillette Stadium, Boston | 2 PM ET</small></div>
+<div class="game-pick"><strong style="color:#00209f">🇭🇹 HAITI ML +280</strong><br><small>HISTORIC WC DEBUT! Migné era!</small></div>
 </div>
 
-<div class="xfactor-card">
-<div class="xfactor-category">5️⃣ VENUE & CROWD FACTOR</div>
-<div class="xfactor-content">
-<strong>T-Mobile Arena:</strong> VGK 8-2 playoffs at home<br>
-<strong>MSG:</strong> NYK 9-1 this postseason<br>
-<strong>Atmosphere:</strong> Electric in both venues
-</div>
+<div class="game-card">
+<div class="game-time">June 13<br>Group A</div>
+<div class="game-matchup">🇺🇸 USA vs Peru 🇵🇪<br><small>SoFi Stadium, LA | 5:30 PM ET</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">USA ML -150</strong><br><small>HOME ADVANTAGE!</small></div>
 </div>
 
-<div class="xfactor-card">
-<div class="xfactor-category">6️⃣ OFFICIATING TRENDS</div>
-<div class="xfactor-content">
-<strong>NHL:</strong> Tighter calls in Finals<br>
-<strong>NBA:</strong> Home teams 65% FT advantage<br>
-<strong>Key:</strong> Discipline crucial for road teams
-</div>
+<div class="game-card">
+<div class="game-time">June 14<br>Group E</div>
+<div class="game-matchup">🇧🇷 Brazil vs Morocco 🇲🇦<br><small>Hard Rock Stadium, Miami | 6 PM ET</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">BRA ML -140</strong><br><small>Ancelotti vs Atlas Lions!</small></div>
 </div>
 
-<div class="xfactor-card">
-<div class="xfactor-category">7️⃣ WEATHER & CONDITIONS</div>
-<div class="xfactor-content">
-<strong>Vegas:</strong> Desert heat, dome advantage<br>
-<strong>NYC:</strong> 75°F, clear skies<br>
-<strong>WC 2026:</strong> June heat in Mexico/USA
-</div>
-</div>
-
-<div class="xfactor-card">
-<div class="xfactor-category">8️⃣ INTANGIBLES</div>
-<div class="xfactor-content">
-<strong>Theodore:</strong> Elite clutch performer<br>
-<strong>Brunson:</strong> Born for MSG moments<br>
-<strong>Wemby:</strong> First Finals, unknown factor
-</div>
+<div class="game-card">
+<div class="game-time">June 15<br>Group C</div>
+<div class="game-matchup">🏴 England vs Germany 🇩🇪<br><small>AT&T Stadium, Dallas | 8 PM ET</small></div>
+<div class="game-pick"><strong style="color:var(--accent)">DRAW +210</strong><br><small>Classic rivalry!</small></div>
 </div>
 
 </div>
 </div>
-</div>
-<!-- TAB: RECORDS -->
-<div class="tab-content" id="tab-records">
+<!-- PARLAYS TAB -->
+<div id="parlays" class="tab-content">
 <div class="section">
-<div class="section-title">📊 MASTER RECORDS — Season Performance</div>
+<div class="section-title">🎰 PARLAY BUILDER — 16-3 (84.2%)</div>
 
-<div class="stats-grid">
-<div class="stat-card">
-<div class="stat-value">298</div>
-<div class="stat-label">Total Predictions</div>
+<div class="parlay-card" style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:2px solid gold;border-radius:15px;padding:20px;margin-bottom:20px">
+<div style="font-size:1.5rem;font-weight:800;color:gold;margin-bottom:15px">🔥 TODAY'S POWER PARLAY — June 9</div>
+<div style="margin-bottom:10px">
+<div style="background:#0d0d14;padding:10px;border-radius:8px;margin:5px 0">🏒 VGK ML -130</div>
+<div style="background:#0d0d14;padding:10px;border-radius:8px;margin:5px 0">⚾ NYY ML -120</div>
+<div style="background:#0d0d14;padding:10px;border-radius:8px;margin:5px 0">⚾ ATL ML -157</div>
 </div>
-<div class="stat-card">
-<div class="stat-value">252</div>
-<div class="stat-label">Total Wins</div>
-</div>
-<div class="stat-card">
-<div class="stat-value">46</div>
-<div class="stat-label">Total Losses</div>
-</div>
-<div class="stat-card">
-<div class="stat-value">84.4%</div>
-<div class="stat-label">Win Rate</div>
+<div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:15px;border-top:1px solid #333">
+<div><strong>3-Leg Parlay</strong></div>
+<div style="color:var(--green);font-weight:800">+320 Odds | $50 → $210</div>
 </div>
 </div>
 
-<div style="margin-top:20px">
-<div style="font-weight:700;color:var(--accent);margin-bottom:10px">📈 BY CONFIDENCE LEVEL</div>
-<div class="game-card">
-<div class="game-time">⭐⭐⭐⭐⭐</div>
-<div class="game-matchup">5-Star Picks<br><small>129-14 (90.2%)</small></div>
-<div class="game-pick"><span class="win">ELITE</span></div>
+<div class="parlay-card" style="background:var(--card);border:1px solid #333;border-radius:15px;padding:20px;margin-bottom:20px">
+<div style="font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:15px">💎 TOMORROW'S PREMIUM PARLAY — June 10</div>
+<div style="margin-bottom:10px">
+<div style="background:#0d0d14;padding:10px;border-radius:8px;margin:5px 0">🏀 NYK ML -180</div>
+<div style="background:#0d0d14;padding:10px;border-radius:8px;margin:5px 0">🏀 Wemby O27.5 pts -115</div>
+<div style="background:#0d0d14;padding:10px;border-radius:8px;margin:5px 0">🏀 Brunson O7.5 ast +105</div>
 </div>
-<div class="game-card">
-<div class="game-time">⭐⭐⭐⭐</div>
-<div class="game-matchup">4-Star Picks<br><small>74-15 (83.1%)</small></div>
-<div class="game-pick"><span class="win">STRONG</span></div>
-</div>
-<div class="game-card">
-<div class="game-time">⭐⭐⭐</div>
-<div class="game-matchup">3-Star Picks<br><small>36-11 (76.6%)</small></div>
-<div class="game-pick"><span class="pending">SOLID</span></div>
+<div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:15px;border-top:1px solid #333">
+<div><strong>3-Leg Player Prop Parlay</strong></div>
+<div style="color:var(--green);font-weight:800">+450 Odds | $25 → $137.50</div>
 </div>
 </div>
 
-<div style="margin-top:20px">
-<div style="font-weight:700;color:var(--accent);margin-bottom:10px">🏆 BY BET TYPE</div>
-<div class="game-card">
-<div class="game-time">🎯</div>
-<div class="game-matchup">Team Picks<br><small>176-23 (88.4%)</small></div>
-<div class="game-pick"><span class="win">TOP</span></div>
+<div class="parlay-card" style="background:linear-gradient(135deg,#006400,#228B22);border:2px solid gold;border-radius:15px;padding:20px;margin-bottom:20px">
+<div style="font-size:1.3rem;font-weight:700;color:gold;margin-bottom:15px">⚽ WORLD CUP WEEK 1 PARLAY</div>
+<div style="margin-bottom:10px">
+<div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;margin:5px 0;color:#fff">🇲🇽 Mexico ML -160 (Jun 11)</div>
+<div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;margin:5px 0;color:#fff">🇺🇸 USA ML -150 (Jun 13)</div>
+<div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;margin:5px 0;color:#fff">🇧🇷 Brazil ML -140 (Jun 14)</div>
 </div>
-<div class="game-card">
-<div class="game-time">👤</div>
-<div class="game-matchup">Player Props<br><small>68-20 (77.3%)</small></div>
-<div class="game-pick"><span class="win">STRONG</span></div>
+<div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.3)">
+<div style="color:#fff"><strong>3-Leg WC Favorites Parlay</strong></div>
+<div style="color:gold;font-weight:800">+280 Odds | $50 → $190</div>
 </div>
-<div class="game-card">
-<div class="game-time">🎰</div>
-<div class="game-matchup">Parlays<br><small>15-3 (83.3%)</small></div>
-<div class="game-pick"><span class="win">HOT</span></div>
 </div>
+
+<div style="background:var(--card);border-radius:15px;padding:20px;text-align:center">
+<div style="font-size:1.2rem;font-weight:700;color:var(--accent);margin-bottom:10px">📊 PARLAY RECORD</div>
+<div style="font-size:2.5rem;font-weight:800;color:var(--green)">16-3</div>
+<div style="color:var(--text-muted)">84.2% Win Rate</div>
 </div>
 
 </div>
 </div>
-<!-- TAB: CALENDAR -->
-<div class="tab-content" id="tab-calendar">
-<div class="section">
-<div class="section-title">📅 UPCOMING GAMES — June 8-14, 2026</div>
 
-<div style="margin-bottom:15px;padding:10px;background:rgba(255,215,0,0.1);border-radius:8px">
-<strong>KEY EVENTS:</strong> 🏀 NBA Finals G3 TODAY | 🏒 SCF G4 Tomorrow | ⚽ World Cup June 11!
 </div>
 
-<div class="game-card" style="border-color:#ff9f43">
-<div class="game-time"><span class="live">🔴 TODAY</span><br>June 8</div>
-<div class="game-matchup">🏀 NBA Finals G3 — SAS @ NYK<br><small>8:30 PM ET — MSG — ABC/ESPN</small></div>
-<div class="game-pick"><span class="alert">TONIGHT</span></div>
+<!-- FOOTER -->
+<div style="text-align:center;padding:30px;color:var(--text-muted);font-size:0.85rem;margin-top:20px;border-top:1px solid #333">
+<div style="font-size:1.2rem;color:var(--accent);margin-bottom:10px">🏆 SIGMAX INTELLIGENCE v75</div>
+<div>Updated: June 9, 2026 @ 11:25 AM ET</div>
+<div style="margin-top:10px">254-47 (84.4%) | $13,650 Bankroll | +91.0% ROI</div>
+<div style="margin-top:15px;font-size:0.75rem;color:#666">For entertainment purposes only. Please gamble responsibly.</div>
 </div>
 
-<div class="game-card">
-<div class="game-time">🔜 June 9</div>
-<div class="game-matchup">🏒 SCF G4 — CAR @ VGK<br><small>8:00 PM ET — T-Mobile Arena — ABC</small></div>
-<div class="game-pick"><span class="pending">MARQUEE</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">June 10</div>
-<div class="game-matchup">🏀 NBA Finals G4 — SAS @ NYK<br><small>8:30 PM ET — MSG — ABC</small></div>
-<div class="game-pick"><span class="pending">G4</span></div>
-</div>
-
-<div class="game-card" style="border-color:var(--green)">
-<div class="game-time">⚽ June 11</div>
-<div class="game-matchup">🏆 WORLD CUP OPENS! — Mexico vs South Africa<br><small>12:00 PM ET — Azteca Stadium — FOX</small></div>
-<div class="game-pick"><span class="win">🌎 WC START</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">June 11*</div>
-<div class="game-matchup">🏒 SCF G5* — VGK @ CAR<br><small>8:00 PM ET — *If Necessary</small></div>
-<div class="game-pick"><span class="pending">G5*</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">⚽ June 12</div>
-<div class="game-matchup">🇺🇸 USA vs 🇵🇾 Paraguay<br><small>🇧🇷 Brazil vs 🇲🇦 Morocco — BLOCKBUSTERS</small></div>
-<div class="game-pick"><span class="upcoming">WC DAY 2</span></div>
-</div>
-
-<div class="game-card">
-<div class="ga
-<!-- 3-COLUMN DISCLAIMER -->
-<div class="disclaimer">
-<div class="disclaimer-grid">
-<div class="disclaimer-col">
-<h4>⚠️ RISK DISCLAIMER</h4>
-<p>Sports betting involves significant risk. Past performance does not guarantee future results. Only bet what you can afford to lose. This content is for entertainment and informational purposes only.</p>
-</div>
-<div class="disclaimer-col">
-<h4>📊 DATA ACCURACY</h4>
-<p>All statistics, odds, and predictions are based on available data at time of publication. Lines and odds may vary by sportsbook. Always verify current lines before placing bets.</p>
-</div>
-<div class="disclaimer-col">
-<h4>🔞 RESPONSIBLE GAMING</h4>
-<p>Must be 21+ to bet. If you or someone you know has a gambling problem, call 1-800-GAMBLER. Resources available at ncpgambling.org. Please bet responsibly.</p>
-</div>
-</div>
-</div>
-<!-- TAB: TEAMS -->
-<div class="tab-content" id="tab-teams">
-<div class="section">
-<div class="section-title">🌍 48 ÉQUIPES QUALIFIÉES — FIFA WC 2026</div>
-<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;justify-content:center">var(--text);border:1px solid var(--card-border);padding:5px 10px;border-radius:15px;cursor:pointer;font-size:0.75rem" onclick="filterTeams('host')">🏠 Hôtes</button>
-<button style="background:var(--card);color:var(--text);border:1px solid var(--card-border);padding:5px 10px;border-radius:15px;cursor:pointer;font-size:0.75rem" onclick="filterTeams('uefa')">🇪🇺 UEFA (16)</button>
-<button style="background:var(--card);color:var(--text);border:1px solid var(--card-border);padding:5px 10px;border-radius:15px;cursor:pointer;font-size:0.75rem" onclick="filterTeams('conmebol')">🌎 CONMEBOL (6)</button>
-<button style="background:var(--card);color:var(--text);border:1px solid var(--card-border);padding:5px 10px;border-radius:15px;cursor:pointer;font-size:0.75rem" onclick="filterTeams('afc')">🌏 AFC (8)</button>
-<button style="background:var(--card);color:var(--text);border:1px solid var(--card-border);padding:5px 10px;border-radius:15px;cursor:pointer;font-size:0.75rem" onclick="filterTeams('caf')">🌍 CAF (9)</button>
-</div>
-<div class="tcg"><!-- GROUP A -->
-<div class="tc" data-conf="host"><div class="tc-h" style="background:linear-gradient(135deg,#006847,#CE1126)"><span class="tc-f">🇲🇽</span><span class="tc-s">⭐ S. Giménez</span></div><div class="tc-b"><span class="tc-n">MEXICO</span><span class="tc-g">A 🏠</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">128.9M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#15</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">J. Aguirre</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">QF 70,86</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 17 PARTICIPATIONS WC!
-• Record: 5x Huitièmes de finale consécutifs
-• 2x Hôte (1970, 1986) + 2026 CO-HÔTE!
-• "El Tri" - Fierté nationale
-
-⭐ LÉGENDES MEXICAINES
-• Hugo Sánchez - Meilleur joueur mexicain
-• Rafael Márquez - 5 Coupes du Monde!
-• Cuauhtémoc Blanco, Javier Hernández
-
-🔥 GÉNÉRATION 2026
-• Santiago Giménez - AC Milan, buteur
-• Edson Álvarez - West Ham, capitaine
-• Hirving Lozano - PSV, vitesse
-• Entraîneur: Javier Aguirre (3ème mandat)
-
-📊 FIFA Rank: #15 | Population: 129M
-🎯 ENFIN dépasser les huitièmes À LA MAISON!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="caf"><div class="tc-h" style="background:linear-gradient(135deg,#007A4D,#000)"><span class="tc-f">🇿🇦</span><span class="tc-s">⭐ Percy Tau</span></div><div class="tc-b"><span class="tc-n">SOUTH AFRICA</span><span class="tc-g">A</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">60M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#60</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">H. Broos</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 HÔTES 2010!
-• Premier WC en Afrique - Vuvuzelas!
-• "Bafana Bafana" - Les Garçons
-• Champions CAN 1996 🏠
-
-⭐ LÉGENDES SUD-AFRICAINES
-• Doctor Khumalo - Icône du football local
-• Benni McCarthy - 31 buts, record
-• Lucas Radebe - Leeds United capitaine
-
-🔥 RETOUR EN FORCE
-• Ronwen Williams - Mamelodi Sundowns, meilleur gardien d'Afrique!
-• Percy Tau - Al-Ahly, talent technique
-• Themba Zwane - Sundowns, créativité
-• Entraîneur: Hugo Broos
-
-📊 FIFA Rank: #60 | Population: 60M
-🎯 Premier point depuis 2010!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="afc"><div class="tc-h" style="background:linear-gradient(135deg,#CD2E3A,#0047A0)"><span class="tc-f">🇰🇷</span><span class="tc-s">⭐ Son Heung-min</span></div><div class="tc-b"><span class="tc-n">SOUTH KOREA</span><span class="tc-g">A</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">51.7M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#25</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Hong M.</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Semi 02</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 DEMI-FINALISTES 2002!
-• Co-hôtes 2002 - 4ème place historique
-• 11 participations WC
-• "Tigres d'Asie"
-
-⭐ HÉROS DE 2002
-• Ahn Jung-hwan - But en or vs Italie
-• Hong Myung-bo - Défenseur légendaire (maintenant coach)
-• Park Ji-sung - Man United, poumons d'acier
-
-🔥 STARS ACTUELLES
-• Son Heung-min - Tottenham, meilleur joueur asiatique
-• Kim Min-jae - Bayern Munich, roc défensif
-• Lee Kang-in - PSG, créativité
-• Entraîneur: Hong Myung-bo (légende de 2002!)
-
-📊 FIFA Rank: #25 | Population: 52M
-🎯 Revivre la magie de 2002!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#11457E,#D7141A)"><span class="tc-f">🇨🇿</span><span class="tc-s">⭐ P. Schick</span></div><div class="tc-b"><span class="tc-n">CZECHIA</span><span class="tc-g">A</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">10.5M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#41</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">M. Koubek</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Final 62</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 FINALISTES EURO 1996
-• Vice-champions d'Europe (défaite vs Allemagne)
-• Héritage Tchécoslovaquie: 2x finalistes WC!
-• "Národní tým" - Équipe nationale
-
-⭐ LÉGENDES TCHÈQUES
-• Pavel Nedvěd - Ballon d'Or 2003!
-• Petr Čech - Meilleur gardien du monde
-• Karel Poborský - Euro 96, but iconique
-
-🔥 ÉQUIPE ACTUELLE
-• Patrik Schick - Bayer Leverkusen, buteur
-• Tomáš Souček - West Ham, milieu box-to-box
-• Vladimír Coufal - West Ham, latéral
-• Entraîneur: Miroslav Koubek
-
-📊 FIFA Rank: #41 | Population: 10.5M
-🎯 Redevenir une puissance!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<!-- GROUP B -->
-<div class="tc" data-conf="host"><div class="tc-h" style="background:linear-gradient(135deg,#FF0000,#FFF)"><span class="tc-f">🇨🇦</span><span class="tc-s">⭐ A. Davies</span></div><div class="tc-b"><span class="tc-n">CANADA</span><span class="tc-g">B 🏠</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">40M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#30</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">J. Marsch</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 RETOUR APRÈS 36 ANS!
-• WC 2022: Première depuis 1986
-• Co-hôtes 2026 avec USA &amp; Mexique
-• "Les Rouges" en pleine ascension
-
-⭐ PIONNIERS DU FOOTBALL CANADIEN
-• Atiba Hutchinson - 103 sélections, légende
-• Dwayne De Rosario - Star MLS
-• Owen Hargreaves - Bayern, Man United
-
-🔥 GÉNÉRATION DORÉE
-• Alphonso Davies - Bayern Munich, plus rapide du monde
-• Jonathan David - Lille, buteur prolifique (30 buts/saison)
-• Tajon Buchanan - Inter Milan
-• Entraîneur: Jesse Marsch
-
-📊 FIFA Rank: #40 | Population: 38M
-🎯 Premier match à domicile en WC!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#FF0000,#FFF)"><span class="tc-f">🇨🇭</span><span class="tc-s">⭐ G. Xhaka</span></div><div class="tc-b"><span class="tc-n">SWITZERLAND</span><span class="tc-g">B</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">8.7M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#19</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">M. Yakin</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">QF 34,54</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 QUARTS DE FINALE 2024
-• 12 participations WC
-• Toujours compétitifs, jamais favoris
-• "Nati" - Précision suisse
-
-⭐ LÉGENDES SUISSES
-• Stéphane Chapuisat - Borussia Dortmund
-• Alexander Frei - 42 buts, record suisse
-• Xherdan Shaqiri - Liverpool, buts spectaculaires
-
-🔥 ÉQUIPE ACTUELLE
-• Granit Xhaka - Bayer Leverkusen, capitaine leader
-• Manuel Akanji - Man City, défenseur solide
-• Breel Embolo - Monaco, vitesse et puissance
-• Entraîneur: Murat Yakin
-
-📊 FIFA Rank: #19 | Population: 8.7M
-🎯 Premier demi-finale WC!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="afc"><div class="tc-h" style="background:linear-gradient(135deg,#8D1B3D,#FFF)"><span class="tc-f">🇶🇦</span><span class="tc-s">⭐ Akram Afif</span></div><div class="tc-b"><span class="tc-n">QATAR</span><span class="tc-g">B</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">2.9M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#53</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Lopetegui</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 CHAMPIONS D'ASIE 2019 &amp; 2023
-• Hôtes WC 2022 (éliminés en groupes)
-• Investissement massif dans le football
-• Project 2022 → 2026
-
-⭐ ÉTOILES QATARIES
-• Akram Afif - Ballon d'Or Asie 2024!
-• Almoez Ali - Buteur, record CAN Asie
-• Hassan Al-Haydos - Capitaine historique
-
-🔥 AMBITIONS 2026
-• Akram Afif - Al-Sadd, meilleur joueur asiatique
-• Bassam Al-Rawi - Défenseur leader
-• Mohammed Muntari - Buteur efficace
-• Entraîneur: Marquez López
-
-📊 FIFA Rank: #35 | Population: 2.9M
-🎯 Racheter l'échec de 2022!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#002395,#F7D117)"><span class="tc-f">🇧🇦</span><span class="tc-s">⭐ E. Džeko</span></div><div class="tc-b"><span class="tc-n">BOSNIA</span><span class="tc-g">B</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">3.3M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#71</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Barbarez</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 PREMIÈRE QUALIFICATION WC!
-• WC 2014: Première et unique
-• Nation jeune (indépendance 1992)
-• "Zmajevi" - Les Dragons
-
-⭐ HÉROS 2014
-• Edin Džeko - 65 buts, record!
-• Miralem Pjanić - Juventus, Barcelone
-• Emir Spahić - Défenseur leader
-
-🔥 ÉQUIPE ACTUELLE
-• Edin Džeko - 38 ans, Fenerbahçe, toujours leader
-• Ermedin Demirović - Stuttgart, buteur
-• Benjamin Tahirović - Ajax, futur
-• Entraîneur: Sergej Barbarez
-
-📊 FIFA Rank: #69 | Population: 3.3M
-🎯 Revivre 2014!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div><!-- GROUP C -->
-<div class="tc" data-conf="conmebol"><div class="tc-h" style="background:linear-gradient(135deg,#009739,#FEDD00)"><span class="tc-f">🇧🇷</span><span class="tc-s">⭐ Vinícius Jr</span></div><div class="tc-b"><span class="tc-n">BRAZIL</span><span class="tc-g">C</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">215M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#6</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Ancelotti</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">🏆x5</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 PALMARÈS LÉGENDAIRE
-• 5x Champions du Monde (1958, 1962, 1970, 1994, 2002) - RECORD ABSOLU
-• 9x Copa América (dernier: 2019)
-• Record: 77 victoires en phase finale de Coupe du Monde
-
-⭐ LÉGENDES IMMORTELLES
-• Pelé - 3 Coupes du Monde, considéré le GOAT
-• Ronaldo "O Fenômeno" - 15 buts en WC, Ballon d'Or x2
-• Ronaldinho - Magie pure, Ballon d'Or 2005
-• Cafu - Seul joueur à jouer 3 finales consécutives
-
-🔥 GÉNÉRATION ACTUELLE
-• Vinícius Jr - Ballon d'Or 2024, star du Real Madrid
-• Rodrygo, Endrick, Raphinha - Nouveau trio d'attaque
-• Entraîneur: Carlo Ancelotti
-
-📊 FIFA Rank: #6 | Population: 215M
-🎯 Reconquérir le titre 24 ans après!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="caf"><div class="tc-h" style="background:linear-gradient(135deg,#C1272D,#006233)"><span class="tc-f">🇲🇦</span><span class="tc-s">⭐ A. Hakimi</span></div><div class="tc-b"><span class="tc-n">MOROCCO</span><span class="tc-g">C</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">37M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#8</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">M. Ouahbi</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Semi 22</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 DEMI-FINALISTES 2022!
-• 4ème WC 2022 - PREMIER pays africain en demis!
-• "Atlas Lions" - Fierté du continent
-• Défense de FER: 1 seul but encaissé en 5 matchs
-
-⭐ HÉROS DE QATAR 2022
-• Achraf Hakimi - Panenka légendaire vs Espagne
-• Yassine Bounou - Gardien héroïque
-• Sofiane Boufal - Danse avec sa mère iconique
-
-🔥 GÉNÉRATION DORÉE
-• Achraf Hakimi - PSG, meilleur latéral du monde
-• Hakim Ziyech - Galatasaray, créativité
-• Youssef En-Nesyri - Fenerbahçe, buteur
-• Entraîneur: Walid Regragui
-
-📊 FIFA Rank: #13 | Population: 37M
-🎯 Confirmer le statut de puissance mondiale!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#005EB8,#FFF)"><span class="tc-f">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span><span class="tc-s">⭐ S. McTominay</span></div><div class="tc-b"><span class="tc-n">SCOTLAND</span><span class="tc-g">C</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">5.5M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#43</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">S. Clarke</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 RETOUR EN WC!
-• WC 1998: Dernière participation
-• 8 participations historiques
-• "Tartan Army" - Supporters légendaires
-
-⭐ LÉGENDES ÉCOSSAISES
-• Denis Law - Ballon d'Or 1964!
-• Kenny Dalglish - Liverpool &amp; Celtic
-• Graeme Souness - Milieu de fer
-
-🔥 MEILLEURE ÉQUIPE DEPUIS 98
-• John McGinn - Aston Villa, capitaine
-• Andy Robertson - Liverpool, latéral élite
-• Scott McTominay - Man United, buts importants
-• Entraîneur: Steve Clarke
-
-📊 FIFA Rank: #39 | Population: 5.5M
-🎯 ENFIN sortir des groupes!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="concacaf"><div class="tc-h" style="background:linear-gradient(135deg,#00209F,#D21034)"><span class="tc-f">🇭🇹</span><span class="tc-s">⭐ W. Isidor</span></div><div class="tc-b"><span class="tc-n">HAITI</span><span class="tc-g">C</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">11.5M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#79</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">S. Migné</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 RETOUR HISTORIQUE!
-• WC 1974: Seule participation précédente
-• "Les Grenadiers" - Fierté caribéenne
-• 50 ans d'attente!
-
-⭐ HISTOIRE 1974
-• Emmanuel Sanon - But vs Italie, brisant record de Zoff!
-• Guy François - Capitaine historique
-• Héros d'un pays en difficulté
-
-🔥 NOUVELLE GÉNÉRATION
-• Wilson Isidor - ⭐ STAR #1, Sunderland, attaquant explosif
-• Frantzdy Pierrot - Auxerre, buteur #2
-• Derrick Étienne Jr. - Columbus Crew
-• Steeven Saba - Ajaccio, défenseur
-• Entraîneur: Sébastien Migné
-
-📊 FIFA Rank: #79 | Population: 11M
-🎯 MONTRER LA RÉSILIENCE HAÏTIENNE AU MONDE!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<!-- GROUP D -->
-<div class="tc" data-conf="host"><div class="tc-h" style="background:linear-gradient(135deg,#B31942,#0A3161)"><span class="tc-f">🇺🇸</span><span class="tc-s">⭐ C. Pulisic</span></div><div class="tc-b"><span class="tc-n">USA</span><span class="tc-g">D 🏠</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">335M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#16</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Pochettino</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">3e 1930</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 CO-HÔTES 2026!
-• Meilleur: 3ème (1930)
-• WC 1994: Record d'affluence
-• "Soccer" devient Football
-
-⭐ LÉGENDES AMÉRICAINES
-• Landon Donovan - 57 buts, icône
-• Clint Dempsey - Premier Américain en Premier League à 20 buts
-• Tim Howard - 16 arrêts vs Belgique 2014 (RECORD!)
-
-🔥 GOLDEN GENERATION
-• Christian Pulisic - "Captain America", AC Milan
-• Gio Reyna - Borussia Dortmund
-• Weston McKennie - Juventus
-• Entraîneur: Gregg Berhalter
-
-📊 FIFA Rank: #16 | Population: 331M
-🎯 Faire sensation À DOMICILE!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="conmebol"><div class="tc-h" style="background:linear-gradient(135deg,#DA121A,#FFF)"><span class="tc-f">🇵🇾</span><span class="tc-s">⭐ M. Almirón</span></div><div class="tc-b"><span class="tc-n">PARAGUAY</span><span class="tc-g">D</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">7.4M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#38</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">G. Alfaro</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">QF 2010</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 QUARTS 2010
-• Meilleur résultat WC en Afrique du Sud
-• 8 participations WC
-• "La Albirroja" - Blanc et Rouge
-
-⭐ LÉGENDES PARAGUAYENNES
-• José Luis Chilavert - Gardien buteur légendaire!
-• Roque Santa Cruz - Bayern, Man City
-• Carlos Gamarra - Défenseur élite
-
-🔥 ÉQUIPE ACTUELLE
-• Miguel Almirón - Newcastle, vitesse
-• Julio Enciso - Brighton, 20 ans, talent pur
-• Gustavo Gómez - Palmeiras, capitaine
-• Entraîneur: Daniel Garnero
-
-📊 FIFA Rank: #51 | Population: 7M
-🎯 Retrouver les quarts!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="afc"><div class="tc-h" style="background:linear-gradient(135deg,#002868,#FFD500)"><span class="tc-f">🇦🇺</span><span class="tc-s">⭐ H. Souttar</span></div><div class="tc-b"><span class="tc-n">AUSTRALIA</span><span class="tc-g">D</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">26M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#27</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">T. Popovic</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">8es x2</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 SOCCEROOS EN WC
-• 6 participations (dont 5 consécutives)
-• Huitièmes 2022: Victoire vs Danemark!
-• Seule nation à changer de confédération (OFC→AFC)
-
-⭐ LÉGENDES AUSTRALIENNES
-• Tim Cahill - 50 buts, acrobaties légendaires
-• Mark Viduka - Premier League star
-• Harry Kewell - Liverpool, Leeds
-
-🔥 GÉNÉRATION ACTUELLE
-• Mathew Ryan - Gardien vétéran
-• Jackson Irvine - Milieu combatif
-• Awer Mabil - Ailier rapide
-• Entraîneur: Graham Arnold
-
-📊 FIFA Rank: #24 | Population: 26M
-🎯 Répéter l'exploit de 2022!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#E30A17,#FFF)"><span class="tc-f">🇹🇷</span><span class="tc-s">⭐ Arda Güler</span></div><div class="tc-b"><span class="tc-n">TURKEY</span><span class="tc-g">D</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">85M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#22</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Montella</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">3e 2002</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 3ÈME WC 2002!
-• Demi-finales historiques en Corée/Japon
-• "Ay-Yıldızlılar" - Étoile et Croissant
-• Retour après 2 absences
-
-⭐ HÉROS DE 2002
-• Hakan Şükür - But le plus rapide WC (11 sec)!
-• İlhan Mansız - Buts cruciaux
-• Rüştü Reçber - Gardien spectaculaire
-
-🔥 NOUVELLE GÉNÉRATION
-• Arda Güler - Real Madrid, 19 ans, prodige!
-• Hakan Çalhanoğlu - Inter, maestro
-• Kenan Yıldız - Juventus, ailier
-• Entraîneur: Vincenzo Montella
-
-📊 FIFA Rank: #31 | Population: 85M
-🎯 Revivre 2002!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div><!-- GROUP E -->
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#000,#DD0000)"><span class="tc-f">🇩🇪</span><span class="tc-s">⭐ J. Musiala</span></div><div class="tc-b"><span class="tc-n">GERMANY</span><span class="tc-g">E</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">84M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#10</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Nagelsmann</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">🏆x4</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 PALMARÈS HISTORIQUE
-• 4x Champions du Monde (1954, 1974, 1990, 2014)
-• 3x Champions d'Europe
-• "Die Mannschaft" - La Machine
-
-⭐ LÉGENDES ALLEMANDES
-• Franz Beckenbauer - "Der Kaiser"
-• Gerd Müller - 14 buts WC
-• Miroslav Klose - 16 buts WC (RECORD ABSOLU!)
-• Lothar Matthäus - 150 sélections, 5 WC
-
-🔥 NOUVELLE GÉNÉRATION
-• Jamal Musiala - Prodige 21 ans, Bayern
-• Florian Wirtz - Génie de Leverkusen
-• Joshua Kimmich - Capitaine polyvalent
-• Entraîneur: Julian Nagelsmann
-
-📊 FIFA Rank: #15 | Population: 83M
-🎯 Rédemption après 2018 &amp; 2022!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="conmebol"><div class="tc-h" style="background:linear-gradient(135deg,#FFD100,#034EA2)"><span class="tc-f">🇪🇨</span><span class="tc-s">⭐ M. Caicedo</span></div><div class="tc-b"><span class="tc-n">ECUADOR</span><span class="tc-g">E</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">18M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#24</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Beccacece</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">8es 2006</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 3 PARTICIPATIONS WC
-• 2002, 2006, 2014, 2022
-• Huitièmes 2006: Meilleur résultat
-• "La Tri" - Altitude de Quito = avantage!
-
-⭐ LÉGENDES ÉQUATORIENNES
-• Antonio Valencia - Man United capitaine
-• Iván Kaviedes - Buteur WC
-• Agustín Delgado - "El Tin"
-
-🔥 JEUNE GÉNÉRATION
-• Moisés Caicedo - Chelsea, 23 ans, £100M!
-• Piero Hincapié - Bayer Leverkusen
-• Gonzalo Plata - Al-Sadd, ailier technique
-• Entraîneur: Sebastián Beccacece
-
-📊 FIFA Rank: #34 | Population: 18M
-🎯 Dépasser les huitièmes!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="caf"><div class="tc-h" style="background:linear-gradient(135deg,#FF8200,#009A44)"><span class="tc-f">🇨🇮</span><span class="tc-s">⭐ S. Haller</span></div><div class="tc-b"><span class="tc-n">IVORY COAST</span><span class="tc-g">E</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">29M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#42</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">E. Faé</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 CHAMPIONS D'AFRIQUE 2024!
-• CAN 2024 🏠 - Victoire à domicile!
-• "Les Éléphants" - Force et puissance
-• Génération dorée 2006-2014
-
-⭐ GÉNÉRATION DORÉE
-• Didier Drogba - Chelsea légende, icône nationale
-• Yaya Touré - Man City, maestro
-• Kolo Touré - Arsenal, défenseur
-
-🔥 NOUVEAUX CHAMPIONS
-• Sébastien Haller - Dortmund, survivant cancer!
-• Simon Adingra - Brighton, révélation CAN
-• Franck Kessié - Al-Ahli, puissance
-• Entraîneur: Emerse Faé
-
-📊 FIFA Rank: #38 | Population: 27M
-🎯 Porter l'élan de la CAN 2024!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="concacaf"><div class="tc-h" style="background:linear-gradient(135deg,#002B7F,#F9E814)"><span class="tc-f">🇨🇼</span><span class="tc-s">⭐ J. Bacuna</span></div><div class="tc-b"><span class="tc-n">CURAÇAO</span><span class="tc-g">E</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">150K</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#87</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Advocaat</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">1er WC!</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 PREMIÈRE COUPE DU MONDE!
-• Population: 150,000 - RECORD! Plus petit pays en WC!
-• Île des Caraïbes néerlandaises
-• Qualification historique!
-
-⭐ PETITE ÎLE, GRAND CŒUR
-• Cuco Martina - Everton, vétéran
-• Leandro Bacuna - Défenseur clé
-• Eloy Room - Columbus Crew, gardien
-
-🔥 ÉQUIPE HISTORIQUE
-• Juninho Bacuna - Birmingham, star
-• Kenji Gorré - NAC Breda, technique
-• Shermaine Martina - Capitaine
-• Entraîneur: Dick Advocaat
-
-📊 FIFA Rank: #87 | Population: 150K!
-🎯 EXISTER SUR LA SCÈNE MONDIALE!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<!-- GROUP F -->
-<div class="tc" data-conf="conmebol"><div class="tc-h" style="background:linear-gradient(135deg,#74ACDF,#FFF)"><span class="tc-f">🇦🇷</span><span class="tc-s">⭐ Lionel Messi</span></div><div class="tc-b"><span class="tc-n">ARGENTINA</span><span class="tc-g">F</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">46M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#1</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Scaloni</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">🏆x3</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 CHAMPIONS EN TITRE!
-• 3x Champions du Monde (1978, 1986, 2022 ⭐)
-• Qatar 2022: Messi enfin sacré!
-• 15x Copa América (RECORD mondial)
-
-⭐ LÉGENDES ÉTERNELLES
-• Diego Maradona - "Main de Dieu" + "But du siècle" 1986
-• Lionel Messi - GOAT, 8 Ballons d'Or
-• Mario Kempes, Gabriel Batistuta, Daniel Passarella
-
-🔥 ÉQUIPE CHAMPIONNE
-• Lionel Messi (37 ans) - Dernier WC? 109 buts!
-• Julián Álvarez - Héros de 2022
-• Enzo Fernández - Meilleur jeune WC 2022
-• Entraîneur: Lionel Scaloni (génie tactique)
-
-📊 FIFA Rank: #1 | Population: 46M
-🎯 Défendre le titre! 2 WC consécutifs?<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="afc"><div class="tc-h" style="background:linear-gradient(135deg,#BC002D,#FFF)"><span class="tc-f">🇯🇵</span><span class="tc-s">⭐ T. Kubo</span></div><div class="tc-b"><span class="tc-n">JAPAN</span><span class="tc-g">F</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">125M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#13</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Moriyasu</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">8es x4</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 7 PARTICIPATIONS CONSÉCUTIVES
-• Meilleur: Huitièmes (2002, 2010, 2018, 2022)
-• Co-hôtes 2002 avec Corée du Sud
-• "Samurai Blue" - Discipline et technique
-
-⭐ LÉGENDES JAPONAISES
-• Hidetoshi Nakata - Premier superstar japonais en Europe
-• Keisuke Honda - Leader 2010-2018
-• Shinji Kagawa - Borussia Dortmund, Man United
-
-🔥 MEILLEURE GÉNÉRATION
-• Takefusa Kubo - Real Sociedad, prodige
-• Kaoru Mitoma - Brighton, dribbleur élite
-• Wataru Endo - Liverpool, capitaine
-• Entraîneur: Hajime Moriyasu
-
-📊 FIFA Rank: #17 | Population: 125M
-🎯 ENFIN atteindre les quarts!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="caf"><div class="tc-h" style="background:linear-gradient(135deg,#00853F,#FDEF42)"><span class="tc-f">🇸🇳</span><span class="tc-s">⭐ Sadio Mané</span></div><div class="tc-b"><span class="tc-n">SENEGAL</span><span class="tc-g">F</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">17.7M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#14</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">P. Thiaw</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">QF 2002</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 CHAMPIONS D'AFRIQUE 2022!
-• CAN 2022: Premier titre continental
-• WC 2002: Quarts de finale (exploit!)
-• "Lions de la Téranga"
-
-⭐ LÉGENDES SÉNÉGALAISES
-• El Hadji Diouf - Star WC 2002
-• Sadio Mané - Ballon d'Or Africain x2
-• Khalilou Fadiga, Henri Camara - Héros 2002
-
-🔥 POST-MANÉ ERA
-• Sadio Mané - 35 ans, Al-Nassr, toujours leader
-• Ismaïla Sarr - Crystal Palace, vitesse
-• Nicolas Jackson - Chelsea, buteur
-• Entraîneur: Aliou Cissé (depuis 2015!)
-
-📊 FIFA Rank: #21 | Population: 17M
-🎯 Aller plus loin qu'en 2002!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="caf"><div class="tc-h" style="background:linear-gradient(135deg,#006633,#FFF)"><span class="tc-f">🇩�<div class="tc-b"><span class="tc-n">ALGERIA</span><span class="tc-g">F</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">45M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#32</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">V. Petković</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">8es 2014</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 CHAMPIONS D'AFRIQUE 2019
-• CAN 2019 en Égypte - Victoire!
-• WC 2014: Huitièmes historiques
-• "Les Fennecs" - Renard du désert
-
-⭐ LÉGENDES ALGÉRIENNES
-• Rabah Madjer - Talonnade légendaire C1 1987
-• Lakhdar Belloumi - Ballon d'Or Africain
-• Riyad Mahrez - Capitaine, Manchest- GROUP G -->
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#AA151B,#F1BF00)"><span class="tc-f">🇪🇸</span><span class="tc-s">⭐ L. Yamal</span></div><div class="tc-b"><span class="tc-n">SPAIN</span><span class="tc-g">G</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">47.5M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#4</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">De la Fuente</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">🏆 2010</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 CHAMPIONS D'EUROPE 2024!
-• 1x Champions du Monde (2010)
-• 4x Champions d'Europe (record!)
-• Tiki-Taka révolutionnaire
-
-⭐ LÉGENDES DE LA ROJA
-• Andrés Iniesta - But vainqueur WC 2010
-• Xavi Hernández - Architecte du jeu
-• Iker Casillas - Légende des gardiens
-• David Villa - 59 buts, record espagnol
-
-🔥 JEUNESSE DORÉE
-• Rodri - Ballon d'Or 2024, Man City
-• Lamine Yamal - 17 ANS! Prodige absolu
-• Nico Williams - Vitesse et technique
-• Entraîneur: Luis de la Fuente
-
-📊 FIFA Rank: #3 | Population: 47M
-🎯 Doublé Euro-WC historique!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#AE1C28,#21468B)"><span class="tc-f">🇳🇱</span><span class="tc-s">⭐ V. van Dijk</span></div><div class="tc-b"><span class="tc-n">NETHERLANDS</span><span class="tc-g">G</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">17.6M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#7</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Koeman</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Final x3</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 3X FINALISTES MAUDITS
-• 0 titre WC malgré 3 finales (1974, 1978, 2010)
-• "Oranje" - Le football total
-• Johan Cruyff révolutionne le jeu
-
-⭐ LÉGENDES NÉERLANDAISES
-• Johan Cruyff - Inventeur du "Turn", 3x Ballon d'Or
-• Marco van Basten - Volée légendaire Euro 88
-• Dennis Bergkamp - "L'artiste"
-• Ruud Gullit, Frank Rijkaard - Trio AC Milan
-
-🔥 GÉNÉRATION ACTUELLE
-• Virgil van Dijk - Capitaine, roc défensif
-• Frenkie de Jong - Barcelone, maestro
-• Cody Gakpo, Xavi Simons - Talents offensifs
-• Entraîneur: Ronald Koeman
-
-📊 FIFA Rank: #8 | Population: 17M
-🎯 Briser la malédiction des finales!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="caf"><div class="tc-h" style="background:linear-gradient(135deg,#E70013,#FFF)"><span class="tc-f">🇹🇳</span><span class="tc-s">⭐ Y. Msakni</span></div><div class="tc-b"><span class="tc-n">TUNISIA</span><span class="tc-g">G</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">12.3M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#36</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">S. Lamouchi</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 LIONS DE CARTHAGE
-• 6 participations WC
-• Victoire vs France 2022! (1-0)
-• CAN 2004 champions 🏠
-
-⭐ LÉGENDES TUNISIENNES
-• Raouf Bougherra - Leader défensif
-• Youssef Msakni - Créativité pure
-• Sami Trabelsi - Capitaine emblématique
-
-🔥 GÉNÉRATION ACTUELLE
-• Youssef Msakni - 36 ans, dernier tournoi?
-• Hannibal Mejbri - Man United, futur
-• Ellyes Skhiri - Eintracht, milieu complet
-• Entraîneur: Sabri Lamouchi
-
-📊 FIFA Rank: #37 | Population: 12M
-🎯 Dépasser la phase de groupes!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="caf"><div class="tc-h" style="background:linear-gradient(135deg,#003893,#CF2027)"><span class="tc-f">🇨🇻</span><span class="tc-s">⭐ R. Mendes</span></div><div class="tc-b"><span class="tc-n">CAPE VERDE</span><span class="tc-g">G</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">600K</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#72</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Bubista</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">1er WC!</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 PREMIÈRE COUPE DU MONDE!
-• Population: 600,000 - Plus petit pays jamais qualifié!
-• "Tubarões Azuis" - Requins Bleus
-• Miracle de qualification!
-
-⭐ PIONNIERS
-• Ryan Mendes - Capitaine, cœur de l'équipe
-• Stopira - Défenseur vétéran
-• Héldon - Premier joueur en Europe
-
-🔥 HÉROS HISTORIQUES
-• Ryan Mendes - Vitória Guimarães, leader
-• Garry Rodrigues - Olympiakos, technique
-• Kenny Rocha - Arouca, milieu combatif
-• Entraîneur: Bubista
-
-📊 FIFA Rank: #71 | Population: 600K!
-🎯 CHAQUE MATCH = VICTOIRE! Écrire l'histoire!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<!-- GROUP H -->
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#002395,#ED2939)"><span class="tc-f">🇫🇷</span><span class="tc-s">⭐ K. Mbappé</span></div><div class="tc-b"><span class="tc-n">FRANCE</span><span class="tc-g">H</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">68M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#2</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Deschamps</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">🏆x2</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 PALMARÈS GLORIEUX
-• 2x Champions du Monde (1998 🏠, 2018)
-• Finalistes 2022 - Défaite dramatique aux tirs au but
-• 2x Champions d'Europe (1984, 2000)
-
-⭐ LÉGENDES FRANÇAISES
-• Zinedine Zidane - MVP WC 1998 &amp; 2006
-• Michel Platini - Ballon d'Or x3
-• Thierry Henry - 51 buts, record français
-• Just Fontaine - 13 buts en 1 WC (RECORD!)
-
-🔥 GÉNÉRATION ACTUELLE
-• Kylian Mbappé - Capitaine, Real Madrid, TRIPLÉ en finale 2022!
-• Antoine Griezmann - 130+ sélections
-• Aurélien Tchouaméni - Futur du milieu
-• Entraîneur: Didier Deschamps
-
-📊 FIFA Rank: #2 | Population: 68M
-🎯 Revanche après 2022!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="conmebol"><div class="tc-h" style="background:linear-gradient(135deg,#FCD116,#003087)"><span class="tc-f">🇨🇴</span><span class="tc-s">⭐ Luis Díaz</span></div><div class="tc-b"><span class="tc-n">COLOMBIA</span><span class="tc-g">H</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">52M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#11</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Lorenzo</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">QF 2014</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 QUARTS DE FINALE 2014
-• 6 participations WC
-• Copa América 2001
-• "Los Cafeteros" - Café et passion
-
-⭐ LÉGENDES COLOMBIENNES
-• Carlos Valderrama - Chevelure iconique, 111 sélections
-• James Rodríguez - Golden Boot WC 2014
-• Radamel Falcao - "El Tigre", buteur d'élite
-• René Higuita - "Coup du Scorpion" légendaire
-
-🔥 NOUVELLE GÉNÉRATION
-• Luis Díaz - Liverpool, ailier explosif
-• Jhon Durán - Aston Villa, 20 ans, buteur
-• Rafael Santos Borré - Internacional
-• Entraîneur: Néstor Lorenzo
-
-📊 FIFA Rank: #12 | Population: 51M
-🎯 Retrouver les quarts!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="caf"><div class="tc-h" style="background:linear-gradient(135deg,#C8102E,#000)"><span class="tc-f">🇪🇬</span><span class="tc-s">⭐ Mo Salah</span></div><div class="tc-b"><span class="tc-n">EGYPT</span><span class="tc-g">H</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">106M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#31</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">H. Hassan</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 7X CHAMPIONS D'AFRIQUE
-• Record continental (1957-2010)
-• WC 2018: Retour après 28 ans
-• "Les Pharaons" - Histoire millénaire
-
-⭐ LÉGENDES ÉGYPTIENNES
-• Mohamed Salah - Liverpool, Ballon d'Or Africain x2
-• Mahmoud El-Khatib - "Bibo", légende Al Ahly
-• Hossam Hassan - 176 sélections, record!
-
-🔥 ÉQUIPE ACTUELLE
-• Mohamed Salah - Liverpool, 33 ans, toujours au top
-• Omar Marmoush - Eintracht Francfort, révélation!
-• Mostafa Mohamed - FC Nantes, buteur
-• Entraîneur: Hossam Hassan (légende!)
-
-📊 FIFA Rank: #33 | Population: 104M
-🎯 Premier passage en huitièmes!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="ofc"><div class="tc-h" style="background:linear-gradient(135deg,#00247D,#FFF)"><span class="tc-f">🇳🇿</span><span class="tc-s">⭐ Chris Wood</span></div><div class="tc-b"><span class="tc-n">NEW ZEALAND</span><span class="tc-g">H</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">5.1M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#68</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Bazeley</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 SEULE ÉQUIPE OFC
-• 3 participations WC (1982, 2010, 2026)
-• "All Whites" - Cousins des All Blacks
-• OFC: Domination totale
-
-⭐ LÉGENDES KIWIS
-• Ryan Nelsen - Blackburn, capitaine
-• Chris Wood - Nottingham Forest, 31 buts
-• Wynton Rufer - Werder Bremen, seul joueur océanien en Europe 90s
-
-🔥 ÉQUIPE ACTUELLE
-• Chris Wood - 32 ans, buteur Premier League
-• Liberato Cacace - Empoli, latéral
-• Matt Garbett - NAC Breda, milieu
-• Entraîneur: Darren Bazeley
-
-📊 FIFA Rank: #93 | Population: 5M
-🎯 Premier point en WC depuis 2010!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div><!-- GROUP I -->
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#012169,#C8102E)"><span class="tc-f">🏴</span><span class="tc-s">⭐ J. Bellingham</span></div><div class="tc-b"><span class="tc-n">ENGLAND</span><span class="tc-g">I</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">56M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#3</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Tuchel</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">🏆 1966</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 SEUL TITRE: 1966 🏠
-• 58 ans sans titre mondial...
-• "It's coming home?" - L'éternelle question
-• Finalistes Euro 2020 &amp; 2024
-
-⭐ LÉGENDES DES THREE LIONS
-• Bobby Moore - Capitaine 1966
-• Gary Lineker - Golden Boot 1986
-• David Beckham - Coups francs légendaires
-• Wayne Rooney - 53 buts, record anglais
-
-🔥 GOLDEN GENERATION 2.0
-• Jude Bellingham - Ballon d'Or futur? Real Madrid
-• Harry Kane - 66 buts en sélection
-• Phil Foden, Bukayo Saka - Ailiers électriques
-• Entraîneur: Thomas Tuchel (nouveau)
-
-📊 FIFA Rank: #4 | Population: 56M
-🎯 ENFIN ramener le trophée! 60 ans d'attente!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="afc"><div class="tc-h" style="background:linear-gradient(135deg,#239F40,#DA0000)"><span class="tc-f">🇮🇷</span><span class="tc-s">⭐ M. Taremi</span></div><div class="tc-b"><span class="tc-n">IRAN</span><span class="tc-g">I</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">89M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#23</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Ghalenoei</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 PUISSANCE ASIATIQUE
-• 6 participations WC
-• 3x Champions d'Asie (1968, 1972, 1976)
-• "Team Melli" - Fierté nationale
-
-⭐ LÉGENDES IRANIENNES
-• Ali Daei - 108 buts internationaux (record battu par CR7)
-• Javad Nekounam - Capitaine emblématique
-• Mehdi Mahdavikia - Hamburg, ailier technique
-
-🔥 GÉNÉRATION ACTUELLE
-• Mehdi Taremi - Inter Milan, buteur complet
-• Sardar Azmoun - AS Roma, "Messi iranien"
-• Alireza Jahanbakhsh - Feyenoord, expérience
-• Entraîneur: Amir Ghalenoei
-
-📊 FIFA Rank: #22 | Population: 87M
-🎯 Premier passage en huitièmes!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="caf"><div class="tc-h" style="background:linear-gradient(135deg,#007FFF,#F7D618)"><span class="tc-f">🇨🇩</span><span class="tc-s">⭐ C. Mbemba</span></div><div class="tc-b"><span class="tc-n">DR CONGO</span><span class="tc-g">I</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">102M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#58</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Desabre</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 2X CHAMPIONS D'AFRIQUE
-• CAN 1968, 1974 (comme Zaïre)
-• WC 1974: Premier pays sub-saharien!
-• "Les Léopards" - Retour après 50 ans!
-
-⭐ HISTOIRE LÉGENDAIRE
-• Adelard Mayanga - Star WC 1974
-• Shabani Nonda - Monaco, buteur
-• Dieumerci Mbokani - Attaquant vétéran
-
-🔥 RETOUR EN FORCE
-• Chancel Mbemba - OM, roc défensif
-• Yoane Wissa - Brentford, buteur
-• Silas Mvumpa - Stuttgart, ailier
-• Entraîneur: Sébastien Desabre
-
-📊 FIFA Rank: #62 | Population: 95M
-🎯 1ER WC EN 50 ANS!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="caf"><div class="tc-h" style="background:linear-gradient(135deg,#006B3F,#FCD116)"><span class="tc-f">🇬🇭</span><span class="tc-s">⭐ M. Kudus</span></div><div class="tc-b"><span class="tc-n">GHANA</span><span class="tc-g">I</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">34M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#45</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">C. Queiroz</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">QF 2010</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 QUARTS DE FINALE 2010
-• Penalty manqué par Gyan = drame!
-• "Black Stars" - Étoiles noires
-• 4 participations WC
-
-⭐ LÉGENDES GHANÉENNES
-• Abedi Pelé - 3x Ballon d'Or Africain
-• Asamoah Gyan - 51 buts, record ghanéen
-• Michael Essien - Chelsea, "Le Bison"
-
-🔥 NOUVELLE GÉNÉRATION
-• Mohammed Kudus - West Ham, dribbleur fou
-• Thomas Partey - Arsenal, ancre milieu
-• Iñaki Williams - Athletic Bilbao, converti!
-• Entraîneur: Carlos Queiroz
-
-📊 FIFA Rank: #61 | Population: 32M
-🎯 Racheter le drame de 2010!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<!-- GROUP J -->
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#006600,#FF0000)"><span class="tc-f">🇵🇹</span><span class="tc-s">⭐ C. Ronaldo</span></div><div class="tc-b"><span class="tc-n">PORTUGAL</span><span class="tc-g">J</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">10.5M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#5</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Martínez</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">3e 1966</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 EURO 2016 CHAMPIONS
-• 1x Champion d'Europe (2016)
-• Nations League 2019
-• WC meilleur résultat: 3ème (1966, 2006)
-
-⭐ LÉGENDES LUSITANIENNES
-• Eusébio - "La Panthère Noire", 9 buts WC 1966
-• Luís Figo - Ballon d'Or 2000
-• Cristiano Ronaldo - 130 buts internationaux (RECORD MONDIAL!)
-
-🔥 NOUVELLE ÈRE
-• Cristiano Ronaldo (41 ans) - 6ème WC? Légende vivante
-• Rafael Leão - AC Milan, vitesse pure
-• João Félix, Vitinha, Bruno Fernandes
-• Entraîneur: Roberto Martínez
-
-📊 FIFA Rank: #7 | Population: 10M
-🎯 Premier titre mondial pour CR7?<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#FF0000,#171796)"><span class="tc-f">🇭🇷</span><span class="tc-s">⭐ L. Modrić</span></div><div class="tc-b"><span class="tc-n">CROATIA</span><span class="tc-g">J</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">3.9M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#9</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Dalić</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Final 18</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 FINALISTES 2018!
-• Finale WC 2018 (défaite vs France)
-• 3ème WC 2022 - Encore sur le podium!
-• Petit pays, grand cœur
-
-⭐ LÉGENDES CROATES
-• Luka Modrić - Ballon d'Or 2018, maestro absolu
-• Davor Šuker - Golden Boot 1998
-• Robert Prosinečki, Zvonimir Boban
-
-🔥 FIN D'UNE ÈRE?
-• Luka Modrić (40 ans) - 6ème tournoi majeur!
-• Joško Gvardiol - Défenseur élite Man City
-• Mateo Kovačić - Milieu complet
-• Entraîneur: Zlatko Dalić
-
-📊 FIFA Rank: #9 | Population: 4M
-🎯 Dernière danse pour Modrić?<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#ED2939,#FAE042)"><span class="tc-f">🇧🇪</span><span class="tc-s">⭐ K. De Bruyne</span></div><div class="tc-b"><span class="tc-n">BELGIUM</span><span class="tc-g">J</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">11.7M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#12</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">R. Garcia</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">3e 2018</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 GÉNÉRATION DORÉE
-• Meilleur: 3ème WC 2018
-• #1 FIFA Ranking pendant 4 ans (2018-2022)
-• Déclin ou renouveau?
-
-⭐ GÉNÉRATION DORÉE 2010-2024
-• Eden Hazard - Retraité, légende Chelsea/Real
-• Kevin De Bruyne - Meilleur milieu du monde
-• Romelu Lukaku - 85 buts en sélection
-• Thibaut Courtois - Gardien élite
-
-🔥 TRANSITION EN COURS
-• Kevin De Bruyne (34 ans) - Dernier WC?
-• Jérémy Doku - Vitesse Man City
-• Amadou Onana - Aston Villa, future star
-• Entraîneur: Rudi Garcia
-
-📊 FIFA Rank: #5 | Population: 11.5M
-🎯 Dernière chance pour la génération dorée!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#EF2B2D,#002868)"><span class="tc-f">🇳🇴</span><span class="tc-s">⭐ E. Haaland</span></div><div class="tc-b"><span class="tc-n">NORWAY</span><span class="tc-g">J</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">5.5M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#39</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Solbakken</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 RETOUR APRÈS 26 ANS!
-• WC 1994, 1998: Dernières participations
-• Génération Haaland change tout!
-• "Løvene" - Les Lions
-
-⭐ LÉGENDES NORVÉGIENNES
-• Ole Gunnar Solskjær - But CL 1999!
-• John Carew - Valencia, Lyon
-• Tore André Flo - Chelsea, Rangers
-
-🔥 ÈRE HAALAND
-• Erling Haaland - Man City, 40+ buts/saison, MACHINE!
-• Martin Ødegaard - Arsenal, capitaine, créativité
-• Sander Berge - Fulham, milieu
-• Entraîneur: Ståle Solbakken
-
-📊 FIFA Rank: #48 | Population: 5.4M
-🎯 HAALAND PEUT TOUT CHANGER!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div><!-- GROUP K -->
-<div class="tc" data-conf="afc"><div class="tc-h" style="background:linear-gradient(135deg,#006C35,#FFF)"><span class="tc-f">🇸🇦</span><span class="tc-s">⭐ S. Al-Dawsari</span></div><div class="tc-b"><span class="tc-n">SAUDI ARABIA</span><span class="tc-g">K</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">36.4M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#48</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">G. Donis</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">8es 1994</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 CHOC VS ARGENTINA 2022!
-• Victoire 2-1 vs Argentine - Plus grand upset WC!
-• 7 participations WC
-• "Les Faucons Verts"
-
-⭐ HÉROS DE LUSAIL
-• Salem Al-Dawsari - But de la victoire vs Argentina!
-• Sami Al-Jaber - 3 WC, légende
-• Yasser Al-Qahtani - Icône nationale
-
-🔥 STARS ACTUELLES
-• Salem Al-Dawsari - Al-Hilal, créativité
-• Mohammed Al-Owais - Gardien héroïque
-• Mohammed Kanno - Al-Hilal, puissance
-• Entraîneur: Georgios Donis
-
-📊 FIFA Rank: #56 | Population: 35M
-🎯 Répéter l'exploit argentin!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#ED2939,#FFF)"><span class="tc-f">🇦🇹</span><span class="tc-s">⭐ M. Arnautović</span></div><div class="tc-b"><span class="tc-n">AUSTRIA</span><span class="tc-g">K</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">9.1M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#20</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Rangnick</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">3e 1954</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 QUARTS EURO 2024
-• Meilleur Euro de l'histoire!
-• WC 1954, 1978, 1982, 1990, 1998
-• "Das Team" - Renouveau autrichien
-
-⭐ LÉGENDES AUTRICHIENNES
-• Ernst Happel - Coach légendaire
-• Hans Krankl - But vs Allemagne 1978
-• Herbert Prohaska - Maestro années 80
-
-🔥 GÉNÉRATION DORÉE
-• David Alaba - Real Madrid (blessé), capitaine
-• Marcel Sabitzer - Dortmund, polyvalent
-• Michael Gregoritsch - Freiburg, buteur
-• Entraîneur: Ralf Rangnick
-
-📊 FIFA Rank: #23 | Population: 9M
-🎯 Confirmer le niveau Euro 2024!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="uefa"><div class="tc-h" style="background:linear-gradient(135deg,#006AA7,#FECC00)"><span class="tc-f">🇸🇪</span><span class="tc-s">⭐ V. Gyökeres</span></div><div class="tc-b"><span class="tc-n">SWEDEN</span><span class="tc-g">K</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">10.5M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#33</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">G. Potter</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Final 58</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 QUARTS 2018
-• 3ème WC 1994 (Ravelli héros!)
-• 12 participations WC
-• "Blågult" - Bleu et Jaune
-
-⭐ LÉGENDES SUÉDOISES
-• Zlatan Ibrahimović - 62 buts, icône mondiale!
-• Henrik Larsson - Barcelone, Celtic
-• Thomas Ravelli - 143 sélections, record!
-
-🔥 APRÈS ZLATAN
-• Alexander Isak - Newcastle, buteur d'élite
-• Dejan Kulusevski - Tottenham, créativité
-• Viktor Gyökeres - Sporting, 30+ buts!
-• Entraîneur: Graham Potter
-
-📊 FIFA Rank: #18 | Population: 10M
-🎯 Prouver que la vie continue sans Zlatan!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="afc"><div class="tc-h" style="background:linear-gradient(135deg,#0099B5,#1EB53A)"><span class="tc-f">🇺🇿</span><span class="tc-s">⭐ E. Shomurodov</span></div><div class="tc-b"><span class="tc-n">UZBEKISTAN</span><span class="tc-g">K</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">35M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#54</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">F. Cannavaro</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">1er WC!</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 PREMIÈRE COUPE DU MONDE!
-• Champions d'Asie 1994 (seulement 2 ans après indépendance!)
-• "Oq Boʻrilar" - Loups Blancs
-• Qualification historique!
-
-⭐ LÉGENDES OUZBÈKES
-• Maksim Shatskikh - 34 buts, record
-• Server Djeparov - 2x Meilleur joueur AFC
-• Mirjalol Kasimov - Premier superstar
-
-🔥 ÉQUIPE HISTORIQUE
-• Eldor Shomurodov - AS Roma, buteur
-• Abdukodir Khusanov - RC Lens, défenseur clé
-• Otabek Shukurov - Milieu leader
-• Entraîneur: Fabio Cannavaro
-
-📊 FIFA Rank: #54 | Population: 35M
-🎯 ÉCRIRE L'HISTOIRE!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<!-- GROUP L -->
-<div class="tc" data-conf="conmebol"><div class="tc-h" style="background:linear-gradient(135deg,#7B3F00,#75AADB)"><span class="tc-f">🇺🇾</span><span class="tc-s">⭐ F. Valverde</span></div><div class="tc-b"><span class="tc-n">URUGUAY</span><span class="tc-g">L</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">3.5M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#17</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Bielsa</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">🏆x2</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 2X CHAMPIONS DU MONDE
-• 1930 (1er WC!) et 1950 ("Maracanazo")
-• 15x Copa América (record avec Argentine)
-• Plus petit pays à avoir gagné 2 WC
-
-⭐ LÉGENDES CHARRÚAS
-• Diego Forlán - Ballon d'Or WC 2010
-• Luis Suárez - 68 buts, 3ème buteur WC
-• Enzo Francescoli - "El Príncipe"
-• Obdulio Varela - Capitaine héroïque 1950
-
-🔥 FIN D'UNE ÈRE
-• Darwin Núñez - Liverpool, puissance
-• Federico Valverde - Real Madrid, box-to-box
-• Luis Suárez (39 ans) - Dernier WC?
-• Entraîneur: Marcelo Bielsa
-
-📊 FIFA Rank: #10 | Population: 3.5M
-🎯 Un 3ème titre pour la Celeste!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="concacaf"><div class="tc-h" style="background:linear-gradient(135deg,#DA121A,#005293)"><span class="tc-f">🇵🇦</span><span class="tc-s">⭐ J. Fajardo</span></div><div class="tc-b"><span class="tc-n">PANAMA</span><span class="tc-g">L</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">4.4M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#61</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">Christiansen</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">Groupes</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 PREMIÈRE WC 2018
-• But historique vs Angleterre!
-• "Los Canaleros" - Peuple du Canal
-• 2ème participation consécutive
-
-⭐ HÉROS 2018
-• Felipe Baloy - 1er but WC du Panama!
-• Blas Pérez - Vétéran légendaire
-• Jaime Penedo - Gardien héroïque
-
-🔥 NOUVELLE GÉNÉRATION
-• José Fajardo - Saprissa, buteur
-• Adalberto Carrasquilla - Houston, milieu
-• César Blackman - Pachuca, défenseur
-• Entraîneur: Thomas Christiansen
-
-📊 FIFA Rank: #45 | Population: 4M
-🎯 Premier point en WC!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="afc"><div class="tc-h" style="background:linear-gradient(135deg,#CE1126,#007A33)"><span class="tc-f">🇯🇴</span><span class="tc-s">⭐ Y. Al-Naimat</span></div><div class="tc-b"><span class="tc-n">JORDAN</span><span class="tc-g">L</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">11.5M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#62</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">J. Sellami</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">1er WC!</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 PREMIÈRE COUPE DU MONDE!
-• Finalistes CAN Asie 2024!
-• "Al-Nashama" - Les Vaillants
-• Qualification historique!
-
-⭐ PIONNIERS JORDANIENS
-• Hatem Aqel - 60 sélections, légende
-• Mahmoud Shelbaieh - Capitaine historique
-• Amer Shafi - Gardien emblématique
-
-🔥 HÉROS QUALIFIÉS
-• Yazan Al-Naimat - Verona, buteur
-• Mousa Altamari - Montpellier, créativité
-• Musa Al-Taamari - Montpellier
-• Entraîneur: Mohammad Hussein
-
-📊 FIFA Rank: #68 | Population: 11M
-🎯 EXISTER SUR LA SCÈNE MONDIALE!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-<div class="tc" data-conf="afc"><div class="tc-h" style="background:linear-gradient(135deg,#CE1126,#007A3D)"><span class="tc-f">🇮🇶</span><span class="tc-s">⭐ A. Hussein</span></div><div class="tc-b"><span class="tc-n">IRAQ</span><span class="tc-g">L</span><div class="tc-i"><div class="tc-ii"><div class="tc-il">Pop</div><div class="tc-iv">44.5M</div></div><div class="tc-ii"><div class="tc-il">FIFA</div><div class="tc-iv">#55</div></div><div class="tc-ii"><div class="tc-il">Coach</div><div class="tc-iv">G. Arnold</div></div><div class="tc-ii"><div class="tc-il">Best</div><div class="tc-iv">8es 1986</div></div></div><div class="tc-his" onclick="this.classList.toggle('open')">🏆 CHAMPIONS D'ASIE 2007!
-• Victoire CAN Asie malgré guerre civile!
-• "Usood Al-Rafidain" - Lions de Mésopotamie
-• Retour après 1986
-
-⭐ LÉGENDES IRAKIENNES
-• Ahmed Radhi - Seul but en WC (1986)
-• Younis Mahmoud - Capitaine CAN 2007
-• Hussein Saeed - 78 buts, record
-
-🔥 NOUVELLE ÈRE
-• Aymen Hussein - 38 buts, nouveau record!
-• Ali Jasim - Al-Arabi, créativité
-• Ibrahim Bayesh - Milieu combatif
-• Entraîneur: Jesús Casas
-
-📊 FIFA Rank: #55 | Population: 42M
-🎯 40 ANS D'ATTENTE TERMINÉS!<span class="tc-toggle">Cliquez pour voir plus</span></div></div></div>
-</div>
-</div>
-</div>
-
-<!-- Footer -->
-<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:0.85rem">
-<p>🏆 SIGMAX Intelligence — ULTIMATE PREMIUM EDITION</p>
-<p>⚡ Maximum Signal. Maximum Edge. Maximum Profit. ⚡</p>
-<p style="margin-top:10px">© 2026 SIGMAX Intelligence. All rights reserved.</p>
-</div>
-
-</div>
 <script>
-// Tab functionality
-function showTab(tabId, btn) {
-    var contents = document.querySelectorAll('.tab-content');
-    var tabs = document.querySelectorAll('.tab');
-    for(var i=0; i<contents.length; i++) contents[i].classList.remove('active');
-    for(var i=0; i<tabs.length; i++) tabs[i].classList.remove('active');
-    var target = document.getElementById('tab-' + tabId);
-    if(target) target.classList.add('active');
-    if(btn) btn.classList.add('active');
-}
-
-// Theme functionality
-function toggleThemeDropdown() {
-    document.getElementById('themeDropdown').classList.toggle('show');
-}
-
-function setTheme(theme) {
-    document.body.className = 'theme-' + theme;
-    document.getElementById('themeDropdown').classList.remove('show');
-}
-
-// Language placeholder
-funcng(lang) {
-    console.log('Language changed to: ' + lang);
-}
-
-// Stars and confetti
-function createStars() {
-    var container = document.querySelector('.stars-container');
-    if(!container) return;
-    var symbols = ['⭐', '✨', '💫', '🌟', '⚡'];
-    for(var i = 0; i < 30; i++) {
-        var star = document.createElement('div');
-        star.className = 'star';
-        star.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-        star.style.left = Math.random() * 100 + '%';
-        star.style.animationDuration = (Math.random() * 5 + 5) + 's';
-        star.style.animationDelay = Math.random() * 10 + 's';
-        container.appendChild(star);
-    }
-    for(var j = 0; j < 15; j++) {
-        var diamond = document.createElement('div');
-        diamond.className = 'diamond';
-        diamond.style.left = Math.random() * 100 + '%';
-        diamond.style.animationDuration = (Math.random() * 6 + 6) + 's';
-        diamond.style.animationDelay = Math.random() * 12 + 's';
-        container.appendChild(diamond);
-    }
-}
-
-function createConfetti() {
-    var container = document.querySelector('.confetti-container');
-    if(!container) return;
-    var colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ff9ff3', '#54a0ff'];
-    for(var i = 0; i < 40; i++) {
-        var confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDuration = (Math.random() * 4 + 4) + 's';
-        confetti.style.animationDelay = Math.random() * 8 + 's';
-        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-        container.appendChild(confetti);
-    }
-}
-
-// Parlay Builder Auto-Odds Functions
-var oddsDb = {
-    'vgk-ml': -130, 'vgk-spread': -110, 'car-ml': +110, 'car-spread': -110,
-    'nyk-ml': -180, 'nyk-spread': -110, 'sas-ml': +155, 'sas-spread': -110,
-    'eichel-pts': -115, 'aho-shots': -120, 'stone-ast': -110,
-    'wemby-pts': -110, 'brunson-pts': -115, 'kat-reb': -120,
-    'mex-ml': -150, 'usa-ml': -125, 'bra-ml': -175, 'hai-ml': +280
-};
-
-function autoOdds(sel, id) {
-    var pick = sel.value;
-    var oddsCell = document.getElementById('ao-' + id);
-    if (pick && oddsDb[pick]) {
-        var o = oddsDb[pick];
-        oddsCell.textContent = (o > 0 ? '+' : '') + o;
-    } else {
-        oddsCell.textContent = '—';
-    }
-    calcParlay();
-}
-
-function o2d(american) {
-    return american > 0 ? (american / 100) + 1 : (100 / Math.abs(american)) + 1;
-}
-
-function d2a(decimal) {
-    if (decimal >= 2) return '+' + Math.round((decimal - 1) * 100);
-    return '-' + Math.round(100 / (decimal - 1));
-}
-
-function calcParlay() {
-    var teamCt = 0, propCt = 0, combined = 1;
-    for (var i = 1; i <= 5; i++) {
-        var tOdds = document.getElementById('ao-t' + i);
-        if (tOdds && tOdds.textContent !== '—' && tOdds.textContent !== '') {
-            combined *= o2d(parseInt(tOdds.textContent));
-            teamCt++;
-        }
-        var pOdds = document.getElementById('ao-p' + i);
-        if (pOdds && pOdds.textContent !== '—' && pOdds.textContent !== '') {
-            combined *= o2d(parseInt(pOdds.textContent));
-            propCt++;
-        }
-    }
-    document.getElementById('team-ct').textContent = teamCt;
-    document.getElementById('prop-ct').textContent = propCt;
-    document.getElementById('total-legs').textContent = teamCt + propCt;
-    if (teamCt + propCt > 0) {
-        document.getElementById('combined-odds').textContent = d2a(combined);
-        document.getElementById('payout').textContent = '$' + (10 * combined).toFixed(2);
-    } else {
-        document.getElementById('combined-odds').textContent = '—';
-        document.getElementById('payout').textContent = '$10.00';
-    }
-}
-
-// Initialize on DOM ready
-document.addEventListener('DOMContentLoaded', function() {
-    createStars();
-    createConfetti();
-    showTab('picks', document.querySelector('.tab'));
-    startCountdowns();
-});
-
-// Countdown function - reads data-date from countdown boxes
-function startCountdowns() {
-    var boxes = document.querySelectorAll('.countdown-box[data-date]');
-    
-    function update() {
-        var now = new Date();
-        boxes.forEach(function(box) {
-            var target = new Date(box.getAttribute('data-date'));
-            var diff = target - now;
-            var dEl = box.querySelector('.cd-d');
-            var hEl = box.querySelector('.cd-h');
-            var mEl = box.querySelector('.cd-m');
-            var sEl = box.querySelector('.cd-s');
-            
-            if (diff <= 0) {
-                if(dEl) dEl.textContent = '0';
-                if(hEl) hEl.textContent = '0';
-                if(mEl) mEl.textContent = '0';
-                if(sEl) sEl.textContent = 'LIVE!';
-            } else {
-                var d = Math.floor(diff / 86400000);
-                var h = Math.floor((diff % 86400000) / 3600000);
-                var m = Math.floor((diff % 3600000) / 60000);
-                var s = Math.floor((diff % 60000) / 1000);
-                if(dEl) dEl.textContent = d;
-                if(hEl) hEl.textContent = h;
-                if(mEl) mEl.textContent = m;
-                if(sEl) sEl.textContent = s;
-            }
-        });
-    }
-    update();
-    setInterval(update, 1000);
-}
+function showTab(tabId){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(tabId).classList.add('active');event.target.classList.add('active')}
+function createStars(){const c=document.querySelector('.stars-container');for(let i=0;i<30;i++){const s=document.createElement('div');s.className='star';s.textContent=['⭐','✨','💎','⭐','✨'][Math.floor(Math.random()*5)];s.style.left=Math.random()*100+'%';s.style.animationDuration=(Math.random()*10+10)+'s';s.style.animationDelay=Math.random()*15+'s';s.style.fontSize=(Math.random()*1+0.5)+'rem';c.appendChild(s)}}
+createStars();
 </script>
-</body>
-</html>
+</body></html>
