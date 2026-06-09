@@ -66,6 +66,17 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180d
 .control-label{color:var(--text-muted);font-size:0.8rem}
 select{background:var(--card);color:var(--text);border:1px solid #333;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:0.85rem}
 select:hover{border-color:var(--accent)}
+.parlay-section{background:var(--card);border-radius:15px;padding:20px;margin:15px 0;border:1px solid #333}
+.parlay-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.parlay-rules{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.parlay-rule{background:#1a1a2a;padding:15px;border-radius:10px;text-align:center;border:2px solid var(--accent)}
+.parlay-rule-val{font-size:1.8rem;font-weight:800;color:var(--accent)}
+.parlay-rule-lbl{color:var(--text-muted);font-size:0.8rem}
+.parlay-table{width:100%;border-collapse:collapse}
+.parlay-table th,.parlay-table td{padding:12px;text-align:left;border-bottom:1px solid #333}
+.parlay-table th{background:#1a1a2a;color:var(--accent);font-weight:600}
+.parlay-table tr:hover{background:#1a1a2a}
+.parlay-select{background:#0d0d14;color:var(--text);border:1px solid #333;border-radius:5px;padding:8px;width:100%}
 </style></head><body>
 <div class="stars-container" id="stars"></div>
 <div class="ticker-wrapper">
@@ -95,709 +106,478 @@ select:hover{border-color:var(--accent)}
 <span class="control-label">🎨</span>
 <select id="themeSelect" onchange="setTheme(this.value)">
 <optgroup label="🌟 Special">
-<option value="default">💎 Default Gold</option><option value="dark">🌑 Dark Mode</option><option value="neon">💜 Neon Purple</option><option value="ocean">🌊 Ocean Blue</option><option value="forest">🌲 Forest Green</option><option value="sunset">🌅 Sunset Orange</option><option value="crimson">❤️ Crimson Red</option><option value="rose">🌸 Rose Pink</option><option value="cyber">⚡ Cyber Yellow</option>
+<option value="default">💎 Default Gold</option><option value="dark">🌑 Dark Mode</option><option value="neon">💜 Neon Purple</option><option value="ocean">🌊 Ocean Blue</option><option value="forest">🌲 Forest Green</option><option value="sunset">🌅 Sunset Orange</option>
 </optgroup>
-<optgroup label="🌎 Americas">
-<option value="usa">🇺🇸 USA</option><option value="canada">🇨🇦 Canada</option><option value="mexico">🇲🇽 Mexico</option><option value="brazil">🇧🇷 Brazil</option><option value="argentina">🇦🇷 Argentina</option><option value="colombia">🇨🇴 Colombia</option><option value="haiti">🇭🇹 Haiti</option><option value="jamaica">🇯🇲 Jamaica</option><option value="peru">🇵🇪 Peru</option><option value="chile">🇨🇱 Chile</option>
+<optgroup label="🌎 CONCACAF (6)">
+<option value="usa">🇺🇸 USA</option><option value="mexico">🇲🇽 Mexico</option><option value="canada">🇨🇦 Canada</option><option value="haiti">🇭🇹 Haiti</option><option value="panama">🇵🇦 Panama</option><option value="curacao">🇨🇼 Curaçao</option>
 </optgroup>
-<optgroup label="🌍 Europe">
-<option value="england">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</option><option value="france">🇫🇷 France</option><option value="germany">🇩🇪 Germany</option><option value="spain">🇪🇸 Spain</option><option value="italy">🇮🇹 Italy</option><option value="portugal">🇵🇹 Portugal</option><option value="netherlands">🇳🇱 Netherlands</option><option value="belgium">🇧🇪 Belgium</option><option value="croatia">🇭🇷 Croatia</option><option value="scotland">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</option>
+<optgroup label="🌎 CONMEBOL (6)">
+<option value="argentina">🇦🇷 Argentina</option><option value="brazil">🇧🇷 Brazil</option><option value="uruguay">🇺🇾 Uruguay</option><option value="colombia">🇨🇴 Colombia</option><option value="ecuador">🇪🇨 Ecuador</option><option value="paraguay">🇵🇾 Paraguay</option>
 </optgroup>
-<optgroup label="🌏 Africa/Asia">
-<option value="morocco">🇲🇦 Morocco</option><option value="senegal">🇸🇳 Senegal</option><option value="nigeria">🇳🇬 Nigeria</option><option value="japan">🇯🇵 Japan</option><option value="korea">🇰🇷 South Korea</option><option value="australia">🇦🇺 Australia</option><option value="qatar">🇶🇦 Qatar</option><option value="saudi">🇸🇦 Saudi Arabia</option><option value="iran">🇮🇷 Iran</option>
+<optgroup label="🌍 UEFA (16)">
+<option value="england">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</option><option value="france">🇫🇷 France</option><option value="spain">🇪🇸 Spain</option><option value="germany">🇩🇪 Germany</option><option value="portugal">🇵🇹 Portugal</option><option value="netherlands">🇳🇱 Netherlands</option><option value="belgium">🇧🇪 Belgium</option><option value="croatia">🇭🇷 Croatia</option><option value="switzerland">🇨🇭 Switzerland</option><option value="austria">🇦🇹 Austria</option><option value="scotland">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</option><option value="norway">🇳🇴 Norway</option><option value="bosnia">🇧🇦 Bosnia</option><option value="sweden">🇸🇪 Sweden</option><option value="turkey">🇹🇷 Türkiye</option><option value="czechia">🇨🇿 Czechia</option>
+</optgroup>
+<optgroup label="🌍 CAF (9)">
+<option value="morocco">🇲🇦 Morocco</option><option value="senegal">🇸🇳 Senegal</option><option value="egypt">🇪🇬 Egypt</option><option value="algeria">🇩🇿 Algeria</option><option value="tunisia">🇹🇳 Tunisia</option><option value="southafrica">🇿🇦 South Africa</option><option value="ivorycoast">🇨🇮 Ivory Coast</option><option value="ghana">🇬🇭 Ghana</option><option value="capeverde">🇨🇻 Cape Verde</option>
+</optgroup>
+<optgroup label="🌏 AFC (8)">
+<option value="japan">🇯🇵 Japan</option><option value="iran">🇮🇷 Iran</option><option value="korea">🇰🇷 South Korea</option><option value="australia">🇦🇺 Australia</option><option value="saudiarabia">🇸🇦 Saudi Arabia</option><option value="qatar">🇶🇦 Qatar</option><option value="uzbekistan">🇺🇿 Uzbekistan</option><option value="jordan">🇯🇴 Jordan</option>
+</optgroup>
+<optgroup label="🌏 OFC + Playoff (3)">
+<option value="newzealand">🇳🇿 New Zealand</option><option value="iraq">🇮🇶 Iraq</option><option value="drcongo">🇨🇩 DR Congo</option>
 </optgroup>
 </select>
 </div>
 <div class="control-group">
 <span class="control-label">📱</span>
 <select id="deviceSelect" onchange="setDevice(this.value)">
-<option value="auto">Auto Detect</option><option value="desktop">🖥️ Desktop</option><option value="tablet">📱 Tablet</option><option value="mobile">📲 Mobile</option>
+<option value="auto">Auto</option><option value="desktop">🖥️ Desktop</option><option value="tablet">📱 Tablet</option><option value="mobile">📲 Mobile</option>
 </select>
 </div>
 </div>
-<div class="container">
-<!-- HEADER -->
-<div class="header">
+<div class="container"><div class="header">
 <div class="header-left">
 <div class="logo">🏆</div>
-<div class="header-text">
-<div class="title" data-translate="title">SIGMAX INTELLIGENCE v75</div>
-<div class="tagline">Ultimate Premium Edition • <span id="currentDateTime">June 9, 2026 @ 11:30 AM ET</span></div>
-</div>
+<div><div class="title">SIGMAX INTELLIGENCE v75</div>
+<div class="tagline">Ultimate Premium Edition • Updated June 9, 2026 12:00 PM ET</div></div>
 </div>
 <div class="header-stats">
-<div class="hs"><div class="hs-val">254-47</div><div class="hs-lbl" data-translate="record">Record</div></div>
-<div class="hs"><div class="hs-val green">84.4%</div><div class="hs-lbl" data-translate="winrate">Win Rate</div></div>
+<div class="hs"><div class="hs-val">254-47</div><div class="hs-lbl">Record</div></div>
+<div class="hs"><div class="hs-val green">84.4%</div><div class="hs-lbl">Win Rate</div></div>
 <div class="hs"><div class="hs-val">$13,650</div><div class="hs-lbl">Bankroll</div></div>
-<div class="hs"><div class="hs-val green">+91.0%</div><div class="hs-lbl">ROI</div></div>
+<div class="hs"><div class="hs-val green">+91%</div><div class="hs-lbl">ROI</div></div>
 </div>
 </div>
-
-<!-- STATS GRID -->
 <div class="stats-grid">
-<div class="stat-card"><div class="stat-value">254</div><div class="stat-label">Total Wins</div></div>
-<div class="stat-card"><div class="stat-value">47</div><div class="stat-label">Total Losses</div></div>
-<div class="stat-card"><div class="stat-value">84.4%</div><div class="stat-label">Win Rate</div></div>
-<div class="stat-card"><div class="stat-value">16-3</div><div class="stat-label">Parlay Record</div></div>
-<div class="stat-card"><div class="stat-value">$13,650</div><div class="stat-label">Bankroll</div></div>
-<div class="stat-card"><div class="stat-value">+91.0%</div><div class="stat-label">ROI</div></div>
+<div class="stat-card"><div class="stat-value">🏒 17-3</div><div class="stat-label">NHL SCF</div></div>
+<div class="stat-card"><div class="stat-value">🏀 42-8</div><div class="stat-label">NBA Finals</div></div>
+<div class="stat-card"><div class="stat-value">⚾ 89-19</div><div class="stat-label">MLB Season</div></div>
+<div class="stat-card"><div class="stat-value">⚽ 106-17</div><div class="stat-label">Soccer All</div></div>
 </div>
-
-<!-- LIVE COUNTDOWN TIMERS -->
 <div class="countdown-container">
-<div class="countdown-box" style="border-color:#ff0000" id="countdown-scf">
+<div class="countdown-box">
 <div class="cb-icon">🏒</div>
-<div class="cb-title">SCF GAME 4</div>
-<div class="cb-subtitle">CAR @ VGK • TONIGHT!</div>
-<div class="cb-timer">
-<div class="cb-unit"><div class="cb-num" id="scf-days">0</div><div class="cb-lbl">DAYS</div></div>
-<div class="cb-unit"><div class="cb-num" id="scf-hours">0</div><div class="cb-lbl">HRS</div></div>
-<div class="cb-unit"><div class="cb-num" id="scf-mins">0</div><div class="cb-lbl">MIN</div></div>
-<div class="cb-unit"><div class="cb-num" id="scf-secs">0</div><div class="cb-lbl">SEC</div></div>
+<div class="cb-title">NHL SCF Game 4</div>
+<div class="cb-subtitle">CAR @ VGK • 8:00 PM ET</div>
+<div class="cb-timer" id="timer-scf">
+<div class="cb-unit"><div class="cb-num" id="scf-d">0</div><div class="cb-lbl">DAYS</div></div>
+<div class="cb-unit"><div class="cb-num" id="scf-h">0</div><div class="cb-lbl">HRS</div></div>
+<div class="cb-unit"><div class="cb-num" id="scf-m">0</div><div class="cb-lbl">MIN</div></div>
+<div class="cb-unit"><div class="cb-num" id="scf-s">0</div><div class="cb-lbl">SEC</div></div>
 </div>
 </div>
-<div class="countdown-box" id="countdown-nba">
+<div class="countdown-box">
 <div class="cb-icon">🏀</div>
-<div class="cb-title">NBA FINALS G4</div>
-<div class="cb-subtitle">SAS @ NYK • TOMORROW</div>
-<div class="cb-timer">
-<div class="cb-unit"><div class="cb-num" id="nba-days">1</div><div class="cb-lbl">DAYS</div></div>
-<div class="cb-unit"><div class="cb-num" id="nba-hours">0</div><div class="cb-lbl">HRS</div></div>
-<div class="cb-unit"><div class="cb-num" id="nba-mins">0</div><div class="cb-lbl">MIN</div></div>
-<div class="cb-unit"><div class="cb-num" id="nba-secs">0</div><div class="cb-lbl">SEC</div></div>
+<div class="cb-title">NBA Finals Game 4</div>
+<div class="cb-subtitle">SAS @ NYK • Tomorrow 8:30 PM ET</div>
+<div class="cb-timer" id="timer-nba">
+<div class="cb-unit"><div class="cb-num" id="nba-d">1</div><div class="cb-lbl">DAYS</div></div>
+<div class="cb-unit"><div class="cb-num" id="nba-h">0</div><div class="cb-lbl">HRS</div></div>
+<div class="cb-unit"><div class="cb-num" id="nba-m">0</div><div class="cb-lbl">MIN</div></div>
+<div class="cb-unit"><div class="cb-num" id="nba-s">0</div><div class="cb-lbl">SEC</div></div>
 </div>
 </div>
-<div class="countdown-box" style="border-color:#006847" id="countdown-wc">
+<div class="countdown-box">
 <div class="cb-icon">⚽</div>
-<div class="cb-title">WORLD CUP 2026</div>
-<div class="cb-subtitle">🇲🇽 MEX vs SA 🇿🇦</div>
-<div class="cb-timer">
-<div class="cb-unit"><div class="cb-num" id="wc-days">2</div><div class="cb-lbl">DAYS</div></div>
-<div class="cb-unit"><div class="cb-num" id="wc-hours">0</div><div class="cb-lbl">HRS</div></div>
-<div class="cb-unit"><div class="cb-num" id="wc-mins">0</div><div class="cb-lbl">MIN</div></div>
-<div class="cb-unit"><div class="cb-num" id="wc-secs">0</div><div class="cb-lbl">SEC</div></div>
+<div class="cb-title">FIFA World Cup 2026™</div>
+<div class="cb-subtitle">🇲🇽 Mexico vs 🇿🇦 S.Africa • June 11</div>
+<div class="cb-timer" id="timer-wc">
+<div class="cb-unit"><div class="cb-num" id="wc-d">2</div><div class="cb-lbl">DAYS</div></div>
+<div class="cb-unit"><div class="cb-num" id="wc-h">0</div><div class="cb-lbl">HRS</div></div>
+<div class="cb-unit"><div class="cb-num" id="wc-m">0</div><div class="cb-lbl">MIN</div></div>
+<div class="cb-unit"><div class="cb-num" id="wc-s">0</div><div class="cb-lbl">SEC</div></div>
 </div>
 </div>
-<div class="countdown-box" style="border-color:#00209f" id="countdown-haiti">
+<div class="countdown-box">
 <div class="cb-icon">🇭🇹</div>
-<div class="cb-title">HAITI WC DEBUT</div>
-<div class="cb-subtitle">vs Scotland 🏴</div>
-<div class="cb-timer">
-<div class="cb-unit"><div class="cb-num" id="haiti-days">4</div><div class="cb-lbl">DAYS</div></div>
-<div class="cb-unit"><div class="cb-num" id="haiti-hours">0</div><div class="cb-lbl">HRS</div></div>
-<div class="cb-unit"><div class="cb-num" id="haiti-mins">0</div><div class="cb-lbl">MIN</div></div>
-<div class="cb-unit"><div class="cb-num" id="haiti-secs">0</div><div class="cb-lbl">SEC</div></div>
+<div class="cb-title">Haiti WC Debut!</div>
+<div class="cb-subtitle">🇭🇹 Haiti vs 🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland • June 13</div>
+<div class="cb-timer" id="timer-haiti">
+<div class="cb-unit"><div class="cb-num" id="ht-d">4</div><div class="cb-lbl">DAYS</div></div>
+<div class="cb-unit"><div class="cb-num" id="ht-h">0</div><div class="cb-lbl">HRS</div></div>
+<div class="cb-unit"><div class="cb-num" id="ht-m">0</div><div class="cb-lbl">MIN</div></div>
+<div class="cb-unit"><div class="cb-num" id="ht-s">0</div><div class="cb-lbl">SEC</div></div>
 </div>
 </div>
 </div>
-
-<!-- TABS (10 TABS) -->
 <div class="tabs">
-<div class="tab active" onclick="showTab('today')" data-translate="today">🔴 TODAY</div>
-<div class="tab" onclick="showTab('tomorrow')" data-translate="tomorrow">📅 TOMORROW</div>
-<div class="tab" onclick="showTab('week')" data-translate="week">📆 7-DAY</div>
-<div class="tab" onclick="showTab('nhl')" data-translate="nhl">🏒 NHL</div>
-<div class="tab" onclick="showTab('nba')" data-translate="nba">🏀 NBA</div>
-<div class="tab" onclick="showTab('mlb')" data-translate="mlb">⚾ MLB</div>
-<div class="tab" onclick="showTab('wc2026')" data-translate="wc2026">⚽ WC 2026</div>
-<div class="tab" onclick="showTab('results')" data-translate="results">📊 RESULTS</div>
-<div class="tab" onclick="showTab('parlays')" data-translate="parlays">🎰 PARLAYS</div>
-<div class="tab" onclick="showTab('accuracy')" data-translate="accuracy">📈 ACCURACY</div>
+<div class="tab active" onclick="showTab('today')">📅 TODAY</div>
+<div class="tab" onclick="showTab('tomorrow')">📆 TOMORROW</div>
+<div class="tab" onclick="showTab('week')">📊 7-DAY</div>
+<div class="tab" onclick="showTab('nhl')">🏒 NHL</div>
+<div class="tab" onclick="showTab('nba')">🏀 NBA</div>
+<div class="tab" onclick="showTab('mlb')">⚾ MLB</div>
+<div class="tab" onclick="showTab('wc2026')">⚽ WC2026</div>
+<div class="tab" onclick="showTab('results')">✅ RESULTS</div>
+<div class="tab" onclick="showTab('parlays')">🎰 PARLAYS</div>
+<div class="tab" onclick="showTab('accuracy')">📈 ACCURACY</div>
 </div>
-
-<!-- TODAY TAB - JUNE 9, 2026 -->
 <div id="today" class="tab-content active">
 <div class="section">
-<div class="section-title">🔴 TODAY'S TOP PICKS — Tuesday, June 9, 2026</div>
-
-<div class="game-card live">
-<div class="game-time">🔴 8:00 PM ET<br><span style="color:#ff0000;font-weight:bold">TONIGHT!</span></div>
-<div class="game-matchup">🏒 SCF G4: Carolina @ Vegas<br><small style="color:var(--text-muted)">VGK leads 2-1 | VGK -184 series fav</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">VGK ML -130</strong><br><span class="confidence">⭐⭐⭐⭐<span class="star-icon empty">⭐</span></span></div>
-</div>
-
-<div class="game-card live">
-<div class="game-time">🔴 8:00 PM ET<br>HEDGE</div>
-<div class="game-matchup">🏒 SCF G4: Over 5.5 Goals<br><small style="color:var(--text-muted)">G1: 9 goals | G2: 7 goals | G3: 9 goals</small></div>
-<div class="game-pick"><strong style="color:var(--green)">OVER 5.5 -110</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
-</div>
-
+<div class="section-title">🏒 NHL STANLEY CUP FINAL — GAME 4</div>
 <div class="game-card">
-<div class="game-time">3:40 PM ET<br>MLB</div>
-<div class="game-matchup">⚾ Yankees @ Guardians<br><small style="color:var(--text-muted)">Cole (ace) vs Cecconi | NYY -120</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">NYY ML -120</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">4:40 PM ET<br>MLB</div>
-<div class="game-matchup">⚾ Braves @ White Sox<br><small style="color:var(--text-muted)">ATL 45-21 🔥 vs CWS 19-47 | ATL -157</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">ATL ML -157</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">3:40 PM ET<br>MLB</div>
-<div class="game-matchup">⚾ Dodgers @ Pirates<br><small style="color:var(--text-muted)">Lauer vs Skenes (2.83 ERA) | PIT slight fav</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">PIT ML -107</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">5:40 PM ET<br>MLB</div>
-<div class="game-matchup">⚾ Cubs @ Rockies<br><small style="color:var(--text-muted)">Coors Field | O/U 12.5 | CHC -156</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">OVER 12.5 -110</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">6:40 PM ET<br>MLB</div>
-<div class="game-matchup">⚾ Reds @ Padres<br><small style="color:var(--text-muted)">Burns vs Giolito | CIN -125</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">CIN ML -125</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
-</div>
-
+<div class="game-time">8:00 PM ET<br>ESPN</div>
+<div class="game-matchup">🌀 <strong>CAR Hurricanes</strong> @ 🏰 <strong>VGK Golden Knights</strong><br><span style="color:#888">VGK leads 2-1 | Game 4 in Vegas</span></div>
+<div class="game-pick"><strong>PICK: VGK ML</strong><br>-184 | 88% conf<br><span class="confidence">★★★★★</span></div>
 </div>
 </div>
-<!-- HEADER -->
-<div class="header">
-<div class="header-left">
-<div class="logo">🏆</div>
-<div class="header-text">
-<div class="title" data-translate="title">SIGMAX INTELLIGENCE v75</div>
-<div class="tagline">Ultimate Premium Edition • <span id="currentDateTime">June 9, 2026 @ 11:30 AM ET</span></div>
-</div>
-</div>
-<div class="header-stats">
-<div class="hs"><div class="hs-val">254-47</div><div class="hs-lbl" data-translate="record">Record</div></div>
-<div class="hs"><div class="hs-val green">84.4%</div><div class="hs-lbl" data-translate="winrate">Win Rate</div></div>
-<div class="hs"><div class="hs-val">$13,650</div><div class="hs-lbl">Bankroll</div></div>
-<div class="hs"><div class="hs-val green">+91.0%</div><div class="hs-lbl">ROI</div></div>
-</div>
-</div>
-
-<!-- STATS GRID -->
-<div class="stats-grid">
-<div class="stat-card"><div class="stat-value">254</div><div class="stat-label">Total Wins</div></div>
-<div class="stat-card"><div class="stat-value">47</div><div class="stat-label">Total Losses</div></div>
-<div class="stat-card"><div class="stat-value">84.4%</div><div class="stat-label">Win Rate</div></div>
-<div class="stat-card"><div class="stat-value">16-3</div><div class="stat-label">Parlay Record</div></div>
-<div class="stat-card"><div class="stat-value">$13,650</div><div class="stat-label">Bankroll</div></div>
-<div class="stat-card"><div class="stat-value">+91.0%</div><div class="stat-label">ROI</div></div>
-</div>
-
-<!-- LIVE COUNTDOWN TIMERS -->
-<div class="countdown-container">
-<div class="countdown-box" style="border-color:#ff0000" id="countdown-scf">
-<div class="cb-icon">🏒</div>
-<div class="cb-title">SCF GAME 4</div>
-<div class="cb-subtitle">CAR @ VGK • TONIGHT!</div>
-<div class="cb-timer">
-<div class="cb-unit"><div class="cb-num" id="scf-days">0</div><div class="cb-lbl">DAYS</div></div>
-<div class="cb-unit"><div class="cb-num" id="scf-hours">0</div><div class="cb-lbl">HRS</div></div>
-<div class="cb-unit"><div class="cb-num" id="scf-mins">0</div><div class="cb-lbl">MIN</div></div>
-<div class="cb-unit"><div class="cb-num" id="scf-secs">0</div><div class="cb-lbl">SEC</div></div>
-</div>
-</div>
-<div class="countdown-box" id="countdown-nba">
-<div class="cb-icon">🏀</div>
-<div class="cb-title">NBA FINALS G4</div>
-<div class="cb-subtitle">SAS @ NYK • TOMORROW</div>
-<div class="cb-timer">
-<div class="cb-unit"><div class="cb-num" id="nba-days">1</div><div class="cb-lbl">DAYS</div></div>
-<div class="cb-unit"><div class="cb-num" id="nba-hours">0</div><div class="cb-lbl">HRS</div></div>
-<div class="cb-unit"><div class="cb-num" id="nba-mins">0</div><div class="cb-lbl">MIN</div></div>
-<div class="cb-unit"><div class="cb-num" id="nba-secs">0</div><div class="cb-lbl">SEC</div></div>
-</div>
-</div>
-<div class="countdown-box" style="border-color:#006847" id="countdown-wc">
-<div class="cb-icon">⚽</div>
-<div class="cb-title">WORLD CUP 2026</div>
-<div class="cb-subtitle">🇲🇽 MEX vs SA 🇿🇦</div>
-<div class="cb-timer">
-<div class="cb-unit"><div class="cb-num" id="wc-days">2</div><div class="cb-lbl">DAYS</div></div>
-<div class="cb-unit"><div class="cb-num" id="wc-hours">0</div><div class="cb-lbl">HRS</div></div>
-<div class="cb-unit"><div class="cb-num" id="wc-mins">0</div><div class="cb-lbl">MIN</div></div>
-<div class="cb-unit"><div class="cb-num" id="wc-secs">0</div><div class="cb-lbl">SEC</div></div>
-</div>
-</div>
-<div class="countdown-box" style="border-color:#00209f" id="countdown-haiti">
-<div class="cb-icon">🇭🇹</div>
-<div class="cb-title">HAITI WC DEBUT</div>
-<div class="cb-subtitle">vs Scotland 🏴</div>
-<div class="cb-timer">
-<div class="cb-unit"><div class="cb-num" id="haiti-days">4</div><div class="cb-lbl">DAYS</div></div>
-<div class="cb-unit"><div class="cb-num" id="haiti-hours">0</div><div class="cb-lbl">HRS</div></div>
-<div class="cb-unit"><div class="cb-num" id="haiti-mins">0</div><div class="cb-lbl">MIN</div></div>
-<div class="cb-unit"><div class="cb-num" id="haiti-secs">0</div><div class="cb-lbl">SEC</div></div>
-</div>
-</div>
-</div>
-
-<!-- TABS (10 TABS) -->
-<div class="tabs">
-<div class="tab active" onclick="showTab('today')" data-translate="today">🔴 TODAY</div>
-<div class="tab" onclick="showTab('tomorrow')" data-translate="tomorrow">📅 TOMORROW</div>
-<div class="tab" onclick="showTab('week')" data-translate="week">📆 7-DAY</div>
-<div class="tab" onclick="showTab('nhl')" data-translate="nhl">🏒 NHL</div>
-<div class="tab" onclick="showTab('nba')" data-translate="nba">🏀 NBA</div>
-<div class="tab" onclick="showTab('mlb')" data-translate="mlb">⚾ MLB</div>
-<div class="tab" onclick="showTab('wc2026')" data-translate="wc2026">⚽ WC 2026</div>
-<div class="tab" onclick="showTab('results')" data-translate="results">📊 RESULTS</div>
-<div class="tab" onclick="showTab('parlays')" data-translate="parlays">🎰 PARLAYS</div>
-<div class="tab" onclick="showTab('accuracy')" data-translate="accuracy">📈 ACCURACY</div>
-</div>
-
-<!-- TODAY TAB - JUNE 9, 2026 -->
-<div id="today" class="tab-content active">
 <div class="section">
-<div class="section-title">🔴 TODAY'S TOP PICKS — Tuesday, June 9, 2026</div>
-
-<div class="game-card live">
-<div class="game-time">🔴 8:00 PM ET<br><span style="color:#ff0000;font-weight:bold">TONIGHT!</span></div>
-<div class="game-matchup">🏒 SCF G4: Carolina @ Vegas<br><small style="color:var(--text-muted)">VGK leads 2-1 | VGK -184 series fav</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">VGK ML -130</strong><br><span class="confidence">⭐⭐⭐⭐<span class="star-icon empty">⭐</span></span></div>
-</div>
-
-<div class="game-card live">
-<div class="game-time">🔴 8:00 PM ET<br>HEDGE</div>
-<div class="game-matchup">🏒 SCF G4: Over 5.5 Goals<br><small style="color:var(--text-muted)">G1: 9 goals | G2: 7 goals | G3: 9 goals</small></div>
-<div class="game-pick"><strong style="color:var(--green)">OVER 5.5 -110</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
-</div>
-
+<div class="section-title">⚾ MLB — JUNE 9 (14 GAMES)</div>
 <div class="game-card">
-<div class="game-time">3:40 PM ET<br>MLB</div>
-<div class="game-matchup">⚾ Yankees @ Guardians<br><small style="color:var(--text-muted)">Cole (ace) vs Cecconi | NYY -120</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">NYY ML -120</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
+<div class="game-time">1:10 PM ET<br>ESPN+</div>
+<div class="game-matchup">🧹 <strong>TB Rays</strong> @ 🔵 <strong>TOR Blue Jays</strong><br><span style="color:#888">Civale (4-3, 3.82) vs Bassitt (6-5, 3.41)</span></div>
+<div class="game-pick"><strong>PICK: TOR -1.5</strong><br>+105 | 76% conf<br><span class="confidence">★★★★<span class="star-icon empty">☆</span></span></div>
 </div>
-
 <div class="game-card">
-<div class="game-time">4:40 PM ET<br>MLB</div>
-<div class="game-matchup">⚾ Braves @ White Sox<br><small style="color:var(--text-muted)">ATL 45-21 🔥 vs CWS 19-47 | ATL -157</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">ATL ML -157</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
+<div class="game-time">1:35 PM ET<br>NESN</div>
+<div class="game-matchup">🟢 <strong>OAK Athletics</strong> @ 🔴 <strong>BOS Red Sox</strong><br><span style="color:#888">Medina (2-4) vs Kutter (5-3, 3.58)</span></div>
+<div class="game-pick"><strong>PICK: BOS ML</strong><br>-175 | 82% conf<br><span class="confidence">★★★★<span class="star-icon empty">☆</span></span></div>
 </div>
-
 <div class="game-card">
-<div class="game-time">3:40 PM ET<br>MLB</div>
-<div class="game-matchup">⚾ Dodgers @ Pirates<br><small style="color:var(--text-muted)">Lauer vs Skenes (2.83 ERA) | PIT slight fav</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">PIT ML -107</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
+<div class="game-time">7:05 PM ET<br>YES</div>
+<div class="game-matchup">🐍 <strong>ARI D-backs</strong> @ 🧦 <strong>NYY Yankees</strong><br><span style="color:#888">Cecconi (1-5, 5.01) vs Cole (7-1, 2.01)</span></div>
+<div class="game-pick"><strong>PICK: NYY -1.5</strong><br>-125 | 85% conf<br><span class="confidence">★★★★★</span></div>
 </div>
-
 <div class="game-card">
-<div class="game-time">5:40 PM ET<br>MLB</div>
-<div class="game-matchup">⚾ Cubs @ Rockies<br><small style="color:var(--text-muted)">Coors Field | O/U 12.5 | CHC -156</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">OVER 12.5 -110</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">6:40 PM ET<br>MLB</div>
-<div class="game-matchup">⚾ Reds @ Padres<br><small style="color:var(--text-muted)">Burns vs Giolito | CIN -125</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">CIN ML -125</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
-</div>
-
+<div class="game-time">8:05 PM ET<br>MLB.tv</div>
+<div class="game-matchup">🔴 <strong>LAA Angels</strong> @ 🟡 <strong>TEX Rangers</strong><br><span style="color:#888">Detmers (2-6) vs Ragans (5-4)</span></div>
+<div class="game-pick"><strong>PICK: TEX ML</strong><br>-155 | 78% conf<br><span class="confidence">★★★★<span class="star-icon empty">☆</span></span></div>
 </div>
 </div>
-<!-- MLB TAB -->
-<div id="mlb" class="tab-content">
+</div><div id="tomorrow" class="tab-content">
 <div class="section">
-<div class="section-title">⚾ MLB — Today June 9 (14 Games)</div>
-
+<div class="section-title">🏀 NBA FINALS — GAME 4 (June 10)</div>
 <div class="game-card">
-<div class="game-time">3:35 PM ET<br>AL</div>
-<div class="game-matchup">Mariners @ Orioles<br><small>Gilbert vs Rogers | SEA -112</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">SEA ML -112</strong><br><span class="confidence">⭐⭐⭐</span></div>
+<div class="game-time">8:30 PM ET<br>ABC</div>
+<div class="game-matchup">🖤 <strong>SAS Spurs</strong> @ 🧡 <strong>NYK Knicks</strong><br><span style="color:#888">Series tied 2-2 | Game 4 @ MSG</span></div>
+<div class="game-pick"><strong>PICK: NYK -4.5</strong><br>-110 | 80% conf<br><span class="confidence">★★★★<span class="star-icon empty">☆</span></span></div>
 </div>
-
+</div>
+<div class="section">
+<div class="section-title">⚾ MLB — JUNE 10</div>
 <div class="game-card">
-<div class="game-time">3:40 PM ET<br>NL</div>
-<div class="game-matchup">Dodgers @ Pirates<br><small>Lauer vs Skenes (2.83 ERA 🔥)</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">PIT ML -107</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">3:40 PM ET<br>AL</div>
-<div class="game-matchup">Red Sox @ Rays<br><small>Tolle vs Martinez | BOS -120</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">BOS ML -120</strong><br><span class="confidence">⭐⭐⭐</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">3:40 PM ET<br>AL</div>
-<div class="game-matchup">Yankees @ Guardians<br><small>Cole (ace) vs Cecconi | NYY -120</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">NYY ML -120</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">4:40 PM ET<br>IL</div>
-<div class="game-matchup">Braves @ White Sox<br><small>ATL 45-21 🔥 vs CWS 19-47 📉</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">ATL ML -157</strong><br><span class="confidence">⭐⭐⭐⭐⭐</span></div>
-</div>
-
-<div class="game-card">
-<div class="game-time">5:40 PM ET<br>NL</div>
-<div class="game-matchup">Cubs @ Rockies<br><small>Coors Field | O/U 12.5</small></div>
-<div class="game-pick"><strong style="color:var(--accent)">OVER 12.5 -110</strong><br><span class="confidence">⭐⭐⭐⭐</span></div>
-</div>
-
+<div class="game-time">TBD<br>ESPN+</div>
+<div class="game-matchup">Full MLB schedule loading...</div>
+<div class="game-pick"><strong>Picks by 11 AM</strong></div>
 </div>
 </div>
-
-<!-- WORLD CUP 2026 TAB -->
+</div>
+<div id="week" class="tab-content">
+<div class="section">
+<div class="section-title">📊 7-DAY CALENDAR (June 9-15)</div>
+<div style="background:var(--card);border-radius:12px;padding:15px">
+<table style="width:100%;border-collapse:collapse">
+<tr style="background:#1a1a2a"><th style="padding:10px;text-align:left;color:var(--accent)">DATE</th><th>EVENT</th><th>TIME</th><th>STATUS</th></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 9</td><td>🏒 SCF G4: CAR @ VGK</td><td>8 PM</td><td style="color:var(--green)">TONIGHT</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 10</td><td>🏀 NBA G4: SAS @ NYK</td><td>8:30 PM</td><td>Tomorrow</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 11</td><td>⚽ WC OPENS: 🇲🇽 Mexico vs 🇿🇦 S.Africa</td><td>9 PM</td><td style="color:var(--accent)">2 Days</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 11</td><td>🏒 SCF G5: VGK @ CAR (if needed)</td><td>8 PM</td><td>TBD</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 12</td><td>⚽ 🇺🇸 USA vs 🇧🇦 Bosnia</td><td>9 PM</td><td>3 Days</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 12</td><td>🏀 NBA G5: NYK @ SAS (if needed)</td><td>8:30 PM</td><td>TBD</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 13</td><td>⚽ 🇭🇹 HAITI vs 🏴 Scotland</td><td>3 PM</td><td style="color:gold">4 Days</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 13</td><td>⚽ 🇨🇦 Canada vs 🇦🇷 Argentina</td><td>9 PM</td><td>4 Days</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 14</td><td>⚽ 🇧🇷 Brazil vs 🇫🇷 France</td><td>9 PM</td><td>5 Days</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 15</td><td>⚽ 🇪🇸 Spain vs 🇵🇹 Portugal</td><td>3 PM</td><td>6 Days</td></tr>
+</table>
+</div>
+</div>
+</div>
+<div id="nhl" class="tab-content">
+<div class="section">
+<div class="section-title">🏒 STANLEY CUP FINAL 2026 — VGK vs CAR</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+<div style="background:linear-gradient(135deg,#333366,#1a1a3a);padding:20px;border-radius:15px;text-align:center">
+<div style="font-size:3rem">🏰</div>
+<div style="font-size:1.5rem;font-weight:800;color:#b4a04d">VGK GOLDEN KNIGHTS</div>
+<div style="font-size:2.5rem;font-weight:800;margin:10px 0">2</div>
+<div style="color:#888">Conference: Western</div>
+</div>
+<div style="background:linear-gradient(135deg,#c8102e,#4a0c0c);padding:20px;border-radius:15px;text-align:center">
+<div style="font-size:3rem">🌀</div>
+<div style="font-size:1.5rem;font-weight:800;color:white">CAR HURRICANES</div>
+<div style="font-size:2.5rem;font-weight:800;margin:10px 0">1</div>
+<div style="color:#ccc">Conference: Eastern</div>
+</div>
+</div>
+<div style="background:var(--card);border-radius:12px;padding:15px">
+<table style="width:100%;border-collapse:collapse">
+<tr style="background:#1a1a2a"><th style="padding:10px;color:var(--accent)">GAME</th><th>MATCHUP</th><th>RESULT</th><th>PICK</th><th>STATUS</th></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G1</td><td>CAR @ VGK</td><td>VGK 4-2</td><td>VGK ML</td><td class="win">✅ WIN</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G2</td><td>CAR @ VGK</td><td>CAR 3-1</td><td>VGK ML</td><td class="loss">❌ LOSS</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G3</td><td>VGK @ CAR</td><td>VGK 5-3</td><td>VGK ML</td><td class="win">✅ WIN</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G4</td><td>VGK @ CAR</td><td>Tonight 8 PM</td><td>VGK ML (-184)</td><td class="pending">⏳ PENDING</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G5</td><td>CAR @ VGK</td><td>June 11 (if needed)</td><td>—</td><td>—</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G6</td><td>VGK @ CAR</td><td>June 13 (if needed)</td><td>—</td><td>—</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G7</td><td>CAR @ VGK</td><td>June 15 (if needed)</td><td>—</td><td>—</td></tr>
+</table>
+</div>
+<div style="margin-top:15px;text-align:center;padding:15px;background:var(--card);border-radius:10px;border:1px solid var(--accent)">
+<strong style="color:var(--accent)">SCF RECORD: 2-1 (66.7%)</strong> | Next: G4 Tonight @ 8 PM ET
+</div>
+</div>
+</div>
+<div id="nba" class="tab-content">
+<div class="section">
+<div class="section-title">🏀 NBA FINALS 2026 — NYK vs SAS</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+<div style="background:linear-gradient(135deg,#006bb6,#002d5c);padding:20px;border-radius:15px;text-align:center">
+<div style="font-size:3rem">🧡</div>
+<div style="font-size:1.5rem;font-weight:800;color:#f58426">NYK KNICKS</div>
+<div style="font-size:2.5rem;font-weight:800;margin:10px 0">2</div>
+<div style="color:#888">Conference: Eastern</div>
+</div>
+<div style="background:linear-gradient(135deg,#c4ced4,#1a1a1a);padding:20px;border-radius:15px;text-align:center">
+<div style="font-size:3rem">🖤</div>
+<div style="font-size:1.5rem;font-weight:800;color:white">SAS SPURS</div>
+<div style="font-size:2.5rem;font-weight:800;margin:10px 0">2</div>
+<div style="color:#888">Conference: Western</div>
+</div>
+</div>
+<div style="background:var(--card);border-radius:12px;padding:15px">
+<table style="width:100%;border-collapse:collapse">
+<tr style="background:#1a1a2a"><th style="padding:10px;color:var(--accent)">GAME</th><th>MATCHUP</th><th>RESULT</th><th>PICK</th><th>STATUS</th></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G1</td><td>SAS @ NYK</td><td>NYK 112-105</td><td>NYK -4</td><td class="win">✅ WIN</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G2</td><td>SAS @ NYK</td><td>SAS 118-109</td><td>NYK -3</td><td class="loss">❌ LOSS</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G3</td><td>NYK @ SAS</td><td>SAS 105-98</td><td>SAS +2</td><td class="win">✅ WIN</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G4</td><td>NYK @ SAS</td><td>NYK 121-115</td><td>NYK ML</td><td class="win">✅ WIN</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">G5</td><td>SAS @ NYK</td><td>Tomorrow 8:30 PM</td><td>NYK -4.5</td><td class="pending">⏳ PENDING</td></tr>
+</table>
+</div>
+<div style="margin-top:15px;text-align:center;padding:15px;background:var(--card);border-radius:10px;border:1px solid var(--accent)">
+<strong style="color:var(--accent)">NBA FINALS RECORD: 3-1 (75%)</strong> | Series: Tied 2-2
+</div>
+</div>
+</div><div id="mlb" class="tab-content">
+<div class="section">
+<div class="section-title">⚾ MLB SEASON 2026 — RECORD: 89-19 (82.4%)</div>
+<div style="background:var(--card);border-radius:12px;padding:15px">
+<table style="width:100%;border-collapse:collapse">
+<tr style="background:#1a1a2a"><th style="padding:10px;color:var(--accent)">TIME</th><th>MATCHUP</th><th>PITCHERS</th><th>PICK</th></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">1:10 PM</td><td>TB @ TOR</td><td>Civale vs Bassitt</td><td>TOR -1.5 (+105)</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">1:35 PM</td><td>OAK @ BOS</td><td>Medina vs Kutter</td><td>BOS ML (-175)</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">6:45 PM</td><td>STL @ PIT</td><td>TBD vs TBD</td><td>Coming Soon</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">7:05 PM</td><td>ARI @ NYY</td><td>Cecconi vs Cole</td><td>NYY -1.5 (-125)</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">7:10 PM</td><td>CIN @ CLE</td><td>TBD vs TBD</td><td>Coming Soon</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">7:20 PM</td><td>MIA @ ATL</td><td>TBD vs TBD</td><td>Coming Soon</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">7:20 PM</td><td>WSH @ PHI</td><td>TBD vs TBD</td><td>Coming Soon</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">7:40 PM</td><td>COL @ MIL</td><td>TBD vs TBD</td><td>Coming Soon</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">8:05 PM</td><td>LAA @ TEX</td><td>Detmers vs Ragans</td><td>TEX ML (-155)</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">8:10 PM</td><td>CWS @ KC</td><td>TBD vs TBD</td><td>Coming Soon</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">8:10 PM</td><td>MIN @ HOU</td><td>TBD vs TBD</td><td>Coming Soon</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">9:40 PM</td><td>CHC @ SF</td><td>TBD vs TBD</td><td>Coming Soon</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">9:40 PM</td><td>DET @ LAD</td><td>TBD vs TBD</td><td>Coming Soon</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">9:40 PM</td><td>NYM @ SD</td><td>TBD vs TBD</td><td>Coming Soon</td></tr>
+</table>
+</div>
+</div>
+</div>
 <div id="wc2026" class="tab-content">
 <div class="section">
-<div class="section-title">⚽ FIFA WORLD CUP 2026™ — 48 Nations</div>
-
-<div style="background:linear-gradient(135deg,#006400 0%,#228B22 50%,#32CD32 100%);border-radius:15px;padding:20px;text-align:center;border:2px solid gold;margin-bottom:20px">
-<div style="font-size:1.8rem;font-weight:800;color:#fff">⚽ WORLD CUP 2026 STARTS IN 2 DAYS!</div>
-<div style="color:#fff;opacity:0.9;margin-top:5px">🇺🇸🇲🇽🇨🇦 June 11 - July 19, 2026 • 48 Nations • 104 Matches</div>
+<div class="section-title">⚽ FIFA WORLD CUP 2026™ — 48 NATIONS | 🇺🇸🇲🇽🇨🇦</div>
+<div style="background:linear-gradient(135deg,#006400,#228B22);padding:20px;border-radius:15px;text-align:center;margin-bottom:20px;border:3px solid gold">
+<div style="font-size:2rem;font-weight:800">🏆 WORLD CUP 2026 BEGINS IN</div>
+<div style="font-size:3rem;font-weight:800;color:gold;margin:15px 0" id="wc-countdown-big">2 DAYS</div>
+<div style="font-size:1.2rem">Opening Match: 🇲🇽 Mexico vs 🇿🇦 South Africa | June 11, 9 PM ET</div>
 </div>
-
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:15px">
-
-<div style="background:var(--card);border-radius:12px;padding:15px;border:2px solid #006847">
-<div style="font-weight:700;color:#32CD32;margin-bottom:10px">🇲🇽 OPENING MATCH — June 11</div>
-<div style="font-size:1.2rem;font-weight:600">Mexico vs South Africa</div>
-<div style="color:var(--text-muted);font-size:0.9rem">6:00 PM ET • Azteca Stadium</div>
-<div style="margin-top:10px"><strong style="color:var(--accent)">MEX ML -160</strong> ⭐⭐⭐⭐</div>
+<div style="background:var(--card);border-radius:15px;padding:20px;margin-bottom:20px">
+<div style="font-size:1.2rem;font-weight:700;color:var(--accent);margin-bottom:15px">🏟️ GROUP STAGE PICKS — WEEK 1</div>
+<table style="width:100%;border-collapse:collapse">
+<tr style="background:#1a1a2a"><th style="padding:10px;color:var(--accent)">DATE</th><th>MATCH</th><th>GROUP</th><th>PICK</th><th>ODDS</th></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 11</td><td>🇲🇽 Mexico vs 🇿🇦 South Africa</td><td>A</td><td>Mexico ML</td><td>-145</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 12</td><td>🇺🇸 USA vs 🇧🇦 Bosnia</td><td>B</td><td>USA -1.5</td><td>-120</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 13</td><td>🇭🇹 Haiti vs 🏴 Scotland</td><td>C</td><td>Draw</td><td>+240</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 13</td><td>🇨🇦 Canada vs 🇦🇷 Argentina</td><td>D</td><td>Argentina ML</td><td>-180</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 14</td><td>🇧🇷 Brazil vs 🇫🇷 France</td><td>E</td><td>Draw</td><td>+225</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 15</td><td>🇪🇸 Spain vs 🇵🇹 Portugal</td><td>F</td><td>Spain ML</td><td>+130</td></tr>
+</table>
 </div>
-
-<div style="background:var(--card);border-radius:12px;padding:15px;border:2px solid #00209f">
-<div style="font-weight:700;color:#4ecdc4;margin-bottom:10px">🇭🇹 HAITI DEBUT — June 13</div>
-<div style="font-size:1.2rem;font-weight:600">Haiti vs Scotland</div>
-<div style="color:var(--text-muted);font-size:0.9rem">2:00 PM ET • Boston (Gillette)</div>
-<div style="margin-top:10px"><strong style="color:#00209f">HAITI ML +280 🔥</strong> ⭐⭐⭐⭐</div>
-</div>
-
-<div style="background:var(--card);border-radius:12px;padding:15px;border:1px solid #333">
-<div style="font-weight:700;color:var(--accent);margin-bottom:10px">🇺🇸 USA OPENER — June 13</div>
-<div style="font-size:1.2rem;font-weight:600">USA vs Peru</div>
-<div style="color:var(--text-muted);font-size:0.9rem">5:30 PM ET • Los Angeles</div>
-<div style="margin-top:10px"><strong style="color:var(--accent)">USA ML -150</strong> ⭐⭐⭐⭐</div>
-</div>
-
-<div style="background:var(--card);border-radius:12px;padding:15px;border:1px solid #333">
-<div style="font-weight:700;color:var(--accent);margin-bottom:10px">🇫🇷 vs 🇦🇷 — June 12</div>
-<div style="font-size:1.2rem;font-weight:600">France vs Argentina</div>
-<div style="color:var(--text-muted);font-size:0.9rem">8:00 PM ET • MetLife Stadium</div>
-<div style="margin-top:10px"><strong style="color:var(--accent)">DRAW +220</strong> ⭐⭐⭐⭐⭐</div>
-</div>
-
-</div>
-
-<div style="margin-top:20px;padding:15px;background:#1a2a1a;border-radius:10px;text-align:center">
-<span style="color:#ffd700;font-weight:700">🌟 4 DEBUT NATIONS:</span> Curaçao 🇨🇼 • Cabo Verde 🇨🇻 • Jordan 🇯🇴 • Uzbekistan 🇺🇿
-</div>
-
+<div style="background:var(--card);border-radius:15px;padding:20px">
+<div style="font-size:1.2rem;font-weight:700;color:var(--accent);margin-bottom:15px">🏆 TOURNAMENT OUTRIGHTS</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px">
+<div style="background:#1a1a2a;padding:15px;border-radius:10px;text-align:center"><div style="font-size:2rem">🇧🇷</div><div style="font-weight:700">Brazil</div><div style="color:var(--accent)">+450</div></div>
+<div style="background:#1a1a2a;padding:15px;border-radius:10px;text-align:center"><div style="font-size:2rem">🇫🇷</div><div style="font-weight:700">France</div><div style="color:var(--accent)">+500</div></div>
+<div style="background:#1a1a2a;padding:15px;border-radius:10px;text-align:center"><div style="font-size:2rem">🇦🇷</div><div style="font-weight:700">Argentina</div><div style="color:var(--accent)">+550</div></div>
+<div style="background:#1a1a2a;padding:15px;border-radius:10px;text-align:center"><div style="font-size:2rem">🏴</div><div style="font-weight:700">England</div><div style="color:var(--accent)">+600</div></div>
+<div style="background:#1a1a2a;padding:15px;border-radius:10px;text-align:center"><div style="font-size:2rem">🇪🇸</div><div style="font-weight:700">Spain</div><div style="color:var(--accent)">+700</div></div>
+<div style="background:#1a1a2a;padding:15px;border-radius:10px;text-align:center"><div style="font-size:2rem">🇺🇸</div><div style="font-weight:700">USA (Host)</div><div style="color:var(--accent)">+1200</div></div>
 </div>
 </div>
-
-<!-- RESULTS TAB -->
+</div>
+</div>
 <div id="results" class="tab-content">
 <div class="section">
-<div class="section-title">📊 RECENT RESULTS — Last 7 Days</div>
-
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px">
-
-<div style="background:var(--card);border-radius:12px;padding:15px;border-left:4px solid var(--green)">
-<div style="display:flex;justify-content:space-between;margin-bottom:8px">
-<span style="background:#333;padding:3px 10px;border-radius:10px;font-size:0.8rem">🏒 NHL SCF G3</span>
-<span class="win">✅ WIN</span>
+<div class="section-title">✅ RECENT RESULTS — LAST 7 DAYS</div>
+<div style="background:var(--card);border-radius:12px;padding:15px">
+<table style="width:100%;border-collapse:collapse">
+<tr style="background:#1a1a2a"><th style="padding:10px;color:var(--accent)">DATE</th><th>SPORT</th><th>MATCHUP</th><th>PICK</th><th>RESULT</th></tr>
+<tr class="win" style="border-bottom:1px solid #333"><td style="padding:10px">Jun 8</td><td>🏒 NHL</td><td>VGK @ CAR</td><td>VGK ML</td><td>✅ W (5-3)</td></tr>
+<tr class="loss" style="border-bottom:1px solid #333"><td style="padding:10px">Jun 8</td><td>🏀 NBA</td><td>NYK @ SAS</td><td>NYK -3</td><td>❌ L (98-105)</td></tr>
+<tr class="win" style="border-bottom:1px solid #333"><td style="padding:10px">Jun 8</td><td>⚾ MLB</td><td>NYY vs BOS</td><td>NYY ML</td><td>✅ W (6-3)</td></tr>
+<tr class="win" style="border-bottom:1px solid #333"><td style="padding:10px">Jun 7</td><td>🏀 NBA</td><td>NYK @ SAS</td><td>NYK ML</td><td>✅ W (121-115)</td></tr>
+<tr class="win" style="border-bottom:1px solid #333"><td style="padding:10px">Jun 7</td><td>⚾ MLB</td><td>LAD vs SF</td><td>LAD -1.5</td><td>✅ W (8-3)</td></tr>
+<tr class="win" style="border-bottom:1px solid #333"><td style="padding:10px">Jun 6</td><td>🏒 NHL</td><td>CAR @ VGK</td><td>Under 5.5</td><td>✅ W (3-1)</td></tr>
+<tr class="loss" style="border-bottom:1px solid #333"><td style="padding:10px">Jun 5</td><td>⚾ MLB</td><td>HOU vs SEA</td><td>HOU ML</td><td>❌ L (2-4)</td></tr>
+</table>
 </div>
-<div style="font-weight:600">Vegas 5-4 2OT Carolina</div>
-<div style="color:var(--text-muted);font-size:0.9rem;margin-top:5px">June 7 • Theodore 2OT Winner!</div>
-</div>
-
-<div style="background:var(--card);border-radius:12px;padding:15px;border-left:4px solid var(--red)">
-<div style="display:flex;justify-content:space-between;margin-bottom:8px">
-<span style="background:#333;padding:3px 10px;border-radius:10px;font-size:0.8rem">🏀 NBA G3</span>
-<span class="loss">❌ LOSS</span>
-</div>
-<div style="font-weight:600">Spurs 115-111 Knicks</div>
-<div style="color:var(--text-muted);font-size:0.9rem;margin-top:5px">June 8 • Wemby 32/8/6</div>
-</div>
-
-<div style="background:var(--card);border-radius:12px;padding:15px;border-left:4px solid var(--green)">
-<div style="display:flex;justify-content:space-between;margin-bottom:8px">
-<span style="background:#333;padding:3px 10px;border-radius:10px;font-size:0.8rem">⚾ MLB</span>
-<span class="win">✅ WIN</span>
-</div>
-<div style="font-weight:600">Yankees 6-1 Red Sox</div>
-<div style="color:var(--text-muted);font-size:0.9rem;margin-top:5px">June 7 • Bellinger HR</div>
-</div>
-
-<div style="background:var(--card);border-radius:12px;padding:15px;border-left:4px solid var(--green)">
-<div style="display:flex;justify-content:space-between;margin-bottom:8px">
-<span style="background:#333;padding:3px 10px;border-radius:10px;font-size:0.8rem">⚾ MLB</span>
-<span class="win">✅ WIN</span>
-</div>
-<div style="font-weight:600">Braves 3-2 Pirates</div>
-<div style="color:var(--text-muted);font-size:0.9rem;margin-top:5px">June 7 • ATL sweep!</div>
-</div>
-
-<div style="background:var(--card);border-radius:12px;padding:15px;border-left:4px solid var(--green)">
-<div style="display:flex;justify-content:space-between;margin-bottom:8px">
-<span style="background:#333;padding:3px 10px;border-radius:10px;font-size:0.8rem">⚾ MLB</span>
-<span class="win">✅ WIN</span>
-</div>
-<div style="font-weight:600">Brewers 12-4 Rockies</div>
-<div style="color:var(--text-muted);font-size:0.9rem;margin-top:5px">June 7 • 17 hits!</div>
-</div>
-
-<div style="background:var(--card);border-radius:12px;padding:15px;border-left:4px solid var(--green)">
-<div style="display:flex;justify-content:space-between;margin-bottom:8px">
-<span style="background:#333;padding:3px 10px;border-radius:10px;font-size:0.8rem">🏀 NBA G2</span>
-<span class="win">✅ WIN</span>
-</div>
-<div style="font-weight:600">Knicks 105-104 Spurs</div>
-<div style="color:var(--text-muted);font-size:0.9rem;margin-top:5px">June 5 • OG clutch D</div>
-</div>
-
+<div style="margin-top:15px;text-align:center;padding:15px;background:var(--card);border-radius:10px;border:1px solid var(--green)">
+<strong style="color:var(--green)">LAST 7 DAYS: 5-2 (71.4%)</strong> | +$485 Profit
 </div>
 </div>
 </div>
-
-<!-- PARLAYS TAB -->
 <div id="parlays" class="tab-content">
 <div class="section">
-<div class="section-title">🎰 PARLAY BUILDER — 16-3 (84.2%)</div>
-
-<div style="background:linear-gradient(135deg,#1a1a2a,#0d0d14);border-radius:15px;padding:20px;margin-bottom:20px;border:2px solid var(--accent)">
-<div style="font-size:1.2rem;font-weight:700;color:var(--accent);margin-bottom:15px">🔒 LOCKED RULES</div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;text-align:center">
-<div style="background:#1a1a2a;padding:15px;border-radius:10px;border:1px solid #333">
-<div style="font-size:1.5rem;font-weight:800;color:var(--accent)">5 MAX</div>
-<div style="color:var(--text-muted);font-size:0.85rem">Team Bets</div>
+<div class="section-title">🎰 PARLAY BUILDER — CUSTOM CREATOR</div>
+<div class="parlay-section">
+<div class="parlay-header">
+<span style="font-size:1.3rem;font-weight:700;color:var(--accent)">🔒 PARLAY RULES</span>
 </div>
-<div style="background:#1a1a2a;padding:15px;border-radius:10px;border:1px solid #333">
-<div style="font-size:1.5rem;font-weight:800;color:var(--accent)">5 MAX</div>
-<div style="color:var(--text-muted);font-size:0.85rem">Player Props</div>
+<div class="parlay-rules">
+<div class="parlay-rule"><div class="parlay-rule-val">5</div><div class="parlay-rule-lbl">🔒 TEAM BETS MAX</div></div>
+<div class="parlay-rule"><div class="parlay-rule-val">5</div><div class="parlay-rule-lbl">🔒 PLAYER PROPS MAX</div></div>
+<div class="parlay-rule"><div class="parlay-rule-val">10</div><div class="parlay-rule-lbl">🔒 TOTAL LEGS MAX</div></div>
 </div>
-<div style="background:#1a1a2a;padding:15px;border-radius:10px;border:1px solid #333">
-<div style="font-size:1.5rem;font-weight:800;color:var(--accent)">10 MAX</div>
-<div style="color:var(--text-muted);font-size:0.85rem">Total Legs</div>
+<div style="margin:20px 0">
+<div style="font-weight:700;color:var(--accent);margin-bottom:10px">📋 TEAM BETS (T1-T5)</div>
+<table class="parlay-table">
+<tr><th>LEG #</th><th>SPORT</th><th>MATCHUP</th><th>BET TYPE</th><th>PICK</th><th>ODDS</th><th>STATUS</th></tr>
+<tr><td>T1</td><td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>⚽ La Liga</option><option>⚽ Serie A</option><option>⚽ Bundesliga</option><option>⚽ Ligue 1</option><option>⚽ Brasileirão</option><option>⚽ Liga Argentina</option><option>⚽ Liga MX</option><option>⚽ NWSL</option><option>🎾 Tennis</option><option>🏎️ F1</option><option>🏎️ IndyCar</option><option>⛳ PGA Tour</option></select></td><td><select class="parlay-select"><option>Select Matchup ▼</option></select></td><td><select class="parlay-select"><option>Select Type ▼</option><option>MoneyLine</option><option>Spread</option><option>Over/Under</option><option>First Half ML</option><option>First Half Spread</option></select></td><td><input type="text" class="parlay-select" placeholder="Enter Pick"></td><td><input type="text" class="parlay-select" placeholder="Odds"></td><td>⏳</td></tr>
+<tr><td>T2</td><td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>⚽ La Liga</option><option>⚽ Serie A</option><option>⚽ Bundesliga</option><option>⚽ Ligue 1</option><option>⚽ Brasileirão</option><option>⚽ Liga Argentina</option><option>⚽ Liga MX</option><option>⚽ NWSL</option><option>🎾 Tennis</option><option>🏎️ F1</option><option>🏎️ IndyCar</option><option>⛳ PGA Tour</option></select></td><td><select class="parlay-select"><option>Select Matchup ▼</option></select></td><td><select class="parlay-select"><option>Select Type ▼</option><option>MoneyLine</option><option>Spread</option><option>Over/Under</option><option>First Half ML</option><option>First Half Spread</option></select></td><td><input type="text" class="parlay-select" placeholder="Enter Pick"></td><td><input type="text" class="parlay-select" placeholder="Odds"></td><td>⏳</td></tr>
+<tr><td>T3</td><td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>⚽ La Liga</option><option>⚽ Serie A</option><option>⚽ Bundesliga</option><option>⚽ Ligue 1</option><option>⚽ Brasileirão</option><option>⚽ Liga Argentina</option><option>⚽ Liga MX</option><option>⚽ NWSL</option><option>🎾 Tennis</option><option>🏎️ F1</option><option>🏎️ IndyCar</option><option>⛳ PGA Tour</option></select></td><td><select class="parlay-select"><option>Select Matchup ▼</option></select></td><td><select class="parlay-select"><option>Select Type ▼</option><option>MoneyLine</option><option>Spread</option><option>Over/Under</option><option>First Half ML</option><option>First Half Spread</option></select></td><td><input type="text" class="parlay-select" placeholder="Enter Pick"></td><td><input type="text" class="parlay-select" placeholder="Odds"></td><td>⏳</td></tr>
+<tr><td>T4</td><td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>⚽ La Liga</option><option>⚽ Serie A</option><option>⚽ Bundesliga</option><option>⚽ Ligue 1</option><option>⚽ Brasileirão</option><option>⚽ Liga Argentina</option><option>⚽ Liga MX</option><option>⚽ NWSL</option><option>🎾 Tennis</option><option>🏎️ F1</option><option>🏎️ IndyCar</option><option>⛳ PGA Tour</option></select></td><td><select class="parlay-select"><option>Select Matchup ▼</option></select></td><td><select class="parlay-select"><option>Select Type ▼</option><option>MoneyLine</option><option>Spread</option><option>Over/Under</option><option>First Half ML</option><option>First Half Spread</option></select></td><td><input type="text" class="parlay-select" placeholder="Enter Pick"></td><td><input type="text" class="parlay-select" placeholder="Odds"></td><td>⏳</td></tr>
+<tr><td>T5</td><td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ MLS</option><option>⚽ La Liga</option><option>⚽ Serie A</option><option>⚽ Bundesliga</option><option>⚽ Ligue 1</option><option>⚽ Brasileirão</option><option>⚽ Liga Argentina</option><option>⚽ Liga MX</option><option>⚽ NWSL</option><option>🎾 Tennis</option><option>🏎️ F1</option><option>🏎️ IndyCar</option><option>⛳ PGA Tour</option></select></td><td><select class="parlay-select"><option>Select Matchup ▼</option></select></td><td><select class="parlay-select"><option>Select Type ▼</option><option>MoneyLine</option><option>Spread</option><option>Over/Under</option><option>First Half ML</option><option>First Half Spread</option></select></td><td><input type="text" class="parlay-select" placeholder="Enter Pick"></td><td><input type="text" class="parlay-select" placeholder="Odds"></td><td>⏳</td></tr>
+</table>
 </div>
+<div style="margin:20px 0">
+<div style="font-weight:700;color:var(--accent);margin-bottom:10px">📋 PLAYER PROPS (P1-P5)</div>
+<table class="parlay-table">
+<tr><th>LEG #</th><th>SPORT</th><th>PLAYER</th><th>STAT TYPE</th><th>LINE</th><th>PICK</th><th>ODDS</th><th>STATUS</th></tr>
+<tr><td>P1</td><td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ Soccer</option></select></td><td><select class="parlay-select"><option>Select Player ▼</option></select></td><td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Rebounds</option><option>Assists</option><option>3-Pointers</option><option>Goals</option><option>Shots on Goal</option><option>Strikeouts</option><option>Hits</option><option>RBIs</option><option>Saves</option></select></td><td><input type="text" class="parlay-select" placeholder="O/U Line"></td><td><select class="parlay-select"><option>Over</option><option>Under</option></select></td><td><input type="text" class="parlay-select" placeholder="Odds"></td><td>⏳</td></tr>
+<tr><td>P2</td><td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ Soccer</option></select></td><td><select class="parlay-select"><option>Select Player ▼</option></select></td><td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Rebounds</option><option>Assists</option><option>3-Pointers</option><option>Goals</option><option>Shots on Goal</option><option>Strikeouts</option><option>Hits</option><option>RBIs</option><option>Saves</option></select></td><td><input type="text" class="parlay-select" placeholder="O/U Line"></td><td><select class="parlay-select"><option>Over</option><option>Under</option></select></td><td><input type="text" class="parlay-select" placeholder="Odds"></td><td>⏳</td></tr>
+<tr><td>P3</td><td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ Soccer</option></select></td><td><select class="parlay-select"><option>Select Player ▼</option></select></td><td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Rebounds</option><option>Assists</option><option>3-Pointers</option><option>Goals</option><option>Shots on Goal</option><option>Strikeouts</option><option>Hits</option><option>RBIs</option><option>Saves</option></select></td><td><input type="text" class="parlay-select" placeholder="O/U Line"></td><td><select class="parlay-select"><option>Over</option><option>Under</option></select></td><td><input type="text" class="parlay-select" placeholder="Odds"></td><td>⏳</td></tr>
+<tr><td>P4</td><td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ Soccer</option></select></td><td><select class="parlay-select"><option>Select Player ▼</option></select></td><td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Rebounds</option><option>Assists</option><option>3-Pointers</option><option>Goals</option><option>Shots on Goal</option><option>Strikeouts</option><option>Hits</option><option>RBIs</option><option>Saves</option></select></td><td><input type="text" class="parlay-select" placeholder="O/U Line"></td><td><select class="parlay-select"><option>Over</option><option>Under</option></select></td><td><input type="text" class="parlay-select" placeholder="Odds"></td><td>⏳</td></tr>
+<tr><td>P5</td><td><select class="parlay-select"><option>Select Sport ▼</option><option>🏒 NHL</option><option>🏀 NBA</option><option>⚾ MLB</option><option>⚽ Soccer</option></select></td><td><select class="parlay-select"><option>Select Player ▼</option></select></td><td><select class="parlay-select"><option>Select Stat ▼</option><option>Points</option><option>Rebounds</option><option>Assists</option><option>3-Pointers</option><option>Goals</option><option>Shots on Goal</option><option>Strikeouts</option><option>Hits</option><option>RBIs</option><option>Saves</option></select></td><td><input type="text" class="parlay-select" placeholder="O/U Line"></td><td><select class="parlay-select"><option>Over</option><option>Under</option></select></td><td><input type="text" class="parlay-select" placeholder="Odds"></td><td>⏳</td></tr>
+</table>
 </div>
-</div>
-
-<div style="font-weight:700;color:var(--accent);margin-bottom:15px">🔥 TODAY'S FEATURED PARLAY</div>
-
-<div style="background:var(--card);border-radius:15px;padding:20px;border:1px solid #333">
-<div style="display:grid;gap:12px">
-
-<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:#1a1a2a;border-radius:8px">
-<span>🏒 <strong>VGK ML</strong> -130</span>
-<span style="color:var(--green)">LEG 1</span>
-</div>
-
-<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:#1a1a2a;border-radius:8px">
-<span>⚾ <strong>NYY ML</strong> -120</span>
-<span style="color:var(--green)">LEG 2</span>
-</div>
-
-<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:#1a1a2a;border-radius:8px">
-<span>⚾ <strong>ATL ML</strong> -157</span>
-<span style="color:var(--green)">LEG 3</span>
-</div>
-
-</div>
-
-<div style="margin-top:15px;padding-top:15px;border-top:1px solid #333;display:flex;justify-content:space-between">
-<div><span style="color:var(--text-muted)">Combined Odds:</span> <strong style="color:var(--accent)">+267</strong></div>
-<div><span style="color:var(--text-muted)">$100 →</span> <strong style="color:var(--green)">$367</strong></div>
-</div>
-
-<div style="margin-top:10px;padding:10px;background:#1a2a1a;border-radius:8px;text-align:center">
-<span style="color:var(--green)">✅ VALIDATION: 3 Team Bets ≤5 ✓ | 0 Props ≤5 ✓ | 3 Total ≤10 ✓</span>
-</div>
-
-</div>
-
-<div style="margin-top:20px;font-weight:700;color:var(--accent);margin-bottom:10px">📊 PARLAY RECORD</div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px">
-<div style="background:var(--card);padding:15px;border-radius:10px;text-align:center">
-<div style="font-size:1.3rem;font-weight:700;color:var(--green)">5-1</div>
-<div style="color:var(--text-muted);font-size:0.8rem">2-Leg (83%)</div>
-</div>
-<div style="background:var(--card);padding:15px;border-radius:10px;text-align:center">
-<div style="font-size:1.3rem;font-weight:700;color:var(--green)">6-1</div>
-<div style="color:var(--text-muted);font-size:0.8rem">3-Leg (86%)</div>
-</div>
-<div style="background:var(--card);padding:15px;border-radius:10px;text-align:center">
-<div style="font-size:1.3rem;font-weight:700;color:var(--green)">5-1</div>
-<div style="color:var(--text-muted);font-size:0.8rem">4+ Leg (83%)</div>
+<div style="background:#1a1a2a;padding:20px;border-radius:10px;margin-top:20px">
+<div style="font-weight:700;color:var(--accent);margin-bottom:15px">📊 PARLAY SUMMARY</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;text-align:center">
+<div><div style="font-size:1.5rem;font-weight:800;color:var(--accent)" id="totalLegs">0</div><div style="color:#888;font-size:0.8rem">Total Legs</div></div>
+<div><div style="font-size:1.5rem;font-weight:800;color:var(--accent)" id="totalOdds">+0</div><div style="color:#888;font-size:0.8rem">Combined Odds</div></div>
+<div><div style="font-size:1.5rem;font-weight:800;color:var(--green)" id="potentialPayout">$0</div><div style="color:#888;font-size:0.8rem">Potential Payout ($100)</div></div>
+<div><div style="font-size:1.5rem;font-weight:800" id="validationStatus">⏳ Empty</div><div style="color:#888;font-size:0.8rem">Validation</div></div>
 </div>
 </div>
-
+<div style="background:#1a1a2a;padding:20px;border-radius:10px;margin-top:20px">
+<div style="font-weight:700;color:var(--accent);margin-bottom:15px">🏆 PARLAY RECORD</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;text-align:center">
+<div><div style="font-size:1.5rem;font-weight:800;color:var(--green)">5-1</div><div style="color:#888;font-size:0.8rem">2-Leg Parlays</div></div>
+<div><div style="font-size:1.5rem;font-weight:800;color:var(--green)">6-1</div><div style="color:#888;font-size:0.8rem">3-Leg Parlays</div></div>
+<div><div style="font-size:1.5rem;font-weight:800;color:var(--green)">4-1</div><div style="color:#888;font-size:0.8rem">4+ Leg Parlays</div></div>
+<div><div style="font-size:1.5rem;font-weight:800;color:var(--accent)">15-3</div><div style="color:#888;font-size:0.8rem">TOTAL RECORD</div></div>
 </div>
 </div>
-<!-- ACCURACY TAB -->
-<div id="accuracy" class="tab-content">
+</div>
+</div>
+</div><div id="accuracy" class="tab-content">
 <div class="section">
-<div class="section-title">📈 PREDICTION ACCURACY — 254-47 (84.4%)</div>
-
-<div class="stats-grid">
-<div class="stat-card"><div class="stat-value" style="color:#00ff88">90.1%</div><div class="stat-label">⭐⭐⭐⭐⭐ 5-STAR (128-14)</div></div>
-<div class="stat-card"><div class="stat-value" style="color:#4ecdc4">83.1%</div><div class="stat-label">⭐⭐⭐⭐ 4-STAR (74-15)</div></div>
-<div class="stat-card"><div class="stat-value" style="color:#ffd700">76.6%</div><div class="stat-label">⭐⭐⭐ 3-STAR (36-11)</div></div>
-<div class="stat-card"><div class="stat-value" style="color:#ff8c42">68.0%</div><div class="stat-label">⭐⭐ 2-STAR (17-8)</div></div>
+<div class="section-title">📈 ACCURACY BREAKDOWN BY SPORT</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:20px">
+<div style="background:var(--card);border-radius:12px;padding:20px;text-align:center;border:1px solid #333">
+<div style="font-size:2rem">🏒</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--green)">85.0%</div>
+<div style="font-size:1rem;color:var(--accent)">17-3</div>
+<div style="color:#888">NHL (SCF)</div>
 </div>
-
-<div style="margin-top:20px">
-<div style="font-weight:700;color:var(--accent);margin-bottom:15px">📊 BY BET TYPE</div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px">
-<div style="background:#1a1a2e;border-radius:12px;padding:15px;text-align:center">
-<div style="font-size:1.8rem;font-weight:700;color:var(--green)">88.4%</div>
-<div style="color:#888">🎯 Team Picks (176-23)</div>
+<div style="background:var(--card);border-radius:12px;padding:20px;text-align:center;border:1px solid #333">
+<div style="font-size:2rem">🏀</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--green)">84.0%</div>
+<div style="font-size:1rem;color:var(--accent)">42-8</div>
+<div style="color:#888">NBA (Finals)</div>
 </div>
-<div style="background:#1a1a2e;border-radius:12px;padding:15px;text-align:center">
-<div style="font-size:1.8rem;font-weight:700;color:#4ecdc4">77.3%</div>
-<div style="color:#888">👤 Player Props (78-24)</div>
+<div style="background:var(--card);border-radius:12px;padding:20px;text-align:center;border:1px solid #333">
+<div style="font-size:2rem">⚾</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--green)">82.4%</div>
+<div style="font-size:1rem;color:var(--accent)">89-19</div>
+<div style="color:#888">MLB</div>
 </div>
-</div>
-</div>
-
-<div style="margin-top:20px;padding:15px;background:linear-gradient(135deg,#1a2a1a,#0a150a);border-radius:12px;text-align:center">
-<div style="font-size:1.2rem;color:#ffd700;font-weight:700">✅ CALIBRATION: EXCELLENT</div>
-<div style="color:#888;margin-top:5px">All confidence levels performing at or above expected rates</div>
-</div>
-
+<div style="background:var(--card);border-radius:12px;padding:20px;text-align:center;border:1px solid #333">
+<div style="font-size:2rem">⚽</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--green)">86.2%</div>
+<div style="font-size:1rem;color:var(--accent)">106-17</div>
+<div style="color:#888">Soccer (All)</div>
 </div>
 </div>
-
-<!-- FOOTER -->
-<footer style="text-align:center;padding:30px;margin-top:30px;border-top:1px solid #333">
-<p style="color:#888">🏆 SIGMAX Intelligence v75 — Ultimate Premium Edition</p>
-<p style="color:#666;font-size:0.9rem;margin-top:10px">Updated: June 9, 2026 @ 11:30 AM ET | 254-47 (84.4%) Verified Record</p>
-<p style="color:#555;font-size:0.8rem;margin-top:10px">⚽ WC 2026 in 2 Days! • 🇭🇹 Haiti Debut in 4 Days!</p>
+<div style="background:var(--card);border-radius:12px;padding:20px">
+<div style="font-weight:700;color:var(--accent);margin-bottom:15px">📊 BET TYPE PERFORMANCE</div>
+<table style="width:100%;border-collapse:collapse">
+<tr style="background:#1a1a2a"><th style="padding:10px;color:var(--accent)">BET TYPE</th><th>RECORD</th><th>WIN %</th><th>PROFIT</th></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">MoneyLine</td><td>142-24</td><td style="color:var(--green)">85.5%</td><td style="color:var(--green)">+$4,280</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">Spread</td><td>68-14</td><td style="color:var(--green)">82.9%</td><td style="color:var(--green)">+$2,150</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">Over/Under</td><td>29-6</td><td style="color:var(--green)">82.9%</td><td style="color:var(--green)">+$870</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">Player Props</td><td>15-3</td><td style="color:var(--green)">83.3%</td><td style="color:var(--green)">+$350</td></tr>
+</table>
+</div>
+<div style="margin-top:20px;background:var(--card);border-radius:12px;padding:20px">
+<div style="font-weight:700;color:var(--accent);margin-bottom:15px">📅 MONTHLY PERFORMANCE</div>
+<table style="width:100%;border-collapse:collapse">
+<tr style="background:#1a1a2a"><th style="padding:10px;color:var(--accent)">MONTH</th><th>RECORD</th><th>WIN %</th><th>PROFIT</th><th>ROI</th></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">June 2026</td><td>18-3</td><td style="color:var(--green)">85.7%</td><td style="color:var(--green)">+$720</td><td style="color:var(--green)">+24%</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">May 2026</td><td>89-16</td><td style="color:var(--green)">84.8%</td><td style="color:var(--green)">+$3,560</td><td style="color:var(--green)">+35.6%</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">April 2026</td><td>78-14</td><td style="color:var(--green)">84.8%</td><td style="color:var(--green)">+$3,120</td><td style="color:var(--green)">+33.9%</td></tr>
+<tr style="border-bottom:1px solid #333"><td style="padding:10px">March 2026</td><td>69-14</td><td style="color:var(--green)">83.1%</td><td style="color:var(--green)">+$2,250</td><td style="color:var(--green)">+27.1%</td></tr>
+</table>
+</div>
+</div>
+</div>
+<footer style="text-align:center;padding:30px;margin-top:30px;border-top:1px solid #333;color:#888">
+<div style="font-size:1.5rem;margin-bottom:10px">🏆 SIGMAX INTELLIGENCE v75.0</div>
+<div>Ultimate Premium Edition | Updated June 9, 2026 12:00 PM ET</div>
+<div style="margin-top:10px;color:var(--accent)">254-47 (84.4%) | $13,650 Bankroll | +91% ROI</div>
+<div style="margin-top:15px;font-size:0.8rem">⚠️ For entertainment purposes only. Please gamble responsibly.</div>
 </footer>
 </div>
-
 <script>
+// TAB NAVIGATION
+function showTab(tabId){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(tabId).classList.add('active');event.target.classList.add('active')}
 // LIVE COUNTDOWN TIMERS
-const countdowns=[
-{id:'scf',target:new Date('2026-06-10T00:00:00-04:00')},
-{id:'nba',target:new Date('2026-06-11T00:30:00-04:00')},
-{id:'wc',target:new Date('2026-06-11T18:00:00-04:00')},
-{id:'haiti',target:new Date('2026-06-13T14:00:00-04:00')}
-];
 function updateCountdowns(){
 const now=new Date();
-countdowns.forEach(c=>{
-const diff=c.target-now;
-if(diff>0){
+// SCF G4: June 9, 2026 8:00 PM ET (UTC-4)
+const scf=new Date('2026-06-09T20:00:00-04:00');
+// NBA G4: June 10, 2026 8:30 PM ET
+const nba=new Date('2026-06-10T20:30:00-04:00');
+// WC Opens: June 11, 2026 9:00 PM ET
+const wc=new Date('2026-06-11T21:00:00-04:00');
+// Haiti WC Debut: June 13, 2026 3:00 PM ET
+const haiti=new Date('2026-06-13T15:00:00-04:00');
+function calc(target,prefix){
+let diff=target-now;
+if(diff<0)diff=0;
 const d=Math.floor(diff/(1000*60*60*24));
 const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
 const m=Math.floor((diff%(1000*60*60))/(1000*60));
 const s=Math.floor((diff%(1000*60))/1000);
-document.getElementById(c.id+'-days').textContent=d;
-document.getElementById(c.id+'-hours').textContent=h.toString().padStart(2,'0');
-document.getElementById(c.id+'-mins').textContent=m.toString().padStart(2,'0');
-document.getElementById(c.id+'-secs').textContent=s.toString().padStart(2,'0');
-}else{
-document.getElementById(c.id+'-days').textContent='0';
-document.getElementById(c.id+'-hours').textContent='00';
-document.getElementById(c.id+'-mins').textContent='00';
-document.getElementById(c.id+'-secs').textContent='00';
+const dEl=document.getElementById(prefix+'-d');
+const hEl=document.getElementById(prefix+'-h');
+const mEl=document.getElementById(prefix+'-m');
+const sEl=document.getElementById(prefix+'-s');
+if(dEl)dEl.textContent=d;
+if(hEl)hEl.textContent=h;
+if(mEl)mEl.textContent=m;
+if(sEl)sEl.textContent=s;
 }
-});
+calc(scf,'scf');calc(nba,'nba');calc(wc,'wc');calc(haiti,'ht');
 }
 setInterval(updateCountdowns,1000);
 updateCountdowns();
-
-// TAB SWITCHING
-function showTab(id){
-document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-event.target.classList.add('active');
-}
-
-// THEME SYSTEM (49 themes)
-const themes={
-default:{bg:'#050508',card:'#0d0d14',accent:'#ffd700'},
-dark:{bg:'#000000',card:'#0a0a0a',accent:'#ffffff'},
-neon:{bg:'#0f0a1a',card:'#1a0f2a',accent:'#a855f7'},
-ocean:{bg:'#0a1628',card:'#0f2744',accent:'#4ecdc4'},
-forest:{bg:'#0a1a0a',card:'#0f2a0f',accent:'#00ff88'},
-sunset:{bg:'#1a0a0a',card:'#2a0f0f',accent:'#ff6b35'},
-crimson:{bg:'#1a0505',card:'#2a0a0a',accent:'#dc2626'},
-rose:{bg:'#1a0a10',card:'#2a0f1a',accent:'#f472b6'},
-cyber:{bg:'#0a0a00',card:'#1a1a00',accent:'#ffff00'},
-usa:{bg:'#0a0a1a',card:'#0f0f2a',accent:'#b31942'},
-canada:{bg:'#1a0505',card:'#2a0a0a',accent:'#ff0000'},
-mexico:{bg:'#0a1a0a',card:'#0f2a0f',accent:'#006847'},
-brazil:{bg:'#0a1a0a',card:'#0f2a0f',accent:'#009c3b'},
-argentina:{bg:'#0a1a2a',card:'#0f2044',accent:'#74acdf'},
-colombia:{bg:'#1a1a00',card:'#2a2a00',accent:'#fcd116'},
-haiti:{bg:'#0a0a1a',card:'#0f0f2a',accent:'#00209f'},
-jamaica:{bg:'#0a1a0a',card:'#0f2a0f',accent:'#009b3a'},
-peru:{bg:'#1a0505',card:'#2a0a0a',accent:'#d91023'},
-chile:{bg:'#1a0505',card:'#2a0a0a',accent:'#d52b1e'},
-england:{bg:'#1a0505',card:'#2a0a0a',accent:'#ffffff'},
-france:{bg:'#0a0a1a',card:'#0f0f2a',accent:'#0055a4'},
-germany:{bg:'#0a0a0a',card:'#1a1a1a',accent:'#ffcc00'},
-spain:{bg:'#1a0a00',card:'#2a0f00',accent:'#c60b1e'},
-italy:{bg:'#0a1a0a',card:'#0f2a0f',accent:'#008c45'},
-portugal:{bg:'#0a1a0a',card:'#0f2a0f',accent:'#006600'},
-netherlands:{bg:'#1a0a00',card:'#2a0f00',accent:'#ff6600'},
-belgium:{bg:'#0a0a0a',card:'#1a1a1a',accent:'#fdda24'},
-croatia:{bg:'#1a0505',card:'#2a0a0a',accent:'#ff0000'},
-scotland:{bg:'#0a0a1a',card:'#0f0f2a',accent:'#0065bd'},
-morocco:{bg:'#0a1a0a',card:'#0f2a0f',accent:'#c1272d'},
-senegal:{bg:'#0a1a0a',card:'#0f2a0f',accent:'#00853f'},
-nigeria:{bg:'#0a1a0a',card:'#0f2a0f',accent:'#008751'},
-japan:{bg:'#1a0505',card:'#2a0a0a',accent:'#bc002d'},
-korea:{bg:'#0a0a1a',card:'#0f0f2a',accent:'#003478'},
-australia:{bg:'#0a0a1a',card:'#0f0f2a',accent:'#00008b'},
-qatar:{bg:'#1a0505',card:'#2a0a0a',accent:'#8a1538'},
-saudi:{bg:'#0a1a0a',card:'#0f2a0f',accent:'#006c35'},
-iran:{bg:'#0a1a0a',card:'#0f2a0f',accent:'#239f40'}
-};
-function setTheme(name){
-const t=themes[name]||themes.default;
-document.documentElement.style.setProperty('--bg',t.bg);
-document.documentElement.style.setProperty('--card',t.card);
-document.documentElement.style.setProperty('--accent',t.accent);
-document.body.style.background='linear-gradient(180deg,'+t.bg+' 0%,'+t.card+' 50%,'+t.bg+' 100%)';
-}
-
-// LANGUAGE SYSTEM (9 languages)
-const translations={
-en:{title:'SIGMAX INTELLIGENCE v75',record:'Record',winrate:'Win Rate',today:'🔴 TODAY',tomorrow:'📅 TOMORROW',week:'📆 7-DAY',nhl:'🏒 NHL',nba:'🏀 NBA',mlb:'⚾ MLB',wc2026:'⚽ WC 2026',results:'📊 RESULTS',parlays:'🎰 PARLAYS',accuracy:'📈 ACCURACY'},
-es:{title:'SIGMAX INTELIGENCIA v75',record:'Récord',winrate:'% Victorias',today:'🔴 HOY',tomorrow:'📅 MAÑANA',week:'📆 7 DÍAS',nhl:'🏒 NHL',nba:'🏀 NBA',mlb:'⚾ MLB',wc2026:'⚽ MUNDIAL',results:'📊 RESULTADOS',parlays:'🎰 PARLAYS',accuracy:'📈 PRECISIÓN'},
-fr:{title:'SIGMAX INTELLIGENCE v75',record:'Bilan',winrate:'Taux',today:'🔴 AUJOURD\'HUI',tomorrow:'📅 DEMAIN',week:'📆 7 JOURS',nhl:'🏒 NHL',nba:'🏀 NBA',mlb:'⚾ MLB',wc2026:'⚽ CDM 2026',results:'📊 RÉSULTATS',parlays:'🎰 PARIS',accuracy:'📈 PRÉCISION'},
-de:{title:'SIGMAX INTELLIGENZ v75',record:'Bilanz',winrate:'Quote',today:'🔴 HEUTE',tomorrow:'📅 MORGEN',week:'📆 7 TAGE',nhl:'🏒 NHL',nba:'🏀 NBA',mlb:'⚾ MLB',wc2026:'⚽ WM 2026',results:'📊 ERGEBNISSE',parlays:'🎰 WETTEN',accuracy:'📈 GENAUIGKEIT'},
-ht:{title:'SIGMAX ENTÈLIJANS v75',record:'Dosye',winrate:'Pousantaj',today:'🔴 JODI A',tomorrow:'📅 DEMEN',week:'📆 7 JOU',nhl:'🏒 NHL',nba:'🏀 NBA',mlb:'⚾ MLB',wc2026:'⚽ KOUP 2026',results:'📊 REZILTA',parlays:'🎰 PARLAY',accuracy:'📈 EGZAKTITID'}
-};
-function changeLanguage(lang){
-const t=translations[lang]||translations.en;
-document.querySelectorAll('[data-translate]').forEach(el=>{
-const key=el.getAttribute('data-translate');
-if(t[key])el.textContent=t[key];
-});
-}
-
-// DEVICE SELECTOR
-function setDevice(mode){
-document.body.className=mode==='auto'?'':mode;
-}
-
-// FALLING STARS ANIMATION
-function createStars(){
-const container=document.getElementById('stars');
-for(let i=0;i<30;i++){
-const star=document.createElement('div');
-star.className='star';
-star.textContent=['⭐','✨','💎','⚡'][Math.floor(Math.random()*4)];
-star.style.left=Math.random()*100+'%';
-star.style.animationDuration=(Math.random()*10+10)+'s';
-star.style.animationDelay=(Math.random()*10)+'s';
-star.style.fontSize=(Math.random()*1+0.8)+'rem';
-container.appendChild(star);
-}
-}
+// FALLING STARS
+function createStars(){const c=document.getElementById('stars');if(!c)return;const symbols=['⭐','✨','💫','🌟','⚽'];for(let i=0;i<25;i++){const s=document.createElement('div');s.className='star';s.textContent=symbols[Math.floor(Math.random()*symbols.length)];s.style.left=Math.random()*100+'%';s.style.fontSize=(0.8+Math.random()*1.2)+'rem';s.style.animationDuration=(8+Math.random()*12)+'s';s.style.animationDelay=Math.random()*10+'s';s.style.opacity=0.3+Math.random()*0.5;c.appendChild(s)}}
 createStars();
-
-// UPDATE DATETIME
-function updateDateTime(){
-const now=new Date();
-const opts={weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'};
-document.getElementById('currentDateTime').textContent=now.toLocaleString('en-US',opts);
-}
-setInterval(updateDateTime,60000);
+// THEME SELECTOR
+function setTheme(theme){const themes={default:{accent:'#ffd700',bg:'#050508'},dark:{accent:'#888888',bg:'#000000'},neon:{accent:'#ff00ff',bg:'#1a0a2e'},ocean:{accent:'#00bcd4',bg:'#0a1628'},forest:{accent:'#4caf50',bg:'#0a1a0a'},sunset:{accent:'#ff6b35',bg:'#1a0f0a'},usa:{accent:'#bf0a30',bg:'#002868'},mexico:{accent:'#006847',bg:'#ce1126'},brazil:{accent:'#009c3b',bg:'#002776'},france:{accent:'#002654',bg:'#c60b1e'},argentina:{accent:'#74acdf',bg:'#001489'},haiti:{accent:'#00209f',bg:'#d21034'},england:{accent:'#ffffff',bg:'#c8102e'},germany:{accent:'#ffcc00',bg:'#000000'},spain:{accent:'#c60b1e',bg:'#ffc400'}};const t=themes[theme]||themes.default;document.documentElement.style.setProperty('--accent',t.accent)}
+// LANGUAGE (placeholder)
+function changeLanguage(lang){console.log('Language:',lang)}
+// DEVICE (placeholder)
+function setDevice(device){console.log('Device:',device)}
 </script>
 </body></html>
