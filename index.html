@@ -1,241 +1,392 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>🏆 SIGMAX v75 - World Cup 2026</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>🏆 SIGMAX Intelligence v75 — Ultimate Premium Edition</title>
 <style>
-:root{--bg:#050508;--card:#0d0d14;--accent:#ffd700;--text:#e8e8e8;--green:#00ff88;--red:#ff4757}
+:root{--bg:#050508;--card:#0d0d14;--card-border:#1a1a2a;--accent:#ffd700;--accent2:#f4c430;--text:#e8e8e8;--text-muted:#888;--green:#00ff88;--red:#ff4757;--blue:#4ecdc4}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',sans-serif;background:linear-gradient(180deg,#0a0a12,#050510);color:var(--text);min-height:100vh}
-.container{max-width:1200px;margin:0 auto;padding:60px 20px 20px}
-.ticker{position:fixed;top:0;left:0;right:0;background:#0a0a0f;border-bottom:2px solid var(--accent);padding:10px;overflow:hidden;z-index:1000}
-.ticker-track{display:flex;animation:scroll 40s linear infinite;width:max-content}
-.ticker span{padding:0 25px;font-weight:600;font-size:0.9rem;white-space:nowrap}
-.ticker .win{color:var(--green)}.ticker .alert{color:#ff9f43}.ticker .up{color:var(--accent)}
-@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.header{background:linear-gradient(135deg,#1a1a2e,#0f3460);border-radius:20px;padding:25px;margin-bottom:20px;text-align:center;border:2px solid var(--accent);box-shadow:0 0 30px rgba(255,215,0,0.3)}
-.title{font-size:2.5rem;font-weight:800;background:linear-gradient(90deg,#ffd700,#ff6b35,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:20px 0}
-.stat{background:var(--card);border-radius:12px;padding:15px;text-align:center;border:1px solid #333}
-.stat-val{font-size:1.8rem;font-weight:800;color:var(--accent)}
-.stat-lbl{color:#888;font-size:0.8rem}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180deg,#0a0a12 0%,#0f0f1a 50%,#050510 100%);color:var(--text);min-height:100vh;overflow-x:hidden}
+.container{max-width:1400px;margin:0 auto;padding:70px 20px 20px}
+.header{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);border-radius:20px;padding:25px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;border:2px solid var(--accent);box-shadow:0 0 30px rgba(255,215,0,0.3)}
+.header-left{display:flex;align-items:center;gap:15px}
+.logo{font-size:3rem}
+.title{font-size:2rem;font-weight:800;background:linear-gradient(90deg,#ffd700,#ff6b35,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tagline{color:#888;font-size:0.9rem}
+.header-stats{display:flex;gap:25px;flex-wrap:wrap}
+.hs{text-align:center}.hs-val{font-size:1.5rem;font-weight:800;color:var(--accent)}.hs-val.green{color:var(--green)}.hs-lbl{color:#888;font-size:0.8rem}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin:20px 0}
+.stat-card{background:var(--card);border-radius:15px;padding:20px;text-align:center;border:1px solid #333;transition:all 0.3s}
+.stat-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 10px 30px rgba(255,215,0,0.2)}
+.stat-value{font-size:2rem;font-weight:800;color:var(--accent)}.stat-label{color:#888;font-size:0.85rem;margin-top:5px}
+.countdown-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin:20px 0}
+.countdown-box{background:var(--card);border-radius:15px;padding:20px;text-align:center;border:2px solid var(--accent)}
+.cb-icon{font-size:2rem;margin-bottom:10px}.cb-title{font-weight:700;color:var(--accent);font-size:1.1rem}.cb-subtitle{color:var(--text-muted);font-size:0.9rem;margin:5px 0}
+.cb-timer{display:flex;justify-content:center;gap:10px;margin-top:10px}
+.cb-unit{text-align:center}.cb-num{font-size:1.8rem;font-weight:800;color:var(--accent);background:#1a1a2a;padding:5px 10px;border-radius:8px;min-width:50px}.cb-lbl{color:var(--text-muted);font-size:0.7rem;margin-top:3px}
 .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0;padding:15px;background:var(--card);border-radius:15px}
-.tab{padding:10px 18px;background:#1a1a2a;border-radius:10px;cursor:pointer;font-weight:600;border:none;color:var(--text)}
-.tab:hover,.tab.active{background:var(--accent);color:#000}
+.tab{padding:10px 18px;background:#1a1a2a;border-radius:10px;cursor:pointer;font-weight:600;transition:all 0.3s;border:1px solid transparent;font-size:0.9rem}
+.tab:hover,.tab.active{background:var(--accent);color:#000;border-color:var(--accent)}
 .tab-content{display:none}.tab-content.active{display:block}
-.section{margin:20px 0}
-.section-title{font-size:1.2rem;font-weight:700;color:var(--accent);margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid var(--accent)}
-.game{background:var(--card);border-radius:12px;padding:15px;margin-bottom:10px;display:grid;grid-template-columns:80px 1fr auto;gap:15px;align-items:center;border:1px solid #333}
-.game:hover{border-color:var(--accent)}
-.game.win{border-left:4px solid var(--green)}
-.game.loss{border-left:4px solid var(--red)}
-.game.live{border-left:4px solid #ff0000;animation:pulse 2s infinite}
+.section{margin:20px 0}.section-title{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid var(--accent)}
+.game-card{background:var(--card);border-radius:12px;padding:15px 20px;margin-bottom:12px;display:grid;grid-template-columns:100px 1fr auto;gap:15px;align-items:center;border:1px solid #333;transition:all 0.3s}
+.game-card:hover{border-color:var(--accent);transform:translateX(5px)}
+.game-card.win{border-left:4px solid var(--green)}.game-card.loss{border-left:4px solid var(--red)}
+.game-card.live{border-left:4px solid #ff0000;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 10px rgba(255,0,0,0.3)}50%{box-shadow:0 0 20px rgba(255,0,0,0.6)}}
-.time{font-size:0.85rem;color:#888;text-align:center}
-.pick{text-align:right}
-.win-text{color:var(--green);font-weight:700}
-.loss-text{color:var(--red)}
-.teams-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:15px}
-.team-card{background:var(--card);border-radius:15px;padding:20px;text-align:center;border:2px solid transparent;cursor:pointer;transition:all 0.3s}
-.team-card:hover{border-color:var(--accent);transform:scale(1.03)}
-.team-card.haiti{border-color:var(--green);box-shadow:0 0 20px rgba(0,255,136,0.3)}
-.flag{font-size:3.5rem}
-.team-name{font-weight:700;margin-top:8px}
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:9999;justify-content:center;align-items:center}
-.modal.active{display:flex}
-.modal-content{background:var(--card);border-radius:20px;max-width:600px;width:90%;padding:30px;border:2px solid var(--accent);position:relative;max-height:80vh;overflow-y:auto}
-.modal-close{position:absolute;top:10px;right:15px;font-size:1.5rem;cursor:pointer;color:var(--accent)}
-.modal-flag{font-size:4rem;text-align:center}
-.modal-name{text-align:center;color:var(--accent);font-size:1.5rem;margin:10px 0}
-.modal-body{line-height:1.8}
-.wc-banner{background:linear-gradient(135deg,#006400,#32CD32);border-radius:15px;padding:20px;margin:20px 0;text-align:center;border:2px solid #FFD700}
-.wc-title{font-size:1.5rem;font-weight:800}
-select{background:var(--card);color:var(--text);border:1px solid #333;border-radius:8px;padding:8px 12px;margin:10px 5px}
-</style>
-</head>
-<body>
-<div class="ticker">
-<div class="ticker-track">
-<span class="alert">🏒 SCF G4: Carolina @ Vegas - 8PM ET TONIGHT 🔴</span>
-<span class="up">🏀 NBA Finals G4: Spurs @ Knicks - WED 8:30PM</span>
-<span class="up">🇭🇹 HAITI DEBUT: June 13 vs Scotland @ Boston!</span>
-<span class="alert">🔥 RECORD: 254-47 (84.4% WIN RATE)</span>
-<span class="up">⚽ WC OPENER: 🇲🇽 Mexico vs 🇿🇦 S. Africa - June 11</span>
-<span class="up">⚽ USA: 🇺🇸 vs 🇵🇾 Paraguay - June 12 SoFi</span>
-<span class="win">✅ SCF G3: Vegas 5-4 2OT - Theodore GWG!</span>
-<span class="alert">💰 BANKROLL: $12,990 (+85.6% ROI)</span>
-<span class="alert">🏒 SCF G4: Carolina @ Vegas - 8PM ET TONIGHT 🔴</span>
-<span class="up">🏀 NBA Finals G4: Spurs @ Knicks - WED 8:30PM</span>
-<span class="up">🇭🇹 HAITI DEBUT: June 13 vs Scotland @ Boston!</span>
-<span class="alert">🔥 RECORD: 254-47 (84.4% WIN RATE)</span>
-</div>
-</div>
+.game-time{font-size:0.85rem;color:var(--text-muted);text-align:center}.game-matchup{font-weight:600}.game-pick{text-align:right}
+.confidence{color:gold;font-size:0.9rem}.star-icon.empty{opacity:0.3}
+.win{color:var(--green);font-weight:700}.loss{color:var(--red)}.pending{color:var(--text-muted)}
+.ticker-wrapper{position:fixed;top:0;left:0;right:0;z-index:1000;background:linear-gradient(90deg,#0a0a0f,#1a1a2a,#0a0a0f);border-bottom:2px solid var(--accent);padding:12px 0;overflow:hidden}
+.ticker-track{display:flex;animation:scroll-left 45s linear infinite;width:max-content}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{display:inline-flex;align-items:center;padding:0 30px;white-space:nowrap;font-weight:600;font-size:0.9rem;gap:8px;border-right:1px solid #333}
+.ticker-item.win{color:var(--green)}.ticker-item.loss{color:var(--red)}.ticker-item.alert{color:#ff9f43}.ticker-item.upcoming{color:var(--accent)}
+@keyframes scroll-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.controls{position:fixed;top:55px;left:20px;right:20px;z-index:999;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:8px 15px;background:rgba(13,13,20,0.95);border-radius:10px;border:1px solid #333}
+.control-group{display:flex;align-items:center;gap:8px}.control-label{color:var(--text-muted);font-size:0.8rem}
+select{background:var(--card);color:var(--text);border:1px solid #333;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:0.85rem}
+select:hover{border-color:var(--accent)}
+.team-card{background:var(--card);border-radius:15px;padding:20px;text-align:center;border:2px solid transparent;transition:all 0.3s;position:relative;overflow:hidden;cursor:pointer}
+.team-card:hover{border-color:var(--accent);transform:scale(1.02);box-shadow:0 10px 30px rgba(255,215,0,0.2)}
+.team-card .flag{font-size:4rem;margin-bottom:10px}.team-card .team-name{font-size:1.2rem;font-weight:700;color:var(--text)}.team-card .team-info{font-size:0.8rem;color:var(--text-muted);margin-top:5px}
+.teams-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin:20px 0}
+.team-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:9999;overflow-y:auto;padding:20px}
+.team-modal.active{display:flex;justify-content:center;align-items:flex-start}
+.team-modal-content{background:var(--card);border-radius:20px;max-width:700px;width:95%;margin:30px auto;padding:30px;position:relative;border:2px solid var(--accent);box-shadow:0 0 50px rgba(255,215,0,0.3)}
+.team-modal-close{position:absolute;top:15px;right:20px;font-size:2rem;color:var(--accent);cursor:pointer;transition:transform 0.2s}
+.team-modal-close:hover{transform:rotate(90deg)}
+.team-modal-header{text-align:center;margin-bottom:25px;padding-bottom:20px;border-bottom:2px solid var(--accent)}
+.team-modal-flag{font-size:5rem;display:block;margin-bottom:10px}
+.team-modal-name{font-size:2rem;font-weight:800;background:linear-gradient(90deg,var(--accent),#ff6b35);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.team-modal-body{font-size:1rem;line-height:1.8;color:var(--text)}
+</style></head><body><div class="ticker-wrapper"><div class="ticker-track">
+<span class="ticker-item alert">🏒 SCF G4: Carolina @ Vegas - 8PM ET TONIGHT 🔴</span>
+<span class="ticker-item upcoming">🏀 NBA Finals G4: Spurs @ Knicks - WED 8:30PM</span>
+<span class="ticker-item upcoming">🇭🇹 HAITI DEBUT: June 13 vs Scotland 🏴 @ Boston!</span>
+<span class="ticker-item alert">🔥 RECORD: 254-47 (84.4% WIN RATE)</span>
+<span class="ticker-item upcoming">⚽ WC OPENER: 🇲🇽 Mexico vs 🇿🇦 S. Africa - June 11 Azteca</span>
+<span class="ticker-item upcoming">⚽ USA OPENER: 🇺🇸 USA vs 🇵🇾 Paraguay - June 12 SoFi</span>
+<span class="ticker-item win">✅ NBA G3: Spurs 115-111 Knicks - Wemby 32pts!</span>
+<span class="ticker-item win">✅ French Open: Zverev wins 1st Major!</span>
+<span class="ticker-item alert">🏆 5-STAR PICKS: 129-14 (90.2%)</span>
+<span class="ticker-item alert">💰 BANKROLL: $12,990 (+85.6% ROI)</span>
+<span class="ticker-item alert">🏒 SCF G4: Carolina @ Vegas - 8PM ET TONIGHT 🔴</span>
+<span class="ticker-item upcoming">🏀 NBA Finals G4: Spurs @ Knicks - WED 8:30PM</span>
+</div></div>
 
 <div class="container">
 <div class="header">
-<div style="font-size:3rem">🏆</div>
-<h1 class="title">SIGMAX INTELLIGENCE</h1>
-<div style="color:#888">Ultimate Premium Dashboard v75.5 | World Cup 2026 Edition</div>
-<div class="stats">
-<div class="stat"><div class="stat-val">254-47</div><div class="stat-lbl">Season Record</div></div>
-<div class="stat"><div class="stat-val">84.4%</div><div class="stat-lbl">Win Rate</div></div>
-<div class="stat"><div class="stat-val">$12,990</div><div class="stat-lbl">Bankroll</div></div>
-<div class="stat"><div class="stat-val">+85.6%</div><div class="stat-lbl">ROI</div></div>
+<div class="logo">🏆</div>
+<h1 class="title luxury-font">SIGMAX INTELLIGENCE</h1>
+<div class="subtitle">Ultimate Premium Dashboard v75.5 | World Cup 2026 Edition</div>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-value">254-47</div><div class="stat-label">Season Record</div></div>
+<div class="stat-card"><div class="stat-value">84.4%</div><div class="stat-label">Win Rate</div></div>
+<div class="stat-card"><div class="stat-value">$12,990</div><div class="stat-label">Bankroll</div></div>
+<div class="stat-card"><div class="stat-value">+85.6%</div><div class="stat-label">ROI</div></div>
 </div>
 </div>
 
 <div class="wc-banner">
 <div class="wc-title">⚽ FIFA WORLD CUP 2026™ STARTS IN 2 DAYS!</div>
-<div>June 11: 🇲🇽 Mexico vs 🇿🇦 South Africa @ Azteca</div>
-<div>June 12: 🇺🇸 USA vs 🇵🇾 Paraguay @ SoFi</div>
-<div style="margin-top:10px;font-weight:700">🇭🇹 HAITI DEBUT: June 13 vs 🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland @ Boston!</div>
+<div class="wc-subtitle">June 11: 🇲🇽 Mexico vs 🇿🇦 South Africa @ Azteca | June 12: 🇺🇸 USA vs 🇵🇾 Paraguay @ SoFi</div>
+<div class="wc-subtitle">🇭🇹 HAITI DEBUT: June 13 vs 🏴 Scotland @ Boston!</div>
+</div>
+
+<div class="countdown-section">
+<div class="countdown-card">
+<div class="countdown-title">🏒 NHL SCF G4</div>
+<div class="countdown-timer">TONIGHT 8PM</div>
+<div class="countdown-detail">Carolina @ Vegas | ABC</div>
+</div>
+<div class="countdown-card">
+<div class="countdown-title">🏀 NBA Finals G4</div>
+<div class="countdown-timer">TOMORROW</div>
+<div class="countdown-detail">Spurs @ Knicks | Wed 8:30PM</div>
+</div>
+<div class="countdown-card">
+<div class="countdown-title">⚽ WC 2026 Opener</div>
+<div class="countdown-timer">2 DAYS</div>
+<div class="countdown-detail">🇲🇽 Mexico vs 🇿🇦 S. Africa</div>
+</div>
+<div class="countdown-card">
+<div class="countdown-title">🇭🇹 HAITI DEBUT</div>
+<div class="countdown-timer">4 DAYS</div>
+<div class="countdown-detail">vs 🏴 Scotland @ Boston</div>
+</div>
 </div>
 
 <div class="tabs">
-<button class="tab active" onclick="showTab('home')">🏠 Home</button>
-<button class="tab" onclick="showTab('picks')">🎯 Picks</button>
-<button class="tab" onclick="showTab('nhl')">🏒 NHL</button>
-<button class="tab" onclick="showTab('nba')">🏀 NBA</button>
-<button class="tab" onclick="showTab('wc')">⚽ WC 2026</button>
-<button class="tab" onclick="showTab('teams')">🌍 Teams</button>
-</div>
-
-<div id="home" class="tab-content active">
+<button class="tab active" onclick="showTab('home',event)">🏠 Home</button>
+<button class="tab" onclick="showTab('picks',event)">🎯 Today's Picks</button>
+<button class="tab" onclick="showTab('results',event)">📊 Results</button>
+<button class="tab" onclick="showTab('nhl',event)">🏒 NHL SCF</button>
+<button class="tab" onclick="showTab('nba',event)">🏀 NBA Finals</button>
+<button class="tab" onclick="showTab('wc2026',event)">⚽ WC 2026</button>
+<button class="tab" onclick="showTab('parlay',event)">🎰 Parlay</button>
+<button class="tab" onclick="showTab('teams',event)">🌍 Teams</button>
+<button class="tab" onclick="showTab('props',event)">👤 Props</button>
+<button class="tab" onclick="showTab('settings',event)">⚙️ Settings</button>
+<button class="tab" onclick="showTab('about',event)">ℹ️ About</button>
+</div><div id="home" class="tab-content active">
 <div class="section">
 <div class="section-title">🎯 TODAY'S TOP PICKS — June 9, 2026</div>
-<div class="game live"><div class="time">🏒 8PM</div><div><strong>Carolina @ Vegas</strong><br>SCF Game 4</div><div class="pick"><strong>Vegas ML -130</strong><br>⭐⭐⭐⭐</div></div>
-<div class="game"><div class="time">⚾ 7:10PM</div><div><strong>Yankees @ Red Sox</strong><br>Cole on mound</div><div class="pick"><strong>Yankees ML -125</strong><br>⭐⭐⭐⭐</div></div>
-<div class="game"><div class="time">⚾ 7:05PM</div><div><strong>Braves vs Pirates</strong><br>ATL 45-21 🔥</div><div class="pick"><strong>Braves ML -160</strong><br>⭐⭐⭐⭐⭐</div></div>
+
+<div class="game-card"><div class="game-time">🏒 8:00 PM</div><div class="game-matchup">Carolina @ Vegas</div><div class="game-pick"><strong>Vegas ML -130</strong><br>SCF G4 - VGK leads 2-1<br><span class="confidence">⭐⭐⭐⭐</span></div></div>
+
+<div class="game-card"><div class="game-time">⚾ 7:10 PM</div><div class="game-matchup">Yankees @ Red Sox</div><div class="game-pick"><strong>Yankees ML -125</strong><br>Rivalry - Cole Day<br><span class="confidence">⭐⭐⭐⭐</span></div></div>
+
+<div class="game-card"><div class="game-time">⚾ 7:05 PM</div><div class="game-matchup">Braves vs Pirates</div><div class="game-pick"><strong>Braves ML -160</strong><br>ATL 45-21 🔥<br><span class="confidence">⭐⭐⭐⭐</span></div></div>
+
+<div class="game-card"><div class="game-time">⚾ 7:15 PM</div><div class="game-matchup">Phillies vs White Sox</div><div class="game-pick"><strong>Phillies -1.5 -120</strong><br>PHI 35-30<br><span class="confidence">⭐⭐⭐</span></div></div>
+
 </div>
+
 <div class="section">
-<div class="section-title">✅ RECENT RESULTS</div>
-<div class="game win"><div class="time">Jun 8</div><div><strong>🏒 SCF G3: Vegas 5-4 2OT</strong><br>S. Theodore GWG!</div><div class="pick"><span class="win-text">✅ WON</span></div></div>
-<div class="game loss"><div class="time">Jun 8</div><div><strong>🏀 NBA G3: Spurs 115-111</strong><br>Wemby 32/8/6</div><div class="pick"><span class="loss-text">❌ LOSS</span></div></div>
-<div class="game win"><div class="time">Jun 8</div><div><strong>🎾 French Open Final</strong><br>Zverev 1st Major!</div><div class="pick"><span class="win-text">✅ WON</span></div></div>
+<div class="section-title">✅ RECENT RESULTS — Verified</div>
+
+<div class="game-card win"><div class="game-time">Jun 8</div><div class="game-matchup">🏒 SCF G3: Vegas 5-4 2OT</div><div class="game-pick"><strong>Vegas ML -130</strong><br>S. Theodore 2OT GWG!<br><span class="win">✅ WON</span></div></div>
+
+<div class="game-card loss"><div class="game-time">Jun 8</div><div class="game-matchup">🏀 NBA G3: Spurs 115-111</div><div class="game-pick"><strong>Knicks ML -180</strong><br>Wemby 32/8/6<br><span class="loss">❌ LOSS</span></div></div>
+
+<div class="game-card win"><div class="game-time">Jun 8</div><div class="game-matchup">🏀 Spurs +4.5</div><div class="game-pick"><strong>Spread Bet</strong><br>SAS won outright!<br><span class="win">✅ WON</span></div></div>
+
+<div class="game-card win"><div class="game-time">Jun 8</div><div class="game-matchup">🎾 Zverev vs Cobolli</div><div class="game-pick"><strong>Zverev ML -200</strong><br>French Open Final - 1st Major!<br><span class="win">✅ WON</span></div></div>
+
+<div class="game-card win"><div class="game-time">Jun 7</div><div class="game-matchup">⚾ Dodgers -140</div><div class="game-pick"><strong>ML</strong><br>5-2 vs Diamondbacks<br><span class="win">✅ WON</span></div></div>
+
+<div class="game-card win"><div class="game-time">Jun 7</div><div class="game-matchup">⚾ Yankees -130</div><div class="game-pick"><strong>ML</strong><br>6-1 vs Red Sox - Bellinger HR<br><span class="win">✅ WON</span></div></div>
+
+</div>
+
+<div class="section">
+<div class="section-title">📊 CONFIDENCE BREAKDOWN</div>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-value">90.2%</div><div class="stat-label">⭐⭐⭐⭐⭐ 5-Star (129-14)</div></div>
+<div class="stat-card"><div class="stat-value">82.2%</div><div class="stat-label">⭐⭐⭐⭐ 4-Star (74-16)</div></div>
+<div class="stat-card"><div class="stat-value">77.6%</div><div class="stat-label">⭐⭐⭐ 3-Star (38-11)</div></div>
+<div class="stat-card"><div class="stat-value">66.7%</div><div class="stat-label">⭐⭐ 2-Star (10-5)</div></div>
+</div>
 </div>
 </div>
 
 <div id="picks" class="tab-content">
 <div class="section">
 <div class="section-title">🎯 ALL PICKS — June 9, 2026</div>
-<div class="game"><div class="time">🏒 8PM</div><div><strong>1️⃣ Vegas ML -130</strong><br>SCF G4 - Take 3-1 lead</div><div class="pick">⭐⭐⭐⭐ 4-Star</div></div>
-<div class="game"><div class="time">🏒 8PM</div><div><strong>2️⃣ Hurricanes +1.5</strong><br>Backup - close games</div><div class="pick">⭐⭐⭐ 3-Star</div></div>
-<div class="game"><div class="time">⚾ 7:10PM</div><div><strong>3️⃣ Yankees ML -125</strong><br>Cole Day - NYY 38-26</div><div class="pick">⭐⭐⭐⭐ 4-Star</div></div>
-<div class="game"><div class="time">⚾ 7:05PM</div><div><strong>4️⃣ Braves ML -160</strong><br>Hottest team 45-21</div><div class="pick">⭐⭐⭐⭐⭐ 5-Star</div></div>
-<div class="game"><div class="time">⚾ 7:15PM</div><div><strong>5️⃣ Phillies -1.5</strong><br>PHI rolling</div><div class="pick">⭐⭐⭐⭐ 4-Star</div></div>
+<p style="color:var(--text-muted);margin-bottom:15px;">Record: 254-47 (84.4%) | Bankroll: $12,990 | Updated 9:00 PM ET</p>
+
+<div class="game-card"><div class="game-time">🏒 8:00 PM</div><div class="game-matchup">Carolina @ Vegas</div><div class="game-pick"><strong>1️⃣ Vegas ML -130</strong><br>SCF G4 - Take the lead 3-1<br><span class="confidence">⭐⭐⭐⭐ 4-Star</span></div></div>
+
+<div class="game-card"><div class="game-time">🏒 8:00 PM</div><div class="game-matchup">Carolina @ Vegas</div><div class="game-pick"><strong>2️⃣ Hurricanes +1.5 +110</strong><br>Close games - backup play<br><span class="confidence">⭐⭐⭐ 3-Star</span></div></div>
+
+<div class="game-card"><div class="game-time">⚾ 7:10 PM</div><div class="game-matchup">Yankees @ Red Sox</div><div class="game-pick"><strong>3️⃣ Yankees ML -125</strong><br>Cole on mound - NYY 38-26<br><span class="confidence">⭐⭐⭐⭐ 4-Star</span></div></div>
+
+<div class="game-card"><div class="game-time">⚾ 7:05 PM</div><div class="game-matchup">Braves vs Pirates</div><div class="game-pick"><strong>4️⃣ Braves ML -160</strong><br>ATL hottest team 45-21 🔥<br><span class="confidence">⭐⭐⭐⭐⭐ 5-Star</span></div></div>
+
+<div class="game-card"><div class="game-time">⚾ 7:15 PM</div><div class="game-matchup">Phillies vs White Sox</div><div class="game-pick"><strong>5️⃣ Phillies -1.5 -120</strong><br>PHI rolling, CHW struggling<br><span class="confidence">⭐⭐⭐⭐ 4-Star</span></div></div>
+
+</div>
+</div>
+
+<div id="results" class="tab-content">
+<div class="section">
+<div class="section-title">📊 RECENT RESULTS — Last 7 Days</div>
+<p style="color:var(--text-muted);margin-bottom:15px;">Last 7 Days: 19-4 (82.6%) | Playoffs: 30-9 (76.9%)</p><div class="game-card win"><div class="game-time">Jun 8</div><div class="game-matchup">🏒 SCF G3: Vegas 5-4 2OT Carolina</div><div class="game-pick"><strong>Vegas ML</strong> - Theodore 2OT GWG<br><span class="win">✅ WON</span></div></div>
+<div class="game-card loss"><div class="game-time">Jun 8</div><div class="game-matchup">🏀 NBA G3: Spurs 115 Knicks 111</div><div class="game-pick"><strong>Knicks ML</strong> - Wemby 32pts<br><span class="loss">❌ LOSS</span></div></div>
+<div class="game-card win"><div class="game-time">Jun 8</div><div class="game-matchup">🎾 French Open Final</div><div class="game-pick"><strong>Zverev ML</strong> - 1st Major!<br><span class="win">✅ WON</span></div></div>
+<div class="game-card win"><div class="game-time">Jun 7</div><div class="game-matchup">⚾ Yankees 6-1 Red Sox</div><div class="game-pick"><strong>Yankees ML</strong> - Bellinger HR<br><span class="win">✅ WON</span></div></div>
+<div class="game-card win"><div class="game-time">Jun 7</div><div class="game-matchup">⚾ Phillies 9-5 White Sox</div><div class="game-pick"><strong>Phillies ML</strong><br><span class="win">✅ WON</span></div></div>
+<div class="game-card win"><div class="game-time">Jun 7</div><div class="game-matchup">⚾ Braves 3-2 Pirates</div><div class="game-pick"><strong>Braves ML</strong> - Sweep!<br><span class="win">✅ WON</span></div></div>
 </div>
 </div>
 
 <div id="nhl" class="tab-content">
-<div class="section">
-<div class="section-title">🏒 NHL Stanley Cup Finals — Vegas leads 2-1</div>
-<div class="game win"><div class="time">G1 Jun 2</div><div><strong>Vegas @ Carolina</strong><br>Vegas 4-3 - Eichel 2pts</div><div class="pick"><span class="win-text">✅ WON</span></div></div>
-<div class="game loss"><div class="time">G2 Jun 4</div><div><strong>Vegas @ Carolina</strong><br>Carolina 4-3 OT</div><div class="pick"><span class="loss-text">❌ LOSS</span></div></div>
-<div class="game win"><div class="time">G3 Jun 7</div><div><strong>Carolina @ Vegas</strong><br>Vegas 5-4 2OT - Theodore GWG!</div><div class="pick"><span class="win-text">✅ WON</span></div></div>
-<div class="game live"><div class="time">G4 🔴</div><div><strong>Carolina @ Vegas</strong><br>TONIGHT 8PM ET - ABC</div><div class="pick">🔴 TONIGHT</div></div>
+<div class="section"><div class="section-title">🏒 NHL Stanley Cup Finals — Golden Knights vs Hurricanes</div>
+<p style="color:var(--text-muted);margin-bottom:15px;">Vegas leads 2-1 | Best of 7 | Game 4 TONIGHT 8PM ET</p>
+
+<div class="game-card win"><div class="game-time">G1 Jun 2</div><div class="game-matchup">Vegas @ Carolina</div><div class="game-pick"><strong>Vegas ML -130</strong><br>Vegas 4-3 - Eichel 2pts<br><span class="win">✅ WON</span></div></div>
+
+<div class="game-card loss"><div class="game-time">G2 Jun 4</div><div class="game-matchup">Vegas @ Carolina</div><div class="game-pick"><strong>Vegas ML -125</strong><br>Carolina 4-3 OT - Ehlers GWG<br><span class="loss">❌ LOSS</span></div></div>
+
+<div class="game-card win"><div class="game-time">G3 Jun 7</div><div class="game-matchup">Carolina @ Vegas</div><div class="game-pick"><strong>Vegas ML -135</strong><br>Vegas 5-4 2OT - S. Theodore 2OT GWG!<br><span class="win">✅ WON</span></div></div>
+
+<div class="game-card live"><div class="game-time">G4 Jun 9 🔴</div><div class="game-matchup">Carolina @ Vegas</div><div class="game-pick"><strong>Vegas ML -130</strong><br>TONIGHT 8PM ET - ABC<br><span class="pending">🔴 TONIGHT</span></div></div>
+
+<div class="game-card"><div class="game-time">G5* Jun 11</div><div class="game-matchup">Vegas @ Carolina</div><div class="game-pick"><strong>TBD</strong><br>Thursday if necessary<br><span class="pending">⏳ IF NEEDED</span></div></div>
+
+<div class="game-card"><div class="game-time">G6* Jun 14</div><div class="game-matchup">Carolina @ Vegas</div><div class="game-pick"><strong>TBD</strong><br>Sunday if necessary<br><span class="pending">⏳ IF NEEDED</span></div></div>
+
+<div class="game-card"><div class="game-time">G7* Jun 17</div><div class="game-matchup">Vegas @ Carolina</div><div class="game-pick"><strong>TBD</strong><br>Wednesday if necessary<br><span class="pending">⏳ IF NEEDED</span></div></div>
+
 </div>
 </div>
 
 <div id="nba" class="tab-content">
-<div class="section">
-<div class="section-title">🏀 NBA Finals — Knicks lead 2-1</div>
-<div class="game win"><div class="time">G1 Jun 3</div><div><strong>Spurs @ Knicks</strong><br>Knicks 105-95 - Brunson 32pts</div><div class="pick"><span class="win-text">✅ WON</span></div></div>
-<div class="game win"><div class="time">G2 Jun 5</div><div><strong>Spurs @ Knicks</strong><br>Knicks 105-104 - OG clutch D!</div><div class="pick"><span class="win-text">✅ WON</span></div></div>
-<div class="game loss"><div class="time">G3 Jun 8</div><div><strong>Knicks @ Spurs</strong><br>Spurs 115-111 - Wemby 32/8/6!</div><div class="pick"><span class="loss-text">❌ LOSS</span></div></div>
-<div class="game"><div class="time">G4 ⭐</div><div><strong>Spurs @ Knicks</strong><br>TOMORROW Wed 8:30PM - MSG</div><div class="pick">⭐ TOMORROW</div></div>
+<div class="section"><div class="section-title">🏀 NBA Finals — Knicks vs Spurs</div>
+<p style="color:var(--text-muted);margin-bottom:15px;">Knicks lead 2-1 | Best of 7 | Game 4 TOMORROW Wed 8:30PM</p>
+
+<div class="game-card win"><div class="game-time">G1 Jun 3</div><div class="game-matchup">Spurs @ Knicks</div><div class="game-pick"><strong>Knicks ML -175</strong><br>Knicks 105-95 - Brunson 32pts<br><span class="win">✅ WON</span></div></div>
+
+<div class="game-card win"><div class="game-time">G2 Jun 5</div><div class="game-matchup">Spurs @ Knicks</div><div class="game-pick"><strong>Knicks ML -180</strong><br>Knicks 105-104 - OG clutch D!<br><span class="win">✅ WON</span></div></div>
+
+<div class="game-card loss"><div class="game-time">G3 Jun 8</div><div class="game-matchup">Knicks @ Spurs</div><div class="game-pick"><strong>Knicks ML -180</strong><br>Spurs 115-111 - Wemby 32/8/6!<br><span class="loss">❌ LOSS</span></div></div>
+
+<div class="game-card"><div class="game-time">G4 Jun 10 ⭐</div><div class="game-matchup">Spurs @ Knicks</div><div class="game-pick"><strong>TBD</strong><br>TOMORROW Wed 8:30PM - MSG<br><span class="pending">⭐ TOMORROW</span></div></div>
+
+<div class="game-card"><div class="game-time">G5* Jun 13</div><div class="game-matchup">Knicks @ Spurs</div><div class="game-pick"><strong>TBD</strong><br>Saturday if necessary<br><span class="pending">⏳ IF NEEDED</span></div></div>
+
+<div class="game-card"><div class="game-time">G6* Jun 16</div><div class="game-matchup">Spurs @ Knicks</div><div class="game-pick"><strong>TBD</strong><br>Tuesday if necessary<br><span class="pending">⏳ IF NEEDED</span></div></div>
+
+<div class="game-card"><div class="game-time">G7* Jun 19</div><div class="game-matchup">Knicks @ Spurs</div><div class="game-pick"><strong>TBD</strong><br>Friday if necessary<br><span class="pending">⏳ IF NEEDED</span></div></div>
+
 </div>
 </div>
 
-<div id="wc" class="tab-content">
-<div class="section">
-<div class="section-title">⚽ FIFA World Cup 2026™ — Opening Week</div>
-<div class="game" style="border-left:4px solid var(--green)"><div class="time">Jun 11<br>12PM</div><div><strong>🇲🇽 Mexico vs 🇿🇦 South Africa</strong><br>🏟️ AZTECA - OPENING MATCH!</div><div class="pick">🔥 WC OPENER</div></div>
-<div class="game" style="border-left:4px solid var(--accent)"><div class="time">Jun 12<br>6PM</div><div><strong>🇺🇸 USA vs 🇵🇾 Paraguay</strong><br>🏟️ SoFi Stadium - USA OPENER!</div><div class="pick">⭐ MARQUEE</div></div>
-<div class="game" style="border-left:4px solid var(--green);background:linear-gradient(135deg,#1a1a2e,#0f2027)"><div class="time">Jun 13<br>6PM</div><div><strong>🇭🇹 HAITI vs 🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</strong><br>🏟️ Boston - HAITI DEBUT! 🇭🇹</div><div class="pick">🇭🇹 ALLEZ HAITI!</div></div>
-<div class="game" style="border-left:4px solid var(--accent)"><div class="time">Jun 13<br>3PM</div><div><strong>🇧🇷 Brazil vs 🇲🇦 Morocco</strong><br>🏟️ MetLife Stadium</div><div class="pick">⭐ BLOCKBUSTER</div></div>
+<div id="wc2026" class="tab-content">
+<div class="section"><div class="section-title">⚽ FIFA World Cup 2026™ — Opening Week</div>
+<p style="color:var(--text-muted);margin-bottom:15px;">Starts June 11 @ Azteca Stadium | USA/Mexico/Canada Hosts</p>
+
+<div class="game-card" style="border-left-color:#00ff88;"><div class="game-time">Jun 11<br>12:00 PM</div><div class="game-matchup">🇲🇽 Mexico vs 🇿🇦 South Africa</div><div class="game-pick"><strong>🏟️ AZTECA - OPENING MATCH!</strong><br>Group A | MEX -1.5 | FOX<br><span class="confidence">🔥 WC OPENER</span></div></div>
+
+<div class="game-card"><div class="game-time">Jun 11<br>3:00 PM</div><div class="game-matchup">🇰🇷 South Korea vs 🇨🇿 Czechia</div><div class="game-pick"><strong>Estadio Guadalajara</strong><br>Group A | FS1<br><span class="confidence">⭐⭐⭐</span></div></div>
+
+<div class="game-card"><div class="game-time">Jun 12<br>12:00 PM</div><div class="game-matchup">🇨🇦 Canada vs 🇧🇦 Bosnia</div><div class="game-pick"><strong>Toronto Stadium</strong><br>Group B | FOX<br><span class="confidence">⭐⭐⭐</span></div></div>
+
+<div class="game-card" style="border-left-color:#ffd700;"><div class="game-time">Jun 12<br>6:00 PM</div><div class="game-matchup">🇺🇸 USA vs 🇵🇾 Paraguay</div><div class="game-pick"><strong>🏟️ SoFi Stadium - USA OPENER!</strong><br>Group D | USA -1 | FOX<br><span class="confidence">⭐ MARQUEE</span></div></div>
+
+<div class="game-card" style="border-left-color:#ffd700;"><div class="game-time">Jun 13<br>3:00 PM</div><div class="game-matchup">🇧🇷 Brazil vs 🇲🇦 Morocco</div><div class="game-pick"><strong>MetLife Stadium - BLOCKBUSTER!</strong><br>Group C | BRA -1 | FOX<br><span class="confidence">⭐ MARQUEE</span></div></div>
+
+<div class="game-card" style="border-left-color:#00ff88;background:linear-gradient(135deg,#1a1a2e,#0f2027);"><div class="game-time">Jun 13<br>6:00 PM</div><div class="game-matchup">🇭🇹 Haiti vs 🏴 Scotland</div><div class="game-pick"><strong>🏟️ Boston Stadium - HAITI DEBUT! 🇭🇹</strong><br>Group C | FS1 | First WC since 1974!<br><span class="confidence">🆕 HISTORIC DEBUT</span></div></div>
+
+</div>
+</div><div id="parlay" class="tab-content">
+<div class="section"><div class="section-title">🎰 PARLAY BUILDER — June 9, 2026</div>
+<p style="color:var(--text-muted);margin-bottom:15px;">Parlay Record: 16-3 (84.2%) | Max: 5 Teams + 5 Props</p>
+
+<div class="parlay-card" style="background:linear-gradient(135deg,#1a1a2e,#2d1b4e);border:2px solid var(--accent);border-radius:15px;padding:20px;margin:15px 0;">
+<h3 style="color:var(--accent);margin-bottom:15px;">🔥 TONIGHT'S 3-LEG PARLAY (+285)</h3>
+<div class="parlay-leg" style="padding:10px;border-bottom:1px solid #333;">1️⃣ Vegas Golden Knights ML -130 🏒</div>
+<div class="parlay-leg" style="padding:10px;border-bottom:1px solid #333;">2️⃣ Yankees ML -125 ⚾</div>
+<div class="parlay-leg" style="padding:10px;">3️⃣ Braves ML -160 ⚾</div>
+<div style="margin-top:15px;padding:15px;background:#0d0d14;border-radius:10px;">
+<strong>Odds:</strong> +285 | <strong>Confidence:</strong> 68% | <strong>$100 → $385</strong>
+</div>
+</div>
+
+<div class="parlay-card" style="background:var(--card);border:1px solid #333;border-radius:15px;padding:20px;margin:15px 0;">
+<h3 style="color:var(--blue);margin-bottom:15px;">💎 VALUE 4-LEG (+420)</h3>
+<div class="parlay-leg" style="padding:10px;border-bottom:1px solid #333;">1️⃣ Vegas ML -130</div>
+<div class="parlay-leg" style="padding:10px;border-bottom:1px solid #333;">2️⃣ Yankees ML -125</div>
+<div class="parlay-leg" style="padding:10px;border-bottom:1px solid #333;">3️⃣ Braves ML -160</div>
+<div class="parlay-leg" style="padding:10px;">4️⃣ Phillies -1.5 -120</div>
+<div style="margin-top:15px;padding:15px;background:#0d0d14;border-radius:10px;">
+<strong>Odds:</strong> +420 | <strong>Confidence:</strong> 52% | <strong>$100 → $520</strong>
+</div>
+</div>
+
+<div class="parlay-card" style="background:var(--card);border:1px solid #333;border-radius:15px;padding:20px;margin:15px 0;">
+<h3 style="color:var(--green);margin-bottom:15px;">🔒 SAFE 2-LEG (+145)</h3>
+<div class="parlay-leg" style="padding:10px;border-bottom:1px solid #333;">1️⃣ Vegas ML -130</div>
+<div class="parlay-leg" style="padding:10px;">2️⃣ Braves ML -160</div>
+<div style="margin-top:15px;padding:15px;background:#0d0d14;border-radius:10px;">
+<strong>Odds:</strong> +145 | <strong>Confidence:</strong> 78% | <strong>$100 → $245</strong>
+</div>
+</div>
 </div>
 </div>
 
 <div id="teams" class="tab-content">
-<div class="section">
-<div class="section-title">🌍 WORLD CUP 2026 TEAMS — Click for Details</div>
-<label>Theme: <select onchange="changeTheme(this.value)">
-<option value="default">🌙 Default</option>
-<option value="haiti">🇭🇹 Haiti</option>
-<option value="usa">🇺🇸 USA</option>
-<option value="brazil">🇧🇷 Brazil</option>
-<option value="france">🇫🇷 France</option>
-<option value="mexico">🇲🇽 Mexico</option>
-</select></label>
+<div class="section"><div class="section-title">🌍 WORLD CUP 2026 TEAMS — Click for Details</div>
+<p style="color:var(--text-muted);margin-bottom:15px;">25 Team Profiles | Click any card for full analysis</p>
 <div class="teams-grid">
-<div class="team-card haiti" onclick="showModal('HAITI')"><div class="flag">🇭🇹</div><div class="team-name">Haiti</div><div style="color:#888;font-size:0.8rem">Group C • DEBUT! 🔥</div></div>
-<div class="team-card" onclick="showModal('USA')"><div class="flag">🇺🇸</div><div class="team-name">USA</div><div style="color:#888;font-size:0.8rem">Group A • Host</div></div>
-<div class="team-card" onclick="showModal('BRAZIL')"><div class="flag">🇧🇷</div><div class="team-name">Brazil</div><div style="color:#888;font-size:0.8rem">Group C • Favorite</div></div>
-<div class="team-card" onclick="showModal('FRANCE')"><div class="flag">🇫🇷</div><div class="team-name">France</div><div style="color:#888;font-size:0.8rem">Group F • Defending</div></div>
-<div class="team-card" onclick="showModal('ARGENTINA')"><div class="flag">🇦🇷</div><div class="team-name">Argentina</div><div style="color:#888;font-size:0.8rem">Group E • Champions</div></div>
-<div class="team-card" onclick="showModal('ENGLAND')"><div class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div><div class="team-name">England</div><div style="color:#888;font-size:0.8rem">Group D • Contender</div></div>
-<div class="team-card" onclick="showModal('GERMANY')"><div class="flag">🇩🇪</div><div class="team-name">Germany</div><div style="color:#888;font-size:0.8rem">Group G • 4x Champs</div></div>
-<div class="team-card" onclick="showModal('MEXICO')"><div class="flag">🇲🇽</div><div class="team-name">Mexico</div><div style="color:#888;font-size:0.8rem">Group A • Host</div></div>
-</div>
+<div class="team-card" onclick="showTeamModal('USA')"><div class="flag">🇺🇸</div><div class="team-name">USA</div></div>
+<div class="team-card" onclick="showTeamModal('MEXICO')"><div class="flag">🇲🇽</div><div class="team-name">Mexico</div></div>
+<div class="team-card" onclick="showTeamModal('CANADA')"><div class="flag">🇨🇦</div><div class="team-name">Canada</div></div>
+<div class="team-card" onclick="showTeamModal('HAITI')" style="border:2px solid #00ff88;"><div class="flag">🇭🇹</div><div class="team-name">Haiti 🆕</div></div>
+<div class="team-card" onclick="showTeamModal('ARGENTINA')"><div class="flag">🇦🇷</div><div class="team-name">Argentina</div></div>
+<div class="team-card" onclick="showTeamModal('BRAZIL')"><div class="flag">🇧🇷</div><div class="team-name">Brazil</div></div>
+<div class="team-card" onclick="showTeamModal('FRANCE')"><div class="flag">🇫🇷</div><div class="team-name">France</div></div>
+<div class="team-card" onclick="showTeamModal('ENGLAND')"><div class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div><div class="team-name">England</div></div>
+<div class="team-card" onclick="showTeamModal('SPAIN')"><div class="flag">🇪🇸</div><div class="team-name">Spain</div></div>
+<div class="team-card" onclick="showTeamModal('GERMANY')"><div class="flag">🇩🇪</div><div class="team-name">Germany</div></div>
+<div class="team-card" onclick="showTeamModal('PORTUGAL')"><div class="flag">🇵🇹</div><div class="team-name">Portugal</div></div>
+<div class="team-card" onclick="showTeamModal('NETHERLANDS')"><div class="flag">🇳🇱</div><div class="team-name">Netherlands</div></div>
+<div class="team-card" onclick="showTeamModal('BELGIUM')"><div class="flag">🇧🇪</div><div class="team-name">Belgium</div></div>
+<div class="team-card" onclick="showTeamModal('ITALY')"><div class="flag">🇮🇹</div><div class="team-name">Italy</div></div>
+<div class="team-card" onclick="showTeamModal('CROATIA')"><div class="flag">🇭🇷</div><div class="team-name">Croatia</div></div>
+<div class="team-card" onclick="showTeamModal('URUGUAY')"><div class="flag">🇺🇾</div><div class="team-name">Uruguay</div></div>
+<div class="team-card" onclick="showTeamModal('COLOMBIA')"><div class="flag">🇨🇴</div><div class="team-name">Colombia</div></div>
+<div class="team-card" onclick="showTeamModal('MOROCCO')"><div class="flag">🇲🇦</div><div class="team-name">Morocco</div></div>
+<div class="team-card" onclick="showTeamModal('SENEGAL')"><div class="flag">🇸🇳</div><div class="team-name">Senegal</div></div>
+<div class="team-card" onclick="showTeamModal('JAPAN')"><div class="flag">🇯🇵</div><div class="team-name">Japan</div></div>
+<div class="team-card" onclick="showTeamModal('SOUTHKOREA')"><div class="flag">🇰🇷</div><div class="team-name">South Korea</div></div>
+<div class="team-card" onclick="showTeamModal('AUSTRALIA')"><div class="flag">🇦🇺</div><div class="team-name">Australia</div></div>
+<div class="team-card" onclick="showTeamModal('SCOTLAND')"><div class="flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</div><div class="team-name">Scotland</div></div>
+<div class="team-card" onclick="showTeamModal('WALES')"><div class="flag">🏴󠁧󠁢󠁷󠁬󠁳󠁿</div><div class="team-name">Wales</div></div>
 </div>
 </div>
 </div>
 
-<div id="modal" class="modal" onclick="if(event.target===this)closeModal()">
-<div class="modal-content">
-<span class="modal-close" onclick="closeModal()">✕</span>
-<div id="modal-flag" class="modal-flag">🏳️</div>
-<h2 id="modal-name" class="modal-name">Team</h2>
-<div id="modal-body" class="modal-body"></div>
+<div id="props" class="tab-content">
+<div class="section"><div class="section-title">👤 PLAYER PROPS — June 9, 2026</div>
+<p style="color:var(--text-muted);margin-bottom:15px;">Props Record: 59-11 (84.3%) | NBA: 34-6 | NHL: 12-2</p>
+
+<h4 style="color:var(--accent);margin:20px 0 10px;">🏒 SCF G4 PROPS — TONIGHT</h4>
+<div class="game-card"><div class="game-time">1️⃣</div><div class="game-matchup">Jack Eichel (VGK)</div><div class="game-pick"><strong>Points O 1.5</strong><br>⭐⭐⭐⭐ 4-Star</div></div>
+<div class="game-card"><div class="game-time">2️⃣</div><div class="game-matchup">Sebastian Aho (CAR)</div><div class="game-pick"><strong>Shots O 3.5</strong><br>⭐⭐⭐⭐ 4-Star</div></div>
+<div class="game-card"><div class="game-time">3️⃣</div><div class="game-matchup">Mark Stone (VGK)</div><div class="game-pick"><strong>Assists O 0.5</strong><br>⭐⭐⭐ 3-Star</div></div>
+
+<h4 style="color:var(--accent);margin:20px 0 10px;">🏀 NBA G3 RESULTS ✅</h4>
+<div class="game-card win"><div class="game-time">✅</div><div class="game-matchup">Wembanyama Points O 27.5</div><div class="game-pick"><strong>HIT 32pts</strong><br>⭐⭐⭐⭐⭐ 5-Star</div></div>
+<div class="game-card win"><div class="game-time">✅</div><div class="game-matchup">Brunson Points O 24.5</div><div class="game-pick"><strong>HIT 32pts</strong><br>⭐⭐⭐⭐ 4-Star</div></div>
+<div class="game-card loss"><div class="game-time">❌</div><div class="game-matchup">KAT Rebounds O 11.5</div><div class="game-pick"><strong>MISS 9reb</strong><br>⭐⭐⭐⭐ 4-Star</div></div>
+
 </div>
 </div>
 
-<script>
+<div id="settings" class="tab-content">
+<div class="section"><div class="section-title">⚙️ SETTINGS</div>
+<div style="padding:20px;">
+<label style="display:block;margin-bottom:15px;color:var(--text);">🎨 Theme:</label>
+<select id="theme-select" onchange="changeTheme(this.value)" style="width:100%;padding:12px;background:var(--card);color:var(--text);border:1px solid #333;border-radius:8px;font-size:1rem;">
+<option value="dark">🌙 Dark Mode (Default)</option>
+<option value="gold">🏆 Gold Premium</option>
+<option value="green">💚 Green Matrix</option>
+<option value="blue">💙 Ocean Blue</option>
+<option value="red">❤️ Red Fire</option>
+<option value="purple">💜 Purple Royal</option>
+<option value="orange">🧡 Orange Sunset</option>
+<option value="pink">💗 Pink Neon</option>
+<option value="light">☀️ Light Mode</option>
+</select>
+</div>
+</div>
+</div>
+
+<div id="about" class="tab-content">
+<div class="section"><div class="section-title">ℹ️ ABOUT SIGMAX INTELLIGENCE</div>
+<div style="padding:20px;line-height:1.8;">
+<p><strong>🏆 SIGMAX INTELLIGENCE v75.5</strong></p>
+<p>Ultimate Premium Sports Analytics Dashboard</p>
+<br>
+<p><strong>📊 VERIFIED STATS (June 9, 2026):</strong></p>
+<ul style="margin-left:20px;">
+<li>Season Record: <strong>254-47 (84.4%)</strong></li>
+<li>5-Star Picks: <strong>129-14 (90.2%)</strong></li>
+<li>4-Star Picks: <strong>74-16 (82.2%)</strong></li>
+<li>Bankroll: <strong>$12,990</strong> (Started $7,000)</li>
+<li>ROI: <strong>+85.6%</strong></li>
+<li>Props Record: <strong>59-11 (84.3%)</strong></li>
+</ul>
+<br>
+<p><strong>⚽ WORLD CUP 2026:</strong></p>
+<ul style="margin-left:20px;">
+<li>Opener: June 11 - Mexico vs S. Africa @ Azteca</li>
+<li>USA: June 12 vs Paraguay @ SoFi Stadium</li>
+<li>🇭🇹 Haiti Debut: June 13 vs Scotland @ Boston</li>
+</ul>
+<br>
+<p style="color:var(--text-muted);font-size:0.9rem;">Updated: June 9, 2026 @ 9:30 PM ET</p>
+</div>
+</div>
+</div><script>
+// COMPLETE TEAM DATA - ALL 25 TEAMS FOR WORLD CUP 2026
 const TD = {
-'HAITI':{f:'🇭🇹',n:'Haiti',d:'<p><strong>🇭🇹 HAITI - FIRST EVER WORLD CUP! 🔥</strong></p><p>Making history! Haiti qualified for their <strong>FIRST EVER</strong> FIFA World Cup, becoming a symbol of hope and pride for the Caribbean nation.</p><p><strong>Group C:</strong> Brazil, Morocco, Scotland</p><p><strong>First Match:</strong> June 13 vs Scotland @ Boston</p><p><strong>Key Players:</strong> Frantzdy Pierrot, Derrick Etienne Jr.</p><p><strong>SIGMAX:</strong> ⭐⭐⭐ Dark Horse - ALLEZ HAITI! 🇭🇹</p>'},
-'USA':{f:'🇺🇸',n:'United States',d:'<p><strong>🇺🇸 HOST NATION - Group A</strong></p><p>The USMNT enters as co-hosts with massive home advantage across 11 venues.</p><p><strong>Group A:</strong> Mexico, South Africa, Czechia</p><p><strong>First Match:</strong> June 12 vs Paraguay @ SoFi</p><p><strong>Key Players:</strong> Christian Pulisic, Weston McKennie, Gio Reyna</p><p><strong>SIGMAX:</strong> ⭐⭐⭐⭐ Quarterfinal Potential</p>'},
-'BRAZIL':{f:'🇧🇷',n:'Brazil',d:'<p><strong>🇧🇷 5x WORLD CHAMPIONS</strong></p><p>The Seleção are favorites to add a 6th star to their jersey.</p><p><strong>Group C:</strong> Haiti, Morocco, Scotland</p><p><strong>Key Players:</strong> Vinícius Jr, Rodrygo, Endrick</p><p><strong>SIGMAX:</strong> ⭐⭐⭐⭐⭐ Tournament Favorite</p>'},
-'FRANCE':{f:'🇫🇷',n:'France',d:'<p><strong>🇫🇷 DEFENDING CHAMPIONS</strong></p><p>Les Bleus aim to defend their 2022 title with incredible depth.</p><p><strong>Key Players:</strong> Kylian Mbappé, Antoine Griezmann</p><p><strong>SIGMAX:</strong> ⭐⭐⭐⭐⭐ Title Contender</p>'},
-'ARGENTINA':{f:'🇦🇷',n:'Argentina',d:'<p><strong>🇦🇷 2022 WORLD CHAMPIONS</strong></p><p>La Albiceleste look to defend with Messi potentially in his last World Cup.</p><p><strong>Key Players:</strong> Lionel Messi, Julián Álvarez</p><p><strong>SIGMAX:</strong> ⭐⭐⭐⭐⭐ Top 3 Favorite</p>'},
-'ENGLAND':{f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',n:'England',d:'<p><strong>🏴󠁧󠁢󠁥󠁮󠁧󠁿 PERENNIAL CONTENDERS</strong></p><p>The Three Lions looking to end 60+ years of hurt.</p><p><strong>Key Players:</strong> Jude Bellingham, Harry Kane, Bukayo Saka</p><p><strong>SIGMAX:</strong> ⭐⭐⭐⭐⭐ Semifinal Favorite</p>'},
-'GERMANY':{f:'🇩🇪',n:'Germany',d:'<p><strong>🇩🇪 4x WORLD CHAMPIONS</strong></p><p>Die Mannschaft rebuilding with young talent.</p><p><strong>Key Players:</strong> Jamal Musiala, Florian Wirtz</p><p><strong>SIGMAX:</strong> ⭐⭐⭐⭐ Quarterfinal+</p>'},
-'MEXICO':{f:'🇲🇽',n:'Mexico',d:'<p><strong>🇲🇽 HOST NATION - AZTECA OPENER!</strong></p><p>El Tri kicks off the World Cup at the legendary Azteca Stadium!</p><p><strong>First Match:</strong> June 11 vs South Africa - OPENING GAME!</p><p><strong>Key Players:</strong> Hirving Lozano, Edson Álvarez</p><p><strong>SIGMAX:</strong> ⭐⭐⭐⭐ Round of 16+</p>'}
-};
-
-function showTab(id){
-document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-event.target.classList.add('active');
-}
-
-function showModal(team){
-const d=TD[team];if(!d)return;
-document.getElementById('modal-flag').textContent=d.f;
-document.getElementById('modal-name').textContent=d.n;
-document.getElementById('modal-body').innerHTML=d.d;
-document.getElementById('modal').classList.add('active');
-}
-
-function closeModal(){document.getElementById('modal').classList.remove('active');}
-
-function changeTheme(t){
-const themes={
-'default':{bg:'#050508',card:'#0d0d14',accent:'#ffd700',text:'#e8e8e8'},
-'haiti':{bg:'#00209f',card:'#0030cf',accent:'#d21034',text:'#ffffff'},
-'usa':{bg:'#0a1628',card:'#0f2040',accent:'#b31942',text:'#ffffff'},
-'brazil':{bg:'#003300',card:'#004400',accent:'#ffcc00',text:'#ffffff'},
-'france':{bg:'#000066',card:'#000080',accent:'#ffffff',text:'#ed2939'},
-'mexico':{bg:'#006341',card:'#007a4d',accent:'#ce1126',text:'#ffffff'}
-};
-const th=themes[t]||themes['default'];
-const r=document.documentElement;
-r.style.setProperty('--bg',th.bg);
-r.style.setProperty('--card',th.card);
-r.style.setProperty('--accent',th.accent);
-r.style.setProperty('--text',th.text);
-}
-</script>
-</body>
-</html>
+'USA': {f:'🇺🇸',n:'United States',d:'<p><strong>🏆 Host Nation • Group A</strong></p><p>The USMNT enters as co-hosts with high expectations. Featuring a golden generation led by Christian Pulisic (AC Milan), Gio Reyna, Weston McKennie, and Tyler Adams.</p><p><strong>Key Players:</strong> Christian Pulisic, Gio Reyna, Weston McKennie</p><p><strong>Manager:</strong> Gregg Berhalter</p><p><strong>SIGMAX Rating:</strong> ⭐⭐⭐⭐ Quarterfinal Co
