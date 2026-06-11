@@ -156,6 +156,25 @@ tr:hover { background: rgba(255,215,0,0.05); }
   nav { gap: 5px; }
   nav button { padding: 6px 12px; font-size: 0.75rem; }
 }
+/* Device Selector */
+.device-selector { position: fixed; top: 55px; left: 10px; z-index: 999; display: flex; gap: 5px; }
+.device-btn { background: var(--card); border: 1px solid #333; border-radius: 8px; padding: 8px 12px; cursor: pointer; color: var(--text); font-size: 1rem; transition: all 0.2s; }
+.device-btn:hover, .device-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+/* Language Selector */
+.lang-selector { position: fixed; top: 55px; right: 80px; z-index: 999; }
+.lang-btn { background: var(--card); border: 1px solid #333; border-radius: 8px; padding: 8px 12px; cursor: pointer; color: var(--text); font-size: 0.8rem; }
+.lang-dropdown { display: none; position: absolute; right: 0; top: 100%; background: var(--card); border: 1px solid #333; border-radius: 8px; max-height: 300px; overflow-y: auto; min-width: 150px; }
+.lang-dropdown.show { display: block; }
+.lang-option { padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+.lang-option:hover { background: rgba(255,215,0,0.1); }
+
+/* Preview Frame for Device */
+.preview-frame { transition: all 0.3s ease; margin: 0 auto; }
+.preview-mobile .container { max-width: 375px; }
+.preview-tablet .container { max-width: 768px; }
+.preview-desktop .container { max-width: 1400px; }
+
 </style>
 </head>
 <body>
@@ -187,6 +206,30 @@ tr:hover { background: rgba(255,215,0,0.05); }
   <button class="theme-btn" onclick="toggleThemeDropdown()">🎨 Theme</button>
   <div class="theme-dropdown" id="themeDropdown"></div>
 </div>
+
+<!-- Device Selector -->
+<div class="device-selector">
+  <button class="device-btn" onclick="setDevice('mobile')" title="Mobile">📱</button>
+  <button class="device-btn" onclick="setDevice('tablet')" title="Tablet">📲</button>
+  <button class="device-btn active" onclick="setDevice('desktop')" title="Desktop">🖥️</button>
+</div>
+
+<!-- Language Selector -->
+<div class="lang-selector">
+  <button class="lang-btn" onclick="toggleLangDropdown()">🌐 EN</button>
+  <div class="lang-dropdown" id="langDropdown">
+    <div class="lang-option" onclick="setLanguage('en')">🇺🇸 English</div>
+    <div class="lang-option" onclick="setLanguage('fr')">🇫🇷 Français</div>
+    <div class="lang-option" onclick="setLanguage('es')">🇪🇸 Español</div>
+    <div class="lang-option" onclick="setLanguage('pt')">🇧🇷 Português</div>
+    <div class="lang-option" onclick="setLanguage('de')">🇩🇪 Deutsch</div>
+    <div class="lang-option" onclick="setLanguage('it')">🇮🇹 Italiano</div>
+    <div class="lang-option" onclick="setLanguage('nl')">🇳🇱 Nederlands</div>
+    <div class="lang-option" onclick="setLanguage('ja')">🇯🇵 日本語</div>
+    <div class="lang-option" onclick="setLanguage('ar')">🇸🇦 العربية</div>
+  </div>
+</div>
+
 
 <div class="container">
   <!-- Header -->
@@ -956,6 +999,130 @@ function setTheme(colors) {
   document.getElementById('themeDropdown').classList.remove('show');
 }
 
+
+// ═══════════════════════════════════════════════════════════════
+// DEVICE SELECTOR FUNCTIONS
+// ═══════════════════════════════════════════════════════════════
+function setDevice(device) {
+  document.body.classList.remove('preview-mobile', 'preview-tablet', 'preview-desktop');
+  document.body.classList.add('preview-' + device);
+  document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LANGUAGE SELECTOR FUNCTIONS  
+// ═══════════════════════════════════════════════════════════════
+const translations = {
+  en: {
+    home: "🏠 Home", top5: "🎯 Top 5", props: "👤 Props", calendar: "📅 Calendar",
+    wc2026: "⚽ World Cup", results: "📊 Results", parlay: "🎰 Parlay Builder", alerts: "🔔 Live",
+    record: "Season Record", winRate: "Win Rate", bankroll: "Bankroll", roi: "ROI",
+    last7: "Last 7 Days", parlays: "Parlays", teamBets: "TEAM/GAME BETS", playerProps: "PLAYER PROPS",
+    calculate: "CALCULATE PARLAY", totalLegs: "Total Legs", combinedOdds: "Combined Odds", payout: "Potential Payout"
+  },
+  fr: {
+    home: "🏠 Accueil", top5: "🎯 Top 5", props: "👤 Props", calendar: "📅 Calendrier",
+    wc2026: "⚽ Coupe du Monde", results: "📊 Résultats", parlay: "🎰 Parlay Builder", alerts: "🔔 En Direct",
+    record: "Bilan Saison", winRate: "% Victoires", bankroll: "Capital", roi: "ROI",
+    last7: "7 Derniers Jours", parlays: "Parlays", teamBets: "PARIS ÉQUIPES", playerProps: "PROPS JOUEURS",
+    calculate: "CALCULER PARLAY", totalLegs: "Total Sélections", combinedOdds: "Cotes Combinées", payout: "Gains Potentiels"
+  },
+  es: {
+    home: "🏠 Inicio", top5: "🎯 Top 5", props: "👤 Props", calendar: "📅 Calendario",
+    wc2026: "⚽ Copa Mundial", results: "📊 Resultados", parlay: "🎰 Parlay Builder", alerts: "🔔 En Vivo",
+    record: "Récord Temporada", winRate: "% Victorias", bankroll: "Capital", roi: "ROI",
+    last7: "Últimos 7 Días", parlays: "Parlays", teamBets: "APUESTAS EQUIPOS", playerProps: "PROPS JUGADORES",
+    calculate: "CALCULAR PARLAY", totalLegs: "Total Selecciones", combinedOdds: "Cuotas Combinadas", payout: "Pago Potencial"
+  },
+  pt: {
+    home: "🏠 Início", top5: "🎯 Top 5", props: "👤 Props", calendar: "📅 Calendário",
+    wc2026: "⚽ Copa do Mundo", results: "📊 Resultados", parlay: "🎰 Parlay Builder", alerts: "🔔 Ao Vivo",
+    record: "Recorde Temporada", winRate: "% Vitórias", bankroll: "Banca", roi: "ROI",
+    last7: "Últimos 7 Dias", parlays: "Parlays", teamBets: "APOSTAS EQUIPES", playerProps: "PROPS JOGADORES",
+    calculate: "CALCULAR PARLAY", totalLegs: "Total Seleções", combinedOdds: "Odds Combinadas", payout: "Pagamento Potencial"
+  },
+  de: {
+    home: "🏠 Start", top5: "🎯 Top 5", props: "👤 Props", calendar: "📅 Kalender",
+    wc2026: "⚽ Weltmeisterschaft", results: "📊 Ergebnisse", parlay: "🎰 Parlay Builder", alerts: "🔔 Live",
+    record: "Saisonbilanz", winRate: "Gewinnrate", bankroll: "Kapital", roi: "ROI",
+    last7: "Letzte 7 Tage", parlays: "Parlays", teamBets: "TEAM-WETTEN", playerProps: "SPIELER-PROPS",
+    calculate: "PARLAY BERECHNEN", totalLegs: "Gesamtauswahl", combinedOdds: "Kombinierte Quoten", payout: "Mögliche Auszahlung"
+  },
+  it: {
+    home: "🏠 Home", top5: "🎯 Top 5", props: "👤 Props", calendar: "📅 Calendario",
+    wc2026: "⚽ Coppa del Mondo", results: "📊 Risultati", parlay: "🎰 Parlay Builder", alerts: "🔔 Live",
+    record: "Record Stagione", winRate: "% Vittorie", bankroll: "Capitale", roi: "ROI",
+    last7: "Ultimi 7 Giorni", parlays: "Parlays", teamBets: "SCOMMESSE SQUADRE", playerProps: "PROPS GIOCATORI",
+    calculate: "CALCOLA PARLAY", totalLegs: "Totale Selezioni", combinedOdds: "Quote Combinate", payout: "Pagamento Potenziale"
+  },
+  nl: {
+    home: "🏠 Home", top5: "🎯 Top 5", props: "👤 Props", calendar: "📅 Kalender",
+    wc2026: "⚽ WK", results: "📊 Resultaten", parlay: "🎰 Parlay Builder", alerts: "🔔 Live",
+    record: "Seizoensrecord", winRate: "Winstpercentage", bankroll: "Bankroll", roi: "ROI",
+    last7: "Laatste 7 Dagen", parlays: "Parlays", teamBets: "TEAM WEDDENSCHAPPEN", playerProps: "SPELER PROPS",
+    calculate: "BEREKEN PARLAY", totalLegs: "Totaal Selecties", combinedOdds: "Gecombineerde Odds", payout: "Potentiële Uitbetaling"
+  },
+  ja: {
+    home: "🏠 ホーム", top5: "🎯 トップ5", props: "👤 プロップ", calendar: "📅 カレンダー",
+    wc2026: "⚽ ワールドカップ", results: "📊 結果", parlay: "🎰 パーレイ", alerts: "🔔 ライブ",
+    record: "シーズン記録", winRate: "勝率", bankroll: "資金", roi: "ROI",
+    last7: "過去7日間", parlays: "パーレイ", teamBets: "チームベット", playerProps: "選手プロップ",
+    calculate: "パーレイ計算", totalLegs: "合計選択", combinedOdds: "合計オッズ", payout: "潜在的な支払い"
+  },
+  ar: {
+    home: "🏠 الرئيسية", top5: "🎯 أفضل 5", props: "👤 إحصائيات", calendar: "📅 التقويم",
+    wc2026: "⚽ كأس العالم", results: "📊 النتائج", parlay: "🎰 بارلاي", alerts: "🔔 مباشر",
+    record: "سجل الموسم", winRate: "نسبة الفوز", bankroll: "رأس المال", roi: "العائد",
+    last7: "آخر 7 أيام", parlays: "بارلاي", teamBets: "رهانات الفريق", playerProps: "إحصائيات اللاعب",
+    calculate: "حساب البارلاي", totalLegs: "إجمالي التحديدات", combinedOdds: "الاحتمالات المجمعة", payout: "الدفع المحتمل"
+  }
+};
+
+let currentLang = 'en';
+
+function toggleLangDropdown() {
+  document.getElementById('langDropdown').classList.toggle('show');
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+  
+  // Update nav buttons
+  const navButtons = document.querySelectorAll('nav button');
+  const navLabels = [t.home, t.top5, t.props, t.calendar, t.wc2026, t.results, t.parlay, t.alerts];
+  navButtons.forEach((btn, i) => {
+    if(navLabels[i]) btn.textContent = navLabels[i];
+  });
+  
+  // Update stat labels
+  const statLabels = document.querySelectorAll('.stat-label');
+  const labels = [t.record, t.winRate, t.bankroll, t.roi, t.last7, t.parlays];
+  statLabels.forEach((el, i) => {
+    if(labels[i]) el.textContent = labels[i];
+  });
+  
+  // Update parlay section headers
+  const parlayTeamHeader = document.querySelector('.parlay-section h3');
+  if(parlayTeamHeader) parlayTeamHeader.innerHTML = '🏆 ' + t.teamBets + ' (MAX 5 LEGS)';
+  
+  // Update calculate button
+  const calcBtn = document.querySelector('.parlay-calculate-btn');
+  if(calcBtn) calcBtn.textContent = '🎰 ' + t.calculate;
+  
+  // Update summary labels
+  const summaryLabels = document.querySelectorAll('.parlay-summary-label');
+  const sLabels = [t.totalLegs + ' / 10 MAX', t.combinedOdds, t.payout + ' ($100)'];
+  summaryLabels.forEach((el, i) => {
+    if(sLabels[i]) el.textContent = sLabels[i];
+  });
+  
+  // Update button text
+  document.querySelector('.lang-btn').textContent = '🌐 ' + lang.toUpperCase();
+  document.getElementById('langDropdown').classList.remove('show');
+}
+
 // Initialize theme dropdown
 function initThemes() {
   const dropdown = document.getElementById('themeDropdown');
@@ -1014,6 +1181,9 @@ window.onclick = function(e) {
   if(e.target.className === 'modal') closeModal();
   if(!e.target.matches('.theme-btn')) {
     document.getElementById('themeDropdown').classList.remove('show');
+  }
+  if(!e.target.matches('.lang-btn')) {
+    document.getElementById('langDropdown').classList.remove('show');
   }
 }
 </script>
