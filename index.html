@@ -107,8 +107,7 @@ tr:hover { background: rgba(255,215,0,0.05); }
 .modal-title { font-size: 1.8rem; font-weight: 800; text-align: center; color: var(--accent); margin: 10px 0; }
 .modal-description { line-height: 1.6; }
 .modal-description h4 { color: var(--accent); margin: 15px 0 8px; font-size: 1rem; }
-.stat-highlight { background: linear-gradient(135deg, #1a1a2e, #0f3460); padding: 10px; border-radius: 8px; margin-top: 15px; border-left: 3px solid var(--accent); }
-/* Parlay Builder Styles */
+.stat-highlight { background: linear-gradient(135deg, #1a1a2e, #0f3460); padding: 10px; border-radius: 8px; margin-top: 15px; border-left: 3px solid var(--accent); }/* Parlay Builder Styles */
 .parlay-container { background: var(--card); border-radius: 15px; padding: 20px; margin: 15px 0; border: 2px solid var(--accent); }
 .parlay-header { text-align: center; margin-bottom: 20px; }
 .parlay-header h2 { color: var(--accent); font-size: 1.5rem; margin-bottom: 5px; }
@@ -266,17 +265,17 @@ tr:hover { background: rgba(255,215,0,0.05); }
   <div class="countdown-grid">
     <div class="countdown-card live">
       <div>⚽ WORLD CUP OPENER</div>
-      <div class="countdown-timer" id="wcCountdown">TODAY 3:00 PM ET</div>
+      <div class="countdown-timer" id="wcCountdown">Loading...</div>
       <div>🇲🇽 Mexico vs South Africa 🇿🇦</div>
     </div>
     <div class="countdown-card">
       <div>🏒 SCF GAME 5</div>
-      <div class="countdown-timer" id="nhlCountdown">TONIGHT 8:00 PM ET</div>
+      <div class="countdown-timer" id="nhlCountdown">Loading...</div>
       <div>Vegas @ Carolina (Series 2-2)</div>
     </div>
     <div class="countdown-card">
       <div>🏀 NBA FINALS G5</div>
-      <div class="countdown-timer" id="nbaCountdown">SAT 8:30 PM ET</div>
+      <div class="countdown-timer" id="nbaCountdown">Loading...</div>
       <div>NYK @ SAS (NYK leads 3-1) 🏆</div>
     </div>
   </div><!-- HOME SECTION -->
@@ -1151,6 +1150,50 @@ function createStars() {
 }
 
 // Live Clock
+
+// Live Countdown Timers
+function updateCountdowns() {
+  const now = new Date();
+  
+  // World Cup Opener: June 11, 2026 at 3:00 PM ET (19:00 UTC)
+  const wcTarget = new Date('2026-06-11T19:00:00Z');
+  updateSingleCountdown('wcCountdown', wcTarget, now, '⚽ KICKOFF!');
+  
+  // NHL SCF Game 5: June 11, 2026 at 8:00 PM ET (00:00 UTC next day)
+  const nhlTarget = new Date('2026-06-12T00:00:00Z');
+  updateSingleCountdown('nhlCountdown', nhlTarget, now, '🏒 PUCK DROP!');
+  
+  // NBA Finals Game 5: June 13, 2026 at 8:30 PM ET (00:30 UTC next day)
+  const nbaTarget = new Date('2026-06-14T00:30:00Z');
+  updateSingleCountdown('nbaCountdown', nbaTarget, now, '🏀 TIP-OFF!');
+}
+
+function updateSingleCountdown(elementId, target, now, endMessage) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  
+  const diff = target - now;
+  
+  if (diff <= 0) {
+    el.textContent = endMessage;
+    el.style.color = '#00ff88';
+    return;
+  }
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+  
+  if (days > 0) {
+    el.textContent = days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
+  } else if (hours > 0) {
+    el.textContent = hours + 'h ' + minutes + 'm ' + seconds + 's';
+  } else {
+    el.textContent = minutes + 'm ' + seconds + 's';
+  }
+}
+
 function updateClock() {
   const now = new Date();
   document.getElementById('liveClock').textContent = now.toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
@@ -1163,6 +1206,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initThemes();
   updateClock();
   setInterval(updateClock, 1000);
+  updateCountdowns();
+  setInterval(updateCountdowns, 1000);
   
   // Add change listeners to all parlay selects
   for(let i=1;i<=5;i++) {
