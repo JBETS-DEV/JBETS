@@ -3,1759 +3,1019 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>🏆 SigMAX v79 ULTIMATE ELITE PREMIUM</title>
+<title>🏆 SigMAX v80 ULTIMATE ELITE PREMIUM</title>
 <style>
 /* ═══════════════════════════════════════════════════════════════
-   🏆 SIGMAX v79 ULTIMATE ELITE PREMIUM CSS
+   🏆 SIGMAX v80 ULTIMATE ELITE PREMIUM CSS
    ═══════════════════════════════════════════════════════════════ */
 :root {
   --bg: #050508;
   --bg-secondary: #0a0a12;
   --card: #0d0d14;
-  --card-border: #1a1a2e;
+  --card-border: #1a1a2a;
   --accent: #ffd700;
+  --accent2: #f4c430;
   --text: #e8e8e8;
   --text-muted: #888;
   --green: #00ff88;
   --red: #ff4757;
   --blue: #4ecdc4;
-  --orange: #ff9f43;
-  --purple: #a855f7;
-  --gold-gradient: linear-gradient(135deg, #ffd700, #ff6b35, #ffd700);
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(180deg, #0a0a12 0%, #0f0f1a 50%, #050510 100%); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+.container { max-width: 1400px; margin: 0 auto; padding: 55px 15px 15px; }
 
-body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-  font-size: 13px;
-  line-height: 1.5;
-}
+/* Ticker Animation */
+@keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes fall { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+@keyframes shimmer { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
 
-/* ANIMATIONS */
-@keyframes fall {
-  0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
-@keyframes scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.4); }
-  50% { box-shadow: 0 0 50px rgba(255,215,0,0.8), 0 0 80px rgba(255,107,53,0.4); }
-}
-@keyframes glow {
-  0%, 100% { text-shadow: 0 0 10px var(--accent); }
-  50% { text-shadow: 0 0 20px var(--accent), 0 0 30px var(--orange); }
-}
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
+/* Stars Container */
+.stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.star, .diamond { position: absolute; animation: fall linear infinite; }
+.star { font-size: 1.5rem; text-shadow: 0 0 10px rgba(255,215,0,0.8); }
+.diamond { width: 10px; height: 10px; background: linear-gradient(135deg, #ffd700, #fff8dc, #ffd700); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
 
-/* FALLING STARS */
-.stars-container {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-.star, .diamond {
-  position: absolute;
-  animation: fall linear infinite;
-}
-.star {
-  font-size: 1.5rem;
-  text-shadow: 0 0 15px rgba(255,215,0,0.9);
-}
-.diamond {
-  width: 12px; height: 12px;
-  background: linear-gradient(135deg, #ffd700, #fff8dc, #ffd700);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  box-shadow: 0 0 10px rgba(255,215,0,0.6);
-}
-
-/* TICKER */
-.ticker-wrapper {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1000;
-  background: linear-gradient(90deg, #0a0a0f, #1a1a2e, #0a0a0f);
-  border-bottom: 2px solid var(--accent);
-  height: 44px;
-  overflow: hidden;
-}
-.ticker-track {
-  display: flex;
-  animation: scroll-left 45s linear infinite;
-}
-.ticker-item {
-  display: inline-flex;
-  align-items: center;
-  padding: 12px 25px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  border-right: 1px solid #333;
-  white-space: nowrap;
-}
+/* Ticker */
+.ticker-wrapper { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: linear-gradient(90deg, #0a0a0f, #1a1a2a, #0a0a0f); border-bottom: 2px solid var(--accent); padding: 0; overflow: hidden; height: 45px; }
+.ticker-track { display: flex; animation: scroll-left 60s linear infinite; width: max-content; }
+.ticker-track:hover { animation-play-state: paused; }
+.ticker-item { display: inline-flex; align-items: center; padding: 12px 30px; white-space: nowrap; font-weight: 600; font-size: 0.95rem; gap: 8px; border-right: 1px solid #333; }
 .ticker-item.win { color: var(--green); }
-.ticker-item.alert { color: var(--orange); }
+.ticker-item.loss { color: var(--red); }
+.ticker-item.alert { color: #ff9f43; animation: pulse 2s infinite; }
 .ticker-item.upcoming { color: var(--accent); }
-.ticker-item.live { color: #ff0000; animation: glow 1s infinite; }
 
-/* CONTAINER */
-.container {
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 60px 20px 20px 20px;
-}
+/* Header & Nav */
+.header { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); border-radius: 20px; padding: 20px; margin-bottom: 15px; text-align: center; border: 2px solid var(--accent); box-shadow: 0 0 30px rgba(255,215,0,0.3); }
+.logo { font-size: 2.5rem; }
+.title { font-size: 2rem; font-weight: 800; background: linear-gradient(90deg, #ffd700, #ff6b35, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.subtitle { color: #888; margin-top: 5px; font-size: 0.9rem; }
+nav { display: flex; gap: 8px; margin: 15px 0; flex-wrap: wrap; justify-content: center; }
+nav button { background: var(--card); border: 1px solid #333; border-radius: 20px; padding: 8px 16px; cursor: pointer; color: var(--text); font-weight: 600; transition: all 0.3s; font-size: 0.85rem; }
+nav button:hover, nav button.active { background: var(--accent); color: #000; border-color: var(--accent); }
+nav button.live-btn { background: linear-gradient(135deg, #ff4757, #ff6b6b); border-color: #ff4757; color: #fff; animation: pulse 2s infinite; }
+nav button.premium { background: linear-gradient(135deg, #ffd700, #f4c430); color: #000; }
 
-/* HEADER - ELITE PREMIUM */
-.header {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  border-radius: 25px;
-  padding: 30px;
-  text-align: center;
-  border: 3px solid var(--accent);
-  margin-bottom: 20px;
-  animation: pulse 3s infinite;
-  position: relative;
-  overflow: hidden;
-}
-.header::before {
-  content: '';
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: linear-gradient(45deg, transparent 30%, rgba(255,215,0,0.1) 50%, transparent 70%);
-  animation: shimmer 3s infinite;
-}
-.logo { font-size: 3rem; position: relative; z-index: 1; }
-.title {
-  font-size: 2.5rem;
-  font-weight: 900;
-  background: var(--gold-gradient);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 3s linear infinite;
-  position: relative;
-  z-index: 1;
-}
-.subtitle {
-  font-size: 1rem;
-  color: var(--accent);
-  margin: 8px 0;
-  font-weight: 700;
-  position: relative;
-  z-index: 1;
-}
-.live-clock {
-  font-size: 1.2rem;
-  color: var(--green);
-  font-weight: 700;
-  font-family: 'Courier New', monospace;
-}
-.stats-line {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin-top: 10px;
-}
-.stats-line span { color: var(--green); font-weight: 700; }
+/* Stats Grid */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 15px 0; }
+.stat-card { background: var(--card); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid var(--card-border); transition: all 0.3s; }
+.stat-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(255,215,0,0.2); }
+.stat-value { font-size: 1.8rem; font-weight: 800; color: var(--accent); }
+.stat-label { color: #888; font-size: 0.8rem; margin-top: 5px; }
 
-/* NAVIGATION */
-nav {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 15px 0;
-  padding: 10px;
-  background: var(--card);
-  border-radius: 15px;
-  border: 1px solid var(--card-border);
-}
-nav button {
-  background: var(--bg-secondary);
-  border: 1px solid var(--card-border);
-  border-radius: 20px;
-  padding: 10px 18px;
-  color: var(--text);
-  cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-nav button:hover {
-  background: var(--accent);
-  color: #000;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255,215,0,0.3);
-}
-nav button.active {
-  background: var(--gold-gradient);
-  color: #000;
-  border-color: var(--accent);
-}
-nav button.premium {
-  background: var(--gold-gradient);
-  color: #000;
-  font-weight: 800;
-  animation: pulse 2s infinite;
-}
-nav button.live-btn {
-  background: linear-gradient(135deg, #ff0000, #cc0000);
-  color: #fff;
-  animation: glow 1s infinite;
-}
-
-/* SECTIONS */
-.section {
-  display: none;
-  background: var(--card);
-  border-radius: 15px;
-  padding: 20px;
-  margin: 10px 0;
-  border: 1px solid var(--card-border);
-}
-.section.active { display: block; }
-.section-title {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--accent);
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--card-border);
-}
-
-/* STATS GRID */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 12px;
-  margin: 15px 0;
-}
-.stat-card {
-  background: linear-gradient(135deg, #1a1a2e, #0f3460);
-  border-radius: 12px;
-  padding: 15px;
-  text-align: center;
-  border: 1px solid var(--card-border);
-  transition: transform 0.3s;
-}
-.stat-card:hover { transform: translateY(-3px); }
-.stat-value {
-  font-size: 1.8rem;
-  font-weight: 900;
-  color: var(--accent);
-}
-.stat-label {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* COUNTDOWN GRID */
-.countdown-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 12px;
-}
-.countdown-card {
-  background: linear-gradient(135deg, #1a1a2e, #0f3460);
-  border-radius: 12px;
-  padding: 15px;
-  border-left: 5px solid var(--accent);
-  transition: all 0.3s;
-}
-.countdown-card:hover {
-  transform: translateX(5px);
-  border-left-color: var(--green);
-}
+/* Countdown Grid */
+.countdown-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0; }
+.countdown-card { background: var(--card); border-radius: 12px; padding: 15px; border-left: 4px solid var(--accent); }
 .countdown-card.live { border-left-color: #ff0000; animation: pulse 1s infinite; }
-.countdown-card.complete { border-left-color: var(--green); }
-.countdown-title { font-weight: 700; font-size: 1rem; }
-.countdown-subtitle { color: var(--text-muted); font-size: 0.8rem; margin: 5px 0; }
-.countdown-timer {
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--green);
-  font-family: 'Courier New', monospace;
-}
+.countdown-timer { font-size: 1.5rem; font-weight: 800; color: var(--accent); margin: 10px 0; }
 
-/* TEAM CARDS - ELITE VERSION */
-.teams-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 15px;
-}
-.team-card {
-  background: var(--card);
-  border-radius: 15px;
-  overflow: hidden;
-  border: 2px solid var(--card-border);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.team-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(255,215,0,0.2);
-}
-.team-header {
-  height: 100px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.team-header::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(transparent 40%, rgba(0,0,0,0.8));
-}
-.team-flag {
-  font-size: 4rem;
-  z-index: 1;
-  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
-}
-.team-star {
-  position: absolute;
-  bottom: 8px;
-  left: 12px;
-  z-index: 2;
-  background: var(--gold-gradient);
-  color: #000;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 0.7rem;
-}
-.team-body { padding: 15px; }
-.team-name {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: var(--accent);
-}
-.team-group {
-  display: inline-block;
-  background: rgba(255,215,0,0.15);
-  color: var(--accent);
-  padding: 3px 8px;
-  border-radius: 10px;
-  font-size: 0.7rem;
-  margin-left: 8px;
-}
-.team-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin: 10px 0;
-}
-.team-info-item {
-  background: rgba(0,0,0,0.3);
-  padding: 8px;
-  border-radius: 8px;
-}
-.team-info-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; }
-.team-info-value { font-size: 0.85rem; font-weight: 600; }
-.team-history {
-  margin-top: 10px;
-  padding: 10px;
-  background: rgba(255,215,0,0.05);
-  border-left: 3px solid var(--accent);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  line-height: 1.4;
-  max-height: 60px;
-  overflow: hidden;
-}
+/* Sections */
+.section { display: none; }
+.section.active { display: block; }
+.section-title { font-size: 1.3rem; font-weight: 700; color: var(--accent); margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid var(--card-border); }
 
-/* FILTER BUTTONS */
-.filter-group {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin: 15px 0;
-  justify-content: center;
-}
-.filter-btn {
-  background: var(--bg);
-  border: 1px solid var(--card-border);
-  color: var(--text);
-  padding: 8px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 600;
-  transition: all 0.3s;
-}
-.filter-btn:hover, .filter-btn.active {
-  background: var(--accent);
-  color: #000;
-  border-color: var(--accent);
-}
-
-/* SEARCH BOX */
-.search-box {
-  width: 100%;
-  max-width: 400px;
-  padding: 12px 20px;
-  border-radius: 25px;
-  border: 2px solid var(--card-border);
-  background: var(--bg);
-  color: var(--text);
-  font-size: 1rem;
-  margin: 15px auto;
-  display: block;
-  transition: border-color 0.3s;
-}
-.search-box:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-/* PICKS */
-.pick-card {
-  background: linear-gradient(135deg, #1a1a2e, #0f3460);
-  border-radius: 12px;
-  padding: 15px;
-  margin: 10px 0;
-  border-left: 5px solid var(--accent);
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 15px;
-  align-items: center;
-  transition: all 0.3s;
-}
-.pick-card:hover { transform: translateX(5px); }
-.pick-card.winner { border-left-color: var(--green); background: linear-gradient(135deg, #0a2a1a, #0f3460); }
-.pick-card.loser { border-left-color: var(--red); opacity: 0.7; }
-.pick-rank { font-size: 1.8rem; }
-.pick-team { font-weight: 800; font-size: 1.1rem; }
-.pick-details { font-size: 0.8rem; color: var(--text-muted); }
-.pick-status { font-size: 1.2rem; font-weight: 700; }
-.win { color: var(--green); }
-.loss { color: var(--red); }
-.pending { color: var(--accent); }
-.live { color: var(--orange); animation: glow 1s infinite; }
-
-/* TABLES */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.85rem;
-}
-th, td {
-  padding: 12px 10px;
-  text-align: left;
-  border-bottom: 1px solid var(--card-border);
-}
-th {
-  background: linear-gradient(135deg, #1a1a2e, #0f3460);
-  color: var(--accent);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
-}
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 10px 0; background: var(--card); border-radius: 10px; overflow: hidden; font-size: 0.85rem; }
+th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--card-border); }
+th { background: #1a1a2e; color: var(--accent); font-weight: 700; font-size: 0.8rem; }
 tr:hover { background: rgba(255,215,0,0.05); }
+.win { color: var(--green); font-weight: 600; }
+.loss { color: var(--red); font-weight: 600; }
+.pending { color: var(--accent); }
+.live { color: #ff4757; font-weight: 700; animation: pulse 1.5s infinite; }
 
-/* CHARTS */
-.chart-container {
-  background: linear-gradient(135deg, #1a1a2e, #0f3460);
-  border-radius: 12px;
-  padding: 20px;
-  margin: 15px 0;
-}
-.chart-title { font-weight: 700; color: var(--accent); margin-bottom: 15px; }
-.bar {
-  height: 30px;
-  border-radius: 8px;
-  margin: 8px 0;
-  display: flex;
-  align-items: center;
-  padding-left: 15px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  transition: width 0.5s ease;
-}
+/* Teams Grid */
+.teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.team-card { background: var(--card); border-radius: 10px; padding: 12px; text-align: center; cursor: pointer; border: 1px solid var(--card-border); transition: all 0.3s; }
+.team-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 5px 20px rgba(255,215,0,0.2); }
+.team-flag { font-size: 2rem; margin-bottom: 5px; }
+.team-name { font-weight: 700; font-size: 0.9rem; }
+.team-group { font-size: 0.75rem; color: #888; margin-top: 3px; }
 
-/* ALERTS */
-.alert-card {
-  background: linear-gradient(135deg, #2a1a1a, #1a1a2a);
-  border-radius: 12px;
-  padding: 15px;
-  margin: 10px 0;
-  border-left: 5px solid var(--orange);
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-.alert-time { font-weight: 700; min-width: 80px; }
-.alert-card.win-alert { border-left-color: var(--green); }
-.alert-card.urgent { border-left-color: #ff0000; animation: pulse 1s infinite; }
+/* Filter Buttons */
+.filter-btn { background: var(--card); border: 1px solid #333; border-radius: 15px; padding: 6px 12px; cursor: pointer; color: var(--text); font-size: 0.8rem; transition: all 0.2s; }
+.filter-btn:hover, .filter-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
 
-/* PARLAY BUILDER - FOLLOWS RULES */
-.parlay-container {
-  background: linear-gradient(135deg, #1a1a2e, #0f3460);
-  border-radius: 15px;
-  padding: 20px;
-  border: 2px solid var(--accent);
-}
-.parlay-rules {
-  background: rgba(255,215,0,0.1);
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 15px;
-  border: 1px dashed var(--accent);
-}
-.parlay-rule { display: flex; justify-content: space-between; margin: 5px 0; }
-.parlay-rule-label { color: var(--text-muted); }
-.parlay-rule-value { font-weight: 700; color: var(--accent); }
-.parlay-leg {
-  background: var(--bg);
-  border-radius: 10px;
-  padding: 12px;
-  margin: 8px 0;
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
-  gap: 15px;
-  align-items: center;
-  border: 1px solid var(--card-border);
-}
-.parlay-summary {
-  margin-top: 20px;
-  padding: 20px;
-  background: var(--bg);
-  border-radius: 12px;
-  text-align: center;
-}
-.parlay-odds { font-size: 2rem; font-weight: 900; color: var(--green); }
-.parlay-payout { font-size: 1.2rem; color: var(--accent); }
-
-/* ELITE SECTION */
-.elite-container {
-  text-align: center;
-  background: var(--gold-gradient);
-  border-radius: 20px;
-  padding: 40px;
-  color: #000;
-  position: relative;
-  overflow: hidden;
-}
-.elite-container::before {
-  content: '';
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
-  animation: shimmer 2s infinite;
-}
-.elite-icons { font-size: 4rem; margin-bottom: 20px; position: relative; z-index: 1; }
-.elite-title { font-size: 2.5rem; font-weight: 900; position: relative; z-index: 1; }
-.elite-features { margin: 25px 0; font-size: 1.1rem; line-height: 2; position: relative; z-index: 1; }
-.elite-price {
-  background: #000;
-  color: var(--accent);
-  padding: 15px 40px;
-  border-radius: 30px;
-  font-size: 1.5rem;
-  font-weight: 900;
-  display: inline-block;
-  position: relative;
-  z-index: 1;
-}
-
-/* THEME DROPDOWN */
-.theme-section { margin-top: 20px; }
-.theme-category {
-  font-weight: 700;
-  color: var(--accent);
-  margin: 15px 0 10px 0;
-  padding-bottom: 5px;
-  border-bottom: 1px solid var(--card-border);
-}
-.theme-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 8px;
-}
-.theme-btn {
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: 2px solid transparent;
-  transition: all 0.3s;
-}
-.theme-btn:hover {
-  border-color: var(--accent);
-  transform: scale(1.05);
-}
-
-/* MODAL */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.95);
-  z-index: 2000;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-.modal.active { display: flex; }
-.modal-content {
-  background: var(--card);
-  border-radius: 20px;
-  padding: 30px;
-  max-width: 500px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  border: 3px solid var(--accent);
-  position: relative;
-}
-.modal-close {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 2rem;
-  cursor: pointer;
-  color: var(--text-muted);
-  transition: color 0.3s;
-}
+/* Modal */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow-y: auto; }
+.modal-content { background: linear-gradient(180deg, #0f0f1a, #0a0a12); margin: 5% auto; padding: 25px; border-radius: 20px; max-width: 600px; border: 2px solid var(--accent); position: relative; }
+.modal-close { position: absolute; right: 15px; top: 10px; font-size: 2rem; cursor: pointer; color: var(--text); }
 .modal-close:hover { color: var(--accent); }
-.modal-flag { font-size: 5rem; text-align: center; }
-.modal-title { font-size: 2rem; font-weight: 900; text-align: center; color: var(--accent); margin: 10px 0; }
-.modal-conf { text-align: center; color: var(--text-muted); font-size: 1rem; }
-.modal-group { text-align: center; font-size: 1.3rem; color: var(--accent); font-weight: 700; margin: 10px 0; }
-.modal-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 20px 0;
-}
-.modal-stat {
-  background: var(--bg);
-  padding: 15px;
-  border-radius: 12px;
-  text-align: center;
-}
-.modal-stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
-.modal-stat-value { font-size: 1.5rem; font-weight: 900; color: var(--accent); }
-.modal-description {
-  background: var(--bg);
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 15px;
-  border-left: 4px solid var(--accent);
-  white-space: pre-line;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  max-height: 300px;
-  overflow-y: auto;
-}
-.modal-pick {
-  background: linear-gradient(135deg, #1a3a1a, #0f3460);
-  padding: 15px;
-  border-radius: 12px;
-  margin-top: 15px;
-  text-align: center;
-}
-.modal-pick-title { color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+.modal-flag { font-size: 4rem; text-align: center; }
+.modal-title { font-size: 1.8rem; font-weight: 800; text-align: center; color: var(--accent); margin: 10px 0; }
+.modal-description { line-height: 1.6; }
+.modal-description h4 { color: var(--accent); margin: 15px 0 8px; font-size: 1rem; }
+.stat-highlight { background: linear-gradient(135deg, #1a1a2e, #0f3460); padding: 10px; border-radius: 8px; margin-top: 15px; border-left: 3px solid var(--accent); }/* Parlay Builder Styles */
+.parlay-container { background: var(--card); border-radius: 15px; padding: 20px; margin: 15px 0; border: 2px solid var(--accent); }
+.parlay-header { text-align: center; margin-bottom: 20px; }
+.parlay-header h2 { color: var(--accent); font-size: 1.5rem; margin-bottom: 5px; }
+.parlay-rules { background: rgba(255,215,0,0.1); padding: 10px; border-radius: 8px; margin: 10px 0; font-size: 0.85rem; text-align: center; border: 1px dashed var(--accent); }
+.parlay-section { margin: 20px 0; }
+.parlay-section h3 { color: var(--accent); margin-bottom: 10px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+.parlay-section h3::before { content: ''; width: 4px; height: 20px; background: var(--accent); border-radius: 2px; }
+.parlay-row { display: grid; grid-template-columns: 60px 100px 1fr 120px 1fr 80px 100px; gap: 8px; align-items: center; padding: 10px; background: #1a1a2e; border-radius: 8px; margin: 8px 0; }
+.parlay-row.header { background: #0f3460; font-weight: 700; font-size: 0.8rem; color: var(--accent); }
+.parlay-row select, .parlay-row input { background: var(--bg); border: 1px solid #333; border-radius: 5px; padding: 8px; color: var(--text); font-size: 0.85rem; width: 100%; }
+.parlay-row select:focus, .parlay-row input:focus { border-color: var(--accent); outline: none; }
+.parlay-summary { background: linear-gradient(135deg, #1a1a2e, #0f3460); border-radius: 12px; padding: 15px; margin: 20px 0; border: 1px solid var(--accent); }
+.parlay-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center; }
+.parlay-summary-item { padding: 10px; }
+.parlay-summary-value { font-size: 1.8rem; font-weight: 800; color: var(--accent); }
+.parlay-summary-label { font-size: 0.8rem; color: #888; }
+.parlay-validation { padding: 10px; background: rgba(0,255,136,0.1); border-radius: 8px; text-align: center; margin-top: 15px; border: 1px solid var(--green); color: var(--green); }
+.parlay-validation.error { background: rgba(255,71,87,0.1); border-color: var(--red); color: var(--red); }
+.parlay-calculate-btn { display: block; width: 100%; padding: 15px; background: linear-gradient(135deg, #ffd700, #f4c430); border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 800; color: #000; cursor: pointer; margin-top: 15px; transition: all 0.3s; }
+.parlay-calculate-btn:hover { transform: scale(1.02); box-shadow: 0 5px 20px rgba(255,215,0,0.4); }
+.parlay-record-table { margin-top: 20px; }
+.leg-status { padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+.leg-status.active { background: rgba(255,215,0,0.2); color: var(--accent); }
+.leg-status.pending { background: rgba(136,136,136,0.2); color: #888; }
+.leg-status.won { background: rgba(0,255,136,0.2); color: var(--green); }
+.leg-status.lost { background: rgba(255,71,87,0.2); color: var(--red); }
 
-/* FOOTER */
-.footer {
-  text-align: center;
-  padding: 30px;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  border-top: 1px solid var(--card-border);
-  margin-top: 30px;
+/* Clock */
+.live-clock { position: fixed; bottom: 20px; right: 20px; background: var(--card); padding: 10px 15px; border-radius: 10px; border: 1px solid var(--accent); z-index: 1000; font-size: 0.9rem; }
+.live-clock .time { font-weight: 700; color: var(--accent); font-size: 1.1rem; }
+
+/* Theme Selector */
+.theme-selector { position: fixed; top: 55px; right: 10px; z-index: 999; }
+.theme-btn { background: var(--card); border: 1px solid #333; border-radius: 8px; padding: 8px 12px; cursor: pointer; color: var(--text); font-size: 0.8rem; }
+.theme-dropdown { display: none; position: absolute; right: 0; top: 100%; background: var(--card); border: 1px solid #333; border-radius: 8px; max-height: 300px; overflow-y: auto; min-width: 200px; }
+.theme-dropdown.show { display: block; }
+.theme-option { padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+.theme-option:hover { background: rgba(255,215,0,0.1); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .teams-grid { grid-template-columns: repeat(3, 1fr); }
+  .parlay-row { grid-template-columns: 1fr; gap: 5px; padding: 15px; }
+  .parlay-row.header { display: none; }
+  nav { gap: 5px; }
+  nav button { padding: 6px 12px; font-size: 0.75rem; }
 }
 </style>
 </head>
 <body>
-<!-- FALLING STARS -->
+<!-- Stars Background -->
 <div class="stars-container" id="starsContainer"></div>
 
-<!-- TICKER -->
-<div class="ticker-wrapper" id="tickerWrapper">
-<div class="ticker-track">
-<span class="ticker-item live">🔴 LIVE: World Cup 2026 STARTS TODAY!</span>
-<span class="ticker-item win">✅ NYK HISTORIC 29-PT COMEBACK! 107-106</span>
-<span class="ticker-item win">✅ CAR 5-3 VGK • SCF G4</span>
-<span class="ticker-item alert">🔥 NBA FINALS: NYK leads 3-1</span>
-<span class="ticker-item upcoming">⚽ OPENER: Mexico vs S.Africa 5PM ET</span>
-<span class="ticker-item">🏒 SCF G5: VGK @ CAR Thu 8PM</span>
-<span class="ticker-item win">📊 Season: 256-47 (84.5%)</span>
-<span class="ticker-item live">🔴 LIVE: World Cup 2026 STARTS TODAY!</span>
-<span class="ticker-item win">✅ NYK HISTORIC 29-PT COMEBACK! 107-106</span>
-<span class="ticker-item win">✅ CAR 5-3 VGK • SCF G4</span>
-<span class="ticker-item alert">🔥 NBA FINALS: NYK leads 3-1</span>
-<span class="ticker-item upcoming">⚽ OPENER: Mexico vs S.Africa 5PM ET</span>
-</div>
+<!-- Ticker Banner -->
+<div class="ticker-wrapper">
+  <div class="ticker-track">
+    <span class="ticker-item win">🏀 NYK 107-106 SAS ✅ HISTORIC 29-PT COMEBACK!</span>
+    <span class="ticker-item win">🏒 CAR 5-3 VGK ✅ Staal 2G!</span>
+    <span class="ticker-item alert">⚽ WORLD CUP STARTS TODAY! 🇲🇽 vs 🇿🇦</span>
+    <span class="ticker-item upcoming">🏒 SCF G5 TONIGHT 8PM</span>
+    <span class="ticker-item">📊 RECORD: 256-47 (84.5%)</span>
+    <span class="ticker-item win">🎾 ZVEREV WINS FIRST SLAM!</span>
+    <span class="ticker-item">💰 BANKROLL: $13,850 (+92.3% ROI)</span>
+    <span class="ticker-item win">🏀 NYK 107-106 SAS ✅ HISTORIC 29-PT COMEBACK!</span>
+    <span class="ticker-item win">🏒 CAR 5-3 VGK ✅ Staal 2G!</span>
+    <span class="ticker-item alert">⚽ WORLD CUP STARTS TODAY! 🇲🇽 vs 🇿🇦</span>
+    <span class="ticker-item upcoming">🏒 SCF G5 TONIGHT 8PM</span>
+    <span class="ticker-item">📊 RECORD: 256-47 (84.5%)</span>
+    <span class="ticker-item win">🎾 ZVEREV WINS FIRST SLAM!</span>
+    <span class="ticker-item">💰 BANKROLL: $13,850 (+92.3% ROI)</span>
+  </div>
 </div>
 
-<!-- MAIN CONTAINER -->
+<!-- Theme Selector -->
+<div class="theme-selector">
+  <button class="theme-btn" onclick="toggleThemeDropdown()">🎨 Theme</button>
+  <div class="theme-dropdown" id="themeDropdown"></div>
+</div>
+
 <div class="container">
-
-<!-- HEADER -->
-<header class="header">
-<div class="logo">🏆⚽🏀🏒⚾💎</div>
-<div class="title">SigMAX v79 ULTIMATE</div>
-<div class="subtitle">ELITE PREMIUM EDITION</div>
-<div class="live-clock">🔴 LIVE: <span id="liveClock">--:--:--</span> ET</div>
-<div class="stats-line">📊 <span>256-47</span> (84.5%) | 💰 <span>$13,850</span> Profit | 🎯 <span>303</span> Total | ROI <span>+92.3%</span></div>
-</header>
-
-<!-- NAVIGATION -->
-<nav>
-<button class="active" onclick="showSection('home')">🏠 Home</button>
-<button onclick="showSection('worldcup')">⚽ World Cup</button>
-<button onclick="showSection('top5')">🎯 Top 5</button>
-<button onclick="showSection('props')">👤 Props</button>
-<button onclick="showSection('parlay')">🎰 Parlay</button>
-<button onclick="showSection('charts')">📊 Analytics</button>
-<button onclick="showSection('alerts')">🚨 Alerts</button>
-<button class="live-btn" onclick="showSection('nhl')">🏒 NHL</button>
-<button class="live-btn" onclick="showSection('nba')">🏀 NBA</button>
-<button onclick="showSection('mlb')">⚾ MLB</button>
-<button onclick="showSection('history')">📜 History</button>
-<button class="premium" onclick="showSection('elite')">💎 ELITE</button>
-<button onclick="showSection('settings')">⚙️</button>
-</nav><!-- ═══════════════════════════════════════════════════════════════
-     SECTION: HOME DASHBOARD
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="home" class="section active">
-<div class="section-title">🏠 DASHBOARD — LIVE OVERVIEW</div>
-
-<div class="stats-grid">
-<div class="stat-card"><div class="stat-value">256-47</div><div class="stat-label">Record (84.5%)</div></div>
-<div class="stat-card"><div class="stat-value">$13,850</div><div class="stat-label">Total Profit</div></div>
-<div class="stat-card"><div class="stat-value">+92.3%</div><div class="stat-label">ROI</div></div>
-<div class="stat-card"><div class="stat-value">303</div><div class="stat-label">Total Picks</div></div>
-</div>
-
-<div class="countdown-grid">
-<div class="countdown-card">
-<div style="font-weight:700;color:var(--accent)">⚽ WORLD CUP 2026 OPENER</div>
-<div style="font-size:0.85rem;color:var(--text-muted)">🇲🇽 Mexico vs South Africa 🇿🇦</div>
-<div class="countdown-timer" id="countdown-wc">LOADING...</div>
-<div style="font-size:0.75rem;color:#888">June 11 @ 5:00 PM ET - Azteca Stadium</div>
-</div>
-<div class="countdown-card">
-<div style="font-weight:700;color:var(--accent)">🏒 NHL SCF GAME 5</div>
-<div style="font-size:0.85rem;color:var(--text-muted)">Vegas @ Carolina (Series 2-2)</div>
-<div class="countdown-timer" id="countdown-nhl">LOADING...</div>
-<div style="font-size:0.75rem;color:#888">June 11 @ 8:00 PM ET</div>
-</div>
-<div class="countdown-card">
-<div style="font-weight:700;color:var(--accent)">🏀 NBA FINALS GAME 5</div>
-<div style="font-size:0.85rem;color:var(--text-muted)">Knicks @ Spurs (NYK leads 3-1)</div>
-<div class="countdown-timer" id="countdown-nba">LOADING...</div>
-<div style="font-size:0.75rem;color:#888">June 13 @ 8:30 PM ET - CLINCH GAME!</div>
-</div>
-</div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SECTION: WORLD CUP 2026 — ALL 48 TEAMS
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="worldcup" class="section">
-<div class="section-title">⚽ FIFA WORLD CUP 2026 — ALL 48 TEAMS</div>
-
-<div style="background:linear-gradient(135deg,#006400,#228B22);border-radius:15px;padding:20px;margin-bottom:20px;text-align:center;border:2px solid var(--accent)">
-<div style="font-size:1.5rem;font-weight:800;color:#fff">🏆 FIFA WORLD CUP 2026™</div>
-<div style="color:#fff;opacity:0.9">🇺🇸 USA • 🇲🇽 Mexico • 🇨🇦 Canada | June 11 - July 19, 2026</div>
-<div style="margin-top:10px;color:var(--accent);font-weight:700">🔴 OPENS TODAY: Mexico vs South Africa @ 5PM ET!</div>
-</div>
-
-<input type="text" id="teamSearch" placeholder="🔍 Search teams..." onkeyup="searchTeams(this.value)" style="width:100%;padding:12px;border-radius:8px;border:1px solid #333;background:var(--bg);color:var(--text);margin-bottom:15px">
-
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px">
-<button class="filter-btn active" onclick="filterTeams('all',this)">🌍 All</button>
-<button class="filter-btn" onclick="filterTeams('host',this)">🏠 Hosts</button>
-<button class="filter-btn" onclick="filterTeams('uefa',this)">🇪🇺 UEFA</button>
-<button class="filter-btn" onclick="filterTeams('conmebol',this)">🌎 CONMEBOL</button>
-<button class="filter-btn" onclick="filterTeams('concacaf',this)">🌎 CONCACAF</button>
-<button class="filter-btn" onclick="filterTeams('afc',this)">🌏 AFC</button>
-<button class="filter-btn" onclick="filterTeams('caf',this)">🌍 CAF</button>
-</div>
-
-<!-- GROUP A -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP A</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="host" onclick="openTeamModal('Mexico')"><div class="team-flag">🇲🇽</div><div class="team-name">Mexico</div><div class="team-group">🏠 Host • Group A</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('South Africa')"><div class="team-flag">🇿🇦</div><div class="team-name">South Africa</div><div class="team-group">CAF • Group A</div></div>
-<div class="team-card" data-conf="afc" onclick="openTeamModal('South Korea')"><div class="team-flag">🇰🇷</div><div class="team-name">South Korea</div><div class="team-group">AFC • Group A</div></div>
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Czechia')"><div class="team-flag">🇨🇿</div><div class="team-name">Czechia</div><div class="team-group">UEFA • Group A</div></div>
-</div>
-
-<!-- GROUP B -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP B</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="host" onclick="openTeamModal('Canada')"><div class="team-flag">🇨🇦</div><div class="team-name">Canada</div><div class="team-group">🏠 Host • Group B</div></div>
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Bosnia')"><div class="team-flag">🇧🇦</div><div class="team-name">Bosnia</div><div class="team-group">UEFA • Group B</div></div>
-<div class="team-card" data-conf="conmebol" onclick="openTeamModal('Argentina')"><div class="team-flag">🇦🇷</div><div class="team-name">Argentina</div><div class="team-group">CONMEBOL • Group B</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Nigeria')"><div class="team-flag">🇳🇬</div><div class="team-name">Nigeria</div><div class="team-group">CAF • Group B</div></div>
-</div>
-
-<!-- GROUP C -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP C</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="conmebol" onclick="openTeamModal('Brazil')"><div class="team-flag">🇧🇷</div><div class="team-name">Brazil</div><div class="team-group">CONMEBOL • Group C</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Morocco')"><div class="team-flag">🇲🇦</div><div class="team-name">Morocco</div><div class="team-group">CAF • Group C</div></div>
-<div class="team-card" data-conf="concacaf" onclick="openTeamModal('Haiti')"><div class="team-flag">🇭🇹</div><div class="team-name">Haiti</div><div class="team-group">CONCACAF • Group C</div></div>
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Scotland')"><div class="team-flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</div><div class="team-name">Scotland</div><div class="team-group">UEFA • Group C</div></div>
-</div>
-
-<!-- GROUP D -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP D</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="host" onclick="openTeamModal('USA')"><div class="team-flag">🇺🇸</div><div class="team-name">USA</div><div class="team-group">🏠 Host • Group D</div></div>
-<div class="team-card" data-conf="conmebol" onclick="openTeamModal('Paraguay')"><div class="team-flag">🇵🇾</div><div class="team-name">Paraguay</div><div class="team-group">CONMEBOL • Group D</div></div>
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Serbia')"><div class="team-flag">🇷🇸</div><div class="team-name">Serbia</div><div class="team-group">UEFA • Group D</div></div>
-<div class="team-card" data-conf="afc" onclick="openTeamModal('Iran')"><div class="team-flag">🇮🇷</div><div class="team-name">Iran</div><div class="team-group">AFC • Group D</div></div>
-</div>
-
-<!-- GROUP E -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP E</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Germany')"><div class="team-flag">🇩🇪</div><div class="team-name">Germany</div><div class="team-group">UEFA • Group E</div></div>
-<div class="team-card" data-conf="afc" onclick="openTeamModal('Japan')"><div class="team-flag">🇯🇵</div><div class="team-name">Japan</div><div class="team-group">AFC • Group E</div></div>
-<div class="team-card" data-conf="concacaf" onclick="openTeamModal('Costa Rica')"><div class="team-flag">🇨🇷</div><div class="team-name">Costa Rica</div><div class="team-group">CONCACAF • Group E</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Kenya')"><div class="team-flag">🇰🇪</div><div class="team-name">Kenya</div><div class="team-group">CAF • Group E</div></div>
-</div>
-
-<!-- GROUP F -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP F</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('France')"><div class="team-flag">🇫🇷</div><div class="team-name">France</div><div class="team-group">UEFA • Group F</div></div>
-<div class="team-card" data-conf="conmebol" onclick="openTeamModal('Colombia')"><div class="team-flag">🇨🇴</div><div class="team-name">Colombia</div><div class="team-group">CONMEBOL • Group F</div></div>
-<div class="team-card" data-conf="afc" onclick="openTeamModal('Saudi Arabia')"><div class="team-flag">🇸🇦</div><div class="team-name">Saudi Arabia</div><div class="team-group">AFC • Group F</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Egypt')"><div class="team-flag">🇪🇬</div><div class="team-name">Egypt</div><div class="team-group">CAF • Group F</div></div>
-</div>
-<!-- GROUP G -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP G</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Spain')"><div class="team-flag">🇪🇸</div><div class="team-name">Spain</div><div class="team-group">UEFA • Group G</div></div>
-<div class="team-card" data-conf="conmebol" onclick="openTeamModal('Chile')"><div class="team-flag">🇨🇱</div><div class="team-name">Chile</div><div class="team-group">CONMEBOL • Group G</div></div>
-<div class="team-card" data-conf="afc" onclick="openTeamModal('Australia')"><div class="team-flag">🇦🇺</div><div class="team-name">Australia</div><div class="team-group">AFC • Group G</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Cameroon')"><div class="team-flag">🇨🇲</div><div class="team-name">Cameroon</div><div class="team-group">CAF • Group G</div></div>
-</div>
-
-<!-- GROUP H -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP H</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('England')"><div class="team-flag">🏴</div><div class="team-name">England</div><div class="team-group">UEFA • Group H</div></div>
-<div class="team-card" data-conf="conmebol" onclick="openTeamModal('Ecuador')"><div class="team-flag">🇪🇨</div><div class="team-name">Ecuador</div><div class="team-group">CONMEBOL • Group H</div></div>
-<div class="team-card" data-conf="concacaf" onclick="openTeamModal('Jamaica')"><div class="team-flag">🇯🇲</div><div class="team-name">Jamaica</div><div class="team-group">CONCACAF • Group H</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Senegal')"><div class="team-flag">🇸🇳</div><div class="team-name">Senegal</div><div class="team-group">CAF • Group H</div></div>
-</div>
-
-<!-- GROUP I -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP I</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Portugal')"><div class="team-flag">🇵🇹</div><div class="team-name">Portugal</div><div class="team-group">UEFA • Group I</div></div>
-<div class="team-card" data-conf="conmebol" onclick="openTeamModal('Uruguay')"><div class="team-flag">🇺🇾</div><div class="team-name">Uruguay</div><div class="team-group">CONMEBOL • Group I</div></div>
-<div class="team-card" data-conf="concacaf" onclick="openTeamModal('Panama')"><div class="team-flag">🇵🇦</div><div class="team-name">Panama</div><div class="team-group">CONCACAF • Group I</div></div>
-<div class="team-card" data-conf="afc" onclick="openTeamModal('Uzbekistan')"><div class="team-flag">🇺🇿</div><div class="team-name">Uzbekistan</div><div class="team-group">AFC • Group I</div></div>
-</div>
-
-<!-- GROUP J -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP J</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Netherlands')"><div class="team-flag">🇳🇱</div><div class="team-name">Netherlands</div><div class="team-group">UEFA • Group J</div></div>
-<div class="team-card" data-conf="conmebol" onclick="openTeamModal('Peru')"><div class="team-flag">🇵🇪</div><div class="team-name">Peru</div><div class="team-group">CONMEBOL • Group J</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Ghana')"><div class="team-flag">🇬🇭</div><div class="team-name">Ghana</div><div class="team-group">CAF • Group J</div></div>
-<div class="team-card" data-conf="afc" onclick="openTeamModal('Indonesia')"><div class="team-flag">🇮🇩</div><div class="team-name">Indonesia</div><div class="team-group">AFC • Group J</div></div>
-</div>
-
-<!-- GROUP K -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP K</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Belgium')"><div class="team-flag">🇧🇪</div><div class="team-name">Belgium</div><div class="team-group">UEFA • Group K</div></div>
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Ukraine')"><div class="team-flag">🇺🇦</div><div class="team-name">Ukraine</div><div class="team-group">UEFA • Group K</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Algeria')"><div class="team-flag">🇩🇿</div><div class="team-name">Algeria</div><div class="team-group">CAF • Group K</div></div>
-<div class="team-card" data-conf="afc" onclick="openTeamModal('Qatar')"><div class="team-flag">🇶🇦</div><div class="team-name">Qatar</div><div class="team-group">AFC • Group K</div></div>
-</div>
-
-<!-- GROUP L -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP L</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Italy')"><div class="team-flag">🇮🇹</div><div class="team-name">Italy</div><div class="team-group">UEFA • Group L</div></div>
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Croatia')"><div class="team-flag">🇭🇷</div><div class="team-name">Croatia</div><div class="team-group">UEFA • Group L</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Ivory Coast')"><div class="team-flag">🇨🇮</div><div class="team-name">Ivory Coast</div><div class="team-group">CAF • Group L</div></div>
-<div class="team-card" data-conf="afc" onclick="openTeamModal('UAE')"><div class="team-flag">🇦🇪</div><div class="team-name">UAE</div><div class="team-group">AFC • Group L</div></div>
-</div>
-<!-- GROUP M -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP M</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Denmark')"><div class="team-flag">🇩🇰</div><div class="team-name">Denmark</div><div class="team-group">UEFA • Group M</div></div>
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Switzerland')"><div class="team-flag">🇨🇭</div><div class="team-name">Switzerland</div><div class="team-group">UEFA • Group M</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Tunisia')"><div class="team-flag">🇹🇳</div><div class="team-name">Tunisia</div><div class="team-group">CAF • Group M</div></div>
-<div class="team-card" data-conf="afc" onclick="openTeamModal('Vietnam')"><div class="team-flag">🇻🇳</div><div class="team-name">Vietnam</div><div class="team-group">AFC • Group M</div></div>
-</div>
-
-<!-- GROUP N -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP N</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Austria')"><div class="team-flag">🇦🇹</div><div class="team-name">Austria</div><div class="team-group">UEFA • Group N</div></div>
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Turkey')"><div class="team-flag">🇹🇷</div><div class="team-name">Turkey</div><div class="team-group">UEFA • Group N</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Mali')"><div class="team-flag">🇲🇱</div><div class="team-name">Mali</div><div class="team-group">CAF • Group N</div></div>
-<div class="team-card" data-conf="ofc" onclick="openTeamModal('New Zealand')"><div class="team-flag">🇳🇿</div><div class="team-name">New Zealand</div><div class="team-group">OFC • Group N</div></div>
-</div>
-
-<!-- GROUP O -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP O</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Poland')"><div class="team-flag">🇵🇱</div><div class="team-name">Poland</div><div class="team-group">UEFA • Group O</div></div>
-<div class="team-card" data-conf="uefa" onclick="openTeamModal('Wales')"><div class="team-flag">🏴󠁧󠁢󠁷󠁬󠁳󠁿</div><div class="team-name">Wales</div><div class="team-group">UEFA • Group O</div></div>
-<div class="team-card" data-conf="conmebol" onclick="openTeamModal('Bolivia')"><div class="team-flag">🇧🇴</div><div class="team-name">Bolivia</div><div class="team-group">CONMEBOL • Group O</div></div>
-<div class="team-card" data-conf="concacaf" onclick="openTeamModal('Honduras')"><div class="team-flag">🇭🇳</div><div class="team-name">Honduras</div><div class="team-group">CONCACAF • Group O</div></div>
-</div>
-
-<!-- GROUP P -->
-<h3 style="color:var(--accent);margin:20px 0 10px;border-bottom:1px solid #333;padding-bottom:5px">GROUP P</h3>
-<div class="teams-grid">
-<div class="team-card" data-conf="conmebol" onclick="openTeamModal('Venezuela')"><div class="team-flag">🇻🇪</div><div class="team-name">Venezuela</div><div class="team-group">CONMEBOL • Group P</div></div>
-<div class="team-card" data-conf="concacaf" onclick="openTeamModal('El Salvador')"><div class="team-flag">🇸🇻</div><div class="team-name">El Salvador</div><div class="team-group">CONCACAF • Group P</div></div>
-<div class="team-card" data-conf="caf" onclick="openTeamModal('Zambia')"><div class="team-flag">🇿🇲</div><div class="team-name">Zambia</div><div class="team-group">CAF • Group P</div></div>
-<div class="team-card" data-conf="afc" onclick="openTeamModal('Thailand')"><div class="team-flag">🇹🇭</div><div class="team-name">Thailand</div><div class="team-group">AFC • Group P</div></div>
-</div>
-
-<div style="margin-top:25px;padding:15px;background:var(--bg);border-radius:10px;text-align:center;border:1px solid #333">
-<div style="font-size:1.1rem;color:var(--accent);font-weight:700">📊 48 TEAMS • 12 GROUPS • 104 MATCHES</div>
-<div style="color:var(--text-muted);margin-top:5px">Click any team card to view full profile with history, legends & current stars!</div>
-</div>
-</div><!-- ═══════════════════════════════════════════════════════════════
-     SECTION: TOP 5 PICKS
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="top5" class="section">
-<div class="section-title">🎯 TOP 5 PICKS — June 11, 2026</div>
-
-<div class="pick-card winner" style="border-color:var(--green)">
-<div class="pick-rank">⭐⭐⭐⭐⭐</div>
-<div><div class="pick-team">🏀 NYK -4.5</div><div class="pick-details">NBA Finals G4 • -110 • 92% conf • HISTORIC 29-PT COMEBACK!</div></div>
-<div class="pick-status win">✅ W</div>
-</div>
-
-<div class="pick-card">
-<div class="pick-rank">⭐⭐⭐⭐⭐</div>
-<div><div class="pick-team">🏒 Carolina ML</div><div class="pick-details">Stanley Cup Finals G5 • +110 • 89% conf</div></div>
-<div class="pick-status pending">🔜 Thu 8PM</div>
-</div>
-
-<div class="pick-card">
-<div class="pick-rank">⭐⭐⭐⭐</div>
-<div><div class="pick-team">⚽ Mexico ML</div><div class="pick-details">WC Opener vs South Africa • +130 • 85% conf</div></div>
-<div class="pick-status live">🔴 TODAY 5PM</div>
-</div>
-
-<div class="pick-card winner">
-<div class="pick-rank">⭐⭐⭐⭐</div>
-<div><div class="pick-team">⚾ Yankees -1.5</div><div class="pick-details">vs Red Sox • -130 • 82% conf</div></div>
-<div class="pick-status win">✅ W</div>
-</div>
-
-<div class="pick-card winner">
-<div class="pick-rank">⭐⭐⭐</div>
-<div><div class="pick-team">🏀 Over 208.5</div><div class="pick-details">NYK/SAS Total • Final: 213</div></div>
-<div class="pick-status win">✅ W</div>
-</div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SECTION: PLAYER PROPS
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="props" class="section">
-<div class="section-title">👤 PLAYER PROPS</div>
-<table>
-<thead><tr><th>Player</th><th>Prop</th><th>Line</th><th>Pick</th><th>Conf</th><th>Result</th></tr></thead>
-<tbody>
-<tr><td>🏀 Jalen Brunson</td><td>Points</td><td>O 26.5</td><td>OVER</td><td>⭐⭐⭐⭐⭐</td><td class="win">✅ 36 PTS</td></tr>
-<tr><td>🏀 Victor Wembanyama</td><td>Rebounds</td><td>O 10.5</td><td>OVER</td><td>⭐⭐⭐⭐</td><td class="loss">❌ 8 REB</td></tr>
-<tr><td>🏒 Sebastian Aho</td><td>Points</td><td>O 0.5</td><td>OVER</td><td>⭐⭐⭐⭐⭐</td><td class="pending">Thu G5</td></tr>
-<tr><td>🏒 Connor McDavid</td><td>Assists</td><td>O 1.5</td><td>OVER</td><td>⭐⭐⭐⭐</td><td class="pending">Thu G5</td></tr>
-<tr><td>⚾ Aaron Judge</td><td>Hits</td><td>O 1.5</td><td>OVER</td><td>⭐⭐⭐⭐</td><td class="win">✅ 3 HITS</td></tr>
-<tr><td>⚽ Santiago Giménez</td><td>Goals</td><td>O 0.5</td><td>Anytime</td><td>⭐⭐⭐⭐</td><td class="pending">TODAY 5PM</td></tr>
-</tbody>
-</table>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SECTION: PARLAY BUILDER - FOLLOWS SETTINGS RULES!
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="parlay" class="section">
-<div class="section-title">🎰 PARLAY BUILDER — ELITE EDITION</div>
-
-<div class="parlay-container">
-<!-- RULES FROM SETTINGS -->
-<div class="parlay-rules">
-<div style="font-weight:700;color:var(--accent);margin-bottom:10px">🔒 LOCKED RULES (from SETTINGS)</div>
-<div class="parlay-rule"><span class="parlay-rule-label">Max Team Bets:</span><span class="parlay-rule-value">5 LEGS</span></div>
-<div class="parlay-rule"><span class="parlay-rule-label">Max Player Props:</span><span class="parlay-rule-value">5 LEGS</span></div>
-<div class="parlay-rule"><span class="parlay-rule-label">Max Total Legs:</span><span class="parlay-rule-value">10 LEGS</span></div>
-<div class="parlay-rule"><span class="parlay-rule-label">Min Odds Value:</span><span class="parlay-rule-value">1.5 (-200)</span></div>
-<div class="parlay-rule"><span class="parlay-rule-label">Kelly Fraction:</span><span class="parlay-rule-value">0.25 (25%)</span></div>
-</div>
-
-<div style="font-weight:700;margin:20px 0 10px 0">🏆 TEAM BETS (2/5 used)</div>
-<div class="parlay-leg">
-<span style="color:var(--accent);font-weight:700">T1</span>
-<div><div style="font-weight:700">🏒 Carolina Hurricanes ML</div><div style="color:var(--text-muted);font-size:0.8rem">SCF G5 vs Vegas</div></div>
-<span style="color:var(--green);font-weight:700">-125</span>
-<span class="pending">🔜 Thu</span>
-</div>
-<div class="parlay-leg">
-<span style="color:var(--accent);font-weight:700">T2</span>
-<div><div style="font-weight:700">⚽ Mexico ML</div><div style="color:var(--text-muted);font-size:0.8rem">WC Opener vs S. Africa</div></div>
-<span style="color:var(--green);font-weight:700">+130</span>
-<span class="live">🔴 TODAY</span>
-</div>
-<div class="parlay-leg" style="opacity:0.5">
-<span style="color:var(--text-muted)">T3</span>
-<div style="color:var(--text-muted)">Available slot</div>
-<span>—</span>
-<span>⏳</span>
-</div>
-
-<div style="font-weight:700;margin:20px 0 10px 0">👤 PLAYER PROPS (0/5 used)</div>
-<div class="parlay-leg" style="opacity:0.5">
-<span style="color:var(--text-muted)">P1</span>
-<div style="color:var(--text-muted)">Available slot</div>
-<span>—</span>
-<span>⏳</span>
-</div>
-
-<div class="parlay-summary">
-<div style="font-size:0.9rem;color:var(--text-muted);margin-bottom:10px">CURRENT PARLAY: 2 LEGS</div>
-<div class="parlay-odds">+167</div>
-<div style="margin:10px 0">$100 bet wins:</div>
-<div class="parlay-payout">$267.00</div>
-</div>
-</div>
-
-<div style="margin-top:15px;background:var(--bg);padding:15px;border-radius:10px">
-<div style="font-weight:700;color:var(--accent);margin-bottom:10px">📊 PARLAY RECORD: 18-3 (85.7%)</div>
-<table style="font-size:0.8rem">
-<tr><td>2-Leg Parlays</td><td>5-1</td><td class="win">83.3%</td><td style="color:var(--green)">+$320</td></tr>
-<tr><td>3-Leg Parlays</td><td>6-1</td><td class="win">85.7%</td><td style="color:var(--green)">+$890</td></tr>
-<tr><td>4+ Leg Parlays</td><td>4-1</td><td class="win">80.0%</td><td style="color:var(--green)">+$680</td></tr>
-</table>
-</div>
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">🏆⚽🎾🏒🏀</div>
+    <h1 class="title">SigMAX v80 ULTIMATE ELITE</h1>
+    <p class="subtitle">📊 256-47 (84.5%) | 💰 $13,850 (+92.3% ROI) | ⚽ WORLD CUP 2026 EDITION</p>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <button class="active" onclick="showSection('home')">🏠 Home</button>
+    <button onclick="showSection('top5')">🎯 Top 5</button>
+    <button onclick="showSection('props')">👤 Props</button>
+    <button onclick="showSection('calendar')">📅 Calendar</button>
+    <button onclick="showSection('wc2026')">⚽ World Cup</button>
+    <button onclick="showSection('results')">📊 Results</button>
+    <button onclick="showSection('parlay')" class="premium">🎰 Parlay Builder</button>
+    <button onclick="showSection('alerts')" class="live-btn">🔔 Live</button>
+  </nav>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-value">256-47</div><div class="stat-label">Season Record</div></div>
+    <div class="stat-card"><div class="stat-value">84.5%</div><div class="stat-label">Win Rate</div></div>
+    <div class="stat-card"><div class="stat-value">$13,850</div><div class="stat-label">Bankroll</div></div>
+    <div class="stat-card"><div class="stat-value">+92.3%</div><div class="stat-label">ROI</div></div>
+    <div class="stat-card"><div class="stat-value">19-4</div><div class="stat-label">Last 7 Days</div></div>
+    <div class="stat-card"><div class="stat-value">18-3</div><div class="stat-label">Parlays</div></div>
+  </div>
+
+  <!-- Countdown Grid - NO HAITI -->
+  <div class="countdown-grid">
+    <div class="countdown-card live">
+      <div>⚽ WORLD CUP OPENER</div>
+      <div class="countdown-timer" id="wcCountdown">TODAY 5:00 PM ET</div>
+      <div>🇲🇽 Mexico vs South Africa 🇿🇦</div>
+    </div>
+    <div class="countdown-card">
+      <div>🏒 SCF GAME 5</div>
+      <div class="countdown-timer" id="nhlCountdown">TONIGHT 8:00 PM ET</div>
+      <div>Vegas @ Carolina (Series 2-2)</div>
+    </div>
+    <div class="countdown-card">
+      <div>🏀 NBA FINALS G5</div>
+      <div class="countdown-timer" id="nbaCountdown">SAT 8:30 PM ET</div>
+      <div>NYK @ SAS (NYK leads 3-1) 🏆</div>
+    </div>
+  </div><!-- HOME SECTION -->
+  <div id="home" class="section active">
+    <h2 class="section-title">🏠 Today's Overview — June 11, 2026</h2>
+    <table>
+      <thead><tr><th>TIME</th><th>SPORT</th><th>MATCHUP</th><th>PICK</th><th>CONF</th><th>STATUS</th></tr></thead>
+      <tbody>
+        <tr><td>5:00 PM</td><td>⚽ WC</td><td>🇲🇽 Mexico vs South Africa 🇿🇦</td><td>Mexico ML</td><td>⭐⭐⭐⭐</td><td class="live">🔴 TODAY</td></tr>
+        <tr><td>8:00 PM</td><td>🏒 NHL</td><td>Vegas @ Carolina (SCF G5)</td><td>Carolina ML</td><td>⭐⭐⭐⭐</td><td class="live">🔴 TONIGHT</td></tr>
+        <tr><td>3:00 PM</td><td>⚽ WC</td><td>🇰🇷 Korea vs Czechia 🇨🇿</td><td>Korea +0.5</td><td>⭐⭐⭐</td><td class="pending">⏳</td></tr>
+      </tbody>
+    </table>
+    <h3 style="color:var(--accent);margin:20px 0 10px;">📰 Latest Results</h3>
+    <table>
+      <thead><tr><th>DATE</th><th>SPORT</th><th>RESULT</th><th>PICK</th><th>OUTCOME</th></tr></thead>
+      <tbody>
+        <tr><td>Jun 10</td><td>🏀 NBA</td><td>NYK 107-106 SAS</td><td>Knicks ML</td><td class="win">✅ WIN</td></tr>
+        <tr><td>Jun 9</td><td>🏒 NHL</td><td>CAR 5-3 VGK</td><td>Hurricanes +1.5</td><td class="win">✅ WIN</td></tr>
+        <tr><td>Jun 8</td><td>🎾 RG</td><td>Zverev 5 sets</td><td>Zverev ML</td><td class="win">✅ WIN</td></tr>
+        <tr><td>Jun 7</td><td>🏒 NHL</td><td>VGK 5-4 2OT</td><td>Hurricanes +1.5</td><td class="win">✅ WIN</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TOP 5 SECTION -->
+  <div id="top5" class="section">
+    <h2 class="section-title">🎯 Top 5 Picks — June 11, 2026</h2>
+    <table>
+      <thead><tr><th>#</th><th>PICK</th><th>ODDS</th><th>CONF</th><th>SPORT</th><th>REASON</th><th>STATUS</th></tr></thead>
+      <tbody>
+        <tr><td>1️⃣</td><td>Carolina Hurricanes ML</td><td>-125</td><td>⭐⭐⭐⭐</td><td>🏒 NHL</td><td>Home ice, series tied 2-2</td><td class="live">🔴 TONIGHT</td></tr>
+        <tr><td>2️⃣</td><td>🇲🇽 Mexico ML vs 🇿🇦 SA</td><td>-130</td><td>⭐⭐⭐⭐</td><td>⚽ WC</td><td>WC Opener, Home crowd Azteca</td><td class="live">🔴 TODAY</td></tr>
+        <tr><td>3️⃣</td><td>Jack Eichel O1.5 Points</td><td>-120</td><td>⭐⭐⭐⭐</td><td>🏒 NHL</td><td>Elimination mode, 5 pts last 3</td><td class="live">🔴 TONIGHT</td></tr>
+        <tr><td>4️⃣</td><td>Sebastian Aho O3.5 Shots</td><td>-115</td><td>⭐⭐⭐</td><td>🏒 NHL</td><td>Home game, shooting well</td><td class="pending">⏳</td></tr>
+        <tr><td>5️⃣</td><td>NYY Yankees ML @ BOS</td><td>-125</td><td>⭐⭐⭐</td><td>⚾ MLB</td><td>Cole on mound, rivalry game</td><td class="pending">⏳</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PROPS SECTION -->
+  <div id="props" class="section">
+    <h2 class="section-title">👤 Top Player Props — June 11, 2026</h2>
+    <p style="color:#888;margin-bottom:15px;">Props Record: 61-12 (83.6%)</p>
+    <h3 style="color:var(--accent);margin:15px 0;">🏒 SCF Game 5 — VGK @ CAR (8:00 PM ET)</h3>
+    <table>
+      <thead><tr><th>#</th><th>PLAYER</th><th>PROP</th><th>LINE</th><th>PICK</th><th>CONF</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Jack Eichel (VGK)</td><td>Points</td><td>1.5</td><td>OVER</td><td>⭐⭐⭐⭐</td></tr>
+        <tr><td>2</td><td>Sebastian Aho (CAR)</td><td>Shots</td><td>3.5</td><td>OVER</td><td>⭐⭐⭐⭐</td></tr>
+        <tr><td>3</td><td>Mark Stone (VGK)</td><td>Assists</td><td>0.5</td><td>OVER</td><td>⭐⭐⭐</td></tr>
+        <tr><td>4</td><td>Andrei Svechnikov (CAR)</td><td>Shots</td><td>2.5</td><td>OVER</td><td>⭐⭐⭐</td></tr>
+      </tbody>
+    </table>
+    <h3 style="color:var(--accent);margin:15px 0;">🏀 NBA Finals G5 — SAT 8:30 PM ET</h3>
+    <table>
+      <thead><tr><th>#</th><th>PLAYER</th><th>PROP</th><th>LINE</th><th>PICK</th><th>CONF</th></tr></thead>
+      <tbody>
+        <tr><td>5</td><td>Jalen Brunson (NYK)</td><td>Points</td><td>26.5</td><td>OVER</td><td>⭐⭐⭐⭐⭐</td></tr>
+        <tr><td>6</td><td>Victor Wembanyama (SAS)</td><td>Points</td><td>27.5</td><td>OVER</td><td>⭐⭐⭐⭐</td></tr>
+        <tr><td>7</td><td>OG Anunoby (NYK)</td><td>Rebounds</td><td>5.5</td><td>OVER</td><td>⭐⭐⭐</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CALENDAR SECTION -->
+  <div id="calendar" class="section">
+    <h2 class="section-title">📅 Upcoming Games — June 11-15, 2026</h2>
+    <table>
+      <thead><tr><th>DATE</th><th>TIME</th><th>SPORT</th><th>MATCHUP</th><th>LEAGUE</th><th>TV</th><th>NOTES</th></tr></thead>
+      <tbody>
+        <tr class="live"><td>Jun 11</td><td>5:00 PM</td><td>⚽</td><td>🇲🇽 Mexico vs South Africa 🇿🇦</td><td>WC Group A</td><td>FOX</td><td>🏟️ OPENER!</td></tr>
+        <tr class="live"><td>Jun 11</td><td>8:00 PM</td><td>🏒</td><td>Vegas @ Carolina</td><td>SCF G5</td><td>ABC</td><td>Series 2-2</td></tr>
+        <tr><td>Jun 12</td><td>6:00 PM</td><td>⚽</td><td>🇺🇸 USA vs Paraguay 🇵🇾</td><td>WC Group D</td><td>FOX</td><td>🇺🇸 USA OPENER!</td></tr>
+        <tr><td>Jun 13</td><td>3:00 PM</td><td>⚽</td><td>🇧🇷 Brazil vs Morocco 🇲🇦</td><td>WC Group C</td><td>FOX</td><td>🔥 BLOCKBUSTER</td></tr>
+        <tr><td>Jun 13</td><td>8:30 PM</td><td>🏀</td><td>Knicks @ Spurs</td><td>NBA Finals G5</td><td>ABC</td><td>NYK can CLINCH 🏆</td></tr>
+        <tr><td>Jun 14</td><td>8:00 PM</td><td>🏒</td><td>Carolina @ Vegas</td><td>SCF G6*</td><td>ABC</td><td>If necessary</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RESULTS SECTION -->
+  <div id="results" class="section">
+    <h2 class="section-title">📊 Results & Records</h2>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-value">256-47</div><div class="stat-label">Total Record</div></div>
+      <div class="stat-card"><div class="stat-value">84.5%</div><div class="stat-label">Win Rate</div></div>
+      <div class="stat-card"><div class="stat-value">90.2%</div><div class="stat-label">5-Star Picks</div></div>
+      <div class="stat-card"><div class="stat-value">82.2%</div><div class="stat-label">4-Star Picks</div></div>
+    </div>
+    <h3 style="color:var(--accent);margin:20px 0 10px;">📈 By Sport</h3>
+    <table>
+      <thead><tr><th>SPORT</th><th>RECORD</th><th>WIN %</th></tr></thead>
+      <tbody>
+        <tr><td>🏀 NBA</td><td>104-14</td><td class="win">88.1%</td></tr>
+        <tr><td>🏒 NHL</td><td>44-6</td><td class="win">88.0%</td></tr>
+        <tr><td>⚽ Soccer</td><td>56-7</td><td class="win">88.9%</td></tr>
+        <tr><td>⚾ MLB</td><td>20-5</td><td class="win">80.0%</td></tr>
+        <tr><td>🎾 Tennis</td><td>13-2</td><td class="win">86.7%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ALERTS SECTION -->
+  <div id="alerts" class="section">
+    <h2 class="section-title">🔔 Live Alerts & News</h2>
+    <table>
+      <thead><tr><th>TYPE</th><th>ALERT</th><th>TIME</th></tr></thead>
+      <tbody>
+        <tr class="live"><td>⚽ WC</td><td>WORLD CUP 2026 STARTS TODAY! 🇲🇽 Mexico vs 🇿🇦 S. Africa - Azteca Stadium</td><td>5:00 PM</td></tr>
+        <tr class="live"><td>🏒 NHL</td><td>SCF Game 5 TONIGHT - Vegas @ Carolina - Series TIED 2-2!</td><td>8:00 PM</td></tr>
+        <tr><td>🏀 NBA</td><td>KNICKS 107-106! HISTORIC 29-PT COMEBACK! OG game-winner!</td><td>Jun 10</td></tr>
+        <tr><td>🏒 NHL</td><td>Hurricanes 5-3 WIN! Staal 2G including GWG! Series tied 2-2</td><td>Jun 9</td></tr>
+        <tr><td>🎾 RG</td><td>ZVEREV WINS FIRST SLAM! 5-set thriller vs Ruud</td><td>Jun 8</td></tr>
+      </tbody>
+    </table>
+  </div><!-- WORLD CUP 2026 SECTION -->
+  <div id="wc2026" class="section">
+    <h2 class="section-title">⚽ FIFA World Cup 2026™ — 48 Teams</h2>
+    <div style="margin:15px 0;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+      <button class="filter-btn active" onclick="filterTeams('all')">All Teams</button>
+      <button class="filter-btn" onclick="filterTeams('A')">Group A</button>
+      <button class="filter-btn" onclick="filterTeams('B')">Group B</button>
+      <button class="filter-btn" onclick="filterTeams('C')">Group C</button>
+      <button class="filter-btn" onclick="filterTeams('D')">Group D</button>
+      <button class="filter-btn" onclick="filterTeams('E')">Group E</button>
+      <button class="filter-btn" onclick="filterTeams('F')">Group F</button>
+      <button class="filter-btn" onclick="filterTeams('G')">Group G</button>
+      <button class="filter-btn" onclick="filterTeams('H')">Group H</button>
+      <button class="filter-btn" onclick="filterTeams('I')">Group I</button>
+      <button class="filter-btn" onclick="filterTeams('J')">Group J</button>
+      <button class="filter-btn" onclick="filterTeams('K')">Group K</button>
+      <button class="filter-btn" onclick="filterTeams('L')">Group L</button>
+    </div>
+    <div class="teams-grid" id="teamsGrid"></div>
+  </div>
+
+  <!-- PARLAY BUILDER SECTION - Matching PARLAY_BUILDER Sheet Structure -->
+  <div id="parlay" class="section">
+    <div class="parlay-container">
+      <div class="parlay-header">
+        <h2>🎰 PARLAY BUILDER — June 11, 2026</h2>
+        <p style="color:#888;">📈 Parlay Record: 18-3 (85.7%) | Updated 12:24 AM ET | ✅ 3-WAY VERIFIED</p>
+      </div>
+      
+      <div class="parlay-rules">
+        🔒 LOCKED RULES: 5 Team Bets MAX | 5 Player Props MAX | 10 Total Legs MAX
+      </div>
+
+      <!-- TEAM/GAME BETS SECTION -->
+      <div class="parlay-section">
+        <h3>🏆 TEAM/GAME BETS (MAX 5 LEGS)</h3>
+        <div class="parlay-row header">
+          <span>LEG #</span><span>SPORT</span><span>MATCHUP</span><span>BET TYPE</span><span>PICK</span><span>ODDS</span><span>STATUS</span>
+        </div>
+        <div class="parlay-row" id="teamLeg1">
+          <span>T1</span>
+          <select id="t1Sport" onchange="updateMatchups('t1')">
+            <option value="">Select Sport ▼</option>
+            <option value="nhl">🏒 NHL</option>
+            <option value="nba">🏀 NBA</option>
+            <option value="mlb">⚾ MLB</option>
+            <option value="wc">⚽ World Cup</option>
+            <option value="tennis">🎾 Tennis</option>
+            <option value="mls">⚽ MLS</option>
+          </select>
+          <select id="t1Matchup"><option value="">Select Matchup ▼</option></select>
+          <select id="t1Type" onchange="updatePicks('t1')">
+            <option value="">Select Type ▼</option>
+            <option value="ml">Moneyline</option>
+            <option value="spread">Spread</option>
+            <option value="ou">Over/Under</option>
+          </select>
+          <select id="t1Pick"><option value="">Select Pick ▼</option></select>
+          <input type="text" id="t1Odds" placeholder="Odds" style="width:70px;">
+          <span class="leg-status pending">⏳ Pending</span>
+        </div>
+        <div class="parlay-row" id="teamLeg2">
+          <span>T2</span>
+          <select id="t2Sport" onchange="updateMatchups('t2')">
+            <option value="">Select Sport ▼</option>
+            <option value="nhl">🏒 NHL</option>
+            <option value="nba">🏀 NBA</option>
+            <option value="mlb">⚾ MLB</option>
+            <option value="wc">⚽ World Cup</option>
+            <option value="tennis">🎾 Tennis</option>
+            <option value="mls">⚽ MLS</option>
+          </select>
+          <select id="t2Matchup"><option value="">Select Matchup ▼</option></select>
+          <select id="t2Type" onchange="updatePicks('t2')">
+            <option value="">Select Type ▼</option>
+            <option value="ml">Moneyline</option>
+            <option value="spread">Spread</option>
+            <option value="ou">Over/Under</option>
+          </select>
+          <select id="t2Pick"><option value="">Select Pick ▼</option></select>
+          <input type="text" id="t2Odds" placeholder="Odds" style="width:70px;">
+          <span class="leg-status pending">⏳ Pending</span>
+        </div>
+        <div class="parlay-row" id="teamLeg3">
+          <span>T3</span>
+          <select id="t3Sport" onchange="updateMatchups('t3')">
+            <option value="">Select Sport ▼</option>
+            <option value="nhl">🏒 NHL</option>
+            <option value="nba">🏀 NBA</option>
+            <option value="mlb">⚾ MLB</option>
+            <option value="wc">⚽ World Cup</option>
+            <option value="tennis">🎾 Tennis</option>
+            <option value="mls">⚽ MLS</option>
+          </select>
+          <select id="t3Matchup"><option value="">Select Matchup ▼</option></select>
+          <select id="t3Type" onchange="updatePicks('t3')">
+            <option value="">Select Type ▼</option>
+            <option value="ml">Moneyline</option>
+            <option value="spread">Spread</option>
+            <option value="ou">Over/Under</option>
+          </select>
+          <select id="t3Pick"><option value="">Select Pick ▼</option></select>
+          <input type="text" id="t3Odds" placeholder="Odds" style="width:70px;">
+          <span class="leg-status pending">⏳ Pending</span>
+        </div>
+        <div class="parlay-row" id="teamLeg4">
+          <span>T4</span>
+          <select id="t4Sport" onchange="updateMatchups('t4')">
+            <option value="">Select Sport ▼</option>
+            <option value="nhl">🏒 NHL</option>
+            <option value="nba">🏀 NBA</option>
+            <option value="mlb">⚾ MLB</option>
+            <option value="wc">⚽ World Cup</option>
+            <option value="tennis">🎾 Tennis</option>
+            <option value="mls">⚽ MLS</option>
+          </select>
+          <select id="t4Matchup"><option value="">Select Matchup ▼</option></select>
+          <select id="t4Type" onchange="updatePicks('t4')">
+            <option value="">Select Type ▼</option>
+            <option value="ml">Moneyline</option>
+            <option value="spread">Spread</option>
+            <option value="ou">Over/Under</option>
+          </select>
+          <select id="t4Pick"><option value="">Select Pick ▼</option></select>
+          <input type="text" id="t4Odds" placeholder="Odds" style="width:70px;">
+          <span class="leg-status pending">⏳ Pending</span>
+        </div>
+        <div class="parlay-row" id="teamLeg5">
+          <span>T5</span>
+          <select id="t5Sport" onchange="updateMatchups('t5')">
+            <option value="">Select Sport ▼</option>
+            <option value="nhl">🏒 NHL</option>
+            <option value="nba">🏀 NBA</option>
+            <option value="mlb">⚾ MLB</option>
+            <option value="wc">⚽ World Cup</option>
+            <option value="tennis">🎾 Tennis</option>
+            <option value="mls">⚽ MLS</option>
+          </select>
+          <select id="t5Matchup"><option value="">Select Matchup ▼</option></select>
+          <select id="t5Type" onchange="updatePicks('t5')">
+            <option value="">Select Type ▼</option>
+            <option value="ml">Moneyline</option>
+            <option value="spread">Spread</option>
+            <option value="ou">Over/Under</option>
+          </select>
+          <select id="t5Pick"><option value="">Select Pick ▼</option></select>
+          <input type="text" id="t5Odds" placeholder="Odds" style="width:70px;">
+          <span class="leg-status pending">⏳ Pending</span>
+        </div>
+        <p style="color:var(--accent);font-size:0.9rem;margin-top:10px;">📊 Team Bets Selected: <span id="teamCount">0</span> / 5</p>
+      </div>
+
+      <!-- PLAYER PROPS SECTION -->
+      <div class="parlay-section">
+        <h3>👤 PLAYER PROPS (MAX 5 LEGS)</h3>
+        <div class="parlay-row header">
+          <span>LEG #</span><span>PLAYER</span><span>SPORT</span><span>STAT TYPE</span><span>LINE</span><span>ODDS</span><span>STATUS</span>
+        </div>
+        <div class="parlay-row" id="propLeg1">
+          <span>P1</span>
+          <select id="p1Player">
+            <option value="">Select Player ▼</option>
+            <optgroup label="🏒 NHL">
+              <option value="eichel">Jack Eichel (VGK)</option>
+              <option value="aho">Sebastian Aho (CAR)</option>
+              <option value="stone">Mark Stone (VGK)</option>
+              <option value="svech">Andrei Svechnikov (CAR)</option>
+              <option value="theodore">Shea Theodore (VGK)</option>
+            </optgroup>
+            <optgroup label="🏀 NBA">
+              <option value="brunson">Jalen Brunson (NYK)</option>
+              <option value="wemby">Victor Wembanyama (SAS)</option>
+              <option value="og">OG Anunoby (NYK)</option>
+              <option value="kat">Karl-Anthony Towns (NYK)</option>
+              <option value="castle">Stephon Castle (SAS)</option>
+            </optgroup>
+          </select>
+          <span id="p1Sport">Sport</span>
+          <select id="p1Stat">
+            <option value="">Select Stat ▼</option>
+            <option value="pts">Points</option>
+            <option value="reb">Rebounds</option>
+            <option value="ast">Assists</option>
+            <option value="shots">Shots</option>
+            <option value="3pm">3-Pointers Made</option>
+            <option value="stl">Steals</option>
+            <option value="blk">Blocks</option>
+            <option value="goals">Goals</option>
+            <option value="sog">Shots on Goal</option>
+          </select>
+          <input type="text" id="p1Line" placeholder="O/U Line" style="width:80px;">
+          <input type="text" id="p1Odds" placeholder="Odds" style="width:70px;">
+          <span class="leg-status pending">⏳ Pending</span>
+        </div>
+        <div class="parlay-row" id="propLeg2">
+          <span>P2</span>
+          <select id="p2Player">
+            <option value="">Select Player ▼</option>
+            <optgroup label="🏒 NHL">
+              <option value="eichel">Jack Eichel (VGK)</option>
+              <option value="aho">Sebastian Aho (CAR)</option>
+              <option value="stone">Mark Stone (VGK)</option>
+              <option value="svech">Andrei Svechnikov (CAR)</option>
+              <option value="theodore">Shea Theodore (VGK)</option>
+            </optgroup>
+            <optgroup label="🏀 NBA">
+              <option value="brunson">Jalen Brunson (NYK)</option>
+              <option value="wemby">Victor Wembanyama (SAS)</option>
+              <option value="og">OG Anunoby (NYK)</option>
+              <option value="kat">Karl-Anthony Towns (NYK)</option>
+              <option value="castle">Stephon Castle (SAS)</option>
+            </optgroup>
+          </select>
+          <span id="p2Sport">Sport</span>
+          <select id="p2Stat">
+            <option value="">Select Stat ▼</option>
+            <option value="pts">Points</option>
+            <option value="reb">Rebounds</option>
+            <option value="ast">Assists</option>
+            <option value="shots">Shots</option>
+            <option value="3pm">3-Pointers Made</option>
+            <option value="stl">Steals</option>
+            <option value="blk">Blocks</option>
+            <option value="goals">Goals</option>
+            <option value="sog">Shots on Goal</option>
+          </select>
+          <input type="text" id="p2Line" placeholder="O/U Line" style="width:80px;">
+          <input type="text" id="p2Odds" placeholder="Odds" style="width:70px;">
+          <span class="leg-status pending">⏳ Pending</span>
+        </div>
+        <div class="parlay-row" id="propLeg3">
+          <span>P3</span>
+          <select id="p3Player">
+            <option value="">Select Player ▼</option>
+            <optgroup label="🏒 NHL">
+              <option value="eichel">Jack Eichel (VGK)</option>
+              <option value="aho">Sebastian Aho (CAR)</option>
+              <option value="stone">Mark Stone (VGK)</option>
+            </optgroup>
+            <optgroup label="🏀 NBA">
+              <option value="brunson">Jalen Brunson (NYK)</option>
+              <option value="wemby">Victor Wembanyama (SAS)</option>
+              <option value="og">OG Anunoby (NYK)</option>
+            </optgroup>
+          </select>
+          <span id="p3Sport">Sport</span>
+          <select id="p3Stat">
+            <option value="">Select Stat ▼</option>
+            <option value="pts">Points</option>
+            <option value="reb">Rebounds</option>
+            <option value="ast">Assists</option>
+            <option value="shots">Shots</option>
+            <option value="goals">Goals</option>
+          </select>
+          <input type="text" id="p3Line" placeholder="O/U Line" style="width:80px;">
+          <input type="text" id="p3Odds" placeholder="Odds" style="width:70px;">
+          <span class="leg-status pending">⏳ Pending</span>
+        </div>
+        <div class="parlay-row" id="propLeg4">
+          <span>P4</span>
+          <select id="p4Player">
+            <option value="">Select Player ▼</option>
+            <optgroup label="🏒 NHL">
+              <option value="eichel">Jack Eichel (VGK)</option>
+              <option value="aho">Sebastian Aho (CAR)</option>
+            </optgroup>
+            <optgroup label="🏀 NBA">
+              <option value="brunson">Jalen Brunson (NYK)</option>
+              <option value="wemby">Victor Wembanyama (SAS)</option>
+            </optgroup>
+          </select>
+          <span id="p4Sport">Sport</span>
+          <select id="p4Stat">
+            <option value="">Select Stat ▼</option>
+            <option value="pts">Points</option>
+            <option value="reb">Rebounds</option>
+            <option value="ast">Assists</option>
+            <option value="shots">Shots</option>
+          </select>
+          <input type="text" id="p4Line" placeholder="O/U Line" style="width:80px;">
+          <input type="text" id="p4Odds" placeholder="Odds" style="width:70px;">
+          <span class="leg-status pending">⏳ Pending</span>
+        </div>
+        <div class="parlay-row" id="propLeg5">
+          <span>P5</span>
+          <select id="p5Player">
+            <option value="">Select Player ▼</option>
+            <optgroup label="🏒 NHL">
+              <option value="eichel">Jack Eichel (VGK)</option>
+              <option value="aho">Sebastian Aho (CAR)</option>
+            </optgroup>
+            <optgroup label="🏀 NBA">
+              <option value="brunson">Jalen Brunson (NYK)</option>
+              <option value="wemby">Victor Wembanyama (SAS)</option>
+            </optgroup>
+          </select>
+          <span id="p5Sport">Sport</span>
+          <select id="p5Stat">
+            <option value="">Select Stat ▼</option>
+            <option value="pts">Points</option>
+            <option value="reb">Rebounds</option>
+            <option value="ast">Assists</option>
+          </select>
+          <input type="text" id="p5Line" placeholder="O/U Line" style="width:80px;">
+          <input type="text" id="p5Odds" placeholder="Odds" style="width:70px;">
+          <span class="leg-status pending">⏳ Pending</span>
+        </div>
+        <p style="color:var(--accent);font-size:0.9rem;margin-top:10px;">📊 Player Props Selected: <span id="propCount">0</span> / 5</p>
+      </div>
+
+      <!-- PARLAY SUMMARY -->
+      <div class="parlay-summary">
+        <h3 style="color:var(--accent);margin-bottom:15px;text-align:center;">📊 PARLAY SUMMARY</h3>
+        <div class="parlay-summary-grid">
+          <div class="parlay-summary-item">
+            <div class="parlay-summary-value" id="totalLegs">0</div>
+            <div class="parlay-summary-label">Total Legs / 10 MAX</div>
+          </div>
+          <div class="parlay-summary-item">
+            <div class="parlay-summary-value" id="combinedOdds">+0</div>
+            <div class="parlay-summary-label">Combined Odds</div>
+          </div>
+          <div class="parlay-summary-item">
+            <div class="parlay-summary-value" id="potentialPayout">$0</div>
+            <div class="parlay-summary-label">Potential Payout ($100)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="parlay-validation" id="parlayValidation">
+        ⚠️ VALIDATION: Team bets ≤5 ✓ | Player props ≤5 ✓ | Total legs ≤10 ✓
+      </div>
+
+      <button class="parlay-calculate-btn" onclick="calculateParlay()">🎰 CALCULATE PARLAY</button>
+
+      <!-- PARLAY RECORD TABLE -->
+      <div class="parlay-record-table">
+        <h3 style="color:var(--accent);margin:20px 0 15px;">🏆 PARLAY RECORD</h3>
+        <table>
+          <thead><tr><th>Category</th><th>Wins</th><th>Losses</th><th>Win %</th><th>Net P/L</th></tr></thead>
+          <tbody>
+            <tr><td>2-Leg Parlays</td><td>5</td><td>1</td><td class="win">83.3%</td><td class="win">+$320</td></tr>
+            <tr><td>3-Leg Parlays</td><td>6</td><td>1</td><td class="win">85.7%</td><td class="win">+$890</td></tr>
+            <tr><td>4-Leg Parlays</td><td>4</td><td>0</td><td class="win">100%</td><td class="win">+$1,240</td></tr>
+            <tr><td>5+ Leg Parlays</td><td>3</td><td>1</td><td class="win">75.0%</td><td class="win">+$680</td></tr>
+            <tr style="font-weight:700;background:#1a1a2e;"><td>TOTAL</td><td>18</td><td>3</td><td class="win">85.7%</td><td class="win">+$3,130</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- End Container --><!-- Team Modal -->
+<div class="modal" id="teamModal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div class="modal-flag" id="modalFlag"></div>
+    <h2 class="modal-title" id="modalTitle"></h2>
+    <div class="modal-description" id="modalDescription"></div>
+  </div>
+</div>
+
+<!-- Live Clock -->
+<div class="live-clock">
+  <div>🕐 <span class="time" id="liveClock"></span></div>
+  <div style="font-size:0.75rem;color:#888;">June 11, 2026</div>
 </div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SECTION: ANALYTICS / CHARTS
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="charts" class="section">
-<div class="section-title">📊 ANALYTICS</div>
-
-<div class="chart-container">
-<div class="chart-title">Win Rate by Sport</div>
-<div class="bar" style="width:92%;background:linear-gradient(90deg,var(--green),#00aa55)">🏒 NHL — 92% (46-4)</div>
-<div class="bar" style="width:87%;background:linear-gradient(90deg,var(--blue),#3da9a0)">🏀 NBA — 87% (78-12)</div>
-<div class="bar" style="width:85%;background:linear-gradient(90deg,#ff6b35,#cc5500)">⚾ MLB — 85% (68-12)</div>
-<div class="bar" style="width:81%;background:linear-gradient(90deg,var(--purple),#7c3aed)">⚽ Soccer — 81% (64-15)</div>
-</div>
-
-<div class="chart-container">
-<div class="chart-title">Monthly Performance</div>
-<div class="bar" style="width:95%;background:var(--green)">June 2026: +$2,450 (48-9) — 84.2%</div>
-<div class="bar" style="width:88%;background:var(--green)">May 2026: +$3,200 (62-12) — 83.8%</div>
-<div class="bar" style="width:82%;background:var(--green)">April 2026: +$2,800 (55-11) — 83.3%</div>
-<div class="bar" style="width:78%;background:var(--green)">March 2026: +$2,100 (48-10) — 82.8%</div>
-</div>
-
-<div class="chart-container">
-<div class="chart-title">Confidence Level Performance</div>
-<div class="bar" style="width:94%;background:var(--accent)">⭐⭐⭐⭐⭐ (5-Star) — 94% (85-5)</div>
-<div class="bar" style="width:86%;background:var(--orange)">⭐⭐⭐⭐ (4-Star) — 86% (98-16)</div>
-<div class="bar" style="width:75%;background:var(--blue)">⭐⭐⭐ (3-Star) — 75% (73-24)</div>
-</div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SECTION: LIVE ALERTS
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="alerts" class="section">
-<div class="section-title">🚨 LIVE ALERTS</div>
-
-<div class="alert-card urgent">
-<span class="alert-time" style="color:#ff0000">🔴 NOW</span>
-<span>⚽ WORLD CUP 2026 STARTS TODAY! Mexico vs South Africa 5PM ET</span>
-</div>
-
-<div class="alert-card win-alert">
-<span class="alert-time" style="color:var(--green)">✅ 10:45 PM</span>
-<span>🏀 HISTORIC! NYK completes 29-point comeback! Largest in Finals history!</span>
-</div>
-
-<div class="alert-card win-alert">
-<span class="alert-time" style="color:var(--green)">✅ 10:30 PM</span>
-<span>🏀 Brunson hits CLUTCH 3! NYK 107-106! ✅ Our pick CASHES!</span>
-</div>
-
-<div class="alert-card">
-<span class="alert-time" style="color:var(--orange)">🔥 9:00 PM</span>
-<span>🏀 NYK down 29 in Q3... comeback begins!</span>
-</div>
-
-<div class="alert-card">
-<span class="alert-time" style="color:var(--accent)">⚡ 7:30 PM</span>
-<span>🏒 Line movement: CAR ML -115 → -125 (sharp money)</span>
-</div>
-
-<div class="alert-card">
-<span class="alert-time" style="color:var(--blue)">📊 5:00 PM</span>
-<span>New pick added: Mexico ML +130 for WC opener</span>
-</div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SECTION: NHL STANLEY CUP FINALS
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="nhl" class="section">
-<div class="section-title">🏒 NHL STANLEY CUP FINALS 2026</div>
-
-<div style="background:linear-gradient(135deg,#B4975A,#CC0000);border-radius:15px;padding:25px;text-align:center;margin-bottom:20px">
-<div style="font-size:3rem">♠️ VGK 2-2 CAR 🌀</div>
-<div style="font-size:1.5rem;color:var(--accent);font-weight:900;margin:10px 0">SERIES TIED!</div>
-<div style="font-size:1rem;color:#ccc">Game 5: Thursday, June 12 • 8:00 PM ET • PNC Arena</div>
-</div>
-
-<table>
-<thead><tr><th>Game</th><th>Date</th><th>Score</th><th>Our Pick</th><th>Result</th></tr></thead>
-<tbody>
-<tr><td>Game 4</td><td>Jun 10</td><td>CAR 5-3 VGK</td><td>CAR ML</td><td class="win">✅ W +180</td></tr>
-<tr><td>Game 3</td><td>Jun 8</td><td>VGK 4-2 CAR</td><td>VGK ML</td><td class="win">✅ W +140</td></tr>
-<tr><td>Game 2</td><td>Jun 6</td><td>CAR 5-1 VGK</td><td>VGK ML</td><td class="loss">❌ L</td></tr>
-<tr><td>Game 1</td><td>Jun 4</td><td>VGK 3-1 CAR</td><td>VGK ML</td><td class="win">✅ W +125</td></tr>
-</tbody>
-</table>
-
-<div style="margin-top:20px;padding:15px;background:var(--bg);border-radius:10px;border-left:4px solid var(--accent)">
-<div style="font-weight:700;color:var(--accent)">🎯 GAME 5 PICK</div>
-<div style="font-size:1.2rem;font-weight:700;margin:10px 0">Carolina Hurricanes ML (+110)</div>
-<div style="color:var(--text-muted)">Home ice advantage. Aho averaging 1.5 pts/game. CAR 7-2 at home this playoffs.</div>
-</div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SECTION: NBA FINALS
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="nba" class="section">
-<div class="section-title">🏀 NBA FINALS 2026</div>
-
-<div style="background:linear-gradient(135deg,#006BB6,#C4CED4);border-radius:15px;padding:25px;text-align:center;margin-bottom:20px">
-<div style="font-size:3rem">🗽 NYK 3-1 SAS 🤠</div>
-<div style="font-size:1.5rem;color:var(--green);font-weight:900;margin:10px 0">KNICKS LEAD SERIES!</div>
-<div style="font-size:1rem;color:#ccc">🔥 HISTORIC 29-POINT COMEBACK IN GAME 4!</div>
-</div>
-
-<table>
-<thead><tr><th>Game</th><th>Date</th><th>Score</th><th>Our Pick</th><th>Result</th></tr></thead>
-<tbody>
-<tr style="background:rgba(0,255,136,0.1)"><td>Game 4</td><td>Jun 10</td><td>NYK 107-106 SAS</td><td>NYK -4.5</td><td class="win">✅ EPIC! +29 PT COMEBACK</td></tr>
-<tr><td>Game 3</td><td>Jun 8</td><td>NYK 112-98 SAS</td><td>NYK ML</td><td class="win">✅ W</td></tr>
-<tr><td>Game 2</td><td>Jun 5</td><td>SAS 108-105 NYK</td><td>NYK ML</td><td class="loss">❌ L</td></tr>
-<tr><td>Game 1</td><td>Jun 2</td><td>NYK 118-110 SAS</td><td>NYK -3</td><td class="win">✅ W</td></tr>
-</tbody>
-</table>
-
-<div style="margin-top:20px;padding:15px;background:linear-gradient(135deg,#001a33,#003366);border-radius:10px">
-<div style="font-weight:700;color:var(--accent);margin-bottom:10px">⭐ GAME 4 HERO</div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center">
-<div><div style="font-size:2rem">36</div><div style="color:var(--text-muted);font-size:0.8rem">Brunson PTS</div></div>
-<div><div style="font-size:2rem">8</div><div style="color:var(--text-muted);font-size:0.8rem">Brunson AST</div></div>
-<div><div style="font-size:2rem">29</div><div style="color:var(--text-muted);font-size:0.8rem">PT Comeback</div></div>
-</div>
-</div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SECTION: MLB
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="mlb" class="section">
-<div class="section-title">⚾ MLB — June 11, 2026</div>
-<table>
-<thead><tr><th>Game</th><th>Time</th><th>Pick</th><th>Odds</th><th>Conf</th><th>Result</th></tr></thead>
-<tbody>
-<tr><td>NYY @ BOS</td><td>7:10 PM</td><td>NYY -1.5</td><td>-130</td><td>⭐⭐⭐⭐</td><td class="win">✅ W</td></tr>
-<tr><td>LAD @ SF</td><td>9:45 PM</td><td>LAD ML</td><td>-155</td><td>⭐⭐⭐⭐</td><td class="pending">—</td></tr>
-<tr><td>HOU @ TEX</td><td>8:05 PM</td><td>O 8.5</td><td>-110</td><td>⭐⭐⭐</td><td class="pending">—</td></tr>
-<tr><td>ATL @ PHI</td><td>7:05 PM</td><td>ATL ML</td><td>+120</td><td>⭐⭐⭐</td><td class="pending">—</td></tr>
-</tbody>
-</table>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SECTION: HISTORY
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="history" class="section">
-<div class="section-title">📜 RECENT HISTORY — Last 10 Picks</div>
-<table>
-<thead><tr><th>Date</th><th>Pick</th><th>Odds</th><th>Result</th><th>P/L</th></tr></thead>
-<tbody>
-<tr><td>Jun 10</td><td>🏀 NYK -4.5</td><td>-110</td><td class="win">✅ W</td><td style="color:var(--green)">+$273</td></tr>
-<tr><td>Jun 10</td><td>🏒 CAR ML</td><td>+180</td><td class="win">✅ W</td><td style="color:var(--green)">+$540</td></tr>
-<tr><td>Jun 10</td><td>⚾ NYY -1.5</td><td>-130</td><td class="win">✅ W</td><td style="color:var(--green)">+$230</td></tr>
-<tr><td>Jun 9</td><td>⚾ LAD ML</td><td>-145</td><td class="win">✅ W</td><td style="color:var(--green)">+$207</td></tr>
-<tr><td>Jun 8</td><td>🏒 VGK ML</td><td>+140</td><td class="win">✅ W</td><td style="color:var(--green)">+$420</td></tr>
-<tr><td>Jun 8</td><td>🏀 NYK ML</td><td>-150</td><td class="win">✅ W</td><td style="color:var(--green)">+$200</td></tr>
-<tr><td>Jun 7</td><td>Parlay 3x</td><td>+485</td><td class="win">✅ W</td><td style="color:var(--green)">+$1,455</td></tr>
-<tr><td>Jun 6</td><td>🏒 CAR ML</td><td>-120</td><td class="win">✅ W</td><td style="color:var(--green)">+$250</td></tr>
-<tr><td>Jun 6</td><td>🏒 VGK ML</td><td>+165</td><td class="loss">❌ L</td><td style="color:var(--red)">-$300</td></tr>
-<tr><td>Jun 5</td><td>🏀 NYK ML</td><td>-140</td><td class="loss">❌ L</td><td style="color:var(--red)">-$280</td></tr>
-</tbody>
-</table>
-</div><!-- ═══════════════════════════════════════════════════════════════
-     SECTION: ELITE PREMIUM
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="elite" class="section">
-<div class="section-title">💎 ELITE PREMIUM VIP ACCESS</div>
-
-<div class="elite-container">
-<div class="elite-icons">💎👑🏆⭐🔥</div>
-<div class="elite-title">ELITE VIP ACCESS</div>
-<div class="elite-features">
-✅ Exclusive 5-Star Picks (94% Win Rate)<br>
-✅ Real-Time Line Movement Alerts<br>
-✅ Private Discord Community<br>
-✅ 1-on-1 Betting Consultations<br>
-✅ Early Access to All Picks<br>
-✅ Bankroll Management Tools<br>
-✅ Kelly Criterion Calculator<br>
-✅ Lifetime Updates
-</div>
-<div class="elite-price">LIFETIME: $499</div>
-</div>
-
-<div style="margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px">
-<div style="background:var(--bg);padding:20px;border-radius:12px;text-align:center;border:1px solid var(--card-border)">
-<div style="font-size:2rem">📊</div>
-<div style="font-weight:700;color:var(--accent)">94%</div>
-<div style="color:var(--text-muted);font-size:0.8rem">5-Star Pick Rate</div>
-</div>
-<div style="background:var(--bg);padding:20px;border-radius:12px;text-align:center;border:1px solid var(--card-border)">
-<div style="font-size:2rem">💰</div>
-<div style="font-weight:700;color:var(--green)">+$13,850</div>
-<div style="color:var(--text-muted);font-size:0.8rem">Total Profit</div>
-</div>
-<div style="background:var(--bg);padding:20px;border-radius:12px;text-align:center;border:1px solid var(--card-border)">
-<div style="font-size:2rem">🎯</div>
-<div style="font-weight:700;color:var(--accent)">303</div>
-<div style="color:var(--text-muted);font-size:0.8rem">Total Picks</div>
-</div>
-<div style="background:var(--bg);padding:20px;border-radius:12px;text-align:center;border:1px solid var(--card-border)">
-<div style="font-size:2rem">📈</div>
-<div style="font-weight:700;color:var(--green)">+92.3%</div>
-<div style="color:var(--text-muted);font-size:0.8rem">ROI</div>
-</div>
-</div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SECTION: SETTINGS - 50+ COUNTRY THEMES
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="settings" class="section">
-<div class="section-title">⚙️ SETTINGS — ELITE CUSTOMIZATION</div>
-
-<div class="theme-section">
-<div class="theme-category">🏆 PREMIUM THEMES</div>
-<div class="theme-grid">
-<div class="theme-btn" style="background:linear-gradient(135deg,#ffd700,#ff6b35)" onclick="setTheme('#ffd700','#050508')">⭐ Gold</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#a855f7,#ec4899)" onclick="setTheme('#a855f7','#0a0015')">💜 Neon</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#00ff88,#00aa55)" onclick="setTheme('#00ff88','#001a0a')">💚 Matrix</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#4ecdc4,#44a3aa)" onclick="setTheme('#4ecdc4','#001a1a')">🧊 Ice</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#ff0000,#cc0000)" onclick="setTheme('#ff0000','#0a0000')">🔥 Fire</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#1a1a2e,#0f3460)" onclick="setTheme('#ffd700','#050508')">🌙 Dark</div>
-</div>
-
-<div class="theme-category">🏠 HOST NATIONS</div>
-<div class="theme-grid">
-<div class="theme-btn" style="background:linear-gradient(135deg,#B31942,#0A3161)" onclick="setTheme('#B31942','#0A0A12')">🇺🇸 USA</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#006847,#CE1126)" onclick="setTheme('#CE1126','#002a1c')">🇲🇽 Mexico</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#FF0000,#FFF)" onclick="setTheme('#FF0000','#0a0a0a')">🇨🇦 Canada</div>
-</div>
-
-<div class="theme-category">🇪🇺 UEFA (16 Teams)</div>
-<div class="theme-grid">
-<div class="theme-btn" style="background:linear-gradient(135deg,#000,#DD0000)" onclick="setTheme('#DD0000','#0a0a0a')">🇩🇪 Germany</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#002654,#ED2939)" onclick="setTheme('#ED2939','#000a15')">🇫🇷 France</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#C8102E,#FFF)" onclick="setTheme('#C8102E','#0a0a0a')">🏴 England</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#AA151B,#F1BF00)" onclick="setTheme('#F1BF00','#2a0505')">🇪🇸 Spain</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#006600,#FF0000)" onclick="setTheme('#FF0000','#001a00')">🇵🇹 Portugal</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#FF6600,#FFF)" onclick="setTheme('#FF6600','#0a0a0a')">🇳🇱 Netherlands</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#000,#FDE000)" onclick="setTheme('#FDE000','#0a0a0a')">🇧🇪 Belgium</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#FF0000,#171796)" onclick="setTheme('#FF0000','#05051a')">🇭🇷 Croatia</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#009246,#CE2B37)" onclick="setTheme('#CE2B37','#002a12')">🇮🇹 Italy</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#FF0000,#FFF)" onclick="setTheme('#FF0000','#0a0a0a')">🇨🇭 Switzerland</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#C60C30,#FFF)" onclick="setTheme('#C60C30','#0a0a0a')">🇩🇰 Denmark</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#012169,#C8102E)" onclick="setTheme('#C8102E','#000a20')">🇬🇧 UK</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#005BBB,#FFD500)" onclick="setTheme('#FFD500','#001a3a')">🇺🇦 Ukraine</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#E30A17,#FFF)" onclick="setTheme('#E30A17','#0a0a0a')">🇹🇷 Turkey</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#DC143C,#FFF)" onclick="setTheme('#DC143C','#0a0a0a')">🇵🇱 Poland</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#11457E,#D7141A)" onclick="setTheme('#D7141A','#05152a')">🇨🇿 Czechia</div>
-</div>
-
-<div class="theme-category">🌎 CONMEBOL (6 Teams)</div>
-<div class="theme-grid">
-<div class="theme-btn" style="background:linear-gradient(135deg,#75AADB,#FFF)" onclick="setTheme('#75AADB','#0a0a0a')">🇦🇷 Argentina</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#009739,#FEDD00)" onclick="setTheme('#FEDD00','#002a10')">🇧🇷 Brazil</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#FCD116,#003893)" onclick="setTheme('#FCD116','#000a25')">🇨🇴 Colombia</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#0038A8,#FFF)" onclick="setTheme('#0038A8','#0a0a0a')">🇺🇾 Uruguay</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#FFD100,#003DA5)" onclick="setTheme('#FFD100','#000a25')">🇪🇨 Ecuador</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#DA121A,#0038A8)" onclick="setTheme('#DA121A','#000a25')">🇵🇾 Paraguay</div>
-</div>
-
-<div class="theme-category">🌏 AFC (8 Teams)</div>
-<div class="theme-grid">
-<div class="theme-btn" style="background:linear-gradient(135deg,#FFF,#BC002D)" onclick="setTheme('#BC002D','#0a0a0a')">🇯🇵 Japan</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#CD2E3A,#0047A0)" onclick="setTheme('#CD2E3A','#000a25')">🇰🇷 S. Korea</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#002868,#FFD500)" onclick="setTheme('#FFD500','#000a20')">🇦🇺 Australia</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#006C35,#FFF)" onclick="setTheme('#006C35','#0a0a0a')">🇸🇦 Saudi</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#239F40,#DA0000)" onclick="setTheme('#DA0000','#0a2a10')">🇮🇷 Iran</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#8D1B3D,#FFF)" onclick="setTheme('#8D1B3D','#0a0a0a')">🇶🇦 Qatar</div>
-</div>
-
-<div class="theme-category">🌍 CAF (9 Teams)</div>
-<div class="theme-grid">
-<div class="theme-btn" style="background:linear-gradient(135deg,#C1272D,#006233)" onclick="setTheme('#C1272D','#001a0c')">🇲🇦 Morocco</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#00853F,#FDEF42)" onclick="setTheme('#FDEF42','#002a0f')">🇸🇳 Senegal</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#007A4D,#FFB612)" onclick="setTheme('#FFB612','#002a15')">🇿🇦 S. Africa</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#008751,#FFF)" onclick="setTheme('#008751','#0a0a0a')">🇳🇬 Nigeria</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#007A3D,#CE1126)" onclick="setTheme('#CE1126','#002a12')">🇩🇿 Algeria</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#C8102E,#FFF)" onclick="setTheme('#C8102E','#0a0a0a')">🇪🇬 Egypt</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#006B3F,#CE1126)" onclick="setTheme('#CE1126','#002a0f')">🇨🇲 Cameroon</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#006B3F,#FCD116)" onclick="setTheme('#FCD116','#002a0f')">🇬🇭 Ghana</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#FF5A00,#00A04D)" onclick="setTheme('#FF5A00','#002a12')">🇨🇮 Ivory Coast</div>
-</div>
-
-<div class="theme-category">🌎 CONCACAF (6 Teams)</div>
-<div class="theme-grid">
-<div class="theme-btn" style="background:linear-gradient(135deg,#009B3A,#000)" onclick="setTheme('#009B3A','#0a0a0a')">🇯🇲 Jamaica</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#002B7F,#CE1126)" onclick="setTheme('#CE1126','#000a20')">🇨🇷 Costa Rica</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#DA291C,#003087)" onclick="setTheme('#DA291C','#000a20')">🇵🇦 Panama</div>
-<div class="theme-btn" style="background:linear-gradient(135deg,#00209F,#D21034)" onclick="setTheme('#D21034','#000a25')">🇭🇹 Haiti</div>
-</div>
-</div>
-
-<div style="margin-top:25px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
-<button onclick="toggleStars()" style="background:var(--card);border:2px solid var(--card-border);color:var(--text);padding:12px 25px;border-radius:25px;cursor:pointer;font-weight:600;transition:all 0.3s">⭐ Toggle Stars</button>
-<button onclick="toggleTicker()" style="background:var(--card);border:2px solid var(--card-border);color:var(--text);padding:12px 25px;border-radius:25px;cursor:pointer;font-weight:600;transition:all 0.3s">📢 Toggle Ticker</button>
-<button onclick="setStars(50)" style="background:var(--card);border:2px solid var(--card-border);color:var(--text);padding:12px 25px;border-radius:25px;cursor:pointer;font-weight:600;transition:all 0.3s">✨ More Stars</button>
-<button onclick="setStars(10)" style="background:var(--card);border:2px solid var(--card-border);color:var(--text);padding:12px 25px;border-radius:25px;cursor:pointer;font-weight:600;transition:all 0.3s">🌟 Fewer Stars</button>
-<button onclick="setTheme('#ffd700','#050508')" style="background:var(--accent);border:none;color:#000;padding:12px 25px;border-radius:25px;cursor:pointer;font-weight:700">🔄 Reset Theme</button>
-</div>
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-🏆 SigMAX v79 ULTIMATE ELITE PREMIUM • Built with 💎 Excellence<br>
-⚠️ Bet Responsibly • 21+ Only • Entertainment Purposes<br>
-📊 256-47 (84.5%) | 💰 $13,850 Profit | 🎯 303 Total Picks
-</div>
-</div><!-- ═══════════════════════════════════════════════════════════════
-     TEAM MODAL - ELITE RICH DESCRIPTIONS
-     ═══════════════════════════════════════════════════════════════ -->
-<div id="teamModal" class="modal" onclick="if(event.target===this)closeModal()">
-<div class="modal-content">
-<span class="modal-close" onclick="closeModal()">&times;</span>
-<div id="modalBody">
-<div class="modal-flag" id="modalFlag">🏴</div>
-<h2 class="modal-title" id="modalTitle">Team Name</h2>
-<div class="modal-description" id="modalDescription">Loading team info...</div>
-</div>
-</div>
-</div>
-
-<style>
-.modal{display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.9);backdrop-filter:blur(5px)}
-.modal-content{position:relative;background:linear-gradient(135deg,#1a1a2e,#16213e);margin:5% auto;padding:30px;border-radius:20px;max-width:700px;width:90%;border:2px solid var(--accent);max-height:80vh;overflow-y:auto;box-shadow:0 0 50px rgba(255,215,0,0.3)}
-.modal-close{position:absolute;top:15px;right:20px;font-size:2rem;cursor:pointer;color:var(--accent)}
-.modal-flag{font-size:5rem;text-align:center;margin-bottom:15px}
-.modal-title{text-align:center;font-size:2rem;color:var(--accent);margin-bottom:20px}
-.modal-description{line-height:1.8;font-size:0.95rem}
-.modal-description h4{color:var(--accent);margin:15px 0 8px 0;font-size:1.1rem}
-.modal-description .stat-highlight{background:var(--bg);padding:10px;border-radius:8px;margin:10px 0}
-.theme-section{margin:20px 0}
-.theme-category{font-size:1rem;font-weight:700;color:var(--accent);margin:20px 0 10px 0;border-bottom:1px solid #333;padding-bottom:5px}
-.theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
-.theme-btn{padding:10px;border-radius:8px;text-align:center;cursor:pointer;font-size:0.75rem;font-weight:600;transition:all 0.3s;border:2px solid transparent}
-.theme-btn:hover{transform:scale(1.05);border-color:#fff;box-shadow:0 5px 20px rgba(0,0,0,0.3)}
-.elite-container{background:linear-gradient(135deg,#1a1a2e,#0f3460,#1a1a2e);border-radius:20px;padding:40px;text-align:center;border:3px solid var(--accent);animation:pulse 3s infinite}
-.elite-icons{font-size:3rem;margin-bottom:15px}
-.elite-title{font-size:2rem;font-weight:900;background:linear-gradient(90deg,#ffd700,#ff6b35);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px}
-.elite-features{text-align:left;max-width:400px;margin:0 auto 25px auto;line-height:2;font-size:1rem}
-.elite-price{font-size:2.5rem;font-weight:900;color:var(--green);text-shadow:0 0 20px rgba(0,255,136,0.5)}
-.footer{text-align:center;padding:30px;margin-top:30px;color:var(--text-muted);border-top:1px solid #333;font-size:0.85rem;line-height:1.8}
-</style>
 
 <script>
 // ═══════════════════════════════════════════════════════════════
-// TEAM DESCRIPTIONS - RICH INFO FROM TEAM_DESCRIPTIONS SHEET
+// 🏆 SIGMAX v80 ULTIMATE ELITE PREMIUM JavaScript
 // ═══════════════════════════════════════════════════════════════
+
+// TEAMS DATABASE - All 48 Teams with FLAGS in descriptions
+const teams = [
+  {name:"Mexico",flag:"🇲🇽",group:"A",rank:15},{name:"South Africa",flag:"🇿🇦",group:"A",rank:59},{name:"S. Korea",flag:"🇰🇷",group:"A",rank:23},{name:"Czechia",flag:"🇨🇿",group:"A",rank:36},
+  {name:"Canada",flag:"🇨🇦",group:"B",rank:48},{name:"Bosnia",flag:"🇧🇦",group:"B",rank:75},{name:"Iran",flag:"🇮🇷",group:"B",rank:21},{name:"Croatia",flag:"🇭🇷",group:"B",rank:7},
+  {name:"Brazil",flag:"🇧🇷",group:"C",rank:5},{name:"Morocco",flag:"🇲🇦",group:"C",rank:14},{name:"Haiti",flag:"🇭🇹",group:"C",rank:87},{name:"Scotland",flag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",group:"C",rank:39},
+  {name:"USA",flag:"🇺🇸",group:"D",rank:16},{name:"Paraguay",flag:"🇵🇾",group:"D",rank:57},{name:"Ecuador",flag:"🇪🇨",group:"D",rank:28},{name:"Netherlands",flag:"🇳🇱",group:"D",rank:3},
+  {name:"Argentina",flag:"🇦🇷",group:"E",rank:1},{name:"Uruguay",flag:"🇺🇾",group:"E",rank:11},{name:"Australia",flag:"🇦🇺",group:"E",rank:27},{name:"Uzbekistan",flag:"🇺🇿",group:"E",rank:65},
+  {name:"France",flag:"🇫🇷",group:"F",rank:2},{name:"Colombia",flag:"🇨🇴",group:"F",rank:12},{name:"Senegal",flag:"🇸🇳",group:"F",rank:20},{name:"Panama",flag:"🇵🇦",group:"F",rank:43},
+  {name:"Spain",flag:"🇪🇸",group:"G",rank:8},{name:"Japan",flag:"🇯🇵",group:"G",rank:18},{name:"Turkey",flag:"🇹🇷",group:"G",rank:42},{name:"New Zealand",flag:"🇳🇿",group:"G",rank:93},
+  {name:"England",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",group:"H",rank:4},{name:"Germany",flag:"🇩🇪",group:"H",rank:9},{name:"Saudi Arabia",flag:"🇸🇦",group:"H",rank:56},{name:"Tunisia",flag:"🇹🇳",group:"H",rank:40},
+  {name:"Portugal",flag:"🇵🇹",group:"I",rank:6},{name:"Belgium",flag:"🇧🇪",group:"I",rank:10},{name:"Ivory Coast",flag:"🇨🇮",group:"I",rank:38},{name:"Cameroon",flag:"🇨🇲",group:"I",rank:47},
+  {name:"Italy",flag:"🇮🇹",group:"J",rank:13},{name:"Egypt",flag:"🇪🇬",group:"J",rank:33},{name:"Jordan",flag:"🇯🇴",group:"J",rank:68},{name:"Algeria",flag:"🇩🇿",group:"J",rank:37},
+  {name:"Switzerland",flag:"🇨🇭",group:"K",rank:19},{name:"Austria",flag:"🇦🇹",group:"K",rank:25},{name:"Ghana",flag:"🇬🇭",group:"K",rank:60},{name:"Iraq",flag:"🇮🇶",group:"K",rank:63},
+  {name:"Denmark",flag:"🇩🇰",group:"L",rank:17},{name:"Serbia",flag:"🇷🇸",group:"L",rank:30},{name:"Sweden",flag:"🇸🇪",group:"L",rank:22},{name:"Norway",flag:"🇳🇴",group:"L",rank:45}
+];
+
+// TEAM DESCRIPTIONS with FLAGS
 const teamDescriptions = {
-"Argentina": {
-flag: "🇦🇷",
-info: "<h4>🏆 PALMARÈS</h4>2× World Champion (1978, 1986, 2022) • 15× Copa América<h4>⭐ LÉGENDES</h4>Diego Maradona, Lionel Messi, Gabriel Batistuta, Mario Kempes<h4>🔥 GÉNÉRATION ACTUELLE</h4>Messi (8× Ballon d'Or), Di María, Julián Álvarez, Enzo Fernández, Mac Allister<div class='stat-highlight'>📊 FIFA Ranking: #1 • Defending Champions</div>"
-},
-"Brazil": {
-flag: "🇧🇷",
-info: "<h4>🏆 PALMARÈS</h4>5× World Champion (1958, 1962, 1970, 1994, 2002) - RECORD<h4>⭐ LÉGENDES</h4>Pelé, Ronaldo, Ronaldinho, Zico, Garrincha, Romário<h4>🔥 GÉNÉRATION ACTUELLE</h4>Vinícius Jr, Rodrygo, Raphinha, Casemiro, Marquinhos<div class='stat-highlight'>📊 Most World Cup Titles Ever • O País do Futebol</div>"
-},
-"France": {
-flag: "🇫🇷",
-info: "<h4>🏆 PALMARÈS</h4>2× World Champion (1998, 2018) • 2× Euro Champion<h4>⭐ LÉGENDES</h4>Zidane, Platini, Henry, Fontaine, Kopa<h4>🔥 GÉNÉRATION ACTUELLE</h4>Mbappé, Griezmann, Dembélé, Tchouaméni, Upamecano<div class='stat-highlight'>📊 Mbappé: Youngest since Pelé to score in WC Final</div>"
-},
-"Germany": {
-flag: "🇩🇪",
-info: "<h4>🏆 PALMARÈS</h4>4× World Champion (1954, 1974, 1990, 2014) • 3× Euro<h4>⭐ LÉGENDES</h4>Beckenbauer, Müller, Matthaus, Kahn, Klinsmann<h4>🔥 GÉNÉRATION ACTUELLE</h4>Musiala, Wirtz, Sané, Havertz, Rüdiger<div class='stat-highlight'>📊 Die Mannschaft • Tournament Specialists</div>"
-},
-"Spain": {
-flag: "🇪🇸",
-info: "<h4>🏆 PALMARÈS</h4>1× World Champion (2010) • 4× Euro Champion (Record)<h4>⭐ LÉGENDES</h4>Xavi, Iniesta, Casillas, Raúl, Puyol<h4>🔥 GÉNÉRATION ACTUELLE</h4>Pedri, Gavi, Yamal, Rodri, Morata<div class='stat-highlight'>📊 Tiki-Taka Masters • Youngest Squad in WC 2026</div>"
-},
-"England": {
-flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-info: "<h4>🏆 PALMARÈS</h4>1× World Champion (1966) • Home of Football<h4>⭐ LÉGENDES</h4>Bobby Moore, Bobby Charlton, Gary Lineker, Beckham<h4>🔥 GÉNÉRATION ACTUELLE</h4>Bellingham, Kane, Saka, Foden, Rice<div class='stat-highlight'>📊 Golden Generation 2.0 • Euro 2024 Finalists</div>"
-},
-"Portugal": {
-flag: "🇵🇹",
-info: "<h4>🏆 PALMARÈS</h4>1× Euro Champion (2016) • 1× Nations League<h4>⭐ LÉGENDES</h4>Eusébio, Figo, Cristiano Ronaldo<h4>🔥 GÉNÉRATION ACTUELLE</h4>CR7, Bruno Fernandes, Rafael Leão, Bernardo Silva<div class='stat-highlight'>📊 CR7: All-Time Top Int'l Scorer (130+ Goals)</div>"
-},
-"Netherlands": {
-flag: "🇳🇱",
-info: "<h4>🏆 PALMARÈS</h4>3× World Cup Finalists • Total Football Inventors<h4>⭐ LÉGENDES</h4>Cruyff, Van Basten, Bergkamp, Robben, Gullit<h4>🔥 GÉNÉRATION ACTUELLE</h4>Van Dijk, De Jong, Gakpo, Xavi Simons, Dumfries<div class='stat-highlight'>📊 Oranje • Beautiful Football Philosophy</div>"
-},
-"Belgium": {
-flag: "🇧🇪",
-info: "<h4>🏆 PALMARÈS</h4>Best: 3rd Place (2018) • Golden Generation<h4>⭐ LÉGENDES</h4>Scifo, Pfaff, Ceulemans<h4>🔥 GÉNÉRATION ACTUELLE</h4>De Bruyne, Lukaku, Doku, Trossard, Vertonghen<div class='stat-highlight'>📊 Red Devils • Peak FIFA #1 2018-2022</div>"
-},
-"Croatia": {
-flag: "🇭🇷",
-info: "<h4>🏆 PALMARÈS</h4>2018 Finalists • 2022 Bronze • 3rd Place 1998<h4>⭐ LÉGENDES</h4>Šuker, Boban, Prosinečki<h4>🔥 GÉNÉRATION ACTUELLE</h4>Modrić, Gvardiol, Kovačić, Kramarić, Majer<div class='stat-highlight'>📊 Small Nation, Giant Heart • 4M Population</div>"
-},
-"USA": {
-flag: "🇺🇸",
-info: "<h4>🏆 PALMARÈS</h4>Best: Quarterfinals (1930, 2002) • HOST 2026<h4>⭐ LÉGENDES</h4>Landon Donovan, Clint Dempsey, Tim Howard<h4>🔥 GÉNÉRATION ACTUELLE</h4>Pulisic, McKennie, Reyna, Weah, Musah<div class='stat-highlight'>📊 🏠 CO-HOST • Largest Home Advantage</div>"
-},
-"Mexico": {
-flag: "🇲🇽",
-info: "<h4>🏆 PALMARÈS</h4>8× CONCACAF Champion • 17× WC Appearances<h4>⭐ LÉGENDES</h4>Hugo Sánchez, Cuauhtémoc Blanco, Rafa Márquez<h4>🔥 GÉNÉRATION ACTUELLE</h4>Raúl Jiménez, Hirving Lozano, Edson Álvarez<div class='stat-highlight'>📊 🏠 CO-HOST • Opens WC at Estadio Azteca June 11!</div>"
-},
-"Canada": {
-flag: "🇨🇦",
-info: "<h4>🏆 PALMARÈS</h4>2× CONCACAF Gold Cup • 2nd WC (1st: 1986)<h4>⭐ LÉGENDES</h4>Alphonso Davies' generation is the first Golden Era<h4>🔥 GÉNÉRATION ACTUELLE</h4>Davies, David, Buchanan, Larin, Eustáquio<div class='stat-highlight'>📊 🏠 CO-HOST • Fastest Player: Davies (36.5 km/h)</div>"
-},
-"Italy": {
-flag: "🇮🇹",
-info: "<h4>🏆 PALMARÈS</h4>4× World Champion (1934, 1938, 1982, 2006)<h4>⭐ LÉGENDES</h4>Paolo Maldini, Buffon, Pirlo, Baggio, Totti<h4>🔥 GÉNÉRATION ACTUELLE</h4>Donnarumma, Barella, Chiesa, Bastoni<div class='stat-highlight'>📊 Gli Azzurri • Euro 2020 Champions</div>"
-},
-"Japan": {
-flag: "🇯🇵",
-info: "<h4>🏆 PALMARÈS</h4>4× Asian Cup Champion • Best: R16<h4>⭐ LÉGENDES</h4>Nakata, Nakamura, Kagawa<h4>🔥 GÉNÉRATION ACTUELLE</h4>Kubo, Mitoma, Doan, Endo, Kamada<div class='stat-highlight'>📊 Samurai Blue • Beat Germany & Spain in 2022!</div>"
-},
-"South Korea": {
-flag: "🇰🇷",
-info: "<h4>🏆 PALMARÈS</h4>Best: 4th Place (2002 Home) • 2× Asian Cup<h4>⭐ LÉGENDES</h�>Park Ji-sung, Cha Bum-kun, Hong Myung-bo<h4>🔥 GÉNÉRATION ACTUELLE</h4>Son Heung-min, Kim Min-jae, Lee Kang-in<div class='stat-highlight'>📊 Taegeuk Warriors • Son: Asia's Best Player</div>"
-},
-"Morocco": {
-flag: "🇲🇦",
-info: "<h4>🏆 PALMARÈS</h4>4th Place 2022 (BEST AFRICAN EVER) • AFCON Champion<h4>⭐ LÉGENDES</h4>Hadji, Naybet, Bassir<h4>🔥 GÉNÉRATION ACTUELLE</h4>Hakimi, Mazraoui, Amrabat, En-Nesyri, Ziyech<div class='stat-highlight'>📊 Atlas Lions • Historic 2022 Semi-Finalists!</div>"
-},
-"Senegal": {
-flag: "🇸🇳",
-info: "<h4>🏆 PALMARÈS</h4>2× AFCON Champion (2021, 2023) • QF 2002<h4>⭐ LÉGENDES</h4>El Hadji Diouf, Khalilou Fadiga<h4>🔥 GÉNÉRATION ACTUELLE</h4>Mendy, Koulibaly, Sarr, Dia, Diallo<div class='stat-highlight'>📊 Lions of Teranga • African Champions</div>"
-},
-"Australia": {
-flag: "🇦🇺",
-info: "<h4>🏆 PALMARÈS</h4>Best: R16 (2006, 2022) • Asian Cup Winner<h4>⭐ LÉGENDES</h4>Tim Cahill, Mark Viduka, Harry Kewell<h4>🔥 GÉNÉRATION ACTUELLE</h4>Mooy, Ryan, Hrustic, Kuol, Duke<div class='stat-highlight'>📊 Socceroos • Only Oceania Team in AFC</div>"
-},
-"Uruguay": {
-flag: "🇺🇾",
-info: "<h4>🏆 PALMARÈS</h4>2× World Champion (1930, 1950) • 15× Copa América<h4>⭐ LÉGENDES</h4>Forlán, Suárez, Cavani, Francescoli<h4>🔥 GÉNÉRATION ACTUELLE</h4>Núñez, Valverde, Araújo, Ugarte, De Arrascaeta<div class='stat-highlight'>📊 La Celeste • Most Copa Américas Ever!</div>"
-},
-"Colombia": {
-flag: "🇨🇴",
-info: "<h4>🏆 PALMARÈS</h4>1× Copa América (2001) • Best: QF (2014)<h4>⭐ LÉGENDES</h4>Valderrama, Higuita, Rincón, James Rodríguez<h4>🔥 GÉNÉRATION ACTUELLE</h4>Luis Díaz, Cuadrado, Arias, Lerma<div class='stat-highlight'>📊 Los Cafeteros • Díaz: Liverpool Star</div>"
-},
-"Switzerland": {
-flag: "🇨🇭",
-info: "<h4>🏆 PALMARÈS</h4>Best: Quarterfinals (1934, 1938, 1954, 2024)<h4>⭐ LÉGENDES</h4>Stéphane Chapuisat, Alexander Frei<h4>🔥 GÉNÉRATION ACTUELLE</h4>Xhaka, Sommer, Akanji, Embolo, Ndoye<div class='stat-highlight'>📊 Nati • Consistent Dark Horse</div>"
-},
-"Denmark": {
-flag: "🇩🇰",
-info: "<h4>🏆 PALMARÈS</h4>1× Euro Champion (1992 - Fairytale!)<h4>⭐ LÉGENDES</h4>Michael Laudrup, Peter Schmeichel, Brian Laudrup<h4>🔥 GÉNÉRATION ACTUELLE</h4>Eriksen, Højlund, Hjulmand, Christensen<div class='stat-highlight'>📊 Danish Dynamite • Eriksen's Miracle Return</div>"
-},
-"Poland": {
-flag: "🇵🇱",
-info: "<h4>🏆 PALMARÈS</h4>Best: 3rd Place (1974, 1982)<h4>⭐ LÉGENDES</h4>Boniek, Lato, Deyna, Lewandowski<h4>🔥 GÉNÉRATION ACTUELLE</h4>Lewandowski, Szczesny, Zielinski, Zalewski<div class='stat-highlight'>📊 Lewandowski: 100+ Poland Goals</div>"
-},
-"Saudi Arabia": {
-flag: "🇸🇦",
-info: "<h4>🏆 PALMARÈS</h4>3× Asian Cup • R16 1994 • Beat Argentina 2022!<h4>⭐ LÉGENDES</h4>Sami Al-Jaber, Yasser Al-Qahtani<h4>🔥 GÉNÉRATION ACTUELLE</h4>Al-Dawsari, Al-Shehri, Kanno<div class='stat-highlight'>📊 Green Falcons • Historic 2-1 vs Argentina!</div>"
-}
+  "Mexico": {flag:"🇲🇽",desc:"<h4>🇲🇽 MEXICO — El Tri</h4><p><b>🏆 PALMARÈS:</b> 7× CONCACAF Gold Cup champions, 2× FIFA Confederations Cup, World Cup Round of 16 (7 times)</p><p><b>⭐ LÉGENDES:</b> Hugo Sánchez, Rafael Márquez, Cuauhtémoc Blanco, Javier Hernández</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Edson Álvarez, Hirving Lozano, Santiago Giménez, Orbelin Pineda</p><p><b>📊 FIFA Rank:</b> #15</p><div class='stat-highlight'>🏟️ HOST NATION — Opens WC at Estadio Azteca vs South Africa!</div>"},
+  "South Africa": {flag:"🇿🇦",desc:"<h4>🇿🇦 SOUTH AFRICA — Bafana Bafana</h4><p><b>🏆 PALMARÈS:</b> 1996 AFCON champions, 2010 World Cup hosts</p><p><b>⭐ LÉGENDES:</b> Lucas Radebe, Benni McCarthy, Mark Fish</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Percy Tau, Themba Zwane, Ronwen Williams</p><p><b>📊 FIFA Rank:</b> #59</p>"},
+  "S. Korea": {flag:"🇰🇷",desc:"<h4>🇰🇷 SOUTH KOREA — Taeguk Warriors</h4><p><b>🏆 PALMARÈS:</b> 2002 World Cup Semi-Finals (4th), 2× Asian Cup champions</p><p><b>⭐ LÉGENDES:</b> Park Ji-sung, Son Heung-min, Cha Bum-kun</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Son Heung-min (Captain), Kim Min-jae, Lee Kang-in, Hwang Hee-chan</p><p><b>📊 FIFA Rank:</b> #23</p>"},
+  "Czechia": {flag:"🇨🇿",desc:"<h4>🇨🇿 CZECHIA — Czech Lions</h4><p><b>🏆 PALMARÈS:</b> Euro 1996 Runners-up, World Cup 3rd place 1962 (as Czechoslovakia)</p><p><b>⭐ LÉGENDES:</b> Pavel Nedvěd, Petr Čech, Jan Koller</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Patrik Schick, Adam Hložek, Tomáš Souček</p><p><b>📊 FIFA Rank:</b> #36</p>"},
+  "Brazil": {flag:"🇧🇷",desc:"<h4>🇧🇷 BRAZIL — A Seleção</h4><p><b>🏆 PALMARÈS:</b> 5× FIFA World Cup (1958, 1962, 1970, 1994, 2002) - RECORD!</p><p><b>⭐ LÉGENDES:</b> Pelé, Ronaldo, Ronaldinho, Zico, Garrincha, Romário</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Vinícius Jr, Rodrygo, Raphinha, Endrick, Marquinhos</p><p><b>📊 FIFA Rank:</b> #5</p><div class='stat-highlight'>🌟 Most World Cup wins in history!</div>"},
+  "Morocco": {flag:"🇲🇦",desc:"<h4>🇲🇦 MOROCCO — Atlas Lions</h4><p><b>🏆 PALMARÈS:</b> 2022 World Cup Semi-Finals (HISTORIC!), 1976 AFCON</p><p><b>⭐ LÉGENDES:</b> Mustapha Hadji, Aziz Bouderbala, Lakhdar Belloumi</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Achraf Hakimi, Hakim Ziyech, Sofyan Amrabat, Youssef En-Nesyri</p><p><b>📊 FIFA Rank:</b> #14</p><div class='stat-highlight'>🔥 First African team to reach WC Semi-Finals!</div>"},
+  "Haiti": {flag:"🇭🇹",desc:"<h4>🇭🇹 HAITI — Les Grenadiers</h4><p><b>🏆 PALMARÈS:</b> 1974 World Cup participant, Caribbean Cup winners</p><p><b>⭐ LÉGENDES:</b> Emmanuel Sanon (scored vs Italy in 1974 WC)</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Derrick Étienne Jr, Steeven Saba, Carlens Arcus</p><p><b>📊 FIFA Rank:</b> #87</p><div class='stat-highlight'>🆕 FIRST WORLD CUP SINCE 1974!</div>"},
+  "Scotland": {flag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",desc:"<h4>🏴󠁧󠁢󠁳󠁣󠁴󠁿 SCOTLAND — The Tartan Army</h4><p><b>🏆 PALMARÈS:</b> 8× World Cup appearances, Euro 2020 return after 23 years</p><p><b>⭐ LÉGENDES:</b> Kenny Dalglish, Denis Law, Jimmy Johnstone</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> John McGinn, Andrew Robertson, Scott McTominay, Billy Gilmour</p><p><b>📊 FIFA Rank:</b> #39</p>"},
+  "USA": {flag:"🇺🇸",desc:"<h4>🇺🇸 USA — USMNT</h4><p><b>🏆 PALMARÈS:</b> CONCACAF Gold Cup champions, 2002 WC Quarterfinals</p><p><b>⭐ LÉGENDES:</b> Landon Donovan, Clint Dempsey, Tim Howard</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Christian Pulisic, Gio Reyna, Tyler Adams, Weston McKennie</p><p><b>📊 FIFA Rank:</b> #16</p><div class='stat-highlight'>🏟️ HOST NATION — Playing at SoFi Stadium!</div>"},
+  "Paraguay": {flag:"🇵🇾",desc:"<h4>🇵🇾 PARAGUAY — La Albirroja</h4><p><b>🏆 PALMARÈS:</b> 2× Copa América, 2010 WC Quarterfinals</p><p><b>⭐ LÉGENDES:</b> José Luis Chilavert, Roque Santa Cruz</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Miguel Almirón, Gustavo Gómez</p><p><b>📊 FIFA Rank:</b> #57</p>"},
+  "Argentina": {flag:"🇦🇷",desc:"<h4>🇦🇷 ARGENTINA — La Albiceleste</h4><p><b>🏆 PALMARÈS:</b> 3× FIFA World Cup (1978, 1986, 2022!), 15× Copa América</p><p><b>⭐ LÉGENDES:</b> Diego Maradona, Lionel Messi, Alfredo Di Stéfano, Gabriel Batistuta</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Lionel Messi (Captain), Julián Álvarez, Enzo Fernández, Lautaro Martínez</p><p><b>📊 FIFA Rank:</b> #1 🏆</p><div class='stat-highlight'>🏆 DEFENDING CHAMPIONS! Messi's last World Cup?</div>"},
+  "France": {flag:"🇫🇷",desc:"<h4>🇫🇷 FRANCE — Les Bleus</h4><p><b>🏆 PALMARÈS:</b> 2× FIFA World Cup (1998, 2018), 2× Euro (1984, 2000)</p><p><b>⭐ LÉGENDES:</b> Zinedine Zidane, Michel Platini, Just Fontaine, Thierry Henry</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Kylian Mbappé (Captain), Antoine Griezmann, Ousmane Dembélé, Aurélien Tchouaméni</p><p><b>📊 FIFA Rank:</b> #2</p><div class='stat-highlight'>⚡ Mbappé leads the golden generation!</div>"},
+  "England": {flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",desc:"<h4>🏴󠁧󠁢󠁥󠁮󠁧󠁿 ENGLAND — The Three Lions</h4><p><b>🏆 PALMARÈS:</b> 1966 World Cup (home), 2× Euro Finals (2020, 2024)</p><p><b>⭐ LÉGENDES:</b> Bobby Charlton, Bobby Moore, Gary Lineker, Alan Shearer</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Harry Kane, Jude Bellingham, Bukayo Saka, Phil Foden</p><p><b>📊 FIFA Rank:</b> #4</p>"},
+  "Germany": {flag:"🇩🇪",desc:"<h4>🇩🇪 GERMANY — Die Mannschaft</h4><p><b>🏆 PALMARÈS:</b> 4× FIFA World Cup (1954, 1974, 1990, 2014), 3× Euro</p><p><b>⭐ LÉGENDES:</b> Franz Beckenbauer, Gerd Müller, Lothar Matthäus, Miroslav Klose</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Florian Wirtz, Jamal Musiala, Kai Havertz, Antonio Rüdiger</p><p><b>📊 FIFA Rank:</b> #9</p>"},
+  "Spain": {flag:"🇪🇸",desc:"<h4>🇪🇸 SPAIN — La Roja</h4><p><b>🏆 PALMARÈS:</b> 2010 World Cup, 4× Euro (1964, 2008, 2012, 2024)</p><p><b>⭐ LÉGENDES:</b> Xavi, Iniesta, Casillas, Puyol, Fernando Torres</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Pedri, Gavi, Lamine Yamal, Nico Williams, Rodri</p><p><b>📊 FIFA Rank:</b> #8</p><div class='stat-highlight'>🌟 2024 Euro Champions!</div>"},
+  "Portugal": {flag:"🇵🇹",desc:"<h4>🇵🇹 PORTUGAL — A Seleção</h4><p><b>🏆 PALMARÈS:</b> Euro 2016, UEFA Nations League 2019</p><p><b>⭐ LÉGENDES:</b> Eusébio, Luís Figo, Cristiano Ronaldo</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Rafael Leão, Bruno Fernandes, Bernardo Silva, Vitinha</p><p><b>📊 FIFA Rank:</b> #6</p>"},
+  "Netherlands": {flag:"🇳🇱",desc:"<h4>🇳🇱 NETHERLANDS — Oranje</h4><p><b>🏆 PALMARÈS:</b> 3× World Cup Runners-up (1974, 1978, 2010), Euro 1988</p><p><b>⭐ LÉGENDES:</b> Johan Cruyff, Marco van Basten, Dennis Bergkamp, Ruud Gullit</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Virgil van Dijk, Cody Gakpo, Frenkie de Jong, Memphis Depay</p><p><b>📊 FIFA Rank:</b> #3</p>"},
+  "Italy": {flag:"🇮🇹",desc:"<h4>🇮🇹 ITALY — Gli Azzurri</h4><p><b>🏆 PALMARÈS:</b> 4× FIFA World Cup (1934, 1938, 1982, 2006), 2× Euro</p><p><b>⭐ LÉGENDES:</b> Paolo Maldini, Franco Baresi, Roberto Baggio, Gianluigi Buffon</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Gianluigi Donnarumma, Sandro Tonali, Federico Chiesa</p><p><b>📊 FIFA Rank:</b> #13</p>"},
+  "Croatia": {flag:"🇭🇷",desc:"<h4>🇭🇷 CROATIA — Vatreni</h4><p><b>🏆 PALMARÈS:</b> 2018 World Cup Runners-up, 2022 WC 3rd place</p><p><b>⭐ LÉGENDES:</b> Luka Modrić, Davor Šuker, Zvonimir Boban</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Luka Modrić (Captain), Mateo Kovačić, Joško Gvardiol</p><p><b>📊 FIFA Rank:</b> #7</p>"},
+  "Belgium": {flag:"🇧🇪",desc:"<h4>🇧🇪 BELGIUM — Red Devils</h4><p><b>🏆 PALMARÈS:</b> 2018 WC 3rd place, 1980 Euro Runners-up</p><p><b>⭐ LÉGENDES:</b> Jean-Marie Pfaff, Enzo Scifo, Eden Hazard</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Kevin De Bruyne, Romelu Lukaku, Jérémy Doku</p><p><b>📊 FIFA Rank:</b> #10</p>"},
+  "Japan": {flag:"🇯🇵",desc:"<h4>🇯🇵 JAPAN — Samurai Blue</h4><p><b>🏆 PALMARÈS:</b> 4× Asian Cup, 2002 WC co-hosts</p><p><b>⭐ LÉGENDES:</b> Hidetoshi Nakata, Keisuke Honda, Shinji Kagawa</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Takefusa Kubo, Kaoru Mitoma, Wataru Endo</p><p><b>📊 FIFA Rank:</b> #18</p>"},
+  "Canada": {flag:"🇨🇦",desc:"<h4>🇨🇦 CANADA — Les Rouges</h4><p><b>🏆 PALMARÈS:</b> 2000 CONCACAF Gold Cup, 2022 WC return after 36 years</p><p><b>⭐ LÉGENDES:</b> Dwayne De Rosario, Julian de Guzman</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Alphonso Davies, Jonathan David, Cyle Larin</p><p><b>📊 FIFA Rank:</b> #48</p><div class='stat-highlight'>🏟️ CO-HOST NATION!</div>"},
+  "Uruguay": {flag:"🇺🇾",desc:"<h4>🇺🇾 URUGUAY — La Celeste</h4><p><b>🏆 PALMARÈS:</b> 2× World Cup (1930, 1950), 15× Copa América (RECORD)</p><p><b>⭐ LÉGENDES:</b> Diego Forlán, Luis Suárez, Edinson Cavani</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Federico Valverde, Darwin Núñez, Ronald Araújo</p><p><b>📊 FIFA Rank:</b> #11</p>"},
+  "Colombia": {flag:"🇨🇴",desc:"<h4>🇨🇴 COLOMBIA — Los Cafeteros</h4><p><b>🏆 PALMARÈS:</b> 2001 Copa América, 2014 WC Quarterfinals</p><p><b>⭐ LÉGENDES:</b> Carlos Valderrama, Faustino Asprilla, James Rodríguez</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Luis Díaz, James Rodríguez, Jhon Arias</p><p><b>📊 FIFA Rank:</b> #12</p>"},
+  "Senegal": {flag:"🇸🇳",desc:"<h4>🇸🇳 SENEGAL — Lions of Teranga</h4><p><b>🏆 PALMARÈS:</b> 2× AFCON (2022, 2024), 2002 WC Quarterfinals</p><p><b>⭐ LÉGENDES:</b> El Hadji Diouf, Sadio Mané, Khalilou Fadiga</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Sadio Mané (Captain), Ismaïla Sarr, Édouard Mendy</p><p><b>📊 FIFA Rank:</b> #20</p>"},
+  "Australia": {flag:"🇦🇺",desc:"<h4>🇦🇺 AUSTRALIA — Socceroos</h4><p><b>🏆 PALMARÈS:</b> 2015 Asian Cup, 6× World Cup appearances</p><p><b>⭐ LÉGENDES:</b> Tim Cahill, Harry Kewell, Mark Schwarzer</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Mathew Ryan, Jackson Irvine, Craig Goodwin</p><p><b>📊 FIFA Rank:</b> #27</p>"},
+  "Ecuador": {flag:"🇪🇨",desc:"<h4>🇪🇨 ECUADOR — La Tri</h4><p><b>🏆 PALMARÈS:</b> 3× WC appearances since 2002</p><p><b>⭐ LÉGENDES:</b> Agustín Delgado, Antonio Valencia, Iván Hurtado</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Moisés Caicedo, Pervis Estupiñán, Enner Valencia</p><p><b>📊 FIFA Rank:</b> #28</p>"},
+  "Switzerland": {flag:"🇨🇭",desc:"<h4>🇨🇭 SWITZERLAND — Nati</h4><p><b>🏆 PALMARÈS:</b> Euro 2020 Quarterfinals, consistent WC participants</p><p><b>⭐ LÉGENDES:</b> Stéphane Chapuisat, Alexander Frei</p><p><b>🔥 GÉNÉRATION ACTUELLE:</b> Granit Xhaka, Manuel Akanji, Breel Embolo</p><p><b>📊 FIFA Rank:</b> #19</p>"}
 };
 
-// ═══════════════════════════════════════════════════════════════
-// CORE JAVASCRIPT FUNCTIONS
-// ═══════════════════════════════════════════════════════════════
+// MATCHUPS DATABASE
+const matchups = {
+  nhl: [{away:"Vegas",home:"Carolina",label:"Vegas @ Carolina (SCF G5)"}],
+  nba: [{away:"Knicks",home:"Spurs",label:"NYK @ SAS (Finals G5)"}],
+  mlb: [{away:"Yankees",home:"Red Sox",label:"NYY @ BOS"},{away:"Dodgers",home:"D-backs",label:"LAD @ ARI"}],
+  wc: [{team1:"Mexico",team2:"South Africa",label:"🇲🇽 Mexico vs 🇿🇦 S. Africa"},{team1:"S. Korea",team2:"Czechia",label:"🇰🇷 Korea vs 🇨🇿 Czechia"},{team1:"USA",team2:"Paraguay",label:"🇺🇸 USA vs 🇵🇾 Paraguay"},{team1:"Brazil",team2:"Morocco",label:"🇧🇷 Brazil vs 🇲🇦 Morocco"}],
+  tennis: [{player1:"Sinner",player2:"Alcaraz",label:"Sinner vs Alcaraz"}],
+  mls: [{team1:"Inter Miami",team2:"TBD",label:"Inter Miami vs TBD"}]
+};
 
-// Tab Navigation - FIXED VERSION
-function showSection(id) {
-    // Hide all sections
-    document.querySelectorAll('.section').forEach(s => {
-        s.classList.remove('active');
-        s.style.display = 'none';
+// COUNTRY THEMES
+const countryThemes = [
+  {name:"🌟 Default Gold",colors:["#ffd700","#050508"]},
+  {name:"🇺🇸 USA",colors:["#b22234","#3c3b6e","#ffffff"]},
+  {name:"🇲🇽 Mexico",colors:["#006847","#ce1126","#ffffff"]},
+  {name:"🇨🇦 Canada",colors:["#ff0000","#ffffff"]},
+  {name:"🇧🇷 Brazil",colors:["#009c3b","#ffdf00","#002776"]},
+  {name:"🇦🇷 Argentina",colors:["#74acdf","#ffffff","#f6b40e"]},
+  {name:"🇫🇷 France",colors:["#002395","#ffffff","#ed2939"]},
+  {name:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",colors:["#ffffff","#ce1124"]},
+  {name:"🇩🇪 Germany",colors:["#000000","#dd0000","#ffce00"]},
+  {name:"🇪🇸 Spain",colors:["#aa151b","#f1bf00"]},
+  {name:"🇵🇹 Portugal",colors:["#006600","#ff0000"]},
+  {name:"🇳🇱 Netherlands",colors:["#ff6600","#ffffff","#21468b"]},
+  {name:"🇮🇹 Italy",colors:["#009246","#ffffff","#ce2b37"]},
+  {name:"🇭🇷 Croatia",colors:["#ff0000","#ffffff","#171796"]},
+  {name:"🇧🇪 Belgium",colors:["#000000","#ffd90c","#ff0f21"]},
+  {name:"🇯🇵 Japan",colors:["#bc002d","#ffffff"]},
+  {name:"🇰🇷 South Korea",colors:["#003478","#c60c30","#ffffff"]},
+  {name:"🇲🇦 Morocco",colors:["#c1272d","#006233"]},
+  {name:"🇸🇳 Senegal",colors:["#00853f","#fdef42","#e31b23"]}
+];
+
+// ═══════════════════════════════════════════════════════════════
+// PARLAY BUILDER FUNCTIONS
+// ═══════════════════════════════════════════════════════════════
+function updateMatchups(legId) {
+  const sport = document.getElementById(legId + 'Sport').value;
+  const matchupSelect = document.getElementById(legId + 'Matchup');
+  matchupSelect.innerHTML = '<option value="">Select Matchup ▼</option>';
+  if(sport && matchups[sport]) {
+    matchups[sport].forEach((m,i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = m.label;
+      matchupSelect.appendChild(opt);
     });
-    
-    // Show selected section
-    const section = document.getElementById(id);
-    if (section) {
-        section.classList.add('active');
-        section.style.display = 'block';
-    }
-    
-    // Update nav buttons
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    const activeBtn = document.querySelector(`nav button[onclick*="${id}"]`);
-    if (activeBtn) activeBtn.classList.add('active');
+  }
+  updateParlayCount();
 }
 
-// Team Modal Functions
-function openTeamModal(teamName) {
-    const modal = document.getElementById('teamModal');
-    const flag = document.getElementById('modalFlag');
-    const title = document.getElementById('modalTitle');
-    const desc = document.getElementById('modalDescription');
-    
-    const team = teamDescriptions[teamName];
-    if (team) {
-        flag.textContent = team.flag;
-        title.textContent = teamName;
-        desc.innerHTML = team.info;
-    } else {
-        flag.textContent = '🏴';
-        title.textContent = teamName;
-        desc.innerHTML = '<p>Team information loading...</p>';
+function updatePicks(legId) {
+  const type = document.getElementById(legId + 'Type').value;
+  const pickSelect = document.getElementById(legId + 'Pick');
+  pickSelect.innerHTML = '<option value="">Select Pick ▼</option>';
+  const sport = document.getElementById(legId + 'Sport').value;
+  const matchupIdx = document.getElementById(legId + 'Matchup').value;
+  if(type && sport && matchupIdx !== '') {
+    const m = matchups[sport][matchupIdx];
+    if(type === 'ml') {
+      if(m.away && m.home) {
+        pickSelect.innerHTML += '<option value="away">' + m.away + ' ML</option>';
+        pickSelect.innerHTML += '<option value="home">' + m.home + ' ML</option>';
+      } else if(m.team1 && m.team2) {
+        pickSelect.innerHTML += '<option value="team1">' + m.team1 + ' ML</option>';
+        pickSelect.innerHTML += '<option value="team2">' + m.team2 + ' ML</option>';
+        pickSelect.innerHTML += '<option value="draw">Draw</option>';
+      }
+    } else if(type === 'spread') {
+      pickSelect.innerHTML += '<option value="fav">Favorite -1.5</option>';
+      pickSelect.innerHTML += '<option value="dog">Underdog +1.5</option>';
+    } else if(type === 'ou') {
+      pickSelect.innerHTML += '<option value="over">Over</option>';
+      pickSelect.innerHTML += '<option value="under">Under</option>';
     }
-    
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
+  }
+  updateParlayCount();
+}
+
+function updateParlayCount() {
+  let teamCount = 0, propCount = 0;
+  for(let i=1;i<=5;i++) {
+    if(document.getElementById('t'+i+'Pick').value) teamCount++;
+    if(document.getElementById('p'+i+'Player').value && document.getElementById('p'+i+'Stat').value) propCount++;
+  }
+  document.getElementById('teamCount').textContent = teamCount;
+  document.getElementById('propCount').textContent = propCount;
+  document.getElementById('totalLegs').textContent = teamCount + propCount;
+  
+  // Validation
+  const validation = document.getElementById('parlayValidation');
+  const teamValid = teamCount <= 5;
+  const propValid = propCount <= 5;
+  const totalValid = (teamCount + propCount) <= 10;
+  
+  if(teamValid && propValid && totalValid) {
+    validation.className = 'parlay-validation';
+    validation.innerHTML = '✅ VALIDATION: Team bets ≤5 ✓ | Player props ≤5 ✓ | Total legs ≤10 ✓';
+  } else {
+    validation.className = 'parlay-validation error';
+    validation.innerHTML = '❌ VALIDATION ERROR: ' + (!teamValid ? 'Team bets > 5! ' : '') + (!propValid ? 'Props > 5! ' : '') + (!totalValid ? 'Total > 10!' : '');
+  }
+}
+
+function calculateParlay() {
+  let odds = [];
+  for(let i=1;i<=5;i++) {
+    const teamOdds = document.getElementById('t'+i+'Odds').value;
+    const propOdds = document.getElementById('p'+i+'Odds').value;
+    if(teamOdds && !isNaN(parseInt(teamOdds))) odds.push(parseInt(teamOdds));
+    if(propOdds && !isNaN(parseInt(propOdds))) odds.push(parseInt(propOdds));
+  }
+  
+  if(odds.length < 2) {
+    alert('Please enter at least 2 legs with odds to calculate parlay!');
+    return;
+  }
+  
+  // Convert American odds to decimal and multiply
+  let decimal = 1;
+  odds.forEach(o => {
+    if(o > 0) decimal *= (1 + o/100);
+    else decimal *= (1 + 100/Math.abs(o));
+  });
+  
+  // Convert back to American
+  let american = decimal >= 2 ? Math.round((decimal-1)*100) : Math.round(-100/(decimal-1));
+  let payout = Math.round((decimal * 100) - 100);
+  
+  document.getElementById('combinedOdds').textContent = (american > 0 ? '+' : '') + american;
+  document.getElementById('potentialPayout').textContent = '$' + (payout + 100);
+  
+  alert('🎰 PARLAY CALCULATED!\n\nLegs: ' + odds.length + '\nCombined Odds: ' + (american > 0 ? '+' : '') + american + '\nPotential Payout ($100 bet): $' + (payout + 100));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UI FUNCTIONS
+// ═══════════════════════════════════════════════════════════════
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function filterTeams(group) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderTeams(group === 'all' ? null : group);
+}
+
+function renderTeams(filterGroup) {
+  const grid = document.getElementById('teamsGrid');
+  grid.innerHTML = '';
+  const filtered = filterGroup ? teams.filter(t => t.group === filterGroup) : teams;
+  filtered.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'team-card';
+    card.onclick = () => openTeamModal(t.name, t.flag);
+    card.innerHTML = '<div class="team-flag">' + t.flag + '</div><div class="team-name">' + t.name + '</div><div class="team-group">Group ' + t.group + ' | #' + t.rank + '</div>';
+    grid.appendChild(card);
+  });
+}
+
+function openTeamModal(name, flag) {
+  const desc = teamDescriptions[name];
+  document.getElementById('modalFlag').textContent = flag;
+  document.getElementById('modalTitle').textContent = name;
+  document.getElementById('modalDescription').innerHTML = desc ? desc.desc : '<p>🇫🇺 <b>' + flag + ' ' + name + '</b></p><p>Team information coming soon!</p>';
+  document.getElementById('teamModal').style.display = 'block';
 }
 
 function closeModal() {
-    document.getElementById('teamModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
+  document.getElementById('teamModal').style.display = 'none';
 }
 
-// Team Search & Filter
-function searchTeams(query) {
-    const cards = document.querySelectorAll('.team-card');
-    const q = query.toLowerCase();
-    cards.forEach(card => {
-        const name = card.querySelector('.team-name')?.textContent.toLowerCase() || '';
-        const group = card.querySelector('.team-group')?.textContent.toLowerCase() || '';
-        card.style.display = (name.includes(q) || group.includes(q)) ? '' : 'none';
-    });
+function toggleThemeDropdown() {
+  document.getElementById('themeDropdown').classList.toggle('show');
 }
 
-function filterTeams(conf, btn) {
-    const cards = document.querySelectorAll('.team-card');
-    cards.forEach(card => {
-        if (conf === 'all') {
-            card.style.display = '';
-        } else {
-            const group = card.getAttribute('data-conf') || '';
-            card.style.display = group === conf ? '' : 'none';
-        }
-    });
-    
-    // Update filter buttons
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
+function setTheme(colors) {
+  document.documentElement.style.setProperty('--accent', colors[0]);
+  if(colors[1]) document.documentElement.style.setProperty('--bg', colors[1]);
+  document.getElementById('themeDropdown').classList.remove('show');
+}
+
+// Initialize theme dropdown
+function initThemes() {
+  const dropdown = document.getElementById('themeDropdown');
+  countryThemes.forEach(t => {
+    const opt = document.createElement('div');
+    opt.className = 'theme-option';
+    opt.onclick = () => setTheme(t.colors);
+    opt.innerHTML = t.name;
+    dropdown.appendChild(opt);
+  });
+}
+
+// Stars Animation
+function createStars() {
+  const container = document.getElementById('starsContainer');
+  for(let i=0;i<30;i++) {
+    const star = document.createElement('div');
+    star.className = Math.random() > 0.5 ? 'star' : 'diamond';
+    star.style.left = Math.random()*100 + '%';
+    star.style.animationDuration = (5 + Math.random()*10) + 's';
+    star.style.animationDelay = Math.random()*5 + 's';
+    if(star.className === 'star') star.textContent = ['⭐','✨','💫'][Math.floor(Math.random()*3)];
+    container.appendChild(star);
+  }
 }
 
 // Live Clock
 function updateClock() {
-    const now = new Date();
-    const options = { 
-        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
-        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true 
-    };
-    const el = document.getElementById('liveClock');
-    if (el) el.textContent = '🕐 ' + now.toLocaleString('en-US', options);
+  const now = new Date();
+  document.getElementById('liveClock').textContent = now.toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
 }
 
-// Countdown Timers
-function updateCountdowns() {
-    const countdowns = {
-        'countdown-wc': new Date('2026-06-11T17:00:00-04:00'),
-        'countdown-nhl': new Date('2026-06-11T20:00:00-04:00'),
-        'countdown-nba': new Date('2026-06-13T20:30:00-04:00')
-    };
-    
-    Object.entries(countdowns).forEach(([id, target]) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        
-        const now = new Date();
-        const diff = target - now;
-        
-        if (diff <= 0) {
-            el.textContent = '🔴 LIVE NOW!';
-            el.style.color = '#ff4757';
-            return;
-        }
-        
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const secs = Math.floor((diff % (1000 * 60)) / 1000);
-        
-        el.textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  renderTeams();
+  createStars();
+  initThemes();
+  updateClock();
+  setInterval(updateClock, 1000);
+  
+  // Add change listeners to all parlay selects
+  for(let i=1;i<=5;i++) {
+    ['Sport','Matchup','Type','Pick'].forEach(f => {
+      const el = document.getElementById('t'+i+f);
+      if(el) el.addEventListener('change', updateParlayCount);
     });
-}
-
-// Falling Stars Animation
-let starsEnabled = true;
-let starCount = 25;
-
-function createStars(n = starCount) {
-    const container = document.getElementById('starsContainer');
-    if (!container) return;
-    container.innerHTML = '';
-    
-    if (!starsEnabled) return;
-    
-    const symbols = ['⭐', '✨', '💎', '🌟', '⚡'];
-    for (let i = 0; i < n; i++) {
-        const star = document.createElement('div');
-        star.className = Math.random() > 0.7 ? 'diamond' : 'star';
-        star.textContent = star.className === 'star' ? symbols[Math.floor(Math.random() * symbols.length)] : '';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.animationDuration = (Math.random() * 10 + 8) + 's';
-        star.style.animationDelay = Math.random() * 15 + 's';
-        container.appendChild(star);
-    }
-}
-
-function toggleStars() {
-    starsEnabled = !starsEnabled;
-    createStars();
-}
-
-function setStars(n) {
-    starCount = n;
-    createStars(n);
-}
-
-// Theme Functions
-function setTheme(accent, bg) {
-    document.documentElement.style.setProperty('--accent', accent);
-    document.documentElement.style.setProperty('--bg', bg);
-}
-
-let tickerEnabled = true;
-function toggleTicker() {
-    const ticker = document.querySelector('.ticker-wrapper');
-    if (ticker) {
-        tickerEnabled = !tickerEnabled;
-        ticker.style.display = tickerEnabled ? '' : 'none';
-        document.querySelector('.container').style.paddingTop = tickerEnabled ? '55px' : '15px';
-    }
-}
-
-// Parlay Builder Functions (RESPECTS SETTINGS: Max 5 Teams, Max 5 Props, Max 10 Total)
-const parlaySettings = { maxTeams: 5, maxProps: 5, maxTotal: 10 };
-let parlayLegs = [];
-
-function addToParlay(type, team, pick, odds) {
-    const typeCount = parlayLegs.filter(l => l.type === type).length;
-    const limit = type === 'team' ? parlaySettings.maxTeams : parlaySettings.maxProps;
-    
-    if (typeCount >= limit) {
-        alert(`Maximum ${limit} ${type} bets allowed!`);
-        return;
-    }
-    if (parlayLegs.length >= parlaySettings.maxTotal) {
-        alert(`Maximum ${parlaySettings.maxTotal} total legs allowed!`);
-        return;
-    }
-    
-    parlayLegs.push({ type, team, pick, odds });
-    updateParlayDisplay();
-}
-
-function removeFromParlay(index) {
-    parlayLegs.splice(index, 1);
-    updateParlayDisplay();
-}
-
-function updateParlayDisplay() {
-    const container = document.getElementById('parlayLegs');
-    const totalEl = document.getElementById('parlayTotal');
-    const payoutEl = document.getElementById('parlayPayout');
-    if (!container) return;
-    
-    if (parlayLegs.length === 0) {
-        container.innerHTML = '<div style="color:#888;text-align:center;padding:20px">Add picks to build your parlay</div>';
-        if (totalEl) totalEl.textContent = '0';
-        if (payoutEl) payoutEl.textContent = '$0.00';
-        return;
-    }
-    
-    let html = '';
-    let totalOdds = 1;
-    
-    parlayLegs.forEach((leg, i) => {
-        totalOdds *= leg.odds;
-        html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--bg);border-radius:6px;margin:4px 0">
-            <span>${leg.team} - ${leg.pick}</span>
-            <span style="display:flex;align-items:center;gap:10px">
-                <span style="color:var(--accent)">${leg.odds.toFixed(2)}</span>
-                <button onclick="removeFromParlay(${i})" style="background:#ff4757;border:none;color:#fff;width:22px;height:22px;border-radius:50%;cursor:pointer">×</button>
-            </span>
-        </div>`;
+    ['Player','Stat'].forEach(f => {
+      const el = document.getElementById('p'+i+f);
+      if(el) el.addEventListener('change', updateParlayCount);
     });
-    
-    container.innerHTML = html;
-    if (totalEl) totalEl.textContent = totalOdds.toFixed(2);
-    if (payoutEl) payoutEl.textContent = '$' + (10 * totalOdds).toFixed(2);
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    showSection('home');
-    createStars();
-    updateClock();
-    updateCountdowns();
-    setInterval(updateClock, 1000);
-    setInterval(updateCountdowns, 1000);
+  }
 });
 
-// Keyboard shortcuts
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeModal();
-});
+// Close modal on outside click
+window.onclick = function(e) {
+  if(e.target.className === 'modal') closeModal();
+  if(!e.target.matches('.theme-btn')) {
+    document.getElementById('themeDropdown').classList.remove('show');
+  }
+}
 </script>
 </body>
 </html>
