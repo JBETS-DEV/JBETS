@@ -401,10 +401,6 @@ tr:hover { background: rgba(255,215,0,0.05); }
       <h3>⚽ USA OPENER TONIGHT!</h3>
       <p>🇺🇸 USA vs 🇵🇾 Paraguay | 9:00 PM ET | SoFi Stadium | FOX</p>
     </div>
-    <div class="countdown-card" style="margin-bottom: 15px;">
-      <h3>🏀 NBA FINALS UPDATE</h3>
-      <p>Knicks lead 3-1 | G5 Saturday @ San Antonio</p>
-    </div>
   </div>
 </div>
 <div class="modal" id="teamModal">
@@ -415,81 +411,67 @@ tr:hover { background: rgba(255,215,0,0.05); }
     <div class="modal-description" id="modalDescription"></div>
   </div>
 </div>
-<div class="live-clock">
-  <span id="liveClock">Loading...</span>
-</div>
+<div class="live-clock"><span id="liveClock">Loading...</span></div>
 <script>
-const teams = [
-  {flag:'🇲🇽',name:'Mexico',group:'A',rank:9},{flag:'🇿🇦',name:'South Africa',group:'A',rank:59},{flag:'🇰🇷',name:'S. Korea',group:'A',rank:23},{flag:'🇨🇿',name:'Czechia',group:'A',rank:36},
-  {flag:'🇨🇦',name:'Canada',group:'B',rank:43},{flag:'🇧🇦',name:'Bosnia',group:'B',rank:58},{flag:'🇶🇦',name:'Qatar',group:'B',rank:42},{flag:'🇨🇭',name:'Switzerland',group:'B',rank:15},
-  {flag:'🇧🇷',name:'Brazil',group:'C',rank:5},{flag:'🇲🇦',name:'Morocco',group:'C',rank:14},{flag:'🇭🇹',name:'Haiti',group:'C',rank:84},{flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',name:'Scotland',group:'C',rank:39},
-  {flag:'🇺🇸',name:'USA',group:'D',rank:11},{flag:'🇵🇾',name:'Paraguay',group:'D',rank:51},{flag:'🇵🇱',name:'Poland',group:'D',rank:28},{flag:'🇸🇳',name:'Senegal',group:'D',rank:17},
-  {flag:'🇩🇪',name:'Germany',group:'E',rank:3},{flag:'🇨🇼',name:'Curaçao',group:'E',rank:87},{flag:'🇨🇮',name:'Ivory Coast',group:'E',rank:46},{flag:'🇪🇨',name:'Ecuador',group:'E',rank:33},
-  {flag:'🇳🇱',name:'Netherlands',group:'F',rank:7},{flag:'🇯🇵',name:'Japan',group:'F',rank:18},{flag:'🇸🇪',name:'Sweden',group:'F',rank:25},{flag:'🇹🇳',name:'Tunisia',group:'F',rank:41},
-  {flag:'🇪🇸',name:'Spain',group:'G',rank:1},{flag:'🇨🇻',name:'Cape Verde',group:'G',rank:73},{flag:'🇦🇺',name:'Australia',group:'G',rank:24},{flag:'🇳🇬',name:'Nigeria',group:'G',rank:28},
-  {flag:'🇫🇷',name:'France',group:'H',rank:2},{flag:'🇨🇷',name:'Costa Rica',group:'H',rank:52},{flag:'🇹🇷',name:'Turkey',group:'H',rank:26},{flag:'🇵🇦',name:'Panama',group:'H',rank:48},
-  {flag:'🇦🇷',name:'Argentina',group:'I',rank:1},{flag:'🇵🇪',name:'Peru',group:'I',rank:35},{flag:'🇸🇮',name:'Slovenia',group:'I',rank:55},{flag:'🇪🇬',name:'Egypt',group:'I',rank:38},
-  {flag:'🇵🇹',name:'Portugal',group:'J',rank:6},{flag:'🇬🇭',name:'Ghana',group:'J',rank:67},{flag:'🇩🇰',name:'Denmark',group:'J',rank:21},{flag:'🇯🇲',name:'Jamaica',group:'J',rank:62},
-  {flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',name:'England',group:'K',rank:4},{flag:'🇸🇦',name:'Saudi Arabia',group:'K',rank:56},{flag:'🇷🇸',name:'Serbia',group:'K',rank:32},{flag:'🇨🇱',name:'Chile',group:'K',rank:45},
-  {flag:'🇧🇪',name:'Belgium',group:'L',rank:8},{flag:'🇺🇦',name:'Ukraine',group:'L',rank:22},{flag:'🇨🇴',name:'Colombia',group:'L',rank:12},{flag:'🇺🇿',name:'Uzbekistan',group:'L',rank:64}
+const teams=[
+{f:'🇲🇽',n:'Mexico',g:'A',r:15,c:'Javier Aguirre',cap:'Edson Álvarez',s:'Santiago Giménez',cl:'AC Milan',bw:'QF (1970, 1986)',wa:17,t:0,h:'2x WC hosts. Hugo Sánchez, Rafael Márquez legends.'},
+{f:'🇿🇦',n:'South Africa',g:'A',r:60,c:'Hugo Broos',cap:'Ronwen Williams',s:'Ronwen Williams',cl:'Mamelodi Sundowns',bw:'Group (2010)',wa:4,t:0,h:'2010 WC hosts. 1996 AFCON champs.'},
+{f:'🇰🇷',n:'South Korea',g:'A',r:25,c:'Hong Myung-bo',cap:'Son Heung-min',s:'Son Heung-min',cl:'LAFC',bw:'Semi-finals (2002)',wa:11,t:0,h:'2002 co-host, semis. Son is Asia greatest.'},
+{f:'🇨🇿',n:'Czechia',g:'A',r:41,c:'Miroslav Koubek',cap:'Ladislav Krejčí',s:'Patrik Schick',cl:'Leverkusen',bw:'Runner-up (1962)',wa:7,t:0,h:'Euro 96 runners-up. Nedvěd, Čech legends.'},
+{f:'🇨🇦',n:'Canada',g:'B',r:30,c:'Jesse Marsch',cap:'Alphonso Davies',s:'Alphonso Davies',cl:'Bayern Munich',bw:'Group (2022)',wa:3,t:0,h:'2026 co-host. Davies fastest fullback.'},
+{f:'🇨🇭',n:'Switzerland',g:'B',r:19,c:'Murat Yakin',cap:'Granit Xhaka',s:'Granit Xhaka',cl:'Sunderland',bw:'QF (1954)',wa:12,t:0,h:'WC regulars since 2006. Solid unit.'},
+{f:'🇶🇦',n:'Qatar',g:'B',r:53,c:'Julen Lopetegui',cap:'Hassan Al-Haydos',s:'Akram Afif',cl:'Al-Sadd',bw:'Group (2022)',wa:2,t:0,h:'2022 hosts. Back-to-back Asian Cup.'},
+{f:'🇧🇦',n:'Bosnia',g:'B',r:71,c:'Sergej Barbarez',cap:'Edin Džeko',s:'Edin Džeko',cl:'Schalke',bw:'Group (2014)',wa:2,t:0,h:'Shocked Italy in playoff! Džeko legend.'},
+{f:'🇧🇷',n:'Brazil',g:'C',r:6,c:'Carlo Ancelotti',cap:'Marquinhos',s:'Vinícius Jr',cl:'Real Madrid',bw:'🏆 WINNERS x5',wa:22,t:5,h:'5x CHAMPIONS! Pelé, Ronaldo, Vini Jr.'},
+{f:'🇲🇦',n:'Morocco',g:'C',r:8,c:'Mohamed Ouahbi',cap:'Achraf Hakimi',s:'Achraf Hakimi',cl:'PSG',bw:'Semi-finals (2022)',wa:7,t:0,h:'2022 SEMIS - first African! Historic.'},
+{f:'🏴',n:'Scotland',g:'C',r:43,c:'Steve Clarke',cap:'Andy Robertson',s:'Scott McTominay',cl:'Napoli',bw:'Group (8 apps)',wa:9,t:0,h:'First WC since 1998! McTominay 10 goals.'},
+{f:'🇭🇹',n:'Haiti',g:'C',r:79,c:'Sébastien Migné',cap:'Johny Placide',s:'Frantzdy Pierrot',cl:'Rizespor',bw:'Group (1974)',wa:2,t:0,h:'First WC since 1974! Historic return.'},
+{f:'🇺🇸',n:'USA',g:'D',r:16,c:'Mauricio Pochettino',cap:'Christian Pulisic',s:'Christian Pulisic',cl:'AC Milan',bw:'Third (1930)',wa:11,t:0,h:'2026 co-host! Captain America leads.'},
+{f:'🇵🇾',n:'Paraguay',g:'D',r:38,c:'Gustavo Alfaro',cap:'Gustavo Gómez',s:'Miguel Almirón',cl:'Atlanta',bw:'QF (2010)',wa:9,t:0,h:'2010 QF. Almirón leads attack.'},
+{f:'🇦🇺',n:'Australia',g:'D',r:27,c:'Tony Popovic',cap:'Mathew Ryan',s:'Harry Souttar',cl:'Leicester',bw:'R16 (2022)',wa:6,t:0,h:'Back-to-back R16! Socceroos rising.'},
+{f:'🇹🇷',n:'Turkey',g:'D',r:22,c:'Vincenzo Montella',cap:'Hakan Çalhanoğlu',s:'Arda Güler',cl:'Real Madrid',bw:'Third (2002)',wa:5,t:0,h:'2002 Third place! Arda Güler rising.'},
+{f:'🇩🇪',n:'Germany',g:'E',r:10,c:'Julian Nagelsmann',cap:'Joshua Kimmich',s:'Jamal Musiala',cl:'Bayern Munich',bw:'🏆 WINNERS x4',wa:20,t:4,h:'4x CHAMPIONS! Musiala & Wirtz duo.'},
+{f:'🇪🇨',n:'Ecuador',g:'E',r:24,c:'Sebastián Beccacece',cap:'Enner Valencia',s:'Moisés Caicedo',cl:'Chelsea',bw:'R16 (2006)',wa:5,t:0,h:'5th consecutive WC! Caicedo £100M.'},
+{f:'🇨🇮',n:'Ivory Coast',g:'E',r:42,c:'Ibrahim Kamara',cap:'Serge Aurier',s:'Serge Aurier',cl:'Al-Nassr',bw:'Group (x3)',wa:4,t:0,h:'2024 AFCON CHAMPIONS! Drogba legacy.'},
+{f:'🇨🇼',n:'Curaçao',g:'E',r:87,c:'Dick Advocaat',cap:'Cuco Martina',s:'Jurien Gaari',cl:'Vaduz',bw:'DEBUT!',wa:1,t:0,h:'HISTORIC FIRST WC! 150K pop!'},
+{f:'🇦🇷',n:'Argentina',g:'F',r:1,c:'Lionel Scaloni',cap:'Lionel Messi',s:'Lionel Messi',cl:'Inter Miami',bw:'🏆 WINNERS x3',wa:18,t:3,h:'DEFENDING CHAMPS! Messi 6th WC!'},
+{f:'🇯🇵',n:'Japan',g:'F',r:13,c:'Hajime Moriyasu',cap:'Wataru Endo',s:'Takefusa Kubo',cl:'Real Sociedad',bw:'R16 (x4)',wa:7,t:0,h:'Beat Germany & Spain 2022!'},
+{f:'🇸🇳',n:'Senegal',g:'F',r:14,c:'Pape Thiaw',cap:'Kalidou Koulibaly',s:'Sadio Mané',cl:'Al-Nassr',bw:'QF (2002)',wa:4,t:0,h:'2002 QF beat France! 2022 AFCON.'},
+{f:'🇩🇿',n:'Algeria',g:'F',r:32,c:'Djamel Belmadi',cap:'Riyad Mahrez',s:'Riyad Mahrez',cl:'Al-Ahli',bw:'R16 (2014)',wa:5,t:0,h:'2019 AFCON champs! Mahrez talisman.'},
+{f:'🇪🇸',n:'Spain',g:'G',r:4,c:'Luis de la Fuente',cap:'Álvaro Morata',s:'Lamine Yamal',cl:'Barcelona',bw:'🏆 WINNERS (2010)',wa:16,t:1,h:'2010 & EURO 2024 CHAMPS! Yamal!'},
+{f:'🇳🇱',n:'Netherlands',g:'G',r:7,c:'Ronald Koeman',cap:'Virgil van Dijk',s:'Virgil van Dijk',cl:'Liverpool',bw:'Runner-up x3',wa:11,t:0,h:'3x finalists! Total Football. VVD.'},
+{f:'🇹🇳',n:'Tunisia',g:'G',r:36,c:'Faouzi Benzarti',cap:'Youssef Msakni',s:'Youssef Msakni',cl:'Al-Arabi',bw:'Group (x5)',wa:6,t:0,h:'Beat France 1-0 in 2022!'},
+{f:'🇨🇻',n:'Cape Verde',g:'G',r:72,c:'Pé Martins',cap:'Ryan Mendes',s:'Ryan Mendes',cl:'Arouca',bw:'DEBUT!',wa:1,t:0,h:'HISTORIC FIRST WC! Blue Sharks!'},
+{f:'🇫🇷',n:'France',g:'H',r:2,c:'Didier Deschamps',cap:'Kylian Mbappé',s:'Kylian Mbappé',cl:'Real Madrid',bw:'🏆 WINNERS x2',wa:16,t:2,h:'2x CHAMPS! Mbappé hat-trick final!'},
+{f:'🇨🇴',n:'Colombia',g:'H',r:11,c:'Néstor Lorenzo',cap:'James Rodríguez',s:'Luis Díaz',cl:'Liverpool',bw:'QF (2014)',wa:7,t:0,h:'James magic! Díaz at Liverpool.'},
+{f:'🇪🇬',n:'Egypt',g:'H',r:31,c:'Hossam Hassan',cap:'Mohamed Salah',s:'Mohamed Salah',cl:'Liverpool',bw:'Group (x3)',wa:4,t:0,h:'Salah Africa best ever! 7x AFCON.'},
+{f:'🇳🇿',n:'New Zealand',g:'H',r:68,c:'Darren Bazeley',cap:'Chris Wood',s:'Chris Wood',cl:'Nottingham Forest',bw:'Group (2010)',wa:3,t:0,h:'All Whites return! Wood PL proven.'},
+{f:'🏴',n:'England',g:'I',r:3,c:'Thomas Tuchel',cap:'Harry Kane',s:'Jude Bellingham',cl:'Real Madrid',bw:'🏆 WINNERS (1966)',wa:16,t:1,h:'1966 champs. Bellingham & Kane!'},
+{f:'🇮🇷',n:'Iran',g:'I',r:23,c:'Amir Ghalenoei',cap:'Ehsan Hajsafi',s:'Mehdi Taremi',cl:'Inter Milan',bw:'Group (x6)',wa:7,t:0,h:'Team Melli 7th WC! Taremi at Inter.'},
+{f:'🇨🇩',n:'DR Congo',g:'I',r:58,c:'Sébastien Desabre',cap:'Chancel Mbemba',s:'Chancel Mbemba',cl:'Marseille',bw:'Group (1974)',wa:2,t:0,h:'First WC since 1974! Leopards return.'},
+{f:'🇬🇭',n:'Ghana',g:'I',r:45,c:'Otto Addo',cap:'Thomas Partey',s:'Mohammed Kudus',cl:'West Ham',bw:'QF (2010)',wa:5,t:0,h:'2010 heartbreak. Kudus explosive.'},
+{f:'🇵🇹',n:'Portugal',g:'J',r:5,c:'Roberto Martínez',cap:'Cristiano Ronaldo',s:'Cristiano Ronaldo',cl:'Al-Nassr',bw:'Third (1966)',wa:8,t:0,h:'CR7 6th WC! Euro 2016 champs.'},
+{f:'🇭🇷',n:'Croatia',g:'J',r:9,c:'Zlatko Dalić',cap:'Luka Modrić',s:'Luka Modrić',cl:'Real Madrid',bw:'Runner-up (2018)',wa:6,t:0,h:'2018 finalists, 2x bronze! Modrić 39.'},
+{f:'🇧🇪',n:'Belgium',g:'J',r:12,c:'Domenico Tedesco',cap:'Kevin De Bruyne',s:'Kevin De Bruyne',cl:'Man City',bw:'Third (2018)',wa:14,t:0,h:'Golden gen last dance? KDB elite.'},
+{f:'🇳🇴',n:'Norway',g:'J',r:39,c:'Ståle Solbakken',cap:'Martin Ødegaard',s:'Erling Haaland',cl:'Man City',bw:'Group (1998)',wa:3,t:0,h:'First WC since 1998! Haaland!'},
+{f:'🇸🇦',n:'Saudi Arabia',g:'K',r:48,c:'Roberto Mancini',cap:'Salman Al-Faraj',s:'Salem Al-Dawsari',cl:'Al-Hilal',bw:'R16 (1994)',wa:7,t:0,h:'SHOCKED Argentina 2-1 in 2022!'},
+{f:'🇦🇹',n:'Austria',g:'K',r:20,c:'Ralf Rangnick',cap:'David Alaba',s:'Marko Arnautović',cl:'Inter Milan',bw:'Third (1954)',wa:8,t:0,h:'Rangnick-ball! First WC since 1998.'},
+{f:'🇸🇪',n:'Sweden',g:'K',r:33,c:'Jon Dahl Tomasson',cap:'Emil Forsberg',s:'Viktor Gyökeres',cl:'Sporting',bw:'Runner-up (1958)',wa:12,t:0,h:'Gyökeres 50+ goals! Zlatan retired.'},
+{f:'🇺🇿',n:'Uzbekistan',g:'K',r:54,c:'Srecko Katanec',cap:'Odil Ahmedov',s:'Eldor Shomurodov',cl:'Roma',bw:'DEBUT!',wa:1,t:0,h:'HISTORIC FIRST WC! White Wolves!'},
+{f:'🇺🇾',n:'Uruguay',g:'L',r:17,c:'Marcelo Bielsa',cap:'Federico Valverde',s:'Federico Valverde',cl:'Real Madrid',bw:'🏆 WINNERS x2',wa:14,t:2,h:'2x CHAMPS (1930, 1950)! First winners!'},
+{f:'🇵🇦',n:'Panama',g:'L',r:61,c:'Thomas Christiansen',cap:'Aníbal Godoy',s:'José Fajardo',cl:'Salernitana',bw:'Group (2018)',wa:2,t:0,h:'2nd WC! Canaleros growing.'},
+{f:'🇯🇴',n:'Jordan',g:'L',r:62,c:'Hussein Ammouta',cap:'Yazan Al-Naimat',s:'Yazan Al-Naimat',cl:'Rapid Wien',bw:'DEBUT!',wa:1,t:0,h:'HISTORIC FIRST WC! 2024 Asian Cup finalists!'},
+{f:'🇮🇶',n:'Iraq',g:'L',r:55,c:'Radhi Shenaishil',cap:'Aymen Hussein',s:'Aymen Hussein',cl:'Pakhtakor',bw:'R16 (1986)',wa:2,t:0,h:'First WC since 1986! Lions return!'}
 ];
-function renderTeams(filter='all') {
-  const grid = document.getElementById('teamsGrid');
-  grid.innerHTML = teams.filter(t => filter==='all' || t.group===filter).map(t => 
-    `<div class="team-card" onclick="openModal('${t.name}')"><div class="team-flag">${t.flag}</div><div class="team-name">${t.name}</div><div class="team-group">Group ${t.group} | #${t.rank}</div></div>`
-  ).join('');
-}
-function filterTeams(g) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  renderTeams(g);
-}
-function showSection(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-}
-function openModal(name) {
-  const team = teams.find(t => t.name === name);
-  document.getElementById('modalFlag').textContent = team.flag;
-  document.getElementById('modalTitle').textContent = team.name;
-  document.getElementById('modalDescription').innerHTML = `<h4>Group ${team.group}</h4><p>FIFA Ranking: #${team.rank}</p><div class="stat-highlight"><strong>World Cup 2026:</strong> Group Stage</div>`;
-  document.getElementById('teamModal').style.display = 'block';
-}
-function closeModal() { document.getElementById('teamModal').style.display = 'none'; }
-function updateClock() {
-  const now = new Date();
-  document.getElementById('liveClock').innerHTML = `<span class="time">${now.toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit'})}</span> ET`;
-}
-function updateCountdowns() {
-  const usaGame = new Date('2026-06-13T01:00:00Z');
-  const nhlG6 = new Date('2026-06-16T00:00:00Z');
-  const nbaG5 = new Date('2026-06-15T00:00:00Z');
-  const now = new Date();
-  function fmt(ms) { const h=Math.floor(ms/3600000); const m=Math.floor((ms%3600000)/60000); const s=Math.floor((ms%60000)/1000); return `${h}h ${m}m ${s}s`; }
-  document.getElementById('wcCountdown').textContent = usaGame>now ? fmt(usaGame-now) : '⚽ GAME TIME!';
-  document.getElementById('nhlCountdown').textContent = nhlG6>now ? fmt(nhlG6-now) : '🏒 SOON!';
-  document.getElementById('nbaCountdown').textContent = nbaG5>now ? fmt(nbaG5-now) : '🏀 SOON!';
-}
-function createStars() {
-  const c = document.getElementById('starsContainer');
-  for(let i=0; i<30; i++) {
-    const s = document.createElement('div');
-    s.className = Math.random()>0.5 ? 'star' : 'diamond';
-    s.textContent = s.className==='star' ? '⭐' : '';
-    s.style.left = Math.random()*100+'%';
-    s.style.animationDuration = (Math.random()*10+5)+'s';
-    s.style.animationDelay = Math.random()*5+'s';
-    c.appendChild(s);
-  }
-}
-renderTeams();
-createStars();
-setInterval(updateClock, 1000);
-setInterval(updateCountdowns, 1000);
-updateClock();
-updateCountdowns();
+function renderTeams(filter='all'){const grid=document.getElementById('teamsGrid');grid.innerHTML=teams.filter(t=>filter==='all'||t.g===filter).map(t=>`<div class="team-card" onclick="openModal('${t.n}')"><div class="team-flag">${t.f}</div><div class="team-name">${t.n}</div><div class="team-group">Group ${t.g} | #${t.r}</div><div style="font-size:0.7rem;color:#888;margin-top:3px;">⭐ ${t.s}</div></div>`).join('');}
+function filterTeams(g){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');renderTeams(g);}
+function showSection(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');}
+function openModal(name){const t=teams.find(x=>x.n===name);if(!t)return;document.getElementById('modalFlag').textContent=t.f;document.getElementById('modalTitle').textContent=t.n;const tr=t.t>0?'🏆'.repeat(t.t):'—';document.getElementById('modalDescription').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px;"><div class="stat-highlight"><strong>🌍 Group ${t.g}</strong><br>FIFA Rank: #${t.r}</div><div class="stat-highlight"><strong>👔 Coach</strong><br>${t.c}</div></div><h4>🏆 World Cup History</h4><p><strong>Best:</strong> ${t.bw}<br><strong>Appearances:</strong> ${t.wa}<br><strong>Titles:</strong> ${tr} (${t.t})</p><h4>⭐ Key Players</h4><p><strong>Star:</strong> ${t.s} (${t.cl})<br><strong>Captain:</strong> ${t.cap}</p><h4>📖 History</h4><p>${t.h}</p>`;document.getElementById('teamModal').style.display='block';}
+function closeModal(){document.getElementById('teamModal').style.display='none';}
+function updateClock(){const now=new Date();document.getElementById('liveClock').innerHTML=`<span class="time">${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</span> ET`;}
+function updateCountdowns(){const usa=new Date('2026-06-13T01:00:00Z'),nhl=new Date('2026-06-16T00:00:00Z'),nba=new Date('2026-06-15T00:00:00Z'),now=new Date();function fmt(ms){const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000),s=Math.floor((ms%60000)/1000);return `${h}h ${m}m ${s}s`;}document.getElementById('wcCountdown').textContent=usa>now?fmt(usa-now):'⚽ GAME TIME!';document.getElementById('nhlCountdown').textContent=nhl>now?fmt(nhl-now):'🏒 SOON!';document.getElementById('nbaCountdown').textContent=nba>now?fmt(nba-now):'🏀 SOON!';}
+function createStars(){const c=document.getElementById('starsContainer');for(let i=0;i<30;i++){const s=document.createElement('div');s.className=Math.random()>0.5?'star':'diamond';s.textContent=s.className==='star'?'⭐':'';s.style.left=Math.random()*100+'%';s.style.animationDuration=(Math.random()*10+5)+'s';s.style.animationDelay=Math.random()*5+'s';c.appendChild(s);}}
+renderTeams();createStars();setInterval(updateClock,1000);setInterval(updateCountdowns,1000);updateClock();updateCountdowns();
 </script>
 </body>
 </html>
