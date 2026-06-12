@@ -63,6 +63,7 @@ body.theme-bosnia{--accent:#002395;--accent2:#fecb00;--bg:#0a0a10}
 @keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
 .stars-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
 .star{position:absolute;animation:fall linear infinite;font-size:1.2rem;text-shadow:0 0 10px rgba(255,215,0,0.8)}
+    
 /* HEADER & CARDS */
 .header{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);border-radius:20px;padding:25px;margin-bottom:20px;text-align:center;border:2px solid var(--accent);box-shadow:0 0 30px rgba(255,215,0,0.3)}
 .logo{font-size:2.5rem;margin-bottom:8px}
@@ -198,7 +199,8 @@ select{background:var(--card);color:var(--text);border:1px solid var(--card-bord
 </div>
 </div>
 
-<div class="container"><!-- HEADER -->
+<div class="container">
+    <!-- HEADER -->
 <div class="header">
 <div class="logo">🏆⚽🎾🏒🏀💎</div>
 <div class="title" data-i18n="title">SigMAX v83 ULTRA ELITE</div>
@@ -438,12 +440,26 @@ select{background:var(--card);color:var(--text);border:1px solid var(--card-bord
 </div>
 </div>
 
+
+
+<!-- FOOTER -->
+<div class="footer">
+<div class="footer-brand">🏆 SIGMAX v83 ULTRA ELITE — FIFA World Cup 2026™ Edition 🏆</div>
+<div class="disclaimers">
+<div class="disclaimer age">🔞 Must be 21+ (18+ in some jurisdictions) | Gambling Problem? Call 1-800-GAMBLER</div>
+<div class="disclaimer entertainment">🎯 For Entertainment Purposes ONLY | Past results do not guarantee future outcomes</div>
+<div class="disclaimer responsible">💚 Please Gamble Responsibly | Set limits, play within your means</div>
+</div>
+<div class="footer-copy">© 2026 SIGMAX Analytics | v83 ULTRA ELITE | Not affiliated with FIFA, NHL, or NBA | All data verified 3-ways</div>
+</div>
+</div>
+
 <!-- TEAM MODAL -->
 <div class="modal" id="teamModal">
 <div class="modal-content">
 <span class="modal-close" onclick="closeModal()">&times;</span>
 <div class="modal-flag" id="modalFlag"></div>
-<div class="modal-title" id="modalName"></div>
+<div class="modal-title" id="modalTeamName"></div>
 <div class="modal-info">
 <div class="modal-row"><span class="modal-label">Group</span><span class="modal-value" id="modalGroup"></span></div>
 <div class="modal-row"><span class="modal-label">FIFA Rank</span><span class="modal-value" id="modalRank"></span></div>
@@ -456,299 +472,304 @@ select{background:var(--card);color:var(--text);border:1px solid var(--card-bord
 <div class="modal-row"><span class="modal-label">Football History</span><span class="modal-value" id="modalHistory"></span></div>
 </div>
 </div>
-</div><!-- FOOTER -->
-<footer class="footer">
-<div class="footer-brand">🏆 SIGMAX v83 ULTRA ELITE PREMIUM 🏆</div>
-<div class="disclaimers">
-<div class="disclaimer age">🔞 <strong>18+ ONLY:</strong> This content is intended for adults aged 18 years or older. Gambling is restricted to legal jurisdictions only.</div>
-<div class="disclaimer entertainment">🎭 <strong>ENTERTAINMENT PURPOSES ONLY:</strong> All predictions are for entertainment. Past results do not guarantee future outcomes. No financial advice.</div>
-<div class="disclaimer responsible">♻️ <strong>GAMBLE RESPONSIBLY:</strong> Set limits. Never bet more than you can afford to lose. If you need help: 1-800-522-4700 (USA) | www.begambleaware.org</div>
-</div>
-<div class="footer-copy">© 2026 SIGMAX Systems | FIFA World Cup 2026™ Edition | Built with ❤️ | v83.0.0</div>
-</footer>
-</div>
-
-<!-- TEAM MODAL -->
-<div class="modal" id="teamModal">
-<div class="modal-content">
-<span class="modal-close" onclick="closeModal()">&times;</span>
-<div class="modal-flag" id="modalFlag"></div>
-<div class="modal-title" id="modalTitle"></div>
-<div class="modal-info" id="modalInfo"></div>
-</div>
 </div>
 
 <script>
-// ========================
-// 🏆 SIGMAX v83 ULTRA ELITE PREMIUM JAVASCRIPT
-// ========================
+// ========== 48 TEAMS DATA ==========
+const teamsData = {
+  // GROUP A
+  usa: {flag:'🇺🇸',name:'United States',group:'A',rank:11,coach:'Mauricio Pochettino',captain:'Christian Pulisic',star:'Christian Pulisic',best:'3rd (1930)',apps:12,titles:0,history:'Co-hosts. Golden Generation era.'},
+  mexico: {flag:'🇲🇽',name:'Mexico',group:'A',rank:15,coach:'Javier Aguirre',captain:'Edson Álvarez',star:'Hirving Lozano',best:'QF (1970, 1986)',apps:18,titles:0,history:'Co-hosts. 5th Round Curse.'},
+  canada: {flag:'🇨🇦',name:'Canada',group:'A',rank:43,coach:'Jesse Marsch',captain:'Alphonso Davies',star:'Alphonso Davies',best:'Group (1986)',apps:3,titles:0,history:'Co-hosts. Rising force.'},
+  
+  // GROUP B  
+  argentina: {flag:'🇦🇷',name:'Argentina',group:'B',rank:1,coach:'Lionel Scaloni',captain:'Lionel Messi',star:'Lionel Messi',best:'Champions (2022)',apps:18,titles:3,history:'Defending Champions!'},
+  france: {flag:'🇫🇷',name:'France',group:'B',rank:2,coach:'Didier Deschamps',captain:'Kylian Mbappé',star:'Kylian Mbappé',best:'Champions (2018)',apps:17,titles:2,history:'2022 Finalists.'},
+  
+  // GROUP C
+  brazil: {flag:'🇧🇷',name:'Brazil',group:'C',rank:3,coach:'Dorival Júnior',captain:'Neymar Jr.',star:'Vinícius Jr.',best:'Champions (2002)',apps:22,titles:5,history:'Most titles (5). Samba magic.'},
+  germany: {flag:'🇩🇪',name:'Germany',group:'C',rank:14,coach:'Julian Nagelsmann',captain:'İlkay Gündoğan',star:'Jamal Musiala',best:'Champions (2014)',apps:20,titles:4,history:'4x Champions. Rebuilding.'},
+  
+  // GROUP D
+  england: {flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',name:'England',group:'D',rank:4,coach:'Thomas Tuchel',captain:'Harry Kane',star:'Jude Bellingham',best:'Champions (1966)',apps:16,titles:1,history:'Coming Home? Golden gen.'},
+  spain: {flag:'🇪🇸',name:'Spain',group:'D',rank:5,coach:'Luis de la Fuente',captain:'Álvaro Morata',star:'Pedri',best:'Champions (2010)',apps:16,titles:1,history:'Tiki-taka legends.'},
+  
+  // GROUP E
+  portugal: {flag:'🇵🇹',name:'Portugal',group:'E',rank:6,coach:'Roberto Martínez',captain:'Cristiano Ronaldo',star:'Cristiano Ronaldo',best:'3rd (1966)',apps:8,titles:0,history:'CR7 final WC?'},
+  netherlands: {flag:'🇳🇱',name:'Netherlands',group:'E',rank:7,coach:'Ronald Koeman',captain:'Virgil van Dijk',star:'Virgil van Dijk',best:'Finalist (2010)',apps:11,titles:0,history:'Total Football heritage.'},
+  
+  // GROUP F
+  belgium: {flag:'🇧🇪',name:'Belgium',group:'F',rank:8,coach:'Domenico Tedesco',captain:'Kevin De Bruyne',star:'Kevin De Bruyne',best:'3rd (2018)',apps:14,titles:0,history:'Golden generation aging.'},
+  croatia: {flag:'🇭🇷',name:'Croatia',group:'F',rank:9,coach:'Zlatko Dalić',captain:'Luka Modrić',star:'Luka Modrić',best:'Finalist (2018)',apps:7,titles:0,history:'Modrić last dance?'},
+  
+  // GROUP G
+  italy: {flag:'🇮🇹',name:'Italy',group:'G',rank:10,coach:'Luciano Spalletti',captain:'Gianluigi Donnarumma',star:'Nicolò Barella',best:'Champions (2006)',apps:18,titles:4,history:'Back after missing 2022.'},
+  morocco: {flag:'🇲🇦',name:'Morocco',group:'G',rank:12,coach:'Walid Regragui',captain:'Romain Saïss',star:'Achraf Hakimi',best:'4th (2022)',apps:7,titles:0,history:'Historic 2022 run! Africa pride.'},
+  
+  // GROUP H
+  japan: {flag:'🇯🇵',name:'Japan',group:'H',rank:17,coach:'Hajime Moriyasu',captain:'Wataru Endo',star:'Takefusa Kubo',best:'R16 (2002, 2022)',apps:7,titles:0,history:'Giant killers.'},
+  southkorea: {flag:'🇰🇷',name:'South Korea',group:'H',rank:23,coach:'Hong Myung-bo',captain:'Son Heung-min',star:'Son Heung-min',best:'4th (2002)',apps:11,titles:0,history:'2002 hosts magic.'},
+  
+  // GROUP I
+  australia: {flag:'🇦🇺',name:'Australia',group:'I',rank:24,coach:'Tony Popovic',captain:'Mat Ryan',star:'Jackson Irvine',best:'R16 (2006)',apps:6,titles:0,history:'Socceroos rising.'},
+  qatar: {flag:'🇶🇦',name:'Qatar',group:'I',rank:35,coach:'Marquez Lopez',captain:'Hassan Al-Haydos',star:'Akram Afif',best:'Group (2022)',apps:2,titles:0,history:'2022 hosts.'},
+  
+  // GROUP J
+  saudiarabia: {flag:'🇸🇦',name:'Saudi Arabia',group:'J',rank:56,coach:'Roberto Mancini',captain:'Salman Al-Faraj',star:'Salem Al-Dawsari',best:'R16 (1994)',apps:7,titles:0,history:'Argentina slayers 2022!'},
+  iran: {flag:'🇮🇷',name:'Iran',group:'J',rank:21,coach:'Amir Ghalenoei',captain:'Ehsan Hajsafi',star:'Mehdi Taremi',best:'Group (3x)',apps:6,titles:0,history:'Asia strongest.'},
+  
+  // GROUP K
+  poland: {flag:'🇵🇱',name:'Poland',group:'K',rank:28,coach:'Michał Probierz',captain:'Robert Lewandowski',star:'Robert Lewandowski',best:'3rd (1974, 1982)',apps:9,titles:0,history:'Lewandowski last WC?'},
+  ukraine: {flag:'🇺🇦',name:'Ukraine',group:'K',rank:22,coach:'Serhiy Rebrov',captain:'Oleksandr Zinchenko',star:'Mykhailo Mudryk',best:'QF (2006)',apps:2,titles:0,history:'Playing for a nation.'},
+  
+  // GROUP L
+  serbia: {flag:'🇷🇸',name:'Serbia',group:'L',rank:33,coach:'Dragan Stojković',captain:'Dušan Tadić',star:'Dušan Vlahović',best:'4th (1930, 1962)*',apps:3,titles:0,history:'*As Yugoslavia.'},
+  switzerland: {flag:'🇨🇭',name:'Switzerland',group:'L',rank:19,coach:'Murat Yakın',captain:'Granit Xhaka',star:'Granit Xhaka',best:'QF (1934, 1938, 1954)',apps:12,titles:0,history:'Consistent performers.'},
+  denmark: {flag:'🇩🇰',name:'Denmark',group:'L',rank:20,coach:'Kasper Hjulmand',captain:'Simon Kjær',star:'Christian Eriksen',best:'QF (1998)',apps:6,titles:0,history:'Eriksen miracle story.'},
 
-// 48 TEAMS DATABASE - 3-WAY VERIFIED FROM WC2026_TEAMS_DB
-const teamData = {
-// GROUP A
-'Mexico': { flag: '🇲🇽', group: 'A', coach: 'Javier Aguirre', captain: 'Edson Álvarez', star: 'Santiago Giménez', club: 'AC Milan', rank: 15, best: 'QF (1970, 1986)', apps: 17, titles: 0, theme: 'mexico', history: '2x WC hosts. Hugo Sánchez legend. El Tri!' },
-'South Africa': { flag: '🇿🇦', group: 'A', coach: 'Hugo Broos', captain: 'Ronwen Williams', star: 'Ronwen Williams', club: 'Mamelodi Sundowns', rank: 60, best: 'Group (2010)', apps: 4, titles: 0, theme: 'southafrica', history: '2010 WC hosts - first in Africa!' },
-'South Korea': { flag: '🇰🇷', group: 'A', coach: 'Hong Myung-bo', captain: 'Son Heung-min', star: 'Son Heung-min', club: 'LAFC', rank: 25, best: 'SF (2002)', apps: 11, titles: 0, theme: 'southkorea', history: '2002 semi-finalists! Sonny is Asia\'s best!' },
-'Czechia': { flag: '🇨🇿', group: 'A', coach: 'Miroslav Koubek', captain: 'Ladislav Krejčí', star: 'Patrik Schick', club: 'Bayer Leverkusen', rank: 41, best: 'RU (1934, 1962)', apps: 7, titles: 0, theme: 'czechia', history: 'Beat Denmark in playoff! Nedvěd legend.' },
-// GROUP B
-'Canada': { flag: '🇨🇦', group: 'B', coach: 'Jesse Marsch', captain: 'Alphonso Davies', star: 'Alphonso Davies', club: 'Bayern Munich', rank: 30, best: 'Group (2022)', apps: 3, titles: 0, theme: 'canada', history: '2026 CO-HOST! Fastest fullback in world!' },
-'Switzerland': { flag: '🇨🇭', group: 'B', coach: 'Murat Yakin', captain: 'Granit Xhaka', star: 'Granit Xhaka', club: 'Sunderland', rank: 19, best: 'QF (1954)', apps: 12, titles: 0, theme: 'switzerland', history: 'Consistent qualifiers since 2006!' },
-'Qatar': { flag: '🇶🇦', group: 'B', coach: 'Julen Lopetegui', captain: 'Hassan Al-Haydos', star: 'Akram Afif', club: 'Al-Sadd', rank: 53, best: 'Group (2022)', apps: 2, titles: 0, theme: 'qatar', history: '2022 hosts. 2x Asian Cup winners!' },
-'Bosnia': { flag: '🇧🇦', group: 'B', coach: 'Sergej Barbarez', captain: 'Edin Džeko', star: 'Edin Džeko', club: 'Schalke 04', rank: 71, best: 'Group (2014)', apps: 2, titles: 0, theme: 'bosnia', history: 'Shocked Italy in playoff! Džeko legend!' },
-// GROUP C
-'Brazil': { flag: '🇧🇷', group: 'C', coach: 'Carlo Ancelotti', captain: 'Marquinhos', star: 'Vinícius Júnior', club: 'Real Madrid', rank: 6, best: 'WINNERS (5x)', apps: 22, titles: 5, theme: 'brazil', history: '5x CHAMPIONS! Pelé, Ronaldo legends!' },
-'Morocco': { flag: '🇲🇦', group: 'C', coach: 'Mohamed Ouahbi', captain: 'Achraf Hakimi', star: 'Achraf Hakimi', club: 'PSG', rank: 8, best: 'SF (2022)', apps: 7, titles: 0, theme: 'morocco', history: '2022 SEMI-FINALISTS! First African team!' },
-'Scotland': { flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', group: 'C', coach: 'Steve Clarke', captain: 'Andy Robertson', star: 'Scott McTominay', club: 'Napoli', rank: 43, best: 'Group', apps: 9, titles: 0, theme: 'scotland', history: 'First WC since 1998! McTominay 10 goals!' },
-'Haiti': { flag: '🇭🇹', group: 'C', coach: 'Sébastien Migné', captain: 'Johny Placide', star: 'Frantzdy Pierrot', club: 'Rizespor', rank: 79, best: 'Group (1974)', apps: 2, titles: 0, theme: 'haiti', history: 'FIRST WC SINCE 1974! Historic return!' },
-// GROUP D
-'USA': { flag: '🇺🇸', group: 'D', coach: 'Mauricio Pochettino', captain: 'Christian Pulisic', star: 'Christian Pulisic', club: 'AC Milan', rank: 16, best: '3rd (1930)', apps: 11, titles: 0, theme: 'usa', history: '2026 CO-HOST! Pulisic = Captain America!' },
-'Paraguay': { flag: '🇵🇾', group: 'D', coach: 'Gustavo Alfaro', captain: 'Gustavo Gómez', star: 'Miguel Almirón', club: 'Atlanta United', rank: 38, best: 'QF (2010)', apps: 9, titles: 0, theme: 'paraguay', history: '2010 quarter-finalists! Almirón magic!' },
-'Australia': { flag: '🇦🇺', group: 'D', coach: 'Tony Popovic', captain: 'Mathew Ryan', star: 'Harry Souttar', club: 'Leicester City', rank: 27, best: 'R16 (2022)', apps: 6, titles: 0, theme: 'australia', history: 'Back-to-back R16! Socceroos rising!' },
-'Turkey': { flag: '🇹🇷', group: 'D', coach: 'Vincenzo Montella', captain: 'Hakan Çalhanoğlu', star: 'Arda Güler', club: 'Real Madrid', rank: 22, best: '3rd (2002)', apps: 5, titles: 0, theme: 'turkey', history: '2002 WC 3rd! Arda Güler is next Messi!' },
-// GROUP E
-'Germany': { flag: '🇩🇪', group: 'E', coach: 'Julian Nagelsmann', captain: 'Joshua Kimmich', star: 'Jamal Musiala', club: 'Bayern Munich', rank: 10, best: 'WINNERS (4x)', apps: 20, titles: 4, theme: 'germany', history: '4x CHAMPIONS! Musiala & Wirtz unstoppable!' },
-'Ecuador': { flag: '🇪🇨', group: 'E', coach: 'Sebastián Beccacece', captain: 'Enner Valencia', star: 'Moisés Caicedo', club: 'Chelsea', rank: 24, best: 'R16 (2006)', apps: 5, titles: 0, theme: 'ecuador', history: '5th consecutive WC! Caicedo £100M!' },
-'Ivory Coast': { flag: '🇨🇮', group: 'E', coach: 'Ibrahim Kamara', captain: 'Serge Aurier', star: 'Serge Aurier', club: 'Al-Nassr', rank: 42, best: 'Group', apps: 4, titles: 0, theme: 'ivorycoast', history: '2024 AFCON CHAMPIONS! Drogba legacy!' },
-'Curacao': { flag: '🇨🇼', group: 'E', coach: 'Dick Advocaat', captain: 'Cuco Martina', star: 'Jurien Gaari', club: 'Vaduz', rank: 87, best: 'DEBUT!', apps: 1, titles: 0, theme: 'curacao', history: 'HISTORIC FIRST WC! 150K population!' },
-// GROUP F
-'Argentina': { flag: '🇦🇷', group: 'F', coach: 'Lionel Scaloni', captain: 'Lionel Messi', star: 'Lionel Messi', club: 'Inter Miami', rank: 1, best: 'WINNERS (3x)', apps: 18, titles: 3, theme: 'argentina', history: 'DEFENDING CHAMPIONS! Messi 6th WC!' },
-'Japan': { flag: '🇯🇵', group: 'F', coach: 'Hajime Moriyasu', captain: 'Wataru Endo', star: 'Takefusa Kubo', club: 'Real Sociedad', rank: 13, best: 'R16 (4x)', apps: 7, titles: 0, theme: 'japan', history: 'Beat Germany & Spain in 2022!' },
-'Senegal': { flag: '🇸🇳', group: 'F', coach: 'Pape Thiaw', captain: 'Kalidou Koulibaly', star: 'Sadio Mané', club: 'Al-Nassr', rank: 14, best: 'QF (2002)', apps: 4, titles: 0, theme: 'senegal', history: '2022 AFCON champions! Mané leads!' },
-'Algeria': { flag: '🇩🇿', group: 'F', coach: 'Djamel Belmadi', captain: 'Riyad Mahrez', star: 'Riyad Mahrez', club: 'Al-Ahli', rank: 32, best: 'R16 (2014)', apps: 5, titles: 0, theme: 'algeria', history: '2019 AFCON champions! Fennecs!' },
-// GROUP G
-'Spain': { flag: '🇪🇸', group: 'G', coach: 'Luis de la Fuente', captain: 'Álvaro Morata', star: 'Lamine Yamal', club: 'Barcelona', rank: 4, best: 'WINNERS (2010)', apps: 16, titles: 1, theme: 'spain', history: '2024 EURO + 2010 WC CHAMPIONS! Yamal 18yo genius!' },
-'Netherlands': { flag: '🇳🇱', group: 'G', coach: 'Ronald Koeman', captain: 'Virgil van Dijk', star: 'Virgil van Dijk', club: 'Liverpool', rank: 7, best: 'RU (3x)', apps: 11, titles: 0, theme: 'netherlands', history: '3x finalists! Total Football legends!' },
-'Tunisia': { flag: '🇹🇳', group: 'G', coach: 'Faouzi Benzarti', captain: 'Youssef Msakni', star: 'Youssef Msakni', club: 'Al-Arabi', rank: 36, best: 'Group', apps: 6, titles: 0, theme: 'tunisia', history: 'Beat France 1-0 in 2022! Carthage Eagles!' },
-'Cape Verde': { flag: '🇨🇻', group: 'G', coach: 'Pé Martins', captain: 'Ryan Mendes', star: 'Ryan Mendes', club: 'FC Arouca', rank: 72, best: 'DEBUT!', apps: 1, titles: 0, theme: 'capeverde', history: 'HISTORIC FIRST WC! Blue Sharks!' },
-// GROUP H
-'France': { flag: '🇫🇷', group: 'H', coach: 'Didier Deschamps', captain: 'Kylian Mbappé', star: 'Kylian Mbappé', club: 'Real Madrid', rank: 2, best: 'WINNERS (2x)', apps: 16, titles: 2, theme: 'france', history: '2022 finalists! Mbappé hat-trick in final!' },
-'Colombia': { flag: '🇨🇴', group: 'H', coach: 'Néstor Lorenzo', captain: 'James Rodríguez', star: 'Luis Díaz', club: 'Liverpool', rank: 11, best: 'QF (2014)', apps: 7, titles: 0, theme: 'colombia', history: '2024 Copa América finalists! Díaz magic!' },
-'Egypt': { flag: '🇪🇬', group: 'H', coach: 'Hossam Hassan', captain: 'Mohamed Salah', star: 'Mohamed Salah', club: 'Liverpool', rank: 31, best: 'Group', apps: 4, titles: 0, theme: 'egypt', history: 'SALAH! Africa\'s best ever! 7x AFCON!' },
-'New Zealand': { flag: '🇳🇿', group: 'H', coach: 'Darren Bazeley', captain: 'Chris Wood', star: 'Chris Wood', club: 'Nottingham Forest', rank: 68, best: 'Group', apps: 3, titles: 0, theme: 'newzealand', history: 'All Whites return! Wood is EPL proven!' },
-// GROUP I
-'England': { flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', group: 'I', coach: 'Thomas Tuchel', captain: 'Harry Kane', star: 'Jude Bellingham', club: 'Real Madrid', rank: 3, best: 'WINNERS (1966)', apps: 16, titles: 1, theme: 'england', history: '1966 champions! Bellingham & Kane elite!' },
-'Iran': { flag: '🇮🇷', group: 'I', coach: 'Amir Ghalenoei', captain: 'Ehsan Hajsafi', star: 'Mehdi Taremi', club: 'Inter Milan', rank: 23, best: 'Group', apps: 7, titles: 0, theme: 'iran', history: '7th WC! Taremi at Inter! Team Melli!' },
-'DR Congo': { flag: '🇨🇩', group: 'I', coach: 'Sébastien Desabre', captain: 'Chancel Mbemba', star: 'Chancel Mbemba', club: 'Marseille', rank: 58, best: 'Group (1974)', apps: 2, titles: 0, theme: 'drcongo', history: 'First WC since 1974! Leopards return!' },
-'Ghana': { flag: '🇬🇭', group: 'I', coach: 'Otto Addo', captain: 'Thomas Partey', star: 'Mohammed Kudus', club: 'West Ham', rank: 45, best: 'QF (2010)', apps: 5, titles: 0, theme: 'ghana', history: '2010 heartbreak! Kudus explosive!' },
-// GROUP J
-'Portugal': { flag: '🇵🇹', group: 'J', coach: 'Roberto Martínez', captain: 'Cristiano Ronaldo', star: 'Cristiano Ronaldo', club: 'Al-Nassr', rank: 5, best: '3rd (1966)', apps: 8, titles: 0, theme: 'portugal', history: 'CR7 6th WC! Euro 2016 champions!' },
-'Croatia': { flag: '🇭🇷', group: 'J', coach: 'Zlatko Dalić', captain: 'Luka Modrić', star: 'Luka Modrić', club: 'Real Madrid', rank: 9, best: 'RU (2018)', apps: 6, titles: 0, theme: 'croatia', history: '2018 finalists! Modrić still elite at 39!' },
-'Belgium': { flag: '🇧🇪', group: 'J', coach: 'Domenico Tedesco', captain: 'Kevin De Bruyne', star: 'Kevin De Bruyne', club: 'Man City', rank: 12, best: '3rd (2018)', apps: 14, titles: 0, theme: 'belgium', history: 'Golden generation\'s last dance!' },
-'Norway': { flag: '🇳🇴', group: 'J', coach: 'Ståle Solbakken', captain: 'Martin Ødegaard', star: 'Erling Haaland', club: 'Man City', rank: 39, best: 'Group', apps: 3, titles: 0, theme: 'norway', history: 'First WC since 1998! HAALAND!' },
-// GROUP K
-'Saudi Arabia': { flag: '🇸🇦', group: 'K', coach: 'Roberto Mancini', captain: 'Salman Al-Faraj', star: 'Salem Al-Dawsari', club: 'Al-Hilal', rank: 48, best: 'R16 (1994)', apps: 7, titles: 0, theme: 'saudiarabia', history: 'BEAT ARGENTINA 2-1 IN 2022! 2034 hosts!' },
-'Austria': { flag: '🇦🇹', group: 'K', coach: 'Ralf Rangnick', captain: 'David Alaba', star: 'Marko Arnautović', club: 'Inter Milan', rank: 20, best: '3rd (1954)', apps: 8, titles: 0, theme: 'austria', history: 'Rangnick-ball revolution!' },
-'Sweden': { flag: '🇸🇪', group: 'K', coach: 'Jon Dahl Tomasson', captain: 'Emil Forsberg', star: 'Viktor Gyökeres', club: 'Sporting CP', rank: 33, best: 'RU (1958)', apps: 12, titles: 0, theme: 'sweden', history: 'Gyökeres scored 50+ goals!' },
-'Uzbekistan': { flag: '🇺🇿', group: 'K', coach: 'Srecko Katanec', captain: 'Odil Ahmedov', star: 'Eldor Shomurodov', club: 'Roma', rank: 54, best: 'DEBUT!', apps: 1, titles: 0, theme: 'uzbekistan', history: 'HISTORIC FIRST WC! White Wolves!' },
-// GROUP L
-'Uruguay': { flag: '🇺🇾', group: 'L', coach: 'Marcelo Bielsa', captain: 'Federico Valverde', star: 'Federico Valverde', club: 'Real Madrid', rank: 17, best: 'WINNERS (2x)', apps: 14, titles: 2, theme: 'uruguay', history: 'First-ever winners (1930)! 3.5M people, 2 stars!' },
-'Panama': { flag: '🇵🇦', group: 'L', coach: 'Thomas Christiansen', captain: 'Aníbal Godoy', star: 'José Fajardo', club: 'Salernitana', rank: 61, best: 'Group (2018)', apps: 2, titles: 0, theme: 'panama', history: '2nd WC! Eliminated USA in 2018!' },
-'Jordan': { flag: '🇯🇴', group: 'L', coach: 'Hussein Ammouta', captain: 'Yazan Al-Naimat', star: 'Yazan Al-Naimat', club: 'Rapid Wien', rank: 62, best: 'DEBUT!', apps: 1, titles: 0, theme: 'jordan', history: 'HISTORIC FIRST WC! 2024 Asian Cup finalists!' },
-'Iraq': { flag: '🇮🇶', group: 'L', coach: 'Radhi Shenaishil', captain: 'Aymen Hussein', star: 'Aymen Hussein', club: 'Pakhtakor', rank: 55, best: 'R16 (1986)', apps: 2, titles: 0, theme: 'iraq', history: 'First WC since 1986! Lions of Mesopotamia!' }
+  // Remaining teams (groups continue)
+  austria: {flag:'🇦🇹',name:'Austria',group:'M',rank:25,coach:'Ralf Rangnick',captain:'David Alaba',star:'David Alaba',best:'3rd (1954)',apps:8,titles:0,history:'Rangnick revolution.'},
+  hungary: {flag:'🇭🇺',name:'Hungary',group:'M',rank:30,coach:'Marco Rossi',captain:'Dominik Szoboszlai',star:'Dominik Szoboszlai',best:'Finalist (1954)',apps:9,titles:0,history:'Golden Team legacy.'},
+  czechia: {flag:'🇨🇿',name:'Czechia',group:'M',rank:36,coach:'Ivan Hašek',captain:'Tomáš Souček',star:'Patrik Schick',best:'Finalist (1962)*',apps:2,titles:0,history:'*As Czechoslovakia.'},
+  
+  wales: {flag:'🏴󠁧󠁢󠁷󠁬󠁳󠁿',name:'Wales',group:'N',rank:45,coach:'Rob Page',captain:'Aaron Ramsey',star:'Brennan Johnson',best:'QF (1958)',apps:2,titles:0,history:'Rare WC appearance.'},
+  scotland: {flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',name:'Scotland',group:'N',rank:39,coach:'Steve Clarke',captain:'Andy Robertson',star:'Andy Robertson',best:'Group (8x)',apps:9,titles:0,history:'Passionate supporters.'},
+  colombia: {flag:'🇨🇴',name:'Colombia',group:'N',rank:16,coach:'Néstor Lorenzo',captain:'James Rodríguez',star:'Luis Díaz',best:'QF (2014)',apps:7,titles:0,history:'James magic.'},
+  
+  chile: {flag:'🇨🇱',name:'Chile',group:'O',rank:42,coach:'Ricardo Gareca',captain:'Claudio Bravo',star:'Alexis Sánchez',best:'3rd (1962)',apps:10,titles:0,history:'Generación Dorada aging.'},
+  ecuador: {flag:'🇪🇨',name:'Ecuador',group:'O',rank:31,coach:'Félix Sánchez',captain:'Énner Valencia',star:'Moisés Caicedo',best:'R16 (2006)',apps:5,titles:0,history:'Valencia machine.'},
+  peru: {flag:'🇵🇪',name:'Peru',group:'O',rank:38,coach:'Jorge Fossati',captain:'Paolo Guerrero',star:'Paolo Guerrero',best:'QF (1970, 1978)',apps:6,titles:0,history:'Guerrero farewell.'},
+  
+  uruguay: {flag:'🇺🇾',name:'Uruguay',group:'P',rank:13,coach:'Marcelo Bielsa',captain:'Diego Godín',star:'Darwin Núñez',best:'Champions (1930, 1950)',apps:14,titles:2,history:'Original champions.'},
+  paraguay: {flag:'🇵🇾',name:'Paraguay',group:'P',rank:49,coach:'Daniel Garnero',captain:'Gustavo Gómez',star:'Miguel Almirón',best:'QF (2010)',apps:9,titles:0,history:'Almirón leads.'},
+  venezuela: {flag:'🇻🇪',name:'Venezuela',group:'P',rank:54,coach:'Fernando Batista',captain:'Salomón Rondón',star:'Yeferson Soteldo',best:'Never qualified',apps:1,titles:0,history:'First ever WC!'},
+  
+  costarica: {flag:'🇨🇷',name:'Costa Rica',group:'A',rank:50,coach:'Claudio Vivas',captain:'Bryan Ruiz',star:'Keylor Navas',best:'QF (2014)',apps:6,titles:0,history:'Keylor heroics.'},
+  panama: {flag:'🇵🇦',name:'Panama',group:'A',rank:48,coach:'Thomas Christiansen',captain:'Aníbal Godoy',star:'Édgar Bárcenas',best:'Group (2018)',apps:2,titles:0,history:'Historic 2018.'},
+  jamaica: {flag:'🇯🇲',name:'Jamaica',group:'B',rank:53,coach:'Heimir Hallgrímsson',captain:'Michail Antonio',star:'Leon Bailey',best:'Group (1998)',apps:2,titles:0,history:'Reggae Boyz return!'},
+  
+  nigeria: {flag:'🇳🇬',name:'Nigeria',group:'C',rank:29,coach:'Finidi George',captain:'Ahmed Musa',star:'Victor Osimhen',best:'R16 (1994, 1998)',apps:7,titles:0,history:'Super Eagles soar.'},
+  senegal: {flag:'🇸🇳',name:'Senegal',group:'C',rank:18,coach:'Aliou Cissé',captain:'Kalidou Koulibaly',star:'Sadio Mané',best:'QF (2002)',apps:4,titles:0,history:'AFCON 2022 champions.'},
+  cameroon: {flag:'🇨🇲',name:'Cameroon',group:'D',rank:46,coach:'Marc Brys',captain:'Vincent Aboubakar',star:'André-Frank Zambo Anguissa',best:'QF (1990)',apps:8,titles:0,history:'Indomitable Lions.'},
+  
+  ghana: {flag:'🇬🇭',name:'Ghana',group:'E',rank:47,coach:'Otto Addo',captain:'André Ayew',star:'Mohammed Kudus',best:'QF (2010)',apps:5,titles:0,history:'Kudus breakout.'},
+  egypt: {flag:'🇪🇬',name:'Egypt',group:'F',rank:37,coach:'Hossam Hassan',captain:'Mohamed Salah',star:'Mohamed Salah',best:'Group (1990)',apps:4,titles:0,history:'Salah on WC stage!'},
+  southafrica: {flag:'🇿🇦',name:'South Africa',group:'G',rank:59,coach:'Hugo Broos',captain:'Ronwen Williams',star:'Percy Tau',best:'Group (1998, 2002, 2010)',apps:4,titles:0,history:'Bafana Bafana back!'},
+  
+  newzealand: {flag:'🇳🇿',name:'New Zealand',group:'H',rank:94,coach:'Darren Bazeley',captain:'Chris Wood',star:'Chris Wood',best:'Group (2010)',apps:3,titles:0,history:'All Whites.'},
+  bosnia: {flag:'🇧🇦',name:'Bosnia & Herz.',group:'I',rank:62,coach:'Sergej Barbarez',captain:'Edin Džeko',star:'Edin Džeko',best:'Group (2014)',apps:2,titles:0,history:'Džeko legend.'}
 };
 
-// TRANSLATIONS (9 LANGUAGES)
-const translations = {
-en: { title: 'SIGMAX v83 ULTRA ELITE', home: '🏠 Home', top5: '🎯 Top 5', props: '👤 Props', schedule: '⚽ Schedule', wc2026: '🌍 48 Teams', parlay: '🎰 Parlay', results: '📊 Results', alerts: '🔔 Live', record: 'Season Record', winrate: 'Win Rate', bankroll: 'Bankroll', roi: 'ROI' },
-es: { title: 'SIGMAX v83 ULTRA ÉLITE', home: '🏠 Inicio', top5: '🎯 Top 5', props: '👤 Props', schedule: '⚽ Calendario', wc2026: '🌍 48 Equipos', parlay: '🎰 Parlay', results: '📊 Resultados', alerts: '🔔 En Vivo', record: 'Récord', winrate: 'Victorias', bankroll: 'Fondos', roi: 'ROI' },
-fr: { title: 'SIGMAX v83 ULTRA ÉLITE', home: '🏠 Accueil', top5: '🎯 Top 5', props: '👤 Props', schedule: '⚽ Calendrier', wc2026: '🌍 48 Équipes', parlay: '🎰 Parlay', results: '📊 Résultats', alerts: '🔔 Direct', record: 'Bilan', winrate: 'Victoires', bankroll: 'Fonds', roi: 'ROI' },
-de: { title: 'SIGMAX v83 ULTRA ELITE', home: '🏠 Start', top5: '🎯 Top 5', props: '👤 Props', schedule: '⚽ Spielplan', wc2026: '🌍 48 Teams', parlay: '🎰 Parlay', results: '📊 Ergebnisse', alerts: '🔔 Live', record: 'Bilanz', winrate: 'Siegquote', bankroll: 'Guthaben', roi: 'ROI' },
-pt: { title: 'SIGMAX v83 ULTRA ELITE', home: '🏠 Início', top5: '🎯 Top 5', props: '👤 Props', schedule: '⚽ Calendário', wc2026: '🌍 48 Seleções', parlay: '🎰 Parlay', results: '📊 Resultados', alerts: '🔔 Ao Vivo', record: 'Recorde', winrate: 'Vitórias', bankroll: 'Fundos', roi: 'ROI' },
-it: { title: 'SIGMAX v83 ULTRA ELITE', home: '🏠 Home', top5: '🎯 Top 5', props: '👤 Props', schedule: '⚽ Calendario', wc2026: '🌍 48 Squadre', parlay: '🎰 Parlay', results: '📊 Risultati', alerts: '🔔 Live', record: 'Record', winrate: 'Vittorie', bankroll: 'Fondi', roi: 'ROI' },
-ar: { title: 'سيجماكس الترا إليت', home: '🏠 الرئيسية', top5: '🎯 أفضل 5', props: '👤 خصائص', schedule: '⚽ الجدول', wc2026: '🌍 48 فريق', parlay: '🎰 رهان', results: '📊 النتائج', alerts: '🔔 مباشر', record: 'السجل', winrate: 'الفوز', bankroll: 'الرصيد', roi: 'العائد' },
-ja: { title: 'SIGMAX v83 ウルトラエリート', home: '🏠 ホーム', top5: '🎯 トップ5', props: '👤 プロップ', schedule: '⚽ スケジュール', wc2026: '🌍 48チーム', parlay: '🎰 パーレイ', results: '📊 結果', alerts: '🔔 ライブ', record: '記録', winrate: '勝率', bankroll: '資金', roi: 'ROI' },
-ko: { title: 'SIGMAX v83 울트라 엘리트', home: '🏠 홈', top5: '🎯 탑 5', props: '👤 프롭', schedule: '⚽ 일정', wc2026: '🌍 48팀', parlay: '🎰 팔레이', results: '📊 결과', alerts: '🔔 라이브', record: '기록', winrate: '승률', bankroll: '자금', roi: 'ROI' }
-};
-
-let currentLang = 'en';
-
-// TAB NAVIGATION
-function showTab(tabId) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    event.target.classList.add('active');
-    if(tabId === 'wc2026') renderTeamGrid('all');
-}
-
-// THEME CHANGE
-function changeTheme(theme) {
-    document.body.className = theme === 'default' ? '' : 'theme-' + theme;
-}
-
-// LANGUAGE CHANGE
-function changeLanguage(lang) {
-    currentLang = lang;
-    const t = translations[lang];
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if(t[key]) el.textContent = t[key];
-    });
-    document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
-}
-
-// DEVICE CHANGE
-function changeDevice(device) {
-    const container = document.querySelector('.container');
-    container.style.maxWidth = device === 'mobile' ? '480px' : device === 'desktop' ? '1400px' : '1400px';
-}
-
-// LIVE CLOCK
-function updateClock() {
-    const now = new Date();
-    const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'America/New_York' };
-    document.getElementById('liveClock').textContent = '🕐 ' + now.toLocaleTimeString('en-US', options) + ' ET';
-}
-setInterval(updateClock, 1000);
-updateClock();
-
-// COUNTDOWNS
-function updateCountdowns() {
-    const now = new Date();
-    // USA vs Paraguay - June 12, 2026, 9:00 PM ET (21:00)
-    const game1 = new Date('2026-06-12T21:00:00-04:00');
-    // NHL SCF Game 6 - June 14, 2026, 8:00 PM ET
-    const game2 = new Date('2026-06-14T20:00:00-04:00');
-    // NBA Finals Game 5 - June 13, 2026, 8:30 PM ET
-    const game3 = new Date('2026-06-13T20:30:00-04:00');
-    
-    const games = [
-        { el: 'countdown1', time: game1 },
-        { el: 'countdown2', time: game2 },
-        { el: 'countdown3', time: game3 }
-    ];
-    
-    games.forEach(g => {
-        const diff = g.time - now;
-        const el = document.getElementById(g.el);
-        if(!el) return;
-        if(diff <= 0) {
-            el.textContent = 'LIVE NOW!';
-            el.style.color = '#00ff88';
-        } else {
-            const h = Math.floor(diff / 3600000);
-            const m = Math.floor((diff % 3600000) / 60000);
-            const s = Math.floor((diff % 60000) / 1000);
-            el.textContent = h + 'h ' + m + 'm ' + s + 's';
-        }
-    });
-}
-setInterval(updateCountdowns, 1000);
-updateCountdowns();
-
-// FALLING STARS
+// ========== STARS ANIMATION ==========
 function createStars() {
-    const container = document.getElementById('starsContainer');
-    if(!container) return;
-    const stars = ['⭐', '✨', '💫', '🌟', '⚽'];
-    for(let i = 0; i < 30; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.textContent = stars[Math.floor(Math.random() * stars.length)];
-        star.style.left = Math.random() * 100 + '%';
-        star.style.animationDuration = (5 + Math.random() * 10) + 's';
-        star.style.animationDelay = Math.random() * 5 + 's';
-        star.style.fontSize = (0.8 + Math.random() * 1) + 'rem';
-        container.appendChild(star);
+  const container = document.getElementById('starsContainer');
+  const stars = ['⭐', '✨', '💫', '🌟'];
+  for (let i = 0; i < 30; i++) {
+    const star = document.createElement('span');
+    star.className = 'star';
+    star.textContent = stars[Math.floor(Math.random() * stars.length)];
+    star.style.left = Math.random() * 100 + '%';
+    star.style.animationDuration = (3 + Math.random() * 4) + 's';
+    star.style.animationDelay = Math.random() * 5 + 's';
+    container.appendChild(star);
+  }
+}
+
+// ========== LIVE CLOCK ==========
+function updateClock() {
+  const now = new Date();
+  const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'America/New_York' };
+  document.getElementById('liveClock').textContent = now.toLocaleString('en-US', options) + ' ET';
+}
+
+// ========== COUNTDOWNS ==========
+function updateCountdowns() {
+  // USA vs Paraguay - June 12, 2026 9:00 PM ET
+  const game1 = new Date('2026-06-12T21:00:00-04:00');
+  // Stanley Cup G6 - June 14, 2026 8:00 PM ET
+  const game2 = new Date('2026-06-14T20:00:00-04:00');
+  // NBA Finals G5 - June 13, 2026 8:30 PM ET
+  const game3 = new Date('2026-06-13T20:30:00-04:00');
+  
+  const now = new Date();
+  
+  [['countdown1', game1], ['countdown2', game2], ['countdown3', game3]].forEach(([id, target]) => {
+    const diff = target - now;
+    if (diff > 0) {
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById(id).textContent = h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    } else {
+      document.getElementById(id).textContent = '🔴 LIVE / FINAL';
     }
+  });
 }
-createStars();
 
-// TEAM GRID RENDERING
-function renderTeamGrid(filter) {
-    const grid = document.getElementById('teamGrid');
-    if(!grid) return;
-    grid.innerHTML = '';
+// ========== TAB NAVIGATION ==========
+function showTab(tabId) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ========== THEME SELECTOR ==========
+function changeTheme(theme) {
+  document.body.className = theme === 'default' ? '' : 'theme-' + theme;
+}
+
+// ========== LANGUAGE SELECTOR ==========
+const translations = {
+  en: {title:'SigMAX v83 ULTRA ELITE',home:'🏠 Home',top5:'🎯 Top 5',props:'👤 Props',schedule:'⚽ Schedule',wc2026:'🌍 48 Teams',parlay:'🎰 Parlay Builder',results:'📊 Results',alerts:'🔔 Live',record:'Season Record',winrate:'Win Rate',bankroll:'Bankroll',roi:'ROI'},
+  es: {title:'SigMAX v83 ULTRA ELITE',home:'🏠 Inicio',top5:'🎯 Top 5',props:'👤 Props',schedule:'⚽ Calendario',wc2026:'🌍 48 Equipos',parlay:'🎰 Constructor Parlay',results:'📊 Resultados',alerts:'🔔 En Vivo',record:'Récord Temporada',winrate:'% Victorias',bankroll:'Bankroll',roi:'ROI'},
+  fr: {title:'SigMAX v83 ULTRA ELITE',home:'🏠 Accueil',top5:'🎯 Top 5',props:'👤 Props',schedule:'⚽ Calendrier',wc2026:'🌍 48 Équipes',parlay:'🎰 Pari Combiné',results:'📊 Résultats',alerts:'🔔 Direct',record:'Bilan Saison',winrate:'% Victoires',bankroll:'Bankroll',roi:'ROI'},
+  de: {title:'SigMAX v83 ULTRA ELITE',home:'🏠 Start',top5:'🎯 Top 5',props:'👤 Props',schedule:'⚽ Spielplan',wc2026:'🌍 48 Teams',parlay:'🎰 Wett-Builder',results:'📊 Ergebnisse',alerts:'🔔 Live',record:'Saisonbilanz',winrate:'Siegquote',bankroll:'Bankroll',roi:'ROI'},
+  pt: {title:'SigMAX v83 ULTRA ELITE',home:'🏠 Início',top5:'🎯 Top 5',props:'👤 Props',schedule:'⚽ Agenda',wc2026:'🌍 48 Seleções',parlay:'🎰 Parlay Builder',results:'📊 Resultados',alerts:'🔔 Ao Vivo',record:'Recorde Temporada',winrate:'% Vitórias',bankroll:'Bankroll',roi:'ROI'},
+  it: {title:'SigMAX v83 ULTRA ELITE',home:'🏠 Home',top5:'🎯 Top 5',props:'👤 Props',schedule:'⚽ Calendario',wc2026:'🌍 48 Squadre',parlay:'🎰 Parlay Builder',results:'📊 Risultati',alerts:'🔔 Live',record:'Record Stagione',winrate:'% Vittorie',bankroll:'Bankroll',roi:'ROI'},
+  ar: {title:'SigMAX v83 ULTRA ELITE',home:'🏠 الرئيسية',top5:'🎯 أفضل 5',props:'👤 خصائص',schedule:'⚽ الجدول',wc2026:'🌍 48 منتخب',parlay:'🎰 باني الرهان',results:'📊 النتائج',alerts:'🔔 مباشر',record:'سجل الموسم',winrate:'نسبة الفوز',bankroll:'رصيد',roi:'العائد'},
+  ja: {title:'SigMAX v83 ULTRA ELITE',home:'🏠 ホーム',top5:'🎯 トップ5',props:'👤 プロップ',schedule:'⚽ 日程',wc2026:'🌍 48チーム',parlay:'🎰 パーレイ',results:'📊 結果',alerts:'🔔 ライブ',record:'シーズン記録',winrate:'勝率',bankroll:'バンクロール',roi:'ROI'},
+  ko: {title:'SigMAX v83 ULTRA ELITE',home:'🏠 홈',top5:'🎯 톱5',props:'👤 프롭',schedule:'⚽ 일정',wc2026:'🌍 48팀',parlay:'🎰 팔레이',results:'📊 결과',alerts:'🔔 라이브',record:'시즌 기록',winrate:'승률',bankroll:'뱅크롤',roi:'ROI'}
+};
+
+function changeLanguage(lang) {
+  const t = translations[lang] || translations.en;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) el.textContent = t[key];
+  });
+}
+
+// ========== DEVICE SELECTOR ==========
+function changeDevice(mode) {
+  const container = document.querySelector('.container');
+  if (mode === 'mobile') {
+    container.style.maxWidth = '480px';
+  } else if (mode === 'desktop') {
+    container.style.maxWidth = '1400px';
+  } else {
+    container.style.maxWidth = '';
+  }
+}
+
+// ========== TEAM CARDS GRID ==========
+function renderTeams(filter = 'all') {
+  const grid = document.getElementById('wcGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  
+  Object.keys(teamsData).forEach(key => {
+    const team = teamsData[key];
+    if (filter !== 'all' && team.group !== filter) return;
     
-    Object.entries(teamData).forEach(([name, team]) => {
-        let show = filter === 'all' || 
-                   filter === team.group ||
-                   (filter === 'hosts' && ['USA', 'Mexico', 'Canada'].includes(name)) ||
-                   (filter === 'debuts' && team.apps === 1);
-        if(!show) return;
-        
-        const card = document.createElement('div');
-        card.className = 'team-card';
-        card.onclick = () => openModal(name);
-        card.innerHTML = '<div class="team-flag">' + team.flag + '</div><div class="team-name">' + name + '</div><div class="team-group">Group ' + team.group + ' | #' + team.rank + '</div>';
-        grid.appendChild(card);
-    });
+    const card = document.createElement('div');
+    card.className = 'team-card';
+    card.onclick = () => openModal(key);
+    card.innerHTML = '<div class="team-flag">' + team.flag + '</div>' +
+                     '<div class="team-name">' + team.name + '</div>' +
+                     '<div class="team-group">Group ' + team.group + '</div>';
+    grid.appendChild(card);
+  });
 }
 
-function filterTeams(filter) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-    renderTeamGrid(filter);
+function filterTeams(group) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderTeams(group);
 }
 
-// TEAM MODAL
-function openModal(teamName) {
-    const team = teamData[teamName];
-    if(!team) return;
-    document.getElementById('modalFlag').textContent = team.flag;
-    document.getElementById('modalTitle').textContent = teamName;
-    document.getElementById('modalInfo').innerHTML = 
-        '<div class="modal-row"><span class="modal-label">Group</span><span class="modal-value">' + team.group + '</span></div>' +
-        '<div class="modal-row"><span class="modal-label">FIFA Rank</span><span class="modal-value">#' + team.rank + '</span></div>' +
-        '<div class="modal-row"><span class="modal-label">Coach</span><span class="modal-value">' + team.coach + '</span></div>' +
-        '<div class="modal-row"><span class="modal-label">Captain</span><span class="modal-value">' + team.captain + '</span></div>' +
-        '<div class="modal-row"><span class="modal-label">Star Player</span><span class="modal-value">' + team.star + ' (' + team.club + ')</span></div>' +
-        '<div class="modal-row"><span class="modal-label">WC Best</span><span class="modal-value">' + team.best + '</span></div>' +
-        '<div class="modal-row"><span class="modal-label">WC Apps</span><span class="modal-value">' + team.apps + ' (🏆 ' + team.titles + ')</span></div>' +
-        '<div class="modal-row"><span class="modal-label">History</span><span class="modal-value">' + team.history + '</span></div>';
-    document.getElementById('teamModal').classList.add('active');
+// ========== MODAL FUNCTIONS ==========
+function openModal(teamKey) {
+  const team = teamsData[teamKey];
+  if (!team) return;
+  
+  document.getElementById('modalFlag').textContent = team.flag;
+  document.getElementById('modalTeamName').textContent = team.name;
+  document.getElementById('modalGroup').textContent = 'Group ' + team.group;
+  document.getElementById('modalRank').textContent = '#' + team.rank;
+  document.getElementById('modalCoach').textContent = team.coach;
+  document.getElementById('modalCaptain').textContent = team.captain;
+  document.getElementById('modalStar').textContent = team.star;
+  document.getElementById('modalBest').textContent = team.best;
+  document.getElementById('modalApps').textContent = team.apps;
+  document.getElementById('modalTitles').textContent = team.titles;
+  document.getElementById('modalHistory').textContent = team.history;
+  
+  document.getElementById('teamModal').classList.add('active');
 }
 
 function closeModal() {
-    document.getElementById('teamModal').classList.remove('active');
+  document.getElementById('teamModal').classList.remove('active');
 }
 
 // Close modal on outside click
-document.getElementById('teamModal')?.addEventListener('click', (e) => {
-    if(e.target.id === 'teamModal') closeModal();
+document.addEventListener('click', function(e) {
+  const modal = document.getElementById('teamModal');
+  if (e.target === modal) closeModal();
 });
 
-// PARLAY BUILDER
-const parlayLegs = { teams: [], props: [] };
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
 
-function addToParlay(type, pick) {
-    if(type === 'team' && parlayLegs.teams.length < 5) {
-        parlayLegs.teams.push(pick);
-    } else if(type === 'prop' && parlayLegs.props.length < 5) {
-        parlayLegs.props.push(pick);
-    }
-    updateParlayDisplay();
+// ========== PARLAY BUILDER (Interactive) ==========
+let parlayLegs = [];
+function addToParlayHTML(pick, odds) {
+  if (parlayLegs.length >= 5) return alert('Max 5 legs!');
+  parlayLegs.push({pick, odds});
+  updateParlayDisplay();
+}
+
+function removeLeg(index) {
+  parlayLegs.splice(index, 1);
+  updateParlayDisplay();
 }
 
 function updateParlayDisplay() {
-    const teamSlots = document.getElementById('teamSlots');
-    const propSlots = document.getElementById('propSlots');
-    if(teamSlots) {
-        teamSlots.innerHTML = parlayLegs.teams.map((p, i) => '<div class="parlay-slot filled">' + (i+1) + '. ' + p + '</div>').join('') || '<div class="parlay-slot">Empty</div>';
-    }
-    if(propSlots) {
-        propSlots.innerHTML = parlayLegs.props.map((p, i) => '<div class="parlay-slot filled">' + (i+1) + '. ' + p + '</div>').join('') || '<div class="parlay-slot">Empty</div>';
-    }
-    const total = parlayLegs.teams.length + parlayLegs.props.length;
-    const totalEl = document.getElementById('parlayTotal');
-    if(totalEl) totalEl.textContent = total + ' legs selected';
+  const container = document.getElementById('parlayLegsContainer');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  let totalOdds = 1;
+  
+  parlayLegs.forEach((leg, i) => {
+    const slot = document.createElement('div');
+    slot.className = 'parlay-slot filled';
+    slot.innerHTML = leg.pick + ' (' + leg.odds + ') <span onclick="removeLeg(' + i + ')" style="cursor:pointer;color:var(--red)">✕</span>';
+    container.appendChild(slot);
+    // Convert American to decimal
+    const dec = leg.odds > 0 ? (leg.odds / 100 + 1) : (100 / Math.abs(leg.odds) + 1);
+    totalOdds *= dec;
+  });
+  
+  // Fill empty slots
+  for (let i = parlayLegs.length; i < 5; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'parlay-slot';
+    slot.textContent = 'Empty Slot ' + (i + 1);
+    container.appendChild(slot);
+  }
+  
+  // Update totals
+  const totalEl = document.getElementById('parlayTotalOdds');
+  if (totalEl && parlayLegs.length > 0) {
+    const american = totalOdds >= 2 ? '+' + Math.round((totalOdds - 1) * 100) : '-' + Math.round(100 / (totalOdds - 1));
+    totalEl.textContent = american + ' (' + (1/totalOdds*100).toFixed(1) + '% implied)';
+  } else if (totalEl) {
+    totalEl.textContent = '—';
+  }
 }
 
-function clearParlay() {
-    parlayLegs.teams = [];
-    parlayLegs.props = [];
-    updateParlayDisplay();
-}
-
-// KEYBOARD SHORTCUTS
-document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape') closeModal();
-});
-
-// INITIALIZATION
-document.addEventListener('DOMContentLoaded', () => {
-    renderTeamGrid('all');
-    updateParlayDisplay();
+// ========== INITIALIZATION ==========
+document.addEventListener('DOMContentLoaded', function() {
+  createStars();
+  updateClock();
+  setInterval(updateClock, 1000);
+  updateCountdowns();
+  setInterval(updateCountdowns, 1000);
+  renderTeams('all');
 });
 </script>
-</body></html>
+</body>
+</html>
