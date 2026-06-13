@@ -562,7 +562,7 @@ select.control-btn{appearance:none;padding-right:30px;background-image:url("data
 </div><!-- End teams-grid -->
 </div><!-- End teams tab -->
 <!-- GROUPS TAB -->
-<div id="groups-tab" class="tab-content">
+<div id="groups" class="tab-content">
 <h2 class="section-title" data-i18n="groups_title">🏆 World Cup 2026 Groups — 12 Groups × 4 Teams</h2>
 <div class="groups-container">
 
@@ -651,9 +651,9 @@ select.control-btn{appearance:none;padding-right:30px;background-image:url("data
 </tbody></table></div>
 
 </div><!-- End groups-container -->
-</div><!-- End groups-tab -->
+</div><!-- End groups -->
 <!-- MATCHES TAB -->
-<div id="matches-tab" class="tab-content">
+<div id="matches" class="tab-content">
 <h2 class="section-title" data-i18n="matches_title">⚽ Match Schedule & Results</h2>
 <div class="matches-container">
 <div class="match-day"><div class="match-day-header">📅 June 11, 2026 — Day 1</div>
@@ -672,7 +672,7 @@ select.control-btn{appearance:none;padding-right:30px;background-image:url("data
 </div>
 
 <!-- STATS TAB -->
-<div id="stats-tab" class="tab-content">
+<div id="stats" class="tab-content">
 <h2 class="section-title" data-i18n="stats_title">📊 Tournament Statistics</h2>
 <div class="stats-grid">
 <div class="stat-card"><div class="stat-value">4</div><div class="stat-label" data-i18n="matches_played">Matches Played</div></div>
@@ -689,7 +689,7 @@ select.control-btn{appearance:none;padding-right:30px;background-image:url("data
 </div>
 
 <!-- PREDICTIONS TAB -->
-<div id="predictions-tab" class="tab-content">
+<div id="predictions" class="tab-content">
 <h2 class="section-title" data-i18n="predictions_title">🎯 SIGMAX Predictions</h2>
 <div class="prediction-card"><div class="prediction-header">🔥 Today's Premium Picks — June 13</div>
 <div class="prediction-item"><span class="flag">🇧🇷</span><span class="pick">Brazil ML</span><span class="odds">-180</span><span class="confidence high">⭐⭐⭐⭐⭐ 94%</span></div>
@@ -700,7 +700,7 @@ select.control-btn{appearance:none;padding-right:30px;background-image:url("data
 </div>
 
 <!-- PARLAY TAB -->
-<div id="parlay-tab" class="tab-content">
+<div id="parlay" class="tab-content">
 <h2 class="section-title" data-i18n="parlay_title">🎰 Parlay Builder</h2>
 <div class="parlay-builder">
 <div class="parlay-picks" id="parlay-picks"><p data-i18n="click_picks">Click team cards or predictions to add picks to your parlay!</p></div>
@@ -710,7 +710,7 @@ select.control-btn{appearance:none;padding-right:30px;background-image:url("data
 </div>
 
 <!-- SETTINGS TAB -->
-<div id="settings-tab" class="tab-content">
+<div id="settings" class="tab-content">
 <h2 class="section-title" data-i18n="settings_title">⚙️ Settings</h2>
 <div class="settings-section">
 <h3 data-i18n="language">🌐 Language</h3>
@@ -910,8 +910,10 @@ function setLanguage(lang) {
 // ========== TAB SWITCHING ==========
 function showTab(tabName) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(tabName + '-tab').classList.add('active');
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  // Handle both ID formats (some use -tab suffix, some don't)
+  let el = document.getElementById(tabName + '-tab') || document.getElementById(tabName);
+  if(el) el.classList.add('active');
   if(event && event.target) event.target.classList.add('active');
 }
 
