@@ -1,6 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>🏆 SIGMAX Elite v88 - Sports Betting Dashboard</title><style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>🏆 SIGMAX Elite v90 - Sports Betting Dashboard</title><style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
 :root{--bg:#0a0a12;--card:#12121f;--card-border:#1a1a30;--accent:#ffd700;--text:#e8e8e8;--text-muted:#888;--green:#00ff88;--red:#ff4757;--blue:#4ecdc4}
+body.light-mode{--bg:#f0f2f5;--card:#ffffff;--card-border:#d0d0d0;--accent:#c9a000;--text:#1a1a1a;--text-muted:#555}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Montserrat',system-ui,sans-serif;background:linear-gradient(180deg,#0a0a12 0%,#0f0f1a 50%,#050510 100%);color:var(--text);min-height:100vh;overflow-x:hidden}
 @keyframes fall{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
@@ -66,6 +67,8 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:linear-gradient(18
 .index-desc{font-size:0.75rem;color:#888;margin-top:5px}
 @media(max-width:768px){.title{font-size:1.6rem}.tabs{gap:5px}.tab{padding:8px 12px;font-size:0.75rem}.parlay-slot{grid-template-columns:1fr;gap:8px}.stats-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.container{padding:10px}.header{padding:15px}.title{font-size:1.3rem}.stat-value{font-size:1.4rem}}
+.glass{background:rgba(18,18,31,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+body.light-mode .glass{background:rgba(255,255,255,0.8)}
 </style></head><body>
 <div class="stars-container" id="starsContainer"></div>
 <div class="container">
@@ -86,7 +89,9 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:linear-gradient(18
 <option value="it">🇮🇹 Italiano</option>
 <option value="ja">🇯🇵 日本語</option>
 <option value="zh">🇨🇳 中文</option>
+<option value="ht">🇭🇹 Kreyòl</option>
 </select>
+<button class="control-btn" id="darkModeBtn" onclick="toggleDarkMode()">🌙</button>
 <select class="control-btn" id="themeSelect" onchange="changeTheme(this.value)">
 <option value="fifa">⚽ FIFA Neutral</option>
 <option value="usa">🇺🇸 USA</option>
@@ -175,47 +180,114 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:linear-gradient(18
 <button class="btn btn-sm" onclick="addToParlay('team','NHL','Hurricanes @ Vegas','Hurricanes ML',120)">+ Parlay</button>
 </div>
 </div>
+</div>.glass{background:rgba(18,18,31,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+body.light-mode .glass{background:rgba(255,255,255,0.8)}
+</style></head><body>
+<div class="stars-container" id="stars"></div>
+<div class="container">
+<header class="header">
+<div class="logo">🏆</div>
+<h1 class="title">SIGMAX ELITE v89</h1>
+<p class="subtitle">Premium Sports Analytics Dashboard • June 14, 2026 1:00 AM ET</p>
+<p class="record-display">📊 RECORD: 260-48 (84.4%) | 💰 BANKROLL: $14,207</p>
+</header>
+<div class="controls">
+<select onchange="changeTheme(this.value)">
+<option value="dark">🌙 Dark Mode</option>
+<option value="usa">🇺🇸 USA</option>
+<option value="brazil">🇧🇷 Brazil</option>
+<option value="argentina">🇦🇷 Argentina</option>
+<option value="france">🇫🇷 France</option>
+<option value="germany">🇩🇪 Germany</option>
+<option value="spain">🇪🇸 Spain</option>
+<option value="england">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</option>
+<option value="portugal">🇵🇹 Portugal</option>
+<option value="mexico">🇲🇽 Mexico</option>
+<option value="canada">🇨🇦 Canada</option>
+<option value="netherlands">🇳🇱 Netherlands</option>
+<option value="italy">🇮🇹 Italy</option>
+<option value="japan">🇯🇵 Japan</option>
+</select>
+<select id="langSelect">
+<option value="en">🌐 English</option>
+<option value="es">Español</option>
+<option value="fr">Français</option>
+<option value="pt">Português</option>
+<option value="de">Deutsch</option>
+<option value="it">Italiano</option>
+<option value="ja">日本語</option>
+<option value="zh">中文</option>
+</select>
+<select id="deviceSelect">
+<option value="desktop">🖥️ Desktop</option>
+<option value="tablet">📱 Tablet</option>
+<option value="mobile">📲 Mobile</option>
+<option value="tv">📺 TV</option>
+</select>
 </div>
-<!-- ALERTS TAB -->
-<div id="alerts" class="tab-content">
-<div class="section-title">🔔 Live Alerts & Breaking News</div>
-
+<nav class="tabs">
+<button class="tab active" onclick="showTab('home')">🏠 Home</button>
+<button class="tab" onclick="showTab('alerts')">🔔 Alerts</button>
+<button class="tab" onclick="showTab('top5')">🎯 Top 5</button>
+<button class="tab" onclick="showTab('props')">👤 Props</button>
+<button class="tab" onclick="showTab('games')">📅 Games</button>
+<button class="tab" onclick="showTab('xfactors')">💡 XFactors</button>
+<button class="tab" onclick="showTab('journal')">📓 Journal</button>
+<button class="tab" onclick="showTab('parlay')">🎰 Parlay</button>
+<button class="tab" onclick="showTab('elite')">📊 Elite</button>
+<button class="tab" onclick="showTab('index')">📚 Index</button>
+</nav>
+<section id="home" class="section active">
+<h2>🏠 Dashboard Home</h2>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-value win">260</div><div class="stat-label">Total Wins</div></div>
+<div class="stat-card"><div class="stat-value loss">48</div><div class="stat-label">Total Losses</div></div>
+<div class="stat-card"><div class="stat-value">84.4%</div><div class="stat-label">Win Rate</div></div>
+<div class="stat-card"><div class="stat-value">$14,207</div><div class="stat-label">Bankroll</div></div>
+<div class="stat-card"><div class="stat-value">+468%</div><div class="stat-label">ROI</div></div>
+<div class="stat-card"><div class="stat-value">308</div><div class="stat-label">Total Bets</div></div>
+</div>
+<div class="breaking-news">
+<h3>🚨 BREAKING: KNICKS WIN 2026 NBA CHAMPIONSHIP! 🏆</h3>
+<p>New York defeats San Antonio 94-90 in Game 5! Jalen Brunson scores 45 points, wins Finals MVP! First Knicks title since 1973!</p>
+</div>
+<div class="card">
+<h3>🏒 NHL STANLEY CUP FINALS - GAME 6 TODAY!</h3>
+<p><strong>Carolina @ Vegas • Sunday June 14 • 8 PM ET • ABC/SN</strong></p>
+<p>🔥 Hurricanes lead series 3-2 - CAN CLINCH STANLEY CUP TONIGHT!</p>
+</div>
+<div class="card">
+<h3>⚽ FIFA WORLD CUP 2026 - DAY 4</h3>
+<p>Tournament ongoing in USA, Canada, Mexico • Group Stage continues</p>
+</div>
+</section>
+<section id="alerts" class="section">
+<h2>🔔 Live Alerts & Breaking News</h2>
+<div class="alert-card championship">
+<span class="alert-badge">🏆 CHAMPIONS</span>
+<h3>KNICKS WIN 2026 NBA TITLE!</h3>
+<p>Final: NYK 94 - SAS 90 (Series 4-1) • Brunson 45 pts, Finals MVP • First title in 53 years!</p>
+<span class="timestamp">June 13, 2026 @ 11:45 PM ET</span>
+</div>
 <div class="alert-card urgent">
-<strong style="color:var(--red)">🚨 BREAKING - NHL Stanley Cup Finals</strong>
-<p style="margin-top:8px">Carolina Hurricanes ONE WIN from Stanley Cup! Game 6 Sunday 8 PM @ Vegas. Hurricanes lead series 3-2.</p>
-<div style="font-size:0.8rem;color:#888;margin-top:5px">Posted: June 14, 2026 12:00 AM</div>
+<span class="alert-badge">🔴 TODAY</span>
+<h3>NHL STANLEY CUP GAME 6 - TONIGHT!</h3>
+<p>Carolina @ Vegas • 8:00 PM ET • Hurricanes can clinch championship!</p>
+<span class="timestamp">June 14, 2026 • ABC/Sportsnet</span>
 </div>
-
-<div class="alert-card urgent">
-<strong style="color:var(--red)">🚨 BREAKING - NBA Finals</strong>
-<p style="margin-top:8px">Knicks ONE WIN from first title since 1973! Game 5 tonight in San Antonio. Knicks lead 3-1 after HISTORIC 29-point comeback!</p>
-<div style="font-size:0.8rem;color:#888;margin-top:5px">Posted: June 13, 2026 11:45 PM</div>
+<div class="alert-card hot">
+<span class="alert-badge">🔥 HOT STREAK</span>
+<h3>SIGMAX 12-1 Last 13 Picks!</h3>
+<p>Our models are locked in. Trust the process!</p>
+<span class="timestamp">Updated: June 14, 2026 1:00 AM</span>
 </div>
-
 <div class="alert-card">
-<strong style="color:var(--green)">✅ RESULT - Game 4 WIN</strong>
-<p style="margin-top:8px">Knicks 107-106 Spurs! OG Anunoby game-winning tip-in! Erased 29-point deficit - largest comeback in Finals history!</p>
-<div style="font-size:0.8rem;color:#888;margin-top:5px">June 10, 2026</div>
+<span class="alert-badge">⚽ WORLD CUP</span>
+<h3>Group Stage Day 4 Continues</h3>
+<p>Multiple matches scheduled • Check Games tab for full schedule</p>
+<span class="timestamp">June 14, 2026</span>
 </div>
-
-<div class="alert-card">
-<strong style="color:var(--green)">✅ RESULT - Game 5 WIN</strong>
-<p style="margin-top:8px">Carolina 4-2 Vegas! Svechnikov 2 goals including PPG. Hurricanes now 3-2 series lead!</p>
-<div style="font-size:0.8rem;color:#888;margin-top:5px">June 11, 2026</div>
-</div>
-
-<div class="alert-card">
-<strong style="color:var(--accent)">⚽ WORLD CUP REMINDER</strong>
-<p style="margin-top:8px">FIFA World Cup 2026 has STARTED! Mexico kicked off with a match. 48 teams, 104 matches across USA, Mexico, Canada.</p>
-<div style="font-size:0.8rem;color:#888;margin-top:5px">June 11, 2026</div>
-</div>
-
-<div class="alert-card">
-<strong style="color:var(--blue)">📊 STREAK ALERT</strong>
-<p style="margin-top:8px">SIGMAX on 12-game 5-star winning streak! 5-star picks hitting at 90.3% rate. Current run: +$2,847</p>
-<div style="font-size:0.8rem;color:#888;margin-top:5px">June 13, 2026</div>
-</div>
-</div>
+</section>
 <!-- TOP 5 TAB -->
 <div id="top5" class="tab-content">
 <div class="section-title">🎯 Top 5 Daily Picks - June 14, 2026</div>
@@ -994,7 +1066,7 @@ stroke-dasharray="84.4 15.6" stroke-linecap="round"/>
 </div>
 <script>
 // ============================================
-// SIGMAX v88 JAVASCRIPT - FULL FUNCTIONALITY
+// SIGMAX v90 JAVASCRIPT - FULL FUNCTIONALITY
 // ============================================
 
 // MATCHUP DATA
@@ -1217,9 +1289,8 @@ function changeTheme(theme) {
 }
 
 // LANGUAGE PLACEHOLDER
-function changeLang(lang) {
-  console.log('Language changed to: ' + lang);
-}
+const T={en:{home:'Home',alerts:'Alerts',top5:'Top 5',props:'Props',games:'Games',xfactors:'X-Factors',journal:'Journal',parlay:'Parlay',elite:'Elite',index:'Index'},es:{home:'Inicio',alerts:'Alertas',top5:'Top 5',props:'Props',games:'Partidos',xfactors:'Factores',journal:'Diario',parlay:'Parlay',elite:'Élite',index:'Índice'},fr:{home:'Accueil',alerts:'Alertes',top5:'Top 5',props:'Props',games:'Matchs',xfactors:'Facteurs',journal:'Journal',parlay:'Parlay',elite:'Élite',index:'Index'},pt:{home:'Início',alerts:'Alertas',top5:'Top 5',props:'Props',games:'Jogos',xfactors:'Fatores',journal:'Diário',parlay:'Parlay',elite:'Elite',index:'Índice'},de:{home:'Start',alerts:'Meldungen',top5:'Top 5',props:'Props',games:'Spiele',xfactors:'Faktoren',journal:'Tagebuch',parlay:'Parlay',elite:'Elite',index:'Index'},it:{home:'Home',alerts:'Avvisi',top5:'Top 5',props:'Props',games:'Partite',xfactors:'Fattori',journal:'Diario',parlay:'Parlay',elite:'Elite',index:'Indice'},ja:{home:'ホーム',alerts:'通知',top5:'トップ5',props:'プロップ',games:'試合',xfactors:'要因',journal:'日記',parlay:'パーレイ',elite:'エリート',index:'目次'},zh:{home:'首页',alerts:'提醒',top5:'前五',props:'道具',games:'比赛',xfactors:'因素',journal:'日志',parlay:'连串',elite:'精英',index:'索引'},ht:{home:'Lakay',alerts:'Alèt',top5:'Top 5',props:'Props',games:'Match',xfactors:'Faktè',journal:'Jounal',parlay:'Parlay',elite:'Elit',index:'Endèks'}};
+function changeLang(lang){const t=T[lang]||T.en;document.querySelectorAll('.tab').forEach(tab=>{const id=tab.onclick?.toString().match(/showTab\('(\w+)'\)/)?.[1];if(id&&t[id])tab.textContent=tab.textContent.replace(/[A-Za-zÀ-ÿ\u3000-\u9fff]+/,t[id]);});localStorage.setItem('sigmax-lang',lang);}
 
 // DEVICE MODE PLACEHOLDER
 function changeDevice(mode) {
@@ -1227,6 +1298,7 @@ function changeDevice(mode) {
 }
 
 // LIVE CLOCK
+function toggleDarkMode(){document.body.classList.toggle('light-mode');const isLight=document.body.classList.contains('light-mode');document.getElementById('darkModeBtn').textContent=isLight?'☀️':'🌙';localStorage.setItem('sigmax-mode',isLight?'light':'dark');}
 function updateClock() {
   const now = new Date();
   document.getElementById('liveClock').textContent = '🕐 ' + now.toLocaleString('en-US', {weekday:'short',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'});
@@ -1262,6 +1334,11 @@ function updateCountdown() {
 
 // INIT
 document.addEventListener('DOMContentLoaded', function() {
+  // Restore saved preferences
+  const savedLang = localStorage.getItem('sigmax-lang');
+  if(savedLang) { document.getElementById('langSelect').value = savedLang; changeLang(savedLang); }
+  const savedMode = localStorage.getItem('sigmax-mode');
+  if(savedMode === 'light') { document.body.classList.add('light-mode'); document.getElementById('darkModeBtn').textContent = '☀️'; }
   updateClock();
   setInterval(updateClock, 1000);
   updateCountdown();
@@ -1270,4 +1347,4 @@ document.addEventListener('DOMContentLoaded', function() {
   calculateOdds();
 });
 </script>
-</body></html>
+</div></body></html>
