@@ -88,91 +88,7 @@
 [data-theme="light"] { --bg-primary:#f0f2f5; --bg-secondary:#ffffff; --bg-card:#ffffff; --text-primary:#1a1a2e; --text-secondary:#4a4a6a; --accent:#0066cc; }
 [data-theme="midnight"] { --bg-primary:#000510; --bg-secondary:#0a1020; --accent:#00ff88; --accent-hover:#33ffaa; }
 [data-theme="sunset"] { --bg-primary:#1a0a1a; --bg-secondary:#2a1a2a; --accent:#ff6b6b; --accent-hover:#ff9090; }
-[data-theme="ocean"] { --bg-primary:#0a1a2a; --bg-secondary:#1a3050; --accent:#00d4ff; --accent-hover:#33e0ff; }
-
-/* ═══════════════════════════════════════════════════════════════════════════════════════
-   ANIMATIONS — FALLING STARS, PULSE, GLOW EFFECTS
-═══════════════════════════════════════════════════════════════════════════════════════ */
-
-@keyframes fall {
-    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-@keyframes glow {
-    0%, 100% { box-shadow: 0 0 5px var(--accent); }
-    50% { box-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent-glow); }
-}
-
-@keyframes slideIn {
-    from { transform: translateX(-100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
-@keyframes shimmer {
-    0% { background-position: -200% center; }
-    100% { background-position: 200% center; }
-}
-
-.falling-star {
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    animation: fall linear forwards;
-    text-shadow: 0 0 10px var(--accent);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════════════════
-   BASE RESET & TYPOGRAPHY
-═══════════════════════════════════════════════════════════════════════════════════════ */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    min-height: 100vh;
-    overflow-x: hidden;
-    line-height: 1.6;
-}
-
-a { color: var(--accent); text-decoration: none; }
-a:hover { color: var(--accent-hover); }
-
-h1, h2, h3, h4 { font-weight: 700; margin-bottom: 0.5em; }
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.25rem; }
-
-.text-success { color: var(--success); }
-.text-danger { color: var(--danger); }
-.text-warning { color: var(--warning); }
-.text-accent { color: var(--accent); }
-.text-muted { color: var(--text-muted); }/* ═══════════════════════════════════════════════════════════════════════════════════════
+[data-theme="ocean"] { --bg-primary:#0a1a2a; --bg-secondary:#1a3050; --accent:#00d4ff; --accent-hover:#33e0ff; }/* ═══════════════════════════════════════════════════════════════════════════════════════
    DUAL NAVIGATION SYSTEM — LEFT SIDEBAR + HORIZONTAL TABS
    v98 Special Feature: Combined navigation from v92 sidebar + v97 tabs
 ═══════════════════════════════════════════════════════════════════════════════════════ */
@@ -459,13 +375,13 @@ h3 { font-size: 1.25rem; }
 }
 
 /* ═══ TAB CONTENT PANELS ═══ */
-.tab-content {
+.tab-pane {
     display: none;
     padding: 20px;
     animation: fadeIn 0.3s ease;
 }
 
-.tab-content.active {
+.tab-pane.active {
     display: block;
 }
 
@@ -4041,6 +3957,290 @@ const translations = {
         'no': 'いいえ'
     }
 };
+// ═══ LANGUAGE SWITCHER FUNCTION ═══
+let currentLang = localStorage.getItem('sigmax-lang') || 'en';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('sigmax-lang', lang);
+    
+    // Update all elements with data-i18n attribute
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            el.textContent = translations[lang][key];
+        } else if (translations['en'][key]) {
+            el.textContent = translations['en'][key]; // Fallback to English
+        }
+    });
+    
+    // Update placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (translations[lang] && translations[lang][key]) {
+            el.placeholder = translations[lang][key];
+        }
+    });
+    
+    // Update language selector display
+    const langSelect = document.getElementById('languageSelect');
+    if (langSelect) langSelect.value = lang;
+    
+    // Show toast notification
+    const langNames = {
+        'en': 'English',
+        'es': 'Español', 
+        'fr': 'Français',
+        'de': 'Deutsch',
+        'pt': 'Português',
+        'it': 'Italiano',
+        'nl': 'Nederlands',
+        'ja': '日本語',
+        'ht': 'Kreyòl Ayisyen'
+    };
+    showToast(`🌐 Language changed to ${langNames[lang]}`, 'success');
+}
+
+// ═══ THEME SWITCHER WITH 49 WORLD CUP THEMES ═══
+const themes = [
+    // World Cup 2026 Official Themes
+    'wc2026-official', 'wc2026-usa', 'wc2026-mexico', 'wc2026-canada',
+    // Team Themes - Group C (Haiti's Group!)
+    'brazil', 'morocco', 'scotland', 'haiti',
+    // Team Themes - Other Groups
+    'argentina', 'england', 'france', 'spain', 'germany', 'portugal',
+    'netherlands', 'belgium', 'italy', 'japan', 'south-korea', 'australia',
+    'saudi-arabia', 'qatar', 'colombia', 'uruguay', 'croatia', 'switzerland',
+    'denmark', 'poland', 'senegal', 'ecuador', 'usa', 'wales',
+    'iran', 'serbia', 'cameroon', 'ghana', 'tunisia', 'nigeria',
+    // UI Themes
+    'dark', 'light', 'midnight', 'ocean', 'forest', 'sunset', 'crimson',
+    'cyber', 'neon', 'royal', 'emerald', 'gold'
+];
+
+let currentTheme = localStorage.getItem('sigmax-theme') || 'wc2026-official';
+
+function setTheme(theme) {
+    currentTheme = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('sigmax-theme', theme);
+    
+    const themeSelect = document.getElementById('themeSelect');
+    if (themeSelect) themeSelect.value = theme;
+    
+    showToast(`🎨 Theme: ${theme.replace(/-/g, ' ').toUpperCase()}`, 'info');
+}
+
+// ═══ NAVIGATION — DUAL SYSTEM (SIDEBAR + HORIZONTAL TABS) ═══
+function showTab(tabId, updateSidebar = true) {
+    // Hide all tabs
+    document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.classList.remove('active');
+        pane.style.display = 'none';
+    });
+    
+    // Show selected tab
+    const targetTab = document.getElementById(tabId);
+    if (targetTab) {
+        targetTab.classList.add('active');
+        targetTab.style.display = 'block';
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('sigmax-tab', tabId);
+    
+    // Update horizontal tab bar
+    document.querySelectorAll('.tab-btn').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.getAttribute('onclick')?.includes(tabId)) {
+            tab.classList.add('active');
+        }
+    });
+    
+    // Update sidebar if needed
+    if (updateSidebar) {
+        document.querySelectorAll('.sidebar-item').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('onclick')?.includes(tabId)) {
+                link.classList.add('active');
+            }
+        });
+    }
+    
+    // Scroll to top of content
+    document.querySelector('.main-content')?.scrollTo(0, 0);
+    
+    // Close sidebar on mobile
+    if (window.innerWidth < 768) {
+        toggleSidebar(false);
+    }
+    
+    // Save last viewed tab
+    localStorage.setItem('sigmax-lastTab', tabId);
+}
+
+function toggleSidebar(show = null) {
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+    
+    if (show === null) {
+        sidebar.classList.toggle('collapsed');
+    } else if (show) {
+        sidebar.classList.remove('collapsed');
+    } else {
+        sidebar.classList.add('collapsed');
+    }
+}
+
+// ═══ TOAST NOTIFICATIONS ═══
+function showToast(message, type = 'info', duration = 3000) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+    
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <span class="toast-icon">${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}</span>
+        <span class="toast-message">${message}</span>
+        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Animate in
+    setTimeout(() => toast.classList.add('show'), 10);
+    
+    // Auto-remove
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+// ═══ PARLAY BUILDER — ENFORCES 5T + 5P + 10 MAX RULES ═══
+let parlayTeamBets = [];
+let parlayPropBets = [];
+const MAX_TEAM_BETS = 5;
+const MAX_PROP_BETS = 5;
+const MAX_TOTAL_LEGS = 10;
+
+function addToParlayTeam(selection, odds, type = 'spread') {
+    // Check team bet limit
+    if (parlayTeamBets.length >= MAX_TEAM_BETS) {
+        showToast(`🚫 Maximum ${MAX_TEAM_BETS} team bets allowed!`, 'error');
+        return false;
+    }
+    
+    // Check total legs limit
+    if (parlayTeamBets.length + parlayPropBets.length >= MAX_TOTAL_LEGS) {
+        showToast(`🚫 Maximum ${MAX_TOTAL_LEGS} total legs allowed!`, 'error');
+        return false;
+    }
+    
+    parlayTeamBets.push({ selection, odds, type, timestamp: Date.now() });
+    updateParlayDisplay();
+    saveParlayToStorage();
+    showToast(`✅ Added: ${selection} (${odds})`, 'success');
+    return true;
+}
+
+function addToParlayProp(player, prop, odds) {
+    // Check prop bet limit
+    if (parlayPropBets.length >= MAX_PROP_BETS) {
+        showToast(`🚫 Maximum ${MAX_PROP_BETS} player props allowed!`, 'error');
+        return false;
+    }
+    
+    // Check total legs limit
+    if (parlayTeamBets.length + parlayPropBets.length >= MAX_TOTAL_LEGS) {
+        showToast(`🚫 Maximum ${MAX_TOTAL_LEGS} total legs allowed!`, 'error');
+        return false;
+    }
+    
+    parlayPropBets.push({ player, prop, odds, timestamp: Date.now() });
+    updateParlayDisplay();
+    saveParlayToStorage();
+    showToast(`✅ Added: ${player} ${prop} (${odds})`, 'success');
+    return true;
+}
+
+function removeParlayTeam(index) {
+    parlayTeamBets.splice(index, 1);
+    updateParlayDisplay();
+    saveParlayToStorage();
+}
+
+function removeParlayProp(index) {
+    parlayPropBets.splice(index, 1);
+    updateParlayDisplay();
+    saveParlayToStorage();
+}
+
+function clearParlay() {
+    parlayTeamBets = [];
+    parlayPropBets = [];
+    updateParlayDisplay();
+    saveParlayToStorage();
+    showToast('🗑️ Parlay cleared', 'info');
+}
+
+function updateParlayDisplay() {
+    // Update team bets list
+    const teamList = document.getElementById('parlayTeamList');
+    if (teamList) {
+        if (parlayTeamBets.length === 0) {
+            teamList.innerHTML = '<div class="empty-state">' + (translations[currentLang]?.['no-team-bets'] || 'No team bets added yet') + '</div>';
+        } else {
+            teamList.innerHTML = parlayTeamBets.map((bet, i) => `
+                <div class="parlay-leg">
+                    <span class="leg-selection">${bet.selection}</span>
+                    <span class="leg-odds">${bet.odds}</span>
+                    <span class="leg-type badge">${bet.type}</span>
+                    <button class="remove-btn" onclick="removeParlayTeam(${i})">×</button>
+                </div>
+            `).join('');
+        }
+    }
+    
+    // Update prop bets list
+    const propList = document.getElementById('parlayPropList');
+    if (propList) {
+        if (parlayPropBets.length === 0) {
+            propList.innerHTML = '<div class="empty-state">' + (translations[currentLang]?.['no-prop-bets'] || 'No player props added yet') + '</div>';
+        } else {
+            propList.innerHTML = parlayPropBets.map((bet, i) => `
+                <div class="parlay-leg prop-leg">
+                    <span class="leg-player">${bet.player}</span>
+                    <span class="leg-prop">${bet.prop}</span>
+                    <span class="leg-odds">${bet.odds}</span>
+                    <button class="remove-btn" onclick="removeParlayProp(${i})">×</button>
+                </div>
+            `).join('');
+        }
+    }
+    
+    // Update counters with color coding
+    const teamCount = document.getElementById('teamBetCount');
+    const propCount = document.getElementById('propBetCount');
+    const totalCount = document.getElementById('totalLegCount');
+    
+    if (teamCount) {
+        teamCount.textContent = `${parlayTeamBets.length}/${MAX_TEAM_BETS}`;
+        teamCount.className = parlayTeamBets.length >= MAX_TEAM_BETS ? 'counter at-limit' : 'counter';
+    }
+    if (propCount) {
+        propCount.textContent = `${parlayPropBets.length}/${MAX_PROP_BETS}`;
+        propCount.className = parlayPropBets.length >= MAX_PROP_BETS ? 'counter at-limit' : 'counter';
+    }
+    if (totalCount) {
+        const total = parlayTeamBets.length + parlayPropBets.length;
+        totalCount.textContent = `${total}/${MAX_TOTAL_LEGS}`;
+        totalCount.className = total >= MAX_TOTAL_LEGS ? 'counter at-limit' : 'counter';
+    }
+    
+    // Calculate and display parlay odds
+    calculateParlayPayout();
+}
 function calculateParlayPayout() {
     const allBets = [...parlayTeamBets, ...parlayPropBets];
     if (allBets.length === 0) {
@@ -4474,6 +4674,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Restore language
     const savedLang = localStorage.getItem('sigmax-lang');
     if (savedLang) setLanguage(savedLang);
+    
+    // Restore last tab or show home
+    const savedTab = localStorage.getItem('sigmax-tab');
+    if (savedTab && document.getElementById(savedTab)) {
+        showTab(savedTab);
+    } else {
+        showTab('tab-home');
+    }
     
     // Load parlay
     loadParlayFromStorage();
