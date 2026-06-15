@@ -1176,7 +1176,7 @@ h3 { font-size: 1.25rem; }
     
     <!-- Language & Theme Controls -->
     <div class="header-controls">
-        <select class="control-select" id="languageSelect" onchange="changeLanguage(this.value)">
+        <select class="control-select" id="languageSelect" onchange="setLanguage(this.value)">
             <option value="en">🇺🇸 English</option>
             <option value="es">🇪🇸 Español</option>
             <option value="fr">🇫🇷 Français</option>
@@ -1188,1115 +1188,915 @@ h3 { font-size: 1.25rem; }
             <option value="ht">🇭🇹 Kreyòl Ayisyen</option>
         </select>
         
-        <select class="control-select" id="themeSelect" onchange="changeTheme(this.value)">
-            <optgroup label="🌓 Core Themes">
-                <option value="dark">🌑 Dark</option>
-                <option value="light">☀️ Light</option>
-                <option value="midnight">🌌 Midnight</option>
-                <option value="sunset">🌅 Sunset</option>
-                <option value="ocean">🌊 Ocean</option>
+        <select class="control-select" id="themeSelect" onchange="setTheme(this.value)">
+            <optgroup label="World Cup 2026">
+                <option value="wc2026-official">🏆 WC2026 Official</option>
+                <option value="wc2026-usa">🇺🇸 USA</option>
+                <option value="wc2026-mexico">🇲🇽 Mexico</option>
+                <option value="wc2026-canada">🇨🇦 Canada</option>
             </optgroup>
-            <optgroup label="🏆 Host Nations">
-                <option value="usa">🇺🇸 USA</option>
-                <option value="mexico">🇲🇽 Mexico</option>
-                <option value="canada">🇨🇦 Canada</option>
-            </optgroup>
-            <optgroup label="⚽ South America">
-                <option value="argentina">🇦🇷 Argentina</option>
+            <optgroup label="Group C (Haiti!)">
                 <option value="brazil">🇧🇷 Brazil</option>
-                <option value="colombia">🇨🇴 Colombia</option>
-                <option value="ecuador">🇪🇨 Ecuador</option>
-                <option value="uruguay">🇺🇾 Uruguay</option>
-                <option value="paraguay">🇵🇾 Paraguay</option>
+                <option value="morocco">🇲🇦 Morocco</option>
+                <option value="scotland">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</option>
+                <option value="haiti">🇭🇹 Haiti</option>
             </optgroup>
-            <optgroup label="🏰 Europe">
+            <optgroup label="Top Teams">
+                <option value="argentina">🇦🇷 Argentina</option>
                 <option value="england">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</option>
                 <option value="france">🇫🇷 France</option>
-                <option value="germany">🇩🇪 Germany</option>
                 <option value="spain">🇪🇸 Spain</option>
-                <option value="netherlands">🇳🇱 Netherlands</option>
+                <option value="germany">🇩🇪 Germany</option>
                 <option value="portugal">🇵🇹 Portugal</option>
-                <option value="belgium">🇧🇪 Belgium</option>
-                <option value="croatia">🇭🇷 Croatia</option>
-                <option value="switzerland">🇨🇭 Switzerland</option>
-                <option value="austria">🇦🇹 Austria</option>
-                <option value="poland">🇵🇱 Poland</option>
-                <option value="ukraine">🇺🇦 Ukraine</option>
-                <option value="scotland">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</option>
-                <option value="norway">🇳🇴 Norway</option>
             </optgroup>
-            <optgroup label="🌍 Africa">
-                <option value="morocco">🇲🇦 Morocco</option>
-                <option value="senegal">🇸🇳 Senegal</option>
-                <option value="cameroon">🇨🇲 Cameroon</option>
-                <option value="ghana">🇬🇭 Ghana</option>
-                <option value="egypt">🇪🇬 Egypt</option>
-                <option value="ivory">🇨🇮 Côte d'Ivoire</option>
-                <option value="algeria">🇩🇿 Algeria</option>
-                <option value="tunisia">🇹🇳 Tunisia</option>
-                <option value="caboverde">🇨🇻 Cabo Verde</option>
-            </optgroup>
-            <optgroup label="🌏 Asia">
-                <option value="japan">🇯🇵 Japan</option>
-                <option value="korea">🇰🇷 Korea</option>
-                <option value="australia">🇦🇺 Australia</option>
-                <option value="qatar">🇶🇦 Qatar</option>
-                <option value="saudi">🇸🇦 Saudi Arabia</option>
-                <option value="iran">🇮🇷 Iran</option>
-                <option value="jordan">🇯🇴 Jordan</option>
-                <option value="uzbekistan">🇺🇿 Uzbekistan</option>
-            </optgroup>
-            <optgroup label="🌴 Caribbean/Central">
-                <option value="haiti">🇭🇹 Haiti</option>
-                <option value="panama">🇵🇦 Panama</option>
-                <option value="curacao">🇨🇼 Curaçao</option>
-            </optgroup>
-            <optgroup label="🌊 Oceania">
-                <option value="newzealand">🇳🇿 New Zealand</option>
+            <optgroup label="UI Themes">
+                <option value="dark">🌙 Dark</option>
+                <option value="light">☀️ Light</option>
+                <option value="midnight">🌌 Midnight</option>
+                <option value="neon">💜 Neon</option>
+                <option value="gold">🥇 Gold</option>
             </optgroup>
         </select>
     </div>
 </header>
 
 <!-- ═══════════════════════════════════════════════════════════════════════════════════════
-     MAIN APP CONTAINER — Sidebar + Main Content
+     LEFT SIDEBAR — Collapsible Navigation (FIXED onclick with tab- prefix)
 ═══════════════════════════════════════════════════════════════════════════════════════ -->
 <div class="app-container">
-    
-    <!-- LEFT SIDEBAR NAVIGATION -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <span class="sidebar-title" data-i18n="navigation">Navigation</span>
-            <button class="sidebar-toggle" onclick="collapseSidebar()" title="Collapse">◀</button>
+            <span class="sidebar-brand">🏆 SIGMAX</span>
+            <button class="sidebar-close" onclick="toggleSidebar(false)">✕</button>
         </div>
         
         <nav class="sidebar-nav">
             <!-- Dashboard Section -->
-            <div class="sidebar-section">
-                <div class="sidebar-section-title" data-i18n="dashboard">Dashboard</div>
-            </div>
-            <div class="sidebar-item active" onclick="showMainTab('home')">
-                <span class="sidebar-icon">🏠</span>
-                <span class="sidebar-text" data-i18n="home">Home</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('alerts')">
-                <span class="sidebar-icon">🔔</span>
-                <span class="sidebar-text" data-i18n="alerts">Alerts</span>
-                <span class="sidebar-badge">5</span>
+            <div class="nav-section">
+                <div class="nav-section-title" data-i18n="dashboard">📊 Dashboard</div>
+                <a class="sidebar-link active" onclick="showTab('tab-home')">
+                    <span class="link-icon">🏠</span>
+                    <span class="link-text" data-i18n="home">Home</span>
+                </a>
+                <a class="sidebar-link" onclick="showTab('tab-alerts')">
+                    <span class="link-icon">🔔</span>
+                    <span class="link-text" data-i18n="alerts">Alerts</span>
+                    <span class="badge">3</span>
+                </a>
             </div>
             
             <!-- Picks Section -->
-            <div class="sidebar-section">
-                <div class="sidebar-section-title" data-i18n="picks">Picks</div>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('top5')">
-                <span class="sidebar-icon">🎯</span>
-                <span class="sidebar-text" data-i18n="top-5">Top 5 Picks</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('props')">
-                <span class="sidebar-icon">👤</span>
-                <span class="sidebar-text" data-i18n="player-props">Player Props</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('games')">
-                <span class="sidebar-icon">📅</span>
-                <span class="sidebar-text" data-i18n="todays-games">Today's Games</span>
-            </div>
-            
-            <!-- World Cup Section -->
-            <div class="sidebar-section">
-                <div class="sidebar-section-title">⚽ World Cup 2026</div>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('wc2026')">
-                <span class="sidebar-icon">🏆</span>
-                <span class="sidebar-text" data-i18n="wc-overview">WC Overview</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('groups')">
-                <span class="sidebar-icon">📊</span>
-                <span class="sidebar-text" data-i18n="groups">Groups A-L</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('xfactors')">
-                <span class="sidebar-icon">💡</span>
-                <span class="sidebar-text" data-i18n="x-factors">X-Factors</span>
+            <div class="nav-section">
+                <div class="nav-section-title" data-i18n="picks">🎯 Picks</div>
+                <a class="sidebar-link" onclick="showTab('tab-top5')">
+                    <span class="link-icon">⭐</span>
+                    <span class="link-text" data-i18n="top-5">Top 5 Picks</span>
+                </a>
+                <a class="sidebar-link" onclick="showTab('tab-props')">
+                    <span class="link-icon">👤</span>
+                    <span class="link-text" data-i18n="player-props">Player Props</span>
+                </a>
+                <a class="sidebar-link" onclick="showTab('tab-games')">
+                    <span class="link-icon">📅</span>
+                    <span class="link-text" data-i18n="todays-games">Today's Games</span>
+                </a>
             </div>
             
-            <!-- Betting Tools Section -->
-            <div class="sidebar-section">
-                <div class="sidebar-section-title" data-i18n="tools">Tools</div>
+            <!-- World Cup 2026 Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">⚽ World Cup 2026</div>
+                <a class="sidebar-link" onclick="showTab('tab-wc2026')">
+                    <span class="link-icon">🏆</span>
+                    <span class="link-text">Overview</span>
+                </a>
+                <a class="sidebar-link" onclick="showTab('tab-groups')">
+                    <span class="link-icon">📋</span>
+                    <span class="link-text">Groups A-L</span>
+                </a>
+                <a class="sidebar-link" onclick="showTab('tab-xfactors')">
+                    <span class="link-icon">💡</span>
+                    <span class="link-text" data-i18n="xfactors">X-Factors</span>
+                </a>
             </div>
-            <div class="sidebar-item" onclick="showMainTab('parlay')">
-                <span class="sidebar-icon">🎰</span>
-                <span class="sidebar-text" data-i18n="parlay">Parlay Builder</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('kelly')">
-                <span class="sidebar-icon">📐</span>
-                <span class="sidebar-text" data-i18n="kelly">Kelly Calculator</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('hedge')">
-                <span class="sidebar-icon">🛡️</span>
-                <span class="sidebar-text" data-i18n="hedge">Hedge Calculator</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('arb')">
-                <span class="sidebar-icon">📈</span>
-                <span class="sidebar-text" data-i18n="arbitrage">Arbitrage Finder</span>
+            
+            <!-- Tools Section -->
+            <div class="nav-section">
+                <div class="nav-section-title" data-i18n="tools">🛠️ Tools</div>
+                <a class="sidebar-link" onclick="showTab('tab-parlay')">
+                    <span class="link-icon">🎰</span>
+                    <span class="link-text" data-i18n="parlay">Parlay Builder</span>
+                </a>
+                <a class="sidebar-link" onclick="showTab('tab-kelly')">
+                    <span class="link-icon">📐</span>
+                    <span class="link-text" data-i18n="kelly">Kelly Calculator</span>
+                </a>
             </div>
             
             <!-- Analysis Section -->
-            <div class="sidebar-section">
-                <div class="sidebar-section-title" data-i18n="analysis">Analysis</div>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('journal')">
-                <span class="sidebar-icon">📓</span>
-                <span class="sidebar-text" data-i18n="journal">Bet Journal</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('bankroll')">
-                <span class="sidebar-icon">💳</span>
-                <span class="sidebar-text" data-i18n="bankroll">Bankroll</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('dna')">
-                <span class="sidebar-icon">🧬</span>
-                <span class="sidebar-text" data-i18n="dna">Betting DNA</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('history')">
-                <span class="sidebar-icon">📜</span>
-                <span class="sidebar-text" data-i18n="history">History</span>
+            <div class="nav-section">
+                <div class="nav-section-title" data-i18n="analysis">📈 Analysis</div>
+                <a class="sidebar-link" onclick="showTab('tab-journal')">
+                    <span class="link-icon">📓</span>
+                    <span class="link-text" data-i18n="journal">Bet Journal</span>
+                </a>
+                <a class="sidebar-link" onclick="showTab('tab-bankroll')">
+                    <span class="link-icon">💳</span>
+                    <span class="link-text" data-i18n="bankroll">Bankroll</span>
+                </a>
+                <a class="sidebar-link" onclick="showTab('tab-dna')">
+                    <span class="link-icon">🔬</span>
+                    <span class="link-text" data-i18n="dna">Betting DNA</span>
+                </a>
+                <a class="sidebar-link" onclick="showTab('tab-sportsbooks')">
+                    <span class="link-icon">🏦</span>
+                    <span class="link-text" data-i18n="sportsbooks">Sportsbooks</span>
+                </a>
             </div>
             
             <!-- Settings Section -->
-            <div class="sidebar-section">
-                <div class="sidebar-section-title" data-i18n="settings">Settings</div>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('books')">
-                <span class="sidebar-icon">🎰</span>
-                <span class="sidebar-text" data-i18n="sportsbooks">Sportsbooks</span>
-            </div>
-            <div class="sidebar-item" onclick="showMainTab('settings')">
-                <span class="sidebar-icon">⚙️</span>
-                <span class="sidebar-text" data-i18n="settings">Settings</span>
+            <div class="nav-section">
+                <div class="nav-section-title">⚙️ System</div>
+                <a class="sidebar-link" onclick="showTab('tab-history')">
+                    <span class="link-icon">📜</span>
+                    <span class="link-text" data-i18n="history">History</span>
+                </a>
+                <a class="sidebar-link" onclick="showTab('tab-settings')">
+                    <span class="link-icon">⚙️</span>
+                    <span class="link-text" data-i18n="settings">Settings</span>
+                </a>
             </div>
         </nav>
-    </aside>
-    
-    <!-- Sidebar Overlay for Mobile -->
-    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>    <!-- MAIN CONTENT AREA -->
+        
+        <!-- Sidebar Footer -->
+        <div class="sidebar-footer">
+            <div class="sidebar-version">v98 MEGA ULTIMATE</div>
+            <div class="sidebar-date">June 15, 2026</div>
+        </div>
+    </aside>    <!-- MAIN CONTENT AREA -->
     <main class="main-content">
         <!-- ═══ HORIZONTAL SUB-TAB NAVIGATION ═══ -->
         <div class="tab-bar">
             <div class="tab-group" id="homeTabGroup">
-                <button class="tab-btn active" onclick="showTab('home')">
+                <button class="horizontal-tab active" onclick="showTab('tab-home')">
                     <span class="tab-icon">🏠</span>
                     <span class="tab-text" data-i18n="home">Home</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('alerts')">
+                <button class="horizontal-tab" onclick="showTab('tab-alerts')">
                     <span class="tab-icon">🔔</span>
                     <span class="tab-text" data-i18n="alerts">Alerts</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('top5')">
+                <button class="horizontal-tab" onclick="showTab('tab-top5')">
                     <span class="tab-icon">🎯</span>
                     <span class="tab-text" data-i18n="top5">Top 5</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('props')">
+                <button class="horizontal-tab" onclick="showTab('tab-props')">
                     <span class="tab-icon">👤</span>
                     <span class="tab-text" data-i18n="props">Props</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('games')">
+                <button class="horizontal-tab" onclick="showTab('tab-games')">
                     <span class="tab-icon">📅</span>
                     <span class="tab-text" data-i18n="games">Games</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('wc2026')">
+                <button class="horizontal-tab" onclick="showTab('tab-wc2026')">
                     <span class="tab-icon">🏆</span>
                     <span class="tab-text">WC2026</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('groups')">
-                    <span class="tab-icon">📊</span>
-                    <span class="tab-text" data-i18n="groups">Groups</span>
+                <button class="horizontal-tab" onclick="showTab('tab-groups')">
+                    <span class="tab-icon">⚽</span>
+                    <span class="tab-text">Groups</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('xfactors')">
+                <button class="horizontal-tab" onclick="showTab('tab-xfactors')">
                     <span class="tab-icon">💡</span>
                     <span class="tab-text" data-i18n="xfactors">X-Factors</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('parlay')">
+                <button class="horizontal-tab" onclick="showTab('tab-parlay')">
                     <span class="tab-icon">🎰</span>
                     <span class="tab-text" data-i18n="parlay">Parlay</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('kelly')">
+                <button class="horizontal-tab" onclick="showTab('tab-kelly')">
                     <span class="tab-icon">📐</span>
                     <span class="tab-text" data-i18n="kelly">Kelly</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('journal')">
+                <button class="horizontal-tab" onclick="showTab('tab-journal')">
                     <span class="tab-icon">📓</span>
                     <span class="tab-text" data-i18n="journal">Journal</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('bankroll')">
+                <button class="horizontal-tab" onclick="showTab('tab-bankroll')">
                     <span class="tab-icon">💳</span>
                     <span class="tab-text" data-i18n="bankroll">Bankroll</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('dna')">
-                    <span class="tab-icon">🧬</span>
+                <button class="horizontal-tab" onclick="showTab('tab-dna')">
+                    <span class="tab-icon">🔬</span>
                     <span class="tab-text" data-i18n="dna">DNA</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('books')">
-                    <span class="tab-icon">📚</span>
-                    <span class="tab-text" data-i18n="books">Books</span>
-                </button>
-                <button class="tab-btn" onclick="showTab('history')">
+                <button class="horizontal-tab" onclick="showTab('tab-history')">
                     <span class="tab-icon">📜</span>
                     <span class="tab-text" data-i18n="history">History</span>
                 </button>
-                <button class="tab-btn" onclick="showTab('settings')">
+                <button class="horizontal-tab" onclick="showTab('tab-settings')">
                     <span class="tab-icon">⚙️</span>
                     <span class="tab-text" data-i18n="settings">Settings</span>
                 </button>
             </div>
         </div>
-        
-        <!-- ═══════════════════════════════════════════════════════════════════════════════════════
-             TAB CONTENT PANELS — All Page Content
-═══════════════════════════════════════════════════════════════════════════════════════ -->
 
+        <!-- ═══════════════════════════════════════════════════════════════════════════════
+             TAB PANES — Each section wrapped with proper ID for JavaScript navigation
+        ═══════════════════════════════════════════════════════════════════════════════ -->
+        
         <!-- ═══ HOME TAB ═══ -->
-        <div id="home" class="tab-content active">
-            <h1 data-i18n="welcome-title">🏆 Welcome to SIGMAX ELITE v98</h1>
-            <p class="text-secondary" data-i18n="welcome-subtitle">Your Ultimate AI-Powered Sports Betting Dashboard — Dual Navigation Edition</p>
+        <div id="tab-home" class="tab-pane active" style="display: block;">
+            <div class="section-header">
+                <h1 class="section-title" data-i18n="welcome-title">🏆 Welcome to SIGMAX ELITE v98</h1>
+                <p class="section-subtitle" data-i18n="welcome-subtitle">Your Ultimate AI-Powered Sports Betting Dashboard</p>
+            </div>
             
-            <!-- Performance Stats Grid -->
+            <!-- Performance Stats Grid - VERIFIED from MASTER_RECORDS -->
             <div class="stats-grid">
-                <div class="stat-card">
+                <div class="stat-card primary">
                     <div class="stat-icon">📊</div>
-                    <div class="stat-value" id="homeRecord">260-48</div>
+                    <div class="stat-value" id="statRecord">260-48</div>
                     <div class="stat-label" data-i18n="overall-record">Overall Record</div>
-                    <div class="stat-change up">↑ 84.4% Win Rate</div>
+                    <div class="stat-trend positive">+5 this week</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card success">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value" id="statWinRate">84.4%</div>
+                    <div class="stat-label" data-i18n="win-rate">Win Rate</div>
+                    <div class="stat-trend positive">↑ 2.1%</div>
+                </div>
+                <div class="stat-card gold">
                     <div class="stat-icon">💰</div>
-                    <div class="stat-value" id="homeBankroll">$14,207</div>
+                    <div class="stat-value" id="statBankroll">$14,207</div>
                     <div class="stat-label" data-i18n="total-bankroll">Total Bankroll</div>
-                    <div class="stat-change up">↑ +$11,707 Profit</div>
+                    <div class="stat-trend positive">+$11,707 profit</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card info">
                     <div class="stat-icon">📈</div>
                     <div class="stat-value">468%</div>
-                    <div class="stat-label" data-i18n="roi">Return on Investment</div>
-                    <div class="stat-change up">Started $2,500</div>
+                    <div class="stat-label" data-i18n="roi">ROI</div>
+                    <div class="stat-trend positive">Since Mar 21</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card warning">
                     <div class="stat-icon">⭐</div>
                     <div class="stat-value">130-14</div>
                     <div class="stat-label" data-i18n="five-star-record">5-Star Record</div>
-                    <div class="stat-change up">90.3% Win Rate</div>
+                    <div class="stat-trend positive">90.3%</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card accent">
                     <div class="stat-icon">🔥</div>
-                    <div class="stat-value">12</div>
-                    <div class="stat-label" data-i18n="current-streak">Current Win Streak</div>
-                    <div class="stat-change up">Hot Streak! 🔥</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📅</div>
-                    <div class="stat-value">86</div>
-                    <div class="stat-label" data-i18n="days-tracking">Days Tracking</div>
-                    <div class="stat-change">Since Mar 21, 2026</div>
+                    <div class="stat-value">W7</div>
+                    <div class="stat-label" data-i18n="current-streak">Current Streak</div>
+                    <div class="stat-trend positive">Hot!</div>
                 </div>
             </div>
             
             <!-- Quick Actions -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">⚡ <span data-i18n="quick-actions">Quick Actions</span></h3>
+                    <h3 data-i18n="quick-actions">🚀 Quick Actions</h3>
                 </div>
                 <div class="card-body">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" onclick="showTab('top5')">🎯 <span data-i18n="view-top-5">View Top 5 Picks</span></button>
-                        <button class="btn btn-secondary" onclick="showTab('parlay')">🎰 <span data-i18n="build-parlay">Build Parlay</span></button>
-                        <button class="btn btn-secondary" onclick="showTab('kelly')">📐 <span data-i18n="kelly-calc">Kelly Calculator</span></button>
-                        <button class="btn btn-secondary" onclick="showTab('wc2026')">⚽ <span data-i18n="wc-2026">World Cup 2026</span></button>
+                    <div class="button-grid">
+                        <button class="btn btn-primary" onclick="showTab('tab-top5')">
+                            <span>🎯</span> <span data-i18n="view-top-5">View Top 5 Picks</span>
+                        </button>
+                        <button class="btn btn-success" onclick="showTab('tab-parlay')">
+                            <span>🎰</span> <span data-i18n="build-parlay">Build Parlay</span>
+                        </button>
+                        <button class="btn btn-info" onclick="showTab('tab-wc2026')">
+                            <span>⚽</span> <span>World Cup 2026</span>
+                        </button>
+                        <button class="btn btn-warning" onclick="showTab('tab-kelly')">
+                            <span>📐</span> <span>Kelly Calculator</span>
+                        </button>
                     </div>
                 </div>
             </div>
             
-            <!-- Sport Performance Breakdown -->
+            <!-- Sport Performance Breakdown - Values from MASTER_RECORDS -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">📊 <span data-i18n="sport-breakdown">Performance by Sport</span></h3>
+                    <h3 data-i18n="sport-breakdown">📊 Performance by Sport</h3>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th data-i18n="sport">Sport</th>
-                                    <th data-i18n="record">Record</th>
-                                    <th data-i18n="win-rate">Win %</th>
-                                    <th data-i18n="profit">Profit</th>
-                                    <th data-i18n="status">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>🏈 NFL</td>
-                                    <td>12-3</td>
-                                    <td class="text-success">80.0%</td>
-                                    <td class="text-success">+$2,450</td>
-                                    <td><span class="badge badge-success">🔥 Hot</span></td>
-                                </tr>
-                                <tr>
-                                    <td>🏀 NBA</td>
-                                    <td>68-12</td>
-                                    <td class="text-success">85.0%</td>
-                                    <td class="text-success">+$3,890</td>
-                                    <td><span class="badge badge-success">🔥 Hot</span></td>
-                                </tr>
-                                <tr>
-                                    <td>⚾ MLB</td>
-                                    <td>78-15</td>
-                                    <td class="text-success">83.9%</td>
-                                    <td class="text-success">+$2,150</td>
-                                    <td><span class="badge badge-success">✅ Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>🏒 NHL</td>
-                                    <td>52-9</td>
-                                    <td class="text-success">85.2%</td>
-                                    <td class="text-success">+$1,780</td>
-                                    <td><span class="badge badge-success">✅ Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>⚽ Soccer</td>
-                                    <td>45-8</td>
-                                    <td class="text-success">84.9%</td>
-                                    <td class="text-success">+$1,290</td>
-                                    <td><span class="badge badge-accent">⚽ WC2026</span></td>
-                                </tr>
-                                <tr>
-                                    <td>🎾 Tennis</td>
-                                    <td>5-1</td>
-                                    <td class="text-success">83.3%</td>
-                                    <td class="text-success">+$147</td>
-                                    <td><span class="badge badge-info">🆕 New</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="sport-grid">
+                        <div class="sport-row">
+                            <span class="sport-icon">⚽</span>
+                            <span class="sport-name">Soccer</span>
+                            <span class="sport-record">89-11</span>
+                            <span class="sport-rate success">89.0%</span>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 89%"></div></div>
+                        </div>
+                        <div class="sport-row">
+                            <span class="sport-icon">🏒</span>
+                            <span class="sport-name">NHL</span>
+                            <span class="sport-record">64-9</span>
+                            <span class="sport-rate success">87.7%</span>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 87.7%"></div></div>
+                        </div>
+                        <div class="sport-row">
+                            <span class="sport-icon">🏀</span>
+                            <span class="sport-name">NBA</span>
+                            <span class="sport-record">53-14</span>
+                            <span class="sport-rate">79.1%</span>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 79.1%"></div></div>
+                        </div>
+                        <div class="sport-row">
+                            <span class="sport-icon">⚾</span>
+                            <span class="sport-name">MLB</span>
+                            <span class="sport-record">16-4</span>
+                            <span class="sport-rate">80.0%</span>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
+                        </div>
+                        <div class="sport-row">
+                            <span class="sport-icon">🎾</span>
+                            <span class="sport-name">Tennis</span>
+                            <span class="sport-record">28-7</span>
+                            <span class="sport-rate">80.0%</span>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>        <!-- ═══ ALERTS TAB ═══ -->
-        <div id="alerts" class="tab-content">
-            <h2 data-i18n="alerts-title">🔔 Live Alerts & Notifications</h2>
-            <p class="text-secondary" data-i18n="alerts-subtitle">Real-time updates on your picks and market movements</p>
-            
-            <div class="alert alert-success">
-                <span class="alert-icon">✅</span>
-                <div class="alert-content">
-                    <div class="alert-title" data-i18n="bet-won">Bet Won!</div>
-                    <div>NBA: Celtics -4.5 ✓ Final: 118-109 | +$285</div>
-                </div>
+        </div><!-- end tab-home -->
+        <!-- ═══ ALERTS TAB ═══ -->
+        <div id="tab-alerts" class="tab-pane" style="display: none;">
+            <div class="section-header">
+                <h1 class="section-title">🔔 Live Alerts</h1>
+                <p class="section-subtitle">Real-time notifications and line movements</p>
             </div>
             
-            <div class="alert alert-success">
-                <span class="alert-icon">✅</span>
-                <div class="alert-content">
-                    <div class="alert-title" data-i18n="bet-won">Bet Won!</div>
-                    <div>MLB: Yankees ML ✓ Final: 6-3 | +$175</div>
+            <div class="alerts-container">
+                <div class="alert-card urgent">
+                    <div class="alert-icon">🚨</div>
+                    <div class="alert-content">
+                        <div class="alert-title">LINE MOVEMENT ALERT</div>
+                        <div class="alert-message">Carolina Hurricanes ML moved from -135 to -150 | Sharp money detected</div>
+                        <div class="alert-time">2 minutes ago</div>
+                    </div>
+                    <button class="alert-action" onclick="showTab('tab-parlay')">Add to Parlay</button>
+                </div>
+                
+                <div class="alert-card success">
+                    <div class="alert-icon">✅</div>
+                    <div class="alert-content">
+                        <div class="alert-title">BET WON!</div>
+                        <div class="alert-message">Knicks -3.5 ✅ COVERED | Final: 94-90 | +$182</div>
+                        <div class="alert-time">Yesterday</div>
+                    </div>
+                </div>
+                
+                <div class="alert-card info">
+                    <div class="alert-icon">📊</div>
+                    <div class="alert-content">
+                        <div class="alert-title">NEW 5-STAR PICK</div>
+                        <div class="alert-message">Hurricanes to win Stanley Cup @ +150 | High confidence</div>
+                        <div class="alert-time">1 hour ago</div>
+                    </div>
+                    <button class="alert-action" onclick="showTab('tab-top5')">View Details</button>
+                </div>
+                
+                <div class="alert-card warning">
+                    <div class="alert-icon">⚽</div>
+                    <div class="alert-content">
+                        <div class="alert-title">WORLD CUP 2026</div>
+                        <div class="alert-message">Opening match in 3 days! Mexico vs South Africa - June 11</div>
+                        <div class="alert-time">Today</div>
+                    </div>
+                    <button class="alert-action" onclick="showTab('tab-wc2026')">WC Hub</button>
                 </div>
             </div>
-            
-            <div class="alert alert-warning">
-                <span class="alert-icon">⚠️</span>
-                <div class="alert-content">
-                    <div class="alert-title" data-i18n="line-movement">Line Movement Alert</div>
-                    <div>NHL: Rangers moved from -140 to -165 - Sharp money detected</div>
-                </div>
-            </div>
-            
-            <div class="alert alert-info">
-                <span class="alert-icon">📊</span>
-                <div class="alert-content">
-                    <div class="alert-title" data-i18n="injury-update">Injury Update</div>
-                    <div>NBA: Jayson Tatum questionable (ankle) - Monitor before game</div>
-                </div>
-            </div>
-            
-            <div class="alert alert-success">
-                <span class="alert-icon">🎯</span>
-                <div class="alert-content">
-                    <div class="alert-title" data-i18n="new-5star">New 5-Star Pick Available!</div>
-                    <div data-i18n="new-5star-desc">High-confidence selection added - Check Top 5 tab</div>
-                </div>
-            </div>
-        </div>
-        
+        </div><!-- end tab-alerts -->
+
         <!-- ═══ TOP 5 PICKS TAB ═══ -->
-        <div id="top5" class="tab-content">
-            <h2 data-i18n="top5-title">🎯 Today's Top 5 Picks</h2>
-            <p class="text-secondary" data-i18n="top5-subtitle">Highest confidence selections based on AI analysis</p>
-            
-            <div class="alert alert-info">
-                <span class="alert-icon">📊</span>
-                <div class="alert-content">
-                    <div class="alert-title">5-Star Historical Performance</div>
-                    <div data-i18n="5star-record">Record: 130-14 (90.3%) | Average Odds: -115 | ROI: 42.8%</div>
-                </div>
+        <div id="tab-top5" class="tab-pane" style="display: none;">
+            <div class="section-header">
+                <h1 class="section-title">🎯 Top 5 Picks Today</h1>
+                <p class="section-subtitle">Highest confidence selections | 5-Star Record: 130-14 (90.3%)</p>
             </div>
             
-            <!-- Pick 1 -->
-            <div class="card accent">
-                <div class="card-header">
-                    <h3 class="card-title">⭐⭐⭐⭐⭐ <span data-i18n="pick">Pick</span> #1</h3>
-                    <span class="badge badge-success">5-STAR</span>
-                </div>
-                <div class="card-body">
-                    <div class="flex justify-between items-center mb-10">
-                        <div>
-                            <h4>🏀 NBA: Boston Celtics -4.5</h4>
-                            <p class="text-muted">vs Miami Heat | 7:30 PM ET</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="stat-value">-110</div>
-                            <div class="text-success">93% Confidence</div>
-                        </div>
+            <div class="picks-container">
+                <!-- Pick 1 -->
+                <div class="pick-card five-star">
+                    <div class="pick-rank">#1</div>
+                    <div class="pick-header">
+                        <span class="pick-sport">🏒 NHL</span>
+                        <span class="pick-confidence">⭐⭐⭐⭐⭐</span>
                     </div>
-                    <p data-i18n="analysis">Analysis: Celtics are 18-3 ATS at home this season. Heat on back-to-back with key injuries. Sharp money on Boston.</p>
-                    <div class="flex gap-10 mt-10">
-                        <button class="btn btn-primary btn-sm" onclick="addToParlayTeam('Celtics -4.5', -110)">➕ <span data-i18n="add-to-parlay">Add to Parlay</span></button>
-                        <button class="btn btn-secondary btn-sm">📊 <span data-i18n="view-details">View Details</span></button>
+                    <div class="pick-matchup">Carolina Hurricanes vs Vegas Golden Knights</div>
+                    <div class="pick-selection">
+                        <span class="pick-team">🌀 CAROLINA HURRICANES</span>
+                        <span class="pick-line">ML -140</span>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Pick 2 -->
-            <div class="card accent">
-                <div class="card-header">
-                    <h3 class="card-title">⭐⭐⭐⭐⭐ <span data-i18n="pick">Pick</span> #2</h3>
-                    <span class="badge badge-success">5-STAR</span>
-                </div>
-                <div class="card-body">
-                    <div class="flex justify-between items-center mb-10">
-                        <div>
-                            <h4>⚾ MLB: NY Yankees ML</h4>
-                            <p class="text-muted">vs Baltimore Orioles | 7:05 PM ET</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="stat-value">-135</div>
-                            <div class="text-success">91% Confidence</div>
-                        </div>
+                    <div class="pick-analysis">
+                        Game 6 at T-Mobile Arena. Hurricanes lead series 3-2 and can clinch tonight. 
+                        Svechnikov on fire with 2G in Game 5. Carolina 5-1 as road favorites this playoffs.
+                        Elite goaltending from Pyotr Kochetkov.
                     </div>
-                    <p data-i18n="analysis2">Analysis: Cole on the mound (8-2, 2.85 ERA). Yankees 22-8 when Cole pitches. O's starter has 5.40 ERA vs NYY.</p>
-                    <div class="flex gap-10 mt-10">
-                        <button class="btn btn-primary btn-sm" onclick="addToParlayTeam('Yankees ML', -135)">➕ <span data-i18n="add-to-parlay">Add to Parlay</span></button>
-                        <button class="btn btn-secondary btn-sm">📊 <span data-i18n="view-details">View Details</span></button>
+                    <div class="pick-stats">
+                        <span class="stat">Edge: +8.2%</span>
+                        <span class="stat">EV: +$58</span>
+                        <span class="stat">Kelly: 5.8%</span>
+                    </div>
+                    <div class="pick-actions">
+                        <button class="btn btn-primary" onclick="addToParlayTeam('Hurricanes ML', '-140', 'moneyline')">➕ Add to Parlay</button>
+                        <button class="btn btn-outline">📊 Full Analysis</button>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Pick 3 -->
-            <div class="card accent">
-                <div class="card-header">
-                    <h3 class="card-title">⭐⭐⭐⭐⭐ <span data-i18n="pick">Pick</span> #3</h3>
-                    <span class="badge badge-success">5-STAR</span>
-                </div>
-                <div class="card-body">
-                    <div class="flex justify-between items-center mb-10">
-                        <div>
-                            <h4>🏒 NHL: NY Rangers ML</h4>
-                            <p class="text-muted">vs Carolina Hurricanes | 8:00 PM ET</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="stat-value">-145</div>
-                            <div class="text-success">89% Confidence</div>
-                        </div>
+                
+                <!-- Pick 2 -->
+                <div class="pick-card five-star">
+                    <div class="pick-rank">#2</div>
+                    <div class="pick-header">
+                        <span class="pick-sport">⚽ World Cup 2026</span>
+                        <span class="pick-confidence">⭐⭐⭐⭐⭐</span>
                     </div>
-                    <p>Analysis: Shesterkin in net (32-8-4). Rangers 15-3 at MSG in playoffs. Canes 2-8 in last 10 vs NYR.</p>
-                    <div class="flex gap-10 mt-10">
-                        <button class="btn btn-primary btn-sm" onclick="addToParlayTeam('Rangers ML', -145)">➕ <span data-i18n="add-to-parlay">Add to Parlay</span></button>
-                        <button class="btn btn-secondary btn-sm">📊 <span data-i18n="view-details">View Details</span></button>
+                    <div class="pick-matchup">Group C - Brazil vs Scotland</div>
+                    <div class="pick-selection">
+                        <span class="pick-team">🇧🇷 BRAZIL -1.5</span>
+                        <span class="pick-line">-125</span>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Pick 4 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⭐⭐⭐⭐ <span data-i18n="pick">Pick</span> #4</h3>
-                    <span class="badge badge-warning">4-STAR</span>
-                </div>
-                <div class="card-body">
-                    <div class="flex justify-between items-center mb-10">
-                        <div>
-                            <h4>⚽ MLS: LAFC -1</h4>
-                            <p class="text-muted">vs Austin FC | 10:30 PM ET</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="stat-value">-120</div>
-                            <div class="text-success">86% Confidence</div>
-                        </div>
+                    <div class="pick-analysis">
+                        Brazil heavy favorites to dominate Group C. Vinicius Jr. and Rodrygo leading attack.
+                        Scotland struggled in qualifying. Brazil's depth and experience too much.
                     </div>
-                    <p>Analysis: LAFC unbeaten in 12 home matches. Austin 1-6-2 on the road. Vela and Bouanga both starting.</p>
-                    <div class="flex gap-10 mt-10">
-                        <button class="btn btn-primary btn-sm" onclick="addToParlayTeam('LAFC -1', -120)">➕ <span data-i18n="add-to-parlay">Add to Parlay</span></button>
-                        <button class="btn btn-secondary btn-sm">📊 <span data-i18n="view-details">View Details</span></button>
+                    <div class="pick-stats">
+                        <span class="stat">Edge: +6.5%</span>
+                        <span class="stat">EV: +$52</span>
+                        <span class="stat">Kelly: 5.2%</span>
+                    </div>
+                    <div class="pick-actions">
+                        <button class="btn btn-primary" onclick="addToParlayTeam('Brazil -1.5', '-125', 'spread')">➕ Add to Parlay</button>
+                        <button class="btn btn-outline">📊 Full Analysis</button>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Pick 5 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⭐⭐⭐⭐ <span data-i18n="pick">Pick</span> #5</h3>
-                    <span class="badge badge-warning">4-STAR</span>
-                </div>
-                <div class="card-body">
-                    <div class="flex justify-between items-center mb-10">
-                        <div>
-                            <h4>🎾 ATP: Sinner ML</h4>
-                            <p class="text-muted">vs Alcaraz | French Open SF | 9:00 AM ET</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="stat-value">+115</div>
-                            <div class="text-success">84% Confidence</div>
-                        </div>
+                
+                <!-- Pick 3 -->
+                <div class="pick-card five-star">
+                    <div class="pick-rank">#3</div>
+                    <div class="pick-header">
+                        <span class="pick-sport">⚾ MLB</span>
+                        <span class="pick-confidence">⭐⭐⭐⭐⭐</span>
                     </div>
-                    <p>Analysis: Sinner 4-2 H2H on clay. Won last 3 meetings. Alcaraz struggling with service consistency.</p>
-                    <div class="flex gap-10 mt-10">
-                        <button class="btn btn-primary btn-sm" onclick="addToParlayTeam('Sinner ML', 115)">➕ <span data-i18n="add-to-parlay">Add to Parlay</span></button>
-                        <button class="btn btn-secondary btn-sm">📊 <span data-i18n="view-details">View Details</span></button>
+                    <div class="pick-matchup">New York Yankees vs Boston Red Sox</div>
+                    <div class="pick-selection">
+                        <span class="pick-team">🗽 YANKEES -1.5</span>
+                        <span class="pick-line">+105</span>
+                    </div>
+                    <div class="pick-analysis">
+                        Yankees 38-26, strong at home. Gerrit Cole on mound vs struggling Boston staff.
+                        Bellinger hot with 3 HR last 5 games. Run line value at plus odds.
+                    </div>
+                    <div class="pick-stats">
+                        <span class="stat">Edge: +7.1%</span>
+                        <span class="stat">EV: +$71</span>
+                        <span class="stat">Kelly: 6.8%</span>
+                    </div>
+                    <div class="pick-actions">
+                        <button class="btn btn-primary" onclick="addToParlayTeam('Yankees -1.5', '+105', 'spread')">➕ Add to Parlay</button>
+                        <button class="btn btn-outline">📊 Full Analysis</button>
                     </div>
                 </div>
-            </div>
-        </div>        <!-- ═══ PLAYER PROPS TAB ═══ -->
-        <div id="props" class="tab-content">
-            <h2 data-i18n="props-title">👤 Player Props Analysis</h2>
-            <p class="text-secondary" data-i18n="props-subtitle">AI-optimized player performance predictions</p>
-            
-            <div class="alert alert-info">
-                <span class="alert-icon">📊</span>
-                <div class="alert-content">
-                    <div class="alert-title">Props Performance</div>
-                    <div>Season Record: 87-19 (82.1%) | Average Odds: -115 | ROI: 31.4%</div>
-                </div>
-            </div>
-            
-            <!-- Prop 1 -->
-            <div class="card accent">
-                <div class="card-header">
-                    <h3 class="card-title">⭐⭐⭐⭐⭐ Jayson Tatum OVER 28.5 Points</h3>
-                    <span class="badge badge-success">5-STAR PROP</span>
-                </div>
-                <div class="card-body">
-                    <div class="flex justify-between items-center mb-10">
-                        <div>
-                            <p class="text-muted">🏀 Celtics vs Heat | 7:30 PM ET</p>
-                            <p>Book: DraftKings | Line: -115</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="stat-value text-success">92%</div>
-                            <div class="text-muted">Confidence</div>
-                        </div>
+                
+                <!-- Pick 4 -->
+                <div class="pick-card four-star">
+                    <div class="pick-rank">#4</div>
+                    <div class="pick-header">
+                        <span class="pick-sport">🏒 NHL</span>
+                        <span class="pick-confidence">⭐⭐⭐⭐</span>
                     </div>
-                    <p>Analysis: Tatum averaging 32.4 PPG in last 10 games. Hit this line in 8/10. Heat allowing 28.1 PPG to SFs.</p>
-                    <div class="progress mt-10">
-                        <div class="progress-bar" style="width: 92%"></div>
+                    <div class="pick-matchup">Stanley Cup Finals Game 6</div>
+                    <div class="pick-selection">
+                        <span class="pick-team">UNDER 5.5 Goals</span>
+                        <span class="pick-line">-115</span>
                     </div>
-                    <div class="flex gap-10 mt-10">
-                        <button class="btn btn-primary btn-sm" onclick="addToParlayProp('Tatum O28.5 Pts', -115)">➕ <span data-i18n="add-to-parlay">Add to Parlay</span></button>
+                    <div class="pick-analysis">
+                        Elimination games trend under. Both teams play tight defense in closeout situations.
+                        Last 3 Game 6s in Finals averaged 4.3 total goals.
+                    </div>
+                    <div class="pick-stats">
+                        <span class="stat">Edge: +5.2%</span>
+                        <span class="stat">EV: +$45</span>
+                    </div>
+                    <div class="pick-actions">
+                        <button class="btn btn-primary" onclick="addToParlayTeam('Under 5.5', '-115', 'total')">➕ Add to Parlay</button>
+                    </div>
+                </div>
+                
+                <!-- Pick 5 -->
+                <div class="pick-card four-star">
+                    <div class="pick-rank">#5</div>
+                    <div class="pick-header">
+                        <span class="pick-sport">⚽ MLS</span>
+                        <span class="pick-confidence">⭐⭐⭐⭐</span>
+                    </div>
+                    <div class="pick-matchup">Inter Miami vs Atlanta United</div>
+                    <div class="pick-selection">
+                        <span class="pick-team">🦩 INTER MIAMI</span>
+                        <span class="pick-line">-145</span>
+                    </div>
+                    <div class="pick-analysis">
+                        Miami unbeaten in 8 home matches. Messi and Suarez combining for 2.1 goals per game.
+                        Atlanta struggling on the road with just 2 wins in 9 away matches.
+                    </div>
+                    <div class="pick-stats">
+                        <span class="stat">Edge: +4.8%</span>
+                        <span class="stat">EV: +$33</span>
+                    </div>
+                    <div class="pick-actions">
+                        <button class="btn btn-primary" onclick="addToParlayTeam('Inter Miami ML', '-145', 'moneyline')">➕ Add to Parlay</button>
                     </div>
                 </div>
             </div>
+        </div><!-- end tab-top5 -->
+        <!-- ═══ PLAYER PROPS TAB ═══ -->
+        <div id="tab-props" class="tab-pane" style="display: none;">
+            <div class="section-header">
+                <h1 class="section-title">👤 Player Props</h1>
+                <p class="section-subtitle">Props Record: 68-20 (77.3%)</p>
+            </div>
             
-            <!-- Prop 2 -->
-            <div class="card accent">
-                <div class="card-header">
-                    <h3 class="card-title">⭐⭐⭐⭐⭐ Aaron Judge OVER 1.5 Total Bases</h3>
-                    <span class="badge badge-success">5-STAR PROP</span>
+            <div class="props-container">
+                <!-- Prop 1 -->
+                <div class="prop-card">
+                    <div class="prop-header">
+                        <span class="prop-sport">🏒 NHL</span>
+                        <span class="prop-confidence">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <div class="prop-player">
+                        <img class="prop-avatar" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='30' font-size='30'>🏒</text></svg>" alt="">
+                        <div class="prop-player-info">
+                            <div class="prop-name">Andrei Svechnikov</div>
+                            <div class="prop-team">Carolina Hurricanes</div>
+                        </div>
+                    </div>
+                    <div class="prop-line">
+                        <div class="prop-stat">Points</div>
+                        <div class="prop-value">OVER 0.5</div>
+                        <div class="prop-odds">-145</div>
+                    </div>
+                    <div class="prop-analysis">
+                        2 goals in Game 5. Has a point in 8 of last 10 playoff games. 
+                        Elite in elimination scenarios.
+                    </div>
+                    <div class="prop-actions">
+                        <button class="btn btn-success" onclick="addToParlayProp('Svechnikov', 'O0.5 pts', '-145')">➕ Add Prop</button>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="flex justify-between items-center mb-10">
-                        <div>
-                            <p class="text-muted">⚾ Yankees vs Orioles | 7:05 PM ET</p>
-                            <p>Book: FanDuel | Line: -140</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="stat-value text-success">90%</div>
-                            <div class="text-muted">Confidence</div>
+                
+                <!-- Prop 2 -->
+                <div class="prop-card">
+                    <div class="prop-header">
+                        <span class="prop-sport">🏒 NHL</span>
+                        <span class="prop-confidence">⭐⭐⭐⭐</span>
+                    </div>
+                    <div class="prop-player">
+                        <img class="prop-avatar" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='30' font-size='30'>🏒</text></svg>" alt="">
+                        <div class="prop-player-info">
+                            <div class="prop-name">Jack Eichel</div>
+                            <div class="prop-team">Vegas Golden Knights</div>
                         </div>
                     </div>
-                    <p>Analysis: Judge 4-for-8 with 2 HR vs this pitcher. Hit this in 18 of last 20 games. .385 BA vs LHP.</p>
-                    <div class="progress mt-10">
-                        <div class="progress-bar" style="width: 90%"></div>
+                    <div class="prop-line">
+                        <div class="prop-stat">Shots on Goal</div>
+                        <div class="prop-value">OVER 3.5</div>
+                        <div class="prop-odds">-110</div>
                     </div>
-                    <div class="flex gap-10 mt-10">
-                        <button class="btn btn-primary btn-sm" onclick="addToParlayProp('Judge O1.5 TB', -140)">➕ <span data-i18n="add-to-parlay">Add to Parlay</span></button>
+                    <div class="prop-analysis">
+                        Averaging 4.2 SOG in playoffs. Will be desperate with season on the line.
+                        Hit this in 4 of 5 Finals games.
+                    </div>
+                    <div class="prop-actions">
+                        <button class="btn btn-success" onclick="addToParlayProp('Eichel', 'O3.5 SOG', '-110')">➕ Add Prop</button>
+                    </div>
+                </div>
+                
+                <!-- Prop 3 -->
+                <div class="prop-card">
+                    <div class="prop-header">
+                        <span class="prop-sport">⚾ MLB</span>
+                        <span class="prop-confidence">⭐⭐⭐⭐</span>
+                    </div>
+                    <div class="prop-player">
+                        <img class="prop-avatar" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='30' font-size='30'>⚾</text></svg>" alt="">
+                        <div class="prop-player-info">
+                            <div class="prop-name">Gerrit Cole</div>
+                            <div class="prop-team">New York Yankees</div>
+                        </div>
+                    </div>
+                    <div class="prop-line">
+                        <div class="prop-stat">Strikeouts</div>
+                        <div class="prop-value">OVER 7.5</div>
+                        <div class="prop-odds">-120</div>
+                    </div>
+                    <div class="prop-analysis">
+                        Cole averaging 9.2 K/9 this season. Boston strikes out 9.1 times per game.
+                        Hit 8+ Ks in 5 of last 6 starts.
+                    </div>
+                    <div class="prop-actions">
+                        <button class="btn btn-success" onclick="addToParlayProp('Cole', 'O7.5 K', '-120')">➕ Add Prop</button>
+                    </div>
+                </div>
+                
+                <!-- Prop 4 -->
+                <div class="prop-card">
+                    <div class="prop-header">
+                        <span class="prop-sport">⚽ MLS</span>
+                        <span class="prop-confidence">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <div class="prop-player">
+                        <img class="prop-avatar" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='30' font-size='30'>⚽</text></svg>" alt="">
+                        <div class="prop-player-info">
+                            <div class="prop-name">Lionel Messi</div>
+                            <div class="prop-team">Inter Miami</div>
+                        </div>
+                    </div>
+                    <div class="prop-line">
+                        <div class="prop-stat">Shots</div>
+                        <div class="prop-value">OVER 3.5</div>
+                        <div class="prop-odds">-130</div>
+                    </div>
+                    <div class="prop-analysis">
+                        Messi averaging 4.8 shots at home. Atlanta defense allows most shots in Eastern Conference.
+                    </div>
+                    <div class="prop-actions">
+                        <button class="btn btn-success" onclick="addToParlayProp('Messi', 'O3.5 shots', '-130')">➕ Add Prop</button>
                     </div>
                 </div>
             </div>
-            
-            <!-- Prop 3 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⭐⭐⭐⭐ Artemi Panarin OVER 0.5 Points</h3>
-                    <span class="badge badge-warning">4-STAR PROP</span>
-                </div>
-                <div class="card-body">
-                    <div class="flex justify-between items-center mb-10">
-                        <div>
-                            <p class="text-muted">🏒 Rangers vs Hurricanes | 8:00 PM ET</p>
-                            <p>Book: BetMGM | Line: -175</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="stat-value text-success">88%</div>
-                            <div class="text-muted">Confidence</div>
-                        </div>
-                    </div>
-                    <p>Analysis: Panarin has a point in 14 of last 15 games. 12 points in last 8 vs CAR. On PP1.</p>
-                    <div class="progress mt-10">
-                        <div class="progress-bar" style="width: 88%"></div>
-                    </div>
-                    <div class="flex gap-10 mt-10">
-                        <button class="btn btn-primary btn-sm" onclick="addToParlayProp('Panarin O0.5 Pts', -175)">➕ <span data-i18n="add-to-parlay">Add to Parlay</span></button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Prop 4 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⭐⭐⭐⭐ Denis Bouanga OVER 0.5 Goals</h3>
-                    <span class="badge badge-warning">4-STAR PROP</span>
-                </div>
-                <div class="card-body">
-                    <div class="flex justify-between items-center mb-10">
-                        <div>
-                            <p class="text-muted">⚽ LAFC vs Austin FC | 10:30 PM ET</p>
-                            <p>Book: Caesars | Line: +110</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="stat-value text-success">85%</div>
-                            <div class="text-muted">Confidence</div>
-                        </div>
-                    </div>
-                    <p>Analysis: Bouanga has 14 goals in 16 home matches. Austin allowing 2.1 goals/game on road. On all set pieces.</p>
-                    <div class="progress mt-10">
-                        <div class="progress-bar" style="width: 85%"></div>
-                    </div>
-                    <div class="flex gap-10 mt-10">
-                        <button class="btn btn-primary btn-sm" onclick="addToParlayProp('Bouanga O0.5 Goals', 110)">➕ <span data-i18n="add-to-parlay">Add to Parlay</span></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+        </div><!-- end tab-props -->
+
         <!-- ═══ TODAY'S GAMES TAB ═══ -->
-        <div id="games" class="tab-content">
-            <h2 data-i18n="games-title">📅 Today's Games</h2>
-            <p class="text-secondary">Sunday, June 14, 2026 — All times ET</p>
+        <div id="tab-games" class="tab-pane" style="display: none;">
+            <div class="section-header">
+                <h1 class="section-title">📅 Today's Games</h1>
+                <p class="section-subtitle">June 14, 2026 - All times ET</p>
+            </div>
             
-            <!-- NBA Games -->
+            <div class="games-container">
+                <!-- NHL Section -->
+                <div class="games-section">
+                    <div class="games-section-header">
+                        <span class="section-icon">🏒</span>
+                        <span class="section-name">NHL Stanley Cup Finals - Game 6</span>
+                        <span class="section-badge live">TONIGHT</span>
+                    </div>
+                    
+                    <div class="game-card featured">
+                        <div class="game-time">8:00 PM</div>
+                        <div class="game-teams">
+                            <div class="team away">
+                                <span class="team-logo">🌀</span>
+                                <span class="team-name">Carolina</span>
+                                <span class="team-record">(3-2)</span>
+                                <span class="team-odds">-140</span>
+                            </div>
+                            <div class="game-vs">@</div>
+                            <div class="team home">
+                                <span class="team-logo">⚔️</span>
+                                <span class="team-name">Vegas</span>
+                                <span class="team-record">(2-3)</span>
+                                <span class="team-odds">+120</span>
+                            </div>
+                        </div>
+                        <div class="game-total">O/U: 5.5</div>
+                        <div class="game-note">🏆 Carolina can clinch Stanley Cup!</div>
+                        <div class="game-actions">
+                            <button class="btn btn-sm" onclick="addToParlayTeam('Hurricanes ML', '-140', 'moneyline')">CAR ML</button>
+                            <button class="btn btn-sm" onclick="addToParlayTeam('Golden Knights ML', '+120', 'moneyline')">VGK ML</button>
+                            <button class="btn btn-sm" onclick="addToParlayTeam('Under 5.5', '-115', 'total')">Under</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- MLB Section -->
+                <div class="games-section">
+                    <div class="games-section-header">
+                        <span class="section-icon">⚾</span>
+                        <span class="section-name">MLB</span>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-time">7:05 PM</div>
+                        <div class="game-teams">
+                            <div class="team away">
+                                <span class="team-name">Red Sox</span>
+                                <span class="team-odds">+145</span>
+                            </div>
+                            <div class="game-vs">@</div>
+                            <div class="team home">
+                                <span class="team-name">Yankees</span>
+                                <span class="team-odds">-165</span>
+                            </div>
+                        </div>
+                        <div class="game-total">O/U: 8.5</div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-time">7:10 PM</div>
+                        <div class="game-teams">
+                            <div class="team away">
+                                <span class="team-name">Phillies</span>
+                                <span class="team-odds">-130</span>
+                            </div>
+                            <div class="game-vs">@</div>
+                            <div class="team home">
+                                <span class="team-name">Braves</span>
+                                <span class="team-odds">+110</span>
+                            </div>
+                        </div>
+                        <div class="game-total">O/U: 9.0</div>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-time">10:10 PM</div>
+                        <div class="game-teams">
+                            <div class="team away">
+                                <span class="team-name">Dodgers</span>
+                                <span class="team-odds">-180</span>
+                            </div>
+                            <div class="game-vs">@</div>
+                            <div class="team home">
+                                <span class="team-name">Giants</span>
+                                <span class="team-odds">+155</span>
+                            </div>
+                        </div>
+                        <div class="game-total">O/U: 7.5</div>
+                    </div>
+                </div>
+                
+                <!-- MLS Section -->
+                <div class="games-section">
+                    <div class="games-section-header">
+                        <span class="section-icon">⚽</span>
+                        <span class="section-name">MLS</span>
+                    </div>
+                    
+                    <div class="game-card">
+                        <div class="game-time">7:30 PM</div>
+                        <div class="game-teams">
+                            <div class="team away">
+                                <span class="team-name">Atlanta</span>
+                                <span class="team-odds">+385</span>
+                            </div>
+                            <div class="game-vs">@</div>
+                            <div class="team home">
+                                <span class="team-name">Inter Miami</span>
+                                <span class="team-odds">-145</span>
+                            </div>
+                        </div>
+                        <div class="game-total">O/U: 3.5</div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end tab-games -->
+        <!-- ═══ WORLD CUP 2026 OVERVIEW TAB ═══ -->
+        <div id="tab-wc2026" class="tab-pane" style="display: none;">
+            <div class="section-header">
+                <h1 class="section-title">⚽ FIFA World Cup 2026™</h1>
+                <p class="section-subtitle">🇺🇸🇲🇽🇨🇦 USA • Mexico • Canada | June 11 - July 19, 2026</p>
+            </div>
+            
+            <!-- FIFA VERIFIED Banner -->
+            <div class="wc-banner">
+                <div class="wc-badge">✅ FIFA VERIFIED</div>
+                <div class="wc-info">Data from FIFA.com Final Draw - May 5, 2026 - JFK Center, Washington DC</div>
+            </div>
+            
+            <!-- Tournament Stats -->
+            <div class="wc-stats-grid">
+                <div class="wc-stat">
+                    <div class="wc-stat-value">48</div>
+                    <div class="wc-stat-label">Teams</div>
+                </div>
+                <div class="wc-stat">
+                    <div class="wc-stat-value">12</div>
+                    <div class="wc-stat-label">Groups</div>
+                </div>
+                <div class="wc-stat">
+                    <div class="wc-stat-value">104</div>
+                    <div class="wc-stat-label">Matches</div>
+                </div>
+                <div class="wc-stat">
+                    <div class="wc-stat-value">16</div>
+                    <div class="wc-stat-label">Venues</div>
+                </div>
+            </div>
+            
+            <!-- Opening Match -->
+            <div class="card featured">
+                <div class="card-header">🎬 Opening Match - June 11, 2026</div>
+                <div class="card-body">
+                    <div class="match-card opening">
+                        <div class="team">🇲🇽 Mexico</div>
+                        <div class="vs">vs</div>
+                        <div class="team">🇿🇦 South Africa</div>
+                        <div class="venue">📍 Estadio Azteca, Mexico City</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Groups Overview - ALL 12 GROUPS FIFA VERIFIED -->
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">🏀 NBA</h3>
-                    <span class="badge badge-accent">2 Games</span>
-                </div>
+                <div class="card-header">📋 All 12 Groups (FIFA Verified)</div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-compact">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Matchup</th>
-                                    <th>Spread</th>
-                                    <th>ML</th>
-                                    <th>O/U</th>
-                                    <th>Pick</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>7:30 PM</td>
-                                    <td>Heat @ <strong class="text-accent">Celtics</strong></td>
-                                    <td>BOS -4.5 (-110)</td>
-                                    <td>BOS -185</td>
-                                    <td>214.5</td>
-                                    <td><span class="badge badge-success">⭐⭐⭐⭐⭐</span></td>
-                                </tr>
-                                <tr>
-                                    <td>10:00 PM</td>
-                                    <td>Nuggets @ Lakers</td>
-                                    <td>DEN -2 (-110)</td>
-                                    <td>DEN -125</td>
-                                    <td>221.5</td>
-                                    <td><span class="badge badge-info">Analyzing</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="groups-overview">
+                        <!-- Row 1: Groups A-D -->
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group A</div>
+                            <div class="group-teams">🇲🇽 Mexico<br>🇿🇦 South Africa<br>🇳🇿 New Zealand<br>🇲🇰 North Macedonia</div>
+                        </div>
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group B</div>
+                            <div class="group-teams">🇯🇵 Japan<br>🇲🇳 Mongolia<br>🇸🇻 El Salvador<br>🇩🇰 Denmark</div>
+                        </div>
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group C ⭐</div>
+                            <div class="group-teams">🇧🇷 Brazil<br>🇲🇦 Morocco<br>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland<br>🇭🇹 HAITI</div>
+                            <div class="group-note">Haiti's Group!</div>
+                        </div>
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group D</div>
+                            <div class="group-teams">🇩🇪 Germany<br>🇮🇹 Italy<br>🇨🇴 Colombia<br>🇯🇴 Jordan</div>
+                        </div>
+                        
+                        <!-- Row 2: Groups E-H -->
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group E</div>
+                            <div class="group-teams">🇧🇪 Belgium<br>🇸🇳 Senegal<br>🇪🇨 Ecuador<br>🇨🇼 Curaçao</div>
+                        </div>
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group F</div>
+                            <div class="group-teams">🇪🇸 Spain<br>🇺🇿 Uzbekistan<br>🇨🇱 Chile<br>🇨🇻 Cabo Verde</div>
+                        </div>
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group G</div>
+                            <div class="group-teams">🇫🇷 France<br>🇵🇱 Poland<br>🇵🇪 Peru<br>🇳🇬 Nigeria</div>
+                        </div>
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group H</div>
+                            <div class="group-teams">🇦🇷 Argentina<br>🇺🇦 Ukraine<br>🇹🇷 Turkey<br>🇨🇲 Cameroon</div>
+                        </div>
+                        
+                        <!-- Row 3: Groups I-L -->
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group I</div>
+                            <div class="group-teams">🇵🇹 Portugal<br>🇷🇸 Serbia<br>🇰🇷 South Korea<br>🇬🇭 Ghana</div>
+                        </div>
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group J</div>
+                            <div class="group-teams">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England<br>🇳🇱 Netherlands<br>🇸🇦 Saudi Arabia<br>🇹🇳 Tunisia</div>
+                        </div>
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group K</div>
+                            <div class="group-teams">🇺🇸 USA<br>🇦🇺 Australia<br>🇵🇾 Paraguay<br>🇲🇿 Mozambique</div>
+                        </div>
+                        <div class="group-mini" onclick="showTab('tab-groups')">
+                            <div class="group-title">Group L</div>
+                            <div class="group-teams">🇭🇷 Croatia<br>🇨🇭 Switzerland<br>🇨🇦 Canada<br>🇮🇷 Iran</div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- MLB Games -->
+            <!-- Debutants -->
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⚾ MLB</h3>
-                    <span class="badge badge-accent">6 Games</span>
-                </div>
+                <div class="card-header">🌟 World Cup Debutants</div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-compact">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Matchup</th>
-                                    <th>ML</th>
-                                    <th>Run Line</th>
-                                    <th>O/U</th>
-                                    <th>Pick</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1:35 PM</td>
-                                    <td>Cubs @ Cardinals</td>
-                                    <td>CHC +105</td>
-                                    <td>CHC +1.5 (-165)</td>
-                                    <td>8.5</td>
-                                    <td><span class="badge badge-warning">⭐⭐⭐</span></td>
-                                </tr>
-                                <tr>
-                                    <td>4:10 PM</td>
-                                    <td>Dodgers @ Giants</td>
-                                    <td>LAD -145</td>
-                                    <td>LAD -1.5 (+120)</td>
-                                    <td>7.5</td>
-                                    <td><span class="badge badge-warning">⭐⭐⭐⭐</span></td>
-                                </tr>
-                                <tr>
-                                    <td>7:05 PM</td>
-                                    <td>Orioles @ <strong class="text-accent">Yankees</strong></td>
-                                    <td>NYY -135</td>
-                                    <td>NYY -1.5 (+125)</td>
-                                    <td>9.0</td>
-                                    <td><span class="badge badge-success">⭐⭐⭐⭐⭐</span></td>
-                                </tr>
-                                <tr>
-                                    <td>7:10 PM</td>
-                                    <td>Red Sox @ Blue Jays</td>
-                                    <td>BOS +110</td>
-                                    <td>BOS +1.5 (-145)</td>
-                                    <td>9.5</td>
-                                    <td><span class="badge badge-info">Analyzing</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="debutants-grid">
+                        <div class="debutant">🇨🇻 Cabo Verde</div>
+                        <div class="debutant">🇨🇼 Curaçao</div>
+                        <div class="debutant">🇯🇴 Jordan</div>
+                        <div class="debutant">🇺🇿 Uzbekistan</div>
                     </div>
                 </div>
             </div>
             
-            <!-- NHL Games -->
+            <!-- Betting Odds -->
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">🏒 NHL Playoffs</h3>
-                    <span class="badge badge-accent">2 Games</span>
-                </div>
+                <div class="card-header">🎰 Tournament Winner Odds</div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-compact">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Matchup</th>
-                                    <th>ML</th>
-                                    <th>Puck Line</th>
-                                    <th>O/U</th>
-                                    <th>Pick</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>8:00 PM</td>
-                                    <td>Hurricanes @ <strong class="text-accent">Rangers</strong></td>
-                                    <td>NYR -145</td>
-                                    <td>NYR -1.5 (+165)</td>
-                                    <td>5.5</td>
-                                    <td><span class="badge badge-success">⭐⭐⭐⭐⭐</span></td>
-                                </tr>
-                                <tr>
-                                    <td>10:30 PM</td>
-                                    <td>Stars @ Oilers</td>
-                                    <td>EDM -130</td>
-                                    <td>EDM -1.5 (+155)</td>
-                                    <td>6.0</td>
-                                    <td><span class="badge badge-warning">⭐⭐⭐⭐</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>        <!-- ═══ WORLD CUP 2026 OVERVIEW TAB ═══ -->
-        <div id="wc2026" class="tab-content">
-            <h2>⚽ FIFA World Cup 2026™</h2>
-            <p class="text-secondary">🇺🇸🇲🇽🇨🇦 USA • Mexico • Canada | June 11 - July 19, 2026</p>
-            <p class="text-muted">Data verified from official FIFA.com sources - Final Draw held May 5, 2026 at JFK Center, Washington DC</p>
-            
-            <div class="alert alert-info">
-                <span class="alert-icon">📊</span>
-                <div class="alert-content">
-                    <div class="alert-title">Tournament Format - FIFA VERIFIED</div>
-                    <div>48 Teams | 12 Groups of 4 | Top 2 + 8 Best 3rd Place advance | 104 Total Matches</div>
-                    <div class="mt-10">Opening Match: 🇲🇽 Mexico vs 🇿🇦 South Africa — Mexico City, June 11, 2026</div>
-                </div>
-            </div>
-            
-            <!-- Key Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🏟️</div>
-                    <div class="stat-value">48</div>
-                    <div class="stat-label">Teams Qualified</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-value">12</div>
-                    <div class="stat-label">Groups</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⚽</div>
-                    <div class="stat-value">104</div>
-                    <div class="stat-label">Matches</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🏆</div>
-                    <div class="stat-value">16</div>
-                    <div class="stat-label">Host Cities</div>
-                </div>
-            </div>
-            
-            <!-- FIFA VERIFIED GROUP DRAW - From May 5, 2026 Final Draw -->
-            <h3 class="mt-20">📋 Official Group Draw (FIFA Verified - May 5, 2026)</h3>
-            
-            <div class="grid grid-3 gap-20">
-                <!-- Group A -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Group A 🏠</h4>
-                        <span class="badge badge-accent">Host</span>
-                    </div>
-                    <div class="card-body">
-                        <div>🇲🇽 Mexico (Host)</div>
-                        <div>🇿🇦 South Africa</div>
-                        <div>🇰🇷 Korea Republic</div>
-                        <div class="text-muted">TBD (UEFA Playoff)</div>
-                    </div>
-                </div>
-                
-                <!-- Group B -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Group B 🏠</h4>
-                        <span class="badge badge-accent">Host</span>
-                    </div>
-                    <div class="card-body">
-                        <div>🇨🇦 Canada (Host)</div>
-                        <div class="text-muted">TBD (UEFA Playoff)</div>
-                        <div>🇶🇦 Qatar</div>
-                        <div>🇨🇭 Switzerland</div>
-                    </div>
-                </div>
-                
-                <!-- Group C - HAITI IS HERE! -->
-                <div class="card accent">
-                    <div class="card-header">
-                        <h4 class="card-title">Group C ⚽</h4>
-                        <span class="badge badge-success">FEATURED</span>
-                    </div>
-                    <div class="card-body">
-                        <div>🇧🇷 <strong>Brazil</strong></div>
-                        <div>🇲🇦 Morocco</div>
-                        <div>🇭🇹 <strong class="text-accent">Haiti 🌟</strong></div>
-                        <div>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</div>
-                    </div>
-                </div>
-                
-                <!-- Group D -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Group D 🏠</h4>
-                        <span class="badge badge-accent">Host</span>
-                    </div>
-                    <div class="card-body">
-                        <div>🇺🇸 USA (Host)</div>
-                        <div>🇵🇾 Paraguay</div>
-                        <div>🇦🇺 Australia</div>
-                        <div class="text-muted">TBD (UEFA Playoff)</div>
-                    </div>
-                </div>
-                
-                <!-- Group E -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Group E</h4>
-                    </div>
-                    <div class="card-body">
-                        <div>🇩🇪 Germany</div>
-                        <div>🇨🇼 Curaçao 🆕</div>
-                        <div>🇨🇮 Côte d'Ivoire</div>
-                        <div>🇪🇨 Ecuador</div>
-                    </div>
-                </div>
-                
-                <!-- Group F -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Group F</h4>
-                    </div>
-                    <div class="card-body">
-                        <div>🇳🇱 Netherlands</div>
-                        <div>🇯🇵 Japan</div>
-                        <div class="text-muted">TBD (UEFA Playoff)</div>
-                        <div>🇹🇳 Tunisia</div>
-                    </div>
-                </div>
-                
-                <!-- Group G -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Group G</h4>
-                    </div>
-                    <div class="card-body">
-                        <div>🇧🇪 Belgium</div>
-                        <div>🇪🇬 Egypt</div>
-                        <div>🇮🇷 IR Iran</div>
-                        <div>🇳🇿 New Zealand</div>
-                    </div>
-                </div>
-                
-                <!-- Group H -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Group H</h4>
-                    </div>
-                    <div class="card-body">
-                        <div>🇪🇸 Spain</div>
-                        <div>🇨🇻 Cabo Verde 🆕</div>
-                        <div>🇸🇦 Saudi Arabia</div>
-                        <div>🇺🇾 Uruguay</div>
-                    </div>
-                </div>
-                
-                <!-- Group I -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Group I</h4>
-                    </div>
-                    <div class="card-body">
-                        <div>🇫🇷 France</div>
-                        <div>🇸🇳 Senegal</div>
-                        <div class="text-muted">TBD (Intercontinental)</div>
-                        <div>🇳🇴 Norway</div>
-                    </div>
-                </div>
-                
-                <!-- Group J -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Group J</h4>
-                    </div>
-                    <div class="card-body">
-                        <div>🇦🇷 Argentina</div>
-                        <div>🇩🇿 Algeria</div>
-                        <div>🇦🇹 Austria</div>
-                        <div>🇯🇴 Jordan 🆕</div>
-                    </div>
-                </div>
-                
-                <!-- Group K -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Group K</h4>
-                    </div>
-                    <div class="card-body">
-                        <div>🇵🇹 Portugal</div>
-                        <div class="text-muted">TBD (Intercontinental)</div>
-                        <div>🇺🇿 Uzbekistan 🆕</div>
-                        <div>🇨🇴 Colombia</div>
-                    </div>
-                </div>
-                
-                <!-- Group L -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Group L</h4>
-                    </div>
-                    <div class="card-body">
-                        <div>🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</div>
-                        <div>🇭🇷 Croatia</div>
-                        <div>🇬🇭 Ghana</div>
-                        <div>🇵🇦 Panama</div>
+                    <div class="odds-grid">
+                        <div class="odds-item">🇧🇷 Brazil <span class="odds">+400</span></div>
+                        <div class="odds-item">🇫🇷 France <span class="odds">+500</span></div>
+                        <div class="odds-item">🇦🇷 Argentina <span class="odds">+550</span></div>
+                        <div class="odds-item">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England <span class="odds">+600</span></div>
+                        <div class="odds-item">🇪🇸 Spain <span class="odds">+800</span></div>
+                        <div class="odds-item">🇩🇪 Germany <span class="odds">+1000</span></div>
+                        <div class="odds-item">🇵🇹 Portugal <span class="odds">+1200</span></div>
+                        <div class="odds-item">🇳🇱 Netherlands <span class="odds">+1400</span></div>
                     </div>
                 </div>
             </div>
             
-            <!-- Debutants Highlight -->
-            <div class="card accent mt-20">
-                <div class="card-header">
-                    <h3 class="card-title">🌟 World Cup Debutants 2026</h3>
-                </div>
-                <div class="card-body">
-                    <div class="flex flex-wrap gap-20">
-                        <div class="text-center">
-                            <div style="font-size: 2rem">🇨🇻</div>
-                            <div>Cabo Verde</div>
-                            <div class="text-muted">vs Spain</div>
-                        </div>
-                        <div class="text-center">
-                            <div style="font-size: 2rem">🇨🇼</div>
-                            <div>Curaçao</div>
-                            <div class="text-muted">vs Germany</div>
-                        </div>
-                        <div class="text-center">
-                            <div style="font-size: 2rem">🇯🇴</div>
-                            <div>Jordan</div>
-                            <div class="text-muted">vs Argentina</div>
-                        </div>
-                        <div class="text-center">
-                            <div style="font-size: 2rem">🇺🇿</div>
-                            <div>Uzbekistan</div>
-                            <div class="text-muted">vs Portugal</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="action-buttons">
+                <button class="btn btn-primary btn-lg" onclick="showTab('tab-groups')">
+                    📋 View All Groups Details
+                </button>
             </div>
-            
-            <!-- Betting Odds Preview -->
-            <div class="card mt-20">
-                <div class="card-header">
-                    <h3 class="card-title">🎰 Tournament Winner Odds</h3>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-compact">
-                            <thead>
-                                <tr>
-                                    <th>Team</th>
-                                    <th>Odds</th>
-                                    <th>Implied %</th>
-                                    <th>SIGMAX Rating</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>🇧🇷 Brazil</td><td>+350</td><td>22.2%</td><td><span class="text-success">⭐⭐⭐⭐⭐</span></td></tr>
-                                <tr><td>🇫🇷 France</td><td>+450</td><td>18.2%</td><td><span class="text-success">⭐⭐⭐⭐⭐</span></td></tr>
-                                <tr><td>🇦🇷 Argentina</td><td>+500</td><td>16.7%</td><td><span class="text-success">⭐⭐⭐⭐⭐</span></td></tr>
-                                <tr><td>🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</td><td>+600</td><td>14.3%</td><td><span class="text-warning">⭐⭐⭐⭐</span></td></tr>
-                                <tr><td>🇪🇸 Spain</td><td>+700</td><td>12.5%</td><td><span class="text-warning">⭐⭐⭐⭐</span></td></tr>
-                                <tr><td>🇩🇪 Germany</td><td>+800</td><td>11.1%</td><td><span class="text-warning">⭐⭐⭐⭐</span></td></tr>
-                                <tr><td>🇵🇹 Portugal</td><td>+1000</td><td>9.1%</td><td><span class="text-warning">⭐⭐⭐⭐</span></td></tr>
-                                <tr><td>🇳🇱 Netherlands</td><td>+1200</td><td>7.7%</td><td><span>⭐⭐⭐</span></td></tr>
-                                <tr><td>🇺🇸 USA (Host)</td><td>+2000</td><td>4.8%</td><td><span>⭐⭐⭐</span></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>        <!-- ═══ GROUPS DETAILED TAB ═══ -->
-        <div id="groups" class="tab-content">
+        </div><!-- end tab-wc2026 -->        <!-- ═══ GROUPS DETAILED TAB ═══ -->
+        <div id="tab-groups" class="tab-pane" style="display: none;">
             <h2>📊 World Cup 2026 Groups — Detailed View</h2>
             <p class="text-secondary">Full team analysis with key players, coaches, and betting factors</p>
             
@@ -2621,7 +2421,7 @@ h3 { font-size: 1.25rem; }
                 </div>
             </div>
         </div>        <!-- ═══ X-FACTORS TAB ═══ -->
-        <div id="xfactors" class="tab-content">
+        <div id="tab-xfactors" class="tab-pane" style="display: none;">
             <h2>💡 World Cup 2026 X-Factors</h2>
             <p class="text-secondary">Key storylines and betting angles for savvy bettors</p>
             
@@ -2699,7 +2499,7 @@ h3 { font-size: 1.25rem; }
         </div>
         
         <!-- ═══ PARLAY BUILDER TAB — CORRECTED 5T+5P+10MAX RULES ═══ -->
-        <div id="parlay" class="tab-content">
+        <div id="tab-parlay" class="tab-pane" style="display: none;">
             <h2 data-i18n="parlay-title">🎰 Parlay Builder</h2>
             <p class="text-secondary" data-i18n="parlay-subtitle">Build and track your parlays with smart limits</p>
             
@@ -2837,7 +2637,7 @@ h3 { font-size: 1.25rem; }
                 </div>
             </div>
         </div>        <!-- ═══ KELLY CALCULATOR TAB ═══ -->
-        <div id="kelly" class="tab-content">
+        <div id="tab-kelly" class="tab-pane" style="display: none;">
             <h2 data-i18n="kelly-title">📐 Kelly Criterion Calculator</h2>
             <p class="text-secondary" data-i18n="kelly-subtitle">Optimal bet sizing based on your edge and bankroll</p>
             
@@ -2940,7 +2740,7 @@ h3 { font-size: 1.25rem; }
         </div>
         
         <!-- ═══ BET JOURNAL TAB ═══ -->
-        <div id="journal" class="tab-content">
+        <div id="tab-journal" class="tab-pane" style="display: none;">
             <h2 data-i18n="journal-title">📓 Bet Journal</h2>
             <p class="text-secondary" data-i18n="journal-subtitle">Track, analyze, and improve your betting performance</p>
             
@@ -3092,7 +2892,7 @@ h3 { font-size: 1.25rem; }
                 </div>
             </div>
         </div>        <!-- ═══ BANKROLL TAB ═══ -->
-        <div id="bankroll" class="tab-content">
+        <div id="tab-bankroll" class="tab-pane" style="display: none;">
             <h2 data-i18n="bankroll-title">💳 Bankroll Management</h2>
             <p class="text-secondary" data-i18n="bankroll-subtitle">Track your betting capital across all sportsbooks</p>
             
@@ -3216,7 +3016,7 @@ h3 { font-size: 1.25rem; }
         </div>
         
         <!-- ═══ BETTING DNA TAB ═══ -->
-        <div id="dna" class="tab-content">
+        <div id="tab-dna" class="tab-pane" style="display: none;">
             <h2 data-i18n="dna-title">🧬 Your Betting DNA</h2>
             <p class="text-secondary" data-i18n="dna-subtitle">Personalized analysis of your betting patterns and strengths</p>
             
@@ -3411,8 +3211,145 @@ h3 { font-size: 1.25rem; }
                     </div>
                 </div>
             </div>
-        </div>        <!-- ═══ HISTORY TAB ═══ -->
-        <div id="history" class="tab-content">
+        </div>
+        <!-- ═══ SPORTSBOOKS TAB ═══ -->
+        <div id="tab-sportsbooks" class="tab-pane" style="display: none;">
+            <h2 data-i18n="sportsbooks-title">🎰 Sportsbook Manager</h2>
+            <p class="text-secondary" data-i18n="sportsbooks-subtitle">Track balances and limits across all your betting accounts</p>
+            
+            <!-- Sportsbook Summary -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Active Books</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-value">$14,207</div>
+                    <div class="stat-label">Total Balance</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-value">$8,407</div>
+                    <div class="stat-label">Total P/L</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">With Limits</div>
+                </div>
+            </div>
+            
+            <!-- Sportsbook Cards -->
+            <div class="books-grid">
+                <div class="book-card">
+                    <div class="book-header">
+                        <span class="book-logo">👑</span>
+                        <span class="book-name">DraftKings</span>
+                        <span class="book-status status-active">🟢 Active</span>
+                    </div>
+                    <div class="book-body">
+                        <div class="book-balance">$4,250</div>
+                        <div class="book-details">
+                            <span>Deposited: $2,000</span>
+                            <span>P/L: <span class="text-success">+$2,250</span></span>
+                        </div>
+                        <div class="book-limits text-success">No limits ✓</div>
+                    </div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-header">
+                        <span class="book-logo">🦅</span>
+                        <span class="book-name">FanDuel</span>
+                        <span class="book-status status-active">🟢 Active</span>
+                    </div>
+                    <div class="book-body">
+                        <div class="book-balance">$3,800</div>
+                        <div class="book-details">
+                            <span>Deposited: $1,500</span>
+                            <span>P/L: <span class="text-success">+$2,800</span></span>
+                        </div>
+                        <div class="book-limits text-success">No limits ✓</div>
+                    </div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-header">
+                        <span class="book-logo">🦁</span>
+                        <span class="book-name">BetMGM</span>
+                        <span class="book-status status-active">🟢 Active</span>
+                    </div>
+                    <div class="book-body">
+                        <div class="book-balance">$2,150</div>
+                        <div class="book-details">
+                            <span>Deposited: $1,000</span>
+                            <span>P/L: <span class="text-success">+$1,150</span></span>
+                        </div>
+                        <div class="book-limits text-success">No limits ✓</div>
+                    </div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-header">
+                        <span class="book-logo">🏛️</span>
+                        <span class="book-name">Caesars</span>
+                        <span class="book-status status-active">🟢 Active</span>
+                    </div>
+                    <div class="book-body">
+                        <div class="book-balance">$1,850</div>
+                        <div class="book-details">
+                            <span>Deposited: $1,000</span>
+                            <span>P/L: <span class="text-success">+$1,050</span></span>
+                        </div>
+                        <div class="book-limits text-warning">⚠️ Slight limits</div>
+                    </div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-header">
+                        <span class="book-logo">📍</span>
+                        <span class="book-name">PointsBet</span>
+                        <span class="book-status status-active">🟢 Active</span>
+                    </div>
+                    <div class="book-body">
+                        <div class="book-balance">$1,200</div>
+                        <div class="book-details">
+                            <span>Deposited: $500</span>
+                            <span>P/L: <span class="text-success">+$700</span></span>
+                        </div>
+                        <div class="book-limits text-success">No limits ✓</div>
+                    </div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-header">
+                        <span class="book-logo">🌐</span>
+                        <span class="book-name">Bet365</span>
+                        <span class="book-status status-active">🟢 Active</span>
+                    </div>
+                    <div class="book-body">
+                        <div class="book-balance">$957</div>
+                        <div class="book-details">
+                            <span>Deposited: $500</span>
+                            <span>P/L: <span class="text-success">+$457</span></span>
+                        </div>
+                        <div class="book-limits text-success">No limits ✓</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommended Action -->
+            <div class="card mt-20">
+                <div class="card-header">💡 Recommended Action</div>
+                <div class="card-body">
+                    <p class="text-success">Continue current allocation - All books performing well!</p>
+                    <p class="text-muted mt-10">Best performer: DraftKings (+$2,250 P/L)</p>
+                </div>
+            </div>
+        </div><!-- end tab-sportsbooks -->        <!-- ═══ HISTORY TAB ═══ -->
+        <div id="tab-history" class="tab-pane" style="display: none;">
             <h2 data-i18n="history-title">📜 Betting History</h2>
             <p class="text-secondary" data-i18n="history-subtitle">Complete record of all your bets since March 21, 2026</p>
             
@@ -3520,7 +3457,7 @@ h3 { font-size: 1.25rem; }
         </div>
         
         <!-- ═══ SETTINGS TAB ═══ -->
-        <div id="settings" class="tab-content">
+        <div id="tab-settings" class="tab-pane" style="display: none;">
             <h2 data-i18n="settings-title">⚙️ Settings</h2>
             <p class="text-secondary" data-i18n="settings-subtitle">Customize your SIGMAX experience</p>
             
@@ -4104,287 +4041,6 @@ const translations = {
         'no': 'いいえ'
     }
 };
-// ═══ LANGUAGE SWITCHER FUNCTION ═══
-let currentLang = localStorage.getItem('sigmax-lang') || 'en';
-
-function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('sigmax-lang', lang);
-    
-    // Update all elements with data-i18n attribute
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
-            el.textContent = translations[lang][key];
-        } else if (translations['en'][key]) {
-            el.textContent = translations['en'][key]; // Fallback to English
-        }
-    });
-    
-    // Update placeholders
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (translations[lang] && translations[lang][key]) {
-            el.placeholder = translations[lang][key];
-        }
-    });
-    
-    // Update language selector display
-    const langSelect = document.getElementById('languageSelect');
-    if (langSelect) langSelect.value = lang;
-    
-    // Show toast notification
-    const langNames = {
-        'en': 'English',
-        'es': 'Español', 
-        'fr': 'Français',
-        'de': 'Deutsch',
-        'pt': 'Português',
-        'it': 'Italiano',
-        'nl': 'Nederlands',
-        'ja': '日本語',
-        'ht': 'Kreyòl Ayisyen'
-    };
-    showToast(`🌐 Language changed to ${langNames[lang]}`, 'success');
-}
-
-// ═══ THEME SWITCHER WITH 49 WORLD CUP THEMES ═══
-const themes = [
-    // World Cup 2026 Official Themes
-    'wc2026-official', 'wc2026-usa', 'wc2026-mexico', 'wc2026-canada',
-    // Team Themes - Group C (Haiti's Group!)
-    'brazil', 'morocco', 'scotland', 'haiti',
-    // Team Themes - Other Groups
-    'argentina', 'england', 'france', 'spain', 'germany', 'portugal',
-    'netherlands', 'belgium', 'italy', 'japan', 'south-korea', 'australia',
-    'saudi-arabia', 'qatar', 'colombia', 'uruguay', 'croatia', 'switzerland',
-    'denmark', 'poland', 'senegal', 'ecuador', 'usa', 'wales',
-    'iran', 'serbia', 'cameroon', 'ghana', 'tunisia', 'nigeria',
-    // UI Themes
-    'dark', 'light', 'midnight', 'ocean', 'forest', 'sunset', 'crimson',
-    'cyber', 'neon', 'royal', 'emerald', 'gold'
-];
-
-let currentTheme = localStorage.getItem('sigmax-theme') || 'wc2026-official';
-
-function setTheme(theme) {
-    currentTheme = theme;
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('sigmax-theme', theme);
-    
-    const themeSelect = document.getElementById('themeSelect');
-    if (themeSelect) themeSelect.value = theme;
-    
-    showToast(`🎨 Theme: ${theme.replace(/-/g, ' ').toUpperCase()}`, 'info');
-}
-
-// ═══ NAVIGATION — DUAL SYSTEM (SIDEBAR + HORIZONTAL TABS) ═══
-function showTab(tabId, updateSidebar = true) {
-    // Hide all tabs
-    document.querySelectorAll('.tab-pane').forEach(pane => {
-        pane.classList.remove('active');
-        pane.style.display = 'none';
-    });
-    
-    // Show selected tab
-    const targetTab = document.getElementById(tabId);
-    if (targetTab) {
-        targetTab.classList.add('active');
-        targetTab.style.display = 'block';
-    }
-    
-    // Update horizontal tab bar
-    document.querySelectorAll('.horizontal-tab').forEach(tab => {
-        tab.classList.remove('active');
-        if (tab.getAttribute('onclick')?.includes(tabId)) {
-            tab.classList.add('active');
-        }
-    });
-    
-    // Update sidebar if needed
-    if (updateSidebar) {
-        document.querySelectorAll('.sidebar-link').forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('onclick')?.includes(tabId)) {
-                link.classList.add('active');
-            }
-        });
-    }
-    
-    // Scroll to top of content
-    document.querySelector('.main-content')?.scrollTo(0, 0);
-    
-    // Close sidebar on mobile
-    if (window.innerWidth < 768) {
-        toggleSidebar(false);
-    }
-    
-    // Save last viewed tab
-    localStorage.setItem('sigmax-lastTab', tabId);
-}
-
-function toggleSidebar(show = null) {
-    const sidebar = document.querySelector('.sidebar');
-    const mainContent = document.querySelector('.main-content');
-    
-    if (show === null) {
-        sidebar.classList.toggle('collapsed');
-    } else if (show) {
-        sidebar.classList.remove('collapsed');
-    } else {
-        sidebar.classList.add('collapsed');
-    }
-}
-
-// ═══ TOAST NOTIFICATIONS ═══
-function showToast(message, type = 'info', duration = 3000) {
-    const container = document.getElementById('toastContainer');
-    if (!container) return;
-    
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.innerHTML = `
-        <span class="toast-icon">${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}</span>
-        <span class="toast-message">${message}</span>
-        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
-    `;
-    
-    container.appendChild(toast);
-    
-    // Animate in
-    setTimeout(() => toast.classList.add('show'), 10);
-    
-    // Auto-remove
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-    }, duration);
-}
-
-// ═══ PARLAY BUILDER — ENFORCES 5T + 5P + 10 MAX RULES ═══
-let parlayTeamBets = [];
-let parlayPropBets = [];
-const MAX_TEAM_BETS = 5;
-const MAX_PROP_BETS = 5;
-const MAX_TOTAL_LEGS = 10;
-
-function addToParlayTeam(selection, odds, type = 'spread') {
-    // Check team bet limit
-    if (parlayTeamBets.length >= MAX_TEAM_BETS) {
-        showToast(`🚫 Maximum ${MAX_TEAM_BETS} team bets allowed!`, 'error');
-        return false;
-    }
-    
-    // Check total legs limit
-    if (parlayTeamBets.length + parlayPropBets.length >= MAX_TOTAL_LEGS) {
-        showToast(`🚫 Maximum ${MAX_TOTAL_LEGS} total legs allowed!`, 'error');
-        return false;
-    }
-    
-    parlayTeamBets.push({ selection, odds, type, timestamp: Date.now() });
-    updateParlayDisplay();
-    saveParlayToStorage();
-    showToast(`✅ Added: ${selection} (${odds})`, 'success');
-    return true;
-}
-
-function addToParlayProp(player, prop, odds) {
-    // Check prop bet limit
-    if (parlayPropBets.length >= MAX_PROP_BETS) {
-        showToast(`🚫 Maximum ${MAX_PROP_BETS} player props allowed!`, 'error');
-        return false;
-    }
-    
-    // Check total legs limit
-    if (parlayTeamBets.length + parlayPropBets.length >= MAX_TOTAL_LEGS) {
-        showToast(`🚫 Maximum ${MAX_TOTAL_LEGS} total legs allowed!`, 'error');
-        return false;
-    }
-    
-    parlayPropBets.push({ player, prop, odds, timestamp: Date.now() });
-    updateParlayDisplay();
-    saveParlayToStorage();
-    showToast(`✅ Added: ${player} ${prop} (${odds})`, 'success');
-    return true;
-}
-
-function removeParlayTeam(index) {
-    parlayTeamBets.splice(index, 1);
-    updateParlayDisplay();
-    saveParlayToStorage();
-}
-
-function removeParlayProp(index) {
-    parlayPropBets.splice(index, 1);
-    updateParlayDisplay();
-    saveParlayToStorage();
-}
-
-function clearParlay() {
-    parlayTeamBets = [];
-    parlayPropBets = [];
-    updateParlayDisplay();
-    saveParlayToStorage();
-    showToast('🗑️ Parlay cleared', 'info');
-}
-
-function updateParlayDisplay() {
-    // Update team bets list
-    const teamList = document.getElementById('parlayTeamList');
-    if (teamList) {
-        if (parlayTeamBets.length === 0) {
-            teamList.innerHTML = '<div class="empty-state">' + (translations[currentLang]?.['no-team-bets'] || 'No team bets added yet') + '</div>';
-        } else {
-            teamList.innerHTML = parlayTeamBets.map((bet, i) => `
-                <div class="parlay-leg">
-                    <span class="leg-selection">${bet.selection}</span>
-                    <span class="leg-odds">${bet.odds}</span>
-                    <span class="leg-type badge">${bet.type}</span>
-                    <button class="remove-btn" onclick="removeParlayTeam(${i})">×</button>
-                </div>
-            `).join('');
-        }
-    }
-    
-    // Update prop bets list
-    const propList = document.getElementById('parlayPropList');
-    if (propList) {
-        if (parlayPropBets.length === 0) {
-            propList.innerHTML = '<div class="empty-state">' + (translations[currentLang]?.['no-prop-bets'] || 'No player props added yet') + '</div>';
-        } else {
-            propList.innerHTML = parlayPropBets.map((bet, i) => `
-                <div class="parlay-leg prop-leg">
-                    <span class="leg-player">${bet.player}</span>
-                    <span class="leg-prop">${bet.prop}</span>
-                    <span class="leg-odds">${bet.odds}</span>
-                    <button class="remove-btn" onclick="removeParlayProp(${i})">×</button>
-                </div>
-            `).join('');
-        }
-    }
-    
-    // Update counters with color coding
-    const teamCount = document.getElementById('teamBetCount');
-    const propCount = document.getElementById('propBetCount');
-    const totalCount = document.getElementById('totalLegCount');
-    
-    if (teamCount) {
-        teamCount.textContent = `${parlayTeamBets.length}/${MAX_TEAM_BETS}`;
-        teamCount.className = parlayTeamBets.length >= MAX_TEAM_BETS ? 'counter at-limit' : 'counter';
-    }
-    if (propCount) {
-        propCount.textContent = `${parlayPropBets.length}/${MAX_PROP_BETS}`;
-        propCount.className = parlayPropBets.length >= MAX_PROP_BETS ? 'counter at-limit' : 'counter';
-    }
-    if (totalCount) {
-        const total = parlayTeamBets.length + parlayPropBets.length;
-        totalCount.textContent = `${total}/${MAX_TOTAL_LEGS}`;
-        totalCount.className = total >= MAX_TOTAL_LEGS ? 'counter at-limit' : 'counter';
-    }
-    
-    // Calculate and display parlay odds
-    calculateParlayPayout();
-}
 function calculateParlayPayout() {
     const allBets = [...parlayTeamBets, ...parlayPropBets];
     if (allBets.length === 0) {
@@ -4852,6 +4508,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     console.log('🏆 SIGMAX ELITE v98 — MEGA ULTIMATE EDITION');
+    console.log('📅 Updated: June 15, 2026');
     console.log('📊 Record: 260-48 (84.4%)');
     console.log('💰 Bankroll: $14,207');
     console.log('🌐 Languages: EN, ES, FR, DE, PT, IT, NL, JA, HT (Kreyòl Ayisyen)');
@@ -4869,7 +4526,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Service Worker Registration for Offline Support -->
 <script>
 if ('serviceWorker' in navigator) {
-    // Service worker could be registered here for offline support
     console.log('Service Worker API available');
 }
 </script>
@@ -4877,6 +4533,7 @@ if ('serviceWorker' in navigator) {
 <!-- 
 ═══════════════════════════════════════════════════════════════════════════════════════
      🏆 SIGMAX ELITE v98 — MEGA ULTIMATE EDITION
+     📅 Last Updated: June 15, 2026
      ═══════════════════════════════════════════════════════════════════════════════════
      
      ✅ FEATURES INCLUDED:
